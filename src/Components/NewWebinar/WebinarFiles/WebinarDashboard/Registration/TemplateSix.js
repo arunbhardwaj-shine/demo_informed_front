@@ -1,6 +1,9 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+
+
 const TemplateSix = ({ children, formData }) => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const eventData = formData?.raw_description;
   let eventDataSample = formData?.content?.eventDetails;
   let formattedDateRange = "";
@@ -40,9 +43,50 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
       
-      <div className="wrapper emory">
-        
-        {children}
+      <div className="wrapper isth">
+        <div className="login-wrapper-header">
+          <div className="login-wrapper-inner">
+            <div className="login-wrapper-logo">
+              <img src={path_image + "one-source-logo.png"} alt=""/>
+            </div>
+            <div className="login-wrapper-logo-title">
+              <h2 className="top-title">ISTH 2023 Symposia Live Stream</h2>
+            </div>
+          </div>
+        </div>
+        <div className="login-wrapper-mid-sec">
+          <div className="login-wrapper-mid-left">
+            <div className="head-sec-title">
+              <h2>Registration to watch our ISTH 2023 symposia</h2>
+            </div>
+            <div className="head-sec-boxes">
+              <div className="boxes-col-center">
+                <a href="https://docintel.app/Haematology_Octapharma/UGZRqkYq" target="_blank">
+                  <img src={path_image + "under-spotlight-wil.jpg"} alt=""/>
+                </a>
+              </div>
+              <div className="boxes-col-center">
+                <a href="https://docintel.app/Haematology_Octapharma/VleTOjJC" target="_blank">
+                  <img src={path_image + "under-spotlight-together.jpg"} alt=""/>
+                </a>
+              </div>
+            </div>
+            <div className="head-sec">
+              <p>For healthcare professionals only.</p>
+            </div>
+
+            <div className="mid-left-bottom">
+              <ul>
+                <li>Monday, June 26 2023  <span>|</span>  01:15 - 2:30 pm ET</li>
+                <li>Tuesday, June 27 2023  <span>|</span>  01:15 - 2:30 pm ET</li>
+              </ul>
+            </div>
+          </div>
+          <div className="login-wrapper-mid-right">
+            {children}
+
+          </div>
+        </div>
         
       </div>
     </>

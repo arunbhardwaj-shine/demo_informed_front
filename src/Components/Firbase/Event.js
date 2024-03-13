@@ -2380,7 +2380,7 @@ eventId={eventId}
                   />
                 </div>
               </div>
-              <div className="question-block-form">
+              <div className="question-block-form isth_template">
                 <div className="log-inner">
                   <div 
                   // className="head-sec "
