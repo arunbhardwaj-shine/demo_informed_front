@@ -772,10 +772,58 @@ p#totalCountText {
   width: auto;
   min-width: 147px;
 }
+.isth .footer-message {
+  padding: 16px 0 0 0;
+}
 
+.isth .footer-message p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+}
 
+.isth .footer-message p a {
+  text-decoration: underline;
+}
+.isth .footer-text {
+  display: block;
+  width: 100%;
+}
 
-
+.isth .footer-text p {
+  padding: 20px 0 0;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+  color: rgba(110, 114, 136, 0.6);
+}
+.isth .consent-form-inner .form-control {
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 14px;
+  line-height: 25px;
+  width: 100%;
+  border: 0;
+  box-shadow: 0px 0px 10px -3px rgba(0, 20, 137, 0.32);
+}
+.isth .split-button-dropup>div:nth-child(3):hover, .isth .split-button-dropup>div:nth-child(3) {
+  box-shadow: 0px 0px 10px -3px rgba(0, 20, 137, 0.32);
+}
+.register-popup-view .isth ul li {
+  margin: 5px 0 0;
+}
+.register-popup-view .isth #form_upper {
+  margin-bottom: 0px;
+}
+.isth .consent-form .split-button-dropup>div:nth-child(3) {
+  padding: 3px 10px;
+}
 @media only screen and (max-width:1550px) {
   .eahad-footer img {
     flex: 0 0 140px;
