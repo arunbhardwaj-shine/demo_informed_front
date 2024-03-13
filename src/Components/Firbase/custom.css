@@ -824,6 +824,9 @@ p#totalCountText {
 .isth .consent-form .split-button-dropup>div:nth-child(3) {
   padding: 3px 10px;
 }
+.register-popup-view .octa-academy_inner .consent-form .split-button-dropup div:nth-child(3)>div div, .octa-academy_inner .consent-form .split-button-dropup div:nth-child(3)>div div {
+    color: #fff;
+}
 @media only screen and (max-width:1550px) {
   .eahad-footer img {
     flex: 0 0 140px;
