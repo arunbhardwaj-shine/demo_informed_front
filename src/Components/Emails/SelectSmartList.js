@@ -88,7 +88,7 @@ const SelectSmartList = (props) => {
     getSmartListData(1);
   }, []);
 
-  const getSmartListData = (page = 1,filter = "") => {
+  const getSmartListData = (page = 1) => {
     setApiCallStatus(false);
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -101,10 +101,9 @@ const SelectSmartList = (props) => {
       .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
         setSendListData(res?.data?.response?.data);
-        if(page == 1){
+        if(filterdata?.length == 0){
             setFilterData(res?.data?.response?.filter);
             setPrevSmartListData(res?.data?.response?.data);
-          
         }
         loader("hide");
         setApiCallStatus(true);
@@ -433,14 +432,6 @@ const SelectSmartList = (props) => {
     setCustomIbu(value);
   }
 
-  const handleFilterIBUChange = async(value) => {
-    let obj = {"ibu": [value]}
-    // ibu: ["Haematology"]
-    getSmartListData(1,obj);
-    console.log(value,"value");
-  }
-
-
   const downloadFile = () => {
     // let link = document.createElement("a");
     // link.href = "https://webinar.informed.pro/sample.xls";
@@ -540,7 +531,7 @@ const SelectSmartList = (props) => {
   const removeindividualfilter = (src, item) => {
     loader("show");
     if (src == "ibu") {
-      handleIBUChange(item);
+      handleIBUFilterChange(item);
     }
     if (filterapplied) {
       getSmartListData(1);
@@ -769,8 +760,8 @@ const SelectSmartList = (props) => {
                               <h4>Filter By</h4>
                               <Accordion flush>
                               
-                                {filterdata.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
-                                  filterdata.ibu.length > 0 && (
+                                {filterdata?.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                                  filterdata?.ibu?.length > 0 && (
                                     <Accordion.Item className="card" eventKey="3">
                                       <Accordion.Header className="card-header">
                                       IBU

@@ -504,7 +504,7 @@ const SmartList = (props) => {
                             </Accordion.Item>
                           )}
 
-                        {filterdata.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                        {filterdata?.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
                           filterdata.ibu.length > 0 && (
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
