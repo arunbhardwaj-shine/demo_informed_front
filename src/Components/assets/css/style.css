@@ -4008,7 +4008,14 @@ form#add_hcp_form .row:not(:first-child) {
   padding: 11px 15px;
   background: var(--white) url("../images/dropdown-arrow.svg") no-repeat;
   background-size: 16px;
-    background-position: right center;
+    background-position: 96% center;
+    border-radius:30px;
+}
+.select-smart-list .filter_btn_div .filter-by {
+  margin-left: 15px;
+}
+.select-smart-list .filter_btn_div .apply-filter .filter-block {
+  padding: 6px 16px;
 }
 .search-hcp .select-smart-list .accordion .accordion-item .accordion-body {
   border-top: 0;
@@ -4160,6 +4167,7 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 30px;
   padding: 3px;
   margin-bottom: 10px;
+  box-shadow: none;
 }
 
 .dropdown-menu.filter-options .card-header a,
