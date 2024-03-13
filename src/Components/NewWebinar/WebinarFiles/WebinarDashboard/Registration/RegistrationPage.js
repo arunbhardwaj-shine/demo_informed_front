@@ -875,11 +875,11 @@ const FormField1 = ({
   const label = form?.name?.replace(/ /g, "_");
 
   useEffect(()=>{
-    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
   
-    placeholderElements.forEach((placeholderElement) => {
-      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
-    });
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
     },[form])
 
   const handleFieldChange = (value, e = "") => {
@@ -1126,11 +1126,11 @@ const FormField2 = ({
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
   useEffect(() => {
-    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
 
-    placeholderElements.forEach((placeholderElement) => {
-      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
-    });
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
   }, [form])
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -2001,11 +2001,11 @@ const FormField5 = ({
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
   useEffect(() => {
-    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
 
-    placeholderElements.forEach((placeholderElement) => {
-      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
-    });
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
   }, [form])
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -2465,10 +2465,13 @@ const FormField6 = ({
       />  
     );
   }
-
+console.log(label,'label')
   return (
     <div
-      className="col-sm-12 col-md-12 consent-form-list attend-sec"
+      // className="col-sm-12 col-md-12 consent-form-list attend-sec"
+      className={`col-sm-6 col-md-6 consent-form-list attend-sec ${(label?.includes("consent") ? "col-sm-12 col-md-12 consent-form-list attend-sec" : ""
+   ) }
+        }`}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
       <label
