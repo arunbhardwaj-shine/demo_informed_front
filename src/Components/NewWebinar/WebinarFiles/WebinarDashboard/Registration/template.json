@@ -825,7 +825,7 @@
             "footerMessage": {
                 "title": "Footer Message",
                 "type": "textArea",
-                "value": "These symposia have been organized and funded by Octapharma and are intended for healthcare professionals only. Discussions about products will take place. The symposia will be live streamed on the one source, Octapharma's Haematology platform. To attend, you can register directly using your one source account. If you do not have an account yet, your registration for this event will create a new one source login. By registering to one source you will gain access to the relevant content in accordance with the data privacy of <a target='_blank' href='Octapharma AG'>Octapharma AG<a/> and <a target='_blank' href='Docintel.app'>Docintel.app<a/> operating this page.",
+                "value": "These symposia have been organized and funded by Octapharma and are intended for healthcare professionals only. Discussions about products will take place. The symposia will be live streamed on the one source, Octapharma's Haematology platform. To attend, you can register directly using your one source account. If you do not have an account yet, your registration for this event will create a new one source login. By registering to one source you will gain access to the relevant content in accordance with the data privacy of <a target='_blank' href='Octapharma AG'>Octapharma AG</a> and <a target='_blank' href='Docintel.app'>Docintel.app</a> operating this page.",
                 "color": "#001489"
             },
             "footerText": {
