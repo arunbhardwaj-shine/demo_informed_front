@@ -104,11 +104,11 @@ const WebinarSelectHCP=(props)=>{
         props.getWebinarEmailData(old_object);
         props.getWebinarSelected(null);
         if (selected == 1) {
-          navigate("/SelectSmartList", {
+          navigate("/webinar/email/selectSmartList", {
             state: { UserSelected: selected },
           });
         } else if (selected == 2) {
-          navigate("/VerifyHCP", {
+          navigate("/webinar/email/verifyHCP", {
             state: { UserSelected: selected },
           });
         }
@@ -200,7 +200,7 @@ const WebinarSelectHCP=(props)=>{
                 </div>
               </div>
             </div>
-            <section className="send-mail-options">
+            <section className="send-mail-options webinar">
               <div className="container">
                 <div className="row">
                   <div className="send-option-list">

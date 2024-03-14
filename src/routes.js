@@ -195,6 +195,7 @@ import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
 import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
 import LicenseRenew from "./Components/License/Content/LicenseRenew";
 import WebinarSelectHCP from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectHCP";
+import WebinarSelectSmartList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectSmartList";
 
 
 let platform = 0;
@@ -643,6 +644,10 @@ const Routing = () => {
         <Route
           path="/webinar/email/selectHCP"
           element={<LoginLayout component={WebinarSelectHCP} />}
+        />
+        <Route
+          path="/webinar/email/selectSmartList"
+          element={<LoginLayout component={WebinarSelectSmartList} />}
         />
         <Route
           path="/webinar/analytics"

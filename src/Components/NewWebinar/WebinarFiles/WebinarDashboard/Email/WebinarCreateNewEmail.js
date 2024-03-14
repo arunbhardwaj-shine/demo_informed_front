@@ -13,6 +13,8 @@ import { Modal } from "react-bootstrap";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 import { connect } from "react-redux";
 import { getWebinarEmailData, getWebinarCampaignId } from '../../../../../actions'
+import { postData } from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
 var dxr = 0;
 var state_object = {};
 
@@ -158,6 +160,162 @@ const WebinarCreateNewEmail = (props) => {
     const [allTags, setAllTags] = useState({});
     const [newTag, setNewTag] = useState("");
     const [tagsCounter, setTagsCounter] = useState(0);
+    let tempdata=[
+        {
+            "id": 674,
+            "name": "Test article 22",
+            "source_code": "<table style=\"margin: auto; width: 600px;\" role=\"presentation\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 16px 16px; border-radius: 8px; background-color: #f4f9fc;\" valign=\"top\">\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"background: #009592  url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg-green.png'); background-size: cover; background-position: center; border-radius: 10px; height: 60px; width: 100%;\" valign=\"middle\" bgcolor=\"#009592\" width=\"568\" height=\"60\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg-green.png\" color=\"#009592\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 10px 5px 10px 15px;\" align=\"left\" valign=\"middle\" width=\"60\"><img style=\"width: 56px; height: 44px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-logo.png\" alt=\"logo-img\" width=\"56\" height=\"44\"></td>\n<td style=\"font-weight: 500; font-size: 24px; line-height: 28px; color: #ffffff; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 10px 25px 10px 0;\" align=\"center\" valign=\"middle\">One Source PURE TEXT</td>\n</tr>\n</tbody>\n</table>\n<!-- [if gte mso 9]> </v:textbox> </v:rect> <![endif]--></td>\n</tr>\n<tr>\n<td style=\"height: 15px;\" valign=\"top\" height=\"15\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"padding: 0px 0px;\" valign=\"middle\">\n<table style=\"width: 100%; background: rgb(255, 255, 255); border: 0.5px solid rgb(255, 255, 255); border-radius: 8px; padding: 0px 5px; height: 1691.54px; border-collapse: collapse; border-spacing: 0px;\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr style=\"height: 21.3333px;\">\n<td style=\"font-weight: 400; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 24px 20px 0px; text-align: left; height: 21.3333px; border: 0;\"><span style=\"font-size: 14pt; font-family: arial, helvetica, sans-serif;\">Dear ###name###,</span></td>\n</tr>\n<tr style=\"height: 21.3333px;\">\n<td style=\"font-weight: 400; border: 0; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 42px 20px 0px; text-align: left; height: 21.3333px;\">\n<p class=\"paragraph\" style=\"margin: 0cm; vertical-align: baseline;\"><span lang=\"EN-US\" style=\"font-family: Arial, sans-serif; font-size: 14pt;\">Do not miss the newest publication available in One Source:</span></p>\n</td>\n</tr>\n<tr style=\"height: 219px;\">\n<td style=\"font-weight: 400; border: 0; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 4px 20px 0px; text-align: left; height: 219px;\">\n<p class=\"MsoNormal\" style=\"mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; mso-outline-level: 1; background: white;\"><span style=\"color: rgb(0, 0, 0);\"><strong><span lang=\"EN-US\" style=\"font-size: 18pt; line-height: 107%; font-family: Arial, sans-serif;\">Clinical efficacy of simoctocog alfa versus extended half-life recombinant FVIII concentrates in hemophilia A patients undergoing personalized prophylaxis using a matching-adjusted indirect comparison method</span></strong></span><span lang=\"EN-US\" style=\"font-size: 8.0pt; line-height: 107%; font-family: 'Arial',sans-serif; color: black; mso-color-alt: windowtext; mso-bidi-font-weight: bold;\"> </span></p>\n<p class=\"MsoNormal\" style=\"mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; mso-outline-level: 1; background: white;\"><span style=\"color: rgb(35, 111, 161); font-size: 12pt;\"><strong><span lang=\"EN-US\" style=\"line-height: 107%; font-family: Arial, sans-serif;\"><em><span lang=\"FR-CH\" style=\"font-family: 'Arial',sans-serif; color: black; mso-color-alt: windowtext; mso-ansi-language: FR-CH; mso-bidi-font-weight: bold;\">Craig Kessler et al, Eur J Haematology 2023</span></em></span></strong></span></p>\n</td>\n</tr>\n<tr style=\"height: 50px;\">\n<td style=\"font-weight: 400; border: 0; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 4px 20px 20px; text-align: left; height: 50px;\">\n<p class=\"MsoNormal\" style=\"mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; mso-outline-level: 1; background: white;\">&nbsp;<a href=\"https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&amp;tracking_code=clicked_track_doc_1698836809013&amp;redirect_url=https://docintel.app/Haematology_Octapharma/rHjjUKWB\"><img src=\"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/rlmm1Nq9IEEsombxWIxK98RSZdkJrqk9YZ1FtmLY.png\" width=\"500\"></a></p>\n</td>\n</tr>\n<tr>\n<td style=\"font-weight: 400; border: 0; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 12px 20px 0px; text-align: left;\">\n<p class=\"MsoNormal\"><span class=\"eop\" style=\"font-size: 14pt;\"><span lang=\"EN-US\" style=\"font-family: 'Arial',sans-serif;\">In the absence of head-to-head clinical studies, Craig Kessler and colleagues have used the matched-adjusted indirect comparison (MAIC), a well-established statistical method, to <strong>compare FVIII personalized prophylaxis outcomes across multiple clinical studies.</strong> </span></span></p>\n<p class=\"MsoNormal\">&nbsp;</p>\n<p class=\"MsoNormal\"><span style=\"color: rgb(0, 0, 0);\"><strong><span lang=\"EN-US\" style=\"font-size: 18pt; line-height: 107%; font-family: Arial, sans-serif;\">KEY TAKEAWAYS:</span></strong></span></p>\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-family: Arial, sans-serif; font-size: 14pt;\">Higher proportion of patients with ZERO bleeds was achieved with Nuwiq<sup>&reg; </sup><span style=\"mso-spacerun: yes;\">&nbsp;</span>PK-guided prophylaxis compared to Elocta<sup>&reg;</sup>, Jivi<sup>&reg;</sup> and Adynovate<sup>&reg;</sup></span></p>\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-family: Arial, sans-serif; font-size: 14pt;\">Significantly lower mean ABR for Nuw<span style=\"color: rgb(0, 74, 137);\">i</span>q<sup>&reg;</sup> was observed in comparison to Jivi<sup>&reg;</sup></span></p>\n</td>\n</tr>\n<tr>\n<td style=\"text-align: center; border: 0; padding-top: 24px; padding-right: 20px; padding-bottom: 24px;\"><img src=\"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/4RFyEvvZf0d3qVPCEXeQEsbc5XEvWrUxyO1RxbnR.jpg\" width=\"541\" height=\"371\"></td>\n</tr>\n<tr>\n<td style=\"text-align: center; padding: 12px 20px 0px; border: 0;\">\n<p class=\"MsoNormal\" style=\"text-align: left;\"><span style=\"color: rgb(0, 74, 137); font-size: 14pt;\"><span lang=\"EN-GB\" style=\"line-height: 107%; font-family: Arial, sans-serif;\">Additional MAIC analyses are expected comparing the efficacy of Nuwiq</span><sup><span lang=\"EN-US\" style=\"line-height: 107%; font-family: Arial, sans-serif;\">&reg;</span></sup><span lang=\"EN-GB\" style=\"line-height: 107%; font-family: Arial, sans-serif;\"> vs Hemlibra</span><sup><span lang=\"EN-US\" style=\"line-height: 107%; font-family: Arial, sans-serif;\">&reg;</span></sup><span lang=\"EN-GB\" style=\"line-height: 107%; font-family: Arial, sans-serif;\"> and Altuviiio</span><sup><span lang=\"EN-US\" style=\"line-height: 107%; font-family: Arial, sans-serif;\">&reg;</span></sup><span lang=\"EN-US\" style=\"line-height: 107%; font-family: Arial, sans-serif;\"> </span></span></p>\n<p class=\"MsoNormal\" style=\"text-align: left;\"><span style=\"color: rgb(0, 74, 137); font-size: 14pt;\"><strong><span lang=\"EN-US\" style=\"line-height: 107%; font-family: Arial, sans-serif;\">Stay tuned!</span></strong></span></p>\n</td>\n</tr>\n<tr style=\"height: 136.667px;\">\n<td style=\"padding: 28px 20px 10px; border: 0; font-weight: bold; font-size: 15px; font-family: Roboto, sans-serif; line-height: 20px; color: rgb(0, 169, 147); text-align: center; height: 136.667px;\">\n<p class=\"MsoNormal\" style=\"text-align: left;\"><span style=\"color: rgb(0, 74, 137); font-size: 14pt; font-family: arial, helvetica, sans-serif;\"><span lang=\"EN-GB\" style=\"line-height: 107%;\"><strong><span lang=\"EN-US\" style=\"line-height: 107%; color: rgb(0, 74, 137);\">Visit One Source, Octapharma&rsquo;s online haematology platform for healthcare professionals, to keep up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.</span></strong></span></span></p>\n</td>\n</tr>\n<tr style=\"height: 54.9167px;\">\n<td style=\"padding: 0px 20px 20px; border: 0; font-weight: 400; font-size: 15px; font-family: Roboto, sans-serif; line-height: 20px; color: rgb(16, 85, 144); text-align: center; height: 54.9167px;\"><a style=\"text-decoration: none;\" href=\"https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&amp;tracking_code=clicked_track_doc_1698830503183&amp;redirect_url=###url_ssi###\"><img style=\"width: 240px;\" src=\"https://docintel.app/img/octa/e-templates/one-source/btn-img2.png\" alt=\"read-btn\" width=\"240\"></a></td>\n</tr>\n<tr style=\"height: 19.6667px;\">\n<td style=\"font-weight: 600; border: 0; font-size: 13px; line-height: 17px; color: rgb(16, 85, 144); font-family: Roboto, sans-serif; padding: 24px 24px 0px; text-align: left; height: 19.6667px;\"><span style=\"font-size: 14pt;\">Kind Regards,</span></td>\n</tr>\n<tr style=\"height: 19.6667px;\">\n<td style=\"font-weight: 600; border: 0; font-size: 13px; line-height: 17px; color: rgb(16, 85, 144); font-family: Roboto, sans-serif; padding: 0px 24px 16px; text-align: left; height: 19.6667px;\"><span style=\"font-size: 14pt;\">Octapharma Global Haematology Team</span></td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n<tr>\n<td style=\"height: 15px;\" valign=\"top\" height=\"15\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"background: #009592 url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-footer-bg-green.png'); background-size: cover; background-position: center; border-radius: 12px; padding: 7px; width: 100%; border: 0;\" valign=\"top\" bgcolor=\"#009592\" width=\"600\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-footer-bg-green.png\" color=\"#009592\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 0 35px 0 25px; border: 0;\" valign=\"middle\"><img style=\"width: 124px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/new_once_source.png\" alt=\"logo-img\" width=\"124\"></td>\n<td valign=\"top\">\n<table style=\"width: 100%; text-align: center; background-color: #b3d4de; border-radius: 8px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td><img style=\"width: 129px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-mobile-img-green.png\" alt=\"google-btn-img\" width=\"129\"></td>\n<td>\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"font-weight: 300; font-size: 11px; line-height: 12px; text-align: center; color: #427da8; padding: 8px 16px; font-family: 'Helvetica', 'Arial',                                                'sans-serif';\" colspan=\"2\">Your one source account is hosted in Docintel and can be accessed on any mobile device via browser or free app.</td>\n</tr>\n<tr>\n<td style=\"padding: 4px 0; text-align: right;\" valign=\"middle\"><a style=\"text-decoration: none;\" href=\"https://apps.apple.com/us/app/docintel/id1459624369?ls=1\"><img style=\"width: 80px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-app-store-green-btn.png\" alt=\"app-store-btn-img\" width=\"80\"> </a></td>\n<td style=\"padding: 4px 4px 4px 11px; text-align: left;\" valign=\"middle\"><a style=\"text-decoration: none;\" href=\"https://play.google.com/store/apps/details?id=com.docintel\"><img style=\"width: 80px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-green-google-btn.png\" alt=\"google-btn-img\" width=\"80\"> </a></td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n<!-- [if gte mso 9]> </v:textbox> </v:rect> <![endif]--></td>\n</tr>\n<tr>\n<td valign=\"top\">\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"font-weight: 400; font-size: 12px; line-height: 14px; padding: 19px 0px 14px; color: #105590; font-family: 'Roboto', sans-serif;\" align=\"left\" valign=\"top\">By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of <a style=\"color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif';\" href=\"https://onesource.octapharma.com/octapharma-privacy\"> Octapharma AG </a> and <a style=\"color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif';\" href=\"https://onesource.octapharma.com/docintel-privacy\">Docintel.app</a> operating this page.</td>\n</tr>\n<tr>\n<td style=\"font-weight: 400; font-size: 12px; line-height: 14px; color: #105590; padding: 0px 0px 14px; font-family: 'Helvetica', 'Arial', 'sans-serif';\" align=\"left\" valign=\"top\"><strong>One source </strong>is a free service from Octapharma for Health Care Professionals only.<br>The information in this asset has been developed for an international audience. Accordingly, it may contain information on products and/or indications that are not approved in your country. Please consult your local prescribing information.</td>\n</tr>\n<tr>\n<td style=\"font-weight: 400; font-size: 12px; line-height: 14px; color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 0 0px 20px;\" align=\"left\" valign=\"top\">If you no longer wish to receive emails from <strong> One Source </strong> please <a style=\"color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif';\" href=\"https://docintel.app/Pages/unsubscribe/###encryptedid###\">Unsubscribe</a></td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n<p><img style=\"display: none;\" src=\"https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail\" alt=\"\" width=\"1\" height=\"1\" border=\"0\"></p>",
+            "template_img": "https://webinar.informed.pro/template_images/1694584704_748705580.png",
+            "content_included": 0
+        },
+        {
+            "id": 673,
+            "name": "Testing 23",
+            "source_code": "<p>Testing to check plain text to article</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 672,
+            "name": "New Pure text template 24",
+            "source_code": "<p>new</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 671,
+            "name": "Save as HTML Pure Text Template 25",
+            "source_code": "<table style=\"margin: auto; width: 600px;\" role=\"presentation\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 16px 16px; border-radius: 8px; background-color: #f4f9fc;\" valign=\"top\">\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"background: #ff933f url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg1.png'); background-size: cover; background-position: center; border-radius: 10px; height: 60px;\" valign=\"middle\" bgcolor=\"#f4f9fc\" height=\"60\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg1.png\" color=\"#ff933f\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 10px 5px 10px 15px;\" align=\"left\" valign=\"middle\" width=\"60\"><img style=\"width: 56px; height: 44px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-logo.png\" alt=\"logo-img\" width=\"56\" height=\"44\"></td>\n<td style=\"font-weight: bold; font-size: 24px; line-height: 28px; color: #ffffff; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 10px 25px 10px 0;\" align=\"center\" valign=\"middle\">New Collection 12</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>",
+            "template_img": "https://webinar.informed.pro/template_images/1701158378_1446670293.png",
+            "content_included": 0
+        },
+        {
+            "id": 664,
+            "name": "Html Article template 26",
+            "source_code": "<table style=\"margin: auto; width: 600px;\" role=\"presentation\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 16px 16px; border-radius: 8px; background-color: #f4f9fc;\" valign=\"top\">\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"background: #ff933f url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg1.png'); background-size: cover; background-position: center; border-radius: 10px; height: 60px;\" valign=\"middle\" bgcolor=\"#f4f9fc\" height=\"60\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg1.png\" color=\"#ff933f\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 10px 5px 10px 15px;\" align=\"left\" valign=\"middle\" width=\"60\"><img style=\"width: 56px; height: 44px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-logo.png\" alt=\"logo-img\" width=\"56\" height=\"44\"></td>\n<td style=\"font-weight: bold; font-size: 24px; line-height: 28px; color: #ffffff; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 10px 25px 10px 0;\" align=\"center\" valign=\"middle\">New Collection 12</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>",
+            "template_img": "https://webinar.informed.pro/template_images/1693890026_960102218.png",
+            "content_included": 0
+        },
+        {
+            "id": 663,
+            "name": "Pure pay 27",
+            "source_code": "<p>gagan test 123</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 662,
+            "name": "Placeholder Template 28",
+            "source_code": "<p>Visual test description</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 661,
+            "name": "new pure 29",
+            "source_code": "<p>Visual test description</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 660,
+            "name": "new welcome 30",
+            "source_code": "<p>gagan test 1</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 659,
+            "name": "New templates 31",
+            "source_code": "<p>Visual test description</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 553,
+            "name": "new gagan test 22",
+            "source_code": "<pre class=\"language-markup\"><code>\n</code></pre>\n<table style=\"margin: auto; width: 600px;\" role=\"presentation\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 16px 16px; border-radius: 8px; background-color: #f4f9fc;\" valign=\"top\">\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"background: #01678f                        url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg-green.png'); background-size: cover; background-position: center; border-radius: 10px; height: 60px; width: 100%;\" valign=\"middle\" bgcolor=\"#01678f\" width=\"568\" height=\"60\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg-green.png\" color=\"#01678f\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 10px 5px 10px 15px;\" align=\"left\" valign=\"middle\" width=\"60\"><img style=\"width: 56px; height: 44px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-logo.png\" alt=\"logo-img\" width=\"56\" height=\"44\"></td>\n<td style=\"font-weight: 500; font-size: 24px; line-height: 28px; color: #ffffff; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 10px 25px 10px 0;\" align=\"center\" valign=\"middle\">One Source platform</td>\n</tr>\n</tbody>\n</table>\n<!-- [if gte mso 9]> </v:textbox> </v:rect> <![endif]--></td>\n</tr>\n<tr>\n<td style=\"height: 15px;\" valign=\"top\" height=\"15\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"padding: 0px 0px;\" valign=\"middle\">\n<table style=\"width: 100%; background: rgb(255, 255, 255); border: 0.5px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 0px 5px; height: 848.636px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr style=\"height: 20px;\">\n<td style=\"font-weight: 400; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 24px 20px 0px; text-align: left; height: 20px;\">Dear ###name###,</td>\n</tr>\n<tr style=\"height: 20px;\">\n<td style=\"font-weight: 400; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 42px 20px 0px; text-align: left; height: 20px;\">Is there a rationale for using FVIII and emicizumab in combination in PUPs?</td>\n</tr>\n<tr style=\"height: 40px;\">\n<td style=\"font-weight: 400; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 4px 20px 0px; text-align: left; height: 40px;\">Is there a risk of inhibitor development PTPs on emicizumab prophylaxis, when exposed to FVII on-demand?</td>\n</tr>\n<tr style=\"height: 40px;\">\n<td style=\"font-weight: 400; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 4px 20px 20px; text-align: left; height: 40px;\">What do current treatment guidelines recommend for the management of bleeding during surgery?</td>\n</tr>\n<tr style=\"height: 60px;\">\n<td style=\"font-weight: 400; font-size: 15px; line-height: 20px; color: rgb(0, 74, 137); font-family: Roboto, sans-serif; padding: 12px 20px 0px; text-align: left; height: 60px;\"><strong>Visit One Source, Octapharma&rsquo;s online haematology platform for healthcare professionals, to hear Guy Young and leading experts share their opinions about treating patients with bleeding disorders:</strong></td>\n</tr>\n<tr style=\"height: 520.028px;\">\n<td style=\"text-align: center; padding: 24px 20px; height: 520.028px;\"><a style=\"text-decoration: none;\" href=\"https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&amp;tracking_code=clicked_track_doc_1693293518547&amp;redirect_url=https://docintel.app/img/octa/e-templates/one-source/guy-young-teaser_linkedin.mp4\" target=\"_blank\" rel=\"noopener\"><img style=\"width: 516px; display: block; margin: 0 auto;\" src=\"https://docintel.app/img/octa/e-templates/one-source/guy-youn.png\" alt=\"Guy Young video\" width=\"516\"> </a></td>\n</tr>\n<tr style=\"height: 54.6307px;\">\n<td style=\"text-align: center; height: 54.6307px;\"><a style=\"text-decoration: none;\" href=\"https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&amp;tracking_code=clicked_track_doc_1693293531218&amp;redirect_url=https://onesource.octapharma.com/\"><img style=\"width: 240px;\" src=\"https://docintel.app/img/octa/e-templates/one-source/btn-img2.png\" alt=\"read-btn\" width=\"240\"></a></td>\n</tr>\n<tr style=\"height: 20px;\">\n<td style=\"padding: 28px 20px 10px; font-weight: bold; font-size: 15px; font-family: Roboto, sans-serif; line-height: 20px; color: rgb(0, 169, 147); text-align: center; height: 20px;\">You will be able to login directly using your existing Docintel account</td>\n</tr>\n<tr style=\"height: 40px;\">\n<td style=\"padding: 0px 20px 20px; font-weight: 400; font-size: 15px; font-family: Roboto, sans-serif; line-height: 20px; color: rgb(16, 85, 144); text-align: center; height: 40px;\">If you have forgotten your password<br>please reset it here: <a style=\"text-decoration: none; position: relative; top: 3px;\" href=\"https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&amp;tracking_code=clicked_track_doc_1693293557103&amp;redirect_url=###url_pass_change###\"> <img style=\"width: 49px;\" src=\"https://docintel.app/img/octa/e-templates/one-source/reset.png\" alt=\"read-btn\" width=\"49\"> </a></td>\n</tr>\n<tr style=\"height: 16.9886px;\">\n<td style=\"font-weight: 600; font-size: 13px; line-height: 17px; color: rgb(16, 85, 144); font-family: Roboto, sans-serif; padding: 24px 24px 0px; text-align: left; height: 16.9886px;\">Kind Regards,</td>\n</tr>\n<tr style=\"height: 16.9886px;\">\n<td style=\"font-weight: 600; font-size: 13px; line-height: 17px; color: rgb(16, 85, 144); font-family: Roboto, sans-serif; padding: 0px 24px 16px; text-align: left; height: 16.9886px;\">Octapharma Global Haematology Team</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n<tr>\n<td style=\"height: 15px;\" valign=\"top\" height=\"15\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"background: #01678f                        url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-footer-bg-green.png'); background-size: cover; background-position: center; border-radius: 12px; padding: 7px; width: 100%;\" valign=\"top\" bgcolor=\"#01678f\" width=\"600\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-footer-bg-green.png\" color=\"#01678f\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 0 35px 0 25px;\" valign=\"middle\"><img style=\"width: 124px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/new_once_source.png\" alt=\"logo-img\" width=\"124\"></td>\n<td valign=\"top\">\n<table style=\"width: 100%; text-align: center; background-color: #b3d4de; border-radius: 8px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td><img style=\"width: 129px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-mobile-img-green.png\" alt=\"google-btn-img\" width=\"129\"></td>\n<td>\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"font-weight: 300; font-size: 11px; line-height: 12px; text-align: center; color: #427da8; padding: 8px 16px; font-family: 'Helvetica', 'Arial',                                                'sans-serif';\" colspan=\"2\">Your one source account is hosted in Docintel and can be accessed on any mobile device via browser or free app.</td>\n</tr>\n<tr>\n<td style=\"padding: 4px 0; text-align: right;\" valign=\"middle\"><a style=\"text-decoration: none;\" href=\"https://apps.apple.com/us/app/docintel/id1459624369?ls=1\"><img style=\"width: 80px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-app-store-green-btn.png\" alt=\"app-store-btn-img\" width=\"80\"> </a></td>\n<td style=\"padding: 4px 4px 4px 11px; text-align: left;\" valign=\"middle\"><a style=\"text-decoration: none;\" href=\"https://play.google.com/store/apps/details?id=com.docintel\"><img style=\"width: 80px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-green-google-btn.png\" alt=\"google-btn-img\" width=\"80\"> </a></td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n<!-- [if gte mso 9]> </v:textbox> </v:rect> <![endif]--></td>\n</tr>\n<tr>\n<td valign=\"top\">\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"font-weight: 400; font-size: 12px; line-height: 14px; padding: 19px 0px 14px; color: #105590; font-family: 'Roboto', sans-serif;\" align=\"left\" valign=\"top\">By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of <a style=\"color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif';\" href=\"https://onesource.octapharma.com/octapharma-privacy\"> Octapharma AG </a> and <a style=\"color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif';\" href=\"https://onesource.octapharma.com/docintel-privacy\">Docintel.app</a> operating this page.</td>\n</tr>\n<tr>\n<td style=\"font-weight: 400; font-size: 12px; line-height: 14px; color: #105590; padding: 0px 0px 14px; font-family: 'Helvetica', 'Arial', 'sans-serif';\" align=\"left\" valign=\"top\"><strong>One source </strong>is a free service from Octapharma for Health Care Professionals only.<br>The information in this asset has been developed for an international audience. Accordingly, it may contain information on products and/or indications that are not approved in your country. Please consult your local prescribing information.</td>\n</tr>\n<tr>\n<td style=\"font-weight: 400; font-size: 12px; line-height: 14px; color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 0 0px 20px;\" align=\"left\" valign=\"top\">If you no longer wish to receive emails from <strong> One Source </strong> please <a style=\"color: #105590; font-family: 'Helvetica', 'Arial', 'sans-serif';\" href=\"https://docintel.app/Pages/unsubscribe/###encryptedid###\">Unsubscribe</a></td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n<p><img style=\"display: none;\" src=\"https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail\" alt=\"\" width=\"1\" height=\"1\" border=\"0\"></p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 549,
+            "name": "gagan test 21",
+            "source_code": "<p>gagan test 1</p>",
+            "template_img": "https://webinar.informed.pro/template_images/1686563376_1428270665.png",
+            "content_included": 0
+        },
+        {
+            "id": 537,
+            "name": "Visual test 20",
+            "source_code": "<p>Visual test description</p>",
+            "template_img": "https://webinar.informed.pro/template_images/1685343077_50362384.png",
+            "content_included": 0
+        },
+        {
+            "id": 536,
+            "name": "Visual test 19",
+            "source_code": "<p>Visual test description</p>",
+            "template_img": "https://webinar.informed.pro/template_images/1686551704_388956162.png",
+            "content_included": 0
+        },
+        {
+            "id": 504,
+            "name": "Testing 18",
+            "source_code": "<p>Test</p>",
+            "template_img": "https://webinar.informed.pro/template_images/1685337786_1236881401.png",
+            "content_included": 0
+        },
+        {
+            "id": 471,
+            "name": "template 11",
+            "source_code": "<p>new template 10<img src=\"componentAssets/images/inforMed_Logo_Blue_1.svg\" alt=\"\" width=\"217\" height=\"50\"></p>",
+            "template_img": "https://webinar.informed.pro/template_images/1684823374_1237265947.png",
+            "content_included": 0
+        },
+        {
+            "id": 470,
+            "name": "new template 12",
+            "source_code": "<p>new</p>",
+            "template_img": "https://webinar.informed.pro/template_images/1685422050_1174184468.png",
+            "content_included": 0
+        },
+        {
+            "id": 469,
+            "name": "template 13",
+            "source_code": "<table style=\"margin: auto; width: 600px;\" role=\"presentation\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 16px 16px; border-radius: 8px; background-color: #f4f9fc;\" valign=\"top\">\n<table style=\"width: 100%; text-align: center;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"background: #ff933f url('https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg1.png'); background-size: cover; background-position: center; border-radius: 10px; height: 60px;\" valign=\"middle\" bgcolor=\"#f4f9fc\" height=\"60\"><!-- [if gte mso 9]> <v:rect xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"true\" stroke=\"false\" style=\"width:600px;\"> <v:fill type=\"tile\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-temp-header-bg1.png\" color=\"#ff933f\" /> <v:textbox inset=\"0,0,0,0\"> <![endif]-->\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n<tbody>\n<tr>\n<td style=\"padding: 10px 5px 10px 15px;\" align=\"left\" valign=\"middle\" width=\"60\"><img style=\"width: 56px; height: 44px;\" src=\"https://docintel.app/img/octa/e-templates/octapharma/octapahrma-wilate-canada-logo.png\" alt=\"logo-img\" width=\"56\" height=\"44\"></td>\n<td style=\"font-weight: bold; font-size: 24px; line-height: 28px; color: #ffffff; font-family: 'Helvetica', 'Arial', 'sans-serif'; padding: 10px 25px 10px 0;\" align=\"center\" valign=\"middle\">New Collection</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>\n</td>\n</tr>\n</tbody>\n</table>",
+            "template_img": "https://webinar.informed.pro/template_images/1693890035_1523605599.png",
+            "content_included": 0
+        },
+        {
+            "id": 468,
+            "name": "new template 14",
+            "source_code": "<p>new template 4</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 467,
+            "name": "new template 15",
+            "source_code": "<p>new template 3</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 466,
+            "name": "new template 16",
+            "source_code": "<p>new template 2</p>",
+            "template_img": "https://webinar.informed.pro/template_images/default.png",
+            "content_included": 0
+        },
+        {
+            "id": 317,
+            "name": "test 17",
+            "source_code": "<p>Words only</p>",
+            "template_img": "https://webinar.informed.pro/template_images/1693301084_1246012645.png",
+            "content_included": 0
+        }
+    ]
 
     useEffect(() => {
         loader("show");
@@ -166,6 +324,7 @@ const WebinarCreateNewEmail = (props) => {
         }
 
         getalCountry();
+        getTemplateListData()
         loader("hide");
     }, []);
 
@@ -189,6 +348,27 @@ const WebinarCreateNewEmail = (props) => {
             }
         }
     }, []);
+
+    useEffect(() => {
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+        };
+    
+        // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        // const getAllTags = async () => {
+        //   await axios
+        //     .post(`emailapi/get_tags`, body)
+        //     .then((res) => {
+        //       setAllTags(res?.data?.response?.data);
+             
+        //     })
+        //     .catch((err) => {
+        //       loader("hide");
+        //       console.log(err);
+        //     });
+        // };
+        // getAllTags();
+      }, []);
 
     const axiosFun = async () => {
         try {
@@ -265,6 +445,22 @@ const WebinarCreateNewEmail = (props) => {
                 console.log(err);
             });
     };
+
+    const getTemplateListData = async () => {
+        try {
+          loader("show")
+          let body = {
+            eventId: eventId
+          }
+          const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST, body)
+        //   setTemplate(response?.data?.data)
+          setTemplateList(response?.data?.data)
+          loader("hide")
+        } catch (err) {
+          loader("hide")
+          console.log("--err", err)
+        }
+      }
 
     const saveAsDraft = async (event) => {
         let tagss = [];
@@ -1287,7 +1483,8 @@ const WebinarCreateNewEmail = (props) => {
                                                     >
                                                         <img
                                                             id={"template_dyn" + index}
-                                                            src={template?.template_img}
+                                                            // src={template?.template_img}
+                                                            src="https://webinar.informed.pro/template_images/default.png"
                                                             alt=""
                                                             className={
                                                                 typeof templateId !== "undefined" &&
