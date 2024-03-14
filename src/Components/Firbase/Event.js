@@ -2384,7 +2384,7 @@ eventId={eventId}
                 <div className="log-inner">
                   <div 
                   // className="head-sec "
-                  className="head-sec template2" >
+                  className="head-sec template2 isth" >
                     <img
                       src={
                       formData?.headerImage
