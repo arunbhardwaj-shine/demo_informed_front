@@ -15,7 +15,8 @@
   --dark-gray: #70899E;
   --pink: #d61975;
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&display=swap');
 body {
   font-family: "Roboto";
   background: var(--light-skyblue);
@@ -590,7 +591,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   line-height: 19px;
   color: var(--dark-blue);
   font-weight: 500;
-  margin:0 0 7px;
+  margin: 0 0 6px;
 }
 
 .filter-div .filter-result {
@@ -11936,12 +11937,179 @@ button.event_sort_btn.svg_active svg {
   max-width: 180px;
   flex: 0 0 180px;
 }
+.register-popup-view .octa-academy_inner {
+  border-radius: 20px;
+  overflow: hidden;
+}
+.register-popup-view .octa-academy-template .octa-academy_inner .top_header h3 {
+  font-size: 20px;
+  font-family: "Roboto Slab", serif;
+}
 
+.register-popup-view .octa-academy-template .octa-academy_inner .top_header h2 {
+  font-size: 30px;
+  line-height: 26px;
+  margin: 7px 0 0;
+  font-family: "Roboto Slab", serif;
+  font-weight: 900;
+}
+.octa-academy_inner .top_header h3 {
+  font-weight: 400;
+  font-family: "Roboto Slab",serif;
+  text-align: left;
+  font-size: 32px;
+}
+.octa-academy_inner .top_header h2 {
+  font-family: "Roboto Slab",serif;
+  font-size: 42px;
+  margin-top: 14px;
+  display: block;
+  font-weight: 700;
+  line-height: 1;
+}
+.octa-academy_inner .top_header h2 span{
+    font-weight: 400;
+      font-size: 32px;
+}
+.register-popup-view .octa-academy_inner .top_header h2 span {
+  font-size: 20px;
+  font-weight: 400;
+}
+.register-popup-view .octa-academy-template .octa-academy_inner .top_header {
+  background-size: 100%;
+  min-height: 165px;
+  background-repeat: no-repeat;
+  padding: 15px 15px 0;
+}
+.register-popup-view .octa-academy-template .invertor-metting .logo-top {
+  padding: 5px 15px 10px;
+    font-family: "Poppins", sans-serif;
+}
+.register-popup-view .octa-academy_inner .motivation-body {
+  padding: 0px 3px 15px;
+}
+.octa-academy_inner {
+  background: var(--white);
+}
+.octa-academy_inner .motivation-body .logo-top h6 {
+  font-size: 20px;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.42857143;
+}
+.octa-academy_inner .motivation-body .logo-top h6.event-statement {
+  margin: 30px 0 0;
+  font-size: 19px;
+  text-align: left;
+  font-weight: 500;
+  font-family: 'Roboto';
+}
+.register-popup-view .octa-academy-template .invertor-metting .logo-top h6 {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  padding: 0 0 5px;
+}
+.register-popup-view .octa-academy-template .invertor-metting .logo-top h6.event-statement {
+  margin: 15px 0 0;
+}
+.register-popup-view .octa-academy-template .invertor-metting .logo-top h4 {
+  margin: 0 0 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+}
+.octa-academy-template .octa-academy_inner .top_header {
+  min-height: 250px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding: 24px 38% 24px 40px;
+}
+.octa-academy_inner .motivation-body {
+  padding: 0px 40px 15px;
+}
+
+.octa-academy_inner .motivation-body .logo-top {
+  padding: 0;
+}
+
+.octa-academy_inner .motivation-body .logo-top h4 {
+  font-family: "Poppins";
+  line-height: 37px;
+  max-width: 490px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.octa-academy_inner .motivation-body .logo-top h5 {
+  font-size: 24px;
+  margin: 10px 0 15px;
+  line-height: 28px;
+    font-family: "Poppins";
+}
+.octa-academy-template .consent-form-list.country {
+  padding-right: 12px;
+}
+.octa-academy-template .footer-sec span {
+  font-size: 10px;
+  font-weight: 500;
+  color: #2c3a99;
+}
+.register-popup-view .octa-academy-template .footer-sec {
+  margin: 30px 0 20px;
+}
+.octa-academy-template .consent-form-list.attend-sec li .checkmark {
+  border-color: #2c3a99;
+}
+.octa-academy-template .consent-form-list.attend-sec li .checkmark::after {
+  background: #2c3a99;
+}
+/* .register-popup-view .consent-form .split-button-dropup div:nth-child(3)>div div[class*="-singleValue"] {
+color:var(--white);
+} */
+.octa-academy-template .invertor-metting .logo-top h5 {
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+  margin: 0 0 15px;
+}
+.register-popup-view .octa-academy-template .consent-form-inner {
+  padding: 30px 16px 0;
+}
+.octa-academy-template .consent-form .btn#submit_registration {
+  margin: 10px 12px 20px auto;
+  background: #0066be;
+  border: 0;
+  font-size: 18px;
+  line-height: 24px;
+  font-family: "Poppins";
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--white);
+  padding: 8px 20px;
+  min-width: 151px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.16);
+  border-radius: 20px;
+  max-width: 151px;
+}
+.octa-academy-template .footer-sec {
+  margin: 30px 0 0px;
+}
 .register-popup-view .invertor-metting .meeting-logo img {
   max-height: 85px;
   max-width: 160px;
 }
-
+ .octa-academy-template .consent-form-inner {
+  padding: 30px 0 0;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+}
+ .octa-academy-template .consent-form-inner #form_upper {
+  margin: 0;
+  padding: 0;
+}
+.octa-academy-template #form_upper::after {
+ display:none;
+}
 .register-popup-view .invertor-metting .logo-top h5 {
   font-size: 17px;
   line-height: 20px;
@@ -12136,7 +12304,6 @@ button.event_sort_btn.svg_active svg {
 
 .poll-question .poll-question-create .answer-option .options .row textraea.form-control {
   border-radius: 14px;
-  ;
 }
 
 input[type="time" i] {
