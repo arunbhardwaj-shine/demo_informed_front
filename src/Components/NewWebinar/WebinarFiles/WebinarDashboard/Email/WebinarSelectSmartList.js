@@ -192,63 +192,65 @@ const WebinarSelectSmartList = (props) => {
           ? draft_object?.creator
           : "",
       campaign_name: old_object?.emailCampaign
-        ? old_object.emailCampaign
-        : draft_object.campaign,
+        ? old_object?.emailCampaign
+        : draft_object?.campaign,
       subject: old_object?.emailSubject
-        ? old_object.emailSubject
-        : draft_object.subject,
-      route_location: "SelectSmartList",
-      tags: old_object?.tags ? old_object.tags : draft_object.tags,
+        ? old_object?.emailSubject
+        : draft_object?.subject,
+      route_location: "webinar/email/selectSmartList",
+      tags: old_object?.tags ? old_object?.tags : draft_object?.tags,
       campaign_data: {
         template_id: old_object?.templateId
-          ? old_object.templateId
-          : draft_object.campaign_data.template_id,
-        smart_list_id: PdfSelected,
+          ? old_object?.templateId
+          : draft_object?.campaign_data?.template_id,
+        // smart_list_id: PdfSelected,
         list_selection: old_object?.selected
-          ? old_object.selected
-          : props.getDraftData?.campaign_data?.list_selection
-            ? props.getDraftData.campaign_data.list_selection
+          ? old_object?.selected
+          : props.getWebinarDraftData?.campaign_data?.list_selection
+            ? props.getWebinarDraftData?.campaign_data?.list_selection
             : 0,
 
         // selectedHcp: selectedHcp,
       },
       source_code: old_object?.template
-        ? old_object.template
+        ? old_object?.template
         : draft_object?.source_code
-          ? draft_object.source_code
+          ? draft_object?.source_code
           : "",
       campaign_id: campaign_id_st ? campaign_id_st : "",
       status: 2,
     };
 
+    console.log("in save as draft-->",body)
+
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/save_draft`, body)
-      .then((res) => {
-        if (res.data.status_code === 200) {
-          setCampaign_id(res.data.response.data.id);
-          if (flag == "draft") {
-            popup_alert({
-              visible: "show",
-              message: "Your changes has been saved <br />successfully !",
-              type: "success",
-              redirect: "/EmailList",
-            });
-          } else {
-            body.campaign_id = res.data.response.data.id;
-            props.getDraftData(body);
-            localStorage.setItem("sd_i", res.data.response.data.id);
-            navigate("/CreateSmartList");
-          }
-        } else {
-          toast.warning(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
+    // loader("show");
+    // await axios
+    //   .post(`emailapi/save_draft`, body)
+    //   .then((res) => {
+    //     if (res?.data?.status_code === 200) {
+    //       setCampaign_id(res?.data?.response?.data?.id);
+    //       if (flag == "draft") {
+    //         popup_alert({
+    //           visible: "show",
+    //           message: "Your changes has been saved <br />successfully !",
+    //           type: "success",
+    //           redirect: "/EmailList",
+    //         });
+    //       } else {
+    //         body.campaign_id = res?.data?.response?.data?.id;
+    //         props.getWebinarDraftData(body);
+    //         localStorage.setItem("webinar_sd_i", res?.data?.response?.data?.id);
+    //         navigate("/webinar/email/createSmartList");
+    //       }
+    //     } else {
+    //       toast.warning(res?.data?.message);
+    //     }
+    //     loader("hide");
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Something went wrong");
+    //   });
   };
 
   const handleInputChange = (event, selected) => {
@@ -263,7 +265,7 @@ const WebinarSelectSmartList = (props) => {
 
   const redirectToList = () => {
     setpopupopeningstatus(false);
-    window.open("/CreateSmartList", "_blank");
+    window.open("/webinar/email/createSmartList", "_blank");
     // navigate("/CreateSmartList");
   };
 
@@ -276,22 +278,22 @@ const WebinarSelectSmartList = (props) => {
       show_specific: 1,
     };
     loader("show");
-    await axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        if (res.data.status_code == 200) {
-          setReaderDetails(res.data.response.data);
-          setSmartListName(res.data.response.smart_list_name);
-          setSmartListPopupStatus(true);
-        } else {
-          toast.warning(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        toast.warning("Something went wrong");
-        loader("hide");
-      });
+    // await axios
+    //   .post(`distributes/get_reders_list`, body)
+    //   .then((res) => {
+    //     if (res?.data?.status_code == 200) {
+    //       setReaderDetails(res?.data?.response?.data);
+    //       setSmartListName(res?.data?.response?.smart_list_name);
+    //       setSmartListPopupStatus(true);
+    //     } else {
+    //       toast.warning(res?.data?.message);
+    //     }
+    //     loader("hide");
+    //   })
+    //   .catch((err) => {
+    //     toast.warning("Something went wrong");
+    //     loader("hide");
+    //   });
   };
 
   const showMoreInfo = (e) => {
@@ -308,22 +310,22 @@ const WebinarSelectSmartList = (props) => {
   // }
 
   const onFileChange = (event) => {
-    var files = event.target.files,
+    var files = event?.target?.files,
       f = files[0];
     var reader = new FileReader();
     reader.onload = function (event) {
-      var data = event.target.result;
+      var data = event?.target?.result;
       let readedData = XLSX.read(data, { type: "binary" });
-      const wsname = readedData.SheetNames[0];
-      const ws = readedData.Sheets[wsname];
+      const wsname = readedData?.SheetNames[0];
+      const ws = readedData?.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
       // console.log(dataParse);
 
-      setFileLength(dataParse.length);
+      setFileLength(dataParse?.length);
     };
     reader.readAsBinaryString(f);
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event?.target?.files[0]);
   };
 
   const uploadFile = async () => {
@@ -342,17 +344,17 @@ const WebinarSelectSmartList = (props) => {
     }, 1000);
     let error = {};
 
-    if (getCreatedListName.trim() === "") {
+    if (getCreatedListName?.trim() === "") {
       error.getCreatedListName = "Please enter the smart list name";
       // toast.warning("Please enter the smart list name first.");
       // return false;
     }
-    if (creatorName.trim() === "") {
+    if (creatorName?.trim() === "") {
       error.creatorName = "Please enter the creator name";
       // return false;
     }
 
-    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && customIbu.trim() === "") {
+    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && customIbu?.trim() === "") {
       error.ibu = "Please enter the ibu";
       // return false;
     }
@@ -376,60 +378,60 @@ const WebinarSelectSmartList = (props) => {
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
-    // loader("show");
-    await axios
-      .post(`distributes/create_upload_list`, formData)
-      .then((res) => {
-        if (res.data.status_code === 200) {
-          setUploadOrDownloadCount(100);
-          clearInterval(timer);
-          setTimeout(() => {
-            setFileUploadPopup(false);
-            getSmartListData(1);
-            popup_alert({
-              visible: "show",
-              message: "Smart list created.",
-              type: "success",
-            });
-            setShowProgressBar(false);
-            setUploadOrDownloadCount(0);
-          }, 1000);
-        } else {
-          clearInterval(timer);
-          setUploadOrDownloadCount(0);
+   
+    // await axios
+    //   .post(`distributes/create_upload_list`, formData)
+    //   .then((res) => {
+    //     if (res?.data?.status_code === 200) {
+    //       setUploadOrDownloadCount(100);
+    //       clearInterval(timer);
+    //       setTimeout(() => {
+    //         setFileUploadPopup(false);
+    //         getSmartListData(1);
+    //         popup_alert({
+    //           visible: "show",
+    //           message: "Smart list created.",
+    //           type: "success",
+    //         });
+    //         setShowProgressBar(false);
+    //         setUploadOrDownloadCount(0);
+    //       }, 1000);
+    //     } else {
+    //       clearInterval(timer);
+    //       setUploadOrDownloadCount(0);
 
-          setShowAlertPopup(true);
-          setShowProgressBar(false);
-          setFileUploadPopup(false);
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
-        setCreatedListName("");
-        setCreatorName("");
-        setCustomIbu("");
-        //   loader("hide");
-      })
-      .catch((err) => {
-        clearInterval(timer);
-        setShowProgressBar(false);
-        setCreatedListName("");
-        setCreatorName("");
-        setCustomIbu("");
-        loader("hide");
-        toast.error("Something went wrong.");
-        setFileUploadPopup(false);
-      });
+    //       setShowAlertPopup(true);
+    //       setShowProgressBar(false);
+    //       setFileUploadPopup(false);
+    //       popup_alert({
+    //         visible: "show",
+    //         message: res.data.message,
+    //         type: "error",
+    //       });
+    //     }
+    //     setCreatedListName("");
+    //     setCreatorName("");
+    //     setCustomIbu("");
+   
+    //   })
+    //   .catch((err) => {
+    //     clearInterval(timer);
+    //     setShowProgressBar(false);
+    //     setCreatedListName("");
+    //     setCreatorName("");
+    //     setCustomIbu("");
+    //     loader("hide");
+    //     toast.error("Something went wrong.");
+    //     setFileUploadPopup(false);
+    //   });
   };
 
   const handleSmartListName = async (event) => {
-    setCreatedListName(event.target.value);
+    setCreatedListName(event?.target?.value);
   };
 
   const handleCreatorName = async (event) => {
-    setCreatorName(event.target.value);
+    setCreatorName(event?.target?.value);
   };
 
   const handleIBUChange = async(value) => {
@@ -565,14 +567,12 @@ const WebinarSelectSmartList = (props) => {
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
+                   
                     <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
-                    </li>
-                    <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                     </li>
                     <li className="active active-main">
-                      <Link to="/SelectSmartList">
+                      <Link to="/webinar/email/selectSmartList">
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
                           : "Select HCPs"}{" "}
@@ -600,16 +600,16 @@ const WebinarSelectSmartList = (props) => {
                     >
                       Save As Draft
                     </button>
-                    {PdfSelected === 0 ? (
+                    {/* {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}
                         className="btn btn-primary btn-filled next disabled"
                       >
                         Next
                       </button>
-                    ) : (
+                    ) : ( */}
                       <Link
-                        to="/SelectSmartListUsers"
+                        to="/webinar/email/selectSmartListUsers"
                         state={{ smartListSelected: smartListSelected, flag: 1 }}
                       >
                         <button
@@ -619,7 +619,7 @@ const WebinarSelectSmartList = (props) => {
                           Next
                         </button>
                       </Link>
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               </div>
@@ -663,17 +663,17 @@ const WebinarSelectSmartList = (props) => {
 
                         {updateflag > 0 &&
                           (
-                            getFilterIbu.length > 0 ) && (
+                            getFilterIbu?.length > 0 ) && (
                             <div className="apply-filter">
                               <div className="filter-block">
                                 <div className="filter-block-left full">
-                                  {getFilterIbu.length > 0 && (
+                                  {getFilterIbu?.length > 0 && (
                                     <div className="filter-div">
                                       <div className="filter-div-title">
                                         <span>IBU |</span>
                                       </div>
                                       <div className="filter-div-list">
-                                        {Object.entries(getFilterIbu).map(
+                                        {Object.entries(getFilterIbu)?.map(
                                           ([index, item]) => (
                                             <div
                                               key={item}
@@ -772,7 +772,7 @@ const WebinarSelectSmartList = (props) => {
                                       </Accordion.Header>
                                       <Accordion.Body className="card-body">
                                         <ul>
-                                          {Object.entries(filterdata.ibu).map(
+                                          {Object.entries(filterdata?.ibu)?.map(
                                             ([index, item]) => (
                                               <li key={item}>
                                                 <label className="select-multiple-option">
@@ -801,11 +801,7 @@ const WebinarSelectSmartList = (props) => {
                                         </ul>
                                       </Accordion.Body>
                                     </Accordion.Item>
-                                  )}  
-
-                              
-
-                                
+                                  )}                                                              
                               </Accordion>
                               <div className="filter-footer">
                                 <button
@@ -828,16 +824,6 @@ const WebinarSelectSmartList = (props) => {
                     : null  
                   }
                 </div>
-                {/*
-              <div className="col smartlist-refresh_div">
-                <button
-                  className="btn btn-primary btn-bordered back"
-                  onClick={refreshSmartList}
-                >
-                  Refresh List
-                </button>
-              </div>
-              */}
 
                 <div className="col smartlist-result-block">
                   {
@@ -848,16 +834,16 @@ const WebinarSelectSmartList = (props) => {
                           <div className="smartlist_box_block">
                             <div className="smartlist-view email_box">
                               <div className="mail-box-content">
-                                <h5>{template.name}</h5>
+                                <h5>{template?.name}</h5>
                                 <div className="select-mail-option">
                                   <input
                                     onClick={() => handleSelect(template)}
                                     type="radio"
                                     name="radio"
                                     checked={
-                                      template.id == PdfSelected
+                                      template?.id == PdfSelected
                                         ? true
-                                        : template.id == getselecedlistid &&
+                                        : template?.id == getselecedlistid &&
                                           !PdfSelected
                                           ? true
                                           : false
@@ -870,36 +856,36 @@ const WebinarSelectSmartList = (props) => {
                                     <tbody>
                                       <tr>
                                         <th>Contact type</th>
-                                        <td>{template.contact_type}</td>
+                                        <td>{template?.contact_type}</td>
                                       </tr>
                                       <tr>
                                         <th>Speciality</th>
-                                        <td>{template.speciality}</td>
+                                        <td>{template?.speciality}</td>
                                       </tr>
                                       <tr>
                                         <th>Readers</th>
-                                        <td>{template.reader_selection}</td>
+                                        <td>{template?.reader_selection}</td>
                                       </tr>
                                       <tr>
                                         <th>IBU</th>
-                                        <td>{template.ibu}</td>
+                                        <td>{template?.ibu}</td>
                                       </tr>
                                       <tr>
                                         <th>Product</th>
-                                        <td>{template.product}</td>
+                                        <td>{template?.product}</td>
                                       </tr>
                                       <tr>
                                         <th>Country</th>
-                                        <td>{template.country}</td>
+                                        <td>{template?.country}</td>
                                       </tr>
                                       <tr>
                                         <th>Registered</th>
-                                        <td>{template.registered}</td>
+                                        <td>{template?.registered}</td>
                                       </tr>
                                       <tr>
                                         <th>Created by</th>
                                         <td>
-                                          <span>{template.creator}</span>
+                                          <span>{template?.creator}</span>
                                         </td>
                                       </tr>
                                     </tbody>
@@ -907,14 +893,14 @@ const WebinarSelectSmartList = (props) => {
                                 </div>
 
                                 <div className="mail-time">
-                                  <span> {template.created_at}</span>
+                                  <span> {template?.created_at}</span>
                                 </div>
                                 <div className="smart-list-added-user">
                                   <img
                                     src={path_image + "smartlist-user.svg"}
                                     alt="User icon"
                                   />
-                                  {template.readers_count}
+                                  {template?.readers_count}
                                 </div>
 
                                 <div className="smartlist-buttons">
@@ -922,7 +908,7 @@ const WebinarSelectSmartList = (props) => {
                                     <a
                                       className="color_blue"
                                       onClick={() =>
-                                        openSmartListPopup(template.id)
+                                        openSmartListPopup(template?.id)
                                       }
                                     >
                                       View
@@ -1017,7 +1003,7 @@ const WebinarSelectSmartList = (props) => {
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             {typeof getReaderDetails !== "undefined" &&
-              getReaderDetails.length > 0 &&
+              getReaderDetails?.length > 0 &&
               getSmartListName}
           </h5>
           <button
@@ -1040,8 +1026,8 @@ const WebinarSelectSmartList = (props) => {
                   <span>
                     |
                     {typeof getReaderDetails !== "undefined" &&
-                      getReaderDetails.length > 0 &&
-                      getReaderDetails.length}
+                      getReaderDetails?.length > 0 &&
+                      getReaderDetails?.length}
                   </span>
                 </h4>
                 <div className="selected-hcp-table-action">
@@ -1092,45 +1078,45 @@ const WebinarSelectSmartList = (props) => {
                   </thead>
                   <tbody>
                     {typeof getReaderDetails !== "undefined" &&
-                      getReaderDetails.length > 0 &&
-                      getReaderDetails.map((rr, i) => {
+                      getReaderDetails?.length > 0 &&
+                      getReaderDetails?.map((rr, i) => {
                         return (
                           <>
                             <tr>
-                              <td>{rr.first_name}</td>
-                              <td>{rr.email}</td>
-                              <td>{rr.bounce}</td>
-                              <td>{rr.country}</td>
+                              <td>{rr?.first_name}</td>
+                              <td>{rr?.email}</td>
+                              <td>{rr?.bounce}</td>
+                              <td>{rr?.country}</td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? rr.irt
+                                  ? rr?.irt
                                     ? "Yes"
                                     : "No"
-                                  : rr.ibu
-                                    ? rr.ibu
+                                  : rr?.ibu
+                                    ? rr?.ibu
                                     : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? rr.user_type != 0
-                                    ? rr.user_type
+                                  ? rr?.user_type != 0
+                                    ? rr?.user_type
                                     : "N/A"
-                                  : rr.contact_type
-                                    ? rr.contact_type
+                                  : rr?.contact_type
+                                    ? rr?.contact_type
                                     : "N/A"}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
+                                  <span>{rr?.consent ? rr?.consent : "N/A"}</span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.email_received
-                                      ? rr.email_received
+                                    {rr?.email_received
+                                      ? rr?.email_received
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1138,8 +1124,8 @@ const WebinarSelectSmartList = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.email_opening
-                                      ? rr.email_opening
+                                    {rr?.email_opening
+                                      ? rr?.email_opening
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1147,14 +1133,14 @@ const WebinarSelectSmartList = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.registration ? rr.registration : "N/A"}
+                                    {rr?.registration ? rr?.registration : "N/A"}
                                   </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.last_email ? rr.last_email : "N/A"}
+                                    {rr?.last_email ? rr?.last_email : "N/A"}
                                   </span>
                                 </td>
                               ) : null}
@@ -1285,34 +1271,7 @@ const WebinarSelectSmartList = (props) => {
                           </div>
                           :
                           null
-                        }
-
-                      {
-                        /*<div className="form-group col-sm-12">
-                          <div className="form-group-content">
-                            <p>
-                              {" "}
-                              I want this to be a <span>Demo list</span>
-                            </p>
-                            <div className="select-demo-option">
-                              <input type="checkbox" name="checkbox" />
-                              <span className="checkmark"></span>
-                            </div>
-                            <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title="Step to create smart list"
-                            >
-                              <img src={path_image + "question.svg"} alt="" />
-                            </a>
-                            <div className="tooltip">
-                              A list that will appeare when you select smart list
-                              to <span>send a sample.</span>
-                            </div>
-                          </div>
-                        </div>*/
-                      }
+                        }                     
 
                     </div>
                   </form>
@@ -1333,8 +1292,8 @@ const WebinarSelectSmartList = (props) => {
                         data-multiple-caption="{count} files selected"
                         ref={file_name}
                       />
-                      {file_name.current?.files === undefined ||
-                        file_name.current.files?.length === 0 ? (
+                      {file_name?.current?.files === undefined ||
+                        file_name?.current.files?.length === 0 ? (
                         <>
                           <label htmlFor="file-4">
                             <span>Choose Your File</span>
@@ -1342,7 +1301,7 @@ const WebinarSelectSmartList = (props) => {
                           <p>Upload your new list file</p>
                         </>
                       ) : (
-                        <h5>{file_name.current.files[0].name}</h5>
+                        <h5>{file_name?.current?.files[0]?.name}</h5>
                       )}
                     </div>
                     <h4>Please upload maximum of 1000 records.</h4>
@@ -1360,8 +1319,8 @@ const WebinarSelectSmartList = (props) => {
                 </div>
               </div>
               <div className="modal-buttons">
-                {file_name.current?.files === undefined ||
-                  file_name.current.files?.length === 0 ? (
+                {file_name?.current?.files === undefined ||
+                  file_name?.current?.files?.length === 0 ? (
                   <>
                     {" "}
                     <button
