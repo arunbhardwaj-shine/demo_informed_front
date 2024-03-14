@@ -20,6 +20,7 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -98,6 +99,14 @@ const Table = (props, ref) => {
   const [siteData, setSiteData] = useState([]);
   const [newData, setNewData] = useState([]);
   const [showReaders, setShowSaveReader] = useState(false);
+  const { eventIdContext, handleEventId } = useSidebar()
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+  const [eventId, setEventId] = useState(
+    eventIdContext?.eventId
+      ? eventIdContext?.eventId
+      : localStorageEvent?.eventId
+  );
+  
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
@@ -808,6 +817,7 @@ const Table = (props, ref) => {
         new_users_list: new_user_id_array,
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
         ibu: typeof props?.ibu !== "undefined" && props?.ibu != "" ? props?.ibu : "",
+        event_id: eventId,
       };
     } else if (
       typeof props != "undefined" &&
@@ -832,6 +842,7 @@ const Table = (props, ref) => {
         new_users_list: new_user_id_array,
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
         ibu: typeof props?.ibu !== "undefined" && props?.ibu != "" ? props?.ibu : "",
+        event_id: eventId,
       };
     }
 
@@ -860,7 +871,7 @@ const Table = (props, ref) => {
             var x = localStorage.getItem("sd_i");
             if (x) {
               localStorage.removeItem("sd_i");
-              path = "/SelectSmartList";
+              path = "/webinar/email/selectSmartList";
             } else {
               path = "/webinar/email/smartlist";
             }

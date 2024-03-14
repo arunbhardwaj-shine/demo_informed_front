@@ -1285,7 +1285,7 @@ const FilterSegment = (props) => {
     var x = localStorage.getItem("sd_i");
     if (x) {
       localStorage.removeItem("sd_i");
-      Navigate("/SelectSmartList");
+      Navigate("/webinar/email/selectSmartList");
     } else {
       Navigate("/webinar/email/smartlist");
     }

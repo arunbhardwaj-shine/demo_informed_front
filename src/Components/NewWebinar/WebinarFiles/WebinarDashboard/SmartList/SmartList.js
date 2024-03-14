@@ -3,14 +3,14 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { connect } from "react-redux";
-import { Button, Col, Modal, Row } from "react-bootstrap";
-
+import { Col, Modal, Row } from "react-bootstrap";
 import { getListId } from "../../../../../actions";
-import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
 import Accordion from "react-bootstrap/Accordion";
 import CommonModel from "../../../../../Model/CommonModel";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { load } from "@amcharts/amcharts4/.internal/core/utils/Net";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
@@ -43,6 +43,13 @@ const SmartList = (props) => {
       value:""
     },
   ])
+  const { eventIdContext, handleEventId } = useSidebar()
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+  const [eventId, setEventId] = useState(
+    eventIdContext?.eventId
+      ? eventIdContext?.eventId
+      : localStorageEvent?.eventId
+  );
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -56,6 +63,7 @@ const SmartList = (props) => {
     search: search,
     filter: filter,
     paging: "31",
+    event_id:eventId
   };
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async (flag, page = 1) => {
@@ -66,7 +74,7 @@ const SmartList = (props) => {
         setLoading(false);
         setSmartListData(res?.data?.response?.data);
         if (flag == 0) {
-          setFilterData(res?.data?.response?.filter);
+          // setFilterData(res?.data?.response?.filter);
           setPrevSmartListData(res?.data?.response?.data);
         }
         setUserDetails(res?.data?.response?.userdetails);
@@ -78,12 +86,34 @@ const SmartList = (props) => {
       });
   };
 
+  const getSmartListFilterData = async() => {
+    try{
+      loader('show');
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        event_id:eventId
+      };
+      await axios
+      .post(`distributes/get_smart_list_filter`, body)
+      .then((res) => {
+        setFilterData(res?.data?.response?.filter);
+
+        getSmartListData(0);
+      })
+      .catch((err) => {
+        loader("hide");
+        console.log(err);
+      });
+    }catch(err){
+      console.log(err);
+      loader('hide');
+    }
+  }
+
   
 
   useEffect(() => {
-    getSmartListData(0);
-
-   
+    getSmartListFilterData();
     function handleOutsideClick(event) {
       if (
         buttonRef.current &&
@@ -846,7 +876,7 @@ const SmartList = (props) => {
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
-                              <h5 contenteditable="true">{data.name}</h5>
+                              <h5 contentEditable="true">{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
                             <div className="mailbox-table">

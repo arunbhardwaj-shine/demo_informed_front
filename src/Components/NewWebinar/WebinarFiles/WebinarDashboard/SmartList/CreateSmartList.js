@@ -192,7 +192,7 @@ const CreateSmartList = () => {
     var x = localStorage.getItem("sd_i");
     if (x) {
       localStorage.removeItem("sd_i");
-      navigate("/SelectSmartList");
+      navigate("/webinar/email/selectSmartList");
     } else {
       navigate("/webinar/email/smartlist");
     }

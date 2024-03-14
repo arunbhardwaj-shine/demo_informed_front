@@ -8,6 +8,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../../../loader";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 import { toast } from "react-toastify";
 
@@ -78,6 +79,13 @@ const ViewTable = (props) => {
   const [siteData, setSiteData] = useState([]);
   const animatedComponents = makeAnimated();
   const [forceRender, setForceRender] = useState(false);
+  const { eventIdContext, handleEventId } = useSidebar()
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+  const [eventId, setEventId] = useState(
+    eventIdContext?.eventId
+      ? eventIdContext?.eventId
+      : localStorageEvent?.eventId
+  );
   let file_name = useRef("");
 
   useEffect(() => {
@@ -515,6 +523,7 @@ const ViewTable = (props) => {
         new_users_list: [],
         creator_name: props.creatorName,
         ibu: props?.ibu ? props?.ibu:"",
+        event_id: eventId,
       };
 
       if (props.upload_by_filter == 1) {
