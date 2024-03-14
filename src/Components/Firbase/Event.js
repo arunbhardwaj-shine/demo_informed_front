@@ -104,11 +104,19 @@ const Event = () => {
   };
   const handleSubmit = async (e) => {
     try {
+      // console.log(formData?.templateId,'formData?.templateId')
       e.preventDefault();
-      if (Object.keys(user).length === 0 || !user.question?.trim()) {
+      if ((Object.keys(user).length === 0 || !user.question?.trim()) && formData?.templateId === 2 )   {
+        setError({ question: "Por favor escriba su pregunta" });
+        return;
+      } 
+      else if (Object.keys(user).length === 0 || !user.question?.trim()) {
         setError({ question: "Please enter your question" });
         return;
-      } else {
+      }
+      
+   
+      else {
         setError({});
       }
       loader("show");
