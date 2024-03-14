@@ -19,6 +19,7 @@ const EditList = () => {
   const [getuploadedby, setUploadedBy] = useState();
   const [getlistcount, setListCount] = useState("");
   const [creatorName, setCreatorName] = useState("");
+  const [ibu, setIBU] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [isLoad, setIsLoading] = useState(0);
   const [hide, setHide] = useState(1);
@@ -40,6 +41,7 @@ const EditList = () => {
         if (res.data.response) {
           if (res.data.response.data.length > 0) {
             setCreatorName(res.data.response.creator_name);
+            setIBU(res?.data?.response?.ibu);
             setEditListData(res.data.response.data);
             setLoading(false);
             setUploadedBy(res.data.response.upload_by_filter);
@@ -117,6 +119,7 @@ const EditList = () => {
                 upload_by_filter={getuploadedby}
                 smartListName={smartListName}
                 creatorName={creatorName}
+                ibu = {ibu}
               />
             </div>
             {

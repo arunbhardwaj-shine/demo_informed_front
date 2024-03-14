@@ -906,6 +906,7 @@
 
   header nav.navbar {
     padding: 12px 10px;
+    min-height:80px;
   }
 
   .sidebar-menu ul li {
@@ -1280,7 +1281,6 @@
   }
 
   .create-smart-list {
-    margin-bottom: 60px;
     padding: 9px 9px 9px 20px;
   }
 
@@ -1632,6 +1632,13 @@
   .event-status-msg p {
     font-size: 14px;
   }
+    .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3)>div div {
+      margin: 0;
+    }
+        .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
+          padding: 4px 50px 4px 15px;
+          min-height: 36px;
+        }
 }
 
 @media only screen and (max-width: 1399px) {
@@ -1900,6 +1907,12 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
+    .create_smart_list {
+      margin-top: 30px;
+    }
+        .select-smart-list .filter_btn_div .apply-filter .filter-block {
+          padding: 4px 16px;
+        }
 .verify-email-detail .form-buttons.right-side {
   margin: 0 0 10px;
   display: flex;
@@ -2131,6 +2144,7 @@
 
   header nav.navbar {
     padding: 3px 10px;
+    min-height:62px;
   }
 
   #add_hcp .modal-body .hcp-add-form form .form-group button {
@@ -2698,6 +2712,7 @@
 
   header nav.navbar {
     padding: 3px 8px;
+    min-height:49px;
   }
 
   .email-result-block {
