@@ -175,7 +175,7 @@ import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registr
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
 import WebinarEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarEmail";
 import WebinarAutoEmails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarAutoEmails";
-import WebinarSmartlist from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSmartlist";
+
 import WebinarCreateNewEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarCreateNewEmail";
 import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
@@ -194,6 +194,17 @@ import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
 import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
 import LicenseRenew from "./Components/License/Content/LicenseRenew";
+
+import WebinarSmartlist from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/SmartList";
+import WebinarSmartlistTable from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/Table";
+import WebinarSmartlistViewTable from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/ViewTable";
+import WebinarSmartlistEdit from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/EditList";
+import WebinarCreateSmartList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/CreateSmartList";
+import WebinarSmartListFilter from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/SmartListFilter";
+import WebinarSmartlistFilterSegment from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/FilterSegment";
+import WebinarSmartlistVerifyList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/VerifySmartList";
+import WebinarSmartlistViewList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/ViewList";
+import WebinarSmartlistUploadExcel from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/UploadExcel";
 
 
 let platform = 0;
@@ -632,10 +643,6 @@ const Routing = () => {
           element={<LoginLayout component={WebinarAutoEmails} />}
         />
         <Route
-          path="/webinar/email/smartlist"
-          element={<LoginLayout component={WebinarSmartlist} />}
-        />
-         <Route
           path="/webinar/email/create-new-email"
           element={<LoginLayout component={WebinarCreateNewEmail} />}
         />
@@ -851,6 +858,55 @@ const Routing = () => {
           path="/webinar/live-stream/survey/question-data"
           element={<LoginLayout component={SurveyQuestionFormData} />}
         />
+
+
+        {/* Webinar smart list routes */}
+        <Route
+          path="/webinar/email/smartlist"
+          element={<LoginLayout component={WebinarSmartlist} />}
+        />
+        <Route
+              path="/webinar/email/smartlist/createsmartlist"
+              element={<LoginLayout component={WebinarCreateSmartList} />}
+            />
+        <Route
+              path="/webinar/email/smartlist/smartlistfilter"
+              element={<LoginLayout component={WebinarSmartListFilter} />}
+            />
+        <Route
+              path="/webinar/email/smartlist/uploadsmartlist"
+              element={<LoginLayout component={WebinarSmartlistUploadExcel} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/editlist"
+              element={<LoginLayout component={WebinarSmartlistEdit} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/filterSegment"
+              element={<LoginLayout component={WebinarSmartlistFilterSegment} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/table"
+              element={<LoginLayout component={WebinarSmartlistTable} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/viewlist"
+              element={<LoginLayout component={WebinarSmartlistViewList} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/viewTable"
+              element={<LoginLayout component={WebinarSmartlistViewTable} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/verifylist"
+              element={<LoginLayout component={WebinarSmartlistVerifyList} />}
+            />
       </Routes>
 
       
