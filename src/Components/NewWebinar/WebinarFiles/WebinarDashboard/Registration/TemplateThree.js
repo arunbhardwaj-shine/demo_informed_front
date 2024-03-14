@@ -62,7 +62,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                           src={`${
                             formData?.content?.logoImageUrl
                               ? formData?.content?.logoImageUrl
-                              : "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
+                              : ""
                           }`}
                           alt="Factor logo"
                         />
@@ -142,7 +142,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                       src={`${
                         formData?.content?.logoImageUrl
                           ? formData?.content?.logoImageUrl
-                          : "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
+                          : ""
                       }`}
                     />
                   </div>

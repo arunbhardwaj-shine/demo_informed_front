@@ -236,23 +236,42 @@ const SmartList = (props) => {
   };
 
   const handleIBUChange = (ibu) => {
-    let get_creator_index = getFilterIbu.indexOf(ibu);
-    if (get_creator_index !== -1) {
-      getFilterIbu.splice(get_creator_index, 1);
-      setFilterIbu(getFilterIbu);
-    } else {
-      getFilterIbu.push(ibu);
-      setFilterIbu(getFilterIbu);
-    }
+    let getfilter = ''
+    if(ibu == 'All'){
+      ibu = ['All','Critical Care','Haematology','Immunotherapy'];
+      let get_creator_index = getFilterIbu.indexOf('All');
+      getFilterIbu.length = 0;
+      if(get_creator_index != -1){
+        setFilterIbu([]);
+      }else{
+        // let ibuToAdd = ibu.filter(item => !getFilterIbu.includes(item));
+        getFilterIbu.push(...ibu);
+        setFilterIbu(getFilterIbu);
+      }
+    }else{
+      let get_creator_index = getFilterIbu.indexOf(ibu);
+      if (get_creator_index !== -1) {
 
-    let getfilter = getFilterIbu;
-    if (getfilter.hasOwnProperty("ibu")) {
-      getfilter.name = getFilterIbu;
+        getFilterIbu.splice(get_creator_index, 1);        
+        let index = getFilterIbu.indexOf('All');
+        if (index !== -1) {
+          getFilterIbu.splice(index, 1);
+        }
+        setFilterIbu(getFilterIbu);
+      } else {
+        getFilterIbu.push(ibu);
+        setFilterIbu(getFilterIbu);
+      }
+    }
+    
+    getfilter = getFilterIbu;
+    if (getfilter?.hasOwnProperty("ibu")) {
+      getfilter.ibu = getFilterIbu;
     } else {
-      getfilter = Object.assign({ ibu: getFilterIbu }, filter);
+      // getfilter = Object.assign({ ibu: getFilterIbu }, filter);
+      getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
     }
     setFilter(getfilter);
-
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -485,7 +504,7 @@ const SmartList = (props) => {
                             </Accordion.Item>
                           )}
 
-                        {filterdata.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                        {filterdata?.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
                           filterdata.ibu.length > 0 && (
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
