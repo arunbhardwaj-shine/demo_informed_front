@@ -1119,7 +1119,7 @@ const Sidebar = () => {
                 </li>
               ) : null}
 
-              {/* {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 <li
                 className={
                   location.pathname == "/new-readers-reviews"
@@ -1141,10 +1141,10 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-                  <p>New Readers</p>
+                  <p>IRT Edit</p>
                 </Link>
                 </li>
-              ) : null} */}
+              ) : null}
                 
             </ul>
           ) :
