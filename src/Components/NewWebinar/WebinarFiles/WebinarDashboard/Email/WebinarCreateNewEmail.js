@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { getWebinarEmailData, getWebinarCampaignId } from '../../../../../actions'
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import {popup_alert} from '../../../../../popup_alert';
 var dxr = 0;
 var state_object = {};
 
@@ -167,16 +168,23 @@ const WebinarCreateNewEmail = (props) => {
     const [getSmartListId, setSmartListId] = useState(0);
     const [showLessInfo, setShowLessInfo] = useState(true);
 
+    const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
+    const [getReaderDetails, setReaderDetails] = useState({});
+    const [getSmartListName, setSmartListName] = useState("");
+    const [showPreogressBar, setShowProgressBar] = useState(false);
+    const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
+    const [mailsIncrement, setMailsIncrement] = useState(0);
+
     useEffect(() => {
         if (addListOpen == true) {
-          setIsOpensend(false);
+            setIsOpensend(false);
         }
-      }, [addListOpen]);
+    }, [addListOpen]);
 
-      useEffect(() => {
+    useEffect(() => {
         getTemplateListData(0);
         getSmartListData(0);
-      }, []);
+    }, []);
 
     useEffect(() => {
         loader("show");
@@ -209,17 +217,21 @@ const WebinarCreateNewEmail = (props) => {
     }, []);
 
     useEffect(() => {
+        //console.log("sdsdsd");
+    }, [selectedHcp]);
+
+    useEffect(() => {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+            user_id: localStorage.getItem("user_id"),
         };
-    
+
         // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         // const getAllTags = async () => {
         //   await axios
         //     .post(`emailapi/get_tags`, body)
         //     .then((res) => {
         //       setAllTags(res?.data?.response?.data);
-             
+
         //     })
         //     .catch((err) => {
         //       loader("hide");
@@ -227,7 +239,7 @@ const WebinarCreateNewEmail = (props) => {
         //     });
         // };
         // getAllTags();
-      }, []);
+    }, []);
 
     const axiosFun = async () => {
         try {
@@ -307,89 +319,89 @@ const WebinarCreateNewEmail = (props) => {
 
     const getTemplateListData = async () => {
         try {
-          loader("show")
-          let body = {
-            eventId: eventId
-          }
-          const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST, body)
-        //   setTemplate(response?.data?.data)
-          setTemplateList(response?.data?.data)
-          loader("hide")
+            loader("show")
+            let body = {
+                eventId: eventId
+            }
+            const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST, body)
+            //   setTemplate(response?.data?.data)
+            setTemplateList(response?.data?.data)
+            loader("hide")
         } catch (err) {
-          loader("hide")
-          console.log("--err", err)
+            loader("hide")
+            console.log("--err", err)
         }
-      }
+    }
 
-      const getSmartListData = (flag) => {
+    const getSmartListData = (flag) => {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
-          user_id: localStorage.getItem("user_id"),
-          search: getsearch,
-          filter: "",
+            user_id: localStorage.getItem("user_id"),
+            search: getsearch,
+            filter: "",
         };
         loader("show");
         axios
-          .post(`distributes/get_smart_list`, body)
-          .then((res) => {
-            setSmartListData(res?.data?.response?.data);
-            if (flag == 0) {
-              setPrevSmartListData(res?.data?.response?.data);
-            } else {
-              loader("hide");
-            }
-          })
-          .catch((err) => {
-            loader("hide");
-            console.log(err);
-          });
-      };
+            .post(`distributes/get_smart_list`, body)
+            .then((res) => {
+                setSmartListData(res?.data?.response?.data);
+                if (flag == 0) {
+                    setPrevSmartListData(res?.data?.response?.data);
+                } else {
+                    loader("hide");
+                }
+            })
+            .catch((err) => {
+                loader("hide");
+                console.log(err);
+            });
+    };
 
-      const showMoreInfo = (e) => {
+    const showMoreInfo = (e) => {
         e.preventDefault();
         setShowLessInfo(!showLessInfo);
-      };
+    };
 
-      const searchChange = (e) => {
+    const searchChange = (e) => {
         setSearch(e?.target?.value);
         if (e?.target?.value === "") {
-          setSmartListData(prevsmartListData);
+            setSmartListData(prevsmartListData);
         }
-      };
+    };
 
-      const handleSmartListPopupScroll = (e) => {
+    const handleSmartListPopupScroll = (e) => {
         if (e?.target?.scrollTop > 20) {
-          document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
+            document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
         } else {
-          document
-            .querySelector("#add-list")
-            .setAttribute("custom-atr", "non-scroll");
+            document
+                .querySelector("#add-list")
+                .setAttribute("custom-atr", "non-scroll");
         }
-      };
+    };
 
-      const submitHandler = (event) => {
+    const submitHandler = (event) => {
         event.preventDefault();
         if (getsearch !== "") {
-          getSmartListData(1);
+            getSmartListData(1);
         } else {
-          toast.error("Please enter text.");
+            toast.error("Please enter text.");
         }
-       
+
         return false;
-      };
+    };
 
-      const handleSelect = (data, e) => {
+    const handleSelect = (data, e) => {
         setSmartListId(data?.id);
-      };
+    };
 
-      const openSmartListPopup = async (smart_list_id) => {
+    const openSmartListPopup = async (smart_list_id) => {
         console.log("in open smartlist pop up")
         setShowLessInfo(true);
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
-          user_id: localStorage.getItem("user_id"),
-          list_id: smart_list_id,
-          show_specific: 1,
+            user_id: localStorage.getItem("user_id"),
+            list_id: smart_list_id,
+            show_specific: 1,
         };
         // loader("show");
         // await axios
@@ -409,7 +421,7 @@ const WebinarCreateNewEmail = (props) => {
         //     toast.warning("Something went wrong");
         //     loader("hide");
         //   });
-      };
+    };
 
     const saveAsDraft = async (event) => {
         let tagss = [];
@@ -486,22 +498,22 @@ const WebinarCreateNewEmail = (props) => {
         });
 
         // if (validator.allValid()) {
-            
-            props?.getWebinarEmailData({
-                //uniqueId: uniqueId,
-                status: getIsApprovedStatus,
-                emailDescription: emailDescription,
-                emailCreator: emailCreator,
-                emailCampaign: emailCampaign,
-                emailSubject: emailSubject,
-                templateId: templateId,
-                tags: tags,
-                template: template,
-                eventId: eventId,
-                campaign_id: campaign_id_st,
-            });
 
-            navigate("/webinar/email/selectHCP");
+        props?.getWebinarEmailData({
+            //uniqueId: uniqueId,
+            status: getIsApprovedStatus,
+            emailDescription: emailDescription,
+            emailCreator: emailCreator,
+            emailCampaign: emailCampaign,
+            emailSubject: emailSubject,
+            templateId: templateId,
+            tags: tags,
+            template: template,
+            eventId: eventId,
+            campaign_id: campaign_id_st,
+        });
+
+        navigate("/webinar/email/selectHCP");
         // } else {
         //     validator.showMessages();
         //     setRenderAfterValidation(renderAfterValidation + 1);
@@ -893,9 +905,111 @@ const WebinarCreateNewEmail = (props) => {
     };
 
     const sendsampeap = (event) => {
+        console.log("in sendsampeap")
         setHcpsSelected(selectedHcp);
-        console.log("in send sample")
-    }
+        let i = 0;
+        const intervals_spend = (25 / 100) * selectedHcp?.length;
+    
+        var intervals_increment = 100 / intervals_spend;
+        var mails_increment = selectedHcp?.length / intervals_spend;
+        let adr = 0;
+        let incr_msg = 0;
+        const timer = setInterval(() => {
+          adr = adr + intervals_increment;
+          incr_msg = incr_msg + mails_increment;
+          if (adr >= 98) {
+            setUploadOrDownloadCount(98);
+          } else {
+            setUploadOrDownloadCount(parseInt(adr));
+          }
+    
+          if (incr_msg >= selectedHcp.length) {
+            setMailsIncrement(selectedHcp?.length);
+          } else {
+            setMailsIncrement(parseInt(incr_msg));
+          }
+        }, 1000);
+    
+        let pdf_id = state_object?.PdfSelected
+          ? state_object?.PdfSelected
+          : props?.getDraftData?.pdf_id;
+    
+        setIsOpensend(false);
+        setIsOpenAdd(false);
+        if (pdf_id == 13) {
+          popup_alert({
+            visible: "show",
+            message:
+              "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
+            type: "error",
+          });
+        } else {
+          let selected_ids = selectedHcp?.map(
+            (number) => number["user_id"] || number["profile_user_id"]
+          );
+    
+          //  loader("show");
+          setShowProgressBar(true);
+          const body = {
+            user_id: localStorage?.getItem("user_id"),
+            // pdf_id: state_object?.PdfSelected
+            //   ? state_object?.PdfSelected
+            //   : props?.getDraftData?.pdf_id,
+            eventId:eventId,
+            subject: emailSubject,
+            template_id: templateId,
+            user_list: selected_ids,
+            smartlist_id: "",
+            source_code: template,
+          };
+    
+          //console.log(body);
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    
+        //   axios
+        //     .post(`emailapi/send_sample_email`, body)
+        //     .then((res) => {
+        //       loader("hide");
+        //       if (res?.data?.status_code === 200) {
+        //         setUploadOrDownloadCount(100);
+        //         setMailsIncrement(selectedHcp?.length);
+        //         clearInterval(timer);
+        //         setTimeout(() => {
+        //           popup_alert({
+        //             visible: "show",
+        //             message: "Email sent successfully",
+        //             type: "success",
+        //           });
+    
+        //           setShowProgressBar(false);
+        //           setUploadOrDownloadCount(0);
+        //           setMailsIncrement(0);
+        //         }, 1000);
+        //       } else {
+        //         clearInterval(timer);
+        //         setUploadOrDownloadCount(0);
+        //         setMailsIncrement(0);
+    
+        //         setShowProgressBar(false);
+        //         popup_alert({
+        //           visible: "show",
+        //           message: res?.data?.message,
+        //           type: "error",
+        //         });
+        //       }
+        //     })
+        //     .catch((err) => {
+        //       clearInterval(timer);
+        //       setShowProgressBar(false);
+        //       loader("hide");
+        //       toast.error("Something went wrong");
+        //       console.log(err);
+        //     });
+    
+          setSelectedHcp([]);
+          setSearchedUsers([]);
+        }
+      };
 
     const closeClicked = () => {
         setIsOpenAdd(false);
@@ -1342,45 +1456,45 @@ const WebinarCreateNewEmail = (props) => {
 
     const addClicked = (e) => {
         if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
-        //   loader("show");
-          const body = {
-            user_id: localStorage.getItem("user_id"),
-            list_id: getSmartListId,
-            show_specific: 1,
-          };
-        //   axios
-        //     .post(`distributes/get_reders_list`, body)
-        //     .then((res) => {
-        //       if (res.data.status_code == 200) {
-        //         setReaders(res?.data?.response?.data);
-    
-        //         res?.data?.response?.data?.map((data) => {
-        //           let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === data?.email?.toLowerCase());
-        //           if (typeof prev_obj === "undefined") {
-        //             setSelectedHcp((oldArray) => [...oldArray, data]);
-        //           }
-        //         });
-        //         // setSelectedHcp(res.data.response.data);
-        //         loader("hide");
-        //       } else {
-        //         toast.warning(res?.data?.message);
-        //         loader("hide");
-        //       }
-        //       setIsOpensend(true);
-        //       setAddListOpen(false);
-        //     })
-        //     .catch((err) => {
-        //       toast.warning("Something went wrong");
-        //       loader("hide");
-        //     });
+            //   loader("show");
+            const body = {
+                user_id: localStorage.getItem("user_id"),
+                list_id: getSmartListId,
+                show_specific: 1,
+            };
+            //   axios
+            //     .post(`distributes/get_reders_list`, body)
+            //     .then((res) => {
+            //       if (res.data.status_code == 200) {
+            //         setReaders(res?.data?.response?.data);
+
+            //         res?.data?.response?.data?.map((data) => {
+            //           let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === data?.email?.toLowerCase());
+            //           if (typeof prev_obj === "undefined") {
+            //             setSelectedHcp((oldArray) => [...oldArray, data]);
+            //           }
+            //         });
+            //         // setSelectedHcp(res.data.response.data);
+            //         loader("hide");
+            //       } else {
+            //         toast.warning(res?.data?.message);
+            //         loader("hide");
+            //       }
+            //       setIsOpensend(true);
+            //       setAddListOpen(false);
+            //     })
+            //     .catch((err) => {
+            //       toast.warning("Something went wrong");
+            //       loader("hide");
+            //     });
         } else {
-          toast.warning("Please select smart list");
+            toast.warning("Please select smart list");
         }
         // e.preventDefault();
         // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
         // setIsOpensend(true);
         // setAddListOpen(false);
-      };
+    };
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -1432,12 +1546,12 @@ const WebinarCreateNewEmail = (props) => {
                                         <button
                                             className="btn btn-primary btn-filled next"
                                             onClick={nextClicked}
-                                            // disabled={
-                                            //     typeof emailSubject == "undefined" ||
-                                            //     emailSubject?.trim()?.length == 0 ||
-                                            //     typeof templateId == "undefined" ||
-                                            //     templateId == ""
-                                            // }
+                                        // disabled={
+                                        //     typeof emailSubject == "undefined" ||
+                                        //     emailSubject?.trim()?.length == 0 ||
+                                        //     typeof templateId == "undefined" ||
+                                        //     templateId == ""
+                                        // }
                                         >
                                             Next
                                         </button>
@@ -2262,50 +2376,50 @@ const WebinarCreateNewEmail = (props) => {
                 </Modal>
 
                 <Modal id="add-list" show={addListOpen} custom-atr="non-scroll">
-          <Modal.Header>
-            <h4>Add List</h4>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={() => {
-                setAddListOpen(false);
-                setIsOpensend(true);
-                // setSelectedHcp([]);
-                // setSearchedUsers([]);
-              }}
-            ></button>
-          </Modal.Header>
-          <Modal.Body onScroll={handleSmartListPopupScroll}>
-            <div className="top-right-action">
-              <div className="search-bar">
-                <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
-                  <input
-                    className="form-control me-2"
-                    type="text"
-                    placeholder="Search"
-                    onChange={(e) => searchChange(e)}
-                  />
-                  <button
-                    className="btn btn-outline-success"
-                    onClick={(e) => submitHandler(e)}
-                  >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
-                        fill="#97B6CF"
-                      ></path>
-                    </svg>
-                  </button>
-                </form>
-              </div>
-              {/*
+                    <Modal.Header>
+                        <h4>Add List</h4>
+                        <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            onClick={() => {
+                                setAddListOpen(false);
+                                setIsOpensend(true);
+                                // setSelectedHcp([]);
+                                // setSearchedUsers([]);
+                            }}
+                        ></button>
+                    </Modal.Header>
+                    <Modal.Body onScroll={handleSmartListPopupScroll}>
+                        <div className="top-right-action">
+                            <div className="search-bar">
+                                <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                                    <input
+                                        className="form-control me-2"
+                                        type="text"
+                                        placeholder="Search"
+                                        onChange={(e) => searchChange(e)}
+                                    />
+                                    <button
+                                        className="btn btn-outline-success"
+                                        onClick={(e) => submitHandler(e)}
+                                    >
+                                        <svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 16 16"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                                                fill="#97B6CF"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                            {/*
                 <div className="filter-by">
                   <button className="btn btn-outline-primary" type="submit">
                     Filter By{" "}
@@ -2332,84 +2446,84 @@ const WebinarCreateNewEmail = (props) => {
                   </button>
                 </div>
               */}
-            </div>
-            <div className="col smartlist-result-block">
-              {typeof smartListData !== "undefined" &&
-                smartListData.length > 0 ? (
-                smartListData?.map((data, index) => {
-                  return (
-                    <>
-                      <div className="smartlist_box_block" key={index}>
-                        <div className="smartlist-view email_box">
-                          <div className="mail-box-content">
-                            <h5>{data.name}</h5>
-                            <div className="select-mail-option">
-                              <input
-                                type="radio"
-                                name="radio"
-                                onClick={(e) => handleSelect(data, e)}
-                                checked={
-                                  typeof getSmartListId !== "undefined" &&
-                                    getSmartListId !== 0 &&
-                                    getSmartListId == data?.id
-                                    ? "checked"
-                                    : ""
-                                }
-                              />
-                              <span className="checkmark"></span>
-                            </div>
-                            <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact type</th>
-                                    <td>{data?.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{data?.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{data?.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{data?.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{data?.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{data?.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{data?.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created by</th>
-                                    <td>
-                                      <span>{data?.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                        </div>
+                        <div className="col smartlist-result-block">
+                            {typeof smartListData !== "undefined" &&
+                                smartListData.length > 0 ? (
+                                smartListData?.map((data, index) => {
+                                    return (
+                                        <>
+                                            <div className="smartlist_box_block" key={index}>
+                                                <div className="smartlist-view email_box">
+                                                    <div className="mail-box-content">
+                                                        <h5>{data.name}</h5>
+                                                        <div className="select-mail-option">
+                                                            <input
+                                                                type="radio"
+                                                                name="radio"
+                                                                onClick={(e) => handleSelect(data, e)}
+                                                                checked={
+                                                                    typeof getSmartListId !== "undefined" &&
+                                                                        getSmartListId !== 0 &&
+                                                                        getSmartListId == data?.id
+                                                                        ? "checked"
+                                                                        : ""
+                                                                }
+                                                            />
+                                                            <span className="checkmark"></span>
+                                                        </div>
+                                                        <div className="mailbox-table">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Contact type</th>
+                                                                        <td>{data?.contact_type}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Speciality</th>
+                                                                        <td>{data?.speciality}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Readers</th>
+                                                                        <td>{data?.reader_selection}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>IBU</th>
+                                                                        <td>{data?.ibu}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Product</th>
+                                                                        <td>{data?.product}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Country</th>
+                                                                        <td>{data?.country}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Registered</th>
+                                                                        <td>{data?.registered}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Created by</th>
+                                                                        <td>
+                                                                            <span>{data?.creator}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
 
-                            <div className="mail-time">
-                              <span>{data?.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {data?.readers_count}
-                            </div>
-                            {/*
+                                                        <div className="mail-time">
+                                                            <span>{data?.created_at}</span>
+                                                        </div>
+                                                        <div className="smart-list-added-user">
+                                                            <img
+                                                                src={path_image + "smartlist-user.svg"}
+                                                                alt="User icon"
+                                                            />
+                                                            {data?.readers_count}
+                                                        </div>
+                                                        {/*
                                   <div className="mail-stats">
                                   <ul>
                                   <li>
@@ -2453,37 +2567,235 @@ const WebinarCreateNewEmail = (props) => {
                                   </ul>
                                   </div>
                                 */}
-                            <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                <a onClick={() => openSmartListPopup(data?.id)}>
-                                  View
-                                </a>
-                              </button>
-                            </div>
-                          </div>
+                                                        <div className="smartlist-buttons">
+                                                            <button className="btn btn-primary btn-bordered view">
+                                                                <a onClick={() => openSmartListPopup(data?.id)}>
+                                                                    View
+                                                                </a>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })
+                            ) : (
+                                <div className="no_found">
+                                    <p>No Data Found</p>
+                                </div>
+                            )}
                         </div>
-                      </div>
-                    </>
-                  );
-                })
-              ) : (
-                <div className="no_found">
-                  <p>No Data Found</p>
-                </div>
-              )}
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <button
-              type="button"
-              className="btn btn-primary btn-filled"
-              data-bs-dismiss="modal"
-              onClick={(e) => addClicked(e)}
-            >
-              Add
-            </button>
-          </Modal.Footer>
-        </Modal>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-filled"
+                            data-bs-dismiss="modal"
+                            onClick={(e) => addClicked(e)}
+                        >
+                            Add
+                        </button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Reader Details popup */}
+                <Modal
+                    show={getSmartListPopupStatus}
+                    className="smart_list_popup"
+                    id="smart_list_popup_id"
+                >
+                    <Modal.Header>
+                        <h5 className="modal-title" id="staticBackdropLabel">
+                            {typeof getReaderDetails !== "undefined" &&
+                                getReaderDetails.length > 0 &&
+                                getSmartListName}
+                        </h5>
+                        <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            onClick={() => {
+                                setAddListOpen(true);
+                                setSmartListPopupStatus(
+                                    (getSmartListPopupStatus) => !getSmartListPopupStatus
+                                );
+                            }}
+                        ></button>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <section className="search-hcp">
+                            <div className="result-hcp-table">
+                                <div className="table-title">
+                                    <h4>
+                                        HCPs{" "}
+                                        <span>
+                                            |
+                                            {typeof getReaderDetails !== "undefined" &&
+                                                getReaderDetails.length > 0 &&
+                                                getReaderDetails.length}
+                                        </span>
+                                    </h4>
+                                    <div className="selected-hcp-table-action">
+                                        <a
+                                            className="show-less-info"
+                                            onClick={(e) => showMoreInfo(e)}
+                                        >
+                                            {showLessInfo == true ? (
+                                                <p className="show_more">Show More information</p>
+                                            ) : (
+                                                <p className="show_less">Show less information</p>
+                                            )}{" "}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div className="selected-hcp-list">
+                                    <table className="table">
+                                        <thead className="sticky-header">
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Bounced</th>
+                                                <th scope="col">Country</th>
+
+                                                {localStorage.getItem("user_id") ==
+                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                    <>
+                                                        <th scope="col">IRT mandatory training</th>
+                                                        <th scope="col">IRT role</th>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <th scope="col">Business unit</th>
+                                                        <th scope="col">Contact type</th>
+                                                    </>
+                                                )}
+
+                                                {showLessInfo == false ? (
+                                                    <>
+                                                        <th scope="col">Consent</th>
+                                                        <th scope="col">Email received</th>
+                                                        <th scope="col">Openings</th>
+                                                        <th scope="col">Registrations</th>
+                                                        <th scope="col">Last email</th>
+                                                    </>
+                                                ) : null}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {typeof getReaderDetails !== "undefined" &&
+                                                getReaderDetails.length > 0 &&
+                                                getReaderDetails.map((rr, i) => {
+                                                    return (
+                                                        <>
+                                                            <tr key={i}>
+                                                                <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
+                                                                <td>{rr?.email ? rr?.email : "N/A"}</td>
+                                                                <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
+                                                                <td>{rr?.country ? rr?.country : "N/A"}</td>
+                                                                <td>
+                                                                    {localStorage.getItem("user_id") ==
+                                                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                        ? rr.irt
+                                                                            ? "Yes"
+                                                                            : "No"
+                                                                        : rr.ibu
+                                                                            ? rr.ibu
+                                                                            : "N/A"}
+                                                                    {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                                                                </td>
+                                                                <td>
+                                                                    {localStorage.getItem("user_id") ==
+                                                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                        ? rr?.user_type != 0
+                                                                            ? rr?.user_type
+                                                                            : "N/A"
+                                                                        : rr?.contact_type
+                                                                            ? rr?.contact_type
+                                                                            : "N/A"}
+                                                                </td>
+                                                                {showLessInfo == false ? (
+                                                                    <td>
+                                                                        <span>
+                                                                            {rr?.consent ? rr?.consent : "N/A"}
+                                                                        </span>{" "}
+                                                                    </td>
+                                                                ) : null}
+                                                                {showLessInfo == false ? (
+                                                                    <td>
+                                                                        <span>
+                                                                            {rr?.email_received
+                                                                                ? rr?.email_recieved
+                                                                                : "N/A"}
+                                                                        </span>
+                                                                    </td>
+                                                                ) : null}
+                                                                {showLessInfo == false ? (
+                                                                    <td>
+                                                                        <span>
+                                                                            {rr?.email_opening
+                                                                                ? rr?.email_opening
+                                                                                : "N/A"}
+                                                                        </span>
+                                                                    </td>
+                                                                ) : null}
+                                                                {showLessInfo == false ? (
+                                                                    <td>
+                                                                        <span>
+                                                                            {rr?.registration
+                                                                                ? rr?.registration
+                                                                                : "N/A"}
+                                                                        </span>
+                                                                    </td>
+                                                                ) : null}
+                                                                {showLessInfo == false ? (
+                                                                    <td>
+                                                                        <span>
+                                                                            {rr?.last_email ? rr?.last_email : "N/A"}
+                                                                        </span>
+                                                                    </td>
+                                                                ) : null}
+                                                                <td className="add-new-hcp" colspan="12"></td>
+                                                            </tr>
+                                                        </>
+                                                    );
+                                                })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </Modal.Body>
+                </Modal>
+
+                <Modal
+                    show={showPreogressBar}
+                    className="send-confirm"
+                    id="upload-confirm"
+                >
+                    <Modal.Header></Modal.Header>
+                    <Modal.Body>
+                        <div
+                            className="circular-progressbar"
+                            style={{
+                                width: 100,
+                                height: 100,
+                            }}
+                        >
+                            <CircularProgressbar
+                                value={uploadOrDownloadCount}
+                                text={`${uploadOrDownloadCount}%`}
+                                strokeWidth={5}
+                            />
+                        </div>
+                    </Modal.Body>
+                    <h4>
+                        {" "}
+                        {mailsIncrement} mails sent of {hcpsSelected.length}
+                    </h4>
+                </Modal>
+
+                {/*Reader Details popup end*/}
             </div>
         </>)
 }
