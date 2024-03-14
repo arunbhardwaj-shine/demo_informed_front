@@ -236,7 +236,7 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/live-stream/survey/question-data'
 
-  const isActiveEmail = location.pathname === '/webinar/email'||location.pathname ==='/webinar/email/create-new-email'
+  const isActiveEmail = location.pathname === '/webinar/email'||location.pathname ==='/webinar/email/create-new-email'||location.pathname ==='/webinar/email/selectHCP'
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
                             location.pathname == "/webinar/email/smartlist/createsmartlist"||
@@ -266,7 +266,8 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/live-stream/speaker-zone" ||
             window.location.pathname == "/webinar/email/auto-emails"||
             window.location.pathname == "/webinar/email/smartlist"||
-           window.location.pathname === '/webinar/email/create-new-email'? (
+           window.location.pathname === '/webinar/email/create-new-email'||
+           window.location.pathname === '/webinar/email/selectHCP'? (
             <>
 
               {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -301,7 +302,8 @@ const Sidebar = () => {
                window.location.pathname === "/webinar/live-stream/speaker-zone"||
                window.location.pathname === "/webinar/email/auto-emails"||
                window.location.pathname === "/webinar/email/smartlist"||
-               window.location.pathname === "/webinar/email/create-new-email" ) && (
+               window.location.pathname === "/webinar/email/create-new-email"||
+               window.location.pathname === '/webinar/email/selectHCP' ) && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1177,7 +1179,8 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/email/smartlist/viewlist" ||
               window.location.pathname == "/webinar/email/smartlist/viewTable" ||
               window.location.pathname == "/webinar/email/smartlist/verifylist" ||
-              window.location.pathname == "/webinar/email/create-new-email"?
+              window.location.pathname == "/webinar/email/create-new-email"||
+              window.location.pathname === '/webinar/email/selectHCP'?
               (
                 <ul>
                   <li
@@ -1225,7 +1228,8 @@ const Sidebar = () => {
                       location.pathname == "/webinar/email/smartlist/viewlist"||
                       location.pathname == "/webinar/email/smartlist/viewTable"||
                       location.pathname == "/webinar/email/smartlist/verifylist"||
-                      location.pathname == "/webinar/email/create-new-email"
+                      location.pathname == "/webinar/email/create-new-email"||
+                      location.pathname === '/webinar/email/selectHCP'
                         ? "active sub-links"
                         : "side_li sub-links"
                     }

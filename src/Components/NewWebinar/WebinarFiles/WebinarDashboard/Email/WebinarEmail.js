@@ -9,8 +9,10 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
+import { connect } from "react-redux";
+import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarDraftData} from '../../../../../actions'
 
-const WebinarEmail = () => {
+const WebinarEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -261,7 +263,9 @@ const WebinarEmail = () => {
     setShowFilter(false);
   };
   const createNewEmail = () => {
-    console.log("in create new email")
+    props.getWebinarDraftData(null);
+    props.getWebinarSelectedSmartListData(null);
+    props.getWebinarEmailData(null);
   }
 
   const hideEmailModal = () => {
@@ -1337,4 +1341,12 @@ const WebinarEmail = () => {
     </>
   );
 };
-export default WebinarEmail;
+
+const mapStateToProps = (state) => {
+  return state;
+};
+export default connect(mapStateToProps, {
+  getWebinarEmailData: getWebinarEmailData,
+  getWebinarSelectedSmartListData: getWebinarSelectedSmartListData,
+  getWebinarDraftData: getWebinarDraftData,
+})(WebinarEmail);;

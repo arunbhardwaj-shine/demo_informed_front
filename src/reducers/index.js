@@ -67,6 +67,51 @@ const getSelected =(selected=JSON.parse(localStorage.getItem('getSelected')),act
 
 }
 
+const getWebinarEmailData = ( webinarEmailData = JSON.parse(localStorage.getItem('getWebinarEmailData')), action) => {
+  if (action.type === "GET_WEBINAR_EMAIL_DATA") {
+    // console.log("helllo in 3")
+    localStorage.setItem('getWebinarEmailData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarEmailData;
+};
+
+const getWebinarSelectedSmartListData = (webinarSelectedSmartListData = JSON.parse(localStorage.getItem('getWebinarSelectedSmartListData')), action) => {
+  if (action.type === "GET_WEBINAR_SMART_LIST_DATA") {
+    // console.log("helllo in 4")
+    localStorage.setItem('getWebinarSelectedSmartListData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarSelectedSmartListData;
+};
+
+const getWebinarDraftData = (webinarDraftData = JSON.parse(localStorage.getItem('getWebinarDraftData')), action) => {
+  if (action.type === "GET_WEBINAR_DRAFT_DATA") {
+    // console.log("helllo in 6")
+    localStorage.setItem('getWebinarDraftData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarDraftData;
+};
+
+const getWebinarCampaignId = (webinarUniqueId = JSON.parse(localStorage.getItem('getWebinarCampaignId')), action) => {
+  if (action.type === "GET_WEBINAR_UNIQUE_ID") {
+    localStorage.setItem('getWebinarCampaignId', JSON.stringify(action.payload));
+    return action.payload;
+  }
+
+  return webinarUniqueId;
+};
+
+const getWebinarSelected =(webinarSelected=JSON.parse(localStorage.getItem('getWebinarSelected')),action) => {
+  if (action.type === "GET_WEBINAR_SELECTED") {
+    localStorage.setItem('getWebinarSelected', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarSelected;
+
+}
+
 export default combineReducers({
   listId: getListId,
   updatedData: getUpdatedData,
@@ -74,5 +119,10 @@ export default combineReducers({
   getSelectedSmartListData: getSelectedSmartListData,
   getCampaignId: getCampaignId,
   getDraftData: getDraftData,
-  getSelected: getSelected
+  getSelected: getSelected,
+  getWebinarEmailData:getWebinarEmailData,
+  getWebinarSelectedSmartListData:getWebinarSelectedSmartListData,
+  getWebinarDraftData:getWebinarDraftData,
+  getWebinarCampaignId:getWebinarCampaignId,
+  getWebinarSelected:getWebinarSelected
 });
