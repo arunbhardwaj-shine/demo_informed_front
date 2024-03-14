@@ -241,8 +241,17 @@ const Sidebar = () => {
     location.pathname === '/webinar/email/selectHCP' ||
     location.pathname === '/webinar/email/selectSmartList'
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
-  const isActiveSmartlist = location.pathname === '/webinar/email/smartlist'
-
+  const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
+                            location.pathname == "/webinar/email/smartlist/createsmartlist"||
+                            location.pathname == "/webinar/email/smartlist/smartlistfilter"||
+                            location.pathname == "/webinar/email/smartlist/uploadsmartlist"||
+                            location.pathname == "/webinar/email/smartlist/editlist"||
+                            location.pathname == "/webinar/email/smartlist/filterSegment"||
+                            location.pathname == "/webinar/email/smartlist/table"||
+                            location.pathname == "/webinar/email/smartlist/viewlist"||
+                            location.pathname == "/webinar/email/smartlist/viewTable"||
+                            location.pathname == "/webinar/email/smartlist/verifylist";
+  
 
   return (
     <>
@@ -1166,9 +1175,18 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/analytics" ||
               window.location.pathname == "/webinar/email/auto-emails" ||
               window.location.pathname == "/webinar/email/smartlist" ||
-              window.location.pathname == "/webinar/email/create-new-email" ||
+              window.location.pathname == "/webinar/email/smartlist/createsmartlist" ||
+              window.location.pathname == "/webinar/email/smartlist/smartlistfilter" ||
+              window.location.pathname == "/webinar/email/smartlist/uploadsmartlist" ||
+              window.location.pathname == "/webinar/email/smartlist/editlist" ||
+              window.location.pathname == "/webinar/email/smartlist/filterSegment" ||
+              window.location.pathname == "/webinar/email/smartlist/table" ||
+              window.location.pathname == "/webinar/email/smartlist/viewlist" ||
+              window.location.pathname == "/webinar/email/smartlist/viewTable" ||
+              window.location.pathname == "/webinar/email/smartlist/verifylist" ||
+              window.location.pathname == "/webinar/email/create-new-email"||
               window.location.pathname === '/webinar/email/selectHCP'||
-              window.location.pathname ==='/webinar/email/selectSmartList' ?
+              window.location.pathname==='/webinar/email/selectSmartList'?
               (
                 <ul>
                   <li
@@ -1204,12 +1222,21 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/webinar/email" ||
-                        location.pathname == "/webinar/email/auto-emails" ||
-                        location.pathname == "/webinar/email/smartlist" ||
-                        location.pathname == "/webinar/email/create-new-email" ||
-                        location.pathname === '/webinar/email/selectHCP'||
-                        location.pathname ==='/webinar/email/selectSmartList'
+                      location.pathname == "/webinar/email" || 
+                      location.pathname == "/webinar/email/auto-emails" || 
+                      location.pathname == "/webinar/email/smartlist"||
+                      location.pathname == "/webinar/email/smartlist/createsmartlist"||
+                      location.pathname == "/webinar/email/smartlist/smartlistfilter"||
+                      location.pathname == "/webinar/email/smartlist/uploadsmartlist"||
+                      location.pathname == "/webinar/email/smartlist/editlist"||
+                      location.pathname == "/webinar/email/smartlist/filterSegment"||
+                      location.pathname == "/webinar/email/smartlist/table"||
+                      location.pathname == "/webinar/email/smartlist/viewlist"||
+                      location.pathname == "/webinar/email/smartlist/viewTable"||
+                      location.pathname == "/webinar/email/smartlist/verifylist"||
+                      location.pathname == "/webinar/email/create-new-email"||
+                      location.pathname === '/webinar/email/selectHCP'||
+                      location.pathname ==='/webinar/email/selectSmartList'
                         ? "active sub-links"
                         : "side_li sub-links"
                     }
@@ -1264,7 +1291,6 @@ const Sidebar = () => {
                           <li className={isActiveAutomail ? 'active' : 'side_li'}
                           // className="side_li"
                           >
-                            {console.log("isActiveAutomail", isActiveAutomail)}
                             <Link to="/webinar/email/auto-emails">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <g clip-path="url(#clip0_3765_722)">
