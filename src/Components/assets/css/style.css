@@ -9150,9 +9150,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .session-modal #pollModel .form-group label {
-  font-weight: 500;
+  font-weight: 400;
   color: #204e9e;
-  font-size: 14px;
+  font-size: 16px;
   flex: 1 1;
   padding: 0 15px 0 0;
 }
@@ -9385,16 +9385,21 @@ section.search-hcp.smart-list-view .header-btn-left {
 @media only screen and (max-width: 767px) {
   .session-modal #pollModel .form-group label {
     flex: 0 0 100%;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0 0 6px;
   }
-
+.session-modal #pollModel .form-group.no_child .check-values {
+  align-items: flex-start;
+}
+.session-modal #pollModel .form-group .check-values .checkmark:after {
+  top: 9px;
+}
   .session-modal #pollModel .modal-body {
     padding: 20px 15px;
   }
 
   .session-modal #pollModel h4 {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .session-modal #pollModel .modal-title.h4 img {
@@ -9409,12 +9414,6 @@ section.search-hcp.smart-list-view .header-btn-left {
     max-width: 94%;
   }
 
-  .session-modal #pollModel .form-group label {
-    flex: 0 0 100%;
-    font-size: 12px;
-    margin: 0 0 6px;
-  }
-
   .session-modal #pollModel .modal-header {
     background: #dbecea;
   }
@@ -9422,11 +9421,6 @@ section.search-hcp.smart-list-view .header-btn-left {
   .session-modal #pollModel .modal-body {
     padding: 20px 5px 20px 15px;
   }
-
-  .session-modal #pollModel h4 {
-    font-size: 14px;
-  }
-
   .session-modal #pollModel .check-group {
     padding: 0 10px 0 0;
   }
