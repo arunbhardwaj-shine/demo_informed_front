@@ -3320,7 +3320,9 @@
     font-size: 20px;
     line-height: 24px;
   }
-
+.session-modal #pollModel {
+  max-width: 95%;
+}
   .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
   }
@@ -4541,9 +4543,11 @@
 
   .session-modal #pollModel .form-group .check-values .checkmark:after {
     left: 4px;
-    top: 38%;
+    top: 9px;
   }
-
+.session-modal #pollModel .form-group.no_child label {
+  line-height: 20px;
+}
   .left-sidebar.active~.right-sidebar {
     position: relative;
   }
