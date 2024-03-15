@@ -1987,10 +1987,12 @@ ul.tabnav-link li {
   line-height: 21px;
   text-transform: capitalize;
   color: var(--dark-blue);
-  width: 155px;
-  flex: 0 0 155px;
+  width: 174px;
+  flex: 0 0 174px;
 }
-
+.form-inline .form-group label >a {
+  margin-left:7px;
+}
 .form-inline .form-group label>span,
 #add_hcp_form .form-group label>span,
 .create-smart-step .form-group label>span,
@@ -8695,8 +8697,10 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .mail-box-conten-title {
-  display: flex;
-  align-items: center;
+display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 60px;
 }
 
 .load_more {

@@ -1340,12 +1340,15 @@
     height: 45px;
   }
 
+
   .form-inline .form-group label {
     font-size: 16px;
-    width: 145px;
-    flex: 0 0 145px;
+    width: 160px;
+    flex: 0 0 160px;
   }
-
+.email-form .form-inline .form-group input[type="text"] {
+    min-width: 280px;
+}
   .form-buttons .btn {
     height: 36px;
     padding: 6px 16px;
@@ -2508,7 +2511,9 @@
   .form-inline .form-group input#email-address {
     max-width: 235px;
   }
-
+.email-form .form-inline .form-group input[type="text"] {
+    min-width: initial;
+}
   .mail-preview-img img {
     max-height: 72px;
     max-width: 63px;

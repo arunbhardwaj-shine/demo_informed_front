@@ -2108,7 +2108,7 @@ const CreateEmail = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <div className="form-inline row justify-content-between align-items-center">
-                            <div className="form-group col-12 col-md-7">
+                            <div className="form-group col-12 col-md-7 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
                                 Email Description  
                                 <LinkWithTooltip
@@ -2147,7 +2147,7 @@ const CreateEmail = (props) => {
                                 "required"
                               )}
                             </div>
-                            <div className="form-group right-side col-12 col-md-5">
+                            <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
                                 Email Creator <span>*</span>
                               </label>
@@ -2175,7 +2175,7 @@ const CreateEmail = (props) => {
                             </div>
                           </div>
                           <div className="form-inline row justify-content-between align-items-center">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
                                 Email Campaign  
 
