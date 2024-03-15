@@ -19450,6 +19450,7 @@ img.change-password-image {
     padding: 16px;
     width: 22%;
     flex: 0 0 22%;
+    min-height: 300px;
 
     .question-list {
       display: flex;
@@ -19460,6 +19461,12 @@ img.change-password-image {
         font-weight: 400;
         line-height: normal;
         color: #70899E;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
       }
 
       span {
@@ -20599,7 +20606,7 @@ img.change-password-image {
             }
           }
 
-         .survey-rating-number {
+          .survey-rating-number {
             font-size: 14px;
             min-width: 32px;
           }
@@ -21339,6 +21346,15 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-large) {
+  .survey-rating {
+    gap: 20px 2%;
+
+    .question-rating {
+      width: 32%;
+      flex: 0 0 32%;
+    }
+  }
+
   .custom-change .top-sticky {
     top: 48px;
   }
@@ -21899,6 +21915,15 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-medium) {
+  .survey-rating {
+    gap: 20px 4%;
+
+    .question-rating {
+      width: 48%;
+      flex: 0 0 48%;
+    }
+  }
+
   .feilds-section .select-collected .webinar-checkbox {
     width: calc(50% - 7px);
     padding: 10px 14px;
@@ -22269,6 +22294,15 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-small) {
+  .survey-rating {
+    gap: 20px;
+
+    .question-rating {
+      width: 100%;
+      flex: 0 0 100%;
+    }
+  }
+
   .consent-content .consent-content-inner .consent-details .consent-img {
     display: block;
   }
