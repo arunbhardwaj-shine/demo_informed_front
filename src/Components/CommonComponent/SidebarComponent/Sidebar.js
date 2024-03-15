@@ -249,6 +249,9 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
     location.pathname === '/webinar/email/create-new-email' ||
     location.pathname === '/webinar/email/selectHCP' ||
     location.pathname === '/webinar/email/selectSmartList'||
+    location.pathname === '/webinar/email/verifyMAIL'||
+    location.pathname === '/webinar/email/verifyHCP'||
+    location.pathname === '/webinar/email/selectSmartListUsers'||
     (location.pathname == "/webinar/email/smartlist/createsmartlist" &&webinar_c_id ==0)
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
@@ -281,7 +284,10 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
             window.location.pathname == "/webinar/email/smartlist" ||
             window.location.pathname === '/webinar/email/create-new-email' ||
             window.location.pathname === '/webinar/email/selectHCP' ||
-            window.location.pathname === '/webinar/email/selectSmartList' ? (
+            window.location.pathname === '/webinar/email/selectSmartList'||
+            window.location.pathname === '/webinar/email/verifyMAIL'||
+            window.location.pathname === '/webinar/email/verifyHCP'||
+            window.location.pathname === '/webinar/email/selectSmartListUsers' ? (
             <>
 
               {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -318,7 +324,10 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
             window.location.pathname === "/webinar/email/smartlist" ||
             window.location.pathname === "/webinar/email/create-new-email" ||
             window.location.pathname === '/webinar/email/selectHCP'||
-            window.location.pathname ==='/webinar/email/selectSmartList') && (
+            window.location.pathname ==='/webinar/email/selectSmartList'||
+            window.location.pathname ==='/webinar/email/verifyMAIL'||
+            window.location.pathname ==='/webinar/email/verifyHCP'||
+            window.location.pathname ==='/webinar/email/selectSmartListUsers') && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1196,7 +1205,10 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
               window.location.pathname == "/webinar/email/smartlist/verifylist" ||
               window.location.pathname == "/webinar/email/create-new-email"||
               window.location.pathname === '/webinar/email/selectHCP'||
-              window.location.pathname==='/webinar/email/selectSmartList'?
+              window.location.pathname==='/webinar/email/selectSmartList'||
+              window.location.pathname ==='/webinar/email/verifyMAIL'||
+              window.location.pathname ==='/webinar/email/verifyHCP'||
+              window.location.pathname==='/webinar/email/selectSmartListUsers'?
               (
                 <ul>
                   <li
@@ -1247,7 +1259,10 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
                       location.pathname == "/webinar/email/create-new-email"||
                       location.pathname === '/webinar/email/selectHCP'||
                       location.pathname ==='/webinar/email/selectSmartList'||
-                      location.pathname == "/webinar/email/smartlist/createsmartlist"
+                      location.pathname == "/webinar/email/smartlist/createsmartlist"||
+                      location.pathname ==='/webinar/email/verifyMAIL'||
+                      location.pathname ==='/webinar/email/verifyHCP'||
+                      location.pathname ==='/webinar/email/selectSmartListUsers'
                         ? "active sub-links"
                         : "side_li sub-links"
                     }
