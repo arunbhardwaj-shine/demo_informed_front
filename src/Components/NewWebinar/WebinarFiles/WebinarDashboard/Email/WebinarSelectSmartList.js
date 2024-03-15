@@ -224,6 +224,7 @@ const WebinarSelectSmartList = (props) => {
     console.log("in save as draft-->",body)
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    navigate("/webinar/email/smartlist/createsmartlist");
     // loader("show");
     // await axios
     //   .post(`emailapi/save_draft`, body)
@@ -614,7 +615,8 @@ const WebinarSelectSmartList = (props) => {
                       >
                         <button
                           ref={inputElement}
-                          className="btn btn-primary btn-filled next disabled"
+                          // className="btn btn-primary btn-filled next disabled"
+                          className="btn btn-primary btn-filled next"
                         >
                           Next
                         </button>
