@@ -209,6 +209,7 @@ import WebinarSmartlistViewList from "./Components/NewWebinar/WebinarFiles/Webin
 import WebinarSmartlistUploadExcel from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/UploadExcel";
 import WebinarSelectSmartListUsersLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectSmartListUsersLayout";
 import WebinarVerifyMAIL from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyMAIL";
+import WebinarVerifyHCP from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyHCP";
 
 let platform = 0;
 let show = 0;
@@ -664,6 +665,10 @@ const Routing = () => {
         <Route
           path="/webinar/email/verifyMAIL"
           element={<LoginLayout component={WebinarVerifyMAIL} />}
+        />
+         <Route
+          path="/webinar/email/verifyHCP"
+          element={<LoginLayout component={WebinarVerifyHCP} />}
         />
         <Route
           path="/webinar/analytics"
