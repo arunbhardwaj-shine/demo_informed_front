@@ -24,7 +24,6 @@ const SurveyQuestionFormData = () => {
     patient_case_rating: {
       rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       percentage: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-      usersData: { 1: [], 2: [], 3: [], 4: [], 5: [] },
       questionName:
         "How relevant was this patient case to your clinical practice?",
       overall_rating: 0,
@@ -109,7 +108,7 @@ const SurveyQuestionFormData = () => {
         recommend_clinical: { yes: 0, no: 0 },
         suggestion: { suggestion: 0 },
       };
-     let usersData={patient_case_rating:{ 1: [], 2: [], 3: [], 4: [], 5: [] }};
+     let usersData={ 1: [], 2: [], 3: [], 4: [], 5: [] };
 
 
       // Count occurrences of ratings and answers
@@ -123,7 +122,7 @@ const SurveyQuestionFormData = () => {
                 const rating = survey_data[key][subKey];
                 if (rating >= 1 && rating <= 5) {
                   countObjects[subKey][rating.toString()]++;
-                  usersData[subKey][rating.toString()].push(rest);
+                  usersData[rating.toString()].push(rest);
                 }
               } else if (
                 subKey === "future_clinical" ||
