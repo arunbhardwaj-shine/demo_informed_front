@@ -268,7 +268,7 @@ const WebinarVerifyHCP = (props) => {
     }
 
     const nextClicked = () => {
-        props.getSelected(selectedHcp);
+        props.getWebinarSelected(selectedHcp);
         navigate("/webinar/email/verifyHcpMAIL", {
             state: {
                 selectedHcp: selectedHcp,

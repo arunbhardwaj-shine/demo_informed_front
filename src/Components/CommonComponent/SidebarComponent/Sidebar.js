@@ -251,6 +251,7 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
     location.pathname === '/webinar/email/selectSmartList'||
     location.pathname === '/webinar/email/verifyMAIL'||
     location.pathname === '/webinar/email/verifyHCP'||
+    location.pathname === '/webinar/email/verifyHcpMAIL'||
     location.pathname === '/webinar/email/selectSmartListUsers'||
     (location.pathname == "/webinar/email/smartlist/createsmartlist" &&webinar_c_id ==0)
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
@@ -287,6 +288,7 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
             window.location.pathname === '/webinar/email/selectSmartList'||
             window.location.pathname === '/webinar/email/verifyMAIL'||
             window.location.pathname === '/webinar/email/verifyHCP'||
+            window.location.pathname === '/webinar/email/verifyHcpMAIL'||
             window.location.pathname === '/webinar/email/selectSmartListUsers' ? (
             <>
 
@@ -327,6 +329,7 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
             window.location.pathname ==='/webinar/email/selectSmartList'||
             window.location.pathname ==='/webinar/email/verifyMAIL'||
             window.location.pathname ==='/webinar/email/verifyHCP'||
+            window.location.pathname ==='/webinar/email/verifyHcpMAIL'||
             window.location.pathname ==='/webinar/email/selectSmartListUsers') && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
@@ -1208,6 +1211,7 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
               window.location.pathname==='/webinar/email/selectSmartList'||
               window.location.pathname ==='/webinar/email/verifyMAIL'||
               window.location.pathname ==='/webinar/email/verifyHCP'||
+              window.location.pathname ==='/webinar/email/verifyHcpMAIL'||
               window.location.pathname==='/webinar/email/selectSmartListUsers'?
               (
                 <ul>
@@ -1262,6 +1266,7 @@ if(location.pathname == "webinar/email/smartlist/createsmartlist"){
                       location.pathname == "/webinar/email/smartlist/createsmartlist"||
                       location.pathname ==='/webinar/email/verifyMAIL'||
                       location.pathname ==='/webinar/email/verifyHCP'||
+                      location.pathname ==='/webinar/email/verifyHcpMAIL'||
                       location.pathname ==='/webinar/email/selectSmartListUsers'
                         ? "active sub-links"
                         : "side_li sub-links"
