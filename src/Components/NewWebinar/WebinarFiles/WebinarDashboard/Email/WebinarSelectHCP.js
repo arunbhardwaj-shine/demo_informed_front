@@ -4,9 +4,14 @@ import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarSelected} from '../../../../../actions'
+import { postData } from '../../../../../axios/apiHelper';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
+import { loader } from '../../../../../loader';
 
 var old_object = {};
-
+var new_object;
+var draft_object;
+var old_object = {};
 const WebinarSelectHCP=(props)=>{
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -33,7 +38,14 @@ const WebinarSelectHCP=(props)=>{
       ? props?.getWebinarDraftData?.campaign_id
       : 0;
       const [campaign_id_st, setCampaign_id] = useState(campaign_id);
-
+ const sendOptions = [
+    { id: 1, label: localStorage.getItem("user_id") == userId ? "Group of Users" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` },
+    { id: 2, label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 3, label: "Internal Hcp", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 4, label: "US List", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 5, label: "No Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 6, label: "Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` }
+  ];
     const backClicked = () => {
         let event_Id =eventId
         navigate("/webinar/email/create-new-email", {
@@ -100,17 +112,64 @@ const WebinarSelectHCP=(props)=>{
         //   });
       };
 
-      const nextClicked = (selected) => {
+      const nextClicked = async (selected) => {
         props.getWebinarEmailData(old_object);
         props.getWebinarSelected(null);
-        if (selected == 1) {
+        if (selected === 1) {
           navigate("/webinar/email/selectSmartList", {
             state: { UserSelected: selected },
           });
-        } else if (selected == 2) {
+        } else if (selected === 2) {
           navigate("/webinar/email/verifyHCP", {
             state: { UserSelected: selected },
           });
+        }
+        else if (selected === 3) {
+          loader("show")
+          let body ={
+            eventId:eventId
+          }
+          const response = await postData(ENDPOINT.INTERNAL_HCP,body)
+          console.log(response);
+        let data=response?.data?.data
+        if(data?.length){
+          if (new_object?.id) {
+            if (data[0].id != new_object.id) {
+              if (old_object?.removedHcp) {
+                old_object.removedHcp = [];
+              }
+            }
+          }
+           props.getWebinarSelectedSmartListData( data[0]);
+          
+          navigate("/webinar/email/selectSmartListUsers", {
+            state: { smartListSelected: data[0],flag: 1  ,selected},
+          });
+        }
+        } 
+         else if (selected === 4) {
+          loader("show")
+          let body ={
+            eventId:eventId
+          }
+          const response = await postData(ENDPOINT.US_LIST,body)
+          console.log(response);
+
+          let data=response?.data?.data
+          if(data?.length){
+          if (new_object?.id) {
+            if (data[0].id != new_object.id) {
+              if (old_object?.removedHcp) {
+                old_object.removedHcp = [];
+              }
+            }
+          }
+           props.getWebinarSelectedSmartListData( data[0]);
+          
+          navigate("/webinar/email/selectSmartListUsers", {
+            state: { smartListSelected: data[0],flag: 1  ,selected},
+          });
+        }
         }
       };
 
@@ -201,172 +260,28 @@ const WebinarSelectHCP=(props)=>{
               </div>
             </div>
             <section className="send-mail-options webinar">
-              <div className="container">
-                <div className="row">
-                  <div className="send-option-list">
-                    <h5>Do you want to send to</h5>
-                    <ul>
-                      <li>
-                        <div
-                          className={
-                            templateId === 1
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(event) => handleInputChange(event, 1)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="group of HCPs"
-
-                            // onChange={(event) => handleInputChange(event)}
-                          />
-
-                          <img
-                            src={path_image + "group-hcp.svg"}
-                            alt="Group HCPs"
-                          />
-                        </div>
-
-                        <p>
-                          {localStorage.getItem("user_id") == userId
-                            ? "Group of Users"
-                            : "Group of HCPs"}{" "}
-                        </p>
-                      </li>
-                      <li>
-                        <div
-                          className={
-                            templateId === 2
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(e) => handleInputChange(e, 2)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="Single HCP"
-
-                            // onChange={(event) => handleInputChange(event)}
-                          />
-                          <img
-                            src={path_image + "single-hcp.svg"}
-                            alt="Single HCP"
-                          />
-                        </div>
-                        <p>
-                          {localStorage.getItem("user_id") == userId
-                            ? "Single User"
-                            : "Single HCP"}{" "}
-                        </p>
-                      </li>
-                      <li>
-                        <div
-                          className={
-                            templateId === 3
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(e) => handleInputChange(e, 3)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="Single HCP"
-
-                            // onChange={(event) => handleInputChange(event)}
-                          />
-                          <img
-                            src={path_image + "single-hcp.svg"}
-                            alt="Single HCP"
-                          />
-                        </div>
-                        <p>
-                         Internal Hcp
-                        </p>
-                      </li>
-                      <li>
-                        <div
-                          className={
-                            templateId === 4
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(e) => handleInputChange(e, 4)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="Single HCP"
-
-                            // onChange={(event) => handleInputChange(event)}
-                          />
-                          <img
-                            src={path_image + "single-hcp.svg"}
-                            alt="Single HCP"
-                          />
-                        </div>
-                        <p>
-                         US List
-                        </p>
-                      </li>
-                      <li>
-                        <div
-                          className={
-                            templateId === 5
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(e) => handleInputChange(e, 5)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="Single HCP"
-
-                            // onChange={(event) => handleInputChange(event)}
-                          />
-                          <img
-                            src={path_image + "single-hcp.svg"}
-                            alt="Single HCP"
-                          />
-                        </div>
-                        <p>
-                         No Register
-                        </p>
-                      </li>
-                      <li>
-                        <div
-                          className={
-                            templateId === 6
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(e) => handleInputChange(e, 6)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="Single HCP"
-
-                            // onChange={(event) => handleInputChange(event)}
-                          />
-                          <img
-                            src={path_image + "single-hcp.svg"}
-                            alt="Single HCP"
-                          />
-                        </div>
-                        <p>
-                         Register
-                        </p>
-                      </li>
-                    </ul>
+      <div className="container">
+        <div className="row">
+          <div className="send-option-list">
+            <h5>Do you want to send to</h5>
+            <ul>
+              {sendOptions.map(option => (
+                <li key={option.id}>
+                  <div
+                    className={templateId === option.id ? "send-option-img active" : "send-option-img"}
+                    onClick={(e) => handleInputChange(e,option.id)}
+                  >
+                    <input type="radio" name="select-option-hcp" value={option.value} />
+                    <img src={option.imageUrl} alt={option.alt} />
                   </div>
-                </div>
-              </div>
-            </section>
+                  <p>{option.label}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
           </div>
         </div>
       </div>
@@ -375,9 +290,11 @@ const WebinarSelectHCP=(props)=>{
 }
 
 const mapStateToProps = (state) => {
-    old_object = state.getWebinarEmailData;
-    return state;
-  };
+  new_object = state.getSelectedSmartListData;
+  old_object = state.getEmailData ? state.getEmailData : {};
+  draft_object = state.getDraftData ? state.getDraftData : {};
+  return state;
+};
 export default connect(mapStateToProps, {
     getWebinarEmailData,
     getWebinarSelected,

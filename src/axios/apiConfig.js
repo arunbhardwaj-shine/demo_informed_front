@@ -183,5 +183,7 @@ export const ENDPOINT = {
   WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list",
   WEBINAR_EMAIL_GET_FILTER_LIST:"/webinarEmail/get-filter-list",
   WEBINAR_EMAIL_DELETE_COMPAIGN:"/webinarEmail/delete-list",
-  WEBINAR_EMAIL_GET_TEMPLATE_LIST:"/webinarEmail/get-templates-list"
+  WEBINAR_EMAIL_GET_TEMPLATE_LIST:"/webinarEmail/get-templates-list",
+  INTERNAL_HCP:"/webinarEmail/internal-hcps",
+  US_LIST:"/webinarEmail/us-list"
 };
