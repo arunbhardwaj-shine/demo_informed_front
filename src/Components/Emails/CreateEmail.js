@@ -9,7 +9,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown,OverlayTrigger,Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -1977,6 +1977,19 @@ const CreateEmail = (props) => {
     }
   };
 
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -2097,7 +2110,20 @@ const CreateEmail = (props) => {
                           <div className="form-inline row justify-content-between align-items-center">
                             <div className="form-group col-12 col-md-7">
                               <label htmlFor="exampleInputEmail1">
-                                Email Description <span>*</span>{" "}
+                                Email Description  
+                                <LinkWithTooltip
+                                  tooltip="About this specific email, this description will aid in distinguishing it from others."
+                                  href="#"
+                                >
+                                  <img
+                                    src={
+                                      path_image +
+                                      "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                  />
+                                </LinkWithTooltip> 
+                                <span>*</span>
                               </label>
 
                               <input
@@ -2151,7 +2177,22 @@ const CreateEmail = (props) => {
                           <div className="form-inline row justify-content-between align-items-center">
                             <div className="form-group">
                               <label htmlFor="exampleInputEmail1">
-                                Email Campaign <span>*</span>
+                                Email Campaign  
+
+                                <LinkWithTooltip
+                                  tooltip="Including details about the product, event, or subject of this email will facilitate filtering and locating a cluster of related emails."
+                                  href="#"
+                                >
+                                  <img
+                                    src={
+                                      path_image +
+                                      "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                  />
+                                </LinkWithTooltip>
+                                
+                                <span>*</span>
                               </label>
 
                               <input
