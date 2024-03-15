@@ -6,9 +6,12 @@ import {connect} from 'react-redux'
 import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarSelected} from '../../../../../actions'
 import { postData } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
+import { loader } from '../../../../../loader';
 
 var old_object = {};
-
+var new_object;
+var draft_object;
+var old_object = {};
 const WebinarSelectHCP=(props)=>{
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -112,27 +115,73 @@ const WebinarSelectHCP=(props)=>{
       const nextClicked = async (selected) => {
         props.getWebinarEmailData(old_object);
         props.getWebinarSelected(null);
-        if (selected == 1) {
+        if (selected === 1) {
           navigate("/webinar/email/selectSmartList", {
             state: { UserSelected: selected },
           });
-        } else if (selected == 2) {
+        } else if (selected === 2) {
           navigate("/webinar/email/verifyHCP", {
             state: { UserSelected: selected },
           });
         }
-        else if (selected == 3) {
-          // console.log(eventId);
+        else if (selected === 3) {
+          loader("show")
           let body ={
             eventId:eventId
           }
-          const response = await postData(ENDPOINT.INTERNAL_HCP,body)
-
+          // const response = await postData(ENDPOINT.INTERNAL_HCP,body)
+          const response = {
+            "message": "Data get successfully",
+            "status": 200,
+            "data": [
+                {
+                    "id": 2351,
+                    "name": "Arun bhardwaj_internal_hcps_temporary",
+                    "user_id": "[2147533706,2147532446,2147532264,2147532251,2147532133,2147532116,2147531505,2147530268,2147528355,2147528245,2147528197,2147518288,2147518218,2147518193,2147518179,2147518171,2147518160,2147518159,2147518153,2147518152,2147518145,2147518142,2147518115,2147518098,2147518097,2147518096,2147518095,2147518092,2147518087,2147518086,2147518049,2147518048,2147518046,2147518045,2147518036,2147501293,2147501261,2147501254,2147501223,2147501222,2147501221,2147501190,2147501158,2147501150,2147501149,2147501148,2147501147,2147501146,2147501144,2147501138,2147501126,2147501124,2147501110,2147501109,2147501089,2147501075,2147501074,2147501072,2147501060,2147501047,2147501045,2147501037,2147501030,2147501029,2147500971,2147500855,2147500668,2147500624,2147500622,2147491145,2147490281,2147489000,2147485432,29510]",
+                    "event_id": 410,
+                    "new_user_id": "",
+                    "created_by": 18207,
+                    "creator_name": "Arun bhardwaj",
+                    "contact_type": "",
+                    "job_title": "",
+                    "company": "",
+                    "country": "",
+                    "product": "",
+                    "indication": "",
+                    "rtr": "",
+                    "title_opened": "",
+                    "sales_contact": "",
+                    "created": "2024-03-14T23:27:28.000Z",
+                    "company_size": "",
+                    "geo_designation": "",
+                    "region_responsibility": "",
+                    "therapy_area": "",
+                    "bug": "1",
+                    "opened_email": "",
+                    "opened_content": "",
+                    "selected_filteres": null
+                }
+            ]
+        }
+        let data=response?.data
+        if(data?.length){
+          if (new_object?.id) {
+            if (data[0].id != new_object.id) {
+              if (old_object?.removedHcp) {
+                old_object.removedHcp = [];
+              }
+            }
+          }
+           props.getWebinarSelectedSmartListData( data[0]);
+          
+          navigate("/webinar/email/selectSmartListUsers", {
+            state: { smartListSelected: data[0],flag: 1  ,selected},
+          });
+        }
         }
       };
 
       const handleInputChange = (event, selectede) => {
-        console.log(event,selectede);
         if (old_object) {
           old_object.selected = selectede;
           props.getWebinarEmailData(old_object);
@@ -249,9 +298,11 @@ const WebinarSelectHCP=(props)=>{
 }
 
 const mapStateToProps = (state) => {
-    old_object = state.getWebinarEmailData;
-    return state;
-  };
+  new_object = state.getSelectedSmartListData;
+  old_object = state.getEmailData ? state.getEmailData : {};
+  draft_object = state.getDraftData ? state.getDraftData : {};
+  return state;
+};
 export default connect(mapStateToProps, {
     getWebinarEmailData,
     getWebinarSelected,

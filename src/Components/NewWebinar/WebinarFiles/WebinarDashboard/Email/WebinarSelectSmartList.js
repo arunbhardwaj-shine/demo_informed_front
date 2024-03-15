@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { connect } from "react-redux";
 import {
@@ -23,6 +23,7 @@ var new_object;
 var draft_object;
 var old_object = {};
 const WebinarSelectSmartList = (props) => {
+  const location = useLocation();
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
@@ -611,7 +612,7 @@ const WebinarSelectSmartList = (props) => {
                     ) : ( */}
                       <Link
                         to="/webinar/email/selectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected, flag: 1 }}
+                        state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected}}
                       >
                         <button
                           ref={inputElement}

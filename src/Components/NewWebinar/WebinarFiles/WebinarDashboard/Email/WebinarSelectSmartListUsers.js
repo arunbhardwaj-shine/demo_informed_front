@@ -185,7 +185,13 @@ const WebinarSelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
-    navigate("/webinar/email/selectSmartList");
+if(location?.state?.selected==1){
+  navigate("/webinar/email/selectSmartList");
+
+}else{
+  navigate("/webinar/email/selectHCP");
+
+}
   };
 
   useEffect(() => {
