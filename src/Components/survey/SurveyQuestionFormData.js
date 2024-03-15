@@ -1,13 +1,12 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { Accordion, Col, Row } from "react-bootstrap";
+import { Accordion, Col, ProgressBar, Row } from "react-bootstrap";
 import { useSidebar } from "../CommonComponent/LoginLayout";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
 
 const SurveyQuestionFormData = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -20,46 +19,170 @@ const SurveyQuestionFormData = () => {
 
   const [data, setData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
+  const [progressBarData, setProgressBarData] = useState({
+    patient_case_rating: {
+      rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      percentage: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      questionName:
+        "How relevant was this patient case to your clinical practice?",
+      overall_rating: 0,
+      total_users_answered: 0,
+      type: "rating",
+    },
+    future_clinical: {
+      rating: { yes: 0, no: 0 },
+      percentage: { yes: 0, no: 0 },
+      overall_rating: 0,
+      total_users_answered: 0,
+      questionName: "I plan to attend future Clinical Practice patient cases:",
+      type: "choice",
+
+    },
+
+    recommend_clinical: {
+      rating: { yes: 0, no: 0 },
+      percentage: { yes: 0, no: 0 },
+      overall_rating: 0,
+      questionName: "Would you recommend Clinical Practice to a colleague?",
+      total_users_answered: 0,
+      type: "choice",
+
+    },
+    suggestion: {
+      rating: { suggestion: 0 },
+      percentage: { suggestion: 0 },
+      overall_rating: 0,
+      questionName:
+        "Please suggest a topic for a future Clinical Practice patient case:",
+        type: "choice",
+
+      total_users_answered: 0,
+    },
+  });
   useEffect(() => {
     getSurveyData();
   }, []);
 
   const getSurveyData = async () => {
     try {
-      loader("show")
-     let eventId=eventData?.eventId?eventData?.eventId:0
-     if(eventId==0){
-      toast.error("Event id required")
-      return
-     } else{
-      const response = await getData(ENDPOINT.GET_SURVEY_DATA + `?type=2&eventId=${eventId}`);
-      let data = [];
-      response?.data?.data?.map((item, index) => {
-        item.survey_data = JSON.parse(item?.survey_data);
-        data?.push(item);
-      });
-      setData(data);
-     }
-     
+      loader("show");
+      let eventId = eventData?.eventId ? eventData?.eventId : 0;
+      if (eventId == 0) {
+        toast.error("Event id required");
+        return;
+      } else {
+        const response = await getData(
+          ENDPOINT.GET_SURVEY_DATA + `?type=2&eventId=${eventId}`
+        );
+        let data = [];
+        response?.data?.data?.map((item, index) => {
+          item.survey_data = JSON.parse(item?.survey_data);
+          data?.push(item);
+        });
+        setData(data);
+      }
     } catch (err) {
       console.log("--err", err);
-    }finally{
-      loader("hide")
+    } finally {
+      loader("hide");
     }
   };
 
+  function isObject(value) {
+    return value !== null && typeof value === "object";
+  }
+  useEffect(() => {
+    try {
+      const updatedProgressBarData = { ...progressBarData };
+
+      if (!data || data.length === 0) {
+        return;
+      }
+
+      const countObjects = {
+        patient_case_rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        future_clinical: { yes: 0, no: 0 },
+        recommend_clinical: { yes: 0, no: 0 },
+        suggestion: { suggestion: 0 },
+      };
+
+      // Count occurrences of ratings and answers
+      data.forEach((item) => {
+        const { survey_data } = item;
+        Object.keys(survey_data).forEach((key) => {
+          if (survey_data[key]) {
+            if (isObject(survey_data[key])) {
+              const subKey = Object.keys(survey_data[key])[0];
+              if (subKey === "patient_case_rating") {
+                const rating = survey_data[key][subKey];
+                if (rating >= 1 && rating <= 5) {
+                  countObjects[subKey][rating.toString()]++;
+                }
+              } else if (
+                subKey === "future_clinical" ||
+                subKey === "recommend_clinical"
+              ) {
+                const answer = survey_data[key][subKey];
+                if (answer === "yes" || answer === "no") {
+                  countObjects[subKey][answer]++;
+                }
+              }
+            } else if (survey_data[key].trim() !== "") {
+              countObjects[key]["suggestion"]++;
+            }
+          }
+        });
+      });
+
+      Object.keys(updatedProgressBarData).forEach((key) => {
+        updatedProgressBarData[key]["rating"] = { ...countObjects[key] };
+      });
+
+      Object.keys(updatedProgressBarData).forEach((key) => {
+        // const totalCount = Object.values(countObjects[key]).reduce(
+        //   (acc, suggestion) => acc + suggestion,
+        //   0
+        // );
+         const totalCount=data?.length
+        const percentageObj = {};
+        let sum = 0;
+        let weightedSum = 0;
+        Object.keys(countObjects[key]).forEach((subKey) => {
+          // if (subKey !== "suggestion") {
+            const suggestion = countObjects[key][subKey];
+            let rating = parseInt(subKey);
+            if(isNaN(rating)){
+              rating=0
+            }
+            sum += suggestion;
+            weightedSum += suggestion * rating;
+            percentageObj[subKey] =
+              totalCount > 0 ? ((suggestion / totalCount) * 100).toFixed(2) : 0;
+          // }
+        });
+        updatedProgressBarData[key]["percentage"] = { ...percentageObj };
+        updatedProgressBarData[key]["overall_rating"] =
+          totalCount > 0 ? (weightedSum / sum).toFixed(2) : 0;
+        updatedProgressBarData[key]["total_users_answered"] = totalCount;
+      });
+      // console.log(updatedProgressBarData);
+      setProgressBarData(updatedProgressBarData);
+    } catch (error) {
+      console.error("An error occurred while processing the data:", error);
+    }
+  }, [data]);
+
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
-   
   };
   useEffect(() => {
     if (accordionRefs.current[openAccordionIndex]) {
-        accordionRefs.current[openAccordionIndex].scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
+      accordionRefs.current[openAccordionIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
-}, [openAccordionIndex]);
+  }, [openAccordionIndex]);
 
   const downloadSurveyUsers = (data) => {
     try {
@@ -96,20 +219,20 @@ const SurveyQuestionFormData = () => {
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
-        // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
+      // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
       const columnWidths = [
-        {wch: 20}, // Width of column A (Name)
-        {wch: 25}, // Width of column B (Email)
-        {wch: 15}, // Width of column C (Country)
-        {wch: 15}, // Width of column D (SurveyDate)
-        {wch: 45}, // Width of column E (How relevant)
-        {wch: 45}, // Width of column F (Plan to attend)
-        {wch: 45}, // Width of column G (Recommend)
-        {wch: 55}, // Width of column H (Suggestion)
+        { wch: 20 }, // Width of column A (Name)
+        { wch: 25 }, // Width of column B (Email)
+        { wch: 15 }, // Width of column C (Country)
+        { wch: 15 }, // Width of column D (SurveyDate)
+        { wch: 45 }, // Width of column E (How relevant)
+        { wch: 45 }, // Width of column F (Plan to attend)
+        { wch: 45 }, // Width of column G (Recommend)
+        { wch: 55 }, // Width of column H (Suggestion)
       ];
-    
-    // Apply column widths
-    worksheet['!cols'] = columnWidths;
+
+      // Apply column widths
+      worksheet["!cols"] = columnWidths;
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -153,35 +276,88 @@ const SurveyQuestionFormData = () => {
 
   return (
     <Col className="right-sidebar custom-change">
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-      />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <div className="custom-container">
+      <Row>
+    <Col>
+    <div className="survey-rating" style={{ display: "flex", alignItems: "center" }}>
+      {Object.values(progressBarData).map((item, index) => (
+        <div key={index} className="question-rating">
+          <div className="question">
+            <h4>Q{index + 1}</h4>
+            <p>{item.questionName}</p>
+          </div>
+          <div className="rating">
+          <h2 dangerouslySetInnerHTML={{
+          __html: item.type === "rating" 
+            ? `${item.overall_rating} <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_5227_4798)">
+            <path d="M11.1954 0.560765C11.4944 -0.186922 12.5056 -0.186922 12.8046 0.560765L15.5034 7.31059C15.6292 7.62514 15.9117 7.84016 16.2361 7.86825L23.1983 8.47116C23.9695 8.53794 24.282 9.54544 23.6956 10.0743L18.4014 14.8489C18.1546 15.0713 18.0467 15.4192 18.1215 15.7512L19.7255 22.8736C19.9032 23.6626 19.0851 24.2852 18.4237 23.8644L12.4529 20.0654C12.1746 19.8884 11.8254 19.8884 11.5472 20.0654L5.57632 23.8644C4.91492 24.2852 4.09678 23.6626 4.27446 22.8736L5.87852 15.7512C5.95327 15.4192 5.84536 15.0713 5.59864 14.8489L0.304406 10.0743C-0.282043 9.54544 0.0304618 8.53794 0.801672 8.47116L7.76386 7.86825C8.08831 7.84016 8.37082 7.62514 8.49659 7.31059L11.1954 0.560765Z" fill="#004A89"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_5227_4798">
+            <rect width="24" height="24" fill="white"/>
+            </clipPath>
+            </defs>
+            </svg>
+            | ${item.total_users_answered}  rating`
+            : `${item.total_users_answered} | ${data.length} answered`
+        }}>
+        </h2>
+
+          </div>
+          <div>
+            {Object.entries(item.rating).map(([key, value]) => (
+           <div key={key} >
+           <h5 >{key} {item.type === "rating"  && <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_5227_4752)">
+            <path d="M7.4636 0.873843C7.6629 0.375386 8.3371 0.375386 8.5364 0.873843L10.3356 5.37373C10.4195 5.58343 10.6078 5.72677 10.8241 5.7455L15.4656 6.14744C15.9797 6.19196 16.188 6.86363 15.7971 7.21621L12.2676 10.3992C12.1031 10.5476 12.0312 10.7795 12.081 11.0008L13.1504 15.7491C13.2688 16.275 12.7234 16.6902 12.2825 16.4096L8.3019 13.8769C8.1164 13.7589 7.8836 13.7589 7.6981 13.8769L3.71755 16.4096C3.27661 16.6902 2.73118 16.275 2.84964 15.7491L3.91901 11.0008C3.96884 10.7795 3.8969 10.5476 3.73243 10.3992L0.202937 7.21621C-0.188028 6.86363 0.0203079 6.19196 0.534448 6.14744L5.17591 5.7455C5.39221 5.72677 5.58055 5.58343 5.66439 5.37373L7.4636 0.873843Z" fill="#97B6CF"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_5227_4752">
+            <rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
+            </clipPath>
+            </defs>
+            </svg>
+            }</h5>
+           <ProgressBar style={{ flex: 1, margin: "0 10px" }}>
+             <ProgressBar now={item.percentage[key]} />
+           </ProgressBar>
+           <h5>{item.rating[key]}</h5>
+         </div>
+         
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Col>
+</Row>
+
         <Row>
           <Col>
             <div className="survey_data">
               <div className="survey_data_heading d-flex align-items-center justify-content-between">
                 <h4>Survey Data</h4>
                 {/* {data?.length > 0 ? ( */}
-                  <div className="clear-search d-flex align-items-center">
-                    <a
-                      className={`copy_link btn-voilet`}
-                       // href={`${window.location.protocol}//${window.location.host}survey/survey-question-form?event=${eventData?.eventCode}`} 
-                      href={`https://events.docintel.app/survey/survey-question-form?event=${eventData?.eventCode}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        // if (!isDataSaved) {
-                        //   return;
-                        // }
-                        console.dir();
-                        let newLink =e.currentTarget.getAttribute("href");
-                        copyToClipboard(newLink);
-                      }}
-                    >
-                      Copy Survey Link
-                    </a>
-                    {data?.length > 0 ? (
+                <div className="clear-search d-flex align-items-center">
+                  <a
+                    className={`copy_link btn-voilet`}
+                    // href={`${window.location.protocol}//${window.location.host}survey/survey-question-form?event=${eventData?.eventCode}`}
+                    href={`https://events.docintel.app/survey/survey-question-form?event=${eventData?.eventCode}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      // if (!isDataSaved) {
+                      //   return;
+                      // }
+                      console.dir();
+                      let newLink = e.currentTarget.getAttribute("href");
+                      copyToClipboard(newLink);
+                    }}
+                  >
+                    Copy Survey Link
+                  </a>
+                  {data?.length > 0 ? (
                     <button
                       className="btn print"
                       title="Download data"
@@ -206,17 +382,15 @@ const SurveyQuestionFormData = () => {
                         />
                       </svg>
                     </button>
-                     ) : (
-                      ""
-                    )}
-                    
-                  </div>
-                 {/* ) : (
+                  ) : (
+                    ""
+                  )}
+                </div>
+                {/* ) : (
                  ""
                  )} */}
-
               </div>
-              
+
               {data?.length > 0 ? (
                 <div className="survey_data_details">
                   <div className="survey_data_accordion_heading">
@@ -231,13 +405,18 @@ const SurveyQuestionFormData = () => {
                   {data?.map((item, index) => {
                     return (
                       <>
-                        <Accordion 
+                        <Accordion
                           key={index}
                           activeKey={openAccordionIndex === index ? "0" : null}
                           onSelect={() => handleAccordionOpen(index)}
                           className="content_analytics_accordian"
                         >
-                          <Accordion.Item eventKey="0"   ref={(ref) => { accordionRefs.current[index] = ref; }}>
+                          <Accordion.Item
+                            eventKey="0"
+                            ref={(ref) => {
+                              accordionRefs.current[index] = ref;
+                            }}
+                          >
                             <Accordion.Header>
                               <ul>
                                 <li>{item?.name ? item?.name : "N/A"}</li>
