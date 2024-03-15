@@ -207,6 +207,7 @@ import WebinarSmartlistFilterSegment from "./Components/NewWebinar/WebinarFiles/
 import WebinarSmartlistVerifyList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/VerifySmartList";
 import WebinarSmartlistViewList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/ViewList";
 import WebinarSmartlistUploadExcel from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/UploadExcel";
+import WebinarSelectSmartListUsersLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectSmartListUsersLayout";
 
 
 let platform = 0;
@@ -655,6 +656,10 @@ const Routing = () => {
         <Route
           path="/webinar/email/selectSmartList"
           element={<LoginLayout component={WebinarSelectSmartList} />}
+        />
+        <Route
+          path="/webinar/email/selectSmartListUsers"
+          element={<LoginLayout component={WebinarSelectSmartListUsersLayout} />}
         />
         <Route
           path="/webinar/analytics"

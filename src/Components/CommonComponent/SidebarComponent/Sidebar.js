@@ -13,6 +13,7 @@ let video_poster = "";
 const Sidebar = () => {
   let navigate = useNavigate();
   let c_id = 0;
+  let webinar_c_id=0;
   const location = useLocation();
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -194,6 +195,14 @@ const Sidebar = () => {
     video_poster = "/componentAssets/images/create-content.png";
   }
 
+  //webinar email smartlist createNewSmartList
+if(location.pathname == "webinar/email/smartlist/createsmartlist"){
+  if (localStorage.getItem("webinar_sd_i")) {
+    webinar_c_id = localStorage.getItem("webinar_sd_i");
+  }
+}
+
+
 
   // useEffect(() => {
   //   const currentLocation = window.location.pathname;
@@ -239,10 +248,11 @@ const Sidebar = () => {
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
     location.pathname === '/webinar/email/selectHCP' ||
-    location.pathname === '/webinar/email/selectSmartList'
+    location.pathname === '/webinar/email/selectSmartList'||
+    (location.pathname == "/webinar/email/smartlist/createsmartlist" &&webinar_c_id ==0)
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
-                            location.pathname == "/webinar/email/smartlist/createsmartlist"||
+                            (location.pathname == "/webinar/email/smartlist/createsmartlist" &&webinar_c_id !=0)||
                             location.pathname == "/webinar/email/smartlist/smartlistfilter"||
                             location.pathname == "/webinar/email/smartlist/uploadsmartlist"||
                             location.pathname == "/webinar/email/smartlist/editlist"||
@@ -1225,7 +1235,7 @@ const Sidebar = () => {
                       location.pathname == "/webinar/email" || 
                       location.pathname == "/webinar/email/auto-emails" || 
                       location.pathname == "/webinar/email/smartlist"||
-                      location.pathname == "/webinar/email/smartlist/createsmartlist"||
+                      
                       location.pathname == "/webinar/email/smartlist/smartlistfilter"||
                       location.pathname == "/webinar/email/smartlist/uploadsmartlist"||
                       location.pathname == "/webinar/email/smartlist/editlist"||
@@ -1236,7 +1246,8 @@ const Sidebar = () => {
                       location.pathname == "/webinar/email/smartlist/verifylist"||
                       location.pathname == "/webinar/email/create-new-email"||
                       location.pathname === '/webinar/email/selectHCP'||
-                      location.pathname ==='/webinar/email/selectSmartList'
+                      location.pathname ==='/webinar/email/selectSmartList'||
+                      location.pathname == "/webinar/email/smartlist/createsmartlist"
                         ? "active sub-links"
                         : "side_li sub-links"
                     }
