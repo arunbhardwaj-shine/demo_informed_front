@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 import { loader } from "../../../loader";
 import { connect } from "react-redux";
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import { Button, Col, Modal, Row, Tabs, Tab } from "react-bootstrap";
 import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import Accordion from "react-bootstrap/Accordion";
 import CommonModel from "../../../Model/CommonModel";
+import { Tooltip } from "react-bootstrap";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
@@ -365,6 +367,24 @@ const SmartList = (props) => {
     getSmartListData(0, 2);
     setloadmore(1);
   };
+
+  const tabClicked = async (type, id) => {
+    console.log(type, id);
+  }
+
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
 
   return (
     <>
@@ -843,6 +863,219 @@ const SmartList = (props) => {
                 smartListData.length > 0 ? (
                   smartListData.map((data,index) => {
                     return (
+                      localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                      <div className="smartlist_box_block">
+                        <div className="smartlist-view email_box">
+                          <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
+                              <h5 contenteditable="true">{data.name}</h5>
+                              <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
+                            </div>
+                            <div className="tabs-data">
+                              <Tabs
+                                onSelect={(key) => tabClicked(key, data?.id)}
+                                defaultActiveKey="list-info"
+                                fill
+                              >
+                                <Tab
+                                  eventKey="list-info"
+                                  title="List info"
+                                  className="flex-column justify-content-between"
+                                >
+                                  <div className="tab-panel d-flex flex-column justify-content-between">
+                                    <ul className="tab-mail-list">
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          IBU
+                                        </h6>
+                                        <h6>
+                                          {data?.ibu ? data?.ibu : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Created by
+                                        </h6>
+                                        <h6>
+                                          {data?.creator ? data?.creator : "N/A"}
+                                        </h6>
+                                      </li>
+                                    </ul> 
+                                  </div>
+                                </Tab>
+                                <Tab
+                                eventKey="more-details"
+                                title="More details"
+                                className="flex-column justify-content-between"
+                                >
+                                  <div className="tab-panel d-flex flex-column justify-content-between">
+                                    <ul className="tab-mail-list">
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Last used
+                                        </h6>
+                                        <h6>
+                                          April 9 2024 | 10:00 AM
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Registered
+                                        </h6>
+                                        <h6>
+                                          No
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Country
+                                        </h6>
+                                        <h6>
+                                          India
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        List use
+                                        <LinkWithTooltip tooltip="Number of time list user to send emails.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <h6>
+                                          1
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Emails sent
+                                        <LinkWithTooltip tooltip="Number of total email sent.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <h6>
+                                          20
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Avg opening rate
+                                        <LinkWithTooltip tooltip="Number of average opening counts.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <h6>
+                                          5
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Avg CTR
+                                        <LinkWithTooltip tooltip="Number of average CTR.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <h6>
+                                          2
+                                        </h6>
+                                      </li>
+                                    </ul> 
+                                  </div>
+                                </Tab>
+                              </Tabs>
+                            </div>
+
+                            <div className="mail-time">
+                              <span>{data?.created_at}</span>
+                            </div>
+                            <div className="smart-list-added-user">
+                              <img
+                                src={path_image + "smartlist-user.svg"}
+                                alt="User icon"
+                              />
+                              {data?.readers_count}
+                            </div>
+                            <div className="smartlist-buttons">
+                              {!deletestatus && (
+                                <>
+                                  {data.upload_by_filter == 1 ? (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/EditList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  ) : (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/ViewSmartList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  )}
+
+                                  <Link
+                                    className="btn btn-primary btn-filled view"
+                                    to={{
+                                      pathname: "/ViewSmartList",
+                                      search: "?listId=" + data.id,
+                                    }}
+                                    onClick={() => linkClicked(data.id)}
+                                  >
+                                    View
+                                  </Link>
+                                </>
+                              )}
+                            </div>
+                            {deletestatus && (
+                              <div className="dlt_btn">
+                                <button
+                                  onClick={(e) =>
+                                    showConfirmationPopup(data.id)
+                                  }
+                                >
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      :
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
