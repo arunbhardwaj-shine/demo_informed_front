@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { loader } from "../../../loader";
 import { connect } from "react-redux";
-import { Button, Col, Modal, Row, Tabs, Tab } from "react-bootstrap";
+import { Button, Col, Modal, Row, Tabs, Tab,ProgressBar } from "react-bootstrap";
 import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
@@ -34,6 +34,8 @@ const SmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [getloadmore, setloadmore] = useState(0);
   const [show,setShow] = useState(false)
+  const [opening_details, setOpeningDetails] = useState([]);
+  const [flag, setFlag] = useState(0);
   const [userObj, setUserObj] = useState({
     "name":""
   });
@@ -369,7 +371,27 @@ const SmartList = (props) => {
   };
 
   const tabClicked = async (type, id) => {
-    console.log(type, id);
+    if (type == "more-details") {
+      let index = opening_details.findIndex((el) => el?.listid == id);
+      if (index === -1) {
+        let normal_data = opening_details;
+        try {
+          let body = {
+            user_id: localStorage.getItem('user_id'),
+            list_id: id,
+          };
+          const res =  await axios.post(`distributes/get_list_more_details`,body);
+          if (res?.data?.response) {
+            let new_data = res?.data?.response;
+            normal_data.push(new_data);
+            setOpeningDetails(normal_data);
+            setFlag(flag + 1);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
   }
 
 
@@ -896,7 +918,7 @@ const SmartList = (props) => {
                                         <h6 className="tab-content-title">
                                         Created by
                                         </h6>
-                                        <h6>
+                                        <h6 className="list_creator">
                                           {data?.creator ? data?.creator : "N/A"}
                                         </h6>
                                       </li>
@@ -915,7 +937,16 @@ const SmartList = (props) => {
                                           Last used
                                         </h6>
                                         <h6>
-                                          April 9 2024 | 10:00 AM
+                                          {
+                                            opening_details.findIndex(
+                                              (el) => el.listid == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                )
+                                              ].last_email : "N/A"
+                                          }
                                         </h6>
                                       </li>
                                       <li>
@@ -931,7 +962,16 @@ const SmartList = (props) => {
                                         Country
                                         </h6>
                                         <h6>
-                                          India
+                                        {
+                                            opening_details.findIndex(
+                                              (el) => el.listid == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                )
+                                              ]?.country : "N/A"
+                                          }
                                         </h6>
                                       </li>
                                       <li>
@@ -947,9 +987,23 @@ const SmartList = (props) => {
                                           />
                                         </LinkWithTooltip>
                                         </h6>
-                                        <h6>
-                                          1
-                                        </h6>
+                                          <div className="data-progress qr-opening">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_list_send
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -964,9 +1018,23 @@ const SmartList = (props) => {
                                           />
                                         </LinkWithTooltip>
                                         </h6>
-                                        <h6>
-                                          20
-                                        </h6>
+                                        <div className="data-progress send">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_sent
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -981,9 +1049,23 @@ const SmartList = (props) => {
                                           />
                                         </LinkWithTooltip>
                                         </h6>
-                                        <h6>
-                                          5
-                                        </h6>
+                                        <div className="data-progress open">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_open
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -998,9 +1080,23 @@ const SmartList = (props) => {
                                           />
                                         </LinkWithTooltip>
                                         </h6>
-                                        <h6>
-                                          2
-                                        </h6>
+                                        <div className="data-progress delivered">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_ctr
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
                                       </li>
                                     </ul> 
                                   </div>
