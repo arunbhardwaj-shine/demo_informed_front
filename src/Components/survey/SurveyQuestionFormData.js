@@ -28,6 +28,7 @@ const SurveyQuestionFormData = () => {
       overall_rating: 0,
       total_users_answered: 0,
       type: "rating",
+      color : ['#FF5733', '#FFC300', '#DAF7A6', '#C70039', '#900C3F']
     },
     future_clinical: {
       rating: { Yes: 0, No: 0 },
@@ -36,7 +37,7 @@ const SurveyQuestionFormData = () => {
       total_users_answered: 0,
       questionName: "I plan to attend future Clinical Practice patient cases:",
       type: "choice",
-
+      color : ['#FF5733', '#FFC300']
     },
 
     recommend_clinical: {
@@ -46,7 +47,7 @@ const SurveyQuestionFormData = () => {
       questionName: "Would you recommend Clinical Practice to a colleague?",
       total_users_answered: 0,
       type: "choice",
-
+      color : ['#FF5733', '#FFC300']
     },
     suggestion: {
       rating: { Suggestion: 0 },
@@ -57,6 +58,7 @@ const SurveyQuestionFormData = () => {
         type: "choice",
 
       total_users_answered: 0,
+      color : ['#FF5733']
     },
   });
   useEffect(() => {
@@ -367,7 +369,7 @@ const SurveyQuestionFormData = () => {
 
           </div>
           <div className="post-survey-rating">
-            {Object.entries(item.rating).map(([key, value]) => (
+            {Object.entries(item.rating).map(([key, value],colorIndex) => (
               <div key={key} className="survey-rating-detail">
            <h5 >{key} {item.type === "rating"  && <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_5227_4752)">
@@ -381,7 +383,9 @@ const SurveyQuestionFormData = () => {
             </svg>
             }</h5>
            <ProgressBar style={{ flex: 1, margin: "0 10px" }}>
-             <ProgressBar now={item.percentage[key]} />
+             <ProgressBar now={item.percentage[key]} 
+            style={{ backgroundColor: item.color[colorIndex] }}
+             />
            </ProgressBar>
                 <h5 className="survey-rating-number">{item.rating[key]}</h5>
          </div>
