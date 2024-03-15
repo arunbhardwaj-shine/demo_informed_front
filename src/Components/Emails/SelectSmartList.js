@@ -66,6 +66,7 @@ const SelectSmartList = (props) => {
   const [filter, setFilter] = useState("");
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
+  const [getFilterCreator, setFilterCreator] = useState([]);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -528,10 +529,34 @@ const SelectSmartList = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleCreatorChange = (creator) => {
+    let get_creator_index = getFilterCreator.indexOf(creator);
+    if (get_creator_index !== -1) {
+      getFilterCreator.splice(get_creator_index, 1);
+      setFilterCreator(getFilterCreator);
+    } else {
+      getFilterCreator.push(creator);
+      setFilterCreator(getFilterCreator);
+    }
+
+    let getfilter = getFilterCreator;
+    if (getfilter.hasOwnProperty("creator")) {
+      getfilter.name = getFilterCreator;
+    } else {
+      getfilter = Object.assign({ creator: getFilterCreator }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const removeindividualfilter = (src, item) => {
     loader("show");
     if (src == "ibu") {
       handleIBUFilterChange(item);
+    }else if (src == "creator") {
+      handleCreatorChange(item);
     }
     if (filterapplied) {
       getSmartListData(1);
@@ -659,6 +684,7 @@ const SelectSmartList = (props) => {
 
                         {updateflag > 0 &&
                           (
+                            getFilterCreator.length > 0 ||
                             getFilterIbu.length > 0 ) && (
                             <div className="apply-filter">
                               <div className="filter-block">
@@ -676,6 +702,33 @@ const SelectSmartList = (props) => {
                                               className="filter-result"
                                               onClick={(event) =>
                                                 removeindividualfilter("ibu", item)
+                                              }
+                                            >
+                                              {item}
+                                              <img
+                                                src={path_image + "filter-close.svg"}
+                                                alt="Close-filter"
+                                              />
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {getFilterCreator.length > 0 && (
+                                    <div className="filter-div">
+                                      <div className="filter-div-title">
+                                        <span>Creator |</span>
+                                      </div>
+                                      <div className="filter-div-list">
+                                        {Object.entries(getFilterCreator).map(
+                                          ([index, item]) => (
+                                            <div
+                                              key={item}
+                                              className="filter-result"
+                                              onClick={(event) =>
+                                                removeindividualfilter("creator", item)
                                               }
                                             >
                                               {item}
@@ -797,11 +850,46 @@ const SelectSmartList = (props) => {
                                         </ul>
                                       </Accordion.Body>
                                     </Accordion.Item>
-                                  )}  
+                                  )}
 
-                              
-
-                                
+                                  {filterdata.hasOwnProperty("creator") &&
+                                    filterdata.creator.length > 0 && (
+                                      <Accordion.Item className="card" eventKey="1">
+                                        <Accordion.Header className="card-header">
+                                          Creator
+                                        </Accordion.Header>
+                                        <Accordion.Body className="card-body">
+                                          <ul>
+                                            {Object.entries(filterdata.creator).map(
+                                              ([index, item]) => (
+                                                <li key={item}>
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={`custom-checkbox-creator-${index}`}
+                                                      name="creator[]"
+                                                      value={item}
+                                                      checked={
+                                                        updateflag > 0 &&
+                                                        typeof getFilterCreator !==
+                                                          "undefined" &&
+                                                        getFilterCreator.indexOf(item) !==
+                                                          -1
+                                                      }
+                                                      onChange={() =>
+                                                        handleCreatorChange(item)
+                                                      }
+                                                    />
+                                                    {item}
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        </Accordion.Body>
+                                      </Accordion.Item>
+                                  )}
                               </Accordion>
                               <div className="filter-footer">
                                 <button
