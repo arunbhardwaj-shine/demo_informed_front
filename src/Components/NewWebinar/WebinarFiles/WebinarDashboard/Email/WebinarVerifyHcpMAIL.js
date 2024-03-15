@@ -10,10 +10,18 @@ import { loader } from "../../../../../loader";
 import { geWebinarCampaignId } from "../../../../../actions";
 import { popup_alert } from "../../../../../popup_alert";
 import { toast } from "react-toastify";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 const WebinarVerifyHcpMAIL = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { eventIdContext, handleEventId } = useSidebar()
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+    const [eventId, setEventId] = useState(
+        eventIdContext?.eventId
+            ? eventIdContext?.eventId
+            : localStorageEvent?.eventId
+    );
     const [isOpen, setIsOpen] = useState(false);
     const [campaign_id_st, setCampaign_id] = useState();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -40,9 +48,7 @@ const WebinarVerifyHcpMAIL = (props) => {
     const PdfSelected = location.state
         ? location.state?.PdfSelected
         : props.getWebinarDraftData?.PdfSelected;
-
     const [getpdfdata, setPdfData] = useState([]);
-
     const [getReaderDetails, setReaderDetails] = useState({});
     const [getSmartListName, setSmartListName] = useState("");
     const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
@@ -155,9 +161,10 @@ const WebinarVerifyHcpMAIL = (props) => {
     const saveAsDraft = async () => {
         const body = {
             user_id: localStorage.getItem("user_id"),
-            pdf_id: props.getWebinarEmailData?.PdfSelected
-                ? props.getWebinarEmailData?.PdfSelected
-                : props.getWebinarDraftData?.pdf_id,
+            // pdf_id: props.getWebinarEmailData?.PdfSelected
+            //     ? props.getWebinarEmailData?.PdfSelected
+            //     : props.getWebinarDraftData?.pdf_id,
+            eventId:eventId,
             description: props.getWebinarEmailData?.emailDescription
                 ? props.getWebinarEmailData?.emailDescription
                 : props.getWebinarDraftData?.description
