@@ -84,7 +84,7 @@ const WebinarSelectHCP=(props)=>{
           campaign_id: campaign_id_st,
           source_code: old_object?.template
             ? old_object?.template
-            : props?.getWebinarDraftData?.template,
+            : props?.getWebinarDraftData?.source_code,
           status: 2,
         };
     

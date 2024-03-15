@@ -1077,7 +1077,7 @@ const ChatLinkPage = () => {
                             ):  formData?.templateId === 8 ? (
                               <>
                                 <div
-                                  className="head-sec template2"
+                                  className="head-sec template2 isth"
                                 > <img
                                 src={
                                   formData?.headerImage
