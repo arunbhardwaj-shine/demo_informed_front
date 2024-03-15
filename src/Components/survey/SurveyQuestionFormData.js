@@ -30,8 +30,8 @@ const SurveyQuestionFormData = () => {
       type: "rating",
     },
     future_clinical: {
-      rating: { yes: 0, no: 0 },
-      percentage: { yes: 0, no: 0 },
+      rating: { Yes: 0, No: 0 },
+      percentage: { yes: 0, No: 0 },
       overall_rating: 0,
       total_users_answered: 0,
       questionName: "I plan to attend future Clinical Practice patient cases:",
@@ -40,8 +40,8 @@ const SurveyQuestionFormData = () => {
     },
 
     recommend_clinical: {
-      rating: { yes: 0, no: 0 },
-      percentage: { yes: 0, no: 0 },
+      rating: { Yes: 0, No: 0 },
+      percentage: { Yes: 0, No: 0 },
       overall_rating: 0,
       questionName: "Would you recommend Clinical Practice to a colleague?",
       total_users_answered: 0,
@@ -49,8 +49,8 @@ const SurveyQuestionFormData = () => {
 
     },
     suggestion: {
-      rating: { suggestion: 0 },
-      percentage: { suggestion: 0 },
+      rating: { Suggestion: 0 },
+      percentage: { Suggestion: 0 },
       overall_rating: 0,
       questionName:
         "Please suggest a topic for a future Clinical Practice patient case:",
@@ -280,12 +280,11 @@ const SurveyQuestionFormData = () => {
       <div className="custom-container">
       <Row>
     <Col>
-    <div className="survey-rating" style={{ display: "flex", alignItems: "center" }}>
+    <div className="survey-rating" style={{ display: "flex"}}>
       {Object.values(progressBarData).map((item, index) => (
-        <div key={index} className="question-rating">
+        <div key={index} className="question-rating col">
           <div className="question">
-            <h4>Q{index + 1}</h4>
-            <p>{item.questionName}</p>
+            <div className="question-list"><span>Q{index + 1}:</span> <p>{item.questionName}</p></div>
           </div>
           <div className="rating">
           <h2 dangerouslySetInnerHTML={{
@@ -300,15 +299,15 @@ const SurveyQuestionFormData = () => {
             </clipPath>
             </defs>
             </svg>
-            | ${item.total_users_answered}  rating`
-            : `${item.total_users_answered} | ${data.length} answered`
+          <span> ${item.total_users_answered} <small>rating</small></span>`
+              : `${item.total_users_answered} <span> ${data.length} <small>answered</small></span>`
         }}>
         </h2>
 
           </div>
-          <div>
+          <div className="post-survey-rating">
             {Object.entries(item.rating).map(([key, value]) => (
-           <div key={key} >
+              <div key={key} className="survey-rating-detail">
            <h5 >{key} {item.type === "rating"  && <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_5227_4752)">
             <path d="M7.4636 0.873843C7.6629 0.375386 8.3371 0.375386 8.5364 0.873843L10.3356 5.37373C10.4195 5.58343 10.6078 5.72677 10.8241 5.7455L15.4656 6.14744C15.9797 6.19196 16.188 6.86363 15.7971 7.21621L12.2676 10.3992C12.1031 10.5476 12.0312 10.7795 12.081 11.0008L13.1504 15.7491C13.2688 16.275 12.7234 16.6902 12.2825 16.4096L8.3019 13.8769C8.1164 13.7589 7.8836 13.7589 7.6981 13.8769L3.71755 16.4096C3.27661 16.6902 2.73118 16.275 2.84964 15.7491L3.91901 11.0008C3.96884 10.7795 3.8969 10.5476 3.73243 10.3992L0.202937 7.21621C-0.188028 6.86363 0.0203079 6.19196 0.534448 6.14744L5.17591 5.7455C5.39221 5.72677 5.58055 5.58343 5.66439 5.37373L7.4636 0.873843Z" fill="#97B6CF"/>
@@ -323,7 +322,7 @@ const SurveyQuestionFormData = () => {
            <ProgressBar style={{ flex: 1, margin: "0 10px" }}>
              <ProgressBar now={item.percentage[key]} />
            </ProgressBar>
-           <h5>{item.rating[key]}</h5>
+                <h5 className="survey-rating-number">{item.rating[key]}</h5>
          </div>
          
             ))}

@@ -19434,6 +19434,143 @@ img.change-password-image {
 }
 
 /**survey data end**/
+
+/**Survey rating**/
+.survey-rating {
+  gap: 67px 4%;
+  flex-wrap: wrap;
+  padding:70px 0 40px;
+
+  .question-rating {
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+    padding: 16px;
+    width: 22%;
+    flex: 0 0 22%;
+
+    .question-list {
+      display: flex;
+      align-items: flex-start;
+
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: normal;
+        color: #70899E;
+      }
+
+      span {
+        font-size: 16px;
+        color: #004A89;
+        font-weight: 500;
+        line-height: normal;
+        margin-right: 8px;
+      }
+    }
+
+    .rating {
+      padding: 32px 0;
+      position: relative;
+
+      &:after {
+        border-bottom: 1px dashed #97B6CF;
+        bottom: 0;
+        content: "";
+        position: absolute;
+        width: calc(100% + 32px);
+        left: -16px;
+      }
+
+      h2 {
+        color: #004A89;
+        font-size: 36px;
+        font-weight: 500;
+        line-height: normal;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+
+        svg {
+          margin-left: 8px;
+        }
+
+        span {
+          color: #70899E;
+          font-size: 24px;
+          font-weight: 500;
+          line-height: normal;
+          padding-left: 22px;
+          position: relative;
+
+          &::before {
+            content: "";
+            position: absolute;
+            left: 17px;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: #97B6CF;
+          }
+
+          small {
+            color: #70899E;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+
+    .post-survey-rating {
+      gap: 20px;
+      @include vertical-list;
+      padding: 25px 0 0;
+
+      .survey-rating-detail {
+        @include flex-center;
+        width: 100%;
+
+        &>h5 {
+          display: flex;
+          align-items: center;
+          color: #97B6CF;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: normal;
+          text-transform: capitalize;
+          min-width: 26px;
+
+          svg {
+            padding: 0 0 0 2px;
+          }
+        }
+
+        .progress {
+          border-radius: 30px;
+          min-height: 20px;
+          background: #EAF0F5;
+
+          .progress-bar {
+            border-radius: 30px;
+            min-width: 18px;
+          }
+        }
+
+        .survey-rating-number {
+          color: #004A89;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: normal;
+          min-width: 40px;
+        }
+      }
+    }
+  }
+}
+
+/**Survey rating end**/
 /**Landing page Responsive Start**/
 @media only screen and (max-width: 1650px) {
   .landing-banner {
