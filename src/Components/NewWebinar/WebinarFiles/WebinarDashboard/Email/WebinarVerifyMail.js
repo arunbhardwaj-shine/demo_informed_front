@@ -9,7 +9,7 @@ import { compose } from "redux";
 import { loader } from "../../../../../loader";
 //import { connect } from "react-redux";
 import { getWebinarCampaignId } from "../../../../../actions";
-import { popup_alert } from "../../popup_alert";
+import { popup_alert } from "../../../../../popup_alert";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 
@@ -46,19 +46,19 @@ const WebinarVerifyMAIL = (props) => {
   const [template_source_code, setTemplate] = useState(
     props.getWebinarEmailData?.template
       ? props.getWebinarEmailData?.template
-      : props.getWebinarDraftData.source_code
+      : props.getWebinarDraftData?.source_code
   );
 
-  var var_template_source_code = template_source_code.replaceAll("800", "450");
-  var_template_source_code = var_template_source_code.replaceAll("600", "450");
+  var var_template_source_code = template_source_code?.replaceAll("800", "450");
+  var_template_source_code = var_template_source_code?.replaceAll("600", "450");
 
   const selectedHcp = location?.state
     ? location.state?.selectedHcp
     : props.getWebinarDraftData?.campaign_data?.selectedHcp;
 
-//   const PdfSelected = location.state
-//     ? location.state.PdfSelected
-//     : props.getDraftData.PdfSelected;
+  const PdfSelected = location.state
+    ? location.state?.PdfSelected
+    : props.getWebinarDraftData?.PdfSelected;
 
 
   const [getpdfdata, setPdfData] = useState([]);
