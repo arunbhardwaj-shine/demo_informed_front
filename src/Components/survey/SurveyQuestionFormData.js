@@ -19,10 +19,12 @@ const SurveyQuestionFormData = () => {
 
   const [data, setData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
+  const [usersData, setUsersData] = useState(null);
   const [progressBarData, setProgressBarData] = useState({
     patient_case_rating: {
       rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       percentage: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      usersData: { 1: [], 2: [], 3: [], 4: [], 5: [] },
       questionName:
         "How relevant was this patient case to your clinical practice?",
       overall_rating: 0,
@@ -107,10 +109,12 @@ const SurveyQuestionFormData = () => {
         recommend_clinical: { yes: 0, no: 0 },
         suggestion: { suggestion: 0 },
       };
+     let usersData={patient_case_rating:{ 1: [], 2: [], 3: [], 4: [], 5: [] }};
+
 
       // Count occurrences of ratings and answers
       data.forEach((item) => {
-        const { survey_data } = item;
+        const { survey_data ,...rest} = item;
         Object.keys(survey_data).forEach((key) => {
           if (survey_data[key]) {
             if (isObject(survey_data[key])) {
@@ -119,6 +123,7 @@ const SurveyQuestionFormData = () => {
                 const rating = survey_data[key][subKey];
                 if (rating >= 1 && rating <= 5) {
                   countObjects[subKey][rating.toString()]++;
+                  usersData[subKey][rating.toString()].push(rest);
                 }
               } else if (
                 subKey === "future_clinical" ||
@@ -136,6 +141,7 @@ const SurveyQuestionFormData = () => {
         });
       });
 
+      setUsersData(usersData);
       Object.keys(updatedProgressBarData).forEach((key) => {
         updatedProgressBarData[key]["rating"] = { ...countObjects[key] };
       });
@@ -167,7 +173,7 @@ const SurveyQuestionFormData = () => {
           totalCount > 0 ? (weightedSum / sum).toFixed(2) : 0;
         updatedProgressBarData[key]["total_users_answered"] = totalCount;
       });
-      // console.log(updatedProgressBarData);
+      console.log(usersData);
       setProgressBarData(updatedProgressBarData);
     } catch (error) {
       console.error("An error occurred while processing the data:", error);
