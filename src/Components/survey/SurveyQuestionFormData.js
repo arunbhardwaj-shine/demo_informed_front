@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { Accordion, Col, ProgressBar, Row } from "react-bootstrap";
+import { Accordion, Col, Modal, ProgressBar, Row } from "react-bootstrap";
 import { useSidebar } from "../CommonComponent/LoginLayout";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
@@ -16,8 +16,13 @@ const SurveyQuestionFormData = () => {
   const [eventData, setEventData] = useState(
     eventIdContext ? eventIdContext : localStorageEvent
   );
+ 
+ const [modalOpen,setModalOpen] = useState(false)
+
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [data, setData] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [usersData, setUsersData] = useState(null);
   const [progressBarData, setProgressBarData] = useState({
@@ -29,7 +34,7 @@ const SurveyQuestionFormData = () => {
       overall_rating: 0,
       total_users_answered: 0,
       type: "rating",
-      color: ['#0066BE', '#8A4E9C', '#F58289', '#FAC755', '#39CABC']
+      color: [  '#39CABC','#FAC755','#F58289','#8A4E9C','#0066BE',  ]
     },
     future_clinical: {
       rating: { Yes: 0, No: 0 },
@@ -38,7 +43,7 @@ const SurveyQuestionFormData = () => {
       total_users_answered: 0,
       questionName: "I plan to attend future Clinical Practice patient cases:",
       type: "choice",
-      color : ['#FF5733', '#FFC300']
+      color : [ '#39CABC','#FAC755']
     },
 
     recommend_clinical: {
@@ -48,7 +53,7 @@ const SurveyQuestionFormData = () => {
       questionName: "Would you recommend Clinical Practice to a colleague?",
       total_users_answered: 0,
       type: "choice",
-      color : ['#FF5733', '#FFC300']
+      color : [ '#39CABC','#FAC755']
     },
     suggestion: {
       rating: { Suggestion: 0 },
@@ -56,10 +61,10 @@ const SurveyQuestionFormData = () => {
       overall_rating: 0,
       questionName:
         "Please suggest a topic for a future Clinical Practice patient case:",
-        type: "choice",
+        type: "suggestion",
 
       total_users_answered: 0,
-      color : ['#FF5733']
+      color : ['#39CABC']
     },
   });
   useEffect(() => {
@@ -108,7 +113,9 @@ const SurveyQuestionFormData = () => {
         recommend_clinical: { yes: 0, no: 0 },
         suggestion: { suggestion: 0 },
       };
-     let usersData={ 1: [], 2: [], 3: [], 4: [], 5: [] };
+     let usersData={ patient_case_rating:{1: [], 2: [], 3: [], 4: [], 5: []},  future_clinical: { yes: [], no: [] },
+     recommend_clinical: { yes: [], no: [] },
+     suggestion: { suggestion: [] } };
 
 
       // Count occurrences of ratings and answers
@@ -122,7 +129,7 @@ const SurveyQuestionFormData = () => {
                 const rating = survey_data[key][subKey];
                 if (rating >= 1 && rating <= 5) {
                   countObjects[subKey][rating.toString()]++;
-                  usersData[rating.toString()].push(rest);
+                  usersData[subKey][rating.toString()].push(rest);
                 }
               } else if (
                 subKey === "future_clinical" ||
@@ -131,10 +138,14 @@ const SurveyQuestionFormData = () => {
                 const answer = survey_data[key][subKey];
                 if (answer === "yes" || answer === "no") {
                   countObjects[subKey][answer]++;
+                  usersData[subKey][answer].push(rest);
+
                 }
               }
             } else if (survey_data[key].trim() !== "") {
               countObjects[key]["suggestion"]++;
+              usersData[key]["suggestion"].push(rest);
+
             }
           }
         });
@@ -172,12 +183,26 @@ const SurveyQuestionFormData = () => {
           totalCount > 0 ? (weightedSum / sum).toFixed(2) : 0;
         updatedProgressBarData[key]["total_users_answered"] = totalCount;
       });
-      console.log(usersData);
+      // console.log(usersData);
+      // console.log(updatedProgressBarData)
       setProgressBarData(updatedProgressBarData);
     } catch (error) {
       console.error("An error occurred while processing the data:", error);
     }
   }, [data]);
+
+  const handleModal = (key ,userValue) => {
+    // console.log(  key ,userValue,'rytryh',usersData[userValue][key])
+    setModalOpen(true)
+    // setUserData(usersData[userValue][key])
+    if (usersData != null) {
+      setUserData(usersData[userValue][key]);
+    } 
+  };
+  
+  const handleModalClose = () => {
+    setModalOpen(false)
+  };
 
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -349,15 +374,15 @@ const SurveyQuestionFormData = () => {
               </div>
 
               <div className="survey-rating" style={{ display: "flex"}}>
-      {Object.values(progressBarData).map((item, index) => (
+              {Object.entries(progressBarData).map(([userValue, item], index) => (
         <div key={index} className="question-rating col">
           <div className="question">
-            <div className="question-list"><span>Q{index + 1}:</span> <p>{item.questionName}</p></div>
+            <div className="question-list"><span>Q{index + 1}:</span> <p>{item?.questionName}</p></div>
           </div>
           <div className="rating">
           <h2 dangerouslySetInnerHTML={{
-          __html: item.type === "rating" 
-            ? `${item.overall_rating} <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          __html: item?.type === "rating" 
+            ? `${item?.overall_rating} <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_5227_4798)">
             <path d="M11.1954 0.560765C11.4944 -0.186922 12.5056 -0.186922 12.8046 0.560765L15.5034 7.31059C15.6292 7.62514 15.9117 7.84016 16.2361 7.86825L23.1983 8.47116C23.9695 8.53794 24.282 9.54544 23.6956 10.0743L18.4014 14.8489C18.1546 15.0713 18.0467 15.4192 18.1215 15.7512L19.7255 22.8736C19.9032 23.6626 19.0851 24.2852 18.4237 23.8644L12.4529 20.0654C12.1746 19.8884 11.8254 19.8884 11.5472 20.0654L5.57632 23.8644C4.91492 24.2852 4.09678 23.6626 4.27446 22.8736L5.87852 15.7512C5.95327 15.4192 5.84536 15.0713 5.59864 14.8489L0.304406 10.0743C-0.282043 9.54544 0.0304618 8.53794 0.801672 8.47116L7.76386 7.86825C8.08831 7.84016 8.37082 7.62514 8.49659 7.31059L11.1954 0.560765Z" fill="#004A89"/>
             </g>
@@ -367,14 +392,16 @@ const SurveyQuestionFormData = () => {
             </clipPath>
             </defs>
             </svg>
-          <span> ${item.total_users_answered} <small>rating</small></span>`
-              : `${item.total_users_answered} <span> ${data.length} <small>answered</small></span>`
+          <span> ${item.total_users_answered}  <small>rating</small></span>`
+              :  item.type === "suggestion" 
+              ? ` ${item?.rating?.suggestion   || 0 } <span> ${data?.length} <small>answered</small></span>`
+                :`${item?.total_users_answered} <span> ${data?.length} <small>answered</small></span>`
         }}>
         </h2>
 
           </div>
           <div className="post-survey-rating">
-            {Object.entries(item.rating).map(([key, value],colorIndex) => (
+            {Object.entries(item.rating).sort((a, b) => parseInt(b) - parseInt(a)).map(([key, value],colorIndex) => (
               <div key={key} className="survey-rating-detail">
            <h5 >{key} {item.type === "rating"  && <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_5227_4752)">
@@ -393,6 +420,12 @@ const SurveyQuestionFormData = () => {
              />
            </ProgressBar>
                 <h5 className="survey-rating-number">{item.rating[key]}</h5>
+                <div onClick={()=>handleModal(key,userValue)}>
+                <img
+                src={path_image + "eye-watch.svg"}
+                alt=""
+                />
+                </div>
          </div>
          
             ))}
@@ -517,6 +550,73 @@ const SurveyQuestionFormData = () => {
           </Col>
         </Row>
       </div>
+      {modalOpen && (
+        <Modal
+          show={modalOpen}
+          onHide={handleModalClose}
+          id="preview-poll"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          backdrop="static"
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{" "}
+              </h5>
+              <button
+                type="button"
+                onClick={handleModalClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <div className="webinar-popup polls-preview">
+                {userData?.length > 0 ? (
+                <div className="survey_data_details">
+                  <div className="survey_data_accordion_heading">
+                  <table>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Country</th>
+                          <th>Survey Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                         userData?.map((item, index) => {
+                            return (
+                              <tr>
+                                <td>{item?.name ? item?.name : "N/A"}</td>
+                                <td>{item?.email ? item?.email : "N/A"}</td>
+                                <td>{item?.country ? item?.country : "N/A"}</td>
+                                <td> {item?.created_at ? item?.created_at : "N/A"}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                <div className="no_found">
+                  <p align="center">No Data Found</p>
+                </div>
+              )}
+              </div>
+            </>
+          </Modal.Body>
+        </Modal>
+      )}
     </Col>
   );
 };
