@@ -253,9 +253,10 @@ const WebinarVerifyHcpMAIL = (props) => {
             const body = {
                 user_id: localStorage.getItem("user_id"),
                 route_location: "webinar/email/verifyHcpMAIL",
-                pdf_id: props.getWebinarEmailData?.PdfSelected
-                    ? props.getWebinarEmailData?.PdfSelected
-                    : props.getWebinarDraftData?.pdf_id,
+                // pdf_id: props.getWebinarEmailData?.PdfSelected
+                //     ? props.getWebinarEmailData?.PdfSelected
+                //     : props.getWebinarDraftData?.pdf_id,
+                   pdf_id: 0,
                 subject: props.getWebinarEmailData?.emailSubject
                     ? props.getWebinarEmailData?.emailSubject
                     : props.getWebinarDraftData?.subject,
@@ -269,9 +270,9 @@ const WebinarVerifyHcpMAIL = (props) => {
                     : props.getWebinarDraftData?.creator
                         ? props.getWebinarDraftData?.creator
                         : "",
-                campaign_name: props.getWebinarEmailData?.emailCampaign
-                    ? props.getWebinarEmailData?.emailCampaign
-                    : props.getWebinarDraftData?.campaign,
+                campaign_name: props.getWebinarEmailData?.emailSubject
+                    ? props.getWebinarEmailData?.emailSubject
+                    : props.getWebinarDraftData?.subject,
                 tags: finalTags,
                 template_source_code: props.getWebinarEmailData?.template
                     ? props.getWebinarEmailData?.template
