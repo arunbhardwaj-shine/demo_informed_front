@@ -1987,8 +1987,8 @@ ul.tabnav-link li {
   line-height: 21px;
   text-transform: capitalize;
   color: var(--dark-blue);
-  width: 174px;
-  flex: 0 0 174px;
+  width: 180px;
+  flex: 0 0 180px;
 }
 .form-inline .form-group label >a {
   margin-left:7px;
@@ -2010,7 +2010,7 @@ ul.tabnav-link li {
   border-radius: 30px;
   border: 0;
   padding: 12px 17px;
-  max-width: 580px;
+  max-width: 550px;
 }
 
 .form-inline .form-group input:focus,

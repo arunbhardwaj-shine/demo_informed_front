@@ -9912,6 +9912,14 @@ margin-left:3px;
     .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label .dropdown-basic-button>div:nth-child(3) {
       padding: 3px 50px 3px 15px;
     }
+    .smartlist-view .mail-box-content .tabs-data .tab-content {
+    margin: 1px -12px 0;
+    padding: 18px 12px 16px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs {
+    margin: 0 -12px 0;
+}
   }
 
   @media (max-width: $layout-breakpoint-extraLarge) {
@@ -10447,6 +10455,13 @@ margin-left:3px;
     .custom-change.licence-renew .library-content-box-layuot .data-collected .doc-content-main-box .tabs-data .tab-content-links {
       margin: 0 0 16px;
     }
+    .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
+    font-size: 13px;
+}
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+    padding: 1px 10px;
+}
+
   }
 
   @media only screen and (max-width: 1365px) {
@@ -11939,7 +11954,9 @@ margin-left:3px;
       font-size: 14px;
       padding: 6px 12px;
     }
-
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+    padding: 1px 10px;
+}
     .top-header {
       padding-left: 0px;
       padding-right: 0px;

@@ -2110,7 +2110,7 @@ const CreateEmail = (props) => {
                           <div className="form-inline row justify-content-between align-items-center">
                             <div className="form-group col-12 col-md-7 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
-                                Email Description  
+                                  Email Description <span>*</span>  
                                 <LinkWithTooltip
                                   tooltip="About this specific email, this description will aid in distinguishing it from others."
                                   href="#"
@@ -2123,7 +2123,7 @@ const CreateEmail = (props) => {
                                     alt="refresh-btn"
                                   />
                                 </LinkWithTooltip> 
-                                <span>*</span>
+                                
                               </label>
 
                               <input
@@ -2177,8 +2177,7 @@ const CreateEmail = (props) => {
                           <div className="form-inline row justify-content-between align-items-center">
                             <div className="form-group d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
-                                Email Campaign  
-
+                                  Email Campaign <span>*</span> 
                                 <LinkWithTooltip
                                   tooltip="Including details about the product, event, or subject of this email will facilitate filtering and locating a cluster of related emails."
                                   href="#"
@@ -2192,7 +2191,7 @@ const CreateEmail = (props) => {
                                   />
                                 </LinkWithTooltip>
                                 
-                                <span>*</span>
+                                
                               </label>
 
                               <input
