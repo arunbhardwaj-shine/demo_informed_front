@@ -113,7 +113,6 @@ const WebinarSelectHCP=(props)=>{
       };
 
       const nextClicked = async (selected) => {
-        console.log("selected --->",selected)
         props.getWebinarEmailData(old_object);
         props.getWebinarSelected(null);
         if (selected == 1) {

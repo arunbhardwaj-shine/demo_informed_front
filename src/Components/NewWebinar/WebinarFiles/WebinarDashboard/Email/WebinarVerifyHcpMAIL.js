@@ -259,7 +259,13 @@ const WebinarVerifyHcpMAIL = (props) => {
                    pdf_id: 0,
                 subject: props.getWebinarEmailData?.emailSubject
                     ? props.getWebinarEmailData?.emailSubject
-                    : props.getWebinarDraftData?.subject,
+                    : props.getWebinarDraftData?.subject, 
+                    templateId: props.getWebinarEmailData?.templateId
+                    ? props.getWebinarEmailData?.templateId
+                    : 0,
+                    eventId: props.getWebinarEmailData?.eventId
+                    ? props.getWebinarEmailData?.eventId
+                    : 0,
                 description: props.getWebinarEmailData?.emailDescription
                     ? props.getWebinarEmailData?.emailDescription
                     : props.getWebinarDraftData?.description
