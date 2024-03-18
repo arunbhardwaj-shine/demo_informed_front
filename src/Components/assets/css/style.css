@@ -1474,7 +1474,13 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   align-items: center;
   margin-bottom: 15px;
 }
-
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time .smart-list-added-user {
+  margin-bottom: 0;
+}
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time span {
+  margin: 0 0 11px;
+  display: block;
+}
 .smartlist-view ul li .smartlist_view {
   border: 2px solid var(--yellow);
 }
@@ -2175,6 +2181,12 @@ form .input-group {
 .new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tabs-data {
     flex-direction: column;
     height: 100%;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data {
+  height: calc(100% - 61px);
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tab-panel {
+  height: 100%;
 }
 .form-buttons .approved-btn img,
 .form-buttons .btn.btn-large img {

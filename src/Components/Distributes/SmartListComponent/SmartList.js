@@ -947,14 +947,15 @@ const SmartList = (props) => {
 
                                     <div className="mail-time">
                                       <span>{data?.created_at}</span>
+                                      <div className="smart-list-added-user">
+                                        <img
+                                          src={path_image + "smartlist-user.svg"}
+                                          alt="User icon"
+                                        />
+                                        {data?.readers_count}
+                                      </div>
                                     </div>
-                                    <div className="smart-list-added-user">
-                                      <img
-                                        src={path_image + "smartlist-user.svg"}
-                                        alt="User icon"
-                                      />
-                                      {data?.readers_count}
-                                    </div>
+                                    
                                   </div>
                                   <div className="smartlist-buttons">
                               {!deletestatus && (
