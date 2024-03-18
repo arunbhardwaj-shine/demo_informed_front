@@ -4016,6 +4016,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 .select-smart-list .filter_btn_div .filter-by {
   margin-left: 15px;
+  z-index: 1;
 }
 .select-smart-list .filter_btn_div .apply-filter .filter-block {
   padding: 6px 16px;
@@ -7987,7 +7988,9 @@ hr {
   height: auto;
   line-height: initial;
 }
-
+.selected-hcp-list table thead th button.event_sort_btn {
+  background: transparent;
+}
 .selected-hcp-list table thead th button img {
   width: 12px;
   margin-top: -4px;
