@@ -2983,15 +2983,15 @@ h5 {
   margin-right: 25px;
 }
 
-.selected-hcp-list table tr td.delete_row,
-.result-hcp-table .table tbody tr td.delete_row {
+.selected-hcp-list table tr td.delete_row img,
+.result-hcp-table .table tbody tr td.delete_row img{
   border-radius: 30px;
-  padding: 10px;
+  padding: 6px;
   background: var(--light-blue);
 }
 
-table tr td.delete_row,
-table tr:hover td.delete_row {
+table tr td.delete_row img,
+table tr:hover td.delete_row img{
   padding: 0;
   position: absolute;
   background: var(--light-blue);
@@ -3007,15 +3007,15 @@ table tr:hover td.delete_row {
   cursor: pointer;
 }
 
-table tr td.delete_row:hover,
-table tr td.delete_row:active,
-table tr td.delete_row:focus {
+.selected-hcp-list table tr td.delete_row:hover img,.result-hcp-table .table tbody tr td.delete_row:hover img,
+.selected-hcp-list table tr td.delete_row:active img,.result-hcp-table .table tbody tr td.delete_row:active img
+.selected-hcp-list table tr td.delete_row:focus img, .result-hcp-table .table tbody tr td.delete_row:focus img{
   background: var(--dark-blue);
 }
 
-.selected-hcp-list table tr td.delete_row img {
+/* .selected-hcp-list table tr td.delete_row img {
   width: 20px;
-}
+} */
 
 .selected-hcp-list .table tr {
   position: relative;
