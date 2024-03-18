@@ -130,7 +130,6 @@ const WebinarSelectHCP=(props)=>{
             eventId:eventId
           }
           const response = await postData(ENDPOINT.INTERNAL_HCP,body)
-          console.log(response);
         let data=response?.data?.data
         if(data?.length){
           if (new_object?.id) {
@@ -153,7 +152,6 @@ const WebinarSelectHCP=(props)=>{
             eventId:eventId
           }
           const response = await postData(ENDPOINT.US_LIST,body)
-          console.log(response);
 
           let data=response?.data?.data
           if(data?.length){
@@ -291,8 +289,8 @@ const WebinarSelectHCP=(props)=>{
 
 const mapStateToProps = (state) => {
   new_object = state.getSelectedSmartListData;
-  old_object = state.getEmailData ? state.getEmailData : {};
-  draft_object = state.getDraftData ? state.getDraftData : {};
+  old_object = state.getWebinarEmailData ? state.getWebinarEmailData : {};
+  draft_object = state.getWebinarDraftData ? state.getWebinarDraftData : {};
   return state;
 };
 export default connect(mapStateToProps, {
