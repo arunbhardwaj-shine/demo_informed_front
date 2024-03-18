@@ -977,7 +977,7 @@ const SmartList = (props) => {
                                       <li>
                                         <h6 className="tab-content-title">
                                         List use
-                                        <LinkWithTooltip tooltip="Number of time list user to send emails.">
+                                            <LinkWithTooltip tooltip="Number of times email sent to the this list.">
                                           <img
                                             src={
                                               path_image +
