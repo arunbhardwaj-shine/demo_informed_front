@@ -66,7 +66,9 @@ const SelectSmartList = (props) => {
   const [filter, setFilter] = useState("");
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
-
+  const [getFilterCreator, setFilterCreator] = useState([]);
+  const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -528,10 +530,34 @@ const SelectSmartList = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleCreatorChange = (creator) => {
+    let get_creator_index = getFilterCreator.indexOf(creator);
+    if (get_creator_index !== -1) {
+      getFilterCreator.splice(get_creator_index, 1);
+      setFilterCreator(getFilterCreator);
+    } else {
+      getFilterCreator.push(creator);
+      setFilterCreator(getFilterCreator);
+    }
+
+    let getfilter = getFilterCreator;
+    if (getfilter.hasOwnProperty("creator")) {
+      getfilter.name = getFilterCreator;
+    } else {
+      getfilter = Object.assign({ creator: getFilterCreator }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const removeindividualfilter = (src, item) => {
     loader("show");
     if (src == "ibu") {
       handleIBUFilterChange(item);
+    }else if (src == "creator") {
+      handleCreatorChange(item);
     }
     if (filterapplied) {
       getSmartListData(1);
@@ -539,6 +565,27 @@ const SelectSmartList = (props) => {
       loader("hide");
     }
     setShowFilter(false);
+  };
+
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB.localeCompare(valueA);
+      }
+    });
   };
 
 
@@ -659,6 +706,7 @@ const SelectSmartList = (props) => {
 
                         {updateflag > 0 &&
                           (
+                            getFilterCreator.length > 0 ||
                             getFilterIbu.length > 0 ) && (
                             <div className="apply-filter">
                               <div className="filter-block">
@@ -676,6 +724,33 @@ const SelectSmartList = (props) => {
                                               className="filter-result"
                                               onClick={(event) =>
                                                 removeindividualfilter("ibu", item)
+                                              }
+                                            >
+                                              {item}
+                                              <img
+                                                src={path_image + "filter-close.svg"}
+                                                alt="Close-filter"
+                                              />
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {getFilterCreator.length > 0 && (
+                                    <div className="filter-div">
+                                      <div className="filter-div-title">
+                                        <span>Creator |</span>
+                                      </div>
+                                      <div className="filter-div-list">
+                                        {Object.entries(getFilterCreator).map(
+                                          ([index, item]) => (
+                                            <div
+                                              key={item}
+                                              className="filter-result"
+                                              onClick={(event) =>
+                                                removeindividualfilter("creator", item)
                                               }
                                             >
                                               {item}
@@ -797,11 +872,46 @@ const SelectSmartList = (props) => {
                                         </ul>
                                       </Accordion.Body>
                                     </Accordion.Item>
-                                  )}  
+                                  )}
 
-                              
-
-                                
+                                  {filterdata.hasOwnProperty("creator") &&
+                                    filterdata.creator.length > 0 && (
+                                      <Accordion.Item className="card" eventKey="1">
+                                        <Accordion.Header className="card-header">
+                                          Creator
+                                        </Accordion.Header>
+                                        <Accordion.Body className="card-body">
+                                          <ul>
+                                            {Object.entries(filterdata.creator).map(
+                                              ([index, item]) => (
+                                                <li key={item}>
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={`custom-checkbox-creator-${index}`}
+                                                      name="creator[]"
+                                                      value={item}
+                                                      checked={
+                                                        updateflag > 0 &&
+                                                        typeof getFilterCreator !==
+                                                          "undefined" &&
+                                                        getFilterCreator.indexOf(item) !==
+                                                          -1
+                                                      }
+                                                      onChange={() =>
+                                                        handleCreatorChange(item)
+                                                      }
+                                                    />
+                                                    {item}
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        </Accordion.Body>
+                                      </Accordion.Item>
+                                  )}
                               </Accordion>
                               <div className="filter-footer">
                                 <button
@@ -1057,15 +1167,99 @@ const SelectSmartList = (props) => {
                 <table className="table">
                   <thead className="sticky-header">
                     <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
+                      <th scope="col">Name
+                        <button
+                            className={`event_sort_btn ${sortBy == "first_name" ?
+                            sortOrder == "asc"
+                            ? "svg_asc"
+                            : "svg_active"
+                            : "" 
+                          }`}
+                            onClick={() => handleSort('first_name')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                      </th>
+                      <th scope="col">Email
+                        <button
+                            className={`event_sort_btn ${sortBy == "email" ?
+                                sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                                : "" 
+                              }`}
+                            onClick={() => handleSort('email')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                      </th>
                       <th scope="col">Bounced</th>
-                      <th scope="col">Country</th>
+                      <th scope="col">Country
+                        <button
+                                className={`event_sort_btn ${sortBy == "country" ?
+                                sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : "" 
+                              }`}
+                                onClick={() => handleSort('country')}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white"/>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                      </th>
                       {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">IRT mandatory training</th>
                       ) : (
-                        <th scope="col">Business unit</th>
+                        <th scope="col">Business unit
+                          <button
+                              className={`event_sort_btn ${sortBy == "ibu" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : "" 
+                             }`}
+                              onClick={() => handleSort('ibu')}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                        </th>
                       )}
                       {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1089,7 +1283,7 @@ const SelectSmartList = (props) => {
                   <tbody>
                     {typeof getReaderDetails !== "undefined" &&
                       getReaderDetails.length > 0 &&
-                      getReaderDetails.map((rr, i) => {
+                      sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                         return (
                           <>
                             <tr>
