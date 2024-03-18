@@ -113,9 +113,10 @@ const WebinarSelectHCP=(props)=>{
       };
 
       const nextClicked = async (selected) => {
+        console.log("selected --->",selected)
         props.getWebinarEmailData(old_object);
         props.getWebinarSelected(null);
-        if (selected === 1) {
+        if (selected == 1) {
           navigate("/webinar/email/selectSmartList", {
             state: { UserSelected: selected },
           });
@@ -124,7 +125,7 @@ const WebinarSelectHCP=(props)=>{
             state: { UserSelected: selected },
           });
         }
-        else if (selected === 3) {
+        else if (selected == 3) {
           loader("show")
           let body ={
             eventId:eventId
@@ -146,7 +147,7 @@ const WebinarSelectHCP=(props)=>{
           });
         }
         } 
-         else if (selected === 4) {
+         else if (selected == 4) {
           loader("show")
           let body ={
             eventId:eventId
@@ -179,7 +180,7 @@ const WebinarSelectHCP=(props)=>{
           props.getWebinarEmailData({ selected: selectede });
         }
     
-        if (selectede === 2) {
+        if (selectede == 2) {
           props.getWebinarSelectedSmartListData(null);
         }
     
@@ -239,19 +240,19 @@ const WebinarSelectHCP=(props)=>{
                         Next{" "}
                       </button>
                     ) : (
-                      <Link
-                        to={
-                          templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
-                        }
-                        state={{ UserSelected: templateId }}
-                      >
+                      // <Link
+                      //   to={
+                      //     templateId === 2 ? "verifyHCP" : "selectSmartList"
+                      //   }
+                      //   state={{ UserSelected: templateId }}
+                      // >
                         <button
                           className="btn btn-primary btn-filled next"
                           onClick={(event) => nextClicked(templateId)}
                         >
                           Next
                         </button>
-                      </Link>
+                      // </Link>
                     )}
                   </div>
                 </div>

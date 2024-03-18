@@ -111,7 +111,6 @@ const WebinarVerifyHCP = (props) => {
     const axiosFun = async () => {
         try {
             const result = await axios.get(`emailapi/get_site`);
-
             let country = result?.data?.response?.data?.site_country_data;
             let arr = [];
             Object.entries(country)?.map(([index, item]) => {
@@ -131,7 +130,6 @@ const WebinarVerifyHCP = (props) => {
     };
 
     const [validationReRender, setValidationReRender] = useState(0);
-
     let [validator] = React.useState(new SimpleReactValidator());
 
     const [manualReRender, setManualReRender] = useState(0);
