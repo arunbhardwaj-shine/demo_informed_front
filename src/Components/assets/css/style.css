@@ -2160,7 +2160,22 @@ form .input-group {
   margin: 0 0 0 8px;
   padding: 9px 16px;
 }
-
+.new-smartlist .mail-box-content {
+    justify-content: flex-start;
+}
+.new-smartlist .smartlist-view .mail-box-content, .new-smartlist .smartlist-add {
+    min-height: 375px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content ul li {
+    margin: 0 0 15px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
+    flex: 0 0 145px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tabs-data {
+    flex-direction: column;
+    height: 100%;
+}
 .form-buttons .approved-btn img,
 .form-buttons .btn.btn-large img {
   margin-left: 4px;
@@ -6803,7 +6818,7 @@ input:-webkit-autofill {
 table thead.sticky-header:after {
   content: "";
   position: absolute;
-  width: 20px;
+  width: 40px;
   background: #fbfcfd;
   height: 35px;
   right: -11px;
@@ -6878,7 +6893,9 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 0px;
 }
-
+.smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 74px;
+}
 header.top-0~div .custom-change .search-hcp table thead.sticky-header,
 header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
   top: 158px;

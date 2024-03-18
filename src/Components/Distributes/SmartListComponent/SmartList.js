@@ -878,7 +878,7 @@ const SmartList = (props) => {
               )}
 
             <div className="smart-list-result">
-              <div className="col smartlist-result-block">
+              <div className="col smartlist-result-block new-smartlist">
                 {
                 // getfiltername.length == 0 &&
                 //   getFilterCreator.length == 0 &&
@@ -924,6 +924,7 @@ const SmartList = (props) => {
                                   title="List info"
                                   className="flex-column justify-content-between"
                                 >
+                                  <div className="d-flex justify-content-between tabs-data">
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <ul className="tab-mail-list">
                                       <li>
@@ -955,6 +956,47 @@ const SmartList = (props) => {
                                       {data?.readers_count}
                                     </div>
                                   </div>
+                                  <div className="smartlist-buttons">
+                              {!deletestatus && (
+                                <>
+                                  {data.upload_by_filter == 1 ? (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/EditList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  ) : (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/ViewSmartList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  )}
+
+                                  <Link
+                                    className="btn btn-primary btn-filled view"
+                                    to={{
+                                      pathname: "/ViewSmartList",
+                                      search: "?listId=" + data.id,
+                                    }}
+                                    onClick={() => linkClicked(data.id)}
+                                  >
+                                    View
+                                  </Link>
+                                </>
+                              )}
+                            </div>
+                            </div>
                                 </Tab>
                                 <Tab
                                 eventKey="more-details"
@@ -1134,46 +1176,7 @@ const SmartList = (props) => {
                                 </Tab>
                               </Tabs>
                             </div>
-                            <div className="smartlist-buttons">
-                              {!deletestatus && (
-                                <>
-                                  {data.upload_by_filter == 1 ? (
-                                    <Link
-                                      className="btn btn-primary btn-bordered edit_list"
-                                      to={{
-                                        pathname: "/EditList",
-                                        search: "?listId=" + data.id,
-                                      }}
-                                      onClick={() => linkClicked(data.id)}
-                                    >
-                                      Edit List
-                                    </Link>
-                                  ) : (
-                                    <Link
-                                      className="btn btn-primary btn-bordered edit_list"
-                                      to={{
-                                        pathname: "/ViewSmartList",
-                                        search: "?listId=" + data.id,
-                                      }}
-                                      onClick={() => linkClicked(data.id)}
-                                    >
-                                      Edit List
-                                    </Link>
-                                  )}
-
-                                  <Link
-                                    className="btn btn-primary btn-filled view"
-                                    to={{
-                                      pathname: "/ViewSmartList",
-                                      search: "?listId=" + data.id,
-                                    }}
-                                    onClick={() => linkClicked(data.id)}
-                                  >
-                                    View
-                                  </Link>
-                                </>
-                              )}
-                            </div>
+                            
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
