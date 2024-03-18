@@ -243,7 +243,19 @@
     padding-left: 30px;
     padding-right: 30px;
   }
-
+.form-inline .form-group input,
+#tagsModal .modal-footer form .form-group input {
+  max-width: 565px;
+}
+.form-inline .form-group input#email-address {
+  max-width: 320px;
+}
+.email-form .form-inline .form-group input[type="text"] {
+  min-width: 280px;
+}
+.form-inline .form-group input#email-address {
+  max-width: 295px;
+}
   .register-popup-view .footer-inner::before {
     left: 65%;
   }
@@ -1121,7 +1133,9 @@
   .smartlist-view .mail-box-content {
     padding: 12px 12px 10px;
   }
-
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+    padding: 1px 10px;
+}
   .verify-mail-box {
     padding: 15px 15px 11px 15px;
   }
@@ -1648,6 +1662,15 @@
   .question-outer-layout .question-action {
     gap: 30px;
   }
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
+    font-size: 12px;
+}
+.form-inline .form-group input#email-address {
+  max-width: 280px;
+}
+.email-form .form-inline .form-group input[type="text"] {
+  min-width: 250px;
+}
 .left-sidebar .sidebar_txt {
   margin: 0px 0 0;
 }
@@ -2493,7 +2516,7 @@
   }
 
   .form-inline .form-group input {
-    max-width: 380px;
+    max-width: 350px;
   }
 
   .form-buttons .btn {
@@ -2586,6 +2609,9 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
+    .select-mail-template .email-form {
+      padding: 0 12px;
+    }
     .left-sidebar .sidebar_txt {
       margin: 15px 0 0;
     }
@@ -2595,6 +2621,11 @@
 .verify_email .verify-right {
   width: 100%;
   margin: 20px 0 0;
+}
+.form-inline .form-group label {
+  width: 100%;
+  flex: 0 0 100%;
+  margin:0 0 3px;
 }
   .apply-filter {
     padding-left: 10px;
