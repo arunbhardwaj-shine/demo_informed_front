@@ -9,7 +9,7 @@ import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
-const DocintelAccount = ({ data }) => {
+const DocintelAccount = ({ data, tabType }) => {
   Highcharts.setOptions({
     colors: [
       "#0066BE",
@@ -80,7 +80,14 @@ const DocintelAccount = ({ data }) => {
                         <rect width="12" height="12" fill="white" />
                       </clipPath>
                     </defs>
-                  </svg><p>The numbers are based on Read-Through-Rate (RTR), indicating how many HCPs have read this content.</p></div>
+                  </svg><p>
+                    {
+                      tabType == 'content-type' ? 
+                      "This content led to registration among HCPs in these countries."
+                      :
+                      "The numbers are based on Read-Through-Rate (RTR), indicating how many HCPs have read this content."
+                    }
+                    </p></div>
                   <Row>
                   <Col>
                     <HighchartsReact
