@@ -19574,6 +19574,12 @@ img.change-password-image {
           line-height: normal;
           min-width: 40px;
         }
+
+        .survey-rating-view{
+          img{
+            cursor:pointer;
+          }
+        }
       }
     }
   }

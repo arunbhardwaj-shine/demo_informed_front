@@ -420,11 +420,11 @@ const SurveyQuestionFormData = () => {
              />
            </ProgressBar>
                 <h5 className="survey-rating-number">{item.rating[key]}</h5>
-                <div onClick={()=>handleModal(key,userValue)}>
-                <img
-                src={path_image + "eye-watch.svg"}
-                alt=""
-                />
+                <div onClick={()=>handleModal(key,userValue)} className="survey-rating-view">
+                  <img 
+                  src={path_image + "eye-watch.svg"}
+                  alt=""
+                  />
                 </div>
          </div>
          
