@@ -14,9 +14,10 @@ import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 var old_object = {};
 const WebinarSelectSmartListUsers = (props) => {
-    const { eventIdContext, handleEventId } = useSidebar()
+  const { eventIdContext, handleEventId } = useSidebar()
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
@@ -185,7 +186,13 @@ const WebinarSelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
-    navigate("/webinar/email/selectSmartList");
+if(location?.state?.selected==1){
+  navigate("/webinar/email/selectSmartList");
+
+}else{
+  navigate("/webinar/email/selectHCP");
+
+}
   };
 
   useEffect(() => {
@@ -259,7 +266,7 @@ const WebinarSelectSmartListUsers = (props) => {
       // pdf_id: old_object?.PdfSelected
       //   ? old_object.PdfSelected
       //   : props.getDraftData.pdf_id,
-      eventId:eventId,
+      eventId: eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
         : props.getWebinarDraftData?.description
@@ -298,7 +305,7 @@ const WebinarSelectSmartListUsers = (props) => {
       campaign_id: campaign_id_st,
       source_code: old_object?.template
         ? old_object?.template
-        : props.getWebinarDraftData?.template,
+        : props.getWebinarDraftData?.source_code,
       status: 2,
     };
 
@@ -360,6 +367,10 @@ const WebinarSelectSmartListUsers = (props) => {
       console.log("-err", err);
     }
   };
+
+  const setHpcList = (list) => {
+    setHpc(list)
+}
 
   const onFileChange = (event) => {
     setSelectedFile(event?.target?.files[0]);
@@ -889,6 +900,33 @@ const WebinarSelectSmartListUsers = (props) => {
     }, 50);
   };
 
+  const closeModalClicked = () => {
+    setIsOpenAdd(false);
+    // setIsOpensend(true);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+        role:
+          localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
+      },
+    ]);
+    setActiveManual("active");
+    setActiveExcel("");
+  }
+
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
 
@@ -1136,7 +1174,7 @@ const WebinarSelectSmartListUsers = (props) => {
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                   
+
                     <li className="active">
                       <Link to="/webinar/email/createEmail">Create Your Email</Link>
                     </li>
@@ -1376,8 +1414,8 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.email_opening
-                                      ? rr.email_opening
+                                    {rr?.email_opening
+                                      ? rr?.email_opening
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1385,14 +1423,14 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.registration ? rr.registration : "N/A"}
+                                    {rr?.registration ? rr?.registration : "N/A"}
                                   </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr.last_email ? rr.last_email : "N/A"}
+                                    {rr?.last_email ? rr?.last_email : "N/A"}
                                   </span>
                                 </td>
                               ) : null}
@@ -1437,29 +1475,29 @@ const WebinarSelectSmartListUsers = (props) => {
                                 }
                               >
                                 <span>
-                                  {readers.first_name
-                                    ? readers.first_name +
+                                  {readers?.first_name
+                                    ? readers?.first_name +
                                     " " +
-                                    readers.last_name
+                                    readers?.last_name
                                     : "N/A"}
                                 </span>
                               </td>
-                              <td>{readers.email ? readers.email : "N/A"}</td>
+                              <td>{readers?.email ? readers?.email : "N/A"}</td>
                               <input
                                 type="hidden"
                                 id={`field_index` + readers.profile_user_id}
                                 value={i}
                               />
-                              <td>{readers.bounce ? readers.bounce : "N/A"}</td>
+                              <td>{readers?.bounce ? readers?.bounce : "N/A"}</td>
                               <td>
                                 {editable ? (
                                   <EditCountry
-                                    selected_country={readers.country}
-                                    profile_user={readers.profile_user_id}
+                                    selected_country={readers?.country}
+                                    profile_user={readers?.profile_user_id}
                                   ></EditCountry>
                                 ) : (
                                   <span>
-                                    {readers.country ? readers.country : "N/A"}
+                                    {readers?.country ? readers?.country : "N/A"}
                                   </span>
                                 )}
                               </td>
@@ -1470,27 +1508,27 @@ const WebinarSelectSmartListUsers = (props) => {
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
-                                  : readers.ibu && readers.ibu != 0
-                                    ? readers.ibu
+                                  : readers?.ibu && readers?.ibu != 0
+                                    ? readers?.ibu
                                     : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
-                                    {readers.user_type != 0
+                                    {readers?.user_type != 0
                                       ? readers?.user_type
                                       : "N/A"}
                                   </span>
                                 ) : editable ? (
                                   <EditContactType
-                                    selected_ibu={readers.contact_type}
-                                    profile_user={readers.profile_user_id}
+                                    selected_ibu={readers?.contact_type}
+                                    profile_user={readers?.profile_user_id}
                                   ></EditContactType>
                                 ) : (
                                   <span>
-                                    {readers.contact_type
-                                      ? readers.contact_type
+                                    {readers?.contact_type
+                                      ? readers?.contact_type
                                       : "N/A"}
                                   </span>
                                 )}
@@ -1498,15 +1536,15 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.consent ? readers.consent : "N/A"}
+                                    {readers?.consent ? readers?.consent : "N/A"}
                                   </span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.email_received
-                                      ? readers.email_received
+                                    {readers?.email_received
+                                      ? readers?.email_received
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1514,8 +1552,8 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.email_opening
-                                      ? readers.email_opening
+                                    {readers?.email_opening
+                                      ? readers?.email_opening
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1523,8 +1561,8 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.registration
-                                      ? readers.registration
+                                    {readers?.registration
+                                      ? readers?.registration
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1532,8 +1570,8 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.last_email
-                                      ? readers.last_email
+                                    {readers?.last_email
+                                      ? readers?.last_email
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1575,35 +1613,35 @@ const WebinarSelectSmartListUsers = (props) => {
                               >
                                 <span>
                                   {" "}
-                                  {readers.first_name
-                                    ? readers.first_name +
+                                  {readers?.first_name
+                                    ? readers?.first_name +
                                     " " +
-                                    readers.last_name
+                                    readers?.last_name
                                     : "N/A"}{" "}
                                 </span>
                               </td>
                               <td id={`field_email` + readers.profile_user_id}>
-                                {readers.email ? readers.email : "N/A"}
+                                {readers?.email ? readers?.email : "N/A"}
                               </td>
                               <input
                                 type="hidden"
-                                id={`field_index` + readers.profile_user_id}
+                                id={`field_index` + readers?.profile_user_id}
                                 value={i}
                               />
                               <td
-                                id={`field_bounced` + readers.profile_user_id}
+                                id={`field_bounced` + readers?.profile_user_id}
                               >
-                                {readers.bounce ? readers.bounce : "N/A"}
+                                {readers?.bounce ? readers?.bounce : "N/A"}
                               </td>
                               <td>
                                 {editable ? (
                                   <EditCountry
-                                    selected_country={readers.country}
-                                    profile_user={readers.profile_user_id}
+                                    selected_country={readers?.country}
+                                    profile_user={readers?.profile_user_id}
                                   ></EditCountry>
                                 ) : (
                                   <span>
-                                    {readers.country ? readers.country : "N/A"}
+                                    {readers?.country ? readers?.country : "N/A"}
                                   </span>
                                 )}
                               </td>
@@ -1614,7 +1652,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
-                                  : readers.ibu && readers.ibu != 0
+                                  : readers?.ibu && readers?.ibu != 0
                                     ? readers.ibu
                                     : "N/A"}
                               </td>
@@ -1622,19 +1660,19 @@ const WebinarSelectSmartListUsers = (props) => {
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
-                                    {readers.user_type != 0
+                                    {readers?.user_type != 0
                                       ? readers?.user_type
                                       : "N/A"}
                                   </span>
                                 ) : editable ? (
                                   <EditContactType
-                                    selected_ibu={readers.contact_type}
-                                    profile_user={readers.profile_user_id}
+                                    selected_ibu={readers?.contact_type}
+                                    profile_user={readers?.profile_user_id}
                                   ></EditContactType>
                                 ) : (
                                   <span>
-                                    {readers.contact_type
-                                      ? readers.contact_type
+                                    {readers?.contact_type
+                                      ? readers?.contact_type
                                       : "N/A"}
                                   </span>
                                 )}
@@ -1642,15 +1680,15 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.consent ? readers.consent : "N/A"}
+                                    {readers?.consent ? readers?.consent : "N/A"}
                                   </span>
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.email_received
-                                      ? readers.email_received
+                                    {readers?.email_received
+                                      ? readers?.email_received
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1658,8 +1696,8 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.email_opening
-                                      ? readers.email_opening
+                                    {readers?.email_opening
+                                      ? readers?.email_opening
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1667,8 +1705,8 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.registration
-                                      ? readers.registration
+                                    {readers?.registration
+                                      ? readers?.registration
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1676,7 +1714,7 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers.last_email
+                                    {readers?.last_email
                                       ? readers.last_email
                                       : "N/A"}
                                   </span>
@@ -1702,7 +1740,7 @@ const WebinarSelectSmartListUsers = (props) => {
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         id="add_hcp"
         show={isOpenAdd}
         size="lg"
@@ -2124,43 +2162,10 @@ const WebinarSelectSmartListUsers = (props) => {
                                         )}
                                     </>
                                   )}
-                                  {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                            onSelect={(event) => onCountryChange(event, i)}
-                                            >
-                                            <div className="scroll_div">
-                                            {countryall.length === 0
-                                            ? ""
-                                            : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                            return (
-                                            <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                            </>
-                                          );
-                                        }
-                                      )}
-                                      </div>
-                                      </DropdownButton>
-                                    */}
+                                 
                                 </div>
                               </div>
-                              {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
+                            
                               {localStorage.getItem("user_id") ===
                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
@@ -2246,19 +2251,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                       : "Add HCP +"}
                                   </a>
                                 </li>
-                                {/*
-                                 <li className="nav-item add-file">
-                                   <a
-                                     id="add_file_btn"
-                                     onClick={(e) => addFile(e)}
-                                     className="nav-link btn-filled"
-                                     data-bs-toggle="tab"
-                                     href="#add_file"
-                                   >
-                                     Add File
-                                   </a>
-                                 </li>
-                              */}
+                               
                               </ul>
                             </div>
                           </div>
@@ -2266,19 +2259,7 @@ const WebinarSelectSmartListUsers = (props) => {
                       </>
                     );
                   })}
-                </form>
-                {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="form-group files">
-                      <input
-                        type="file"
-                        className="form-control"
-                        multiple=""
-                        onChange={onFileChange}
-                      />
-                    </div>
-                  </form>
-                */}
+                </form>               
               </div>
             </div>
           </div>
@@ -2292,7 +2273,22 @@ const WebinarSelectSmartListUsers = (props) => {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
+
+      <AddNewContactModal
+        show={isOpenAdd}
+        closeClicked={closeModalClicked}
+        activeManual={activeManual}
+        hpc={hpc}
+        setHpc={setHpcList}
+        totalData={totalData}
+        countryall={countryall}
+        irtCountry={irtCountry}
+        irtRole={irtRole}
+        role={role}
+        institutionType={institutionType}
+        saveClicked={saveClicked}
+      />
     </>
   );
 };

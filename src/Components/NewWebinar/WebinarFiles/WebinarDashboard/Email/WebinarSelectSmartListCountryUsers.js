@@ -20,12 +20,12 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
     const { eventIdContext, handleEventId } = useSidebar()
-  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId
-      ? eventIdContext?.eventId
-      : localStorageEvent?.eventId
-  );
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+    const [eventId, setEventId] = useState(
+        eventIdContext?.eventId
+            ? eventIdContext?.eventId
+            : localStorageEvent?.eventId
+    );
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
     const [selectedHcp, setSelectedHcp] = useState(location.state?.selectedHcp
@@ -244,7 +244,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
 
     const setHpcList = (list) => {
         setHpc(list)
-      }
+    }
 
     const backClicked = () => {
         setSelectedHcp([]);
@@ -319,7 +319,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             campaign_id: campaign_id_st,
             source_code: old_object?.template
                 ? old_object?.template
-                : props.getWebinarDraftData?.template,
+                : props.getWebinarDraftData?.source_code,
             status: 2,
         };
 
@@ -432,6 +432,29 @@ const WebinarSelectSmartListCountryUsers = (props) => {
         setCountryWiseData(getSortObj)
 
     };
+
+    const closeModalClicked = () => {
+        setIsOpenAdd(false);
+        // setIsOpensend(true);
+        setHpc([
+          {
+            firstname: "",
+            lastname: "",
+            email: "",
+            contact_type: "",
+            country: "",
+           
+            optIrt:
+              localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg=="
+                ? "yes"
+                : "",
+            institutionType: "",
+          },
+        ]);
+        setActiveManual("active");
+        setActiveExcel("");
+      }
 
     const closeClicked = () => {
         setSaveOpen(false);
@@ -1920,7 +1943,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             </Modal > */}
             <AddNewContactModal
                 show={isOpenAdd}
-                closeClicked={closeClicked}
+                closeClicked={closeModalClicked}
                 activeManual={activeManual}
                 hpc={hpc}
                 setHpc={setHpcList}

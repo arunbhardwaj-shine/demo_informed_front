@@ -211,7 +211,7 @@ const WebinarCreateNewEmail = (props) => {
                 setTemplateId(props?.getWebinarDraftData?.campaign_data?.template_id);
                 templateIdRef.current = props?.getWebinarDraftData?.campaign_data?.template_id;
                 setIsApprovedStatus(props?.getWebinarDraftData?.status);
-                setTemplate(props?.getWebinarDraftData?.template);
+                setTemplate(props?.getWebinarDraftData?.source_code);
             }
         }
     }, []);
