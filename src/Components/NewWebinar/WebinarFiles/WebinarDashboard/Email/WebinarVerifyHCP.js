@@ -995,9 +995,9 @@ const WebinarVerifyHCP = (props) => {
 
         const body = {
             user_id: localStorage.getItem("user_id"),
-            //   pdf_id: old_object?.PdfSelected
-            //     ? old_object.PdfSelected
-            //     : props.getDraftData.pdf_id,
+              pdf_id: old_object?.PdfSelected
+                ? old_object.PdfSelected
+                : props.getWebinarDraftData.pdf_id,
             eventId: eventId,
             description: old_object?.emailDescription
                 ? old_object?.emailDescription

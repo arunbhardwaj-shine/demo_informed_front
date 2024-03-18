@@ -48,6 +48,14 @@ export const getSelected = (data) => {
   };
 };
 
+export const getTestingSelected = (data) => {
+  return {
+    type: "GET_TESTING_SELECTED",
+    payload: data,
+  };
+};
+
+
 export const getWebinarEmailData = (data) => {
   return {
     type: "GET_WEBINAR_EMAIL_DATA",
@@ -82,3 +90,4 @@ export const getWebinarSelected = (data) => {
     payload: data,
   };
 };
+

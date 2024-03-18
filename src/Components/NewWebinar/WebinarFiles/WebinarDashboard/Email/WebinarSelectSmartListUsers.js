@@ -88,9 +88,9 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
 
-  // const smartListSelected = location.state
-  //   ? location.state.smartListSelected
-  //   : props.getDraftData.smart_list_data;
+  const smartListSelected = location.state
+    ? location.state.smartListSelected
+    : props.getWebinarDraftData.smart_list_data;
 
   useEffect(() => {
     let campaign_id =
@@ -127,7 +127,7 @@ const WebinarSelectSmartListUsers = (props) => {
       user_id: localStorage.getItem("user_id"),
       list_id: props.getWebinarSelectedSmartListData?.id
         ? props.getWebinarSelectedSmartListData?.id
-        : props.getDraftData?.campaign_data?.smart_list_id,
+        : props.getWebinarDraftData?.campaign_data?.smart_list_id,
       show_specific: 1,
     };
 
@@ -263,9 +263,9 @@ if(location?.state?.selected==1){
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-      // pdf_id: old_object?.PdfSelected
-      //   ? old_object.PdfSelected
-      //   : props.getDraftData.pdf_id,
+      pdf_id: old_object?.PdfSelected
+        ? old_object.PdfSelected
+        : props.getWebinarDraftData.pdf_id,
       eventId: eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription

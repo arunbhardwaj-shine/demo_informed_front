@@ -67,9 +67,20 @@ const getSelected =(selected=JSON.parse(localStorage.getItem('getSelected')),act
 
 }
 
+const getTestingSelected =(testselected=JSON.parse(localStorage.getItem('getTestSelected')),action) => {
+  if (action.type === "GET_TESTING_SELECTED") {
+    console.log("helllo in 7")
+    // console.log(action.payload)
+    localStorage.setItem('getTestingSelected', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return testselected;
+
+}
+
 const getWebinarEmailData = ( webinarEmailData = JSON.parse(localStorage.getItem('getWebinarEmailData')), action) => {
   if (action.type === "GET_WEBINAR_EMAIL_DATA") {
-    // console.log("helllo in 3")
+    console.log("helllo in getWebinarEmailData")
     localStorage.setItem('getWebinarEmailData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -78,7 +89,7 @@ const getWebinarEmailData = ( webinarEmailData = JSON.parse(localStorage.getItem
 
 const getWebinarSelectedSmartListData = (webinarSelectedSmartListData = JSON.parse(localStorage.getItem('getWebinarSelectedSmartListData')), action) => {
   if (action.type === "GET_WEBINAR_SMART_LIST_DATA") {
-    // console.log("helllo in 4")
+    console.log("helllo in getWebinarSelectedSmartListData")
     localStorage.setItem('getWebinarSelectedSmartListData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -87,7 +98,7 @@ const getWebinarSelectedSmartListData = (webinarSelectedSmartListData = JSON.par
 
 const getWebinarDraftData = (webinarDraftData = JSON.parse(localStorage.getItem('getWebinarDraftData')), action) => {
   if (action.type === "GET_WEBINAR_DRAFT_DATA") {
-    // console.log("helllo in 6")
+    console.log("helllo in getWebinarDraftData")
     localStorage.setItem('getWebinarDraftData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -96,20 +107,20 @@ const getWebinarDraftData = (webinarDraftData = JSON.parse(localStorage.getItem(
 
 const getWebinarCampaignId = (webinarUniqueId = JSON.parse(localStorage.getItem('getWebinarCampaignId')), action) => {
   if (action.type === "GET_WEBINAR_UNIQUE_ID") {
+    console.log("helllo in getWebinarCampaignId")
     localStorage.setItem('getWebinarCampaignId', JSON.stringify(action.payload));
     return action.payload;
-  }
-
+  }  
   return webinarUniqueId;
 };
 
 const getWebinarSelected =(webinarSelected=JSON.parse(localStorage.getItem('getWebinarSelected')),action) => {
   if (action.type === "GET_WEBINAR_SELECTED") {
+    console.log("helllo in getWebinarSelected")
     localStorage.setItem('getWebinarSelected', JSON.stringify(action.payload));
     return action.payload;
   }
-  return webinarSelected;
-
+  return webinarSelected; 
 }
 
 export default combineReducers({
@@ -120,9 +131,10 @@ export default combineReducers({
   getCampaignId: getCampaignId,
   getDraftData: getDraftData,
   getSelected: getSelected,
+  getTestingSelected:getTestingSelected,
   getWebinarEmailData:getWebinarEmailData,
   getWebinarSelectedSmartListData:getWebinarSelectedSmartListData,
   getWebinarDraftData:getWebinarDraftData,
   getWebinarCampaignId:getWebinarCampaignId,
-  getWebinarSelected:getWebinarSelected
+  getWebinarSelected:getWebinarSelected,
 });

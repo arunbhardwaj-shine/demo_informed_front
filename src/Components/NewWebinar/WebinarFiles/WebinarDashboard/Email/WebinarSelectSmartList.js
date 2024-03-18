@@ -157,7 +157,7 @@ const WebinarSelectSmartList = (props) => {
     if (PdfSelected != "") {
       if (PdfSelected == e.id) {
         setSmartListSelected({});
-        props.getSelectedSmartListData(null);
+        props.getWebinarSelectedSmartListData(null);
         setPdfSelected(0);
         setselecedlistid(0);
       } else {

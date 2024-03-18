@@ -80,9 +80,9 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     const [isOpenAdd, setIsOpenAdd] = useState(false);
     const [validationError, setValidationError] = useState({});
 
-    // const smartListSelected = location.state
-    //   ? location.state.smartListSelected
-    //   : props.getDraftData.smart_list_data;
+    const smartListSelected = location.state
+      ? location.state.smartListSelected
+      : props.getWebinarDraftData.smart_list_data;
 
     useEffect(() => {
         let campaign_id =
@@ -276,9 +276,9 @@ const WebinarSelectSmartListCountryUsers = (props) => {
         }
         const body = {
             user_id: localStorage.getItem("user_id"),
-            // pdf_id: old_object?.PdfSelected
-            //     ? old_object.PdfSelected
-            //     : props.getDraftData.pdf_id,
+            pdf_id: old_object?.PdfSelected
+                ? old_object.PdfSelected
+                : props.getWebinarDraftData.pdf_id,
             eventId: eventId,
             description: old_object?.emailDescription
                 ? old_object?.emailDescription

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getWbinarEmailData } from "../../../../../actions";
+import { getWebinarEmailData } from "../../../../../actions";
 import { connect, connectAdvanced } from "react-redux";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { compose } from "redux";
 import { loader } from "../../../../../loader";
-//import { connect } from "react-redux";
 import { geWebinarCampaignId } from "../../../../../actions";
 import { popup_alert } from "../../../../../popup_alert";
 import { toast } from "react-toastify";
@@ -161,9 +160,9 @@ const WebinarVerifyHcpMAIL = (props) => {
     const saveAsDraft = async () => {
         const body = {
             user_id: localStorage.getItem("user_id"),
-            // pdf_id: props.getWebinarEmailData?.PdfSelected
-            //     ? props.getWebinarEmailData?.PdfSelected
-            //     : props.getWebinarDraftData?.pdf_id,
+            pdf_id: props.getWebinarEmailData?.PdfSelected
+                ? props.getWebinarEmailData?.PdfSelected
+                : props.getWebinarDraftData?.pdf_id,
             eventId:eventId,
             description: props.getWebinarEmailData?.emailDescription
                 ? props.getWebinarEmailData?.emailDescription
