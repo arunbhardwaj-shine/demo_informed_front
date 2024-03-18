@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { getWebinarEmailData, getWebinarCampaignId } from '../../../../../actions'
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-import {popup_alert} from '../../../../../popup_alert';
+import { popup_alert } from '../../../../../popup_alert';
 var dxr = 0;
 var state_object = {};
 
@@ -218,46 +218,46 @@ const WebinarCreateNewEmail = (props) => {
 
     const getSelectedTemplateSource = (dd) => {
         if (
-          typeof props !== "undefined" &&
-          props !== null &&
-          props.hasOwnProperty("getDraftData")
+            typeof props !== "undefined" &&
+            props !== null &&
+            props.hasOwnProperty("getDraftData")
         ) {
-          if (typeof dd !== "undefined") {
-            let getSpecificKeyData = dd?.find(
-              (e) => e?.id === props?.getWebinarDraftData?.campaign_data?.template_id
-            );
-            if (
-              getSpecificKeyData &&
-              getSpecificKeyData.hasOwnProperty("source_code")
-            ) {
-              if (
-                state_object != null &&
-                state_object?.template != "" &&
-                typeof state_object?.template !== "undefined"
-              ) {
-                if (state_object?.template !== "") {
-                  setTemplate("state_object.template");
-                  setTemplate(state_object?.template);
-                } else {
-                  setTemplate(getSpecificKeyData?.source_code);
+            if (typeof dd !== "undefined") {
+                let getSpecificKeyData = dd?.find(
+                    (e) => e?.id === props?.getWebinarDraftData?.campaign_data?.template_id
+                );
+                if (
+                    getSpecificKeyData &&
+                    getSpecificKeyData.hasOwnProperty("source_code")
+                ) {
+                    if (
+                        state_object != null &&
+                        state_object?.template != "" &&
+                        typeof state_object?.template !== "undefined"
+                    ) {
+                        if (state_object?.template !== "") {
+                            setTemplate("state_object.template");
+                            setTemplate(state_object?.template);
+                        } else {
+                            setTemplate(getSpecificKeyData?.source_code);
+                        }
+                    } else if (
+                        props.getWebinarDraftData != null &&
+                        props.getWebinarDraftData?.source_code != ""
+                    ) {
+                        if (props.getWebinarDraftData?.source_code !== "") {
+                            setTemplate("props.getDraftData.source_code");
+                            setTemplate(props.getWebinarDraftData?.source_code);
+                        } else {
+                            setTemplate(getSpecificKeyData?.source_code);
+                        }
+                    } else {
+                        setTemplate(getSpecificKeyData?.source_code);
+                    }
                 }
-              } else if (
-                props.getWebinarDraftData != null &&
-                props.getWebinarDraftData?.source_code != ""
-              ) {
-                if (props.getWebinarDraftData?.source_code !== "") {
-                  setTemplate("props.getDraftData.source_code");
-                  setTemplate(props.getWebinarDraftData?.source_code);
-                } else {
-                  setTemplate(getSpecificKeyData?.source_code);
-                }
-              } else {
-                setTemplate(getSpecificKeyData?.source_code);
-              }
             }
-          }
         }
-      };
+    };
 
     useEffect(() => {
         //console.log("sdsdsd");
@@ -270,16 +270,16 @@ const WebinarCreateNewEmail = (props) => {
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const getAllTags = async () => {
-          await axios
-            .post(`emailapi/get_tags`, body)
-            .then((res) => {
-              setAllTags(res?.data?.response?.data);
+            await axios
+                .post(`emailapi/get_tags`, body)
+                .then((res) => {
+                    setAllTags(res?.data?.response?.data);
 
-            })
-            .catch((err) => {
-              loader("hide");
-              console.log(err);
-            });
+                })
+                .catch((err) => {
+                    loader("hide");
+                    console.log(err);
+                });
         };
         getAllTags();
     }, []);
@@ -371,13 +371,13 @@ const WebinarCreateNewEmail = (props) => {
             setTemplateList(response?.data?.data)
             getSelectedTemplateSource(response?.data?.data);
             setCounter(counter + 1);
-    
+
             setTimeout(function () {
                 const div_img = document.querySelector("#template_dyn0");
                 if (div_img !== null && typeof div_img != "undefined") {
-                  div_img.click();
+                    div_img.click();
                 }
-              }, 400);
+            }, 400);
             loader("hide")
         } catch (err) {
             loader("hide")
@@ -457,22 +457,22 @@ const WebinarCreateNewEmail = (props) => {
         };
         loader("show");
         await axios
-          .post(`distributes/get_reders_list`, body)
-          .then((res) => {
-            if (res?.data?.status_code == 200) {
-              setAddListOpen(false);
-              setReaderDetails(res?.data?.response?.data);
-              setSmartListName(res?.data?.response?.smart_list_name);
-              setSmartListPopupStatus(true);
-            } else {
-              toast.warning(res?.data?.message);
-            }
-            loader("hide");
-          })
-          .catch((err) => {
-            toast.warning("Something went wrong");
-            loader("hide");
-          });
+            .post(`distributes/get_reders_list`, body)
+            .then((res) => {
+                if (res?.data?.status_code == 200) {
+                    setAddListOpen(false);
+                    setReaderDetails(res?.data?.response?.data);
+                    setSmartListName(res?.data?.response?.smart_list_name);
+                    setSmartListPopupStatus(true);
+                } else {
+                    toast.warning(res?.data?.message);
+                }
+                loader("hide");
+            })
+            .catch((err) => {
+                toast.warning("Something went wrong");
+                loader("hide");
+            });
     };
 
     const saveAsDraft = async (event) => {
@@ -519,25 +519,25 @@ const WebinarCreateNewEmail = (props) => {
 
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
-              await axios
+            await axios
                 .post(`emailapi/save_draft`, body)
                 .then((res) => {
-                  if (res?.data?.status_code === 200) {
-                    setCampaign_id(res?.data?.response?.data?.id);
-                    popup_alert({
-                      visible: "show",
-                      message: "Your changes has been saved <br />successfully !",
-                      type: "success",
-                      redirect: "/EmailList",
-                    });
-                    // toast.success("Draft saved");
-                  } else {
-                    toast.warning(res.data.message);
-                  }
-            loader("hide");
+                    if (res?.data?.status_code === 200) {
+                        setCampaign_id(res?.data?.response?.data?.id);
+                        popup_alert({
+                            visible: "show",
+                            message: "Your changes has been saved <br />successfully !",
+                            type: "success",
+                            redirect: "/EmailList",
+                        });
+                        // toast.success("Draft saved");
+                    } else {
+                        toast.warning(res.data.message);
+                    }
+                    loader("hide");
                 })
                 .catch((err) => {
-                  toast.error("Something went wrong");
+                    toast.error("Something went wrong");
                 });
         } else {
             event.preventDefault();
@@ -551,21 +551,21 @@ const WebinarCreateNewEmail = (props) => {
 
         if (validator.allValid()) {
 
-        props?.getWebinarEmailData({
-            //uniqueId: uniqueId,
-            status: getIsApprovedStatus,
-            emailDescription: emailDescription,
-            emailCreator: emailCreator,
-            emailCampaign: emailCampaign,
-            emailSubject: emailSubject,
-            templateId: templateId,
-            tags: tags,
-            template: template,
-            eventId: eventId,
-            campaign_id: campaign_id_st,
-        });
+            props?.getWebinarEmailData({
+                //uniqueId: uniqueId,
+                status: getIsApprovedStatus,
+                emailDescription: emailDescription,
+                emailCreator: emailCreator,
+                emailCampaign: emailCampaign,
+                emailSubject: emailSubject,
+                templateId: templateId,
+                tags: tags,
+                template: template,
+                eventId: eventId,
+                campaign_id: campaign_id_st,
+            });
 
-        navigate("/webinar/email/selectHCP");
+            navigate("/webinar/email/selectHCP");
         } else {
             validator.showMessages();
             setRenderAfterValidation(renderAfterValidation + 1);
@@ -674,24 +674,24 @@ const WebinarCreateNewEmail = (props) => {
         loader("show");
         console.log("in aproved clicked")
         await axios
-          .post(`emailapi/save_draft`, body)
-          .then((res) => {
-            loader("hide");
+            .post(`emailapi/save_draft`, body)
+            .then((res) => {
+                loader("hide");
 
-            setCampaign_id(res?.data?.response?.data?.id);
-            if (res?.data?.status_code === 200) {
-              if (ab === 3) {
-                toast.success("Approved Draft saved");
-              } else {
-                toast.success("Draft saved");
-              }
-            } else {
-              toast.warning(res.data.message);
-            }
-          })
-          .catch((err) => {
-            toast.error("Somwthing went wrong");
-          });
+                setCampaign_id(res?.data?.response?.data?.id);
+                if (res?.data?.status_code === 200) {
+                    if (ab === 3) {
+                        toast.success("Approved Draft saved");
+                    } else {
+                        toast.success("Draft saved");
+                    }
+                } else {
+                    toast.warning(res.data.message);
+                }
+            })
+            .catch((err) => {
+                toast.error("Somwthing went wrong");
+            });
     };
 
     const sendSample = (event) => {
@@ -723,18 +723,27 @@ const WebinarCreateNewEmail = (props) => {
                 let header = dialog.querySelector(".tox-dialog__header");
                 const closeButton = header.querySelector('[aria-label="Close"]');
                 let text = header.querySelector(".tox-dialog__title");
-
+                let url = dialog.querySelector(".tox-control-wrap")
+                let newLink = url.querySelector(".tox-textfield")
+                let newButton = document.createElement("button");
+               
                 if (text.innerText == "Insert/Edit Link") {
                     let uploadIcon = document.querySelector(
                         "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
                     );
                     uploadIcon.style.display = "none";
-                    let newButton = document.createElement("button");
-                    newButton.innerText = "Add Tracking";
+                    // let newButton = document.createElement("button");
+                    if (newLink?.value) {
+                        newButton.innerText = "Remove Track";
+                    } else {
+                        newButton.innerText = "Add Tracking";
+                    }
+
                     newButton.classList.add("tox-button");
                     newButton.classList.add("tox-button--icon");
                     newButton.classList.add("tox-button--naked");
                     newButton.classList.add("track");
+
                     newButton.onclick = function () {
                         if (templateIdRef.current == "") {
                             alert("Please select the template first before adding the link");
@@ -744,7 +753,16 @@ const WebinarCreateNewEmail = (props) => {
                         let firstToxControlWrap = document.querySelector(
                             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
                         );
-
+                        
+                        if(newLink?.value&&newButton.innerText == "Remove Track"){
+                            firstToxControlWrap.value=""                            
+                            return
+                        }
+                         if(!newLink?.value){
+                            alert ("Please enter a link")
+                            return
+                        }
+                       
                         // let text =dialog.querySelector(".tox-form__group");
                         if (!firstToxControlWrap.value) {
                             alert("Please enter a link");
@@ -775,16 +793,16 @@ const WebinarCreateNewEmail = (props) => {
 
                         saveButton.addEventListener("click", function () {
                             let link = `https://onesource.informed.pro/api/track-links`;
-
-                            //   axios
-                            //     .post(link, payload)
-                            //     .then((res) => {
-                            //       console.log("done");
-                            //     })
-                            //     .catch((err) => {
-                            //       loader("hide");
-                            //       console.log(err);
-                            //     });
+                        
+                            axios
+                                .post(link, payload)
+                                .then((res) => {
+                                    console.log("done");
+                                })
+                                .catch((err) => {
+                                    loader("hide");
+                                    console.log(err);
+                                });
                         });
                         alert("Traking added");
                     };
@@ -961,107 +979,107 @@ const WebinarCreateNewEmail = (props) => {
         setHcpsSelected(selectedHcp);
         let i = 0;
         const intervals_spend = (25 / 100) * selectedHcp?.length;
-    
+
         var intervals_increment = 100 / intervals_spend;
         var mails_increment = selectedHcp?.length / intervals_spend;
         let adr = 0;
         let incr_msg = 0;
         const timer = setInterval(() => {
-          adr = adr + intervals_increment;
-          incr_msg = incr_msg + mails_increment;
-          if (adr >= 98) {
-            setUploadOrDownloadCount(98);
-          } else {
-            setUploadOrDownloadCount(parseInt(adr));
-          }
-    
-          if (incr_msg >= selectedHcp.length) {
-            setMailsIncrement(selectedHcp?.length);
-          } else {
-            setMailsIncrement(parseInt(incr_msg));
-          }
+            adr = adr + intervals_increment;
+            incr_msg = incr_msg + mails_increment;
+            if (adr >= 98) {
+                setUploadOrDownloadCount(98);
+            } else {
+                setUploadOrDownloadCount(parseInt(adr));
+            }
+
+            if (incr_msg >= selectedHcp.length) {
+                setMailsIncrement(selectedHcp?.length);
+            } else {
+                setMailsIncrement(parseInt(incr_msg));
+            }
         }, 1000);
-    
+
         let pdf_id = state_object?.PdfSelected
-          ? state_object?.PdfSelected
-          : props?.getDraftData?.pdf_id;
-    
+            ? state_object?.PdfSelected
+            : props?.getDraftData?.pdf_id;
+
         setIsOpensend(false);
         setIsOpenAdd(false);
         if (pdf_id == 13) {
-          popup_alert({
-            visible: "show",
-            message:
-              "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
-            type: "error",
-          });
-        } else {
-          let selected_ids = selectedHcp?.map(
-            (number) => number["user_id"] || number["profile_user_id"]
-          );
-    
-          //  loader("show");
-          setShowProgressBar(true);
-          const body = {
-            user_id: localStorage?.getItem("user_id"),
-            // pdf_id: state_object?.PdfSelected
-            //   ? state_object?.PdfSelected
-            //   : props?.getDraftData?.pdf_id,
-            eventId:eventId,
-            subject: emailSubject,
-            template_id: templateId,
-            user_list: selected_ids,
-            smartlist_id: "",
-            source_code: template,
-          };
-    
-          //console.log(body);
-          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    
-          axios
-            .post(`emailapi/send_sample_email`, body)
-            .then((res) => {
-              loader("hide");
-              if (res?.data?.status_code === 200) {
-                setUploadOrDownloadCount(100);
-                setMailsIncrement(selectedHcp?.length);
-                clearInterval(timer);
-                setTimeout(() => {
-                  popup_alert({
-                    visible: "show",
-                    message: "Email sent successfully",
-                    type: "success",
-                  });
-    
-                  setShowProgressBar(false);
-                  setUploadOrDownloadCount(0);
-                  setMailsIncrement(0);
-                }, 1000);
-              } else {
-                clearInterval(timer);
-                setUploadOrDownloadCount(0);
-                setMailsIncrement(0);
-    
-                setShowProgressBar(false);
-                popup_alert({
-                  visible: "show",
-                  message: res?.data?.message,
-                  type: "error",
-                });
-              }
-            })
-            .catch((err) => {
-              clearInterval(timer);
-              setShowProgressBar(false);
-              loader("hide");
-              toast.error("Something went wrong");
-              console.log(err);
+            popup_alert({
+                visible: "show",
+                message:
+                    "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
+                type: "error",
             });
-    
-          setSelectedHcp([]);
-          setSearchedUsers([]);
+        } else {
+            let selected_ids = selectedHcp?.map(
+                (number) => number["user_id"] || number["profile_user_id"]
+            );
+
+            //  loader("show");
+            setShowProgressBar(true);
+            const body = {
+                user_id: localStorage?.getItem("user_id"),
+                // pdf_id: state_object?.PdfSelected
+                //   ? state_object?.PdfSelected
+                //   : props?.getDraftData?.pdf_id,
+                eventId: eventId,
+                subject: emailSubject,
+                template_id: templateId,
+                user_list: selected_ids,
+                smartlist_id: "",
+                source_code: template,
+            };
+
+            //console.log(body);
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+            axios
+                .post(`emailapi/send_sample_email`, body)
+                .then((res) => {
+                    loader("hide");
+                    if (res?.data?.status_code === 200) {
+                        setUploadOrDownloadCount(100);
+                        setMailsIncrement(selectedHcp?.length);
+                        clearInterval(timer);
+                        setTimeout(() => {
+                            popup_alert({
+                                visible: "show",
+                                message: "Email sent successfully",
+                                type: "success",
+                            });
+
+                            setShowProgressBar(false);
+                            setUploadOrDownloadCount(0);
+                            setMailsIncrement(0);
+                        }, 1000);
+                    } else {
+                        clearInterval(timer);
+                        setUploadOrDownloadCount(0);
+                        setMailsIncrement(0);
+
+                        setShowProgressBar(false);
+                        popup_alert({
+                            visible: "show",
+                            message: res?.data?.message,
+                            type: "error",
+                        });
+                    }
+                })
+                .catch((err) => {
+                    clearInterval(timer);
+                    setShowProgressBar(false);
+                    loader("hide");
+                    toast.error("Something went wrong");
+                    console.log(err);
+                });
+
+            setSelectedHcp([]);
+            setSearchedUsers([]);
         }
-      };
+    };
 
     const closeClicked = () => {
         setIsOpenAdd(false);
@@ -1331,20 +1349,20 @@ const WebinarCreateNewEmail = (props) => {
 
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
-              await axios
+            await axios
                 .post(`emailapi/add_update_template`, body)
                 .then((res) => {
-                  if (res.data.status_code === 200) {
-                    loader("hide");
-                    toast.success("Template saved successfully");
-                  } else {
-                    loader("hide");
-                    toast.warning("Template not selected.");
-                  }
+                    if (res.data.status_code === 200) {
+                        loader("hide");
+                        toast.success("Template saved successfully");
+                    } else {
+                        loader("hide");
+                        toast.warning("Template not selected.");
+                    }
                 })
                 .catch((err) => {
-                  loader("hide");
-                  toast.error("Something went wrong");
+                    loader("hide");
+                    toast.error("Something went wrong");
                 });
             setNewTemplatePopup(false);
             setTemplatePopup(false);
@@ -1389,21 +1407,21 @@ const WebinarCreateNewEmail = (props) => {
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 await axios
-                  .post(`emailapi/add_update_template`, body)
-                  .then((res) => {
-                    if (res.data.status_code === 200) {
-                      getTemplateListData(1);
-                      setTemplateId(res.data.response.data.last_id);
-                      templateIdRef.current = res.data.response.data.last_id;
-                    } else {
-                      loader("hide");
-                      toast.warning("Template not selected.");
-                    }
-                  })
-                  .catch((err) => {
-                    loader("hide");
-                    toast.error("Something went wrong");
-                  });
+                    .post(`emailapi/add_update_template`, body)
+                    .then((res) => {
+                        if (res.data.status_code === 200) {
+                            getTemplateListData(1);
+                            setTemplateId(res.data.response.data.last_id);
+                            templateIdRef.current = res.data.response.data.last_id;
+                        } else {
+                            loader("hide");
+                            toast.warning("Template not selected.");
+                        }
+                    })
+                    .catch((err) => {
+                        loader("hide");
+                        toast.error("Something went wrong");
+                    });
                 setNewTemplatePopup(false);
                 setTemplatePopup(false);
             } else {
@@ -1514,30 +1532,30 @@ const WebinarCreateNewEmail = (props) => {
                 list_id: getSmartListId,
                 show_specific: 1,
             };
-              axios
+            axios
                 .post(`distributes/get_reders_list`, body)
                 .then((res) => {
-                  if (res.data.status_code == 200) {
-                    setReaders(res?.data?.response?.data);
+                    if (res.data.status_code == 200) {
+                        setReaders(res?.data?.response?.data);
 
-                    res?.data?.response?.data?.map((data) => {
-                      let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === data?.email?.toLowerCase());
-                      if (typeof prev_obj === "undefined") {
-                        setSelectedHcp((oldArray) => [...oldArray, data]);
-                      }
-                    });
-                    // setSelectedHcp(res.data.response.data);
-                    loader("hide");
-                  } else {
-                    toast.warning(res?.data?.message);
-                    loader("hide");
-                  }
-                  setIsOpensend(true);
-                  setAddListOpen(false);
+                        res?.data?.response?.data?.map((data) => {
+                            let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === data?.email?.toLowerCase());
+                            if (typeof prev_obj === "undefined") {
+                                setSelectedHcp((oldArray) => [...oldArray, data]);
+                            }
+                        });
+                        // setSelectedHcp(res.data.response.data);
+                        loader("hide");
+                    } else {
+                        toast.warning(res?.data?.message);
+                        loader("hide");
+                    }
+                    setIsOpensend(true);
+                    setAddListOpen(false);
                 })
                 .catch((err) => {
-                  toast.warning("Something went wrong");
-                  loader("hide");
+                    toast.warning("Something went wrong");
+                    loader("hide");
                 });
         } else {
             toast.warning("Please select smart list");
