@@ -9554,9 +9554,12 @@ button.event_sort_btn.svg_active svg {
   border-radius: 0 13px 13px 0;
 }
 
+.invitee table td.invites-td {
+  border-left:1px dashed #97B6CF;
+}
 .invitee table td>div {
   border-radius: 14px;
-  padding: 10px;
+  padding: 3px;
   width: 100%;
   color: var(--dark-blue);
 }
@@ -9577,7 +9580,7 @@ button.event_sort_btn.svg_active svg {
 .invitee table td:last-child .invitess-tbl {
   display: flex;
   align-items: center;
-  border: 1px dashed #97B6CF;
+  /* border: 1px dashed #97B6CF; */
 }
 
 .invitee table {
@@ -9624,13 +9627,13 @@ button.event_sort_btn.svg_active svg {
   position: relative;
 }
 
-.invitess-tbl-right:after {
+/* .invitess-tbl-right:after {
   border-left: 1px solid var(--skyblue);
   content: "";
   position: absolute;
   left: 0;
   height: 46px;
-}
+} */
 
 .invitee table td.registred {
   color: var(--green);
