@@ -4016,7 +4016,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 .select-smart-list .filter_btn_div .filter-by {
   margin-left: 15px;
-  z-index: 1;
+  /* z-index: 1; */
 }
 .select-smart-list .filter_btn_div .apply-filter .filter-block {
   padding: 6px 16px;
