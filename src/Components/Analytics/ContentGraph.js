@@ -343,7 +343,7 @@ const ContentGraph = () => {
                         <h2>Content in activated HCP Docintel accounts</h2>
                       </div>
 
-                      <DocintelAccount data={activeTab.current ? data : null} />
+                      <DocintelAccount data={activeTab.current ? data : null} tabType="content-type"/>
                     </>
                   ) : apiCallStatus ? (
                     <div className="no_found">
