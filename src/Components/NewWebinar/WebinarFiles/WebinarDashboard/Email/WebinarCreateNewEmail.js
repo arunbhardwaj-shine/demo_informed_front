@@ -719,18 +719,18 @@ const WebinarCreateNewEmail = (props) => {
         editor.on("OpenWindow", function (e) {
             let dialog = document.getElementsByClassName("tox-dialog")[0];
             if (dialog) {
-                let header = dialog.querySelector(".tox-dialog__header");
-                const closeButton = header.querySelector('[aria-label="Close"]');
-                let text = header.querySelector(".tox-dialog__title");
-                let url = dialog.querySelector(".tox-control-wrap")
-                let newLink = url.querySelector(".tox-textfield")
+                let header = dialog?.querySelector(".tox-dialog__header");
+                const closeButton = header?.querySelector('[aria-label="Close"]');
+                let text = header?.querySelector(".tox-dialog__title");
+                let url = dialog?.querySelector(".tox-control-wrap")
+                let newLink = url?.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
                 const baseLink =
                     "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
                 let payload = {}
                 let apiLink = ""
 
-                if (text.innerText == "Insert/Edit Link") {
+                if (text?.innerText == "Insert/Edit Link") {
                     let uploadIcon = document.querySelector(
                         "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
                     );
