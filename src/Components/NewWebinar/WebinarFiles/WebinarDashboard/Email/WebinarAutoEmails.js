@@ -737,12 +737,12 @@ const WebinarAutoEmail = () => {
           template_id: templateId,
           name: templateName,
           status: status === 0 ? 2 : status === 1 ? 3 : 4,
-          language: tempLang,
+          event_id: eventId,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/add_update_template`, body)
+          .post(`webinar/add_update_template`, body)
           .then((res) => {
             if (res?.data?.status_code == 200) {
               getTemplateListData();

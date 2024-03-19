@@ -1361,26 +1361,26 @@ const WebinarCreateNewEmail = (props) => {
                 template_id: templateId,
                 name: templateName,
                 status: 2,
-                language: 2,
+                event_id:eventId
             };
 
-            // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            // loader("show");
-            //   await axios
-            //     .post(`emailapi/add_update_template`, body)
-            //     .then((res) => {
-            //       if (res.data.status_code === 200) {
-            //         loader("hide");
-            //         toast.success("Template saved successfully");
-            //       } else {
-            //         loader("hide");
-            //         toast.warning("Template not selected.");
-            //       }
-            //     })
-            //     .catch((err) => {
-            //       loader("hide");
-            //       toast.error("Something went wrong");
-            //     });
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+            loader("show");
+              await axios
+                .post(`webinar/add_update_template`, body)
+                .then((res) => {
+                  if (res.data.status_code === 200) {
+                    loader("hide");
+                    toast.success("Template saved successfully");
+                  } else {
+                    loader("hide");
+                    toast.warning("Template not selected.");
+                  }
+                })
+                .catch((err) => {
+                  loader("hide");
+                  toast.error("Something went wrong");
+                });
             setNewTemplatePopup(false);
             setTemplatePopup(false);
         } else {
@@ -1420,27 +1420,27 @@ const WebinarCreateNewEmail = (props) => {
                     name: template_name,
                     subject: template_subject,
                     status: 1,
-                    language: 2,
+                    event_id:eventId
                 };
 
-                // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                // loader("show");
-                // await axios
-                //   .post(`emailapi/add_update_template`, body)
-                //   .then((res) => {
-                //     if (res.data.status_code === 200) {
-                //       getTemplateListData(1);
-                //       setTemplateId(res.data.response.data.last_id);
-                //       templateIdRef.current = res.data.response.data.last_id;
-                //     } else {
-                //       loader("hide");
-                //       toast.warning("Template not selected.");
-                //     }
-                //   })
-                //   .catch((err) => {
-                //     loader("hide");
-                //     toast.error("Something went wrong");
-                //   });
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                loader("show");
+                await axios
+                  .post(`webinar/add_update_template`, body)
+                  .then((res) => {
+                    if (res.data.status_code === 200) {
+                      getTemplateListData(1);
+                      setTemplateId(res.data.response.data.last_id);
+                      templateIdRef.current = res.data.response.data.last_id;
+                    } else {
+                      loader("hide");
+                      toast.warning("Template not selected.");
+                    }
+                  })
+                  .catch((err) => {
+                    loader("hide");
+                    toast.error("Something went wrong");
+                  });
                 setNewTemplatePopup(false);
                 setTemplatePopup(false);
             } else {
