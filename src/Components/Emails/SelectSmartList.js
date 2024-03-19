@@ -490,42 +490,24 @@ const SelectSmartList = (props) => {
   };
 
   const handleIBUFilterChange = (ibu) => {
-    let getfilter = ''
-    if(ibu == 'All'){
-      ibu = ['All','Critical Care','Haematology','Immunotherapy'];
-      let get_creator_index = getFilterIbu.indexOf('All');
-      getFilterIbu.length = 0;
-      if(get_creator_index != -1){
-        setFilterIbu([]);
-      }else{
-        // let ibuToAdd = ibu.filter(item => !getFilterIbu.includes(item));
-        getFilterIbu.push(...ibu);
-        setFilterIbu(getFilterIbu);
-      }
-    }else{
-      let get_creator_index = getFilterIbu.indexOf(ibu);
-      if (get_creator_index !== -1) {
-
-        getFilterIbu.splice(get_creator_index, 1);        
-        let index = getFilterIbu.indexOf('All');
-        if (index !== -1) {
-          getFilterIbu.splice(index, 1);
-        }
-        setFilterIbu(getFilterIbu);
-      } else {
-        getFilterIbu.push(ibu);
-        setFilterIbu(getFilterIbu);
-      }
-    }
-    
-    getfilter = getFilterIbu;
-    if (getfilter?.hasOwnProperty("ibu")) {
-      getfilter.ibu = getFilterIbu;
+    let get_creator_index = getFilterIbu.indexOf(ibu);
+    if (get_creator_index !== -1) {
+      getFilterIbu.splice(get_creator_index, 1);
+      setFilterIbu(getFilterIbu);
     } else {
-      // getfilter = Object.assign({ ibu: getFilterIbu }, filter);
-      getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
+      getFilterIbu.length = 0;
+      getFilterIbu.push(ibu);
+      setFilterIbu(getFilterIbu);
+    }
+
+    let getfilter = getFilterIbu;
+    if (getfilter.hasOwnProperty("ibu")) {
+      getfilter.name = getFilterIbu;
+    } else {
+      getfilter = Object.assign({ ibu: getFilterIbu }, filter);
     }
     setFilter(getfilter);
+
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -839,33 +821,32 @@ const SelectSmartList = (props) => {
                                   filterdata?.ibu?.length > 0 && (
                                     <Accordion.Item className="card" eventKey="3">
                                       <Accordion.Header className="card-header">
-                                      IBU
+                                        IBU
                                       </Accordion.Header>
                                       <Accordion.Body className="card-body">
                                         <ul>
                                           {Object.entries(filterdata.ibu).map(
                                             ([index, item]) => (
                                               <li key={item}>
-                                                <label className="select-multiple-option">
-                                                  <input
-                                                    type="checkbox"
-                                                    id={`custom-checkbox-ibu-${index}`}
-                                                    name="ibu[]"
-                                                    value={item}
-                                                    checked={
-                                                      updateflag > 0 &&
-                                                      typeof getFilterIbu !==
-                                                        "undefined" &&
-                                                        getFilterIbu.indexOf(item) !==
-                                                        -1
-                                                    }
-                                                    onChange={() =>
-                                                      handleIBUFilterChange(item)
-                                                    }
-                                                  />
-                                                  {item}
-                                                  <span className="checkmark"></span>
-                                                </label>
+                                              <label className="select-multiple-option">
+                                                <input
+                                                  type="checkbox"
+                                                  id={`custom-checkbox-ibu-${index}`}
+                                                  name="names[]"
+                                                  value={item}
+                                                  checked={
+                                                    updateflag > 0 &&
+                                                    typeof getFilterIbu !==
+                                                      "undefined" &&
+                                                      getFilterIbu.indexOf(item) !== -1
+                                                  }
+                                                  onChange={() =>
+                                                    handleIBUFilterChange(item)
+                                                  }
+                                                />
+                                                {item}
+                                                <span className="checkmark"></span>
+                                              </label>
                                               </li>
                                             )
                                           )}

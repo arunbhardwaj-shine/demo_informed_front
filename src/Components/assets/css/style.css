@@ -1474,7 +1474,13 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   align-items: center;
   margin-bottom: 15px;
 }
-
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time .smart-list-added-user {
+  margin-bottom: 0;
+}
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time span {
+  margin: 0 0 11px;
+  display: block;
+}
 .smartlist-view ul li .smartlist_view {
   border: 2px solid var(--yellow);
 }
@@ -2160,7 +2166,28 @@ form .input-group {
   margin: 0 0 0 8px;
   padding: 9px 16px;
 }
-
+.new-smartlist .mail-box-content {
+    justify-content: flex-start;
+}
+.new-smartlist .smartlist-view .mail-box-content, .new-smartlist .smartlist-add {
+    min-height: 375px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content ul li {
+    margin: 0 0 15px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
+    flex: 0 0 145px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tabs-data {
+    flex-direction: column;
+    height: 100%;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data {
+  height: calc(100% - 61px);
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tab-panel {
+  height: 100%;
+}
 .form-buttons .approved-btn img,
 .form-buttons .btn.btn-large img {
   margin-left: 4px;
@@ -2986,15 +3013,15 @@ h5 {
   margin-right: 25px;
 }
 
-.selected-hcp-list table tr td.delete_row,
-.result-hcp-table .table tbody tr td.delete_row {
+.selected-hcp-list table tr td.delete_row img,
+.result-hcp-table .table tbody tr td.delete_row img{
   border-radius: 30px;
-  padding: 10px;
+  padding: 6px;
   background: var(--light-blue);
 }
 
-table tr td.delete_row,
-table tr:hover td.delete_row {
+table tr td.delete_row img,
+table tr:hover td.delete_row img{
   padding: 0;
   position: absolute;
   background: var(--light-blue);
@@ -3010,15 +3037,15 @@ table tr:hover td.delete_row {
   cursor: pointer;
 }
 
-table tr td.delete_row:hover,
-table tr td.delete_row:active,
-table tr td.delete_row:focus {
+.selected-hcp-list table tr td.delete_row:hover img,.result-hcp-table .table tbody tr td.delete_row:hover img,
+.selected-hcp-list table tr td.delete_row:active img,.result-hcp-table .table tbody tr td.delete_row:active img
+.selected-hcp-list table tr td.delete_row:focus img, .result-hcp-table .table tbody tr td.delete_row:focus img{
   background: var(--dark-blue);
 }
 
-.selected-hcp-list table tr td.delete_row img {
+/* .selected-hcp-list table tr td.delete_row img {
   width: 20px;
-}
+} */
 
 .selected-hcp-list .table tr {
   position: relative;
@@ -4019,7 +4046,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 .select-smart-list .filter_btn_div .filter-by {
   margin-left: 15px;
-  z-index: 1;
+  /* z-index: 1; */
 }
 .select-smart-list .filter_btn_div .apply-filter .filter-block {
   padding: 6px 16px;
@@ -4927,7 +4954,7 @@ form#add_hcp_form .row:not(:first-child) {
 .create_smart_list .create-smart-step,
 #create_list_popup .create-smart-step {
   position: relative;
-  margin: 0 auto 25px;
+  margin: 0 auto 35px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box,
@@ -4936,15 +4963,15 @@ form#add_hcp_form .row:not(:first-child) {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
   border-radius: 15px;
-  padding: 26px 32px 17px;
+  padding: 26px 32px 32px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box form label,
 .modal .add_hcp_boxes .form-group label {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 23px;
   color: var(--dark-blue);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box form .form-control,
@@ -4964,9 +4991,14 @@ form#add_hcp_form .row:not(:first-child) {
 .modal .add_hcp_boxes .form-group input.error {
   box-shadow: 0px 1px 6px rgb(214 25 117 / 60%);
 }
-
+.create-smart-step-box .justify-content-between {
+  flex-wrap: wrap;
+  gap: 32px 0;
+}
 .create-smart-step-box .form-group.col {
   max-width: 456px;
+  width: 100%;
+  flex: 0 0 auto;
 }
 .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
   padding: 6px 50px 7px 15px;
@@ -5114,7 +5146,7 @@ h2 {
 }
 
 .create-smart-step .create-smart-step-box h5 {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 28px;
   color: var(--dark-blue);
   font-weight: 500;
@@ -5132,6 +5164,9 @@ h2 {
   list-style: none;
   padding: 0 44px;
   text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .create-smart-step-box ul li .send-option-img {
@@ -5139,8 +5174,8 @@ h2 {
   background: var(--white);
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
   border-radius: 15px;
-  width: 224px;
-  height: 224px;
+  width: 164px;
+  height: 164px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6810,7 +6845,7 @@ input:-webkit-autofill {
 table thead.sticky-header:after {
   content: "";
   position: absolute;
-  width: 20px;
+  width: 40px;
   background: #fbfcfd;
   height: 35px;
   right: -11px;
@@ -6885,7 +6920,9 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 0px;
 }
-
+.smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 74px;
+}
 header.top-0~div .custom-change .search-hcp table thead.sticky-header,
 header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
   top: 158px;
@@ -9544,9 +9581,12 @@ button.event_sort_btn.svg_active svg {
   border-radius: 0 13px 13px 0;
 }
 
+.invitee table td.invites-td {
+  border-left:1px dashed #97B6CF;
+}
 .invitee table td>div {
   border-radius: 14px;
-  padding: 10px;
+  padding: 3px;
   width: 100%;
   color: var(--dark-blue);
 }
@@ -9567,7 +9607,7 @@ button.event_sort_btn.svg_active svg {
 .invitee table td:last-child .invitess-tbl {
   display: flex;
   align-items: center;
-  border: 1px dashed #97B6CF;
+  /* border: 1px dashed #97B6CF; */
 }
 
 .invitee table {
@@ -9614,13 +9654,13 @@ button.event_sort_btn.svg_active svg {
   position: relative;
 }
 
-.invitess-tbl-right:after {
+/* .invitess-tbl-right:after {
   border-left: 1px solid var(--skyblue);
   content: "";
   position: absolute;
   left: 0;
   height: 46px;
-}
+} */
 
 .invitee table td.registred {
   color: var(--green);

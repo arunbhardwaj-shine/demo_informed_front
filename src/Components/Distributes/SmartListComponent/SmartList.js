@@ -240,45 +240,66 @@ const SmartList = (props) => {
   };
 
   const handleIBUChange = (ibu) => {
-    let getfilter = ''
-    if(ibu == 'All'){
-      ibu = ['All','Critical Care','Haematology','Immunotherapy'];
-      let get_creator_index = getFilterIbu.indexOf('All');
-      getFilterIbu.length = 0;
-      if(get_creator_index != -1){
-        setFilterIbu([]);
-      }else{
-        // let ibuToAdd = ibu.filter(item => !getFilterIbu.includes(item));
-        getFilterIbu.push(...ibu);
-        setFilterIbu(getFilterIbu);
-      }
-    }else{
-      let get_creator_index = getFilterIbu.indexOf(ibu);
-      if (get_creator_index !== -1) {
-
-        getFilterIbu.splice(get_creator_index, 1);        
-        let index = getFilterIbu.indexOf('All');
-        if (index !== -1) {
-          getFilterIbu.splice(index, 1);
-        }
-        setFilterIbu(getFilterIbu);
-      } else {
-        getFilterIbu.push(ibu);
-        setFilterIbu(getFilterIbu);
-      }
-    }
-    
-    getfilter = getFilterIbu;
-    if (getfilter?.hasOwnProperty("ibu")) {
-      getfilter.ibu = getFilterIbu;
+    let get_creator_index = getFilterIbu.indexOf(ibu);
+    if (get_creator_index !== -1) {
+      getFilterIbu.splice(get_creator_index, 1);
+      setFilterIbu(getFilterIbu);
     } else {
-      // getfilter = Object.assign({ ibu: getFilterIbu }, filter);
-      getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
+      getFilterIbu.length = 0;
+      getFilterIbu.push(ibu);
+      setFilterIbu(getFilterIbu);
+    }
+
+    let getfilter = getFilterIbu;
+    if (getfilter.hasOwnProperty("ibu")) {
+      getfilter.name = getFilterIbu;
+    } else {
+      getfilter = Object.assign({ ibu: getFilterIbu }, filter);
     }
     setFilter(getfilter);
+
     let up = updateflag + 1;
     setUpdateFlag(up);
-  };
+  }
+
+  // const handleIBUChange = (ibu) => {
+  //   let getfilter = ''
+  //   if(ibu == 'All'){
+  //     ibu = ['All','Critical Care','Haematology','Immunotherapy'];
+  //     let get_creator_index = getFilterIbu.indexOf('All');
+  //     getFilterIbu.length = 0;
+  //     if(get_creator_index != -1){
+  //       setFilterIbu([]);
+  //     }else{
+  //       getFilterIbu.push(...ibu);
+  //       setFilterIbu(getFilterIbu);
+  //     }
+  //   }else{
+  //     let get_creator_index = getFilterIbu.indexOf(ibu);
+  //     if (get_creator_index !== -1) {
+
+  //       getFilterIbu.splice(get_creator_index, 1);        
+  //       let index = getFilterIbu.indexOf('All');
+  //       if (index !== -1) {
+  //         getFilterIbu.splice(index, 1);
+  //       }
+  //       setFilterIbu(getFilterIbu);
+  //     } else {
+  //       getFilterIbu.push(ibu);
+  //       setFilterIbu(getFilterIbu);
+  //     }
+  //   }
+    
+  //   getfilter = getFilterIbu;
+  //   if (getfilter?.hasOwnProperty("ibu")) {
+  //     getfilter.ibu = getFilterIbu;
+  //   } else {
+  //     getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
+  //   }
+  //   setFilter(getfilter);
+  //   let up = updateflag + 1;
+  //   setUpdateFlag(up);
+  // };
 
   const handleOnFilterDate = (fdate) => {
     let date_index = filterdate.indexOf(fdate);
@@ -557,26 +578,25 @@ const SmartList = (props) => {
                                   {Object.entries(filterdata.ibu).map(
                                     ([index, item]) => (
                                       <li key={item}>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-ibu-${index}`}
-                                            name="ibu[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof getFilterIbu !==
-                                                "undefined" &&
-                                                getFilterIbu.indexOf(item) !==
-                                                -1
-                                            }
-                                            onChange={() =>
-                                              handleIBUChange(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
+                                      <label className="select-multiple-option">
+                                        <input
+                                          type="checkbox"
+                                          id={`custom-checkbox-ibu-${index}`}
+                                          name="names[]"
+                                          value={item}
+                                          checked={
+                                            updateflag > 0 &&
+                                            typeof getFilterIbu !==
+                                              "undefined" &&
+                                              getFilterIbu.indexOf(item) !== -1
+                                          }
+                                          onChange={() =>
+                                            handleIBUChange(item)
+                                          }
+                                        />
+                                        {item}
+                                        <span className="checkmark"></span>
+                                      </label>
                                       </li>
                                     )
                                   )}
@@ -858,7 +878,7 @@ const SmartList = (props) => {
               )}
 
             <div className="smart-list-result">
-              <div className="col smartlist-result-block">
+              <div className="col smartlist-result-block new-smartlist">
                 {
                 // getfiltername.length == 0 &&
                 //   getFilterCreator.length == 0 &&
@@ -904,6 +924,7 @@ const SmartList = (props) => {
                                   title="List info"
                                   className="flex-column justify-content-between"
                                 >
+                                  <div className="d-flex justify-content-between tabs-data">
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <ul className="tab-mail-list">
                                       <li>
@@ -923,7 +944,60 @@ const SmartList = (props) => {
                                         </h6>
                                       </li>
                                     </ul> 
+
+                                    <div className="mail-time">
+                                      <span>{data?.created_at}</span>
+                                      <div className="smart-list-added-user">
+                                        <img
+                                          src={path_image + "smartlist-user.svg"}
+                                          alt="User icon"
+                                        />
+                                        {data?.readers_count}
+                                      </div>
+                                    </div>
+                                    
                                   </div>
+                                  <div className="smartlist-buttons">
+                              {!deletestatus && (
+                                <>
+                                  {data.upload_by_filter == 1 ? (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/EditList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  ) : (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/ViewSmartList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  )}
+
+                                  <Link
+                                    className="btn btn-primary btn-filled view"
+                                    to={{
+                                      pathname: "/ViewSmartList",
+                                      search: "?listId=" + data.id,
+                                    }}
+                                    onClick={() => linkClicked(data.id)}
+                                  >
+                                    View
+                                  </Link>
+                                </>
+                              )}
+                            </div>
+                            </div>
                                 </Tab>
                                 <Tab
                                 eventKey="more-details"
@@ -954,7 +1028,7 @@ const SmartList = (props) => {
                                         Registered
                                         </h6>
                                         <h6>
-                                          No
+                                          {data?.registered}
                                         </h6>
                                       </li>
                                       <li>
@@ -1103,57 +1177,7 @@ const SmartList = (props) => {
                                 </Tab>
                               </Tabs>
                             </div>
-
-                            <div className="mail-time">
-                              <span>{data?.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {data?.readers_count}
-                            </div>
-                            <div className="smartlist-buttons">
-                              {!deletestatus && (
-                                <>
-                                  {data.upload_by_filter == 1 ? (
-                                    <Link
-                                      className="btn btn-primary btn-bordered edit_list"
-                                      to={{
-                                        pathname: "/EditList",
-                                        search: "?listId=" + data.id,
-                                      }}
-                                      onClick={() => linkClicked(data.id)}
-                                    >
-                                      Edit List
-                                    </Link>
-                                  ) : (
-                                    <Link
-                                      className="btn btn-primary btn-bordered edit_list"
-                                      to={{
-                                        pathname: "/ViewSmartList",
-                                        search: "?listId=" + data.id,
-                                      }}
-                                      onClick={() => linkClicked(data.id)}
-                                    >
-                                      Edit List
-                                    </Link>
-                                  )}
-
-                                  <Link
-                                    className="btn btn-primary btn-filled view"
-                                    to={{
-                                      pathname: "/ViewSmartList",
-                                      search: "?listId=" + data.id,
-                                    }}
-                                    onClick={() => linkClicked(data.id)}
-                                  >
-                                    View
-                                  </Link>
-                                </>
-                              )}
-                            </div>
+                            
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
