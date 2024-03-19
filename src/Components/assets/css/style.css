@@ -4947,7 +4947,7 @@ form#add_hcp_form .row:not(:first-child) {
 .create_smart_list .create-smart-step,
 #create_list_popup .create-smart-step {
   position: relative;
-  margin: 0 auto 25px;
+  margin: 0 auto 35px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box,
@@ -4956,15 +4956,15 @@ form#add_hcp_form .row:not(:first-child) {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
   border-radius: 15px;
-  padding: 26px 32px 17px;
+  padding: 26px 32px 32px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box form label,
 .modal .add_hcp_boxes .form-group label {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 23px;
   color: var(--dark-blue);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box form .form-control,
@@ -4984,9 +4984,14 @@ form#add_hcp_form .row:not(:first-child) {
 .modal .add_hcp_boxes .form-group input.error {
   box-shadow: 0px 1px 6px rgb(214 25 117 / 60%);
 }
-
+.create-smart-step-box .justify-content-between {
+  flex-wrap: wrap;
+  gap: 32px 0;
+}
 .create-smart-step-box .form-group.col {
   max-width: 456px;
+  width: 100%;
+  flex: 0 0 auto;
 }
 .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
   padding: 6px 50px 7px 15px;
@@ -5134,7 +5139,7 @@ h2 {
 }
 
 .create-smart-step .create-smart-step-box h5 {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 28px;
   color: var(--dark-blue);
   font-weight: 500;
@@ -5152,6 +5157,9 @@ h2 {
   list-style: none;
   padding: 0 44px;
   text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .create-smart-step-box ul li .send-option-img {
@@ -5159,8 +5167,8 @@ h2 {
   background: var(--white);
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
   border-radius: 15px;
-  width: 224px;
-  height: 224px;
+  width: 164px;
+  height: 164px;
   display: flex;
   align-items: center;
   justify-content: center;
