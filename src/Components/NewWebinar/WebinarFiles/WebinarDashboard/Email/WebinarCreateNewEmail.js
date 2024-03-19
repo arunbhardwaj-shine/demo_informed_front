@@ -495,15 +495,17 @@ const WebinarCreateNewEmail = (props) => {
             }
 
             const body = {
+                pdf_id:0,
                 user_id: localStorage.getItem("user_id"),
-                eventId: eventId,
+                event_id: eventId,
                 description: props?.getWebinarEmailData
                     ? emailDescription
                     : props?.getWebinarDraftData?.description,
                 creator: props?.getWebinarEmailData ? emailCreator : props.getWebinarDraftData?.creator,
-                campaign_name: props?.getWebinarEmailData
-                    ? emailCampaign
-                    : props?.getWebinarDraftData?.campaign,
+                // campaign_name: props?.getWebinarEmailData
+                //     ? emailCampaign
+                //     : props?.getWebinarDraftData?.campaign,
+                campaign_name: "webinar",
                 subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
                 route_location: "webinar/email/create-new-email",
                 tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
@@ -533,7 +535,7 @@ const WebinarCreateNewEmail = (props) => {
                             visible: "show",
                             message: "Your changes has been saved <br />successfully !",
                             type: "success",
-                            redirect: "/EmailList",
+                            redirect: "/webinar/event-listing",
                         });
                         // toast.success("Draft saved");
                     } else {
@@ -545,8 +547,8 @@ const WebinarCreateNewEmail = (props) => {
                     toast.error("Something went wrong");
                 });
         // } else {
-            event.preventDefault();
-            toast.error("Plese select Email Campaign first");
+            // event.preventDefault();
+            // toast.error("Plese select Email Campaign first");
         // }
     };
     const nextClicked = () => {
@@ -1361,26 +1363,29 @@ const WebinarCreateNewEmail = (props) => {
                 template_id: templateId,
                 name: templateName,
                 status: 2,
-                language: 2,
+                event_id:eventId
             };
 
-            // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            // loader("show");
-            //   await axios
-            //     .post(`emailapi/add_update_template`, body)
-            //     .then((res) => {
-            //       if (res.data.status_code === 200) {
-            //         loader("hide");
-            //         toast.success("Template saved successfully");
-            //       } else {
-            //         loader("hide");
-            //         toast.warning("Template not selected.");
-            //       }
-            //     })
-            //     .catch((err) => {
-            //       loader("hide");
-            //       toast.error("Something went wrong");
-            //     });
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+            loader("show");
+              await axios
+                .post(`webinar/add_update_template`, body)
+                .then(async (res) => {
+                  if (res.data.status_code === 200) {
+                   await  getTemplateListData(1);
+
+                    loader("hide");
+                    
+                    toast.success("Template saved successfully");
+                  } else {
+                    loader("hide");
+                    toast.warning("Template not selected.");
+                  }
+                })
+                .catch((err) => {
+                  loader("hide");
+                  toast.error("Something went wrong");
+                });
             setNewTemplatePopup(false);
             setTemplatePopup(false);
         } else {
@@ -1420,18 +1425,18 @@ const WebinarCreateNewEmail = (props) => {
                     name: template_name,
                     subject: template_subject,
                     status: 1,
-                    language: 2,
+                    event_id:eventId
                 };
 
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 await axios
-                  .post(`emailapi/add_update_template`, body)
+                  .post(`webinar/add_update_template`, body)
                   .then((res) => {
                     if (res.data.status_code === 200) {
                       getTemplateListData(1);
-                      setTemplateId(res?.data?.response?.data?.last_id);
-                      templateIdRef.current = res?.data?.response?.data?.last_id;
+                      setTemplateId(res.data.response.data.last_id);
+                      templateIdRef.current = res.data.response.data.last_id;
                     } else {
                       loader("hide");
                       toast.warning("Template not selected.");
@@ -1444,15 +1449,22 @@ const WebinarCreateNewEmail = (props) => {
                 setNewTemplatePopup(false);
                 setTemplatePopup(false);
             } else {
+                let error={}
+
                 if(template_name == "" && template_name?.trim()?.length <= 0)
                 {
                     toast.warning("Please enter template name.");
+                    error.newTemplateName="Please enter template name"
+
 
                 }
                 else{
-                    toast.warning("Please enter template Subject.");
+                    toast.warning("Please enter template subject.");
+                    error.newTemplateSubject="Please enter template subject"
+
 
                 }
+                setValidationError(error)
             }
         } else {
             toast.warning("Template not selected.");
@@ -2367,21 +2379,33 @@ const WebinarCreateNewEmail = (props) => {
                         <Modal.Body>
                             <form>
                                 <div className="form-group">
-                                    <label>Enter new template name</label>
+                                    <label>Enter new template name<span>*</span> </label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         id="template_name"
                                     />
+                                       {validationError?.newTemplateName ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateName}
+                              </div>
+                            ) : null}
                                 </div>
+                             
                                 <div className="form-group">
-                                    <label>Enter new template Subject</label>
+                                    <label>Enter new template Subject<span>*</span></label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         id="template_subject"
                                     />
+                                     {validationError?.newTemplateSubject ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateSubject}
+                              </div>
+                            ) : null}
                                 </div>
+                               
                                 <button
                                     type="submit"
                                     className="btn btn-primary btn-filled"
