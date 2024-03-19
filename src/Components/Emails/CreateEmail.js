@@ -1597,7 +1597,7 @@ const CreateEmail = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1636,7 +1636,7 @@ const CreateEmail = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1822,7 +1822,7 @@ const CreateEmail = (props) => {
     ) {
       if (editorRef.current) {
         setTemplate(editorRef.current.getContent());
-        toast.success("Template update successfuly");
+        toast.success("Template updated successfully");
       }
     } else {
       toast.warning("Template not selected.");
