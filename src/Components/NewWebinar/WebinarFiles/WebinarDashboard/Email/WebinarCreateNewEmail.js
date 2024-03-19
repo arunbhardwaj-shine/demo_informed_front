@@ -1423,24 +1423,24 @@ const WebinarCreateNewEmail = (props) => {
                     language: 2,
                 };
 
-                // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                // loader("show");
-                // await axios
-                //   .post(`emailapi/add_update_template`, body)
-                //   .then((res) => {
-                //     if (res.data.status_code === 200) {
-                //       getTemplateListData(1);
-                //       setTemplateId(res.data.response.data.last_id);
-                //       templateIdRef.current = res.data.response.data.last_id;
-                //     } else {
-                //       loader("hide");
-                //       toast.warning("Template not selected.");
-                //     }
-                //   })
-                //   .catch((err) => {
-                //     loader("hide");
-                //     toast.error("Something went wrong");
-                //   });
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                loader("show");
+                await axios
+                  .post(`emailapi/add_update_template`, body)
+                  .then((res) => {
+                    if (res.data.status_code === 200) {
+                      getTemplateListData(1);
+                      setTemplateId(res?.data?.response?.data?.last_id);
+                      templateIdRef.current = res?.data?.response?.data?.last_id;
+                    } else {
+                      loader("hide");
+                      toast.warning("Template not selected.");
+                    }
+                  })
+                  .catch((err) => {
+                    loader("hide");
+                    toast.error("Something went wrong");
+                  });
                 setNewTemplatePopup(false);
                 setTemplatePopup(false);
             } else {
@@ -1520,16 +1520,16 @@ const WebinarCreateNewEmail = (props) => {
 
                 //console.log(body);
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                // loader("show");
-                // await axios
-                //   .post(`emailapi/save_tags`, body)
-                //   .then((res) => {
-                //     loader("hide");
-                //   })
-                //   .catch((err) => {
-                //     loader("hide");
-                //     console.log(err);
-                //   });
+                loader("show");
+                await axios
+                  .post(`emailapi/save_tags`, body)
+                  .then((res) => {
+                    loader("hide");
+                  })
+                  .catch((err) => {
+                    loader("hide");
+                    console.log(err);
+                  });
 
             } else {
                 toast.error("Tag already in list.");
@@ -1643,12 +1643,12 @@ const WebinarCreateNewEmail = (props) => {
                                         <button
                                             className="btn btn-primary btn-filled next"
                                             onClick={nextClicked}
-                                        // disabled={
-                                        //     typeof emailSubject == "undefined" ||
-                                        //     emailSubject?.trim()?.length == 0 ||
-                                        //     typeof templateId == "undefined" ||
-                                        //     templateId == ""
-                                        // }
+                                        disabled={
+                                            typeof emailSubject == "undefined" ||
+                                            emailSubject?.trim()?.length == 0 ||
+                                            typeof templateId == "undefined" ||
+                                            templateId == ""
+                                        }
                                         >
                                             Next
                                         </button>
