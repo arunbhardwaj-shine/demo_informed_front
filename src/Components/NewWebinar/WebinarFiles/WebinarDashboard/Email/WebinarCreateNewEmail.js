@@ -734,8 +734,10 @@ const WebinarCreateNewEmail = (props) => {
                 let newLink = url.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
                 const baseLink =
-                            "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-               
+                    "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+                let payload = {}
+                let apiLink = ""
+
                 if (text.innerText == "Insert/Edit Link") {
                     let uploadIcon = document.querySelector(
                         "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
@@ -743,74 +745,70 @@ const WebinarCreateNewEmail = (props) => {
                     uploadIcon.style.display = "none";
                     // let newButton = document.createElement("button");
                     if (newLink?.value?.includes(baseLink)) {
-                        newButton.innerText = "Remove Track";
+                        newButton.innerText = "Remove Tracking";
+                        apiLink = `https://onesource.informed.pro/api/delete-track-links`;
                     } else {
                         newButton.innerText = "Add Tracking";
+                        apiLink = `https://onesource.informed.pro/api/track-links`;
                     }
                     newButton.classList.add("tox-button");
                     newButton.classList.add("tox-button--icon");
                     newButton.classList.add("tox-button--naked");
                     newButton.classList.add("track");
 
-                    newButton.onclick = function () {                       
+                    newButton.onclick = function () {
                         if (templateIdRef.current == "") {
                             alert("Please select the template first before adding the link");
                             return;
-                        }                       
+                        }
                         let firstToxControlWrap = document.querySelector(
                             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
                         );
-                        
-                        if(newLink?.value?.includes(baseLink)&&newButton.innerText == "Remove Track"){
-                            let urlvalue=newLink?.value?.split("&redirect_url=")
-                            console.log("firstToxControlWrap.value-->",firstToxControlWrap.value)
+
+                        if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+                            let urlvalue = newLink?.value?.split("&redirect_url=")
+                            console.log("firstToxControlWrap.value-->", firstToxControlWrap.value)
                             const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
                             const substring = urlvalue[0].substring(startIndex);
-                            firstToxControlWrap.value=urlvalue[1] 
-                            let payload = {                               
+                            firstToxControlWrap.value = urlvalue[1]
+                            payload = {
                                 template_id: templateIdRef.current,
                                 url_code: substring,
-                            };                       
-                            return
+                            };
                         }
-                         if(!newLink?.value){
-                            alert ("Please enter a link")
-                            return
-                        }
-                       
-                        // let text =dialog.querySelector(".tox-form__group");
-                        if (!firstToxControlWrap.value) {
-                            alert("Please enter a link");
-                            return;
+                        if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+                            if (!newLink?.value) {
+                                alert("Please enter a link")
+                                return
+                            }
+                            if (!firstToxControlWrap.value) {
+                                alert("Please enter a link");
+                                return;
+                            }
+                            if (firstToxControlWrap.value.startsWith(baseLink)) {
+                                alert("Traking already added");
+                                return;
+                            }
+                            let slugValue = prompt("Enter a slug value");
+
+                            const currentTimestamp = Date.now();
+                            payload = {
+                                slug_value: slugValue,
+                                template_id: templateIdRef.current,
+                                url_code: `clicked_track_doc_${currentTimestamp}`,
+                            };
+                            linkingPayload.current = payload;
+                            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                            firstToxControlWrap.value = link;
+
                         }
 
-                        // const baseLink =
-                        //     "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-                        if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
-                            return;
-                        }
-                        let slugValue = prompt("Enter a slug value");
-
-                        const currentTimestamp = Date.now();
-                        // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-                        let payload = {
-                            slug_value: slugValue,
-                            template_id: templateIdRef.current,
-                            url_code: `clicked_track_doc_${currentTimestamp}`,
-                        };
-                        linkingPayload.current = payload;
-                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                        firstToxControlWrap.value = link;
                         var saveButton = document.querySelector(
                             '.tox-button[title="Save"]'
                         );
-
                         saveButton.addEventListener("click", function () {
-                            let link = `https://onesource.informed.pro/api/track-links`;
-                        
                             axios
-                                .post(link, payload)
+                                .post(apiLink, payload)
                                 .then((res) => {
                                     console.log("done");
                                 })
@@ -819,7 +817,11 @@ const WebinarCreateNewEmail = (props) => {
                                     console.log(err);
                                 });
                         });
-                        alert("Traking added");
+                        if (newLink?.value?.includes(baseLink)) {
+                            alert("Traking added");
+                        } else {
+                            alert("Traking removed");
+                        }
                     };
 
                     header.insertBefore(newButton, closeButton);

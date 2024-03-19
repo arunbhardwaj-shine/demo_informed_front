@@ -1474,7 +1474,13 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   align-items: center;
   margin-bottom: 15px;
 }
-
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time .smart-list-added-user {
+  margin-bottom: 0;
+}
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time span {
+  margin: 0 0 11px;
+  display: block;
+}
 .smartlist-view ul li .smartlist_view {
   border: 2px solid var(--yellow);
 }
@@ -2160,7 +2166,28 @@ form .input-group {
   margin: 0 0 0 8px;
   padding: 9px 16px;
 }
-
+.new-smartlist .mail-box-content {
+    justify-content: flex-start;
+}
+.new-smartlist .smartlist-view .mail-box-content, .new-smartlist .smartlist-add {
+    min-height: 375px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content ul li {
+    margin: 0 0 15px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
+    flex: 0 0 145px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tabs-data {
+    flex-direction: column;
+    height: 100%;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data {
+  height: calc(100% - 61px);
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tab-panel {
+  height: 100%;
+}
 .form-buttons .approved-btn img,
 .form-buttons .btn.btn-large img {
   margin-left: 4px;
@@ -2986,15 +3013,15 @@ h5 {
   margin-right: 25px;
 }
 
-.selected-hcp-list table tr td.delete_row,
-.result-hcp-table .table tbody tr td.delete_row {
+.selected-hcp-list table tr td.delete_row img,
+.result-hcp-table .table tbody tr td.delete_row img{
   border-radius: 30px;
-  padding: 10px;
+  padding: 6px;
   background: var(--light-blue);
 }
 
-table tr td.delete_row,
-table tr:hover td.delete_row {
+table tr td.delete_row img,
+table tr:hover td.delete_row img{
   padding: 0;
   position: absolute;
   background: var(--light-blue);
@@ -3010,15 +3037,15 @@ table tr:hover td.delete_row {
   cursor: pointer;
 }
 
-table tr td.delete_row:hover,
-table tr td.delete_row:active,
-table tr td.delete_row:focus {
+.selected-hcp-list table tr td.delete_row:hover img,.result-hcp-table .table tbody tr td.delete_row:hover img,
+.selected-hcp-list table tr td.delete_row:active img,.result-hcp-table .table tbody tr td.delete_row:active img
+.selected-hcp-list table tr td.delete_row:focus img, .result-hcp-table .table tbody tr td.delete_row:focus img{
   background: var(--dark-blue);
 }
 
-.selected-hcp-list table tr td.delete_row img {
+/* .selected-hcp-list table tr td.delete_row img {
   width: 20px;
-}
+} */
 
 .selected-hcp-list .table tr {
   position: relative;
@@ -4019,7 +4046,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 .select-smart-list .filter_btn_div .filter-by {
   margin-left: 15px;
-  z-index: 1;
+  /* z-index: 1; */
 }
 .select-smart-list .filter_btn_div .apply-filter .filter-block {
   padding: 6px 16px;
@@ -6810,7 +6837,7 @@ input:-webkit-autofill {
 table thead.sticky-header:after {
   content: "";
   position: absolute;
-  width: 20px;
+  width: 40px;
   background: #fbfcfd;
   height: 35px;
   right: -11px;
@@ -6885,7 +6912,9 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 0px;
 }
-
+.smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 74px;
+}
 header.top-0~div .custom-change .search-hcp table thead.sticky-header,
 header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
   top: 158px;
@@ -9544,9 +9573,12 @@ button.event_sort_btn.svg_active svg {
   border-radius: 0 13px 13px 0;
 }
 
+.invitee table td.invites-td {
+  border-left:1px dashed #97B6CF;
+}
 .invitee table td>div {
   border-radius: 14px;
-  padding: 10px;
+  padding: 3px;
   width: 100%;
   color: var(--dark-blue);
 }
@@ -9567,7 +9599,7 @@ button.event_sort_btn.svg_active svg {
 .invitee table td:last-child .invitess-tbl {
   display: flex;
   align-items: center;
-  border: 1px dashed #97B6CF;
+  /* border: 1px dashed #97B6CF; */
 }
 
 .invitee table {
@@ -9614,13 +9646,13 @@ button.event_sort_btn.svg_active svg {
   position: relative;
 }
 
-.invitess-tbl-right:after {
+/* .invitess-tbl-right:after {
   border-left: 1px solid var(--skyblue);
   content: "";
   position: absolute;
   left: 0;
   height: 46px;
-}
+} */
 
 .invitee table td.registred {
   color: var(--green);
