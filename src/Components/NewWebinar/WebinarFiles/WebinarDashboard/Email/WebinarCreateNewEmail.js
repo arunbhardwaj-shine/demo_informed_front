@@ -718,7 +718,6 @@ const WebinarCreateNewEmail = (props) => {
     const addTracking = function (editor) {
         editor.on("OpenWindow", function (e) {
             let dialog = document.getElementsByClassName("tox-dialog")[0];
-
             if (dialog) {
                 let header = dialog.querySelector(".tox-dialog__header");
                 const closeButton = header.querySelector('[aria-label="Close"]');
@@ -726,6 +725,8 @@ const WebinarCreateNewEmail = (props) => {
                 let url = dialog.querySelector(".tox-control-wrap")
                 let newLink = url.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
+                const baseLink =
+                            "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
                
                 if (text.innerText == "Insert/Edit Link") {
                     let uploadIcon = document.querySelector(
@@ -733,29 +734,35 @@ const WebinarCreateNewEmail = (props) => {
                     );
                     uploadIcon.style.display = "none";
                     // let newButton = document.createElement("button");
-                    if (newLink?.value) {
+                    if (newLink?.value?.includes(baseLink)) {
                         newButton.innerText = "Remove Track";
                     } else {
                         newButton.innerText = "Add Tracking";
                     }
-
                     newButton.classList.add("tox-button");
                     newButton.classList.add("tox-button--icon");
                     newButton.classList.add("tox-button--naked");
                     newButton.classList.add("track");
 
-                    newButton.onclick = function () {
+                    newButton.onclick = function () {                       
                         if (templateIdRef.current == "") {
                             alert("Please select the template first before adding the link");
                             return;
-                        }
-                        // alert(templateId);
+                        }                       
                         let firstToxControlWrap = document.querySelector(
                             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
                         );
                         
-                        if(newLink?.value&&newButton.innerText == "Remove Track"){
-                            firstToxControlWrap.value=""                            
+                        if(newLink?.value?.includes(baseLink)&&newButton.innerText == "Remove Track"){
+                            let urlvalue=newLink?.value?.split("&redirect_url=")
+                            console.log("firstToxControlWrap.value-->",firstToxControlWrap.value)
+                            const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
+                            const substring = urlvalue[0].substring(startIndex);
+                            firstToxControlWrap.value=urlvalue[1] 
+                            let payload = {                               
+                                template_id: templateIdRef.current,
+                                url_code: substring,
+                            };                       
                             return
                         }
                          if(!newLink?.value){
@@ -769,8 +776,8 @@ const WebinarCreateNewEmail = (props) => {
                             return;
                         }
 
-                        const baseLink =
-                            "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+                        // const baseLink =
+                        //     "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
                             alert("Traking already added");
                             return;
