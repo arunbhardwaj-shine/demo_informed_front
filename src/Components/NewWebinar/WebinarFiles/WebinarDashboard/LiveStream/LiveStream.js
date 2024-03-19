@@ -1537,7 +1537,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                          {attendees.length > 0 ? (
+                          {/* {attendees.length > 0 ? (
                             
                             <button
                               className={
@@ -1590,7 +1590,7 @@ useEffect(() => {
                               }
                              
                             </button>
-                          ) : null}
+                          ) : null} */}
                           <div className="btn-refresh">
                             <img
                               className={
@@ -1882,7 +1882,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                          {attendees.length > 0 ? (
+                          {/* {attendees.length > 0 ? (
                             <button
                               className={
                                 deleteStatus
@@ -1933,7 +1933,7 @@ useEffect(() => {
                                 </svg>
                               }
                             </button>
-                          ) : null}
+                          ) : null} */}
                           <div className="btn-refresh">
                             <img
                               className={
@@ -2228,7 +2228,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                          {attendees.length > 0 ? (
+                          {/* {attendees.length > 0 ? (
                             <button
                               className={
                                 deleteStatus
@@ -2279,7 +2279,7 @@ useEffect(() => {
                                 </svg>
                               }
                             </button>
-                          ) : null}
+                          ) : null} */}
                           <div className="btn-refresh">
                             <img
                               className={
@@ -2792,7 +2792,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                          {attendees.length > 0 ? (
+                          {/* {attendees.length > 0 ? (
                             <button
                               className={
                                 deleteStatus
@@ -2843,7 +2843,7 @@ useEffect(() => {
                                 </svg>
                               }
                             </button>
-                          ) : null}
+                          ) : null} */}
                           <div className="btn-refresh">
                             <img
                               className={

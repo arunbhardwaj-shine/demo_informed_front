@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { createContent } from "../../CommonComponent/Validations";
 
 import { popup_alert } from "../../../popup_alert";
+import DatePicker from "react-datepicker";
+
 import {
   deleteData,
   postData,
@@ -44,6 +47,16 @@ import {
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseContent = (props) => {
+  const [userInputs, setCreateLibraryInputs] = useState({
+    expDatetime: new Date(
+      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+    ),
+    limit: "",
+  });
+  const limitFieldRef = useRef(null);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [error, setError] = useState({});
+
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -54,8 +67,8 @@ const LicenseContent = (props) => {
   ]);
   const [statusOptions, setStatusOptions] = useState([
     { label: "Sold", value: "sold" },
-    { label: "Unsold", value: "unsold" }
-  ])
+    { label: "Unsold", value: "unsold" },
+  ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [totalCount, setCount] = useState(0);
@@ -92,7 +105,7 @@ const LicenseContent = (props) => {
 
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
-  const [changeStatus, setChangeStatus] = useState([])
+  const [changeStatus, setChangeStatus] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
   const [qrState, setQr] = useState({
     value: "",
@@ -100,6 +113,7 @@ const LicenseContent = (props) => {
   const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isRenewOpen, setIsRenewOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
@@ -110,7 +124,7 @@ const LicenseContent = (props) => {
   });
   const [forceRender, setForceRender] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const BrokenImage =
@@ -139,7 +153,16 @@ const LicenseContent = (props) => {
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-
+  const handleChange = (e, isSelectedName) => {
+    setCreateLibraryInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
   useEffect(() => {
     if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
       const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
@@ -434,6 +457,11 @@ const LicenseContent = (props) => {
       } else {
         setConfirmationPopup(true);
       }
+    } else if (stateMsg == "renew") {
+      // setUserId(id);
+      setResetDataId(id);
+
+      setIsRenewOpen(!isRenewOpen);
     } else {
       // setDeleteStatus(false);
       setResetDataId(id);
@@ -552,21 +580,21 @@ const LicenseContent = (props) => {
     let statusValue = e?.value;
     let status = {
       index: i,
-      value: statusValue
-    }
+      value: statusValue,
+    };
     const found = changeStatus.some((el) => el?.index === i);
     if (!found) {
-      setChangeStatus((oldArray) => [...oldArray, status])
+      setChangeStatus((oldArray) => [...oldArray, status]);
     } else {
       const index = changeStatus.findIndex((el) => el?.index === i);
       changeStatus[index].value = statusValue;
     }
-  }
+  };
 
   const updateChanges = async (pdf_id, index) => {
     loader("show");
     try {
-      let body = {}
+      let body = {};
       let consent_value = "";
       let status_value = "";
 
@@ -574,22 +602,24 @@ const LicenseContent = (props) => {
       if (consentIndex != -1) {
         consent_value = changeConsent[consentIndex].value;
       } else {
-        const consentIndex = libraryData.findIndex((el) => el?.id === pdf_id)
+        const consentIndex = libraryData.findIndex((el) => el?.id === pdf_id);
         consent_value = libraryData[consentIndex]?.linkType;
       }
 
       if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
-        const statusIndex = changeStatus?.findIndex((el) => el?.index === pdf_id);
+        const statusIndex = changeStatus?.findIndex(
+          (el) => el?.index === pdf_id
+        );
         if (statusIndex != -1) {
           status_value = changeStatus[statusIndex]?.value;
         } else {
-          const statusIndex = libraryData?.findIndex((el) => el?.id === pdf_id)
+          const statusIndex = libraryData?.findIndex((el) => el?.id === pdf_id);
           status_value = libraryData[statusIndex]?.sold_unsold;
         }
         body = {
           pdfId: pdf_id,
           consentType: consent_value,
-          sold_unsold: status_value
+          sold_unsold: status_value,
         };
       } else {
         body = {
@@ -840,6 +870,49 @@ const LicenseContent = (props) => {
   const nextClicked = (id) => {
     props.getEmailData({ PdfSelected: id });
   };
+  const renewButtonClicked = async (e) => {
+    loader("show");
+  
+    let err = {};
+    const { limit, expDatetime, specialRequirement } = userInputs;
+  
+    try {
+      if (!limit) {
+        err.limit = "Limit is required";
+      } else if (limit < 0) {
+        err.limit = "Limit must be greater than or equal to 0";
+      }
+  
+      setError(err);
+  
+      if (Object.keys(err).length) {
+        return;
+      }
+  
+      const formattedExpDatetime = expDatetime
+        ? moment(expDatetime).format("YYYY/MM/DD")
+        : "";
+  
+      const payload = {
+        pdfId: resetDataId,
+        limit,
+        expDatetime: formattedExpDatetime,
+        specialRequirement,
+      };
+  
+      const res = await postData(ENDPOINT.RENEWLICENSE, {
+        user_id: localStorage.getItem("user_id"),
+        ...payload,
+      });
+  
+      setIsRenewOpen(false);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      loader("hide"); 
+    }
+  };
+  
 
   return (
     <>
@@ -969,62 +1042,62 @@ const LicenseContent = (props) => {
                                       <ul>
                                         {filterdata[key]?.length > 0
                                           ? filterdata[key]?.map(
-                                            (item, index) => (
-                                              <li>
-                                                {item != "" ? (
-                                                  <label className="select-multiple-option">
-                                                    <input
-                                                      type={
-                                                        key == "draft" ||
+                                              (item, index) => (
+                                                <li>
+                                                  {item != "" ? (
+                                                    <label className="select-multiple-option">
+                                                      <input
+                                                        type={
+                                                          key == "draft" ||
                                                           key ==
-                                                          "Selected By Articles"
-                                                          ? "radio"
-                                                          : "checkbox"
-                                                      }
-                                                      id={`custom-checkbox-tags-${index}`}
-                                                      value={item}
-                                                      checked={
-                                                        appliedFilter[
-                                                          key
-                                                        ]?.includes(item)
-                                                          ? true
-                                                          : false
-                                                      }
-                                                      // defaultChecked={
-                                                      //   filterObject?.hasOwnProperty(
-                                                      //     key
-                                                      //   )
-                                                      //     ? filterObject[
-                                                      //         key
-                                                      //       ]?.indexOf(item) !==
-                                                      //       -1
-                                                      //     : false
-                                                      // }
-                                                      name="tags[]"
-                                                      onChange={(e) =>
-                                                        handleOnFilterChange(
-                                                          e,
-                                                          item,
-                                                          index,
-                                                          key,
-                                                          [...filterdata[key]]
-                                                        )
-                                                      }
-                                                    />
+                                                            "Selected By Articles"
+                                                            ? "radio"
+                                                            : "checkbox"
+                                                        }
+                                                        id={`custom-checkbox-tags-${index}`}
+                                                        value={item}
+                                                        checked={
+                                                          appliedFilter[
+                                                            key
+                                                          ]?.includes(item)
+                                                            ? true
+                                                            : false
+                                                        }
+                                                        // defaultChecked={
+                                                        //   filterObject?.hasOwnProperty(
+                                                        //     key
+                                                        //   )
+                                                        //     ? filterObject[
+                                                        //         key
+                                                        //       ]?.indexOf(item) !==
+                                                        //       -1
+                                                        //     : false
+                                                        // }
+                                                        name="tags[]"
+                                                        onChange={(e) =>
+                                                          handleOnFilterChange(
+                                                            e,
+                                                            item,
+                                                            index,
+                                                            key,
+                                                            [...filterdata[key]]
+                                                          )
+                                                        }
+                                                      />
 
-                                                    {key == "draft" &&
+                                                      {key == "draft" &&
                                                       item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&
-                                                        item == "1"
+                                                        ? "live"
+                                                        : key == "draft" &&
+                                                          item == "1"
                                                         ? "draft"
                                                         : item}
-                                                    <span className="checkmark"></span>
-                                                  </label>
-                                                ) : null}
-                                              </li>
+                                                      <span className="checkmark"></span>
+                                                    </label>
+                                                  ) : null}
+                                                </li>
+                                              )
                                             )
-                                          )
                                           : null}
                                       </ul>
                                     </Accordion.Body>
@@ -1119,7 +1192,7 @@ const LicenseContent = (props) => {
                 </div>
               </div>
               {Object.keys(filterObject)?.length !== 0 &&
-                filterApplyflag > 0 ? (
+              filterApplyflag > 0 ? (
                 <div className="apply-filter">
                   <div className="filter-block">
                     <div className="filter-block-left full">
@@ -1161,8 +1234,8 @@ const LicenseContent = (props) => {
                                           {key == "draft" && item == "0"
                                             ? "live"
                                             : key == "draft" && item == "1"
-                                              ? "draft"
-                                              : item}
+                                            ? "draft"
+                                            : item}
                                           <img
                                             src={
                                               path_image + "filter-close.svg"
@@ -1306,8 +1379,8 @@ const LicenseContent = (props) => {
                               <div className="select-tags">
                                 {data?.tags?.length
                                   ? JSON.parse(data.tags)?.map((data) => {
-                                    return <div>{data}</div>;
-                                  })
+                                      return <div>{data}</div>;
+                                    })
                                   : ""}
                               </div>
                             </div>
@@ -1484,15 +1557,18 @@ const LicenseContent = (props) => {
                                           data.pdfLinks == 0 && <h6>No</h6>}
                                       </div>
                                     </li>
-                                    {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ? (
+                                    {localStorage.getItem("user_id") ==
+                                    "m5JI5zEDY3xHFTZBnSGQZg==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
                                             Status
                                           </h6>
-                                          <h6>{data?.sold_unsold
-                                            ? data?.sold_unsold
-                                            : "N/A"}</h6>
+                                          <h6>
+                                            {data?.sold_unsold
+                                              ? data?.sold_unsold
+                                              : "N/A"}
+                                          </h6>
                                         </li>
                                       </>
                                     ) : null}
@@ -1500,7 +1576,7 @@ const LicenseContent = (props) => {
                                 </div>
 
                                 {location?.state?.data != "edit" &&
-                                  deletestatus == false ? (
+                                deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
                                       <a
@@ -1571,10 +1647,10 @@ const LicenseContent = (props) => {
                                               (el) => el.pdfId == data?.id
                                             ) !== -1
                                               ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ].opening > 0
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].opening > 0
                                                 ? "success"
                                                 : "default"
                                               : "default"
@@ -1584,10 +1660,10 @@ const LicenseContent = (props) => {
                                               (el) => el.pdfId == data?.id
                                             ) !== -1
                                               ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ].opening
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].opening
                                               : "100"
                                           }
                                           label={
@@ -1595,194 +1671,19 @@ const LicenseContent = (props) => {
                                               (el) => el.pdfId == data?.id
                                             ) !== -1
                                               ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ].opening
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].opening
                                               : "Loading"
                                           }
                                         />
                                       </div>
                                     </li>
 
-                                    {
-                                      data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3 ?
-                                        (
-                                          <>
-                                            <li className="d-flex align-center">
-                                              <h6 className="tab-content-title">
-                                                Unique reader (total)
-                                                <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
-                                                  <img
-                                                    src={
-                                                      path_image +
-                                                      "info_circle_icon.svg"
-                                                    }
-                                                    alt="refresh-btn"
-                                                  />
-                                                </LinkWithTooltip>
-                                              </h6>
-                                              <div className="data-progress send">
-                                                <ProgressBar
-                                                  variant={
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) => el.pdfId == data?.id
-                                                        )
-                                                      ]?.unique > 0
-                                                        ? "warning"
-                                                        : "default"
-                                                      : "default"
-                                                  }
-                                                  now={
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? (opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) => el.pdfId == data?.id
-                                                        )
-                                                      ]?.unique)
-                                                      : "100"
-                                                  }
-                                                  label={
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) => el.pdfId == data?.id
-                                                        )
-                                                      ]?.unique
-                                                      : "Loading"
-                                                  }
-                                                />
-                                              </div>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                Article Usage
-                                                <LinkWithTooltip tooltip="Number of usage on the content.">
-                                                  <img
-                                                    src={
-                                                      path_image +
-                                                      "info_circle_icon.svg"
-                                                    }
-                                                    alt="refresh-btn"
-                                                  />
-                                                </LinkWithTooltip>
-                                              </h6>
-                                              <div className="data-progress">
-                                                <ProgressBar
-                                                  variant={
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) =>
-                                                            el.pdfId == data?.id
-                                                        )
-                                                      ]?.pinReaders
-                                                        ? "pin_usage"
-                                                        : "default"
-                                                      : "default"
-                                                  }
-                                                  now={
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? (opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) =>
-                                                            el.pdfId == data?.id
-                                                        )
-                                                      ]?.pinReaders /
-                                                        opening_details[
-                                                          opening_details.findIndex(
-                                                            (el) =>
-                                                              el.pdfId == data?.id
-                                                          )
-                                                        ]?.limit) *
-                                                      100
-                                                      : "100"
-                                                  }
-                                                  label={
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) =>
-                                                            el.pdfId == data?.id
-                                                        )
-                                                      ].pinReaders
-                                                      : "Loading"
-                                                  }
-                                                />
-                                                <span>
-                                                  Agreed Limit :&nbsp;
-                                                  <strong>
-                                                    {opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    ) !== -1
-                                                      ? opening_details[
-                                                        opening_details.findIndex(
-                                                          (el) => el.pdfId == data?.id
-                                                        )
-                                                      ]?.limit == 1000
-                                                        ? "Unlimited"
-                                                        : opening_details[
-                                                          opening_details.findIndex(
-                                                            (el) =>
-                                                              el.pdfId == data?.id
-                                                          )
-                                                        ]?.limit
-                                                      : "Unlimited"}
-                                                  </strong>
-                                                </span>
-                                              </div>
-                                              <span className="total-left">
-                                                {opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                ) !== -1
-                                                  ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    )
-                                                  ]?.limit == 1000
-                                                    ? null
-                                                    : opening_details[
-                                                      opening_details.findIndex(
-                                                        (el) => el.pdfId == data?.id
-                                                      )
-                                                    ]?.limit -
-                                                    opening_details[
-                                                      opening_details.findIndex(
-                                                        (el) => el.pdfId == data?.id
-                                                      )
-                                                    ]?.pinReaders
-                                                  : null}
-
-                                                {opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                ) !== -1 ? (
-                                                  opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    )
-                                                  ]?.limit != 1000 ? (
-                                                    <small>Left</small>
-                                                  ) : null
-                                                ) : null}
-                                              </span>
-                                            </li>
-                                          </>
-                                        )
-                                        :
+                                    {data?.lastRomanNumber == 2 ||
+                                    data?.lastRomanNumber == 3 ? (
+                                      <>
                                         <li className="d-flex align-center">
                                           <h6 className="tab-content-title">
                                             Unique reader (total)
@@ -1803,10 +1704,11 @@ const LicenseContent = (props) => {
                                                   (el) => el.pdfId == data?.id
                                                 ) !== -1
                                                   ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    )
-                                                  ]?.unique > 0
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique > 0
                                                     ? "warning"
                                                     : "default"
                                                   : "default"
@@ -1815,18 +1717,12 @@ const LicenseContent = (props) => {
                                                 opening_details.findIndex(
                                                   (el) => el.pdfId == data?.id
                                                 ) !== -1
-                                                  ? (opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    )
-                                                  ]?.unique /
-                                                    opening_details[
+                                                  ? opening_details[
                                                       opening_details.findIndex(
                                                         (el) =>
                                                           el.pdfId == data?.id
                                                       )
-                                                    ]?.limit) *
-                                                  100
+                                                    ]?.unique
                                                   : "100"
                                               }
                                               label={
@@ -1834,10 +1730,74 @@ const LicenseContent = (props) => {
                                                   (el) => el.pdfId == data?.id
                                                 ) !== -1
                                                   ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    )
-                                                  ]?.unique
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Article Usage
+                                            <LinkWithTooltip tooltip="Number of usage on the content.">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.pinReaders
+                                                    ? "pin_usage"
+                                                    : "default"
+                                                  : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? (opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.pinReaders /
+                                                      opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit) *
+                                                    100
+                                                  : "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ].pinReaders
                                                   : "Loading"
                                               }
                                             />
@@ -1848,17 +1808,18 @@ const LicenseContent = (props) => {
                                                   (el) => el.pdfId == data?.id
                                                 ) !== -1
                                                   ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) => el.pdfId == data?.id
-                                                    )
-                                                  ]?.limit == 1000
-                                                    ? "Unlimited"
-                                                    : opening_details[
                                                       opening_details.findIndex(
                                                         (el) =>
                                                           el.pdfId == data?.id
                                                       )
-                                                    ]?.limit
+                                                    ]?.limit == 1000
+                                                    ? "Unlimited"
+                                                    : opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit
                                                   : "Unlimited"}
                                               </strong>
                                             </span>
@@ -1868,21 +1829,23 @@ const LicenseContent = (props) => {
                                               (el) => el.pdfId == data?.id
                                             ) !== -1
                                               ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ]?.limit == 1000
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit == 1000
                                                 ? null
                                                 : opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.limit -
-                                                opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.unique
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit -
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.pinReaders
                                               : null}
 
                                             {opening_details.findIndex(
@@ -1898,7 +1861,128 @@ const LicenseContent = (props) => {
                                             ) : null}
                                           </span>
                                         </li>
-                                    }
+                                      </>
+                                    ) : (
+                                      <li className="d-flex align-center">
+                                        <h6 className="tab-content-title">
+                                          Unique reader (total)
+                                          <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress send">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.unique > 0
+                                                  ? "warning"
+                                                  : "default"
+                                                : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? (opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.unique /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
+                                                : "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.unique
+                                                : "Loading"
+                                            }
+                                          />
+                                          <span>
+                                            Agreed Limit :&nbsp;
+                                            <strong>
+                                              {opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit == 1000
+                                                  ? "Unlimited"
+                                                  : opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit
+                                                : "Unlimited"}
+                                            </strong>
+                                          </span>
+                                        </div>
+                                        <span className="total-left">
+                                          {opening_details.findIndex(
+                                            (el) => el.pdfId == data?.id
+                                          ) !== -1
+                                            ? opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.limit == 1000
+                                              ? null
+                                              : opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit -
+                                                opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.unique
+                                            : null}
+
+                                          {opening_details.findIndex(
+                                            (el) => el.pdfId == data?.id
+                                          ) !== -1 ? (
+                                            opening_details[
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              )
+                                            ]?.limit != 1000 ? (
+                                              <small>Left</small>
+                                            ) : null
+                                          ) : null}
+                                        </span>
+                                      </li>
+                                    )}
                                     {data?.linkType != "Online" ? (
                                       <li>
                                         <h6 className="tab-content-title">
@@ -1920,11 +2004,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.reader
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.reader
                                                   ? "danger"
                                                   : "default"
                                                 : "default"
@@ -1934,18 +2018,18 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.reader /
-                                                  opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
+                                                  ]?.reader /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
                                                 : "100"
                                             }
                                             label={
@@ -1953,11 +2037,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ].reader
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].reader
                                                 : "Loading"
                                             }
                                           />
@@ -1985,11 +2069,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.subLink
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.subLink
                                                   ? "sublink"
                                                   : "default"
                                                 : "default"
@@ -1999,18 +2083,18 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.subLink /
-                                                  opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
+                                                  ]?.subLink /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
                                                 : "100"
                                             }
                                             label={
@@ -2018,11 +2102,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ].subLink
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].subLink
                                                 : "Loading"
                                             }
                                           />
@@ -2051,11 +2135,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.print
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.print
                                                   ? "print"
                                                   : "default"
                                                 : "default"
@@ -2065,18 +2149,18 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.print /
-                                                  opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
+                                                  ]?.print /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
                                                 : "100"
                                             }
                                             label={
@@ -2084,11 +2168,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ].print
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].print
                                                 : "Loading"
                                             }
                                           />
@@ -2117,11 +2201,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.download
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.download
                                                   ? "download"
                                                   : "default"
                                                 : "default"
@@ -2131,18 +2215,18 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ]?.download /
-                                                  opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
+                                                  ]?.download /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
                                                 : "100"
                                             }
                                             label={
@@ -2150,11 +2234,11 @@ const LicenseContent = (props) => {
                                                 (el) => el.pdfId == data?.id
                                               ) !== -1
                                                 ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) =>
-                                                      el.pdfId == data?.id
-                                                  )
-                                                ].download
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].download
                                                 : "Loading"
                                             }
                                           />
@@ -2172,6 +2256,18 @@ const LicenseContent = (props) => {
                                     >
                                       Analytics
                                     </Link>
+                                 {/* {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" &&   <Button
+                                      className="footer-btn"
+                                      onClick={(e) =>
+                                        showConfirmationPopup(
+                                          "renew",
+                                          e,
+                                          data?.id
+                                        )
+                                      }
+                                    >
+                                      Renew
+                                    </Button>} */}
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>
@@ -2207,12 +2303,13 @@ const LicenseContent = (props) => {
                                               data.linkType == "Online"
                                                 ? types[0]
                                                 : data.linkType == "Offline"
-                                                  ? types[1]
-                                                  : data.linkType == "Sunshine"
-                                                    ? types[2]
-                                                    : data.linkType == "Sunshine USA"
-                                                      ? types?.[3]
-                                                      : "Select"
+                                                ? types[1]
+                                                : data.linkType == "Sunshine"
+                                                ? types[2]
+                                                : data.linkType ==
+                                                  "Sunshine USA"
+                                                ? types?.[3]
+                                                : "Select"
                                             }
                                             onChange={(event) =>
                                               onConsentChange(event, data.id)
@@ -2221,12 +2318,12 @@ const LicenseContent = (props) => {
                                             className="dropdown-basic-button split-button-dropup"
                                             isClearable
                                           />
-
                                         </div>
                                       </div>
                                     </li>
-                                    {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ?
-                                      (<>
+                                    {localStorage.getItem("user_id") ==
+                                    "m5JI5zEDY3xHFTZBnSGQZg==" ? (
+                                      <>
                                         <li>
                                           {/* <div className="form-group d-flex align-items-center"> */}
 
@@ -2240,12 +2337,16 @@ const LicenseContent = (props) => {
                                                 defaultValue={
                                                   data.sold_unsold == "sold"
                                                     ? statusOptions[0]
-                                                    : data.sold_unsold == "unsold"
-                                                      ? statusOptions[1]
-                                                      : "Select"
+                                                    : data.sold_unsold ==
+                                                      "unsold"
+                                                    ? statusOptions[1]
+                                                    : "Select"
                                                 }
                                                 onChange={(event) =>
-                                                  onStatusChange(event, data?.id)
+                                                  onStatusChange(
+                                                    event,
+                                                    data?.id
+                                                  )
                                                 }
                                                 id={"status_dropdown_" + index}
                                                 className="dropdown-basic-button split-button-dropup"
@@ -2254,7 +2355,10 @@ const LicenseContent = (props) => {
                                             </div>
                                           </div>
                                         </li>
-                                      </>) : ""}
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
                                   </ul>
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn d-flex justify-content-end">
@@ -2355,7 +2459,7 @@ const LicenseContent = (props) => {
                                           </h6>
                                           <h6>
                                             {data?.cost_center &&
-                                              data?.cost_center != 0
+                                            data?.cost_center != 0
                                               ? data.cost_center
                                               : "N/A"}
                                           </h6>
@@ -2567,6 +2671,165 @@ const LicenseContent = (props) => {
             Save
           </button>
         </Modal.Footer>
+      </Modal>
+
+      <Modal id="tagsModal" show={isOpen}>
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Add Tags
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModal}
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="select-tags">
+            <h6>Select Tag :</h6>
+            <div className="tag-lists">
+              <div className="tag-lists-view">
+                {Object.values(allTags).map((data) => {
+                  return (
+                    <>
+                      <div onClick={(event) => tagClicked(data)}>{data} </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="selected-tags">
+            <h6>
+              Selected Tag <span>| {tagClickedFirst.length}</span>
+            </h6>
+
+            <div className="total-selected">
+              {tagClickedFirst.map((data, index) => {
+                return (
+                  <>
+                    <div className="tag-cross">
+                      {data.innerHTML || data}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                        onClick={() => removeTagFinal(index)}
+                      />
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <form>
+            <div className="form-group">
+              <label htmlFor="new-tag">New Tag</label>
+              <input
+                type="text"
+                className="form-control"
+                id="new-tag"
+                value={newTag}
+                onChange={(e) => newTagChanged(e)}
+              />
+
+              <button
+                onClick={addTag}
+                type="button"
+                className="btn btn-primary add btn-bordered"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={saveButtonClicked}
+          >
+            Save
+          </button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal id="renewModal" show={isRenewOpen}>
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+          License Renewal
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setIsRenewOpen(false)}
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="create-change-content">
+            <div className="form_action">
+              <div className="form-group">
+                <label htmlFor="">
+                  Set limit of usage <span>*</span>
+                </label>
+                <input
+                  type="number"
+                  name="limit"
+                  min="0"
+                  ref={limitFieldRef}
+                  className={
+                    error?.limit ? "form-control error" : "form-control"
+                  }
+                  placeholder="“0” value means unlimited limit"
+                  onChange={handleChange}
+                />
+                {error?.limit ? (
+                  <div className="login-validation">{error?.limit}</div>
+                ) : null}
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Expiration date</label>
+                <DatePicker
+                  selected={
+                    userInputs?.expDatetime
+                      ? new Date(userInputs?.expDatetime)
+                      : new Date(
+                          moment(new Date(), "MM/DD/YYYY")
+                            .add("years", 1)
+                            .format("MM/DD/YYYY")
+                        )
+                  }
+                  name="expDatetime"
+                  onChange={(e) => handleChange(e, "expDatetime")}
+                  dateFormat="dd/MM/yyyy"
+                  className="form-control"
+                  minDate={currentDate}
+                />
+              </div>
+                <div className="form-group">
+                  <label htmlFor="">Invoice notes</label>
+                  <textarea
+                    className="form-control"
+                    id="formControlTextarea"
+                    onChange={(e) =>
+                      handleChange(e?.target.value, "specialRequirement")
+                    }
+                    rows="5"
+                    placeholder="Please type your notes here..."
+                  ></textarea>
+                </div>
+              <button
+                className="btn btn-primary btn-filled next"
+                onClick={renewButtonClicked}
+              >
+                Renew License
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </>
   );

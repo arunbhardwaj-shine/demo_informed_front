@@ -210,6 +210,19 @@ const SpcView = () => {
     setSpcData(filteredData);
     setShowFilter(false);
   };
+
+  const handleViewClick = (file,title) => {
+    try{
+      const state = {
+        file: file,
+        title: title,
+      };
+      localStorage.setItem("spc_state", JSON.stringify(state));
+      window.open("/spc-render");
+    }catch(err){
+      console.log(err);
+    }
+  };
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -613,11 +626,12 @@ const SpcView = () => {
                                     ) : null}
 
                                     <Link
-                                      to="/spc-render"
-                                      state={{
-                                        file: data.file,
-                                        title: data.title,
-                                      }}
+                                      onClick={() => handleViewClick(data.file,data.title)}
+                                      // to="/spc-render"
+                                      // state={{
+                                      //   file: data.file,
+                                      //   title: data.title,
+                                      // }}
                                       className="btn btn-primary btn-filled view"
                                     >
                                       View

@@ -72,6 +72,13 @@ const NewReaders = () => {
   if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
     staticFilter = {};
   }
+  if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
+    staticFilter = {
+      status: ["Registered"],
+      "contact Type": ["HCP"],
+      "Content Owners":["All"]
+    };
+  }
   const [appliedFilter, setAppliedFilter] = useState(
     localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
       ? exceptionCase
@@ -187,7 +194,13 @@ const NewReaders = () => {
       setAppliedFilter({ "contact Type": ["HCP"] });
       setFilterObject({});
       setApifilterObject({});
-    } else {
+    } 
+    else if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
+      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"] });
+      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"]  });
+      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"]  });
+    }
+    else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
       setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
       setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -224,8 +237,9 @@ const NewReaders = () => {
 
       if (
         res?.data?.data?.data["Content Owners"]?.length &&
-        res?.data?.data?.defaultOwner
+        res?.data?.data?.defaultOwner && localStorage.getItem("user_id")!=="B7SHpAc XDXSH NXkN0rdQ=="
       ) {
+       
         setAppliedFilter({
           ...appliedFilter,
           ["Content Owners"]: [res?.data?.data?.defaultOwner],
@@ -1084,9 +1098,9 @@ const NewReaders = () => {
     setChangeUpdateFlag(changeUpdateFlag);
   };
   const handleTimeLine = (data) => {
-    // window.open("/timeline-detail");
     localStorage.setItem("myData", data);
-    navigate("/timeline-detail");
+    window.open("/timeline-detail");
+    // navigate("/timeline-detail");
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
     //  newWindow = window.open("/timeline-detail", " ", "");
     //  newWindow.opener.postMessage({readerId:data}," ")
@@ -1712,6 +1726,8 @@ const NewReaders = () => {
 
                   {(
                     (Object.keys(filterObject)?.length == 2 &&
+                    localStorage.getItem("user_id") !=
+                      "B7SHpAc XDXSH NXkN0rdQ=="&&
                       filterObject?.["status"] == "Registered" &&
                       filterObject?.["contact Type"] == "HCP") ||
                     (Object.keys(filterObject)?.length == 3 &&
@@ -1720,6 +1736,14 @@ const NewReaders = () => {
                       filterObject?.["Content Owners"]?.includes(
                         defaultOwner
                       )) ||
+                      (Object.keys(filterObject)?.length == 3&&
+                      localStorage.getItem("user_id") ==
+                      "B7SHpAc XDXSH NXkN0rdQ=="&&
+                      filterObject?.["status"]?.includes("Registered") &&
+                      filterObject?.["contact Type"]?.includes("HCP")&&
+                        filterObject?.["Content Owners"]?.includes(
+                        "All"
+                      ))||
                     (localStorage.getItem("user_id") ==
                       "b3APser7L8OELDIG8ee2HQ==" &&
                       (Object.keys(filterObject)?.length == 0 ||
@@ -1735,7 +1759,12 @@ const NewReaders = () => {
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={() => {
-                          Refresh({
+                          Refresh(localStorage.getItem("user_id") ==
+                          "B7SHpAc XDXSH NXkN0rdQ=="?{
+                            status: "Registered",
+                            "contact Type": "HCP",
+                            "Content Owners":"All"
+                          }:{
                             status: "Registered",
                             "contact Type": "HCP",
                           });

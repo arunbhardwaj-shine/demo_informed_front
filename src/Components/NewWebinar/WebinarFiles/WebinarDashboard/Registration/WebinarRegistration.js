@@ -34,9 +34,11 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const template = {
   1:["logo","header"],
-  2:['logo'],
+  2:['logoOne',"logoTwo"],
   3:['logo','header','footer'],
-  4:[]
+  4:[],
+  5:['header'],
+  6:['logo','templateOne','templateTwo']
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -75,6 +77,10 @@ const WebinarRegistration = () => {
       : JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
   );
   const [logo, setLogo] = useState();
+  const [logoOne, setLogoOne] = useState();
+  const [templateOne, setTemplateOne] = useState();
+  const [templateTwo, setTemplateTwo] = useState();
+  const [logoTwo, setLogoTwo] = useState();
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -90,6 +96,8 @@ const WebinarRegistration = () => {
     message2: "",
     footerButton: "",
   });
+  const [downloadqr, setDownloadQr] = useState(false);
+  const [downloadqrSection, setDownloadQrSection] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [tempTemplate, setTempTemplate] = useState();
   const [apiStatus, setApiStatus] = useState(false);
@@ -98,6 +106,8 @@ const WebinarRegistration = () => {
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
+    templateOneImageUrl: "",
+    templateTwoImageUrl: "",
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
@@ -117,6 +127,8 @@ const WebinarRegistration = () => {
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
+    templateOneImageUrl: "",
+    templateTwoImageUrl: "",
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
@@ -358,6 +370,16 @@ const WebinarRegistration = () => {
             ? newFormData?.logoImageUrl
             : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoImageUrl
         );
+        setLogoOne(
+          newFormData?.logoImageUrl
+            ? newFormData?.logoImageUrl
+            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoOneImageUrl
+        );
+        setLogoTwo(
+          newFormData?.logoImageUrl
+            ? newFormData?.logoImageUrl
+            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl
+        );
       }
       setFormData(newFormData);
       // console.log(newFormData);
@@ -368,6 +390,8 @@ const WebinarRegistration = () => {
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+      setTemplateOne(newFormData?.templateOneImageUrl ? newFormData?.templateOneImageUrl : "");
+      setTemplateTwo(newFormData?.templateTwoImageUrl ? newFormData?.templateTwoImageUrl : "");
       setApiStatus(true);
     } catch (err) {
       setApiStatus(true);
@@ -459,6 +483,26 @@ const WebinarRegistration = () => {
               `Invalid file extension of footer. Please select a valid extension file.`
             );
           }
+          else if (isSelectedName === "logoOneImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of logoOne. Please select a valid extension file.`
+            );
+          }
+          else if (isSelectedName === "logoTwoImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of logoTwo. Please select a valid extension file.`
+            );
+          }
+          else if (isSelectedName === "templateOneImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of templateOne. Please select a valid extension file.`
+            );
+          }
+          else if (isSelectedName === "templateTwoImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of templateTwo. Please select a valid extension file.`
+            );
+          }
         } else {
           setErrorMsg("");
         }
@@ -474,6 +518,22 @@ const WebinarRegistration = () => {
         if (isSelectedName === "footerImageUrl") {
           const imgElement = document.querySelector(".footer-img");
           setFoot(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "logoOneImageUrl") {
+          const imgElement = document.querySelector(".logoOne-img");
+          setLogoOne(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "logoTwoImageUrl") {
+          const imgElement = document.querySelector(".logoTwo-img");
+          setLogoTwo(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "templateOneImageUrl") {
+          const imgElement = document.querySelector(".templateOne-img");
+          setTemplateOne(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "templateTwoImageUrl") {
+          const imgElement = document.querySelector(".templateTwo-img");
+          setTemplateTwo(URL.createObjectURL(file));
         }
 
         try {
@@ -1040,6 +1100,24 @@ const WebinarRegistration = () => {
     setLogo("");
     setFormData({ ...formData, logoImageUrl: "" });
   };
+  const handleDeleteLogoOneImage = () => {
+    setLogoOne("")
+    setFormData({ ...formData, logoOneImageUrl: "" });
+  };
+  const handleDeleteLogoTwoImage = () => {
+    setLogoTwo("")
+    setFormData({ ...formData, logoTwoImageUrl: "" });
+  };
+
+  const handleDeleteTemplateOneImage = () => {
+    setTemplateOne("")
+    setFormData({ ...formData, templateOneImageUrl: "" });
+  };
+
+  const handleDeleteTemplateTwoImage = () => {
+    setTemplateTwo("")
+    setFormData({ ...formData, templateTwoImageUrl: "" });
+  };
 
   const onColorChange = (e, isSelectedName) => {
     if (isSelectedName == "labelColor") {
@@ -1084,6 +1162,36 @@ const WebinarRegistration = () => {
           updatedBody?.logoImageUrl
             ? updatedBody?.logoImageUrl
             : template?.logoImageUrl
+        );
+        setLogoOne(
+          updatedBody?.logoOneImageUrl
+            ? updatedBody?.logoOneImageUrl
+            : template?.logoOneImageUrl
+        );
+        setLogoTwo(
+          updatedBody?.logoTwoImageUrl
+            ? updatedBody?.logoTwoImageUrl
+            : template?.logoTwoImageUrl
+        );
+        setFile(
+          updatedBody?.headerImageUrl
+            ? updatedBody?.headerImageUrl
+            : template?.headerImageUrl
+        );
+        setFoot(
+          updatedBody?.footerImageUrl
+            ? updatedBody?.footerImageUrl
+            : template?.footerImageUrl
+        );
+        setTemplateOne(
+          updatedBody?.templateOneImageUrl
+            ? updatedBody?.templateOneImageUrl
+            : template?.templateOneImageUrl
+        );
+        setTemplateTwo(
+          updatedBody?.templateTwoImageUrl
+            ? updatedBody?.templateTwoImageUrl
+            : template?.templateTwoImageUrl
         );
         // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
@@ -1164,6 +1272,12 @@ const WebinarRegistration = () => {
         }
 
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
+        setLogoOne(updatedBody?.logoOneImageUrl ? updatedBody?.logoOneImageUrl : "");
+        setLogoTwo(updatedBody?.logoTwoImageUrl ? updatedBody?.logoTwoImageUrl : "");
+        setTemplateOne(updatedBody?.templateOneImageUrl ? updatedBody?.templateOneImageUrl : "");
+        setTemplateTwo(updatedBody?.templateTwoImageUrl ? updatedBody?.templateTwoImageUrl : "");
+        setFile(updatedBody?.headerImageUrl ? updatedBody?.headerImageUrl : "");
+        setFoot(updatedBody?.footerImageUrl ? updatedBody?.footerImageUrl : "");
         // console.log(updatedBody);
         if(Object.keys(updatedBody.eventDetails)?.length>0){
         
@@ -1236,6 +1350,50 @@ const WebinarRegistration = () => {
               </div>
               <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
+                  {/* <div className="dropdown qr-download">
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                    >
+                      Download QR
+
+                    </button>
+                    {downloadqr && (
+                      <div
+                        className="dropdown-menu filter-options"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <ul>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="checkbox"
+                                id="qr-code"
+                              />Download PNG
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="checkbox"
+                                id="qr-code1"
+                              />Download EPS
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                        </ul>
+                        <div className="filter-footer justify-content-end">
+                          <button
+                            className="btn btn-primary btn-filled"
+                          >
+                            Download
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div> */}
                     <a
                       className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
@@ -1300,6 +1458,7 @@ const WebinarRegistration = () => {
                               }
                             />
                             {/* <p>{template?.name}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
@@ -1330,6 +1489,54 @@ const WebinarRegistration = () => {
                                     <label>
                                       {field.title} <span>*</span>
                                     </label>
+                                    {/* {console.log(field.value,'field.value')} */}
+                                    {/* {formData?.templateId === 2 ? 
+                                    <DatePicker
+                                      name={`eventDetails-${key}`}
+                                      dateFormat="dd/MM/yyyy"
+                                      className="form-control"
+                                      placeholderText="Select date"
+                                      // key={Math.random*1000}
+                                      // readOnly={true}
+                                      value={new Date(field.value)}
+
+                                      
+                                      // minDate={
+                                      //   key == "eventEndDate"
+                                      //     ? new Date(
+                                      //         formData?.eventDetails?.eventStartDate?.value
+                                      //       )
+                                      //     : currentDate
+                                      // }
+                                
+                                      // selected={
+                                      //   field.value &&
+                                      //  new Date(field.value) >= currentDate
+                                      //     ? 
+                                      //     new Date(field?.value)
+                                      //     : currentDate
+                                      // }
+                                      selected={
+                                        field.value &&
+                                       new Date(field.value) >= currentDate
+                                          ? 
+                                          new Date(field?.value)
+                                          : currentDate
+                                      }
+                                      onChange={(v, e) => {
+                                        handleChange(v, `eventDetails-${key}`);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                      // onKeyDown={(e) => {
+                                      //   if (e.keyCode === 8) { // Check if the backspace key is pressed
+                                      //     handleChange(null, `eventDetails-${key}`); // Clear the value
+                                      //   }
+                                      // }}
+                                    /> 
+                                    
+                                    :  */}
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
@@ -1337,7 +1544,7 @@ const WebinarRegistration = () => {
                                       placeholderText="Select date"
                                       // key={Math.random*1000}
                                       readOnly={true}
-                                                                            value={new Date(field.value)}
+                                      value={new Date(field.value)}
 
                                       disabled
                                       // minDate={
@@ -1360,7 +1567,8 @@ const WebinarRegistration = () => {
                                       onKeyDown={(e) => {
                                         e.preventDefault();
                                       }}
-                                    />
+                                    /> 
+                                    {/* } */}
                                     {isEventEndDate ? (
                                       <div className="event-endDate"></div>
                                     ) : (
@@ -2944,6 +3152,250 @@ const WebinarRegistration = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDeleteLogoImage(e, "logoImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    </div>
+                    :''}
+
+                  {template[formData?.templateId]?.includes("logoOne")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload First Logo</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!logoOne && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "logoOneImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
+
+                      <img className="logo-img" src={logoOne} />
+                      <div className="logo-text header-text">
+                        {logoOne && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                            type="button"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFileSelect(e, "logoOneImageUrl");
+                              }}
+                            />
+                          </button>
+                        )}
+
+                        {logoOne && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteLogoOneImage(e, "logoOneImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    </div>
+                    :''}
+
+                  {template[formData?.templateId]?.includes("logoTwo")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload Second Logo</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!logoTwo && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "logoTwoImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
+
+                      <img className="logo-img" src={logoTwo} />
+                      <div className="logo-text header-text">
+                        {logoTwo && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                            type="button"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFileSelect(e, "logoTwoImageUrl");
+                              }}
+                            />
+                          </button>
+                        )}
+
+                        {logoTwo && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteLogoTwoImage(e, "logoTwoImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    </div>
+                    :''}
+
+                  {template[formData?.templateId]?.includes("templateOne")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload First Template</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!templateOne && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "templateOneImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
+
+                      <img className="templateOne-img" src={templateOne} />
+                      <div className="logo-text header-text">
+                        {templateOne && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                            type="button"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFileSelect(e, "templateOneImageUrl");
+                              }}
+                            />
+                          </button>
+                        )}
+
+                        {templateOne && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTemplateOneImage(e, "templateOneImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    </div>
+                    :''}
+
+                  {template[formData?.templateId]?.includes("templateTwo")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload Second Template</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!templateTwo && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "templateTwoImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
+
+                      <img className="templateTwo-img" src={templateTwo} />
+                      <div className="logo-text header-text">
+                        {templateTwo && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                            type="button"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFileSelect(e, "templateTwoImageUrl");
+                              }}
+                            />
+                          </button>
+                        )}
+
+                        {templateTwo && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTemplateTwoImage(e, "templateTwoImageUrl");
                             }}
                           >
                             <img

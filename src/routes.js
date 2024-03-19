@@ -70,6 +70,7 @@ import ReadersTimeLineLayout from "./Components/Readers/ReadersView/ReadersTimeL
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
+import NewReaderReview from "./Components/Readers/ReadersView/NewReaderReview";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
@@ -188,6 +189,8 @@ import Check8 from "./Components/survey/Check8";
 import SurveyQuestionForm from "./Components/survey/SurveyQuestionForm"
 import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
+import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
+import LicenseRenew from "./Components/License/Content/LicenseRenew";
 
 let platform = 0;
 let show = 0;
@@ -425,6 +428,10 @@ const Routing = () => {
         <Route
           path="/reader-add"
           element={<LoginLayout component={ReaderAdd} />}
+        />
+        <Route
+          path="/new-readers-reviews"
+          element={<LoginLayout component={NewReaderReview} />}
         />
         <Route
           path="/reader-review"
@@ -750,6 +757,10 @@ const Routing = () => {
           element={<LoginLayout component={LicenseEditListing} />}
         />
         <Route
+          path="/license/renew-listing"
+          element={<LoginLayout component={LicenseRenewListing} />}
+        />
+        <Route
           path="/license-create"
           element={<LoginLayout component={LicenseCreate} />}
         />
@@ -784,6 +795,10 @@ const Routing = () => {
         <Route
           path="/license-edit"
           element={<LoginLayout component={EditLicense} />}
+        />
+           <Route
+          path="license/renew"
+          element={<LoginLayout component={LicenseRenew} />}
         />
         <Route path="*" element={<PageNotFound />} />
         <Route

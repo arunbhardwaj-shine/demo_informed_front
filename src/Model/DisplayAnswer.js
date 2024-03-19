@@ -16,17 +16,25 @@ if(customAnswer == 1 || graphType === 'bar'){
       line_v = [],
       line_h = [];
       let i = 0;
+      let totalAnswer = data?.map(item => item.y) // Extracting the 'y' values
+            .reduce((total, yValue) => total + yValue, 0);
       data?.forEach((item) => {
         line_v.push(item?.name);
         line_h.push(item?.y);
+        // const foundObj = {
+        //   y: item?.y,
+        //   name: item?.name,
+        //   color: item?.color ? item?.color : colors[i],
+        // };
+
         const foundObj = {
-          y: item?.y,
+          data: [{p:(item?.y/totalAnswer)*100,y:item?.y}],
           name: item?.name,
           color: item?.color ? item?.color : colors[i],
+
         };
         graphData.push(foundObj);
       });
-
       chartOptions = {
         chart: {
           type: "bar",
@@ -43,11 +51,12 @@ if(customAnswer == 1 || graphType === 'bar'){
           },
         },
         legend: {
-          enabled:false,
+          enabled:true,
           verticalAlign: "bottom",
       }, 
         xAxis: {
           categories: line_v,
+          visible:false,
         },
         title: {
           text: "Answers",
@@ -57,19 +66,29 @@ if(customAnswer == 1 || graphType === 'bar'){
         //     pointWidth: 20,
         //   },
         // },
+        tooltip: {
+          formatter: function() {
+            return '<b>' + this.series.name +":"+ '</b><br/>' +
+              this.point.y ;
+          }
+        },
         plotOptions: {
-          series: {
-            stacking: "normal",
+          series: {          
             pointWidth: 30,
-            allowPointSelect: true,
+            // allowPointSelect: true,
             cursor: "pointer",
             dataLabels: [
               {
-                distance: -40,
+                enabled:true,
+                formatter:function() {
+                  var pcnt = this.point.p.toFixed(0);
+                  return '<tspan >' + pcnt +"%" +'</tspan>';
+              },
                 style: {
                   fontSize: "1.2em",
                   textOutline: "none",
                   opacity: 0.7,
+                  
                 },
               },
             ],
@@ -84,14 +103,15 @@ if(customAnswer == 1 || graphType === 'bar'){
         exporting: {
           enabled: false,
         },
-        series: [
-          {
-            name: "",
-          colorByPoint: true,
-            data: graphData,
-            // showInLegend: false,
-          },
-        ],
+        // series: [
+        //   {
+        //     name: "",
+        //   colorByPoint: true,
+        //     data: graphData,
+            
+        //   },
+        // ],
+        series:graphData,
       };
 }else{
     const seriesData = data.map((question,index) => ({
@@ -215,9 +235,11 @@ if(customAnswer == 1 || graphType === 'bar'){
     colors: ["#FFCACD", "#39CABC"],
   });
   const shouldAddClass = parms && parms.includes("eahad_2024");
+  const addClass = parms && parms.includes("GTH2024") || parms.includes("WFH2024");
   return (
     <>
-      <Modal show={show} backdrop="static" onHide={onClose}  className={`${shouldAddClass ? "eahad_2024" : ""}`} centered
+      <Modal show={show} backdrop="static" onHide={onClose} className={`${shouldAddClass ? "eahad_2024" : ""}${addClass ? "gth-2024" : ""
+            }`} centered
       keyboard={false} id="pollModel1">
       <Modal.Header closeButton style={{ background: designData?.headerBackgroundColor }}>
       <Modal.Title id="contained-modal-title-vcenter">

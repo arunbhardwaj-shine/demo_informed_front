@@ -2,48 +2,50 @@ import React, { useState, useEffect } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 
-const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
+const PreviewGraphModal = ({ graphType, answerOption, question }) => {
   const [chartPieOptions, setPieChartOptions] = useState();
   const [chartBarOptions, setBarChartOptions] = useState();
 
- 
+
   useEffect(() => {
     let percentage = parseInt(100 / answerOption?.length);
-  
+
     let pieSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
       color: item?.color,
-      title:question,
+      title: question,
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
-  
-  
+
+
     let barSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
-      y: percentage,
+      data: [percentage],
       color: item?.color,
-      title:question,
+      title: question,
+      y:percentage
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
-  
+
     setPieChartOptions({
       chart: {
-        type: "pie", 
+        type: "pie",
       },
       title: {
-        text: question, 
-    },
+        text: question,
+      },
       tooltip: {
         formatter: function () {
           return this.point.name + ' : <b>' + this.point.y + '</b>';
-      },
+        },
         valueSuffix: "%",
       },
       legend: {
         verticalAlign: "bottom",
         // labelFormat: '{name} ({percentage:.2f}%) ',
         labelFormat: '{name} ({percentage:.0f}%)',
+       
       },
       plotOptions: {
         series: {
@@ -68,7 +70,7 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
         },
         pie: {
           showInLegend: true,
-      }
+        }
       },
       series: [
         {
@@ -77,13 +79,13 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
           data: pieSeriesData,
         },
       ],
-      
+
       exporting: {
         enabled: false,
       },
 
     });
-
+   
     setBarChartOptions({
       chart: {
         // type: "column",
@@ -91,8 +93,8 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
       },
 
       title: {
-        text: question, 
-    },
+        text: question,
+      },
 
       // tooltip: {
       //   valueSuffix: "%",
@@ -100,65 +102,82 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
 
       xAxis: {
         categories: answerOption.map(item => item?.answer),
-      //   categories : answerOption.map(item => {
-      //     const label = item?.answer;
-      //     return label.length > 15 ? label.replace(/(.{1,15})/g, '$1<br>') : label;
-      // })
+       visible:false
       },
 
       yAxis: {
-                min: 0,
-                tickInterval: 1,
-                allowDecimals: false,
-                title: {
-                    text: "", 
-                },
-                stackLabels: {
-                    enabled: true,
-                  },
-            },
+        min: 0,
+        tickInterval: 1,
+        allowDecimals: false,
+        title: {
+          text: "",
+        },
+        stackLabels: {
+          enabled: true,
+        },
+      },
 
       legend: {
-        enabled:false,
+        align: "center", // Align the legend to the center
+        layout: "horizontal", // Display legend items horizontally
         verticalAlign: "bottom",
-    }, 
+        // labelFormat: '{name} ({percentage:.2f}%) ',
+        // labelFormat: '{name} ({percentage:.0f}%)',
+      },
+      tooltip: {
+        formatter: function() {
+          return '<b>' + this.series.name + '</b><br/>' +
+            this.point.y.toFixed(0) + '%';
+        }
+      },
       plotOptions: {
         series: {
-          stacking: "normal",
+          // stacking: "normal",
           pointWidth: 30,
           allowPointSelect: true,
           cursor: "pointer",
           dataLabels: [
             {
-              distance: -40,
+              enabled:true,
+              // distance: -40,
               style: {
                 fontSize: "1.2em",
                 textOutline: "none",
                 opacity: 0.7,
               },
+              formatter: function () {
+                return this.y.toFixed(0) + "%";
+              }
             },
           ],
         },
         bar: {
           showInLegend: true,
-      }
+          dataLabels: {
+            enabled: true,
+            formatter: function() {
+              return this.y.toFixed(0) + "%";
+            }
+          }
+        }
       },
-  
-      series: [
-        {
-          name: "",
-          colorByPoint: true,
-          data: barSeriesData,
-        },
-      ],
-      
+
+      // series: [
+      //   {
+      //     name: "",
+      //     colorByPoint: true,
+      //     data: barSeriesData,
+      //   },
+      // ],
+      series:barSeriesData,
+
       exporting: {
         enabled: false,
       },
 
     });
   }, [answerOption]);
-  
+
   return (
     <>
       <div className="pie-chart-outer-layout">

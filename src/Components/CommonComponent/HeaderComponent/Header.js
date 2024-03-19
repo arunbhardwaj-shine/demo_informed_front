@@ -186,7 +186,10 @@ const Header = () => {
               // to={"/library-content"}
               to={"/home"}
             >
-              <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              {
+                window.location.pathname === "/spc-render" ||  window.location.pathname === "/timeline-detail" ? "" : 
+                <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              }
             </Link>
             {/* <button
               className="navbar-toggler"
@@ -241,7 +244,7 @@ const Header = () => {
                 </li>
                 <li
                   className={
-                    window.location.pathname == "/readers-view" ||
+                    window.location.pathname == "/readers-view" ||  window.location.pathname == "/new-readers-reviews" ||
                     window.location.pathname == "/readers-list" ||
                     window.location.pathname == "/reader-add" ||
                     window.location.pathname == "/reader-edit" ||
@@ -370,7 +373,9 @@ const Header = () => {
                       window.location.pathname == "/license-content-detail" ||
                       window.location.pathname == "/license-edit-listing" ||
                       window.location.pathname == "/license-create" ||
-                      window.location.pathname == "/license-add-link"
+                      window.location.pathname == "/license-add-link"||
+                      window.location.pathname == "/license/renew-listing" ||
+                      window.location.pathname == "/license/renew"
                         ? "nav-item active active-main"
                         : "nav-item"
                     } onClick={handleMenuItemClick}

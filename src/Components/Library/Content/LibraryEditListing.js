@@ -2004,6 +2004,22 @@ const LibraryEditListing = () => {
                                       </>
                                     ) : null}
 
+                                    {
+                                      localStorage.getItem('user_id') == 'iSnEsKu5gB/DRlycxB6G4g=='
+                                      ?
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            <img className="library_go" src={path_image + "library_move.svg"} />
+                                          </h6>
+                                          <h6>
+                                            {
+                                              data?.sync_onesource  ? "Yes" : "No"
+                                            }
+                                          </h6>
+                                        </li>
+                                      : null
+                                    }
+
                                     {/*
                                     <li>
                                       <h6 className="tab-content-title">

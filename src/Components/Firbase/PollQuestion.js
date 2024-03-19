@@ -72,6 +72,8 @@ const PollQuestion = () => {
       });
 
       let newData = [];
+      let totalAnswer = result?.data?.data?.map(item => item.count_answer) // Extracting the 'y' values
+      .reduce((total, yValue) => total + yValue, 0);
       result?.data?.data?.forEach((value) => {
         let graphData = [],
           line_v = [],
@@ -80,7 +82,8 @@ const PollQuestion = () => {
           line_v.push(item?.answer);
           line_h.push(item?.count_answer);
           const foundObj = {
-            y: item?.count_answer,
+            // y: item?.count_answer,
+            data:  [{p:(item?.count_answer/totalAnswer)*100,y:item?.count_answer}],
             name: item?.answer,
             color: item.color_code,
           };
@@ -90,7 +93,7 @@ const PollQuestion = () => {
           question: value?.question,
           highchartData: {
             chart: {
-              type: "column",
+              type: "bar",
             },
             yAxis: {
               min: 0,
@@ -102,10 +105,43 @@ const PollQuestion = () => {
             title: {
               text: "",
             },
+            tooltip: {
+              formatter: function() {
+                return '<b>' + this.series.name +":"+ '</b><br/>' +
+                  this.point.y ;
+              }
+            },
+            // plotOptions: {
+            //   series: {
+            //     pointWidth: 20,
+            //   },
+            // },
             plotOptions: {
               series: {
+                // stacking: "normal",
                 pointWidth: 20,
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                  {
+                    enabled:true,
+                    // distance: -40,
+                    formatter:function() {
+                      var pcnt = this.point.p.toFixed(0);
+                      return '<tspan >' + pcnt +"%" +'</tspan>';
+                  },
+
+                    style: {
+                      fontSize: "1.2em",
+                      textOutline: "none",
+                      opacity: 0.7,
+                    },
+                  },
+                ],
               },
+              bar: {
+                showInLegend: true,
+            }
             },
             column: {
               colorByPoint: true,
@@ -196,6 +232,8 @@ const PollQuestion = () => {
       });
 
       let newData = [];
+      let totalAnswer =result?.data?.data?.map(item => item?.count_answer) // Extracting the 'y' values
+          .reduce((total, yValue) => total + yValue, 0);
       result?.data?.data?.forEach((value) => {
         let graphData = [],
           line_v = [],
@@ -204,7 +242,8 @@ const PollQuestion = () => {
           line_v.push(item?.answer);
           line_h.push(item?.count_answer);
           const foundObj = {
-            y: item?.count_answer,
+            // y: item?.count_answer,
+            data:  [{p:(item?.count_answer/totalAnswer)*100,y:item?.count_answer}],
             name: item?.answer,
             color: item.color_code,
           };
@@ -214,7 +253,7 @@ const PollQuestion = () => {
           question: value?.question,
           highchartData: {
             chart: {
-              type: "column",
+              type: "bar",
             },
             yAxis: {
               min: 0,
@@ -226,10 +265,38 @@ const PollQuestion = () => {
             title: {
               text: "",
             },
+            tooltip: {
+              formatter: function() {
+                return '<b>' + this.series.name +":"+ '</b><br/>' +
+                  this.point.y ;
+              }
+            },
             plotOptions: {
               series: {
+                // stacking: "normal",
                 pointWidth: 20,
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                  {
+                    enabled:true,
+                    // distance: -40,
+                    formatter:function() {
+                      var pcnt = this.point.p.toFixed(0);
+                      return '<tspan >' + pcnt +"%" +'</tspan>';
+                  },
+
+                    style: {
+                      fontSize: "1.2em",
+                      textOutline: "none",
+                      opacity: 0.7,
+                    },
+                  },
+                ],
               },
+              bar: {
+                showInLegend: true,
+            }
             },
             column: {
               colorByPoint: true,
@@ -334,16 +401,18 @@ const PollQuestion = () => {
         setGraphType(graph);
         let chartOptions = {};
         
-          // for COLUMN GRAPH
+          // for BAR GRAPH
           let graphData = [],
           line_v = [],
           line_h = [];
           let i = 0;
+          let totalAnswer = data?.map(item => item.y) // Extracting the 'y' values
+          .reduce((total, yValue) => total + yValue, 0);
           data?.forEach((item) => {
             line_v.push(item?.name);
             line_h.push(item?.y);
             const foundObj = {
-              y: item?.y,
+              data:  [{p:(item?.y/totalAnswer)*100,y:item?.y}],
               name: item?.name,
               color: item?.color ? item.color : colors[i],
             };
@@ -365,11 +434,12 @@ const PollQuestion = () => {
               }
             },
             legend: {
-              enabled:false,
+              enabled:true,
               verticalAlign: "bottom",
           }, 
             xAxis: {
               categories: line_v,
+              visible:false,
             },
             title: {
               text: "",
@@ -379,15 +449,27 @@ const PollQuestion = () => {
             //     pointWidth: 20,
             //   },
             // },
+            tooltip: {
+              formatter: function() {
+                return '<b>' + this.series.name +":"+ '</b><br/>' +
+                  this.point.y ;
+              }
+            },
             plotOptions: {
               series: {
-                stacking: "normal",
+                // stacking: "normal",
                 pointWidth: 20,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
                   {
-                    distance: -40,
+                    enabled:true,
+                    // distance: -40,
+                    formatter:function() {
+                      var pcnt = this.point.p.toFixed(0);
+                      return '<tspan >' + pcnt +"%" +'</tspan>';
+                  },
+
                     style: {
                       fontSize: "1.2em",
                       textOutline: "none",
@@ -406,20 +488,15 @@ const PollQuestion = () => {
             exporting: {
               enabled: false,
             },
+            series: graphData
             // series: [
             //   {
+            //   name:"",
+            //   colorByPoint: true,
             //     data: graphData,
-            //     showInLegend: false,
+            //     // showInLegend: false,
             //   },
             // ],
-            series: [
-              {
-              name:"",
-              colorByPoint: true,
-                data: graphData,
-                // showInLegend: false,
-              },
-            ],
           };
         
             const seriesData = data.map((question,index) => ({
@@ -613,7 +690,7 @@ const PollQuestion = () => {
                                 customAns == 1 || graphType == 'bar' ? 
                                 <>
                                 {
-                                  console.log("FOR LINE CHART")
+                                  console.log("FOR LINE CHART",chartData?.linechart)
                                 }
                                 <HighchartsReact
                                   key={"lineChart_"+syncFlag}

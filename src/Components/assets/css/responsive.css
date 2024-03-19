@@ -47,11 +47,6 @@
     flex: 0 0 auto;
     width: 25%;
   }
-
-  .modal-dialog {
-    margin: 8rem auto;
-  }
-
   #send-sample.modal-dialog {
     height: calc(100% - 16rem);
   }
@@ -201,9 +196,16 @@
   .page-top-nav .tabnav-link li::after {
     width: 44px;
     right: -23px;
-    top: 10px;
+    top: 13px;
   }
-
+#add_hcp .modal-header h5,
+.modal-header h4,
+.modal-header h5 {
+  font-size: 22px;
+}
+#download-qr .modal-body .form-group label {
+  font-size: 16px;
+}
   .page-top-nav .tabnav-link li a {
     font-size: 15px;
   }
@@ -241,7 +243,19 @@
     padding-left: 30px;
     padding-right: 30px;
   }
-
+.form-inline .form-group input,
+#tagsModal .modal-footer form .form-group input {
+  max-width: 565px;
+}
+.form-inline .form-group input#email-address {
+  max-width: 320px;
+}
+.email-form .form-inline .form-group input[type="text"] {
+  min-width: 280px;
+}
+.form-inline .form-group input#email-address {
+  max-width: 295px;
+}
   .register-popup-view .footer-inner::before {
     left: 65%;
   }
@@ -549,7 +563,9 @@
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 16px;
   }
-
+.template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3), .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+    min-height: 40px;
+}
   .filter-block {
     padding: 10px;
   }
@@ -902,6 +918,7 @@
 
   header nav.navbar {
     padding: 12px 10px;
+    min-height:80px;
   }
 
   .sidebar-menu ul li {
@@ -1116,7 +1133,9 @@
   .smartlist-view .mail-box-content {
     padding: 12px 12px 10px;
   }
-
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+    padding: 1px 10px;
+}
   .verify-mail-box {
     padding: 15px 15px 11px 15px;
   }
@@ -1276,7 +1295,6 @@
   }
 
   .create-smart-list {
-    margin-bottom: 60px;
     padding: 9px 9px 9px 20px;
   }
 
@@ -1336,12 +1354,15 @@
     height: 45px;
   }
 
+
   .form-inline .form-group label {
     font-size: 16px;
-    width: 145px;
-    flex: 0 0 145px;
+    width: 160px;
+    flex: 0 0 160px;
   }
-
+.email-form .form-inline .form-group input[type="text"] {
+    min-width: 280px;
+}
   .form-buttons .btn {
     height: 36px;
     padding: 6px 16px;
@@ -1628,13 +1649,41 @@
   .event-status-msg p {
     font-size: 14px;
   }
+    .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3)>div div {
+      margin: 0;
+    }
+        .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
+          padding: 4px 50px 4px 15px;
+          min-height: 36px;
+        }
 }
 
 @media only screen and (max-width: 1399px) {
   .question-outer-layout .question-action {
     gap: 30px;
   }
-
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
+    font-size: 12px;
+}
+.form-inline .form-group input#email-address {
+  max-width: 280px;
+}
+.email-form .form-inline .form-group input[type="text"] {
+  min-width: 250px;
+}
+.left-sidebar .sidebar_txt {
+  margin: 0px 0 0;
+}
+.sidebar-menu ul {
+  margin: 20px 0 0;
+}
+.sidebar-menu .sidebar-menu-secondary ul::-webkit-scrollbar {
+  display: none;
+}
+.sidebar-menu ul li {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
   .poll-creation .question-outer-inset .question-boxed {
     padding: 5px;
   }
@@ -1884,19 +1933,26 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
+    .create_smart_list {
+      margin-top: 30px;
+    }
+        .select-smart-list .filter_btn_div .apply-filter .filter-block {
+          padding: 4px 16px;
+        }
 .verify-email-detail .form-buttons.right-side {
   margin: 0 0 10px;
   display: flex;
   justify-content: flex-end;
 }
-.preview_mail h4,
-.verify-email-detail h4 {
-  font-size: 16px;
-}
+
 .verify-email-detail h6 {
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 7px;
+}
+.preview_mail h4,
+.verify-email-detail h4 {
+  font-size: 16px;
 }
 .verify-email-detail .form-buttons.right-side {
   margin: 0 0 10px;
@@ -2114,6 +2170,7 @@
 
   header nav.navbar {
     padding: 3px 10px;
+    min-height:62px;
   }
 
   #add_hcp .modal-body .hcp-add-form form .form-group button {
@@ -2459,7 +2516,7 @@
   }
 
   .form-inline .form-group input {
-    max-width: 380px;
+    max-width: 350px;
   }
 
   .form-buttons .btn {
@@ -2477,7 +2534,9 @@
   .form-inline .form-group input#email-address {
     max-width: 235px;
   }
-
+.email-form .form-inline .form-group input[type="text"] {
+    min-width: initial;
+}
   .mail-preview-img img {
     max-height: 72px;
     max-width: 63px;
@@ -2550,12 +2609,23 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
+    .select-mail-template .email-form {
+      padding: 0 12px;
+    }
+    .left-sidebar .sidebar_txt {
+      margin: 15px 0 0;
+    }
 .verify_email .verify-left {
   width: 100%;
 }
 .verify_email .verify-right {
   width: 100%;
   margin: 20px 0 0;
+}
+.form-inline .form-group label {
+  width: 100%;
+  flex: 0 0 100%;
+  margin:0 0 3px;
 }
   .apply-filter {
     padding-left: 10px;
@@ -2678,6 +2748,7 @@
 
   header nav.navbar {
     padding: 3px 8px;
+    min-height:49px;
   }
 
   .email-result-block {
@@ -3285,7 +3356,9 @@
     font-size: 20px;
     line-height: 24px;
   }
-
+.session-modal #pollModel {
+  max-width: 95%;
+}
   .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
   }
@@ -3496,7 +3569,9 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
-
+.register-popup-view .motivation-body .consent-form-inner .form-control#restiration {
+  font-size: 11px;
+}
   .page_not_found-inset {
     padding: 20px 20px 30px;
     width: 94%;
@@ -3560,7 +3635,7 @@
   }
 
   .show-comments .modal-body {
-    padding: 0 10px 5px;
+    padding: 0 10px 10px;
   }
 
   .show-comments #showComments .modal-title.h4 {
@@ -3574,7 +3649,7 @@
 
   #showComments th,
   #showComments td {
-    font-size: 14px;
+    font-size: 12px;
     padding: 3px;
   }
 
@@ -4504,9 +4579,11 @@
 
   .session-modal #pollModel .form-group .check-values .checkmark:after {
     left: 4px;
-    top: 38%;
+    top: 9px;
   }
-
+.session-modal #pollModel .form-group.no_child label {
+  line-height: 20px;
+}
   .left-sidebar.active~.right-sidebar {
     position: relative;
   }
