@@ -303,8 +303,72 @@ const WebinarAutoEmails = () => {
     }
   };
   const addTracking = function (editor) {
-    console.log("in add tracking")
-  }
+    editor.on("OpenWindow", function (e) {
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
+
+      if (dialog) {
+        let header = dialog.querySelector(".tox-dialog__header");
+        const closeButton = header.querySelector('[aria-label="Close"]');
+        let text = header.querySelector(".tox-dialog__title");
+        let url = dialog.querySelector(".tox-control-wrap")
+        let newLink = url.querySelector(".tox-textfield")
+        let newButton = document.createElement("button");
+
+        if (text.innerText == "Insert/Edit Link") {
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
+          // let newButton = document.createElement("button");
+          if (newLink?.value) {
+            newButton.innerText = "Remove Track";
+        } else {
+            newButton.innerText = "Add Tracking";
+        }
+          
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
+          newButton.onclick = function () {
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
+            if(newLink?.value&&newButton.innerText == "Remove Track"){
+              firstToxControlWrap.value=""                            
+              return
+          }
+           if(!newLink?.value){
+              alert ("Please enter a link")
+              return
+          }
+
+            // let text =dialog.querySelector(".tox-form__group");
+            if (!firstToxControlWrap.value) {
+              alert("Please enter a link");
+              return;
+            }
+            const baseLink =
+              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            if (firstToxControlWrap.value.startsWith(baseLink)) {
+              alert("Traking already added");
+              return;
+            }
+
+            const currentTimestamp = Date.now();
+            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+            firstToxControlWrap.value = link;
+
+            alert("Traking added");
+          };
+
+          header.insertBefore(newButton, closeButton);
+        }
+      }
+    });
+  };
 
   const uploadImageToServer = async (file) => {
     console.log("in upload image to server")
