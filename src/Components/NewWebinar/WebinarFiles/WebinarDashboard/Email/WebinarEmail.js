@@ -11,6 +11,7 @@ import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
 import { connect } from "react-redux";
 import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarDraftData} from '../../../../../actions'
+import axios from "axios";
 
 const WebinarEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -143,15 +144,31 @@ const WebinarEmail = (props) => {
     try {
       loader("show")
       let body = {
-        eventId: eventId,
+        user_id: localStorage.getItem("user_id"),
+        event_id: eventId,
+        search:'',
+        filter:''
       };
-      const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      let response=[]
+     await axios
+      .post(`/webinar/get_webinar_campaign`, body)
+      .then((res) => {
+        response=res?.data
+      })
+      .catch((err) => {
+          loader("hide");
+          console.log(err);
+      });
+      console.log(response);
+      // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
       let filterData = []
       if (search != "") {
         filterData = response?.data?.data?.filter((item, index) => item?.subject?.includes(search))
       } else {
         filterData = response?.data?.data
       }
+      console.log(filterData);
       setEmailListData(filterData)
       setTotalEmailListData(response?.data?.data)
       if(Object.keys(filterdata)?.length==0){

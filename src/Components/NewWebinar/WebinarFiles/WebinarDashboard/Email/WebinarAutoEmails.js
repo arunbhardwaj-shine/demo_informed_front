@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { loader } from "../../../../../loader";
@@ -16,6 +16,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
+import html2canvas from "html2canvas";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
@@ -26,6 +27,8 @@ const WebinarAutoEmail = () => {
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
   );
+  const [viewEmailModal, setviewEmailModal] = useState(false);
+
   const [getsearch, setSearch] = useState("");
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -1010,9 +1013,33 @@ const WebinarAutoEmail = () => {
       toast.warning("Template can't be empty")
       return
     }else{
-      console.log("in create template name",newTemplateName)
-      console.log("in create template subject",newTemplateSubject)
-      console.log("in create template",templateSaving)
+ 
+      if (editorRef.current) {
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          source_code: editorRef.current.getContent(),
+          template_id: "",
+          name: newTemplateName,
+          subject: newTemplateSubject,
+          status: 1,
+          event_id: eventId,
+        };
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`webinar/add_update_template`, body)
+          .then((res) => {
+            if (res?.data?.status_code == 200) {
+              getTemplateListData();
+              toast.success("Template Created");
+              loader("hide");
+            }
+          })
+          .catch((err) => {
+            loader("hide");
+            toast.error("Something went wrong");
+          });
+    } 
     }
 
   }
@@ -1054,7 +1081,105 @@ const WebinarAutoEmail = () => {
   const setHpcList = (list) => {
     setHpc(list)
   }
+  const generate_thumb = useCallback(async () => {
+    if (ref.current === null) {
+      return;
+    }
+    loader("show");
+    console.log(ref.current,"ref.currentref.current");
+    // toPng(ref.current, { pixelRatio: 1 })
+    // const dataUrl2 = await domtoimage.toPng(ref.current, { cacheBust: true });
+    // console.log(dataUrl2);
+    // domtoimage.toPng(ref.current, { cacheBust: true })
+    // domtoimage.toPng(ref.current, { cacheBust: true })
+    html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
+      .then((canvasurl) => {
+        const dataUrl = canvasurl.toDataURL('image/png');
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        if (dataUrl) {
+          const body = {
+            user_id: localStorage.getItem("user_id"),
+            template_id: templateId,
+            image_url: dataUrl,
+            template_name: "",
+            event_id:eventId
+          };
+          axios
+            .post(`webinar/update_template`, body)
+            .then((res) => {
+              if (res.data.status_code == 200) {
+                toast.success(res.data.message);
+                                getTemplateListData()
 
+                // getTemplateListData(
+                //   0,
+                //   selectedLanguage,
+                //   selectedIbu,
+                //   userTemplateType
+                // );
+              } else {
+                toast.warning(res.data.message);
+              }
+              setviewEmailModal(false);
+              loader("hide");
+            })
+            .catch((err) => {
+              setviewEmailModal(false);
+              loader("hide");
+              toast.error("Something went wrong.");
+            });
+        }
+      })
+      .catch((err) => {
+        setviewEmailModal(false);
+        loader("hide");
+        toast.error("Something went wrong.");
+        console.log(err);
+      });
+  }, [ref, templateId]);
+
+  const replaceDangerHtml = (dynamicTempHtml) => {
+    const modifiedContent = dynamicTempHtml?.replace(
+      '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+
+    var modifiedStringagain = modifiedContent?.replace(
+      '<p><img style="display: none;" src="https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+
+    var modifiedStringforsrc = modifiedStringagain?.replace(
+      '<p><img style="display: none;" src="Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+    var pattern = /<img[^>]+src="([^"]*)"[^>]*>/g;
+
+    // Replace the matching img tags with a new string
+    var modifiedString = modifiedStringforsrc?.replace(
+      pattern,
+      function (match, src) {
+        if (src === "###coverpath###") {
+          return "";
+        } else {
+          return match; // Keep the original img tag if the src doesn't match
+        }
+      }
+    );
+    return modifiedString;
+  };
+  const openPreviewThumbPopup = (e) => {
+    e.preventDefault();
+    if (
+      typeof templateId != "undefined" &&
+      templateId != "" &&
+      templateId != 0
+    ) {
+      setviewEmailModal(true);
+    } else {
+      toast.warning("Template not selected.");
+    }
+  };
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1117,7 +1242,7 @@ const WebinarAutoEmail = () => {
             <div className="auto_mail_trigger">
               <div className="row">
                 <div className="col-sm-12 col-md-12 d-flex justify-content-end">
-                <Button onClick={(e) => CreateNewTemplateClicked(e)}>Create New Template</Button>
+                {!createNewTemplate && <Button onClick={(e) => CreateNewTemplateClicked(e)}>Create New Template</Button>}
                 </div>
                 <div className="auto_mail_trigger_left col-sm-4 col-md-4">
                   <div className="auto_mail_trigger_box">
@@ -1235,7 +1360,7 @@ const WebinarAutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {templateName == "Welcome mail" ||
+                            {/* {templateName == "Welcome mail" ||
                               templateName ==
                               "Reset password" ? null : approveClicked ===
                                 true ? (
@@ -1257,8 +1382,15 @@ const WebinarAutoEmail = () => {
                               >
                                 Approve?{" "}
                               </button>
-                            )}
-
+                            )} */}
+        <button
+                                      className="btn btn-primary btn-filled"
+                                      onClick={(e) => {
+                                        openPreviewThumbPopup(e);
+                                      }}
+                                    >
+                                      Generate Thumbnail
+                                    </button>
                             <button
                               onClick={sendSample}
                               className="btn btn-primary btn-bordered btn-large"
@@ -2006,6 +2138,47 @@ const WebinarAutoEmail = () => {
             {" "}
             {mailsIncrement} mails sent of {hcpsSelected.length}
           </h4>
+        </Modal>
+      </div>
+      <div>
+        <Modal
+          id="mail-thumb-preview"
+          show={viewEmailModal}
+          custom-atr="non-scroll"
+        >
+          <Modal.Header>
+            <h4>Email View</h4>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={() =>
+                setviewEmailModal((viewEmailModal) => !viewEmailModal)
+              }
+            ></button>
+            <div className="upload_view">
+              <button
+                className="btn btn-primary btn-bordered"
+                onClick={generate_thumb}
+              >
+                Upload
+              </button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="modal-body-view">
+              <div
+                className="thumbnail_email_view"
+                ref={ref}
+                dangerouslySetInnerHTML={{
+                  __html:
+                    templateSaving != ""
+                      ? replaceDangerHtml(templateSaving)
+                      : replaceDangerHtml(sourceCode),
+                }}
+              ></div>
+            </div>
+          </Modal.Body>
         </Modal>
       </div>
       <AddNewContactModal
