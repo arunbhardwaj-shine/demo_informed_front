@@ -34,7 +34,13 @@ const CreateEmail = (props) => {
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
   const linkingPayload = useRef();
-  const templateIdRef = useRef("");
+  const templateIdRef = useRef( state_object != null &&
+    state_object != "undefined" &&
+    state_object.templateId
+    ? state_object.templateId
+    : props.getDraftData
+      ? props.getDraftData?.campaign_data?.template_id
+      : "");
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -427,7 +433,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
-        templateIdRef.current = props.getDraftData.campaign_data.template_id;
+        templateIdRef.current = props.getDraftData?.campaign_data?.template_id;
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -863,7 +869,7 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setTemplate(template.source_code);
@@ -1597,7 +1603,7 @@ const CreateEmail = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1636,7 +1642,7 @@ const CreateEmail = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1726,7 +1732,7 @@ const CreateEmail = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
-              templateIdRef.current = res.data.response.data.last_id;
+              templateIdRef.current = res?.data?.response?.data?.last_id;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1822,95 +1828,206 @@ const CreateEmail = (props) => {
     ) {
       if (editorRef.current) {
         setTemplate(editorRef.current.getContent());
-        toast.success("Template update successfuly");
+        toast.success("Template updated successfully");
       }
     } else {
       toast.warning("Template not selected.");
     }
   };
+  // const addTracking = function (editor) {
+  //   editor.on("OpenWindow", function (e) {
+  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
+
+  //     if (dialog) {
+  //       let header = dialog.querySelector(".tox-dialog__header");
+  //       const closeButton = header.querySelector('[aria-label="Close"]');
+  //       let text = header.querySelector(".tox-dialog__title");
+
+  //       if (text.innerText == "Insert/Edit Link") {
+  //         let uploadIcon = document.querySelector(
+  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+  //         );
+  //         uploadIcon.style.display = "none";
+  //         let newButton = document.createElement("button");
+  //         newButton.innerText = "Add Tracking";
+  //         newButton.classList.add("tox-button");
+  //         newButton.classList.add("tox-button--icon");
+  //         newButton.classList.add("tox-button--naked");
+  //         newButton.classList.add("track");
+  //         newButton.onclick = function () {
+  //           if (templateIdRef.current == "") {
+  //             alert("Please select the template first before adding the link");
+  //             return;
+  //           }
+  //           // alert(templateId);
+  //           let firstToxControlWrap = document.querySelector(
+  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+  //           );
+
+  //           // let text =dialog.querySelector(".tox-form__group");
+  //           if (!firstToxControlWrap.value) {
+  //             alert("Please enter a link");
+  //             return;
+  //           }
+
+  //           const baseLink =
+  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
+  //             alert("Traking already added");
+  //             return;
+  //           }
+  //           let slugValue = prompt("Enter a slug value");
+
+  //           const currentTimestamp = Date.now();
+  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+  //           let payload = {
+  //             slug_value: slugValue,
+  //             template_id: templateIdRef.current,
+  //             url_code: `clicked_track_doc_${currentTimestamp}`,
+  //           };
+  //           linkingPayload.current = payload;
+  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+  //           firstToxControlWrap.value = link;
+  //           var saveButton = document.querySelector(
+  //             '.tox-button[title="Save"]'
+  //           );
+
+  //           saveButton.addEventListener("click", function () {
+  //             let link = `https://onesource.informed.pro/api/track-links`;
+
+  //             axios
+  //               .post(link, payload)
+  //               .then((res) => {
+  //                 console.log("done");
+  //               })
+  //               .catch((err) => {
+  //                 loader("hide");
+  //                 console.log(err);
+  //               });
+  //           });
+  //           alert("Traking added");
+  //         };
+
+  //         header.insertBefore(newButton, closeButton);
+  //       } else if (text.innerText == "Insert/Edit Media") {
+  //         document.querySelector(
+  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+  //         ).innerText += " (Max size: 1GB)";
+  //       }
+  //     }
+  //   });
+  // };
+  
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-      if (dialog) {
-        let header = dialog.querySelector(".tox-dialog__header");
-        const closeButton = header.querySelector('[aria-label="Close"]');
-        let text = header.querySelector(".tox-dialog__title");
-
-        if (text.innerText == "Insert/Edit Link") {
-          let uploadIcon = document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-          );
-          uploadIcon.style.display = "none";
-          let newButton = document.createElement("button");
-          newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button");
-          newButton.classList.add("tox-button--icon");
-          newButton.classList.add("tox-button--naked");
-          newButton.classList.add("track");
-          newButton.onclick = function () {
-            if (templateIdRef.current == "") {
-              alert("Please select the template first before adding the link");
-              return;
-            }
-            // alert(templateId);
-            let firstToxControlWrap = document.querySelector(
-              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-            );
-
-            // let text =dialog.querySelector(".tox-form__group");
-            if (!firstToxControlWrap.value) {
-              alert("Please enter a link");
-              return;
-            }
-
+        let dialog = document.getElementsByClassName("tox-dialog")[0];
+        if (dialog) {
+            let header = dialog?.querySelector(".tox-dialog__header");
+            const closeButton = header?.querySelector('[aria-label="Close"]');
+            let text = header?.querySelector(".tox-dialog__title");
+            let url = dialog?.querySelector(".tox-control-wrap")
+            let newLink = url?.querySelector(".tox-textfield")
+            let newButton = document.createElement("button");
             const baseLink =
-              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (firstToxControlWrap.value.startsWith(baseLink)) {
-              alert("Traking already added");
-              return;
+                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            let payload = {}
+            let apiLink = ""
+
+            if (text?.innerText == "Insert/Edit Link") {
+                let uploadIcon = document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+                );
+                uploadIcon.style.display = "none";
+                // let newButton = document.createElement("button");
+                if (newLink?.value?.includes(baseLink)) {
+                    newButton.innerText = "Remove Tracking";
+                    apiLink = `https://onesource.informed.pro/api/delete-track-links`;
+                } else {
+                    newButton.innerText = "Add Tracking";
+                    apiLink = `https://onesource.informed.pro/api/track-links`;
+                }
+                newButton.classList.add("tox-button");
+                newButton.classList.add("tox-button--icon");
+                newButton.classList.add("tox-button--naked");
+                newButton.classList.add("track");
+
+                newButton.onclick = function () {
+                    if (templateIdRef.current == "") {
+                        alert("Please select the template first before adding the link");
+                        return;
+                    }
+                    let firstToxControlWrap = document.querySelector(
+                        "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+                    );
+
+                    if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+                        let urlvalue = newLink?.value?.split("&redirect_url=")
+                        console.log("firstToxControlWrap.value-->", firstToxControlWrap.value)
+                        const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
+                        const substring = urlvalue[0].substring(startIndex);
+                        firstToxControlWrap.value = urlvalue[1]
+                        payload = {
+                            template_id: templateIdRef.current,
+                            url_code: substring,
+                        };
+                    }
+                    if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+                        if (!newLink?.value) {
+                            alert("Please enter a link")
+                            return
+                        }
+                        if (!firstToxControlWrap.value) {
+                            alert("Please enter a link");
+                            return;
+                        }
+                        if (firstToxControlWrap.value.startsWith(baseLink)) {
+                            alert("Tracking already added");
+                            return;
+                        }
+                        let slugValue = prompt("Enter a slug value");
+
+                        const currentTimestamp = Date.now();
+                        payload = {
+                            slug_value: slugValue,
+                            template_id: templateIdRef.current,
+                            url_code: `clicked_track_doc_${currentTimestamp}`,
+                        };
+                        linkingPayload.current = payload;
+                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                        firstToxControlWrap.value = link;
+
+                    }
+
+                    var saveButton = document.querySelector(
+                        '.tox-button[title="Save"]'
+                    );
+                    saveButton.addEventListener("click", function () {
+                        axios
+                            .post(apiLink, payload)
+                            .then((res) => {
+                                console.log("done");
+                            })
+                            .catch((err) => {
+                                loader("hide");
+                                console.log(err);
+                            });
+                    });
+                    if (newLink?.value?.includes(baseLink)) {
+                        alert("Tracking added");
+                    } else {
+                        alert("Tracking removed");
+                    }
+                };
+
+                header.insertBefore(newButton, closeButton);
+            } else if (text.innerText == "Insert/Edit Media") {
+                document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+                ).innerText += " (Max size: 1GB)";
             }
-            let slugValue = prompt("Enter a slug value");
-
-            const currentTimestamp = Date.now();
-            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-            let payload = {
-              slug_value: slugValue,
-              template_id: templateIdRef.current,
-              url_code: `clicked_track_doc_${currentTimestamp}`,
-            };
-            linkingPayload.current = payload;
-            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-            firstToxControlWrap.value = link;
-            var saveButton = document.querySelector(
-              '.tox-button[title="Save"]'
-            );
-
-            saveButton.addEventListener("click", function () {
-              let link = `https://onesource.informed.pro/api/track-links`;
-
-              axios
-                .post(link, payload)
-                .then((res) => {
-                  console.log("done");
-                })
-                .catch((err) => {
-                  loader("hide");
-                  console.log(err);
-                });
-            });
-            alert("Traking added");
-          };
-
-          header.insertBefore(newButton, closeButton);
-        } else if (text.innerText == "Insert/Edit Media") {
-          document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-          ).innerText += " (Max size: 1GB)";
         }
-      }
     });
-  };
+};
   const uploadImageToServer = async function uploadImageToServer(file) {
     try {
       const formData = new FormData();
