@@ -26,6 +26,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { saveNewTemplate } from "../CommonComponent/Validations";
 import html2canvas from 'html2canvas';
 import domtoimage from "dom-to-image";
+import SmartListLayout from "../CommonComponent/SmartListLayout";
+import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 
 var dxr = 0;
@@ -127,7 +129,7 @@ const TemplateBuilder = (props) => {
 
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
-
+  const [selectedListId, setSelectedListId] = useState(0);
   const [ibuList, setIbuList] = useState([]);
   const [languageList, setLanguageList] = useState([]);
   const [hpc, setHpc] = useState([
@@ -210,6 +212,7 @@ const TemplateBuilder = (props) => {
         if (flag == 0) {
           setPrevSmartListData(res.data.response.data);
         }
+        loader("hide");
       })
       .catch((err) => {
         loader("hide");
@@ -1981,6 +1984,16 @@ const TemplateBuilder = (props) => {
     });
   }
 
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -3674,7 +3687,8 @@ const TemplateBuilder = (props) => {
                               />
                               <span className="checkmark"></span>
                             </div>
-                            <div className="mailbox-table">
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+                            {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -3724,7 +3738,7 @@ const TemplateBuilder = (props) => {
                                 alt="User icon"
                               />
                               {data.readers_count}
-                            </div>
+                            </div> */}
                             {/*<div className="smartlist-buttons">
                                 <button className="btn btn-primary btn-bordered view">
                                   <a onClick={() => openSmartListPopup(data.id)}>
@@ -3965,6 +3979,12 @@ const TemplateBuilder = (props) => {
         </h4>
       </Modal>
       {/*Confrimation Popup end*/}
+
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };
