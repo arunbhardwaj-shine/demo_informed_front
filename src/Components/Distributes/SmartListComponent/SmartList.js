@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 import { loader } from "../../../loader";
 import { connect } from "react-redux";
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import { Button, Col, Modal, Row, Tabs, Tab,ProgressBar } from "react-bootstrap";
 import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import Accordion from "react-bootstrap/Accordion";
 import CommonModel from "../../../Model/CommonModel";
+import { Tooltip } from "react-bootstrap";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
@@ -32,6 +34,8 @@ const SmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [getloadmore, setloadmore] = useState(0);
   const [show,setShow] = useState(false)
+  const [opening_details, setOpeningDetails] = useState([]);
+  const [flag, setFlag] = useState(0);
   const [userObj, setUserObj] = useState({
     "name":""
   });
@@ -236,45 +240,66 @@ const SmartList = (props) => {
   };
 
   const handleIBUChange = (ibu) => {
-    let getfilter = ''
-    if(ibu == 'All'){
-      ibu = ['All','Critical Care','Haematology','Immunotherapy'];
-      let get_creator_index = getFilterIbu.indexOf('All');
-      getFilterIbu.length = 0;
-      if(get_creator_index != -1){
-        setFilterIbu([]);
-      }else{
-        // let ibuToAdd = ibu.filter(item => !getFilterIbu.includes(item));
-        getFilterIbu.push(...ibu);
-        setFilterIbu(getFilterIbu);
-      }
-    }else{
-      let get_creator_index = getFilterIbu.indexOf(ibu);
-      if (get_creator_index !== -1) {
-
-        getFilterIbu.splice(get_creator_index, 1);        
-        let index = getFilterIbu.indexOf('All');
-        if (index !== -1) {
-          getFilterIbu.splice(index, 1);
-        }
-        setFilterIbu(getFilterIbu);
-      } else {
-        getFilterIbu.push(ibu);
-        setFilterIbu(getFilterIbu);
-      }
-    }
-    
-    getfilter = getFilterIbu;
-    if (getfilter?.hasOwnProperty("ibu")) {
-      getfilter.ibu = getFilterIbu;
+    let get_creator_index = getFilterIbu.indexOf(ibu);
+    if (get_creator_index !== -1) {
+      getFilterIbu.splice(get_creator_index, 1);
+      setFilterIbu(getFilterIbu);
     } else {
-      // getfilter = Object.assign({ ibu: getFilterIbu }, filter);
-      getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
+      getFilterIbu.length = 0;
+      getFilterIbu.push(ibu);
+      setFilterIbu(getFilterIbu);
+    }
+
+    let getfilter = getFilterIbu;
+    if (getfilter.hasOwnProperty("ibu")) {
+      getfilter.name = getFilterIbu;
+    } else {
+      getfilter = Object.assign({ ibu: getFilterIbu }, filter);
     }
     setFilter(getfilter);
+
     let up = updateflag + 1;
     setUpdateFlag(up);
-  };
+  }
+
+  // const handleIBUChange = (ibu) => {
+  //   let getfilter = ''
+  //   if(ibu == 'All'){
+  //     ibu = ['All','Critical Care','Haematology','Immunotherapy'];
+  //     let get_creator_index = getFilterIbu.indexOf('All');
+  //     getFilterIbu.length = 0;
+  //     if(get_creator_index != -1){
+  //       setFilterIbu([]);
+  //     }else{
+  //       getFilterIbu.push(...ibu);
+  //       setFilterIbu(getFilterIbu);
+  //     }
+  //   }else{
+  //     let get_creator_index = getFilterIbu.indexOf(ibu);
+  //     if (get_creator_index !== -1) {
+
+  //       getFilterIbu.splice(get_creator_index, 1);        
+  //       let index = getFilterIbu.indexOf('All');
+  //       if (index !== -1) {
+  //         getFilterIbu.splice(index, 1);
+  //       }
+  //       setFilterIbu(getFilterIbu);
+  //     } else {
+  //       getFilterIbu.push(ibu);
+  //       setFilterIbu(getFilterIbu);
+  //     }
+  //   }
+    
+  //   getfilter = getFilterIbu;
+  //   if (getfilter?.hasOwnProperty("ibu")) {
+  //     getfilter.ibu = getFilterIbu;
+  //   } else {
+  //     getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
+  //   }
+  //   setFilter(getfilter);
+  //   let up = updateflag + 1;
+  //   setUpdateFlag(up);
+  // };
 
   const handleOnFilterDate = (fdate) => {
     let date_index = filterdate.indexOf(fdate);
@@ -365,6 +390,44 @@ const SmartList = (props) => {
     getSmartListData(0, 2);
     setloadmore(1);
   };
+
+  const tabClicked = async (type, id) => {
+    if (type == "more-details") {
+      let index = opening_details.findIndex((el) => el?.listid == id);
+      if (index === -1) {
+        let normal_data = opening_details;
+        try {
+          let body = {
+            user_id: localStorage.getItem('user_id'),
+            list_id: id,
+          };
+          const res =  await axios.post(`distributes/get_list_more_details`,body);
+          if (res?.data?.response) {
+            let new_data = res?.data?.response;
+            normal_data.push(new_data);
+            setOpeningDetails(normal_data);
+            setFlag(flag + 1);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  }
+
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
 
   return (
     <>
@@ -515,26 +578,25 @@ const SmartList = (props) => {
                                   {Object.entries(filterdata.ibu).map(
                                     ([index, item]) => (
                                       <li key={item}>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-ibu-${index}`}
-                                            name="ibu[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof getFilterIbu !==
-                                                "undefined" &&
-                                                getFilterIbu.indexOf(item) !==
-                                                -1
-                                            }
-                                            onChange={() =>
-                                              handleIBUChange(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
+                                      <label className="select-multiple-option">
+                                        <input
+                                          type="checkbox"
+                                          id={`custom-checkbox-ibu-${index}`}
+                                          name="names[]"
+                                          value={item}
+                                          checked={
+                                            updateflag > 0 &&
+                                            typeof getFilterIbu !==
+                                              "undefined" &&
+                                              getFilterIbu.indexOf(item) !== -1
+                                          }
+                                          onChange={() =>
+                                            handleIBUChange(item)
+                                          }
+                                        />
+                                        {item}
+                                        <span className="checkmark"></span>
+                                      </label>
                                       </li>
                                     )
                                   )}
@@ -816,7 +878,7 @@ const SmartList = (props) => {
               )}
 
             <div className="smart-list-result">
-              <div className="col smartlist-result-block">
+              <div className="col smartlist-result-block new-smartlist">
                 {
                 // getfiltername.length == 0 &&
                 //   getFilterCreator.length == 0 &&
@@ -843,6 +905,297 @@ const SmartList = (props) => {
                 smartListData.length > 0 ? (
                   smartListData.map((data,index) => {
                     return (
+                      localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                      <div className="smartlist_box_block">
+                        <div className="smartlist-view email_box">
+                          <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
+                              <h5 contenteditable="true">{data.name}</h5>
+                              <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
+                            </div>
+                            <div className="tabs-data">
+                              <Tabs
+                                onSelect={(key) => tabClicked(key, data?.id)}
+                                defaultActiveKey="list-info"
+                                fill
+                              >
+                                <Tab
+                                  eventKey="list-info"
+                                  title="List info"
+                                  className="flex-column justify-content-between"
+                                >
+                                  <div className="d-flex justify-content-between tabs-data">
+                                  <div className="tab-panel d-flex flex-column justify-content-between">
+                                    <ul className="tab-mail-list">
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          IBU
+                                        </h6>
+                                        <h6>
+                                          {data?.ibu ? data?.ibu : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Created by
+                                        </h6>
+                                        <h6 className="list_creator">
+                                          {data?.creator ? data?.creator : "N/A"}
+                                        </h6>
+                                      </li>
+                                    </ul> 
+
+                                    <div className="mail-time">
+                                      <span>{data?.created_at}</span>
+                                      <div className="smart-list-added-user">
+                                        <img
+                                          src={path_image + "smartlist-user.svg"}
+                                          alt="User icon"
+                                        />
+                                        {data?.readers_count}
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                  <div className="smartlist-buttons">
+                              {!deletestatus && (
+                                <>
+                                  {data.upload_by_filter == 1 ? (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/EditList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  ) : (
+                                    <Link
+                                      className="btn btn-primary btn-bordered edit_list"
+                                      to={{
+                                        pathname: "/ViewSmartList",
+                                        search: "?listId=" + data.id,
+                                      }}
+                                      onClick={() => linkClicked(data.id)}
+                                    >
+                                      Edit List
+                                    </Link>
+                                  )}
+
+                                  <Link
+                                    className="btn btn-primary btn-filled view"
+                                    to={{
+                                      pathname: "/ViewSmartList",
+                                      search: "?listId=" + data.id,
+                                    }}
+                                    onClick={() => linkClicked(data.id)}
+                                  >
+                                    View
+                                  </Link>
+                                </>
+                              )}
+                            </div>
+                            </div>
+                                </Tab>
+                                <Tab
+                                eventKey="more-details"
+                                title="More details"
+                                className="flex-column justify-content-between"
+                                >
+                                  <div className="tab-panel d-flex flex-column justify-content-between">
+                                    <ul className="tab-mail-list">
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Last used
+                                        </h6>
+                                        <h6>
+                                          {
+                                            opening_details.findIndex(
+                                              (el) => el.listid == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                )
+                                              ].last_email : "N/A"
+                                          }
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Registered
+                                        </h6>
+                                        <h6>
+                                          {data?.registered}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Country
+                                        </h6>
+                                        <h6>
+                                        {
+                                            opening_details.findIndex(
+                                              (el) => el.listid == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                )
+                                              ]?.country : "N/A"
+                                          }
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        List use
+                                            <LinkWithTooltip tooltip="Number of times email sent to the this list.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                          <div className="data-progress qr-opening">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_list_send
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Emails sent
+                                        <LinkWithTooltip tooltip="Number of total email sent.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress send">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_sent
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Avg opening rate
+                                        <LinkWithTooltip tooltip="Number of average opening counts.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress open">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_open
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                        Avg CTR
+                                        <LinkWithTooltip tooltip="Number of average CTR.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress delivered">
+                                            <ProgressBar
+                                              variant="default"
+                                              now={5}
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.listid == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                    opening_details.findIndex(
+                                                        (el) => el.listid == data?.id
+                                                      )
+                                                    ]?.total_ctr
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
+                                      </li>
+                                    </ul> 
+                                  </div>
+                                </Tab>
+                              </Tabs>
+                            </div>
+                            
+                            {deletestatus && (
+                              <div className="dlt_btn">
+                                <button
+                                  onClick={(e) =>
+                                    showConfirmationPopup(data.id)
+                                  }
+                                >
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      :
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">

@@ -9,7 +9,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown,OverlayTrigger,Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -34,7 +34,13 @@ const CreateEmail = (props) => {
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
   const linkingPayload = useRef();
-  const templateIdRef = useRef("");
+  const templateIdRef = useRef( state_object != null &&
+    state_object != "undefined" &&
+    state_object.templateId
+    ? state_object.templateId
+    : props.getDraftData
+      ? props.getDraftData?.campaign_data?.template_id
+      : "");
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -163,6 +169,8 @@ const CreateEmail = (props) => {
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
 
+  const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
 
   const [hpc, setHpc] = useState([
@@ -425,7 +433,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
-        templateIdRef.current = props.getDraftData.campaign_data.template_id;
+        templateIdRef.current = props.getDraftData?.campaign_data?.template_id;
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -861,7 +869,7 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setTemplate(template.source_code);
@@ -1595,7 +1603,7 @@ const CreateEmail = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1634,7 +1642,7 @@ const CreateEmail = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1724,7 +1732,7 @@ const CreateEmail = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
-              templateIdRef.current = res.data.response.data.last_id;
+              templateIdRef.current = res?.data?.response?.data?.last_id;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1820,95 +1828,206 @@ const CreateEmail = (props) => {
     ) {
       if (editorRef.current) {
         setTemplate(editorRef.current.getContent());
-        toast.success("Template update successfuly");
+        toast.success("Template updated successfully");
       }
     } else {
       toast.warning("Template not selected.");
     }
   };
+  // const addTracking = function (editor) {
+  //   editor.on("OpenWindow", function (e) {
+  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
+
+  //     if (dialog) {
+  //       let header = dialog.querySelector(".tox-dialog__header");
+  //       const closeButton = header.querySelector('[aria-label="Close"]');
+  //       let text = header.querySelector(".tox-dialog__title");
+
+  //       if (text.innerText == "Insert/Edit Link") {
+  //         let uploadIcon = document.querySelector(
+  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+  //         );
+  //         uploadIcon.style.display = "none";
+  //         let newButton = document.createElement("button");
+  //         newButton.innerText = "Add Tracking";
+  //         newButton.classList.add("tox-button");
+  //         newButton.classList.add("tox-button--icon");
+  //         newButton.classList.add("tox-button--naked");
+  //         newButton.classList.add("track");
+  //         newButton.onclick = function () {
+  //           if (templateIdRef.current == "") {
+  //             alert("Please select the template first before adding the link");
+  //             return;
+  //           }
+  //           // alert(templateId);
+  //           let firstToxControlWrap = document.querySelector(
+  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+  //           );
+
+  //           // let text =dialog.querySelector(".tox-form__group");
+  //           if (!firstToxControlWrap.value) {
+  //             alert("Please enter a link");
+  //             return;
+  //           }
+
+  //           const baseLink =
+  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
+  //             alert("Traking already added");
+  //             return;
+  //           }
+  //           let slugValue = prompt("Enter a slug value");
+
+  //           const currentTimestamp = Date.now();
+  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+  //           let payload = {
+  //             slug_value: slugValue,
+  //             template_id: templateIdRef.current,
+  //             url_code: `clicked_track_doc_${currentTimestamp}`,
+  //           };
+  //           linkingPayload.current = payload;
+  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+  //           firstToxControlWrap.value = link;
+  //           var saveButton = document.querySelector(
+  //             '.tox-button[title="Save"]'
+  //           );
+
+  //           saveButton.addEventListener("click", function () {
+  //             let link = `https://onesource.informed.pro/api/track-links`;
+
+  //             axios
+  //               .post(link, payload)
+  //               .then((res) => {
+  //                 console.log("done");
+  //               })
+  //               .catch((err) => {
+  //                 loader("hide");
+  //                 console.log(err);
+  //               });
+  //           });
+  //           alert("Traking added");
+  //         };
+
+  //         header.insertBefore(newButton, closeButton);
+  //       } else if (text.innerText == "Insert/Edit Media") {
+  //         document.querySelector(
+  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+  //         ).innerText += " (Max size: 1GB)";
+  //       }
+  //     }
+  //   });
+  // };
+  
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-      if (dialog) {
-        let header = dialog.querySelector(".tox-dialog__header");
-        const closeButton = header.querySelector('[aria-label="Close"]');
-        let text = header.querySelector(".tox-dialog__title");
-
-        if (text.innerText == "Insert/Edit Link") {
-          let uploadIcon = document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-          );
-          uploadIcon.style.display = "none";
-          let newButton = document.createElement("button");
-          newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button");
-          newButton.classList.add("tox-button--icon");
-          newButton.classList.add("tox-button--naked");
-          newButton.classList.add("track");
-          newButton.onclick = function () {
-            if (templateIdRef.current == "") {
-              alert("Please select the template first before adding the link");
-              return;
-            }
-            // alert(templateId);
-            let firstToxControlWrap = document.querySelector(
-              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-            );
-
-            // let text =dialog.querySelector(".tox-form__group");
-            if (!firstToxControlWrap.value) {
-              alert("Please enter a link");
-              return;
-            }
-
+        let dialog = document.getElementsByClassName("tox-dialog")[0];
+        if (dialog) {
+            let header = dialog?.querySelector(".tox-dialog__header");
+            const closeButton = header?.querySelector('[aria-label="Close"]');
+            let text = header?.querySelector(".tox-dialog__title");
+            let url = dialog?.querySelector(".tox-control-wrap")
+            let newLink = url?.querySelector(".tox-textfield")
+            let newButton = document.createElement("button");
             const baseLink =
-              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (firstToxControlWrap.value.startsWith(baseLink)) {
-              alert("Traking already added");
-              return;
+                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            let payload = {}
+            let apiLink = ""
+
+            if (text?.innerText == "Insert/Edit Link") {
+                let uploadIcon = document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+                );
+                uploadIcon.style.display = "none";
+                // let newButton = document.createElement("button");
+                if (newLink?.value?.includes(baseLink)) {
+                    newButton.innerText = "Remove Tracking";
+                    apiLink = `https://onesource.informed.pro/api/delete-track-links`;
+                } else {
+                    newButton.innerText = "Add Tracking";
+                    apiLink = `https://onesource.informed.pro/api/track-links`;
+                }
+                newButton.classList.add("tox-button");
+                newButton.classList.add("tox-button--icon");
+                newButton.classList.add("tox-button--naked");
+                newButton.classList.add("track");
+
+                newButton.onclick = function () {
+                    if (templateIdRef.current == "") {
+                        alert("Please select the template first before adding the link");
+                        return;
+                    }
+                    let firstToxControlWrap = document.querySelector(
+                        "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+                    );
+
+                    if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+                        let urlvalue = newLink?.value?.split("&redirect_url=")
+                        console.log("firstToxControlWrap.value-->", firstToxControlWrap.value)
+                        const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
+                        const substring = urlvalue[0].substring(startIndex);
+                        firstToxControlWrap.value = urlvalue[1]
+                        payload = {
+                            template_id: templateIdRef.current,
+                            url_code: substring,
+                        };
+                    }
+                    if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+                        if (!newLink?.value) {
+                            alert("Please enter a link")
+                            return
+                        }
+                        if (!firstToxControlWrap.value) {
+                            alert("Please enter a link");
+                            return;
+                        }
+                        if (firstToxControlWrap.value.startsWith(baseLink)) {
+                            alert("Tracking already added");
+                            return;
+                        }
+                        let slugValue = prompt("Enter a slug value");
+
+                        const currentTimestamp = Date.now();
+                        payload = {
+                            slug_value: slugValue,
+                            template_id: templateIdRef.current,
+                            url_code: `clicked_track_doc_${currentTimestamp}`,
+                        };
+                        linkingPayload.current = payload;
+                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                        firstToxControlWrap.value = link;
+
+                    }
+
+                    var saveButton = document.querySelector(
+                        '.tox-button[title="Save"]'
+                    );
+                    saveButton.addEventListener("click", function () {
+                        axios
+                            .post(apiLink, payload)
+                            .then((res) => {
+                                console.log("done");
+                            })
+                            .catch((err) => {
+                                loader("hide");
+                                console.log(err);
+                            });
+                    });
+                    if (newLink?.value?.includes(baseLink)) {
+                        alert("Tracking added");
+                    } else {
+                        alert("Tracking removed");
+                    }
+                };
+
+                header.insertBefore(newButton, closeButton);
+            } else if (text.innerText == "Insert/Edit Media") {
+                document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+                ).innerText += " (Max size: 1GB)";
             }
-            let slugValue = prompt("Enter a slug value");
-
-            const currentTimestamp = Date.now();
-            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-            let payload = {
-              slug_value: slugValue,
-              template_id: templateIdRef.current,
-              url_code: `clicked_track_doc_${currentTimestamp}`,
-            };
-            linkingPayload.current = payload;
-            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-            firstToxControlWrap.value = link;
-            var saveButton = document.querySelector(
-              '.tox-button[title="Save"]'
-            );
-
-            saveButton.addEventListener("click", function () {
-              let link = `https://onesource.informed.pro/api/track-links`;
-
-              axios
-                .post(link, payload)
-                .then((res) => {
-                  console.log("done");
-                })
-                .catch((err) => {
-                  loader("hide");
-                  console.log(err);
-                });
-            });
-            alert("Traking added");
-          };
-
-          header.insertBefore(newButton, closeButton);
-        } else if (text.innerText == "Insert/Edit Media") {
-          document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-          ).innerText += " (Max size: 1GB)";
         }
-      }
     });
-  };
+};
   const uploadImageToServer = async function uploadImageToServer(file) {
     try {
       const formData = new FormData();
@@ -1975,6 +2094,40 @@ const CreateEmail = (props) => {
       console.error("Image upload error:", error);
       return null;
     }
+  };
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
+
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB.localeCompare(valueA);
+      }
+    });
   };
 
   return (
@@ -2095,9 +2248,22 @@ const CreateEmail = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <div className="form-inline row justify-content-between align-items-center">
-                            <div className="form-group col-12 col-md-7">
+                            <div className="form-group col-12 col-md-7 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
-                                Email Description <span>*</span>{" "}
+                                  Email Description <span>*</span>  
+                                <LinkWithTooltip
+                                  tooltip="About this specific email, this description will aid in distinguishing it from others."
+                                  href="#"
+                                >
+                                  <img
+                                    src={
+                                      path_image +
+                                      "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                  />
+                                </LinkWithTooltip> 
+                                
                               </label>
 
                               <input
@@ -2121,7 +2287,7 @@ const CreateEmail = (props) => {
                                 "required"
                               )}
                             </div>
-                            <div className="form-group right-side col-12 col-md-5">
+                            <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
                                 Email Creator <span>*</span>
                               </label>
@@ -2149,9 +2315,21 @@ const CreateEmail = (props) => {
                             </div>
                           </div>
                           <div className="form-inline row justify-content-between align-items-center">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
-                                Email Campaign <span>*</span>
+                                  Email Campaign <span>*</span> 
+                                <LinkWithTooltip
+                                  tooltip="Including details about the product, event, or subject of this email will facilitate filtering and locating a cluster of related emails."
+                                  href="#"
+                                >
+                                  <img
+                                    src={
+                                      path_image +
+                                      "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                  />
+                                </LinkWithTooltip>
                               </label>
 
                               <input
@@ -3812,10 +3990,74 @@ const CreateEmail = (props) => {
                 <table className="table">
                   <thead className="sticky-header">
                     <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
+                      <th scope="col" >
+                        Name
+                      <button
+                          className={`event_sort_btn ${sortBy == "first_name" ?
+                          sortOrder == "asc"
+                           ? "svg_asc"
+                           : "svg_active"
+                          : "" 
+                         }`}
+                          onClick={() => handleSort('first_name')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button>
+                      </th>
+                      <th scope="col">Email
+                        <button
+                            className={`event_sort_btn ${sortBy == "email" ?
+                               sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                               : "" 
+                              }`}
+                            onClick={() => handleSort('email')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                      </th>
                       <th scope="col">Bounced</th>
-                      <th scope="col">Country</th>
+                      <th scope="col">Country
+                        <button
+                              className={`event_sort_btn ${sortBy == "country" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : "" 
+                             }`}
+                              onClick={() => handleSort('country')}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                      </th>
 
                       {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -3825,7 +4067,28 @@ const CreateEmail = (props) => {
                         </>
                       ) : (
                         <>
-                          <th scope="col">Business unit</th>
+                          <th scope="col">Business unit
+                            <button
+                              className={`event_sort_btn ${sortBy == "ibu" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : "" 
+                             }`}
+                              onClick={() => handleSort('ibu')}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                          </th>
                           <th scope="col">Contact type</th>
                         </>
                       )}
@@ -3844,7 +4107,7 @@ const CreateEmail = (props) => {
                   <tbody>
                     {typeof getReaderDetails !== "undefined" &&
                       getReaderDetails.length > 0 &&
-                      getReaderDetails.map((rr, i) => {
+                      sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                         return (
                           <>
                             <tr key={i}>

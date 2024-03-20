@@ -1342,7 +1342,8 @@ ul.tab-mail-list.data span.total-left small {
   height: 24px;
 }
 
-.readerlist .tab-mail-list.data .progress {
+.readerlist .tab-mail-list.data .progress,
+.tab-mail-list .progress {
   width: auto;
   min-width: 50px;
   background: $yellow;
@@ -1394,9 +1395,10 @@ ul.tab-mail-list.data span.total-left small {
   color: $dark-blue;
 }
 
-.tab-mail-list.data .progress .progress-bar,
+
 .tab-mail-list.data .data-progress.success span,
-.tab-mail-list.data .data-progress.danger span {
+.tab-mail-list.data .data-progress.danger span,
+.tab-mail-list .progress .progress-bar {
   border-radius: 27px;
   padding: 4px 7px;
   min-width: 25px;
@@ -1404,6 +1406,10 @@ ul.tab-mail-list.data span.total-left small {
   font-size: 14px;
   line-height: 17px;
   @include flex-middle;
+}
+
+.smartlist-view .data-progress {
+  padding: 0px 0 0 0px;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-warning {
@@ -1447,7 +1453,8 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .readerlist .tab-mail-list.data .progress .progress-bar,
-.timeline-left-user-detail .progress .progress-bar {
+.timeline-left-user-detail .progress .progress-bar,
+.tab-mail-list .progress .progress-bar {
   background: transparent;
   width: 100% !important;
   padding: 1px 7px;
@@ -4834,8 +4841,8 @@ section.verify_email.content_details {
 .top-header {
   align-items: center;
   // padding-top:30px;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 8px;
+  padding-right: 8px;
   background: transparent;
 }
 
@@ -5630,7 +5637,7 @@ input.viewer-toolbar-current-page-input {
 }
 
 .top-header.regi-web.sticky {
-  padding-top: 35px;
+  padding-top: 25px;
 }
 
 .custom-change {
@@ -6442,6 +6449,42 @@ svg.pencil_icon {
   margin-right: 0;
 }
 
+.delivery-trends .tabs_content_load .no-margin.highchart-listed.row {
+  border-radius: 12px;
+  background: #FFF;
+  box-shadow: 0px 1px 7px 0px rgba(0, 102, 190, 0.20);
+  padding: 8px 0;
+  border: 0;
+  margin-bottom: 25px;
+}
+
+// .delivery-trends.space-added .no-margin.highchart-listed .high_charts-leftside,
+// .delivery-trends.space-added .no-margin.highchart-listed .high_charts-rightside {
+//   width: 50%;
+// }
+.delivery-trends .high_charts-leftside {
+  border-right: 1px dashed #97B6CF;
+}
+
+.delivery-trends .high_charts-leftside .row {
+  width: 100%;
+}
+
+.high_charts-rightside .distribute-page-reader {
+  padding: 8px;
+}
+
+.high_charts-rightside .distribute-page-reader p {
+  font-size: 10px;
+  padding-left: 8px;
+  color: #004A89;
+}
+
+.high_charts-rightside .distribute-page-reader svg {
+  width: 12px;
+  max-height: 12px;
+}
+
 .accordion-loader {
   height: 400px;
   position: relative;
@@ -6512,10 +6555,14 @@ svg.pencil_icon {
   margin: 1px;
 }
 
-.apply-filter {
-  padding-left: 30px;
-  padding-right: 30px;
+.invitee {
+  padding: 0 8px;
 }
+
+// .apply-filter {
+//   padding-left: 30px;
+//   padding-right: 30px;
+// }
 
 .filter-by.nav-item.dropdown>button:focus {
   border: 0.5px solid transparent;
@@ -8954,7 +9001,160 @@ svg.pencil_icon {
   }
 }
 
-/**Publisher page End**/
+.smartlist-view .mail-box-content .tabs-data {
+  flex: 0 0 auto;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs {
+  border: 0;
+  margin: 0 -16px 0;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item {
+  margin-right: 0;
+  flex: 1 1;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button.active {
+  color: #0066BE;
+  background: #ffffff;
+  box-shadow: 0px -5px 7px rgba(0, 102, 190, 0.13);
+  border-radius: 20px 20px 0 0;
+  z-index: 2;
+  position: relative;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button {
+  border: 0;
+  font-size: 11px;
+  line-height: 13px;
+  font-weight: 500;
+  padding: 10px;
+  color: rgba(0, 102, 190, 0.5);
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item:first-child button.active {
+  border-radius: 20px 20px 0 0;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item:last-child button.active {
+  border-radius: 20px 20px 0 0;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button.active:before {
+  content: "";
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAB9CAYAAABqMmsMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDcuMC1jMDAwIDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4NUY1NEZEMEJFM0MxMUVEOUE3OEM5NjM1NUY4NzNGMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4NUY1NEZEMUJFM0MxMUVEOUE3OEM5NjM1NUY4NzNGMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjg1RjU0RkNFQkUzQzExRUQ5QTc4Qzk2MzU1Rjg3M0YyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjg1RjU0RkNGQkUzQzExRUQ5QTc4Qzk2MzU1Rjg3M0YyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+jA0x9QAAA4BJREFUeNrsne1t4kAURc0qBbgDpgPcwbqDpAPTAXTgdJDtwOmAEiiBEiiBErzzxFtlicJu+DD2zD1XGvlHUJThnnfnzdiEWYGyU9/3IV6qOOw696uN0l8S/rz2ibcrebPN1Jc4FnHUn4z+rwAgTdPN6Gc3PtzyuwAgPdOXl1Q4Sjze42jjOPQDiQSYbrU3HvFUu5LxcWz7B4p3fSLbtji6fgSxBIy/hVvFsR4r6gFg3HW+u3Ubd6t+YMUonb0Zvx3bfBJAtOpJgHHMb6dS9STA4xu9TXE8p5+cAGDg7d0Uq54l4DHm2+3Y3ZTNB4DhzG+88id/jMsSMIz576n8vSSAsPkAIG6+aYZ1d234khMJcJ+t3ibVvx8AMt/nA8Cw6lI2HwBuq347269TnwdN4HXm1x79yYsEuG7d73KZDwBcrjb1dR8Arq/+ZXH8YEY2ogf4vvl2Y2eXU/WTAJdplZv5JMBljd8+x7mRAN9v/LIUCSBc/SSAePWTAOLVTwKIVz8JIF79JMC/VStMkgQ4nwBW/YEE0DS/VjAfAM6rUZkoAAiv/wAgHv8AIB7/APC1KqXJsg08jX+L/j0JQPUDAN0/AChqoTZheoDTHqAnAXTNrxTnDQAfCgAAAAAAAACgqjkAaKsEAJYAAEBa4iDo4xygJwEQACAAQACAAECrASwBQFsAAAAAAAAAIKsAAAAAAAAAAKqaq06cm0HHc4BDwfMAsuYHdgHaqpQnDwCCHwcDgFMtlCcv3QT6TaADCUD8A4CongGABAAA0fXfzA8AoKumQNIA1NgvCoB//1/Aft0EIP5dM8Hqt8rfY71uArTYLpoAVD8JQPWrJgDVTwJQ/aoJQPWTAFusFgWAUz/hJcCjfwsAugnQYr4oALH6V/GyxGLBJYCuXzgB/Elfun7hJaBj3RcFIFa/NX0v2CrYA3jT9wtLBQGI5lvVb7BTEAD/sidr+krsFOsBMF8YAP9gB+YrAhDNbzBfFADf6r1j3X30lJj5b/GyxjYxAPxs37Z5FZaJLQHe7O0wXwwAu6njkU+zp7YEeNVzU0ctAT5VPeYrJYDfzHkl7sUA8Kd2eXZPDQCMFwTAH9eyqF8T9UIAeFdvxtcYLwKAm27/iHGJ6QIA+L15M/0nlZ4xAL6OW+Nmhi/8WmF4ogBEQ1/P/Ozv79EJPkqMzkuzCEDP26Cr3wIMAJMujJ88uZcbAAAAAElFTkSuQmCC) no-repeat;
+  width: 34px;
+  position: absolute;
+  height: 34px;
+  top: 1px;
+  left: -18px;
+  border-radius: 0;
+  z-index: -1;
+  background-size: 34px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item:first-child button.active:before,
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item:last-child button.active:after {
+  background: $white;
+  display: block;
+  left: 0;
+  height: 20px;
+  top: 25px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item:last-child button.active:after {
+  left: auto;
+  right: 0;
+}
+
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button.active:after {
+  content: "";
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAB9CAYAAABqMmsMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDcuMC1jMDAwIDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2MkY1M0ZDMEJFM0QxMUVEODY5RUYxRkQ2MjU1RkZCRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2MkY1M0ZDMUJFM0QxMUVEODY5RUYxRkQ2MjU1RkZCRiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjYyRjUzRkJFQkUzRDExRUQ4NjlFRjFGRDYyNTVGRkJGIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjYyRjUzRkJGQkUzRDExRUQ4NjlFRjFGRDYyNTVGRkJGIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+DUXpKQAAA29JREFUeNrsndFR20AURaU0EFNBRAUxFcR0QCrA6QAqIFQAqcCmAtIBdgWog4gO3AF5a68SxYmHkCFG9jl3ZsfDH/idufft07IqH0NFUTTFSulzkT8f8mdTlmVdqL1UmQH4G81iJRDm6TOgaPz6WACsq87rJmCY+VXyAOiqyQ4hDLumx5fXt1jjWJXfLhOAriaCwAZAEARAEAhN4HP1OdaXaBgXloDlAL81i1aA6QBdTWNdOljiAtDOET45Q9i+3vTk90iN4V2weGFJmA7Q1Sy7gZEABaCNhGMh4ETApkgYWiImAC0E9wHBqWViAvBjmygEbACEQACEgLYL2KRF3h14RhEKQAvBkVtEXgS0GuQt4sDyMQFot4i3lo8LQNLIZwfMHmBdxz5FZAPQ5KbQ00WwCOj2A1eWkusARoEAGAXkCOhGwZkl5TpAklNCsAMkpemgswGwA9gQwh2glS4AByCNiUeWlwtAkodHwD1AuyM4dC7AdYCBcwG2AyxdIBzgwDIzHWDpAjaDbACSTiwzNwKMAR3AGKADYAzAIyApXXh9aLm5ACQdOBTiRoAxIACFl03AAfhgudkAVJabDUCaB7yz5FwAko4sORsAY0AAlAAoLAA2gXAAvFYGDoBaE+lh0OoPDll2HUAJgBIAJQACAJM3jOoAby27EaDAAHg6GA5AZdkFQIEB8IkgHACPhxsBigyAp4OdA3g6mA7AyNKzAXhv6VfCnQjqyH8XL9jPAtwOwgHwvgB4BHh7GNwBvD2s8DwAPgbIEbCMgQJ+ozjdAQb03YBHwuCvlxEA+OtlBGAl7Otl6E1gV8jRsA7wU2c6AFvI187qAL9uCS90AIV67awOAJ8LCMCf5wKYhtAIgDeEOsDmhnBiBBgFex8FRgA8CnSAp6Pgbp+vlRGAp1XFuhIAtsbhAns5H7AHeJ7Oox+4FgC2PgYEXwWAvTNIzwtqewD2zmAoAEIwFAA2BPcBwakAsDXd5S2iTeDL6Toaw3MBYKvO28TGCGBqmJvDEwHgqop1GxDsxPMDI+D/qsmRUOsAXDdIW8VJrEoAuBrn3mBsBKgUC5cRC1MBEIRXB0EAegJCrNlrzA8EoF9KbnCzzX9NE4D+usJsGzAIQP+1yDDMc0zUAiAQdV7z9ud/vd1EAPYLjCZ/tivpQQDURn0XYADIAapSonmIlQAAAABJRU5ErkJggg==) no-repeat;
+  width: 34px;
+  position: absolute;
+  height: 34px;
+  top: 1px;
+  right: -18px;
+  border-radius: 0;
+  z-index: -1;
+  background-size: 34px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content {
+  background: #ffffff;
+  mix-blend-mode: normal;
+  box-shadow: 0px -4px 8px rgba(0, 102, 190, 0.07);
+  border-radius: 20px 20px 20px;
+  margin: 1px -16px 0;
+  padding: 18px 16px 16px;
+  min-height: 150px;
+  display: flex;
+  justify-content: space-between;
+  height: calc(100% - 16px);
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane {
+  width: 100%;
+  min-height: 130px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tab-panel {
+  width: 100%;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list {
+  padding: 0;
+  margin: 0;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list+.mail-time {
+  margin: 65px 0 11px;
+}
+
+// .smartlist-view .mail-box-content .smart-list-added-user {
+//     margin-bottom: 0;
+// }
+.smartlist-view .mail-box-content .tabs-data .tab-content ul li {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 0 10px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content ul li:last-child {
+  margin: 0;
+}
+
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
+  font-size: 14px;
+  line-height: 16px;
+  color: #0066BE;
+  font-weight: 400;
+  color: #004A89;
+  margin: 0;
+  word-break: break-all;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+  border-radius: 3px;
+  background: #E7F4FF;
+  color: #0066BE;
+  font-size: 13px;
+  padding: 1px 30px;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
+  font-weight: 500;
+  color: rgba(0, 74, 137, 0.55);
+  flex: 0 0 125px;
+  word-break: break-word;
+  margin: 0;
+}
+
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title img {
+  margin-left: 3px;
+}
 
 /**Library Responsive**/
 
@@ -9738,6 +9938,15 @@ svg.pencil_icon {
   .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label .dropdown-basic-button>div:nth-child(3) {
     padding: 3px 50px 3px 15px;
   }
+
+  .smartlist-view .mail-box-content .tabs-data .tab-content {
+    margin: 1px -12px 0;
+    padding: 18px 12px 16px;
+  }
+
+  .smartlist-view .mail-box-content .tabs-data .nav-tabs {
+    margin: 0 -12px 0;
+  }
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
@@ -10273,6 +10482,15 @@ svg.pencil_icon {
   .custom-change.licence-renew .library-content-box-layuot .data-collected .doc-content-main-box .tabs-data .tab-content-links {
     margin: 0 0 16px;
   }
+
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
+    font-size: 13px;
+  }
+
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+    padding: 1px 10px;
+  }
+
 }
 
 @media only screen and (max-width: 1365px) {
@@ -11766,6 +11984,10 @@ svg.pencil_icon {
     padding: 6px 12px;
   }
 
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+    padding: 1px 10px;
+  }
+
   .top-header {
     padding-left: 0px;
     padding-right: 0px;
@@ -12623,9 +12845,8 @@ img.change-password-image {
 }
 
 .highcharts-legend-item rect.highcharts-point {
-  width: 10px;
-  height: 10px;
-  transform: translateY(3px);
+  width: 8px;
+  height: 8px;
 }
 
 .rd-analytics-content {
@@ -19270,7 +19491,7 @@ img.change-password-image {
   padding: 16px;
   margin: 20px 0;
   min-height: 86vh;
-  // max-height: 700px;
+  max-height: 86vh;
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -19324,13 +19545,11 @@ img.change-password-image {
     height: 100%;
     overflow-y: auto;
     padding: 4px;
-    max-height: 600px;
 
     ul {
       display: flex;
       justify-content: flex-start;
       width: 100%;
-      align-items: center;
 
       li {
         width: 26%;
@@ -19436,7 +19655,6 @@ img.change-password-image {
 }
 
 /**survey data end**/
-
 /**Survey rating**/
 .survey-rating {
   gap: 67px 4%;
@@ -19575,9 +19793,9 @@ img.change-password-image {
           min-width: 40px;
         }
 
-        .survey-rating-view{
-          img{
-            cursor:pointer;
+        .survey-rating-view {
+          img {
+            cursor: pointer;
           }
         }
       }
@@ -20555,73 +20773,6 @@ img.change-password-image {
       }
     }
   }
-
-
-  .survey-rating {
-    gap: 50px 2%;
-
-    .question-rating {
-      padding: 16px 10px;
-      width: 23.5%;
-      flex: 0 0 23.5%;
-
-      .question-list {
-        p {
-          font-size: 14px;
-        }
-
-        span {
-          font-size: 14px;
-        }
-      }
-
-      .rating {
-        padding: 22px 0;
-
-        &:after {
-          width: calc(100% + 20px);
-          left: -10px;
-        }
-
-
-
-        h2 {
-          font-size: 26px;
-
-          &>span {
-            font-size: 18px;
-
-            small {
-              font-size: 13px;
-            }
-          }
-        }
-      }
-
-      .post-survey-rating {
-        gap: 16px;
-        padding: 20px 0 0;
-
-        .survey-rating-detail {
-          &>h5 {
-            font-size: 14px;
-
-            svg {
-              width: 14px;
-              height: 14px;
-            }
-          }
-
-          .survey-rating-number {
-            font-size: 14px;
-            min-width: 32px;
-          }
-        }
-      }
-    }
-
-
-  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -21352,15 +21503,6 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-large) {
-  .survey-rating {
-    gap: 20px 2%;
-
-    .question-rating {
-      width: 32%;
-      flex: 0 0 32%;
-    }
-  }
-
   .custom-change .top-sticky {
     top: 48px;
   }
@@ -21921,15 +22063,6 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-medium) {
-  .survey-rating {
-    gap: 20px 4%;
-
-    .question-rating {
-      width: 48%;
-      flex: 0 0 48%;
-    }
-  }
-
   .feilds-section .select-collected .webinar-checkbox {
     width: calc(50% - 7px);
     padding: 10px 14px;
@@ -22300,15 +22433,6 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-small) {
-  .survey-rating {
-    gap: 20px;
-
-    .question-rating {
-      width: 100%;
-      flex: 0 0 100%;
-    }
-  }
-
   .consent-content .consent-content-inner .consent-details .consent-img {
     display: block;
   }
