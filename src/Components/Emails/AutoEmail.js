@@ -12,6 +12,8 @@ import Select, { createFilter } from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import SmartListLayout from "../CommonComponent/SmartListLayout";
+import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
@@ -52,6 +54,7 @@ const AutoEmail = () => {
   const [hide, setHide] = useState(false);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
+  const [selectedListId, setSelectedListId] = useState(0);
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
 
   const [getTemplateLanguage, setTemplateLanguage] = useState([
@@ -1313,6 +1316,16 @@ const AutoEmail = () => {
     }
   };
 
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -2548,7 +2561,8 @@ const AutoEmail = () => {
                               />
                               <span className="checkmark"></span>
                             </div>
-                            <div className="mailbox-table">
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+                            {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -2598,7 +2612,7 @@ const AutoEmail = () => {
                                 alt="User icon"
                               />
                               {data.readers_count}
-                            </div>
+                            </div> */}
                             {/*<div className="smartlist-buttons">
                                 <button className="btn btn-primary btn-bordered view">
                                   <a onClick={() => openSmartListPopup(data.id)}>
@@ -2658,6 +2672,12 @@ const AutoEmail = () => {
           </h4>
         </Modal>
       </div>
+
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };

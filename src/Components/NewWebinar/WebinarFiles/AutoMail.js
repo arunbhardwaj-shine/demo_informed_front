@@ -274,6 +274,7 @@ const AutoMail = (props) => {
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
+      templateIdRef.current=""
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
@@ -576,11 +577,11 @@ const AutoMail = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
+    templateIdRef.current=template?.id
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
-    templateIdRef.current=template.id;
   };
 
   const emailSubjectChanged = (e) => {
@@ -1002,6 +1003,7 @@ const AutoMail = (props) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res?.data?.response?.data?.last_id
           } else {
             // loader("hide");
             toast.warning("Template not selected.");
@@ -1199,6 +1201,7 @@ const AutoMail = (props) => {
             setshowConfirmation(false);
             getTemplateListData(0, selectedLanguage, selectedIbu);
             setTemplateId();
+            templateIdRef.current=""
             setTemplateName("");
             setNewTemplateName("");
             setTemplate("");

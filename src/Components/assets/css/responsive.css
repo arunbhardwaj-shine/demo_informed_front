@@ -399,7 +399,9 @@
     padding: 9px;
     min-width: 85px;
   }
-
+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 70px;
+}
   .stream-url input.form-control,
   .poster-url input.form-control {
     font-size: 15px;
@@ -805,7 +807,7 @@
   }
 
   a.show-less-info p:after {
-    line-height: 11px;
+    line-height: 13px;
   }
 
   .right-sidebar {
@@ -1936,6 +1938,12 @@
 }
 
 @media only screen and (max-width: 1365px) {
+header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header {
+    top: 126px;
+}
+.invitee table#table-to-xls thead.sticky-header {
+    top: 65px;
+}
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
@@ -2616,6 +2624,13 @@ header.top-0~div .custom-change .smart_list_names + .search-hcp.smart-list-view 
 }
 header.top-0~div .custom-chang .smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
     top: 74px;
+}
+.smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  top: 64px;
+}
+header.top-0~div .custom-change .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header,
+header.-top-24~div .custom-change .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  z-index: 3;
 }
 }
 
