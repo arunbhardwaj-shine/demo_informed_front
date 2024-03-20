@@ -184,7 +184,7 @@ const WebinarSelectSmartList = (props) => {
       pdf_id:0,
 
       user_id: localStorage.getItem("user_id"),
-      eventId: eventId,
+      event_id:eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
         : draft_object?.description
@@ -227,6 +227,9 @@ const WebinarSelectSmartList = (props) => {
           : "",
       campaign_id: campaign_id_st ? campaign_id_st : "",
       status: 2,
+      auto_responder_id: old_object?.templateId
+      ? old_object?.templateId
+      : props?.getWebinarDraftData?.campaign_data?.template_id
     };
 
     console.log("in save as draft-->",body)

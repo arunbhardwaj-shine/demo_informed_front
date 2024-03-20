@@ -568,7 +568,7 @@ const WebinarCreateNewEmail = (props) => {
                 templateId: templateId,
                 tags: tags,
                 template: template,
-                eventId: eventId,
+                event_id:eventId,
                 campaign_id: campaign_id_st,
             });
 
@@ -656,7 +656,7 @@ const WebinarCreateNewEmail = (props) => {
         const body = {
             pdf_id:0,
             user_id: localStorage.getItem("user_id"),
-            eventId: eventId,
+            event_id:eventId,
             description: props?.getWebinarEmailData
                 ? emailDescription
                 : props?.getWebinarDraftData?.description,
