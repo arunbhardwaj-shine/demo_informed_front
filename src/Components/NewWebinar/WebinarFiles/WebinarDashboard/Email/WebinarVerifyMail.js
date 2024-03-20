@@ -173,11 +173,9 @@ const WebinarVerifyMAIL = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-    //   pdf_id: props.getEmailData?.PdfSelected
-    //     ? props.getEmailData.PdfSelected
-    //     : props.getDraftData.pdf_id,
-    eventId:eventId,
-      description: props.getWebinarEmailData?.emailDescription
+      pdf_id: 0,
+    event_id:eventId,
+    description: props.getWebinarEmailData?.emailDescription
         ? props.getWebinarEmailData?.emailDescription
         : props.getWebinarDraftData?.description
           ? props.getWebinarDraftData?.description
@@ -187,9 +185,8 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.creator
           ? props.getWebinarDraftData?.creator
           : "",
-      campaign_name: props.getWebinarEmailData?.emailCampaign
-        ? props.getWebinarEmailData?.emailCampaign
-        : props.getWebinarDraftData?.campaign,
+          campaign_name: "webinar",
+
       subject: props.getWebinarEmailData?.emailSubject
         ? props.getWebinarEmailData?.emailSubject
         : props.getWebinarDraftData?.subject,
@@ -217,6 +214,10 @@ const WebinarVerifyMAIL = (props) => {
         ? props.getWebinarEmailData?.template
         : props.getWebinarDraftData?.source_code,
       status: 2,
+      auto_responder_id: props.getWebinarEmailData?.templateId
+      ? props.getWebinarEmailData?.templateId
+      : props.getWebinarDraftData?.campaign_data?.template_id,
+
     };
     // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -297,7 +298,7 @@ const WebinarVerifyMAIL = (props) => {
         // pdf_id: props.getWebinarEmailData?.PdfSelected
         //   ? props.getEmailData.PdfSelected
         //   : props.getDraftData.pdf_id,
-        eventId:eventId,
+        event_id:eventId,
         subject: props.getWebinarEmailData?.emailSubject
           ? props.getWebinarEmailData?.emailSubject
           : props.getWebinarDraftData?.subject,
@@ -504,8 +505,8 @@ const WebinarVerifyMAIL = (props) => {
     //   pdf_id: props.getWebinarEmailData?.PdfSelected
     //     ? props.getEmailData.PdfSelected
     //     : props.getDraftData.pdf_id,
-    eventId:eventId,
-      description: props.getWebinarEmailData?.emailDescription
+    event_id:eventId,
+    description: props.getWebinarEmailData?.emailDescription
         ? props.getWebinarEmailData?.emailDescription
         : props.getWebinarDraftData?.description
           ? props.getWebinarDraftData?.description

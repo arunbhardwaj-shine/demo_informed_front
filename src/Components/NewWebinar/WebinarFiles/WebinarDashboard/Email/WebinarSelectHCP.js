@@ -7,6 +7,8 @@ import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarSelected} 
 import { postData } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import { loader } from '../../../../../loader';
+import { popup_alert } from '../../../../../popup_alert';
+import { toast } from 'react-toastify';
 
 var old_object = {};
 var new_object;
@@ -55,6 +57,8 @@ const WebinarSelectHCP=(props)=>{
 
       const saveAsDraft = async () => {
         const body = {
+          pdf_id:0,
+
           user_id: localStorage.getItem("user_id"),
           eventId:eventId,
           description: old_object?.emailDescription
@@ -67,9 +71,10 @@ const WebinarSelectHCP=(props)=>{
             : props?.getWebinarDraftData?.creator
             ? props?.getWebinarDraftData?.creator
             : "",
-          campaign_name: old_object?.emailCampaign
-            ? old_object?.emailCampaign
-            : props?.getWebinarDraftData?.campaign,
+            campaign_name: "webinar",
+          // campaign_name: old_object?.emailCampaign
+          //   ? old_object?.emailCampaign
+          //   : props?.getWebinarDraftData?.campaign,
           subject: old_object?.emailSubject
             ? old_object?.emailSubject
             : props?.getWebinarDraftData?.subject,
@@ -86,30 +91,33 @@ const WebinarSelectHCP=(props)=>{
             ? old_object?.template
             : props?.getWebinarDraftData?.source_code,
           status: 2,
+          auto_responder_id: old_object?.templateId
+          ? old_object?.templateId
+          : props?.getWebinarDraftData?.campaign_data?.template_id
         };
     
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        // loader("show");
-        // await axios
-        //   .post(`emailapi/save_draft`, body)
-        //   .then((res) => {
-        //     loader("hide");
-        //     if (res?.data?.status_code === 200) {
-        //       setCampaign_id(res?.data?.response?.data?.id);
-        //       popup_alert({
-        //         visible: "show",
-        //         message: "Your changes has been saved <br />successfully !",
-        //         type: "success",
-        //         redirect: "/webinar/email",
-        //       });
-        //     } else {
-        //       toast.warning(res?.data?.message);
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     //console.log(err);
-        //     toast.error("Something went wrong");
-        //   });
+        loader("show");
+        await axios
+          .post(`emailapi/save_draft`, body)
+          .then((res) => {
+            loader("hide");
+            if (res?.data?.status_code === 200) {
+              setCampaign_id(res?.data?.response?.data?.id);
+              popup_alert({
+                visible: "show",
+                message: "Your changes has been saved <br />successfully !",
+                type: "success",
+                redirect: "/webinar/email",
+              });
+            } else {
+              toast.warning(res?.data?.message);
+            }
+          })
+          .catch((err) => {
+            //console.log(err);
+            toast.error("Something went wrong");
+          });
       };
 
       const nextClicked = async (selected) => {

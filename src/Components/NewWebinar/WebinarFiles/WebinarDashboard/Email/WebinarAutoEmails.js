@@ -631,6 +631,7 @@ const WebinarAutoEmail = () => {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
+      event_id: eventId,
     };
     loader("show");
     axios
@@ -1095,7 +1096,6 @@ const WebinarAutoEmail = () => {
     html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
       .then((canvasurl) => {
         const dataUrl = canvasurl.toDataURL('image/png');
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
             user_id: localStorage.getItem("user_id"),
@@ -1105,7 +1105,7 @@ const WebinarAutoEmail = () => {
             event_id:eventId
           };
           axios
-            .post(`webinar/update_template`, body)
+            .post(`http://192.168.0.162:5000/api/update-template`, body)
             .then((res) => {
               if (res.data.status_code == 200) {
                 toast.success(res.data.message);

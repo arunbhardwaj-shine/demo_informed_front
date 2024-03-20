@@ -993,11 +993,9 @@ const WebinarVerifyHCP = (props) => {
 
         const body = {
             user_id: localStorage.getItem("user_id"),
-              pdf_id: old_object?.PdfSelected
-                ? old_object.PdfSelected
-                : props.getWebinarDraftData.pdf_id,
-            eventId: eventId,
-            description: old_object?.emailDescription
+              pdf_id:0,
+              event_id:eventId,
+              description: old_object?.emailDescription
                 ? old_object?.emailDescription
                 : props.getWebinarDraftData?.description
                     ? props.getWebinarDraftData?.description
@@ -1007,9 +1005,8 @@ const WebinarVerifyHCP = (props) => {
                 : props.getWebinarDraftData?.creator
                     ? props.getWebinarDraftData?.creator
                     : "",
-            campaign_name: old_object?.emailCampaign
-                ? old_object?.emailCampaign
-                : props.getWebinarDraftData?.campaign,
+                    campaign_name: "webinar",
+
             subject: old_object?.emailSubject
                 ? old_object?.emailSubject
                 : props.getWebinarDraftData?.subject,
@@ -1030,6 +1027,9 @@ const WebinarVerifyHCP = (props) => {
                 ? old_object?.template
                 : props.getWebinarDraftData?.source_code,
             status: 2,
+            auto_responder_id: old_object?.templateId
+            ? old_object?.templateId
+            : props?.getWebinarDraftData?.campaign_data?.template_id
         };
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

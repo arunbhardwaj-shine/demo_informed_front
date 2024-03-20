@@ -102,6 +102,7 @@ const WebinarSelectSmartList = (props) => {
       search: "",
       filter: filter,
       paging: "32",
+      event_id: eventId,
     };
     loader("show");
     axios
@@ -180,8 +181,10 @@ const WebinarSelectSmartList = (props) => {
 
   const saveAsDraft = async (flag) => {
     const body = {
+      pdf_id:0,
+
       user_id: localStorage.getItem("user_id"),
-      eventId: eventId,
+      event_id:eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
         : draft_object?.description
@@ -192,9 +195,10 @@ const WebinarSelectSmartList = (props) => {
         : draft_object?.creator
           ? draft_object?.creator
           : "",
-      campaign_name: old_object?.emailCampaign
-        ? old_object?.emailCampaign
-        : draft_object?.campaign,
+          campaign_name: "webinar",
+      // campaign_name: old_object?.emailCampaign
+      //   ? old_object?.emailCampaign
+      //   : draft_object?.campaign,
       subject: old_object?.emailSubject
         ? old_object?.emailSubject
         : draft_object?.subject,
@@ -210,6 +214,9 @@ const WebinarSelectSmartList = (props) => {
           : props.getWebinarDraftData?.campaign_data?.list_selection
             ? props.getWebinarDraftData?.campaign_data?.list_selection
             : 0,
+            auto_responder_id: old_object?.templateId
+            ? old_object?.templateId
+            : draft_object?.campaign_data?.template_id
 
         // selectedHcp: selectedHcp,
       },
@@ -220,6 +227,9 @@ const WebinarSelectSmartList = (props) => {
           : "",
       campaign_id: campaign_id_st ? campaign_id_st : "",
       status: 2,
+      auto_responder_id: old_object?.templateId
+      ? old_object?.templateId
+      : props?.getWebinarDraftData?.campaign_data?.template_id
     };
 
     console.log("in save as draft-->",body)
@@ -377,6 +387,7 @@ const WebinarSelectSmartList = (props) => {
     formData.append("creator_name", creatorName);
     formData.append("ibu", customIbu);
     formData.append("reader_file", selectedFile);
+    formData.append("event_id", eventId);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
