@@ -538,7 +538,7 @@ const EditConsentOptions = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
- templateIdRef.current=template.id
+ templateIdRef.current=template?.id
 
     setTemplateName(template.name);
     setNewTemplateName(template.name);
@@ -793,7 +793,7 @@ const EditConsentOptions = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -827,7 +827,7 @@ const EditConsentOptions = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -941,7 +941,7 @@ const EditConsentOptions = (props) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
-            templateIdRef.current=res.data.response.data.last_id
+            templateIdRef.current=res?.data?.response?.data?.last_id
             setTemplateName(template_name);
           } else {
             loader("hide");
@@ -1334,7 +1334,7 @@ const EditConsentOptions = (props) => {
                             return;
                         }
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
+                            alert("Tracking already added");
                             return;
                         }
                         let slugValue = prompt("Enter a slug value");
@@ -1366,9 +1366,9 @@ const EditConsentOptions = (props) => {
                             });
                     });
                     if (newLink?.value?.includes(baseLink)) {
-                        alert("Traking added");
+                        alert("Tracking added");
                     } else {
-                        alert("Traking removed");
+                        alert("Tracking removed");
                     }
                 };
 
@@ -1381,7 +1381,6 @@ const EditConsentOptions = (props) => {
         }
     });
 };
-
   const uploadImageToServer =    async function uploadImageToServer(file) {
     try {
       const formData = new FormData();

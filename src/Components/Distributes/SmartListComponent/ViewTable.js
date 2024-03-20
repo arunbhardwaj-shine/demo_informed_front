@@ -1522,7 +1522,7 @@ const ViewTable = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              //toast.success("User added successfuly");
+              //toast.success("User added successfully");
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData((oldArray) => [...new_data, ...oldArray]);
@@ -1564,7 +1564,7 @@ const ViewTable = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               let old_data = editList;
               let new_data = res.data.response.data;

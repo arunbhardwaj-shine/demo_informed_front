@@ -274,6 +274,7 @@ const AutoMail = (props) => {
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
+      templateIdRef.current=""
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
@@ -519,7 +520,7 @@ const AutoMail = (props) => {
             setShowProgressBar(false);
           }
 
-          //toast.success("Test Mail sent successfuly");
+          //toast.success("Test Mail sent successfully");
         })
         .catch((err) => {
           clearInterval(timer);
@@ -576,11 +577,11 @@ const AutoMail = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
+    templateIdRef.current=template?.id
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
-    templateIdRef.current=template.id;
   };
 
   const emailSubjectChanged = (e) => {
@@ -850,7 +851,7 @@ const AutoMail = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -887,7 +888,7 @@ const AutoMail = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1002,6 +1003,7 @@ const AutoMail = (props) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res?.data?.response?.data?.last_id
           } else {
             // loader("hide");
             toast.warning("Template not selected.");
@@ -1199,6 +1201,7 @@ const AutoMail = (props) => {
             setshowConfirmation(false);
             getTemplateListData(0, selectedLanguage, selectedIbu);
             setTemplateId();
+            templateIdRef.current=""
             setTemplateName("");
             setNewTemplateName("");
             setTemplate("");
@@ -1367,7 +1370,7 @@ const AutoMail = (props) => {
                             return;
                         }
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
+                            alert("Tracking already added");
                             return;
                         }
                         let slugValue = prompt("Enter a slug value");
@@ -1399,9 +1402,9 @@ const AutoMail = (props) => {
                             });
                     });
                     if (newLink?.value?.includes(baseLink)) {
-                        alert("Traking added");
+                        alert("Tracking added");
                     } else {
-                        alert("Traking removed");
+                        alert("Tracking removed");
                     }
                 };
 
@@ -1414,6 +1417,7 @@ const AutoMail = (props) => {
         }
     });
 };
+  
   const uploadImageToServer =    async function uploadImageToServer(file) {
     try {
       const formData = new FormData();

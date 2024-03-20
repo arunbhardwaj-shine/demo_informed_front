@@ -96,7 +96,6 @@ const AutoEmail = () => {
   const ref = useRef(null);
   const templateIdRef=useRef(null)
   const linkingPayload=useRef(null)
-
   let file_name = useRef("");
   const filterConfig = {
     matchFrom: "start",
@@ -837,7 +836,7 @@ const AutoEmail = () => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1237,7 +1236,7 @@ const AutoEmail = () => {
                             return;
                         }
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
+                            alert("Tracking already added");
                             return;
                         }
                         let slugValue = prompt("Enter a slug value");
@@ -1269,9 +1268,9 @@ const AutoEmail = () => {
                             });
                     });
                     if (newLink?.value?.includes(baseLink)) {
-                        alert("Traking added");
+                        alert("Tracking added");
                     } else {
-                        alert("Traking removed");
+                        alert("Tracking removed");
                     }
                 };
 
@@ -1284,6 +1283,7 @@ const AutoEmail = () => {
         }
     });
 };
+  
   const uploadImageToServer = async (file) => {
     try {
       loader("show");

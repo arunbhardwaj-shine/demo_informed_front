@@ -79,7 +79,8 @@ const SetPopup = (props) => {
   });
 
   const [popupData, setPopupData] = useState();
-
+  const templateIdRef=useRef(null)
+  const linkingPayload=useRef(null)
   const [types, setTypes] = useState([
     { value: "Online", label: "Online" },
     { value: "Offline", label: "Offline" },
@@ -94,8 +95,8 @@ const SetPopup = (props) => {
     { value: "25000", label: "25 Second" },
     { value: "25000000", label: "No Pop-up" },
   ]);
-  const templateIdRef=useRef(null)
-  const linkingPayload=useRef(null)
+  // const templateIdRef=useRef(null)
+  // const linkingPayload=useRef(null)
 
   const responsive = {
     0: { items: 1 },
@@ -208,7 +209,8 @@ const SetPopup = (props) => {
             setTemplateLanguage(lng_arr);
           }
           setTemplateId(res?.data?.data?.popupTempId);
-          templateIdRef.current=res?.data?.data?.popupTempId
+templateIdRef.current=res?.data?.data?.popupTempId
+
         } else {
           res = actualTemplateData;
         }
@@ -505,7 +507,7 @@ const SetPopup = (props) => {
                             return;
                         }
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
+                            alert("Tracking already added");
                             return;
                         }
                         let slugValue = prompt("Enter a slug value");
@@ -537,9 +539,9 @@ const SetPopup = (props) => {
                             });
                     });
                     if (newLink?.value?.includes(baseLink)) {
-                        alert("Traking added");
+                        alert("Tracking added");
                     } else {
-                        alert("Traking removed");
+                        alert("Tracking removed");
                     }
                 };
 

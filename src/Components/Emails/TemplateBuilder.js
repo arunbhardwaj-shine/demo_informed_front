@@ -417,6 +417,7 @@ const TemplateBuilder = (props) => {
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
+      templateIdRef.current=""
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
@@ -774,7 +775,7 @@ const TemplateBuilder = (props) => {
             setShowProgressBar(false);
           }
 
-          //toast.success("Test Mail sent successfuly");
+          //toast.success("Test Mail sent successfully");
         })
         .catch((err) => {
           clearInterval(timer);
@@ -831,7 +832,7 @@ const TemplateBuilder = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setNewTemplateName(template.name);
@@ -1305,7 +1306,7 @@ const TemplateBuilder = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1342,7 +1343,7 @@ const TemplateBuilder = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1469,6 +1470,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res?.data?.response?.data?.last_id
             setTemplateName(userInputs?.template_name);
           } else {
             loader("hide");
@@ -1529,7 +1531,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
-            templateIdRef.current = res.data.response.data.last_id;
+            templateIdRef.current = res?.data?.response?.data?.last_id;
             setTemplateName(newTemplateNamee);
             setTemplateClicked(false);
           } else {
@@ -1760,6 +1762,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId();
+            templateIdRef.current=""
             setTemplateName("");
             setNewTemplateName("");
             setTemplate("");
@@ -2034,7 +2037,7 @@ const TemplateBuilder = (props) => {
                             return;
                         }
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
+                            alert("Tracking already added");
                             return;
                         }
                         let slugValue = prompt("Enter a slug value");
@@ -2066,9 +2069,9 @@ const TemplateBuilder = (props) => {
                             });
                     });
                     if (newLink?.value?.includes(baseLink)) {
-                        alert("Traking added");
+                        alert("Tracking added");
                     } else {
-                        alert("Traking removed");
+                        alert("Tracking removed");
                     }
                 };
 

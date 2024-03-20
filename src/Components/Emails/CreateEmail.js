@@ -34,7 +34,13 @@ const CreateEmail = (props) => {
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
   const linkingPayload = useRef();
-  const templateIdRef = useRef("");
+  const templateIdRef = useRef( state_object != null &&
+    state_object != "undefined" &&
+    state_object.templateId
+    ? state_object.templateId
+    : props.getDraftData
+      ? props.getDraftData?.campaign_data?.template_id
+      : "");
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -427,7 +433,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
-        templateIdRef.current = props.getDraftData.campaign_data.template_id;
+        templateIdRef.current = props.getDraftData?.campaign_data?.template_id;
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -863,7 +869,7 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setTemplate(template.source_code);
@@ -1597,7 +1603,7 @@ const CreateEmail = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1636,7 +1642,7 @@ const CreateEmail = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1726,7 +1732,7 @@ const CreateEmail = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
-              templateIdRef.current = res.data.response.data.last_id;
+              templateIdRef.current = res?.data?.response?.data?.last_id;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1822,7 +1828,7 @@ const CreateEmail = (props) => {
     ) {
       if (editorRef.current) {
         setTemplate(editorRef.current.getContent());
-        toast.success("Template update successfuly");
+        toast.success("Template updated successfully");
       }
     } else {
       toast.warning("Template not selected.");
@@ -1975,7 +1981,7 @@ const CreateEmail = (props) => {
                             return;
                         }
                         if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
+                            alert("Tracking already added");
                             return;
                         }
                         let slugValue = prompt("Enter a slug value");
@@ -2007,9 +2013,9 @@ const CreateEmail = (props) => {
                             });
                     });
                     if (newLink?.value?.includes(baseLink)) {
-                        alert("Traking added");
+                        alert("Tracking added");
                     } else {
-                        alert("Traking removed");
+                        alert("Tracking removed");
                     }
                 };
 

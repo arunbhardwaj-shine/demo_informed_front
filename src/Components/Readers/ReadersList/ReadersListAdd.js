@@ -1269,7 +1269,7 @@ const ReadersListAdd = () => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               let old_data = editList;
               let new_data = res.data.response.data;
