@@ -654,6 +654,7 @@ const WebinarCreateNewEmail = (props) => {
         });
 
         const body = {
+            pdf_id:0,
             user_id: localStorage.getItem("user_id"),
             eventId: eventId,
             description: props?.getWebinarEmailData
