@@ -404,7 +404,7 @@ const WebinarEmail = (props) => {
                   <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
                     <input
                       className="form-control me-2"
-                      type="text"
+                      type="search"
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
