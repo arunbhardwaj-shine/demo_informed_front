@@ -538,7 +538,7 @@ const EditConsentOptions = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
- templateIdRef.current=template.id
+ templateIdRef.current=template?.id
 
     setTemplateName(template.name);
     setNewTemplateName(template.name);
@@ -941,7 +941,7 @@ const EditConsentOptions = (props) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
-            templateIdRef.current=res.data.response.data.last_id
+            templateIdRef.current=res?.data?.response?.data?.last_id
             setTemplateName(template_name);
           } else {
             loader("hide");

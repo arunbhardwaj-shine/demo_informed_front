@@ -417,6 +417,7 @@ const TemplateBuilder = (props) => {
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
+      templateIdRef.current=""
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
@@ -831,7 +832,7 @@ const TemplateBuilder = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setNewTemplateName(template.name);
@@ -1469,6 +1470,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res?.data?.response?.data?.last_id
             setTemplateName(userInputs?.template_name);
           } else {
             loader("hide");
@@ -1529,7 +1531,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
-            templateIdRef.current = res.data.response.data.last_id;
+            templateIdRef.current = res?.data?.response?.data?.last_id;
             setTemplateName(newTemplateNamee);
             setTemplateClicked(false);
           } else {
@@ -1760,6 +1762,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId();
+            templateIdRef.current=""
             setTemplateName("");
             setNewTemplateName("");
             setTemplate("");

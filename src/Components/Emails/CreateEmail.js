@@ -34,7 +34,13 @@ const CreateEmail = (props) => {
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
   const linkingPayload = useRef();
-  const templateIdRef = useRef("");
+  const templateIdRef = useRef( state_object != null &&
+    state_object != "undefined" &&
+    state_object.templateId
+    ? state_object.templateId
+    : props.getDraftData
+      ? props.getDraftData?.campaign_data?.template_id
+      : "");
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -427,7 +433,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
-        templateIdRef.current = props.getDraftData.campaign_data.template_id;
+        templateIdRef.current = props.getDraftData?.campaign_data?.template_id;
         setIsApprovedStatus(props.getDraftData.status);
         setTemplate(props.getDraftData.source_code);
       }
@@ -863,7 +869,7 @@ const CreateEmail = (props) => {
     }
 
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setTemplate(template.source_code);
@@ -1726,7 +1732,7 @@ const CreateEmail = (props) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);
               setTemplateId(res.data.response.data.last_id);
-              templateIdRef.current = res.data.response.data.last_id;
+              templateIdRef.current = res?.data?.response?.data?.last_id;
             } else {
               loader("hide");
               toast.warning("Template not selected.");
