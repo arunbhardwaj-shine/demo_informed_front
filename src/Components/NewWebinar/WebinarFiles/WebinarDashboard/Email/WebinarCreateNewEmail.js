@@ -1698,8 +1698,8 @@ const WebinarCreateNewEmail = (props) => {
                                                     >
                                                         <img
                                                             id={"template_dyn" + index}
-                                                            // src={template?.template_img}
-                                                            src="https://webinar.informed.pro/template_images/default.png"
+                                                            src={template?.template_img}
+                                                            // src="https://webinar.informed.pro/template_images/default.png"
                                                             alt=""
                                                             className={
                                                                 typeof templateId !== "undefined" &&
