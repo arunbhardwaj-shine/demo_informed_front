@@ -160,11 +160,9 @@ const WebinarVerifyHcpMAIL = (props) => {
     const saveAsDraft = async () => {
         const body = {
             user_id: localStorage.getItem("user_id"),
-            pdf_id: props.getWebinarEmailData?.PdfSelected
-                ? props.getWebinarEmailData?.PdfSelected
-                : props.getWebinarDraftData?.pdf_id,
-            eventId:eventId,
-            description: props.getWebinarEmailData?.emailDescription
+            pdf_id: 0,
+                event_id:eventId,
+                description: props.getWebinarEmailData?.emailDescription
                 ? props.getWebinarEmailData?.emailDescription
                 : props.getWebinarDraftData?.description
                     ? props.getWebinarDraftData?.description
@@ -174,9 +172,8 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.creator
                     ? props.getWebinarDraftData?.creator
                     : "",
-            campaign_name: props.getWebinarEmailData?.emailCampaign
-                ? props.getWebinarEmailData?.emailCampaign
-                : props.getWebinarDraftData?.campaign,
+                    campaign_name: "webinar",
+
             subject: props.getWebinarEmailData?.emailSubject
                 ? props.getWebinarEmailData?.emailSubject
                 : props.getWebinarDraftData?.subject,
@@ -199,6 +196,9 @@ const WebinarVerifyHcpMAIL = (props) => {
                 ? props.getWebinarEmailData?.template
                 : props.getWebinarDraftData?.source_code,
             status: 2,
+            auto_responder_id: props.getWebinarEmailData?.templateId
+            ? props.getWebinarEmailData?.templateId
+            : props.getWebinarDraftData?.campaign_data?.template_id
         };
         // console.log(body);
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -263,9 +263,8 @@ const WebinarVerifyHcpMAIL = (props) => {
                     templateId: props.getWebinarEmailData?.templateId
                     ? props.getWebinarEmailData?.templateId
                     : 0,
-                    eventId: props.getWebinarEmailData?.eventId
-                    ? props.getWebinarEmailData?.eventId
-                    : 0,
+                    event_id:eventId,
+
                 description: props.getWebinarEmailData?.emailDescription
                     ? props.getWebinarEmailData?.emailDescription
                     : props.getWebinarDraftData?.description
@@ -428,9 +427,8 @@ const WebinarVerifyHcpMAIL = (props) => {
         e.preventDefault();
         const body = {
             user_id: localStorage.getItem("user_id"),
-            pdf_id: props.getWebinarEmailData?.PdfSelected
-                ? props.getWebinarEmailData?.PdfSelected
-                : props.getWebinarDraftData?.pdf_id,
+            pdf_id: 0,
+            event_id:eventId,
             description: props.getWebinarEmailData?.emailDescription
                 ? props.getWebinarEmailData?.emailDescription
                 : props.getWebinarDraftData?.description
@@ -441,9 +439,8 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.creator
                     ? props.getWebinarDraftData?.creator
                     : "",
-            campaign_name: props.getWebinarEmailData?.emailCampaign
-                ? props.getWebinarEmailData?.emailCampaign
-                : props.getWebinarDraftData?.campaign,
+                    campaign_name: "webinar",
+
             subject: props.getWebinarEmailData?.emailSubject
                 ? props.getWebinarEmailData?.emailSubject
                 : props.getWebinarDraftData?.subject,
@@ -466,6 +463,9 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.source_code,
             status: status,
             approved_page: 1,
+            auto_responder_id:  props.getWebinarEmailData?.templateId
+            ? props.getWebinarEmailData?.templateId
+            : props.getWebinarDraftData?.campaign_data?.template_id
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");

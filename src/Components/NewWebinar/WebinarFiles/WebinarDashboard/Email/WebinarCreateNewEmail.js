@@ -391,6 +391,7 @@ const WebinarCreateNewEmail = (props) => {
             user_id: localStorage.getItem("user_id"),
             search: getsearch,
             filter: "",
+            event_id:eventId
         };
         loader("show");
         axios
@@ -485,7 +486,7 @@ const WebinarCreateNewEmail = (props) => {
             ? emailCampaign
             : props?.getWebinarDraftData?.campaign;
 
-        if (typeof campaign !== "undefined" && campaign !== "") {
+        // if (typeof campaign !== "undefined" && campaign !== "") {
             console.log(props?.getWebinarDraftData);
 
             let up_temp = template;
@@ -494,15 +495,17 @@ const WebinarCreateNewEmail = (props) => {
             }
 
             const body = {
+                pdf_id:0,
                 user_id: localStorage.getItem("user_id"),
-                eventId: eventId,
+                event_id: eventId,
                 description: props?.getWebinarEmailData
                     ? emailDescription
                     : props?.getWebinarDraftData?.description,
                 creator: props?.getWebinarEmailData ? emailCreator : props.getWebinarDraftData?.creator,
-                campaign_name: props?.getWebinarEmailData
-                    ? emailCampaign
-                    : props?.getWebinarDraftData?.campaign,
+                // campaign_name: props?.getWebinarEmailData
+                //     ? emailCampaign
+                //     : props?.getWebinarDraftData?.campaign,
+                campaign_name: "webinar",
                 subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
                 route_location: "webinar/email/create-new-email",
                 tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
@@ -515,8 +518,12 @@ const WebinarCreateNewEmail = (props) => {
                 campaign_id: campaign_id_st,
                 source_code: up_temp,
                 status: 2,
+                auto_responder_id:props?.getWebinarEmailData
+                ? templateId
+                : props?.getWebinarDraftData?.template_id
             };
-
+// console.log(body);
+// // return
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
@@ -528,7 +535,7 @@ const WebinarCreateNewEmail = (props) => {
                             visible: "show",
                             message: "Your changes has been saved <br />successfully !",
                             type: "success",
-                            redirect: "/EmailList",
+                            redirect: "/webinar/event-listing",
                         });
                         // toast.success("Draft saved");
                     } else {
@@ -539,10 +546,10 @@ const WebinarCreateNewEmail = (props) => {
                 .catch((err) => {
                     toast.error("Something went wrong");
                 });
-        } else {
-            event.preventDefault();
-            toast.error("Plese select Email Campaign first");
-        }
+        // } else {
+            // event.preventDefault();
+            // toast.error("Plese select Email Campaign first");
+        // }
     };
     const nextClicked = () => {
         const tags = finalTags?.map((finalTags) => {
@@ -561,7 +568,7 @@ const WebinarCreateNewEmail = (props) => {
                 templateId: templateId,
                 tags: tags,
                 template: template,
-                eventId: eventId,
+                event_id:eventId,
                 campaign_id: campaign_id_st,
             });
 
@@ -647,8 +654,9 @@ const WebinarCreateNewEmail = (props) => {
         });
 
         const body = {
+            pdf_id:0,
             user_id: localStorage.getItem("user_id"),
-            eventId: eventId,
+            event_id:eventId,
             description: props?.getWebinarEmailData
                 ? emailDescription
                 : props?.getWebinarDraftData?.description,
@@ -668,6 +676,9 @@ const WebinarCreateNewEmail = (props) => {
             campaign_id: campaign_id_st,
             status: ab,
             approved_page: 1,
+            auto_responder_id:props?.getWebinarEmailData
+            ? templateId
+            : props?.getWebinarDraftData?.template_id
         };
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -719,90 +730,88 @@ const WebinarCreateNewEmail = (props) => {
         editor.on("OpenWindow", function (e) {
             let dialog = document.getElementsByClassName("tox-dialog")[0];
             if (dialog) {
-                let header = dialog.querySelector(".tox-dialog__header");
-                const closeButton = header.querySelector('[aria-label="Close"]');
-                let text = header.querySelector(".tox-dialog__title");
-                let url = dialog.querySelector(".tox-control-wrap")
-                let newLink = url.querySelector(".tox-textfield")
+                let header = dialog?.querySelector(".tox-dialog__header");
+                const closeButton = header?.querySelector('[aria-label="Close"]');
+                let text = header?.querySelector(".tox-dialog__title");
+                let url = dialog?.querySelector(".tox-control-wrap")
+                let newLink = url?.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
                 const baseLink =
-                            "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-               
-                if (text.innerText == "Insert/Edit Link") {
+                    "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+                let payload = {}
+                let apiLink = ""
+
+                if (text?.innerText == "Insert/Edit Link") {
                     let uploadIcon = document.querySelector(
                         "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
                     );
                     uploadIcon.style.display = "none";
                     // let newButton = document.createElement("button");
                     if (newLink?.value?.includes(baseLink)) {
-                        newButton.innerText = "Remove Track";
+                        newButton.innerText = "Remove Tracking";
+                        apiLink = `https://onesource.informed.pro/api/delete-track-links`;
                     } else {
                         newButton.innerText = "Add Tracking";
+                        apiLink = `https://onesource.informed.pro/api/track-links`;
                     }
                     newButton.classList.add("tox-button");
                     newButton.classList.add("tox-button--icon");
                     newButton.classList.add("tox-button--naked");
                     newButton.classList.add("track");
 
-                    newButton.onclick = function () {                       
+                    newButton.onclick = function () {
                         if (templateIdRef.current == "") {
                             alert("Please select the template first before adding the link");
                             return;
-                        }                       
+                        }
                         let firstToxControlWrap = document.querySelector(
                             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
                         );
-                        
-                        if(newLink?.value?.includes(baseLink)&&newButton.innerText == "Remove Track"){
-                            let urlvalue=newLink?.value?.split("&redirect_url=")
-                            console.log("firstToxControlWrap.value-->",firstToxControlWrap.value)
+
+                        if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+                            let urlvalue = newLink?.value?.split("&redirect_url=")
+                            console.log("firstToxControlWrap.value-->", firstToxControlWrap.value)
                             const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
                             const substring = urlvalue[0].substring(startIndex);
-                            firstToxControlWrap.value=urlvalue[1] 
-                            let payload = {                               
+                            firstToxControlWrap.value = urlvalue[1]
+                            payload = {
                                 template_id: templateIdRef.current,
                                 url_code: substring,
-                            };                       
-                            return
+                            };
                         }
-                         if(!newLink?.value){
-                            alert ("Please enter a link")
-                            return
-                        }
-                       
-                        // let text =dialog.querySelector(".tox-form__group");
-                        if (!firstToxControlWrap.value) {
-                            alert("Please enter a link");
-                            return;
+                        if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+                            if (!newLink?.value) {
+                                alert("Please enter a link")
+                                return
+                            }
+                            if (!firstToxControlWrap.value) {
+                                alert("Please enter a link");
+                                return;
+                            }
+                            if (firstToxControlWrap.value.startsWith(baseLink)) {
+                                alert("Traking already added");
+                                return;
+                            }
+                            let slugValue = prompt("Enter a slug value");
+
+                            const currentTimestamp = Date.now();
+                            payload = {
+                                slug_value: slugValue,
+                                template_id: templateIdRef.current,
+                                url_code: `clicked_track_doc_${currentTimestamp}`,
+                            };
+                            linkingPayload.current = payload;
+                            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                            firstToxControlWrap.value = link;
+
                         }
 
-                        // const baseLink =
-                        //     "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-                        if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Traking already added");
-                            return;
-                        }
-                        let slugValue = prompt("Enter a slug value");
-
-                        const currentTimestamp = Date.now();
-                        // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-                        let payload = {
-                            slug_value: slugValue,
-                            template_id: templateIdRef.current,
-                            url_code: `clicked_track_doc_${currentTimestamp}`,
-                        };
-                        linkingPayload.current = payload;
-                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                        firstToxControlWrap.value = link;
                         var saveButton = document.querySelector(
                             '.tox-button[title="Save"]'
                         );
-
                         saveButton.addEventListener("click", function () {
-                            let link = `https://onesource.informed.pro/api/track-links`;
-                        
                             axios
-                                .post(link, payload)
+                                .post(apiLink, payload)
                                 .then((res) => {
                                     console.log("done");
                                 })
@@ -811,7 +820,11 @@ const WebinarCreateNewEmail = (props) => {
                                     console.log(err);
                                 });
                         });
-                        alert("Traking added");
+                        if (newLink?.value?.includes(baseLink)) {
+                            alert("Traking added");
+                        } else {
+                            alert("Traking removed");
+                        }
                     };
 
                     header.insertBefore(newButton, closeButton);
@@ -1014,77 +1027,77 @@ const WebinarCreateNewEmail = (props) => {
         setIsOpensend(false);
         setIsOpenAdd(false);
         if (pdf_id == 13) {
-            popup_alert({
-                visible: "show",
-                message:
-                    "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
-                type: "error",
-            });
+          popup_alert({
+            visible: "show",
+            message:
+              "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
+            type: "error",
+          });
         } else {
-            let selected_ids = selectedHcp?.map(
-                (number) => number["user_id"] || number["profile_user_id"]
-            );
-
-            //  loader("show");
-            setShowProgressBar(true);
-            const body = {
-                user_id: localStorage?.getItem("user_id"),
-                // pdf_id: state_object?.PdfSelected
-                //   ? state_object?.PdfSelected
-                //   : props?.getDraftData?.pdf_id,
-                eventId: eventId,
-                subject: emailSubject,
-                template_id: templateId,
-                user_list: selected_ids,
-                smartlist_id: "",
-                source_code: template,
-            };
-
-            //console.log(body);
-            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
-            axios
-                .post(`emailapi/send_sample_email`, body)
-                .then((res) => {
-                    loader("hide");
-                    if (res?.data?.status_code === 200) {
-                        setUploadOrDownloadCount(100);
-                        setMailsIncrement(selectedHcp?.length);
-                        clearInterval(timer);
-                        setTimeout(() => {
-                            popup_alert({
-                                visible: "show",
-                                message: "Email sent successfully",
-                                type: "success",
-                            });
-
-                            setShowProgressBar(false);
-                            setUploadOrDownloadCount(0);
-                            setMailsIncrement(0);
-                        }, 1000);
-                    } else {
-                        clearInterval(timer);
-                        setUploadOrDownloadCount(0);
-                        setMailsIncrement(0);
-
-                        setShowProgressBar(false);
-                        popup_alert({
-                            visible: "show",
-                            message: res?.data?.message,
-                            type: "error",
-                        });
-                    }
-                })
-                .catch((err) => {
-                    clearInterval(timer);
-                    setShowProgressBar(false);
-                    loader("hide");
-                    toast.error("Something went wrong");
-                    console.log(err);
-                });
-
-            setSelectedHcp([]);
-            setSearchedUsers([]);
+          let selected_ids = selectedHcp?.map(
+            (number) => number["user_id"] || number["profile_user_id"]
+          );
+    
+          //  loader("show");
+          setShowProgressBar(true);
+          const body = {
+            user_id: localStorage?.getItem("user_id"),
+            // pdf_id: state_object?.PdfSelected
+            //   ? state_object?.PdfSelected
+            //   : props?.getDraftData?.pdf_id,
+            eventId:eventId,
+            subject: emailSubject,
+            template_id: templateId,
+            user_list: selected_ids,
+            smartlist_id: "",
+            source_code: template,
+          };
+    
+          //console.log(body);
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    
+        //   axios
+        //     .post(`emailapi/send_sample_email`, body)
+        //     .then((res) => {
+        //       loader("hide");
+        //       if (res?.data?.status_code === 200) {
+        //         setUploadOrDownloadCount(100);
+        //         setMailsIncrement(selectedHcp?.length);
+        //         clearInterval(timer);
+        //         setTimeout(() => {
+        //           popup_alert({
+        //             visible: "show",
+        //             message: "Email sent successfully",
+        //             type: "success",
+        //           });
+    
+        //           setShowProgressBar(false);
+        //           setUploadOrDownloadCount(0);
+        //           setMailsIncrement(0);
+        //         }, 1000);
+        //       } else {
+        //         clearInterval(timer);
+        //         setUploadOrDownloadCount(0);
+        //         setMailsIncrement(0);
+    
+        //         setShowProgressBar(false);
+        //         popup_alert({
+        //           visible: "show",
+        //           message: res?.data?.message,
+        //           type: "error",
+        //         });
+        //       }
+        //     })
+        //     .catch((err) => {
+        //       clearInterval(timer);
+        //       setShowProgressBar(false);
+        //       loader("hide");
+        //       toast.error("Something went wrong");
+        //       console.log(err);
+        //     });
+    
+          setSelectedHcp([]);
+          setSearchedUsers([]);
         }
     };
 
@@ -1257,29 +1270,29 @@ const WebinarCreateNewEmail = (props) => {
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
-                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                await axios
-                    .post(`distributes/add_new_readers_in_list`, body)
-                    .then((res) => {
-                        if (res?.data?.status_code === 200) {
-                            toast.success("User added successfuly");
+                // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                // await axios
+                //     .post(`distributes/add_new_readers_in_list`, body)
+                //     .then((res) => {
+                //         if (res?.data?.status_code === 200) {
+                //             toast.success("User added successfuly");
 
-                            res?.data?.response?.data?.map((data) => {
-                                setSelectedHcp((oldArray) => [...oldArray, data]);
-                            });
-                            setIsOpenAdd(false);
-                            setIsOpensend(true);
-                        } else {
-                            toast.warning(res?.data?.message);
-                            loader("hide");
-                        }
-                        loader("hide");
-                        //setSelectedHcp(res.data.response.data);
-                    })
-                    .catch((err) => {
-                        toast.error("Something went wrong");
-                        loader("hide");
-                    });
+                //             res?.data?.response?.data?.map((data) => {
+                //                 setSelectedHcp((oldArray) => [...oldArray, data]);
+                //             });
+                //             setIsOpenAdd(false);
+                //             setIsOpensend(true);
+                //         } else {
+                //             toast.warning(res?.data?.message);
+                //             loader("hide");
+                //         }
+                //         loader("hide");
+                //         //setSelectedHcp(res.data.response.data);
+                //     })
+                //     .catch((err) => {
+                //         toast.error("Something went wrong");
+                //         loader("hide");
+                //     });
             } else {
                 const filteredArray = status?.filter((value) => value !== "true");
                 toast.warning(filteredArray?.[0]);
@@ -1297,30 +1310,30 @@ const WebinarCreateNewEmail = (props) => {
             if (selectedFile) {
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
-                await axios
-                    .post(`distributes/update_reader_list`, formData)
-                    .then((res) => {
-                        if (res?.data?.status_code === 200) {
-                            toast.success("User added successfuly");
+                // await axios
+                //     .post(`distributes/update_reader_list`, formData)
+                //     .then((res) => {
+                //         if (res?.data?.status_code === 200) {
+                //             toast.success("User added successfuly");
 
-                            res?.data?.response?.data?.map((data) => {
-                                setSelectedHcp((oldArray) => [...oldArray, data]);
-                            });
+                //             res?.data?.response?.data?.map((data) => {
+                //                 setSelectedHcp((oldArray) => [...oldArray, data]);
+                //             });
 
-                            loader("hide");
-                            setIsOpenAdd(false);
-                            setActiveManual("active");
-                            setActiveExcel("");
-                            setSelectedFile(null);
-                            setIsOpensend(true);
-                        } else {
-                            toast.warning(res?.data?.message);
-                            loader("hide");
-                        }
-                    })
-                    .catch((err) => {
-                        console.log("something went wrong");
-                    });
+                //             loader("hide");
+                //             setIsOpenAdd(false);
+                //             setActiveManual("active");
+                //             setActiveExcel("");
+                //             setSelectedFile(null);
+                //             setIsOpensend(true);
+                //         } else {
+                //             toast.warning(res?.data?.message);
+                //             loader("hide");
+                //         }
+                //     })
+                //     .catch((err) => {
+                //         console.log("something went wrong");
+                //     });
                 setIsOpenTagModal(false);
             } else {
                 toast.error("Please add a excel file");
@@ -1351,25 +1364,28 @@ const WebinarCreateNewEmail = (props) => {
                 template_id: templateId,
                 name: templateName,
                 status: 2,
-                language: 2,
+                event_id:eventId
             };
 
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
-            await axios
-                .post(`emailapi/add_update_template`, body)
-                .then((res) => {
-                    if (res.data.status_code === 200) {
-                        loader("hide");
-                        toast.success("Template saved successfully");
-                    } else {
-                        loader("hide");
-                        toast.warning("Template not selected.");
-                    }
+              await axios
+                .post(`webinar/add_update_template`, body)
+                .then(async (res) => {
+                  if (res.data.status_code === 200) {
+                   await  getTemplateListData(1);
+
+                    loader("hide");
+                    
+                    toast.success("Template saved successfully");
+                  } else {
+                    loader("hide");
+                    toast.warning("Template not selected.");
+                  }
                 })
                 .catch((err) => {
-                    loader("hide");
-                    toast.error("Something went wrong");
+                  loader("hide");
+                  toast.error("Something went wrong");
                 });
             setNewTemplatePopup(false);
             setTemplatePopup(false);
@@ -1389,6 +1405,7 @@ const WebinarCreateNewEmail = (props) => {
     const savenewtemplate = async (e) => {
         e.preventDefault();
         let template_name = document.getElementById("template_name").value;
+        let template_subject = document.getElementById("template_subject").value;
         let template_id = props?.getWebinarEmailData
             ? templateId
             : props?.getWebinarDraftData?.template_id;
@@ -1401,38 +1418,54 @@ const WebinarCreateNewEmail = (props) => {
             template_id != "" &&
             template_id != 0
         ) {
-            if (template_name !== "" && template_name?.trim()?.length > 0) {
+            if (template_name !== "" && template_name?.trim()?.length > 0 && template_subject !== "" && template_subject?.trim()?.length > 0) {
                 const body = {
                     user_id: localStorage.getItem("user_id"),
                     source_code: source,
                     template_id: "",
                     name: template_name,
+                    subject: template_subject,
                     status: 1,
-                    language: 2,
+                    event_id:eventId
                 };
 
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 await axios
-                    .post(`emailapi/add_update_template`, body)
-                    .then((res) => {
-                        if (res.data.status_code === 200) {
-                            getTemplateListData(1);
-                            setTemplateId(res.data.response.data.last_id);
-                            templateIdRef.current = res.data.response.data.last_id;
-                        } else {
-                            loader("hide");
-                            toast.warning("Template not selected.");
-                        }
-                    })
-                    .catch((err) => {
-                        loader("hide");
-                        toast.error("Something went wrong");
-                    });
+                  .post(`webinar/add_update_template`, body)
+                  .then((res) => {
+                    if (res.data.status_code === 200) {
+                      getTemplateListData(1);
+                      setTemplateId(res.data.response.data.last_id);
+                      templateIdRef.current = res.data.response.data.last_id;
+                    } else {
+                      loader("hide");
+                      toast.warning("Template not selected.");
+                    }
+                  })
+                  .catch((err) => {
+                    loader("hide");
+                    toast.error("Something went wrong");
+                  });
                 setNewTemplatePopup(false);
                 setTemplatePopup(false);
             } else {
-                toast.warning("Please enter template name.");
+                let error={}
+
+                if(template_name == "" && template_name?.trim()?.length <= 0)
+                {
+                    toast.warning("Please enter template name.");
+                    error.newTemplateName="Please enter template name"
+
+
+                }
+                else{
+                    toast.warning("Please enter template subject.");
+                    error.newTemplateSubject="Please enter template subject"
+
+
+                }
+                setValidationError(error)
             }
         } else {
             toast.warning("Template not selected.");
@@ -1500,16 +1533,16 @@ const WebinarCreateNewEmail = (props) => {
 
                 //console.log(body);
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                // loader("show");
-                // await axios
-                //   .post(`emailapi/save_tags`, body)
-                //   .then((res) => {
-                //     loader("hide");
-                //   })
-                //   .catch((err) => {
-                //     loader("hide");
-                //     console.log(err);
-                //   });
+                loader("show");
+                await axios
+                  .post(`emailapi/save_tags`, body)
+                  .then((res) => {
+                    loader("hide");
+                  })
+                  .catch((err) => {
+                    loader("hide");
+                    console.log(err);
+                  });
 
             } else {
                 toast.error("Tag already in list.");
@@ -1623,12 +1656,12 @@ const WebinarCreateNewEmail = (props) => {
                                         <button
                                             className="btn btn-primary btn-filled next"
                                             onClick={nextClicked}
-                                        // disabled={
-                                        //     typeof emailSubject == "undefined" ||
-                                        //     emailSubject?.trim()?.length == 0 ||
-                                        //     typeof templateId == "undefined" ||
-                                        //     templateId == ""
-                                        // }
+                                        disabled={
+                                            typeof emailSubject == "undefined" ||
+                                            emailSubject?.trim()?.length == 0 ||
+                                            typeof templateId == "undefined" ||
+                                            templateId == ""
+                                        }
                                         >
                                             Next
                                         </button>
@@ -1665,8 +1698,8 @@ const WebinarCreateNewEmail = (props) => {
                                                     >
                                                         <img
                                                             id={"template_dyn" + index}
-                                                            // src={template?.template_img}
-                                                            src="https://webinar.informed.pro/template_images/default.png"
+                                                            src={template?.template_img}
+                                                            // src="https://webinar.informed.pro/template_images/default.png"
                                                             alt=""
                                                             className={
                                                                 typeof templateId !== "undefined" &&
@@ -2347,13 +2380,33 @@ const WebinarCreateNewEmail = (props) => {
                         <Modal.Body>
                             <form>
                                 <div className="form-group">
-                                    <label>Enter new template name</label>
+                                    <label>Enter new template name<span>*</span> </label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         id="template_name"
                                     />
+                                       {validationError?.newTemplateName ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateName}
+                              </div>
+                            ) : null}
                                 </div>
+                             
+                                <div className="form-group">
+                                    <label>Enter new template Subject<span>*</span></label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="template_subject"
+                                    />
+                                     {validationError?.newTemplateSubject ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateSubject}
+                              </div>
+                            ) : null}
+                                </div>
+                               
                                 <button
                                     type="submit"
                                     className="btn btn-primary btn-filled"

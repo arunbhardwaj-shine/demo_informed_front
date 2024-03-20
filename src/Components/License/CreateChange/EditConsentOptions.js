@@ -493,7 +493,7 @@ const EditConsentOptions = (props) => {
             setShowProgressBar(false);
           }
 
-          //toast.success("Test Mail sent successfuly");
+          //toast.success("Test Mail sent successfully");
         })
         .catch((err) => {
           clearInterval(timer);
@@ -823,7 +823,7 @@ const EditConsentOptions = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -860,7 +860,7 @@ const EditConsentOptions = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);

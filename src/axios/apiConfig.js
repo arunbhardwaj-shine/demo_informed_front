@@ -185,5 +185,6 @@ export const ENDPOINT = {
   WEBINAR_EMAIL_DELETE_COMPAIGN:"/webinarEmail/delete-list",
   WEBINAR_EMAIL_GET_TEMPLATE_LIST:"/webinarEmail/get-templates-list",
   INTERNAL_HCP:"/webinarEmail/internal-hcps",
-  US_LIST:"/webinarEmail/us-list"
+  US_LIST:"/webinarEmail/us-list",
+  REGISTERED_USERS:"/webinarEmail/registered-users"
 };
