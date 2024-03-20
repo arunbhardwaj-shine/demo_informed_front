@@ -373,14 +373,14 @@ const WebinarVerifyHcpMAIL = (props) => {
     };
 
     const backClicked = () => {
-        // if (
-        //   typeof getSmartListData !== "undefined" &&
-        //   getSmartListData.hasOwnProperty("id")
-        // ) {
-        //   navigate("/SelectSmartListUsers");
-        // } else {
+        if (
+          typeof getSmartListData !== "undefined" &&
+          getSmartListData.hasOwnProperty("id")
+        ) {
+          navigate("/webinar/email/selectSmartListUsers");
+        } else {
         navigate("/webinar/email/verifyHCP");
-        // }
+        }
     };
 
     const openSmartListPopup = async (smart_list_id) => {
