@@ -179,7 +179,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.subject,
             route_location: "webinar/email/verifyHcpMAIL",
             tags: props.getWebinarEmailData?.tags
-                ? props.getWebinarDraftData?.tags
+                ? props.getWebinarEmailData?.tags
                 : props.getWebinarDraftData?.tags,
             campaign_data: {
                 template_id: props.getWebinarEmailData?.templateId
@@ -200,7 +200,6 @@ const WebinarVerifyHcpMAIL = (props) => {
             ? props.getWebinarEmailData?.templateId
             : props.getWebinarDraftData?.campaign_data?.template_id
         };
-        // console.log(body);
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
@@ -373,14 +372,14 @@ const WebinarVerifyHcpMAIL = (props) => {
     };
 
     const backClicked = () => {
-        // if (
-        //   typeof getSmartListData !== "undefined" &&
-        //   getSmartListData.hasOwnProperty("id")
-        // ) {
-        //   navigate("/SelectSmartListUsers");
-        // } else {
+        if (
+          typeof getSmartListData !== "undefined" &&
+          getSmartListData.hasOwnProperty("id")
+        ) {
+          navigate("/webinar/email/selectSmartListUsers");
+        } else {
         navigate("/webinar/email/verifyHCP");
-        // }
+        }
     };
 
     const openSmartListPopup = async (smart_list_id) => {
@@ -557,7 +556,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                         >
                                             Save As Draft
                                         </button>
-                                        <button
+                                        {/* <button
                                             className={
                                                 getSelectedPdfId == 13
                                                     ? "btn btn-primary btn-filled next send_btn send_disabled"
@@ -566,7 +565,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                             onClick={createEmail}
                                         >
                                             Send
-                                        </button>
+                                        </button> */}
                                     </div>
                                 </div>
                             </div>

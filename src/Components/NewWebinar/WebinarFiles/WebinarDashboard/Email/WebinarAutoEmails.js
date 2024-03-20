@@ -1099,7 +1099,7 @@ const WebinarAutoEmail = () => {
           formData.append('template_name', "");
           formData.append('event_id', eventId);
   
-          axios.post('https://onesource.informed.pro/api/update-template', formData, {
+          axios.post('http://192.168.0.162:5000/api/update-template', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

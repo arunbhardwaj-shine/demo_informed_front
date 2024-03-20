@@ -88,9 +88,9 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
 
-  const smartListSelected = location.state
-    ? location.state.smartListSelected
-    : props.getWebinarDraftData.smart_list_data;
+  const smartListSelected = location?.state
+    ? location?.state?.smartListSelected
+    : props?.getWebinarDraftData?.smart_list_data;
 
   useEffect(() => {
     let campaign_id =
