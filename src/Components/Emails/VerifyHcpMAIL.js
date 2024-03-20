@@ -987,7 +987,7 @@ const VerifyHcpMAIL = (props) => {
               Email Sent
             </h5>
           </div>
-          <div className="modal-body">Email has been sent successfuly</div>
+          <div className="modal-body">Email has been sent successfully</div>
           <div className="modal-footer">
             <button
               type="button"

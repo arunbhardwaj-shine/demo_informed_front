@@ -557,15 +557,18 @@
   .mail-recipt-right .mail-content-select-box {
     width: 100%;
   }
+    .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
+      max-width: 100%;
+    }
 }
 
 @media only screen and (max-width: 1450px) {
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 16px;
   }
- /* .new-smartlist .smartlist-buttons {
-    min-height: 44px;
-} */
+.create-smart-step-box .form-group.col {
+  max-width: 50%;
+}
 .template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3), .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
     min-height: 40px;
 }
@@ -1560,7 +1563,7 @@
   }
 
   .create_smart_list .create-smart-step .create-smart-step-box form .form-control {
-    padding: 5px 12px;
+    padding: 5px 20px;
     height: 36px;
   }
 
