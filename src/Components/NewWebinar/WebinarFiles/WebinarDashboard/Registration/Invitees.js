@@ -736,7 +736,7 @@ const Invitees = () => {
               </div>
             </div>
 
-            <div className="page-top-nav smart_list_names sticky">
+            <div className="smart_list_names">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="page-title">
                   <h4>Total Registrations | <span>{totalReaders}</span></h4>

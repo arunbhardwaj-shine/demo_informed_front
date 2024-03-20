@@ -6894,10 +6894,10 @@ table thead.sticky-header:after {
 }
 
 .search-hcp table thead.sticky-header,
-.modal-second #mail-view .modal-body .sticky-header {
+.modal-second #mail-view .modal-body .sticky-header, .invitee table .sticky-header {
   position: sticky;
   overflow: hidden;
-  z-index: 100;
+  z-index: 5;
   top: 74px;
   transition: 0.3s linear;
 }
@@ -6909,15 +6909,17 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table thead.sticky-header {
   top: 0px;
 }
-
-.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
-  top: 0px;
+.select-smart-list .filter_btn_div .filter-by .btn {
+    z-index: 4;
 }
-.smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 74px;
+}
+.smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header, .invitee table#table-to-xls thead.sticky-header{
     top: 74px;
 }
 header.top-0~div .custom-change .search-hcp table thead.sticky-header,
-header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
+header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header, header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header {
   top: 158px;
   transition: 0.3s linear;
 }
@@ -6951,7 +6953,7 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
 }
 
 .search-hcp-table table th,
-.selected-hcp-list table thead.sticky-header th {
+.selected-hcp-list table thead.sticky-header th, .invitee table .sticky-header th {
   padding-bottom: 10px;
   background: #fbfcfd;
 }
@@ -9557,7 +9559,7 @@ button.event_sort_btn.svg_active svg {
 .invitee table td {
   color: var(--dark-gray);
   font-size: 13px;
-  padding: 24px 16px;
+  padding: 21px 16px;
   border: 0;
   background: var(--white);
   vertical-align: middle;
