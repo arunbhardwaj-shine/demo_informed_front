@@ -1087,55 +1087,48 @@ const WebinarAutoEmail = () => {
       return;
     }
     loader("show");
-    console.log(ref.current,"ref.currentref.current");
-    // toPng(ref.current, { pixelRatio: 1 })
-    // const dataUrl2 = await domtoimage.toPng(ref.current, { cacheBust: true });
-    // console.log(dataUrl2);
-    // domtoimage.toPng(ref.current, { cacheBust: true })
-    // domtoimage.toPng(ref.current, { cacheBust: true })
-    html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
-      .then((canvasurl) => {
-        const dataUrl = canvasurl.toDataURL('image/png');
-        if (dataUrl) {
-          const body = {
-            user_id: localStorage.getItem("user_id"),
-            template_id: templateId,
-            image_url: dataUrl,
-            template_name: "",
-            event_id:eventId
-          };
-          axios
-            .post(`http://192.168.0.162:5000/api/update-template`, body)
-            .then((res) => {
-              if (res.data.status_code == 200) {
-                toast.success(res.data.message);
-                                getTemplateListData()
 
-                // getTemplateListData(
-                //   0,
-                //   selectedLanguage,
-                //   selectedIbu,
-                //   userTemplateType
-                // );
-              } else {
-                toast.warning(res.data.message);
-              }
-              setviewEmailModal(false);
-              loader("hide");
-            })
-            .catch((err) => {
-              setviewEmailModal(false);
-              loader("hide");
-              toast.error("Something went wrong.");
-            });
+    html2canvas(ref.current, { useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
+    .then((canvas) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const formData = new FormData();
+          formData.append('user_id', localStorage.getItem("user_id"));
+          formData.append('template_id', templateId);
+          formData.append('image_url', blob, 'image.png'); // Assuming the file name is 'image.png'
+          formData.append('template_name', "");
+          formData.append('event_id', eventId);
+  
+          axios.post('http://192.168.0.162:5000/api/update-template', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then((res) => {
+            if (res.data.status_code == 200) {
+              toast.success(res.data.message);
+              getTemplateListData();
+            } else {
+              toast.warning(res.data.message);
+            }
+            setviewEmailModal(false);
+            loader("hide");
+          })
+          .catch((err) => {
+            setviewEmailModal(false);
+            loader("hide");
+            toast.error("Something went wrong.");
+          });
         }
-      })
-      .catch((err) => {
-        setviewEmailModal(false);
-        loader("hide");
-        toast.error("Something went wrong.");
-        console.log(err);
-      });
+      }, 'image/png');
+    })
+    .catch((err) => {
+      setviewEmailModal(false);
+      loader("hide");
+      toast.error("Something went wrong.");
+      console.log(err);
+    });
+  
   }, [ref, templateId]);
 
   const replaceDangerHtml = (dynamicTempHtml) => {
