@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { Accordion, Col, Modal, ProgressBar, Row } from "react-bootstrap";
+import { Accordion, Col, Modal, ProgressBar, Row, Button, Table, Tooltip } from "react-bootstrap";
 import { useSidebar } from "../CommonComponent/LoginLayout";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+
 
 const SurveyQuestionFormData = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -437,17 +438,31 @@ const SurveyQuestionFormData = () => {
               {data?.length > 0 ? (
                 <div className="survey_data_details">
                   <div className="survey_data_accordion_heading">
-                    <ul>
+                    <Table className="fold-table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Country</th>
+                          <th>Survey Date</th>
+                        </tr>
+                      </thead>
+                    {/* <ul>
                       <li>Name</li>
                       <li>Email</li>
                       <li>Country</li>
                       <li>Survey Date</li>
-                    </ul>
-                  </div>
-
+                    </ul> */}
+                 <tbody>
                   {data?.map((item, index) => {
                     return (
                       <>
+                      <tr>
+                        <td>{item?.name ? item?.name : "N/A"}</td>
+                        <td>{item?.email ? item?.email : "N/A"}</td>
+                        <td>{item?.country ? item?.country : "N/A"}</td>
+                        <td>{item?.created_at ? item?.created_at : "N/A"}</td>
+                      </tr>
                         <Accordion
                           key={index}
                           activeKey={openAccordionIndex === index ? "0" : null}
@@ -540,6 +555,9 @@ const SurveyQuestionFormData = () => {
                       </>
                     );
                   })}
+                  </tbody>
+                  </Table>
+                  </div>
                 </div>
               ) : (
                 <div className="no_found">
