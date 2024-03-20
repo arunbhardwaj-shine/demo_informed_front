@@ -2579,8 +2579,13 @@ form .input-group {
   padding-left: 5px;
 }
 .survey_data_accordion_heading table {
-  border-spacing: 0px 16px;
+  border-spacing: 0px 0px;
 }
+.survey_data_accordion_heading table tbody tr.blank {
+  border-spacing: 0;
+  box-shadow: none;
+}
+
 .modal .no_found {
   min-height: 50vh;
 }
@@ -2618,7 +2623,10 @@ form .input-group {
 .table tr[contenteditable="true"] {
   outline: 1px solid #b5b5b5;
 }
-
+.survey_data_accordion_heading table tbody tr.blank td {
+  background: transparent;
+  padding: 2px;
+}
 .table td[contenteditable="true"] span {
   background: #97b6cf7a;
   color: var(--light-gray);

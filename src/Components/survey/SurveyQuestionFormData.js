@@ -32,7 +32,22 @@ const SurveyQuestionFormData = () => {
   const [userData, setUserData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [usersData, setUsersData] = useState(null);
-  const [userDetails, setUserDetails] = useState([])
+  const [userDetails, setUserDetails] = useState([]);
+  const [showDetails, setShowDetails] = useState({});
+ 
+  const toggleDetails = (index) => {
+    setShowDetails((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const toggleSuggestion = () => {
+    setShowSuggestion(!showSuggestion);
+  };
+  useEffect(() => {
+    getSurveyData();
+  }, []);
   const [progressBarData, setProgressBarData] = useState({
     patient_case_rating: {
       rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
@@ -464,7 +479,8 @@ const SurveyQuestionFormData = () => {
                         }}
                       ></h2>
                     </div>
-                    <div className="post-survey-rating">
+                    <div className="post-survey-rating-list">
+                      <div className="post-survey-rating">
                       {Object.entries(item.rating)
                         .sort((a, b) => parseInt(b) - parseInt(a))
                         .map(([key, value], colorIndex) => (
@@ -517,9 +533,12 @@ const SurveyQuestionFormData = () => {
                 </div> */}
                           </div>
                         ))}
+                        </div>
+                        <div className="post-survey-btn">
                       <Button onClick={() => handleModal(userValue)}>
                         View
                       </Button>
+                      </div>
                     </div>
                   </div>
                   </>
@@ -1037,7 +1056,7 @@ const SurveyQuestionFormData = () => {
                     // console.log(item,'itemitem')
                     return (
                       <>
-                      <tr>
+                      <tr className={showDetails[index] ? 'show' : ''}  onClick={() => toggleDetails(index)}>
                         <td>{item?.name ? item?.name : "N/A"}</td>
                         <td>{item?.email ? item?.email : "N/A"}</td>
                         <td>{item?.country ? item?.country : "N/A"}</td>
@@ -1087,7 +1106,31 @@ const SurveyQuestionFormData = () => {
                             }
                           </td>
                       </tr>
-                        <Accordion
+                      {showDetails[index] && (
+                          <tr className="fold">
+                            <td colspan="7">
+                           <div className="survey-data">
+                              <h6>
+                                {" "}
+                                Q4. Please suggest a topic for a
+                                future Clinical Practice patient case:
+                              </h6>
+                              <p>
+                                {/* {item?.survey_data?.suggestion
+                                  ? item?.survey_data?.suggestion
+                                  : "N/A"} */}
+                                {item?.survey_data?.suggestion.trim() !== "" ? item?.survey_data?.suggestion : "N/A"}
+                              </p>
+                            </div>
+                            </td>
+                          </tr>
+                        )}
+                        <tr className="blank">
+                                <td colspan="7" style={{ height: "10px;" }}>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                        {/* <Accordion
                           key={index}
                           activeKey={openAccordionIndex === index ? "0" : null}
                           onSelect={() => handleAccordionOpen(index)}
@@ -1201,7 +1244,7 @@ const SurveyQuestionFormData = () => {
                                         </p>
                                       </div> */}
 
-                                      <div className="survey-data">
+                                      {/*<div className="survey-data">
                                         <h6>
                                           {" "}
                                           Q4. Please suggest a topic for a
@@ -1210,7 +1253,7 @@ const SurveyQuestionFormData = () => {
                                         <p>
                                           {/* {item?.survey_data?.suggestion
                                             ? item?.survey_data?.suggestion
-                                            : "N/A"} */}
+                                            : "N/A"} 
                                           {item?.survey_data?.suggestion.trim() !== "" ? item?.survey_data?.suggestion : "N/A"}
                                         </p>
                                       </div>
@@ -1224,7 +1267,7 @@ const SurveyQuestionFormData = () => {
                               )}
                             </Accordion.Body>
                           </Accordion.Item>
-                        </Accordion>
+                        </Accordion> */}
                       </>
                     );
                   })}
@@ -1293,56 +1336,64 @@ const SurveyQuestionFormData = () => {
                             <th>Date</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          {userData?.map((item, index) => {
-                            return (
-                              <tr>
-                                <td>{item?.name ? item?.name : "N/A"}</td>
-                                <td>{item?.email ? item?.email : "N/A"}</td>
-                                <td>{item?.country ? item?.country : "N/A"}</td>
-                                {quesKey === 'patient_case_rating' ? (
-                                  <td>{item?.rating ? item?.rating : "N/A"}
-                                  <svg
-                                    width="16"
-                                    height="17"
-                                    viewBox="0 0 16 17"
-                                    // fill="none"
-                                    fill={ratingColors[item?.rating]}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <g clip-path="url(#clip0_5227_4752)">
-                                      <path
-                                        d="M7.4636 0.873843C7.6629 0.375386 8.3371 0.375386 8.5364 0.873843L10.3356 5.37373C10.4195 5.58343 10.6078 5.72677 10.8241 5.7455L15.4656 6.14744C15.9797 6.19196 16.188 6.86363 15.7971 7.21621L12.2676 10.3992C12.1031 10.5476 12.0312 10.7795 12.081 11.0008L13.1504 15.7491C13.2688 16.275 12.7234 16.6902 12.2825 16.4096L8.3019 13.8769C8.1164 13.7589 7.8836 13.7589 7.6981 13.8769L3.71755 16.4096C3.27661 16.6902 2.73118 16.275 2.84964 15.7491L3.91901 11.0008C3.96884 10.7795 3.8969 10.5476 3.73243 10.3992L0.202937 7.21621C-0.188028 6.86363 0.0203079 6.19196 0.534448 6.14744L5.17591 5.7455C5.39221 5.72677 5.58055 5.58343 5.66439 5.37373L7.4636 0.873843Z"
-                                        // fill="#97B6CF"
+                          <tbody>
+                            {userData?.map((item, index) => (
+                              <>
+                                <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleDetails(index) : undefined} className={quesKey === 'suggestion' ? showDetails[index] ? 'show' : '' : ''}>
+                                  <td>{item?.name ? item?.name : "N/A"}</td>
+                                  <td>{item?.email ? item?.email : "N/A"}</td>
+                                  <td>{item?.country ? item?.country : "N/A"}</td>
+                                  {quesKey === 'patient_case_rating' ? (
+                                    <td>
+                                      {item?.rating ? item?.rating : "N/A"}
+                                      <svg
+                                        width="16"
+                                        height="17"
+                                        viewBox="0 0 16 17"
+                                        // fill="none"
                                         fill={ratingColors[item?.rating]}
-                                      />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_5227_4752">
-                                        <rect
-                                          width="16"
-                                          height="16"
-                                          fill="white"
-                                          transform="translate(0 0.5)"
-                                        />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
-                                  </td>
-                                ) : quesKey === 'future_clinical'  ? (
-                                  <td>{item?.answer ? item?.answer : "N/A"}</td>
-                                ): quesKey ===  'recommend_clinical' ? (
-                                  <td>{item?.answer ? item?.answer : "N/A"}</td>
-                                ):''}
-                                <td>
-                                  {" "}
-                                  {item?.created_at ? item?.created_at : "N/A"}
-                                </td>
-                              </tr>
-                            );
-                          })}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <g clip-path="url(#clip0_5227_4752)">
+                                          <path
+                                            d="M7.4636 0.873843C7.6629 0.375386 8.3371 0.375386 8.5364 0.873843L10.3356 5.37373C10.4195 5.58343 10.6078 5.72677 10.8241 5.7455L15.4656 6.14744C15.9797 6.19196 16.188 6.86363 15.7971 7.21621L12.2676 10.3992C12.1031 10.5476 12.0312 10.7795 12.081 11.0008L13.1504 15.7491C13.2688 16.275 12.7234 16.6902 12.2825 16.4096L8.3019 13.8769C8.1164 13.7589 7.8836 13.7589 7.6981 13.8769L3.71755 16.4096C3.27661 16.6902 2.73118 16.275 2.84964 15.7491L3.91901 11.0008C3.96884 10.7795 3.8969 10.5476 3.73243 10.3992L0.202937 7.21621C-0.188028 6.86363 0.0203079 6.19196 0.534448 6.14744L5.17591 5.7455C5.39221 5.72677 5.58055 5.58343 5.66439 5.37373L7.4636 0.873843Z"
+                                            // fill="#97B6CF"
+                                            fill={ratingColors[item?.rating]}
+                                          />
+                                        </g>
+                                        <defs>
+                                          <clipPath id="clip0_5227_4752">
+                                            <rect
+                                              width="16"
+                                              height="16"
+                                              fill="white"
+                                              transform="translate(0 0.5)"
+                                            />
+                                          </clipPath>
+                                        </defs>
+                                      </svg>
+                                    </td>
+                                  ) : quesKey === 'future_clinical' ? (
+                                    <td>{item?.answer ? item?.answer : "N/A"}</td>
+                                  ) : quesKey === 'recommend_clinical' ? (
+                                    <td>{item?.answer ? item?.answer : "N/A"}</td>
+                                  ) : null}
+                                  <td>{item?.created_at ? item?.created_at : "N/A"}</td>
+                                </tr>
+                                {quesKey === 'suggestion' && showDetails[index] && (
+                                  <tr key={`details-${index}`}>
+                                    <td colSpan="7">
+                                      <p>fgh</p>
+                                    </td>
+                                  </tr>
+                                )}
 
-                        </tbody>
+                                <tr key={`blank-${index}`} className="blank">
+                                  <td colSpan="7" style={{ height: "10px" }}>&nbsp;</td>
+                                </tr>
+                              </>
+                            ))}
+                          </tbody>
                       </table>
                     </div>
                   </div>

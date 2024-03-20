@@ -19486,9 +19486,9 @@ img.change-password-image {
 
 /**survey data**/
 .survey_data {
-  background: rgba(0, 102, 190, 0.03);
-  border-radius: 20px;
-  padding: 16px;
+  // background: rgba(0, 102, 190, 0.03);
+  // border-radius: 20px;
+  // padding: 16px;
   margin: 20px 0;
   min-height: 86vh;
   max-height: 86vh;
@@ -19530,7 +19530,7 @@ img.change-password-image {
   }
 
   .survey_data_accordion_heading {
-    padding: 16px 20px;
+    padding: 0px 4px 0 0;
 
     ul {
       li {
@@ -19544,7 +19544,7 @@ img.change-password-image {
   .survey_data_details {
     height: 100%;
     overflow-y: auto;
-    padding: 4px;
+    // padding: 4px;
 
     ul {
       display: flex;
