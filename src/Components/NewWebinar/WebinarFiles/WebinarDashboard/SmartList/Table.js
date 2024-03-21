@@ -569,7 +569,7 @@ const Table = (props, ref) => {
   );
 
   useEffect(() => {
-    var x = localStorage.getItem("sd_i");
+    var x = localStorage.getItem("webinar_sd_i");
     if (x) {
       setStorageState(true);
     } else {
@@ -868,9 +868,9 @@ const Table = (props, ref) => {
             });
           } else {
             var path = "";
-            var x = localStorage.getItem("sd_i");
+            var x = localStorage.getItem("webinar_sd_i");
             if (x) {
-              localStorage.removeItem("sd_i");
+              localStorage.removeItem("webinar_sd_i");
               path = "/webinar/email/selectSmartList";
             } else {
               path = "/webinar/email/smartlist";
