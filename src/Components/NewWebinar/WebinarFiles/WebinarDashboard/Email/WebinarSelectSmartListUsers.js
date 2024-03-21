@@ -2,9 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../../../loader";
-
-// import TableOnly from "./TableOnly";
-import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
@@ -13,8 +10,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
+import AddNewContactModal from "../../../../../Model/AddNewContactModal"
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 var old_object = {};
 const WebinarSelectSmartListUsers = (props) => {
   const { eventIdContext, handleEventId } = useSidebar()
@@ -65,6 +62,8 @@ const WebinarSelectSmartListUsers = (props) => {
   const [editable, setEditable] = useState(0);
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
+  const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -88,9 +87,9 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
 
-  const smartListSelected = location?.state
-    ? location?.state?.smartListSelected
-    : props?.getWebinarDraftData?.smart_list_data;
+  // const smartListSelected = location.state
+  //   ? location.state.smartListSelected
+  //   : props.getDraftData.smart_list_data;
 
   useEffect(() => {
     let campaign_id =
@@ -109,7 +108,7 @@ const WebinarSelectSmartListUsers = (props) => {
         setRemovedReaders(old_object?.removedHcp);
       }
     } else {
-      if (props?.getWebinarDraftData && props?.getWebinarDraftData?.campaign_data?.removedHcp) {
+      if (props?.getWebinarDraftData && props.getWebinarDraftData?.campaign_data?.removedHcp) {
         if (
           typeof props.getWebinarDraftData?.campaign_data?.removedHcp != "undefined" &&
           props.getWebinarDraftData?.campaign_data?.removedHcp != "" && location?.state?.flag != 1
@@ -139,10 +138,10 @@ const WebinarSelectSmartListUsers = (props) => {
           if (old_object?.removedHcp) {
             if (old_object?.removedHcp?.length > 0) {
               var removedUsers = old_object?.removedHcp;
-              var allUsers = res?.data?.response?.data;
+              var allUsers = res?.data?.response.data;
               var pendingUsers = allUsers?.filter(function (objFromA) {
                 return !removedUsers?.find(function (objFromB) {
-                  return objFromA.profile_id === objFromB.profile_id;
+                  return objFromA?.profile_id === objFromB?.profile_id;
                 });
               });
 
@@ -162,8 +161,8 @@ const WebinarSelectSmartListUsers = (props) => {
               var removedUsers = props.getWebinarDraftData?.campaign_data?.removedHcp;
               var allUsers = res?.data?.response?.data;
               var pendingUsers = allUsers?.filter(function (objFromA) {
-                return !removedUsers.find(function (objFromB) {
-                  return objFromA.profile_id === objFromB.profile_id;
+                return !removedUsers?.find(function (objFromB) {
+                  return objFromA?.profile_id === objFromB?.profile_id;
                 });
               });
 
@@ -186,13 +185,14 @@ const WebinarSelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
-if(location?.state?.selected==1){
-  navigate("/webinar/email/selectSmartList");
-
-}else{
-  navigate("/webinar/email/selectHCP");
-
-}
+    // navigate("/webinar/email/selectsmartlist");
+    if(location?.state?.selected==1){
+      navigate("/webinar/email/selectSmartList");
+    
+    }else{
+      navigate("/webinar/email/selectHCP");
+    
+    }
   };
 
   useEffect(() => {
@@ -247,7 +247,7 @@ if(location?.state?.selected==1){
               setIrtRole(newIrtType);
             }
 
-            setTotalData(res.data.response.data);
+            setTotalData(res?.data?.response?.data);
           }
           // setCountryall(res.data.response.data.country);
 
@@ -263,7 +263,9 @@ if(location?.state?.selected==1){
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id: 0,
+      // pdf_id: old_object?.PdfSelected
+      //   ? old_object.PdfSelected
+      //   : props.getDraftData.pdf_id,
       event_id:eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
@@ -273,21 +275,23 @@ if(location?.state?.selected==1){
       creator: old_object?.emailCreator
         ? old_object?.emailCreator
         : props.getWebinarDraftData?.creator
-          ? props.getWebinarDraftData.creator
+          ? props.getWebinarDraftData?.creator
           : "",
-          campaign_name: "webinar",
-
+          campaign_name:"webinar",
+      // campaign_name: old_object?.emailCampaign
+      //   ? old_object?.emailCampaign
+      //   : props.getWebinarDraftData?.campaign,
       subject: old_object?.emailSubject
         ? old_object?.emailSubject
         : props.getWebinarDraftData?.subject,
-      route_location: "webinar/email/selectSmartListUsers",
-      tags: old_object?.tags ? old_object.tags : props.getWebinarDraftData?.tags,
+      route_location: "/webinar/email/selectSmartListUsers",
+      tags: old_object?.tags ? old_object?.tags : props.getWebinarDraftData?.tags,
       campaign_data: {
         template_id: old_object?.templateId
           ? old_object?.templateId
           : props.getWebinarDraftData?.campaign_data?.template_id,
-        smart_list_id: props.getWebinareSelectedSmartListData?.id
-          ? props.getWebinareSelectedSmartListData?.id
+        smart_list_id: props.getWebinarSelectedSmartListData?.id
+          ? props.getWebinarSelectedSmartListData.id
           : props.getWebinarDraftData?.campaign_data?.smart_list_id,
         //smart_list_data: readers,
         // users_list : smartListSelected,
@@ -304,9 +308,6 @@ if(location?.state?.selected==1){
         ? old_object?.template
         : props.getWebinarDraftData?.source_code,
       status: 2,
-      auto_responder_id: old_object?.templateId
-      ? old_object?.templateId
-      : props?.getWebinarDraftData?.campaign_data?.template_id
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -368,10 +369,6 @@ if(location?.state?.selected==1){
     }
   };
 
-  const setHpcList = (list) => {
-    setHpc(list)
-}
-
   const onFileChange = (event) => {
     setSelectedFile(event?.target?.files[0]);
   };
@@ -382,192 +379,6 @@ if(location?.state?.selected==1){
     setShowLessInfo(!showLessInfo);
   };
 
-  const onFirstNameChange = (e, i) => {
-    const { value } = e?.target;
-    const list = [...hpc];
-    const name = hpc[i]?.firstname;
-    list[i].firstname = value;
-    setHpc(list);
-  };
-
-  const onLastNameChange = (e, i) => {
-    const { value } = e?.target;
-    const list = [...hpc];
-    const name = hpc[i]?.lastname;
-    list[i].lastname = value;
-    setHpc(list);
-  };
-
-  const onEmailChange = (e, i) => {
-    const { value } = e?.target;
-    const list = [...hpc];
-    const name = hpc[i]?.email;
-    list[i].email = value;
-    setHpc(list);
-    // setEmailData(e.target.value);
-  };
-  const onRoleChange = (e, i) => {
-    if (e == "") {
-      const list = [...hpc];
-      list[i].role = "";
-      setHpc(list);
-    } else {
-      const value = e?.value;
-      const list = [...hpc];
-      const name = hpc[i]?.role;
-      list[i].role = value;
-      setHpc(list);
-    }
-  };
-
-  const onInstitutionChange = (e, i) => {
-    if (e == "") {
-      const list = [...hpc];
-      list[i].institutionType = "";
-      list[i].optIrt = "";
-      list[i].role = "";
-      list[i].country = "";
-      setHpc(list);
-    } else {
-      const value = e?.value;
-      const list = [...hpc];
-      const name = hpc[i]?.institutionType;
-      list[i].institutionType = value;
-      setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        onIRTChange("no", i);
-      }
-    }
-  };
-
-  const onIRTChange = (e, i) => {
-    if (e == "") {
-      const list = [...hpc];
-      list[i].optIrt = "";
-      list[i].role = "";
-      list[i].country = "";
-      setHpc(list);
-    } else {
-      const value = e;
-      const list = [...hpc];
-      const name = hpc[i]?.optIrt;
-      list[i].optIrt = value;
-      list[i].role = "";
-      list[i].country = "";
-      list[i].siteNumberIndex = "";
-      list[i].siteNameIndex = "";
-      list[i].siteName = "";
-      list[i].siteNumber = "";
-      setHpc(list);
-    }
-    let arr = [];
-    setSiteNumberAll(arr);
-    setSiteNameAll(arr);
-    setCounterFlag(counterFlag + 1);
-  };
-
-  const onContactTypeChange = (e, i) => {
-    const value = e;
-    const list = [...hpc];
-    const name = hpc[i]?.contact_type;
-    list[i].contact_type = value;
-    setHpc(list);
-  };
-
-  const onCountryChange = (e, i) => {
-    if (e == null) {
-      const list = [...hpc];
-      list[i].country = "";
-      list[i].countryIndex = "";
-      setHpc(list);
-    } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-        let consetValue = e?.value;
-        if (e.value == "B&H") {
-          consetValue = "Bosnia and Herzegovina";
-        }
-        const matchingKeys = Object.entries(totalData?.site_country_data)
-          ?.filter(([key, value]) => value === consetValue)
-          ?.map(([key, value]) => key);
-        const filteredSiteNames = matchingKeys?.map((key) => ({
-          label: totalData?.site_data[key],
-          value: totalData?.site_data[key],
-        }));
-        const siteNumbers = matchingKeys?.map((key) => ({
-          label: key,
-          value: key,
-        }));
-        setSiteNumberAll(siteNumbers);
-        setSiteNameAll(filteredSiteNames);
-      }
-      const value = e?.value;
-      const list = [...hpc];
-      const name = hpc[i]?.country;
-      list[i].country = value;
-      list[i].siteNumberIndex = "";
-      list[i].siteNameIndex = "";
-      list[i].siteName = "";
-      list[i].siteNumber = "";
-      setHpc(list);
-    }
-  };
-
-  const onSiteNumberChange = (e, i) => {
-    if (e == null) {
-      const list = [...hpc];
-      list[i].siteNumber = "";
-      setHpc(list);
-    } else {
-      let getSiteData = totalData?.site_data;
-      let site_name_value = getSiteData[e?.value];
-      const value = e?.value;
-      const list = [...hpc];
-      const name = hpc[i]?.siteNumber;
-      list[i].siteNumber = value;
-      list[i].siteName = site_name_value;
-      let snameindex = siteNameAll?.findIndex(
-        (x) => x.value === site_name_value
-      );
-      list[i].siteNameIndex = snameindex;
-      let index = siteNumberAll?.findIndex((x) => x?.value === value);
-      list[i].siteNumberIndex = index;
-      setHpc(list);
-    }
-  };
-
-  const onSiteNameChange = (e, i) => {
-    if (e == null) {
-      const list = [...hpc];
-      list[i].siteName = "";
-      setHpc(list);
-    } else {
-      const value = e?.value;
-      let getSiteData = totalData?.site_data;
-      let site_number_value = Object.keys(getSiteData)?.find(
-        (key) => getSiteData[key] === e?.value
-      );
-      const list = [...hpc];
-      const name = hpc[i]?.siteName;
-      list[i].siteName = value;
-      list[i].siteNumber = site_number_value;
-      let snameindex = siteNumberAll?.findIndex(
-        (x) => x.value === site_number_value
-      );
-      list[i].siteNumberIndex = snameindex;
-      let index = siteNameAll?.findIndex((x) => x?.value === value);
-      list[i].siteNameIndex = index;
-      setHpc(list);
-    }
-  };
-
-  const deleteRecord = (i) => {
-    const list = hpc;
-    list.splice(i, 1);
-    setHpc(list);
-    setCounterFlag(counterFlag + 1);
-  };
 
   const addNewUser = () => {
     setIsOpenAdd(true);
@@ -603,7 +414,7 @@ if(location?.state?.selected==1){
     const readersRemoved = removedReaders;
     setRemovedReaders((oldArray) => [reader, ...oldArray]);
     const newlyAdded = readersNewlyAdded;
-    newlyAdded?.splice(i, 1);
+    newlyAdded.splice(i, 1);
     setReadersNewlyAdded(newlyAdded);
     let merged_array = [reader, ...readersRemoved];
     old_object.removedHcp = merged_array;
@@ -629,97 +440,31 @@ if(location?.state?.selected==1){
   const readersAdded = (reader, i) => {
     // const newlyAddedReaders = readersNewlyAdded;
     const readersRemoved = removedReaders;
-    readersRemoved?.splice(i, 1);
+    readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
     setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
 
     //setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
   };
-  const addMoreHcp = () => {
-    const status = hpc?.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (
-          data?.email == "" ||
-          data?.institutionType == "" ||
-          data?.last_name == "" ||
-          data?.first_name == "" ||
-          data?.country == ""
-        ) {
-          return "false";
-        } else {
-          return "true";
-        }
-      } else {
-        if (data?.email == "") {
-          return "false";
-        } else {
-          return "true";
-        }
-      }
-    });
 
-    if (status.every((element) => element == "true")) {
-      setHpc([
-        ...hpc,
-        {
-          firstname: "",
-          lastname: "",
-          email: "",
-          contact_type: "",
-          country: "",
-          countryIndex: "",
-          role:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? irtRole?.[0]?.value
-              : "",
-          optIrt:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? "yes"
-              : "",
-          institutionType: "",
-        },
-      ]);
-    } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        toast.warning("Please input the required fields.");
-      } else {
-        toast.warning("Please input the required fields.");
-      }
-    }
-  };
-
-  const addHcp = (e) => {
-    const addhcp_btn = document.getElementById("add_hcp_btn");
-    if (document.querySelector("#add_hcp_btn .active") !== null) {
-      addhcp_btn.classList.remove("active");
-    } else {
-      addhcp_btn.classList.add("active");
-    }
-    document.querySelector("#add_file_btn").classList.remove("active");
-
-    e.preventDefault();
-    setActiveExcel("");
-    setActiveManual("active");
-    setManualReRender(manualReRender + 1);
-  };
 
   const sortSelectedUsers = () => {
     let normalArr = [];
     normalArr = readers;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a?.first_name?.toLowerCase() > b?.first_name?.toLowerCase()
+        a.first_name.toLowerCase() > b.first_name.toLowerCase()
           ? 1
-          : b?.first_name?.toLowerCase() > a?.first_name?.toLowerCase()
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
             ? -1
             : 0
       );
     } else {
-      normalArr?.sort((a, b) =>
-        a?.first_name?.toLowerCase() < b?.first_name?.toLowerCase()
+      normalArr.sort((a, b) =>
+        a.first_name.toLowerCase() < b.first_name.toLowerCase()
           ? 1
-          : b?.first_name?.toLowerCase() < a?.first_name?.toLowerCase()
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
             ? -1
             : 0
       );
@@ -789,7 +534,7 @@ if(location?.state?.selected==1){
       if (typeof prev_obj != "undefined") {
         //update existing
         editableData?.map(
-          (obj) => arr?.find((o) => o?.profile_user_id === profile_user_id) || obj
+          (obj) => arr.find((o) => o?.profile_user_id === profile_user_id) || obj
         );
       } else {
         //create new
@@ -887,19 +632,6 @@ if(location?.state?.selected==1){
       toast.warning("No row update");
     }
   };
-
-  const closeClicked = () => {
-    setSaveOpen(false);
-    setEditable(0);
-    let vr = readers;
-    setReaders([]);
-    setTimeout(() => {
-      setReaders(vr);
-      console.log("This will run after 1 second!");
-      setUpdateCounter(updateCounter + 1);
-    }, 50);
-  };
-
   const closeModalClicked = () => {
     setIsOpenAdd(false);
     // setIsOpensend(true);
@@ -927,6 +659,22 @@ if(location?.state?.selected==1){
     setActiveExcel("");
   }
 
+  const setHpcList = (list) => {
+    setHpc(list)
+}
+
+  const closeClicked = () => {
+    setSaveOpen(false);
+    setEditable(0);
+    let vr = readers;
+    setReaders([]);
+    setTimeout(() => {
+      setReaders(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
+  };
+
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
 
@@ -940,7 +688,7 @@ if(location?.state?.selected==1){
             country: data?.country,
             contact_type: data?.contact_type ? data?.contact_type : "",
             siteNumber: data?.siteNumber ? data.siteNumber : "",
-            siteName: data.siteName ? data.siteName : "",
+            siteName: data?.siteName ? data?.siteName : "",
             investigator_type: data?.role,
             siteIrt: data?.optIrt == "yes" ? 1 : 0,
             institution_type: data?.institutionType
@@ -964,16 +712,16 @@ if(location?.state?.selected==1){
         smart_list_id: "",
       };
 
-      const status = body?.data?.map((data, index) => {
+      const status = body.data?.map((data, index) => {
         if (
-          data?.email == "" ||
+          data.email == "" ||
           data?.institution_type == "" ||
-          data?.first_name == "" ||
-          data?.last_name == "" ||
-          data?.country == ""
+          data.first_name == "" ||
+          data.last_name == "" ||
+          data.country == ""
         ) {
           if (
-            data?.first_name == "" &&
+            data.first_name == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ) {
             setValidationError({
@@ -983,7 +731,7 @@ if(location?.state?.selected==1){
             return;
           }
           if (
-            data?.last_name == "" &&
+            data.last_name == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ) {
             setValidationError({
@@ -992,7 +740,7 @@ if(location?.state?.selected==1){
             });
             return;
           }
-          if (data?.email == "") {
+          if (data.email == "") {
             setValidationError({
               newHcpEmail: "Please enter the email atleast",
               index: index,
@@ -1000,29 +748,9 @@ if(location?.state?.selected==1){
 
             return;
           }
-          //  else if (data.email != "") {
-          //   let email = data.email;
-          //   let useremail = email.trim();
-          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          //   if (regex.test(String(useremail).toLowerCase())) {
-          //     let prev_obj = readers.find((x) => x.email === useremail);
-          //     if (typeof prev_obj != "undefined") {
-          //       setValidationError({
-          //         newHcpEmail: "User with same email already added in list.",
-          //         index: index,
-          //       });
-          //       return;
-          //     }
-          //   } else {
-          //     setValidationError({
-          //       newHcpEmail: "Email format is not valid",
-          //       index: index,
-          //     });
-          //     return;
-          //   }
-          // }
+         
           if (
-            data?.institution_type == "" &&
+            data.institution_type == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ) {
             setValidationError({
@@ -1033,7 +761,7 @@ if(location?.state?.selected==1){
           }
 
           if (
-            data?.country == "" &&
+            data.country == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ) {
             setValidationError({
@@ -1043,14 +771,14 @@ if(location?.state?.selected==1){
             return;
           }
           return "true";
-        } else if (data?.email != "") {
-          let email = data?.email;
-          let useremail = email?.trim();
+        } else if (data.email != "") {
+          let email = data.email;
+          let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers?.find((x) => x?.email === useremail);
-            let prev_obj_new = readersNewlyAdded?.find(
-              (x) => x?.email === useremail
+            let prev_obj = readers.find((x) => x.email === useremail);
+            let prev_obj_new = readersNewlyAdded.find(
+              (x) => x.email === useremail
             );
 
             if (
@@ -1084,14 +812,14 @@ if(location?.state?.selected==1){
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res?.data?.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
               res?.data?.response?.data?.map((data) => {
                 setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
               });
               setIsOpen(false);
               setIsOpenAdd(false);
             } else {
-              toast.warning(res?.data?.message);
+              toast.warning(res.data.message);
               loader("hide");
             }
             loader("hide");
@@ -1155,6 +883,27 @@ if(location?.state?.selected==1){
     setUpdate(update + 1);
   };
 
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB.localeCompare(valueA);
+      }
+    });
+  };
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -1174,9 +923,11 @@ if(location?.state?.selected==1){
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-
+                    {/* <li className="active">
+                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    </li> */}
                     <li className="active">
-                      <Link to="/webinar/email/createEmail">Create Your Email</Link>
+                      <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                     </li>
                     <li className="active">
                       <Link to="/webinar/email/selectSmartList">
@@ -1329,10 +1080,73 @@ if(location?.state?.selected==1){
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
+                        <th scope="col">Name
+                          <button
+                              className={`event_sort_btn ${sortBy == "first_name" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                            }`}
+                              onClick={() => handleSort('first_name')}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                        </th>
+                        <th scope="col">Email
+                          <button
+                              className={`event_sort_btn ${sortBy == "email" ?
+                                  sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                  : "" 
+                                }`}
+                              onClick={() => handleSort('email')}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                        </th>
                         <th scope="col">Bounced</th>
-                        <th scope="col">Country</th>
+                        <th scope="col">Country
+                          <button
+                                className={`event_sort_btn ${sortBy == "country" ?
+                                sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : "" 
+                              }`}
+                                onClick={() => handleSort('country')}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white"/>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                        </th>
 
                         {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1342,7 +1156,28 @@ if(location?.state?.selected==1){
                           </>
                         ) : (
                           <>
-                            <th scope="col">Business unit</th>
+                            <th scope="col">Business unit
+                              <button
+                                className={`event_sort_btn ${sortBy == "ibu" ?
+                                sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : "" 
+                              }`}
+                                onClick={() => handleSort('ibu')}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white"/>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </th>
                             <th scope="col">Contact type</th>
                           </>
                         )}
@@ -1508,15 +1343,15 @@ if(location?.state?.selected==1){
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
-                                  : readers?.ibu && readers?.ibu != 0
-                                    ? readers?.ibu
+                                  : readers.ibu && readers.ibu != 0
+                                    ? readers.ibu
                                     : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
-                                    {readers?.user_type != 0
+                                    {readers.user_type != 0
                                       ? readers?.user_type
                                       : "N/A"}
                                   </span>
@@ -1587,7 +1422,7 @@ if(location?.state?.selected==1){
                           </>
                         );
                       })}
-                      {readers?.map((readers, i) => {
+                      {sortData(readers, sortBy, sortOrder)?.map((readers, i) => {
                         return (
                           <>
                             <tr
@@ -1625,11 +1460,11 @@ if(location?.state?.selected==1){
                               </td>
                               <input
                                 type="hidden"
-                                id={`field_index` + readers?.profile_user_id}
+                                id={`field_index` + readers.profile_user_id}
                                 value={i}
                               />
                               <td
-                                id={`field_bounced` + readers?.profile_user_id}
+                                id={`field_bounced` + readers.profile_user_id}
                               >
                                 {readers?.bounce ? readers?.bounce : "N/A"}
                               </td>
@@ -1652,15 +1487,15 @@ if(location?.state?.selected==1){
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
-                                  : readers?.ibu && readers?.ibu != 0
-                                    ? readers.ibu
+                                  : readers?.ibu && readers.ibu != 0
+                                    ? readers?.ibu
                                     : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
-                                    {readers?.user_type != 0
+                                    {readers.user_type != 0
                                       ? readers?.user_type
                                       : "N/A"}
                                   </span>
@@ -1715,7 +1550,7 @@ if(location?.state?.selected==1){
                                 <td>
                                   <span>
                                     {readers?.last_email
-                                      ? readers.last_email
+                                      ? readers?.last_email
                                       : "N/A"}
                                   </span>
                                 </td>
@@ -1740,541 +1575,6 @@ if(location?.state?.selected==1){
         </div>
       </div>
 
-      {/* <Modal
-        id="add_hcp"
-        show={isOpenAdd}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <div
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabIndex="-1"
-          aria-hidden="true"
-        >
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId
-                ? "Add New User +"
-                : "Add New HCP"}
-            </h5>
-            <button
-              onClick={() => {
-                setIsOpenAdd(false);
-                setHpc([
-                  {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    contact_type: "",
-                    country: "",
-                    countryIndex: "",
-                    role:
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        ? irtRole?.[0]?.value
-                        : "",
-                    optIrt:
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        ? "yes"
-                        : "",
-                    institutionType: "",
-                  },
-                ]);
-                setActiveManual("active");
-                setActiveExcel("");
-              }}
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
-                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                  {hpc.map((val, i) => {
-                    const fieldName = `hpc[${i}]`;
-                    return (
-                      <>
-                        <div className="add_hcp_boxes">
-                          <div className="form_action">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    First name{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                        <span>*</span>
-                                      )}{" "}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className={
-                                      validationError?.newHcpFirstName &&
-                                        validationError?.index == i
-                                        ? "form-control error"
-                                        : "form-control"
-                                    }
-                                    onChange={(event) =>
-                                      onFirstNameChange(event, i)
-                                    }
-                                    value={val.firstname}
-                                  />
-                                  {validationError?.newHcpFirstName &&
-                                    validationError?.index == i ? (
-                                    <div className="login-validation">
-                                      {validationError?.newHcpFirstName}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Last name{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                        <span>*</span>
-                                      )}{" "}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className={
-                                      validationError?.newHcpLastName &&
-                                        validationError?.index == i
-                                        ? "form-control error"
-                                        : "form-control"
-                                    }
-                                    onChange={(event) =>
-                                      onLastNameChange(event, i)
-                                    }
-                                    value={val.lastname}
-                                  />
-                                  {validationError?.newHcpLastName &&
-                                    validationError?.index == i ? (
-                                    <div className="login-validation">
-                                      {validationError?.newHcpLastName}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Email <span>*</span>
-                                  </label>
-                                  <input
-                                    type="email"
-                                    className={
-                                      validationError?.newHcpEmail &&
-                                        validationError?.index == i
-                                        ? "form-control error"
-                                        : "form-control"
-                                    }
-                                    id="email-desc"
-                                    name={`${fieldName}.email`}
-                                    onChange={(event) =>
-                                      onEmailChange(event, i)
-                                    }
-                                    value={val.email}
-                                  />
-                                  {validationError?.newHcpEmail &&
-                                    validationError?.index == i ? (
-                                    <div className="login-validation">
-                                      {validationError?.newHcpEmail}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className={
-                                          validationError?.newHcpInstitution &&
-                                            validationError?.index == i
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                              label: val?.institutionType,
-                                              value: val?.institutionType,
-                                            }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                      {validationError?.newHcpInstitution &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newHcpInstitution}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">
-                                        IRT mandatory training
-                                      </label>
-                                      <Select
-                                        options={optIRT}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onIRTChange(event?.value, i)
-                                        }
-                                        defaultValue={
-                                          val?.optIrt
-                                            ? {
-                                              label: "Yes",
-                                              value: val?.optIrt,
-                                            }
-                                            : ""
-                                        }
-                                        value={
-                                          optIRT.findIndex(
-                                            (el) => el.value == val?.optIrt
-                                          ) == -1
-                                            ? ""
-                                            : optIRT[
-                                            optIRT.findIndex(
-                                              (el) =>
-                                                el.value == val?.optIrt
-                                            )
-                                            ]
-                                        }
-                                        placeholder="Select IRT"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role</label>
-                                      {val?.optIrt == "yes" ? (
-                                        <Select
-                                          options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          value={
-                                            irtRole?.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                              irtRole?.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : val?.optIrt == "no" ? (
-                                        <Select
-                                          options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          value={
-                                            role?.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : role[
-                                              role?.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : (
-                                        <Select
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder="Select Role"
-                                        />
-                                      )}
-                                    </div>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label htmlFor="">Contact type</label>
-                                      <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
-                                        title={
-                                          hpc[i].contact_type != "" &&
-                                            hpc[i].contact_type != "undefined"
-                                            ? hpc[i].contact_type
-                                            : "Select Type"
-                                        }
-                                        onSelect={(event) =>
-                                          onContactTypeChange(event, i)
-                                        }
-                                      >
-                                        <Dropdown.Item
-                                          eventKey="HCP"
-                                          className={
-                                            hpc[i].contact_type == "HCP"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          HCP
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Staff"
-                                          className={
-                                            hpc[i].contact_type == "Staff"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Staff
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Test Users"
-                                          className={
-                                            hpc[i].contact_type == "Test Users"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Test Users
-                                        </Dropdown.Item>
-                                      </DropdownButton>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Country{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                        <span>*</span>
-                                      )}{" "}
-                                  </label>
-                                  {val?.optIrt == "yes" ? (
-                                    <>
-                                      <Select
-                                        options={irtCountry}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpCountry
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onCountryChange(event, i)
-                                        }
-                                        value={
-                                          irtCountry.findIndex(
-                                            (el) => el.value == val?.country
-                                          ) == -1
-                                            ? ""
-                                            : irtCountry[
-                                            irtCountry.findIndex(
-                                              (el) =>
-                                                el.value == val?.country
-                                            )
-                                            ]
-                                        }
-                                        placeholder="Select Country"
-                                        filterOption={createFilter(
-                                          filterConfig
-                                        )}
-                                        isClearable
-                                      />
-
-                                      {validationError?.newHcpCountry &&
-                                        validationError?.index == i && (
-                                          <div className="login-validation">
-                                            {validationError?.newHcpCountry}
-                                          </div>
-                                        )}
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Select
-                                        options={countryall}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpCountry
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        ss
-                                        onChange={(event) =>
-                                          onCountryChange(event, i)
-                                        }
-                                        value={
-                                          countryall.findIndex(
-                                            (el) => el.value == val?.country
-                                          ) == -1
-                                            ? ""
-                                            : countryall[
-                                            countryall.findIndex(
-                                              (el) =>
-                                                el.value == val?.country
-                                            )
-                                            ]
-                                        }
-                                        placeholder="Select Country"
-                                        filterOption={createFilter(
-                                          filterConfig
-                                        )}
-                                        isClearable
-                                      />
-                                      {validationError?.newHcpCountry &&
-                                        validationError?.index == i && (
-                                          <div className="login-validation">
-                                            {validationError?.newHcpCountry}
-                                          </div>
-                                        )}
-                                    </>
-                                  )}
-                                 
-                                </div>
-                              </div>
-                            
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site number</label>
-
-                                      <Select
-                                        options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteNumberChange(event, i)
-                                        }
-                                        value={
-                                          siteNumberAll[hpc[i]?.siteNumberIndex]
-                                            ? siteNumberAll[
-                                            hpc[i]?.siteNumberIndex
-                                            ]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Number"}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site name</label>
-
-                                      <Select
-                                        options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteNameChange(event, i)
-                                        }
-                                        value={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                            ? siteNameAll[hpc[i].siteNameIndex]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Name"}
-                                      />
-                                    </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                          <div className="hcp-modal-action">
-                            <div className="hcp-action-block">
-                              {activeManual == "active" ? (
-                                <>
-                                  {hpc.length > 1 && (
-                                    <div className="hcp-remove">
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        <img
-                                          src={path_image + "delete.svg"}
-                                          alt="Delete Row"
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
-                              ) : null}
-
-                              <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item add_hcp">
-                                  <a
-                                    id="add_hcp_btn"
-                                    onClick={addMoreHcp}
-                                    className="nav-link active btn-bordered"
-                                    data-bs-toggle="tab"
-                                    href="#add_hcp_form"
-                                  >
-                                    {localStorage.getItem("user_id") == userId
-                                      ? "Add User +"
-                                      : "Add HCP +"}
-                                  </a>
-                                </li>
-                               
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </form>               
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={saveClicked}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </Modal> */}
-
       <AddNewContactModal
         show={isOpenAdd}
         closeClicked={closeModalClicked}
@@ -2288,6 +1588,7 @@ if(location?.state?.selected==1){
         role={role}
         institutionType={institutionType}
         saveClicked={saveClicked}
+        validationError={validationError}
       />
     </>
   );

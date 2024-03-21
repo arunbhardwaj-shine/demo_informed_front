@@ -17,6 +17,8 @@ import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 import html2canvas from "html2canvas";
+import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
+import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
@@ -79,6 +81,7 @@ const WebinarAutoEmail = () => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [selectedListId, setSelectedListId] = useState(0);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -1173,6 +1176,15 @@ const WebinarAutoEmail = () => {
       toast.warning("Template not selected.");
     }
   };
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
+  }
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1974,7 +1986,7 @@ const WebinarAutoEmail = () => {
                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     className="form-control me-2"
-                    type="text"
+                    type="search"
                     placeholder="Search"
                     onChange={(e) => searchChange(e)}
                   />
@@ -2004,9 +2016,10 @@ const WebinarAutoEmail = () => {
                 smartListData.map((data) => {
                   return (
                     <>
-                      <div className="smartlist_box_block">
+                      <div className="smartlist_box_block new-smartlist">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
+                          <div className="mail-box-conten-title">
                             <h5>{data.name}</h5>
                             <div className="select-mail-option">
                               <input
@@ -2023,7 +2036,10 @@ const WebinarAutoEmail = () => {
                               />
                               <span className="checkmark"></span>
                             </div>
-                            <div className="mailbox-table">
+                          </div>
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+
+                            {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -2062,9 +2078,9 @@ const WebinarAutoEmail = () => {
                                   </tr>
                                 </tbody>
                               </table>
-                            </div>
+                            </div> */}
 
-                            <div className="mail-time">
+                            {/* <div className="mail-time">
                               <span>{data.created_at}</span>
                             </div>
                             <div className="smart-list-added-user">
@@ -2073,7 +2089,8 @@ const WebinarAutoEmail = () => {
                                 alt="User icon"
                               />
                               {data.readers_count}
-                            </div>
+                            </div> */}
+
                             {/*<div className="smartlist-buttons">
                                 <button className="btn btn-primary btn-bordered view">
                                   <a onClick={() => openSmartListPopup(data.id)}>
@@ -2188,6 +2205,11 @@ const WebinarAutoEmail = () => {
         institutionType={institutionType}
         saveClicked={saveClicked}
       />
+       {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>)
 };
 export default WebinarAutoEmail;
