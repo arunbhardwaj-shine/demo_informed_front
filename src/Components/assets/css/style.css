@@ -8239,6 +8239,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   max-width: 1057px;
   margin: 0 auto;
 }
+.smart-list-view .selected-hcp-list.expand, .smart-list-view .selected-hcp-list.expand table {
+  max-width: 100%;
+}
 .search-hcp .email_stats .accordion .accordion-item button.accordion-button {
   padding: 0 50px 0 20px;
 }
