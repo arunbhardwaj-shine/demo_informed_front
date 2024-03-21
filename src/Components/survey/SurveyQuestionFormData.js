@@ -399,15 +399,73 @@ const SurveyQuestionFormData = () => {
     <Col className="right-sidebar custom-change">
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <div className="custom-container">
-        <Row>
+        {/* <Row>
           <Col></Col>
-        </Row>
+        </Row> */}
 
         <Row>
-          <Col>
-          <div className="clear-search d-flex align-items-center">
+          {/* <Col> */}
+          <div className="top-header regi-web">
+            <div className="page-title">
+              <h2>Post Survey</h2>
+            </div>
+            <div className="top-right-action">
+              <div className="d-flex justify-content-end header_btns clear-search">
+                <a
+                  className={`btn-filled`}
+                  // href={`${window.location.protocol}//${window.location.host}survey/survey-question-form?event=${eventData?.eventCode}`}
+                  href={`https://events.docintel.app/survey/survey-question-form?event=${eventData?.eventCode}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // if (!isDataSaved) {
+                    //   return;
+                    // }
+                    console.dir();
+                    let newLink = e.currentTarget.getAttribute("href");
+                    copyToClipboard(newLink);
+                  }}
+                >
+                  Copy Link <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                    <g clip-path="url(#clip0_5323_1320)">
+                      <path d="M9.59862 1.59837L6.34653 4.85044C6.34025 4.85669 6.33634 4.86428 6.33009 4.87059C7.13125 4.75391 7.95428 4.83391 8.71722 5.13141L10.9244 2.92422C11.6556 2.193 12.8448 2.193 13.5761 2.92422C14.3073 3.65537 14.3073 4.84466 13.5761 5.57581C13.4514 5.70056 10.136 9.01597 10.324 8.82787C9.587 9.56494 8.37787 9.5334 7.67234 8.82787C7.30694 8.46247 6.712 8.46247 6.34653 8.82787L5.77734 9.39706C5.93522 9.66531 6.11622 9.92344 6.34653 10.1537C7.73528 11.5425 10.1257 11.6534 11.6297 10.1702C11.636 10.1639 11.6435 10.16 11.6498 10.1537L14.9019 6.90169C16.3663 5.43719 16.3663 3.06287 14.9019 1.59837C13.4374 0.133875 11.0631 0.133875 9.59862 1.59837Z" fill="white" />
+                      <path d="M7.29013 11.8627L5.07582 14.077C4.34466 14.8082 3.15538 14.8082 2.42423 14.077C1.69301 13.3458 1.69301 12.1566 2.42423 11.4254C2.54891 11.3007 5.87141 7.97818 5.68338 8.16621C6.42038 7.42921 7.62951 7.46068 8.33504 8.16621C8.70044 8.53168 9.29541 8.53168 9.66085 8.16621L10.23 7.59702C10.0722 7.32877 9.89116 7.07065 9.66085 6.8404C8.27476 5.45424 5.88607 5.3363 4.3777 6.82393C4.37141 6.83018 4.36385 6.83412 4.35754 6.8404L1.09835 10.0996C-0.366086 11.564 -0.366148 13.9384 1.09835 15.4029C2.56285 16.8673 4.93723 16.8673 6.40166 15.4029L9.66082 12.1437C9.6671 12.1374 9.67101 12.1299 9.67726 12.1235C8.8761 12.2402 8.0531 12.1602 7.29013 11.8627Z" fill="white" />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_5323_1320">
+                        <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </a>
+
+                <button
+                  className="btn print"
+                  title="Download data"
+                  onClick={handleParent}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                      fill="#0066BE"
+                    />
+                    <path
+                      d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                      fill="#0066BE"
+                    />
+                  </svg>
+                </button>
+                </div>
+            </div>
+          </div>
+            {/* <div className="clear-search d-flex align-items-center">
                   <a
-                    className={`copy_link btn-voilet`}
+                    className={`copy_link btn-filled`}
                     // href={`${window.location.protocol}//${window.location.host}survey/survey-question-form?event=${eventData?.eventCode}`}
                     href={`https://events.docintel.app/survey/survey-question-form?event=${eventData?.eventCode}`}
                     onClick={(e) => {
@@ -420,7 +478,17 @@ const SurveyQuestionFormData = () => {
                       copyToClipboard(newLink);
                     }}
                   >
-                    Copy Survey Link
+                Copy Link <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                  <g clip-path="url(#clip0_5323_1320)">
+                    <path d="M9.59862 1.59837L6.34653 4.85044C6.34025 4.85669 6.33634 4.86428 6.33009 4.87059C7.13125 4.75391 7.95428 4.83391 8.71722 5.13141L10.9244 2.92422C11.6556 2.193 12.8448 2.193 13.5761 2.92422C14.3073 3.65537 14.3073 4.84466 13.5761 5.57581C13.4514 5.70056 10.136 9.01597 10.324 8.82787C9.587 9.56494 8.37787 9.5334 7.67234 8.82787C7.30694 8.46247 6.712 8.46247 6.34653 8.82787L5.77734 9.39706C5.93522 9.66531 6.11622 9.92344 6.34653 10.1537C7.73528 11.5425 10.1257 11.6534 11.6297 10.1702C11.636 10.1639 11.6435 10.16 11.6498 10.1537L14.9019 6.90169C16.3663 5.43719 16.3663 3.06287 14.9019 1.59837C13.4374 0.133875 11.0631 0.133875 9.59862 1.59837Z" fill="white" />
+                    <path d="M7.29013 11.8627L5.07582 14.077C4.34466 14.8082 3.15538 14.8082 2.42423 14.077C1.69301 13.3458 1.69301 12.1566 2.42423 11.4254C2.54891 11.3007 5.87141 7.97818 5.68338 8.16621C6.42038 7.42921 7.62951 7.46068 8.33504 8.16621C8.70044 8.53168 9.29541 8.53168 9.66085 8.16621L10.23 7.59702C10.0722 7.32877 9.89116 7.07065 9.66085 6.8404C8.27476 5.45424 5.88607 5.3363 4.3777 6.82393C4.37141 6.83018 4.36385 6.83412 4.35754 6.8404L1.09835 10.0996C-0.366086 11.564 -0.366148 13.9384 1.09835 15.4029C2.56285 16.8673 4.93723 16.8673 6.40166 15.4029L9.66082 12.1437C9.6671 12.1374 9.67101 12.1299 9.67726 12.1235C8.8761 12.2402 8.0531 12.1602 7.29013 11.8627Z" fill="white" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_5323_1320">
+                      <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
+                    </clipPath>
+                  </defs>
+                </svg>
                   </a>
                 
                     <button
@@ -446,7 +514,7 @@ const SurveyQuestionFormData = () => {
                       </svg>
                     </button>
             
-            </div>
+            </div> */}
             <div className="survey-rating" style={{ display: "flex" }} id='survey-card'>
               
               {Object.entries(progressBarData).map(
@@ -605,7 +673,7 @@ const SurveyQuestionFormData = () => {
                 <div className="survey_data_details">
                   <div className="survey_data_accordion_heading">
                       <Table className="fold-table" id="individual_completion">
-                        <thead>
+                      <thead className="sticky-header">
                           <tr>
                             <th>Name
                               <button
@@ -1092,7 +1160,7 @@ const SurveyQuestionFormData = () => {
                   {data?.map((item, index) => {
                     return (
                       <>
-                      <tr className={showDetails[index] ? 'show' : ''}  onClick={() => toggleDetails(index)}>
+                        <tr className={showDetails[index] ? 'view show' : 'view'}  onClick={() => toggleDetails(index)}>
                         <td>{item?.name ? item?.name : "N/A"}</td>
                         <td>{item?.email ? item?.email : "N/A"}</td>
                         <td>{item?.region ? item?.region : "N/A"}</td>
@@ -1145,7 +1213,7 @@ const SurveyQuestionFormData = () => {
                       </tr>
                       {showDetails[index] && (
                           <tr className="fold">
-                            <td colspan="7">
+                            <td colspan="8">
                            <div className="survey-data">
                               <h6>
                                 {" "}
@@ -1319,7 +1387,7 @@ const SurveyQuestionFormData = () => {
                 </div>
               )}
             </div>
-          </Col>
+          {/* </Col> */}
         </Row>
       </div>
       {modalOpen && (
@@ -1376,7 +1444,7 @@ const SurveyQuestionFormData = () => {
                           <tbody>
                             {userData?.map((item, index) => (
                               <>
-                                <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleDetails(index) : undefined} className={quesKey === 'suggestion' ? showDetails[index] ? 'show' : '' : ''}>
+                                <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleDetails(index) : undefined} className={quesKey === 'suggestion' ? showDetails[index] ? 'view show' : 'view' : ''}>
                                   <td>{item?.name ? item?.name : "N/A"}</td>
                                   <td>{item?.email ? item?.email : "N/A"}</td>
                                   <td>{item?.region ? item?.region : "N/A"}</td>
@@ -1419,8 +1487,8 @@ const SurveyQuestionFormData = () => {
                                   <td>{item?.created_at ? item?.created_at : "N/A"}</td>
                                 </tr>
                                 {quesKey === 'suggestion' && showDetails[index] && (
-                                  <tr key={`details-${index}`}>
-                                    <td colSpan="7">
+                                  <tr className="fold" key={`details-${index}`}>
+                                    <td colSpan="5">
                                     
                            <div className="survey-data">
                               <h6>

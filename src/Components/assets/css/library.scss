@@ -19489,6 +19489,7 @@ img.change-password-image {
   // background: rgba(0, 102, 190, 0.03);
   // border-radius: 20px;
   // padding: 16px;
+  padding: 0;
   margin: 20px 0;
   min-height: 86vh;
   max-height: 86vh;
@@ -19497,7 +19498,7 @@ img.change-password-image {
   flex-direction: column;
 
   .survey_data_heading {
-    margin: 0 0 8px;
+    margin: 0 0 22px;
 
     h4 {
       font-weight: 500;
@@ -19659,7 +19660,7 @@ img.change-password-image {
 .survey-rating {
   gap: 67px 4%;
   flex-wrap: wrap;
-  padding: 30px 0 50px;
+  padding: 30px 8px 50px;
 
   .question-rating {
     border-radius: 20px;
@@ -19705,8 +19706,17 @@ img.change-password-image {
         display: flex;
         justify-content: flex-end;
         padding-top: 16px;
-        border-top: 1px dashed #97B6CF;
         margin-top: 32px;
+        position: relative;
+
+        &:after {
+          border-top: 1px dashed #97B6CF;
+          top: 0;
+          content: "";
+          position: absolute;
+          width: calc(100% + 32px);
+          left: -16px;
+        }
 
         button {
           padding: 7px;
@@ -20270,6 +20280,53 @@ img.change-password-image {
     }
   }
 
+  .survey-rating {
+    gap: 67px 2%;
+
+    .question-rating {
+      width: 23.5%;
+      flex: 0 0 23.5%;
+
+      .question-list {
+        span {
+          font-size: 14px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+
+      .rating {
+        padding: 25px 0 5px;
+
+        h2 {
+          font-size: 30px;
+
+          &span {
+            font-size: 23px;
+          }
+        }
+      }
+
+      .post-survey-rating {
+        .survey-rating-detail {
+          &>h5 {
+            font-size: 14px;
+
+            svg {
+              width: 14px;
+            }
+          }
+
+          .progress {
+            min-height: 18px;
+          }
+        }
+      }
+    }
+  }
+
   .modules-diagram .pharma_market.circle .stat.docintel.active:after {
     width: 85px;
     left: 80px;
@@ -20792,6 +20849,63 @@ img.change-password-image {
       }
     }
   }
+
+  .survey-rating {
+
+    .question-rating {
+      padding: 11px;
+
+      .question-list {
+        span {
+          font-size: 14px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+
+      .rating {
+        padding: 25px 0 5px;
+
+        h2 {
+          font-size: 30px;
+
+          &span {
+            font-size: 23px;
+          }
+        }
+      }
+
+      .post-survey-rating {
+        .survey-rating-detail {
+          &>h5 {
+            font-size: 13px;
+
+            svg {
+              width: 13px;
+            }
+          }
+
+          .survey-rating-number {
+            font-size: 13px;
+            min-width: 30px;
+          }
+        }
+      }
+
+      .post-survey-rating-list {
+        .post-survey-btn {
+          margin-top: 22px;
+
+          &:after {
+            width: calc(100% + 22px);
+            left: -11px;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -21303,6 +21417,61 @@ img.change-password-image {
   .register-page-right-view {
     margin: 40px auto 10px;
   }
+
+  .survey-rating {
+    .question-rating {
+
+      .question-list {
+        span {
+          font-size: 13px;
+        }
+
+        p {
+          font-size: 13px;
+        }
+      }
+
+      .rating {
+        padding: 25px 0 5px;
+
+        h2 {
+          font-size: 24px;
+
+          &>svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          span {
+            font-size: 18px;
+          }
+        }
+      }
+
+      .post-survey-rating {
+        gap: 15px;
+
+        .survey-rating-detail {
+          &>h5 {
+            font-size: 13px;
+
+            svg {
+              width: 13px;
+            }
+          }
+        }
+
+        .post-survey-rating-list {
+          .post-survey-btn {
+            &:after {
+              width: calc(100% + 22px);
+              left: -11px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 
@@ -21525,6 +21694,17 @@ img.change-password-image {
   .custom-change .top-sticky {
     top: 48px;
   }
+
+  .survey-rating {
+    gap: 30px 2%;
+    padding: 15px 8px 50px; 
+    .question-rating {
+      width: 32%;
+      flex: 0 0 32%;
+    }
+  }
+
+
 
   .survey_data .survey_data_heading .clear-search a.btn-voilet {
     padding: 5px 16px;
