@@ -95,6 +95,8 @@ const SetPopup = (props) => {
     { value: "25000", label: "25 Second" },
     { value: "25000000", label: "No Pop-up" },
   ]);
+  // const templateIdRef=useRef(null)
+  // const linkingPayload=useRef(null)
 
   const responsive = {
     0: { items: 1 },
