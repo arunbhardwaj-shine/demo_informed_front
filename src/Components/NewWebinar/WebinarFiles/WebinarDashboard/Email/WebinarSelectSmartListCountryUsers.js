@@ -1954,6 +1954,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 // role={role}
                 // institutionType={institutionType}
                 saveClicked={saveClicked}
+                validationError={validationError}
             />
         </>
     );

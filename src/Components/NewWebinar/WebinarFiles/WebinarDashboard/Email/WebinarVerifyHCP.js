@@ -59,7 +59,7 @@ const WebinarVerifyHCP = (props) => {
                 ? props.getWebinarDraftData?.campaign_id
                 : "";
     }
-
+    const [validationError, setValidationError] = useState({});
     const [campaign_id_st, setCampaign_id] = useState(campaign_id);
     const [templateId, setTemplateId] = useState(0);
     const [name, setName] = useState("");
@@ -636,7 +636,7 @@ const WebinarVerifyHCP = (props) => {
                 smart_list_id: "",
             };
 
-            const status = body?.data?.map((data) => {
+            const status = body?.data?.map((data,index) => {
                 if (
                     data?.email == "" ||
                     data?.institution_type == "" ||
@@ -648,21 +648,43 @@ const WebinarVerifyHCP = (props) => {
                         data?.first_name == "" &&
                         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                     ) {
+                        setValidationError({
+                            newHcpFirstName: "Please enter the first name",
+                            index: index,
+                        });
                         return "Please enter the first name";
                     } else if (
                         data?.last_name == "" &&
                         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                     ) {
+                        setValidationError({
+                            newHcpLastName: "Please enter the last name",
+                            index: index,
+                        });
                         return "Please enter the last name";
                     } else if (data?.email == "") {
+
+                        setValidationError({
+                            newHcpEmail: "Please enter the email atleast",
+                            index: index,
+                        });
                         return "Please enter the email atleast";
                     }
 
                     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
                         if (data?.institution_type == "") {
-                            return "Please enter the institution ";
+                            setValidationError({
+                                newHcpInstitution: "Please Select the institution ",
+                                index: index,
+                            });
+                            return "Please Select the institution ";
                         }
                         if (data?.country == "") {
+
+                            setValidationError({
+                                newHcpCountry: "Please select the country",
+                                index: index,
+                            });
                             return "Please select the country";
                         }
                     }
@@ -674,9 +696,17 @@ const WebinarVerifyHCP = (props) => {
                     if (regex.test(String(useremail).toLowerCase())) {
                         let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
                         if (typeof prev_obj != "undefined") {
+                            setValidationError({
+                                newHcpEmail: "User with same email already added in list.",
+                                index: index,
+                            });
                             return "User with same email already added in list.";
                         }
                     } else {
+                        setValidationError({
+                            newHcpEmail: "Email format is not valid",
+                            index: index,
+                        });
                         return "Email format is not valid";
                     }
                     return "true";
@@ -1999,6 +2029,7 @@ const WebinarVerifyHCP = (props) => {
                 role={role}
                 institutionType={institutionType}
                 saveClicked={saveClicked}
+                validationError={validationError}
             />
         </>
     );

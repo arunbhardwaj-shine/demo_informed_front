@@ -2208,6 +2208,7 @@ const WebinarAutoEmail = () => {
         role={role}
         institutionType={institutionType}
         saveClicked={saveClicked}
+        validationError={validationError}
       />
        {
         selectedListId ?
