@@ -19669,6 +19669,8 @@ img.change-password-image {
     width: 22%;
     flex: 0 0 22%;
     min-height: 300px;
+    display: flex;
+    flex-direction: column;
 
     .question-list {
       display: flex;
@@ -19696,18 +19698,35 @@ img.change-password-image {
       }
     }
 
+    .post-survey-rating-list {
+      height: 100%;
+
+      .post-survey-btn {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 16px;
+        border-top: 1px dashed #97B6CF;
+        margin-top: 32px;
+
+        button {
+          padding: 7px;
+          min-width: 82px;
+        }
+      }
+    }
+
     .rating {
-      padding: 32px 0;
+      padding: 32px 0 5px;
       position: relative;
 
-      &:after {
-        border-bottom: 1px dashed #97B6CF;
-        bottom: 0;
-        content: "";
-        position: absolute;
-        width: calc(100% + 32px);
-        left: -16px;
-      }
+      // &:after {
+      //   border-bottom: 1px dashed #97B6CF;
+      //   bottom: 0;
+      //   content: "";
+      //   position: absolute;
+      //   width: calc(100% + 32px);
+      //   left: -16px;
+      // }
 
       h2 {
         color: #004A89;

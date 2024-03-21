@@ -479,7 +479,7 @@ const SurveyQuestionFormData = () => {
                         }}
                       ></h2>
                     </div>
-                    <div className="post-survey-rating-list">
+                    <div className="post-survey-rating-list d-flex justify-content-between flex-column">
                       <div className="post-survey-rating">
                       {Object.entries(item.rating)
                         .sort((a, b) => parseInt(b) - parseInt(a))
