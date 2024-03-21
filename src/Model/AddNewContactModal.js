@@ -4,7 +4,7 @@ import Select, { createFilter } from 'react-select';
 import { toast } from "react-toastify";
 
 const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc, 
-    totalData, countryall,irtCountry,irtRole,role,institutionType,saveClicked }) => {
+    totalData, countryall,irtCountry,irtRole,role,institutionType,saveClicked,validationError }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     
     const [siteNameAll, setSiteNameAll] = useState([]);
@@ -60,7 +60,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
         }
     };
 
-    const onInstitionTypeChange = (e, i) => {
+    const onInstitutionChange = (e, i) => {
         if (e == "") {
 
             const list = [...hpc];
@@ -326,385 +326,530 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                     const fieldName = `hpc[${i}]`;
                                     return (
                                         <>
-                                            <div className="add_hcp_boxes">
-                                                <div className="form_action">
-                                                    <div className="row">
-                                                        <div className="col-12 col-md-6">
-                                                            <div className="form-group">
-                                                                <label htmlFor="">
-                                                                    First name {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? <span>*</span> : null}
+                                          <div className="add_hcp_boxes" key={i}>
+                          <div className="form_action">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    First name{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        <span>*</span>
+                                      )}{" "}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className={
+                                      validationError?.newHcpFirstName &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    onChange={(event) =>
+                                      onFirstNameChange(event, i)
+                                    }
+                                    value={val.firstname}
+                                  />
+                                  {validationError?.newHcpFirstName &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpFirstName}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    Last name{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        <span>*</span>
+                                      )}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className={
+                                      validationError?.newHcpLastName &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
+                                    value={val.lastname}
+                                  />
+                                  {validationError?.newHcpLastName &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpLastName}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    Email <span>*</span>
+                                  </label>
+                                  <input
+                                    type="email"
+                                    className={
+                                      validationError?.newHcpEmail &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    id="email-desc"
+                                    name={`${fieldName}.email`}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
+                                    value={val.email}
+                                  />
+                                  {validationError?.newHcpEmail &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
 
-                                                                </label>
-                                                                <input
-                                                                    type="text"
-                                                                    className="form-control"
-                                                                    onChange={(event) =>
-                                                                        onFirstNameChange(event, i)
-                                                                    }
-                                                                    value={val.firstname}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-12 col-md-6">
-                                                            <div className="form-group">
-                                                                <label htmlFor="">Last name
-                                                                    {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? <span>*</span> : null}
-                                                                </label>
-                                                                <input
-                                                                    type="text"
-                                                                    className="form-control"
-                                                                    onChange={(event) =>
-                                                                        onLastNameChange(event, i)
-                                                                    }
-                                                                    value={val.lastname}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-12 col-md-6">
-                                                            <div className="form-group">
-                                                                <label htmlFor="">
-                                                                    Email <span>*</span>
-                                                                </label>
-                                                                <input
-                                                                    type="email"
-                                                                    className="form-control"
-                                                                    id="email-desc"
-                                                                    name={`${fieldName}.email`}
-                                                                    onChange={(event) =>
-                                                                        onEmailChange(event, i)
-                                                                    }
-                                                                    value={val.email}
-                                                                />
-                                                            </div>
-                                                        </div>
+                              {localStorage.getItem("user_id") ===
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        defaultValue={
+                                          val?.institutionType
+                                            ? {
+                                              label: val?.institutionType,
+                                              value: val?.institutionType,
+                                            }
+                                            : ""
+                                        }
+                                        placeholder="Select institution"
+                                      />
+                                      {validationError?.newHcpInstitution &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
 
-                                                        {localStorage.getItem("user_id") ===
-                                                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                            <>
-                                                                {" "}
-                                                                <div className="col-12 col-md-6">
-                                                                    <div className="form-group bottom">
-                                                                        <label for="">Institution <span>*</span>
-                                                                        </label>
-                                                                        <Select
-                                                                            options={institutionType}
-                                                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      <Select
+                                        options={optIRT}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onIRTChange(event?.value, i)
+                                        }
+                                        defaultValue={
+                                          val?.optIRT == "yes"
+                                            ? {
+                                              label: "Yes",
+                                              value: val?.optIRT,
+                                            }
+                                            : ""
+                                        }
+                                        value={
+                                          optIRT.findIndex(
+                                            (el) => el.value == val?.optIRT
+                                          ) == -1
+                                            ? ""
+                                            : optIRT[
+                                            optIRT.findIndex(
+                                              (el) =>
+                                                el.value == val?.optIRT
+                                            )
+                                            ]
+                                        }
+                                        placeholder="Select IRT"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT role</label>
+                                      {val.optIRT == "yes" ? (
+                                        <Select
+                                          options={irtRole}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i, "role")
+                                          }
+                                          value={
+                                            irtRole.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : irtRole[
+                                              irtRole.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : val.optIRT == "no" ? (
+                                        <Select
+                                          options={role}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onRoleChange(event, i, "irtRole")
+                                          }
+                                          value={
+                                            role.findIndex(
+                                              (el) => el.value == val?.role
+                                            ) == -1
+                                              ? ""
+                                              : role[
+                                              role.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Role"
+                                        />
+                                      ) : (
+                                        <Select
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          placeholder="Select Role"
+                                        />
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label htmlFor="">Contact type</label>
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          hpc[i].contact_type != "" &&
+                                            hpc[i].contact_type != "undefined"
+                                            ? hpc[i].contact_type
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onContactTypeChange(event, i)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    Country{" "}
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                      "m5JI5zEDY3xHFTZBnSGQZg==") && (
+                                        <span>*</span>
+                                      )}
+                                  </label>
+                                  {val.optIRT == "yes" ? (
+                                    <>
+                                      <Select
+                                        options={irtCountry}
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpCountry
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                        value={
+                                          irtCountry.findIndex(
+                                            (el) => el.value == val?.country
+                                          ) == -1
+                                            ? ""
+                                            : irtCountry[
+                                            irtCountry.findIndex(
+                                              (el) =>
+                                                el.value == val?.country
+                                            )
+                                            ]
+                                        }
+                                        placeholder="Select Country"
+                                        filterOption={createFilter(
+                                          filterConfig
+                                        )}
+                                        isClearable
+                                      />
+                                      {validationError?.newHcpCountry &&
+                                        validationError?.index == i && (
+                                          <div className="login-validation">
+                                            {validationError?.newHcpCountry}
+                                          </div>
+                                        )}
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Select
+                                        options={countryall}
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpCountry
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                        value={
+                                          countryall.findIndex(
+                                            (el) => el.value == val?.country
+                                          ) == -1
+                                            ? ""
+                                            : countryall[
+                                            countryall.findIndex(
+                                              (el) =>
+                                                el.value == val?.country
+                                            )
+                                            ]
+                                        }
+                                        placeholder="Select Country"
+                                        filterOption={createFilter(
+                                          filterConfig
+                                        )}
+                                        isClearable
+                                      />
+                                      {validationError?.newHcpCountry &&
+                                        validationError?.index == i && (
+                                          <div className="login-validation">
+                                            {validationError?.newHcpCountry}
+                                          </div>
+                                        )}
+                                    </>
+                                  )}
 
-                                                                            onChange={(event) =>
-                                                                                onInstitionTypeChange(event, i)
-                                                                            }
-                                                                            defaultValue={
-                                                                                val?.institutionType
-                                                                                    ? {
-                                                                                        label: val?.institutionType,
-                                                                                        value: val?.institutionType,
-                                                                                    }
-                                                                                    : ""
-                                                                            }
-                                                                            placeholder="Select Institution"
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-12 col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label for="">
-                                                                            IRT mandatory training
-                                                                        </label>
+                                  {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                   onSelect={(event) => onCountryChange(event, i)}
+                                   >
+                                    <div className="scroll_div">
+                                    {countryall.length === 0
+                                     ? ""
+                                     : Object.entries(countryall).map(
+                                         ([index, item]) => {
+                                           return (
+                                             <>
+                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                             </>
+                                           );
+                                         }
+                                       )}
+                                    </div>
 
-                                                                        <Select
-                                                                            options={optIRT}
-                                                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                            onChange={(event) =>
-                                                                                onIRTChange(event?.value, i)
-                                                                            }
-                                                                            defaultValue={
-                                                                                val?.optIrt
-                                                                                    ? {
-                                                                                        label: "Yes",
-                                                                                        value: val?.optIrt,
-                                                                                    }
-                                                                                    : ""
-                                                                            }
-                                                                            value={
-                                                                                optIRT.findIndex(
-                                                                                    (el) => el.value == val?.optIrt
-                                                                                ) == -1
-                                                                                    ? ""
-                                                                                    : optIRT[
-                                                                                    optIRT.findIndex(
-                                                                                        (el) =>
-                                                                                            el.value == val?.optIrt
-                                                                                    )
-                                                                                    ]
-                                                                            }
-                                                                            placeholder="Select IRT"
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-12 col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label for="">IRT role</label>
-                                                                        {val?.optIrt == "yes" ? (
-                                                                            <Select
-                                                                                options={irtRole}
-                                                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                                onChange={(event) =>
-                                                                                    onRoleChange(event, i)
-                                                                                }
-                                                                                value={
-                                                                                    irtRole?.findIndex(
-                                                                                        (el) => el.value == val?.role
-                                                                                    ) == -1
-                                                                                        ? ""
-                                                                                        : irtRole[
-                                                                                        irtRole?.findIndex(
-                                                                                            (el) =>
-                                                                                                el.value == val?.role
-                                                                                        )
-                                                                                        ]
-                                                                                }
-                                                                                isClearable
-                                                                                placeholder="Select Role"
-                                                                            />
-                                                                        ) : val?.optIrt == "no" ? (
-                                                                            <Select
-                                                                                options={role}
-                                                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                                onChange={(event) =>
-                                                                                    onRoleChange(event, i)
-                                                                                }
-                                                                                value={
-                                                                                    role?.findIndex(
-                                                                                        (el) => el.value == val?.role
-                                                                                    ) == -1
-                                                                                        ? ""
-                                                                                        : role[
-                                                                                        role?.findIndex(
-                                                                                            (el) =>
-                                                                                                el.value == val?.role
-                                                                                        )
-                                                                                        ]
-                                                                                }
-                                                                                isClearable
-                                                                                placeholder="Select Role"
-                                                                            />
-                                                                        ) : (
-                                                                            <Select
-                                                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                                placeholder="Select Role"
-                                                                            />
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <div className="col-12 col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label htmlFor="">Contact type</label>
-                                                                        <DropdownButton
-                                                                            className="dropdown-basic-button split-button-dropup"
-                                                                            title={
-                                                                                hpc[i]?.contact_type != "" &&
-                                                                                    hpc[i]?.contact_type != "undefined"
-                                                                                    ? hpc[i]?.contact_type
-                                                                                    : "Select Type"
-                                                                            }
-                                                                            onSelect={(event) =>
-                                                                                onContactTypeChange(event, i)
-                                                                            }
-                                                                        >
-                                                                            <Dropdown.Item
-                                                                                eventKey="HCP"
-                                                                                className={
-                                                                                    hpc[i]?.contact_type == "HCP"
-                                                                                        ? "active"
-                                                                                        : ""
-                                                                                }
-                                                                            >
-                                                                                HCP
-                                                                            </Dropdown.Item>
-                                                                            <Dropdown.Item
-                                                                                eventKey="Staff"
-                                                                                className={
-                                                                                    hpc[i]?.contact_type == "Staff"
-                                                                                        ? "active"
-                                                                                        : ""
-                                                                                }
-                                                                            >
-                                                                                Staff
-                                                                            </Dropdown.Item>
-                                                                            <Dropdown.Item
-                                                                                eventKey="Test Users"
-                                                                                className={
-                                                                                    hpc[i]?.contact_type == "Test Users"
-                                                                                        ? "active"
-                                                                                        : ""
-                                                                                }
-                                                                            >
-                                                                                Test Users
-                                                                            </Dropdown.Item>
-                                                                        </DropdownButton>
-                                                                    </div>
-                                                                </div>
-                                                            </>
-                                                        )}
-                                                        <div className="col-12 col-md-6">
-                                                            <div className="form-group">
-                                                                <label htmlFor="">
-                                                                    Country
-                                                                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
-                                                                        localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") ? <span>*</span> : null}
-                                                                </label>
-                                                                {val?.optIrt == "yes" ? (
-                                                                    <Select
-                                                                        options={irtCountry}
-                                                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                        onChange={(event) =>
-                                                                            onCountryChange(event, i)
-                                                                        }
-                                                                        value={
-                                                                            irtCountry.findIndex(
-                                                                                (el) => el?.value == val?.country
-                                                                            ) == -1
-                                                                                ? ""
-                                                                                : irtCountry[
-                                                                                irtCountry?.findIndex(
-                                                                                    (el) => el?.value == val?.country
-                                                                                )
-                                                                                ]
-                                                                        }
-                                                                        placeholder="Select Country"
-                                                                        filterOption={createFilter(filterConfig)}
-                                                                        isClearable
-                                                                    />
-                                                                ) : (
-                                                                    <Select
-                                                                        options={countryall}
-                                                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                        onChange={(event) =>
-                                                                            onCountryChange(event, i)
-                                                                        }
-                                                                        value={
-                                                                            countryall?.findIndex(
-                                                                                (el) => el?.value == val?.country
-                                                                            ) == -1
-                                                                                ? ""
-                                                                                : countryall[
-                                                                                countryall?.findIndex(
-                                                                                    (el) => el?.value == val?.country
-                                                                                )
-                                                                                ]
-                                                                        }
-                                                                        placeholder="Select Country"
-                                                                        filterOption={createFilter(filterConfig)}
-                                                                        isClearable
-                                                                    />
-                                                                )}
-                                                            </div>
-                                                        </div>
+                                  </DropdownButton>
 
-                                                        {localStorage.getItem("user_id") ==
-                                                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                            <>
-                                                                <div className="col-12 col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label for="">Site number</label>
+                                    <select
+                                      className="country-form"
+                                      aria-label="select"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                    >
+                                      <option value="" selected>
+                                        Select Country
+                                      </option>
 
-                                                                        <Select
-                                                                            options={siteNumberAll}
-                                                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                            onChange={(event) =>
-                                                                                onSiteNumberChange(event, i)
-                                                                            }
-                                                                            value={
-                                                                                siteNumberAll[hpc[i]?.siteNumberIndex]
-                                                                                    ? siteNumberAll[
-                                                                                    hpc[i]?.siteNumberIndex
-                                                                                    ]
-                                                                                    : ""
-                                                                            }
-                                                                            placeholder={
-                                                                                typeof siteNumberAll[
-                                                                                    hpc[i]?.siteNumberIndex
-                                                                                ] === "undefined"
-                                                                                    ? "Select Site Number"
-                                                                                    : siteNumberAll[
-                                                                                    hpc[i]?.siteNumberIndex
-                                                                                    ]
-                                                                            }
-                                                                        />
-                                                                    </div>
-                                                                </div>
+                                      {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                            ([index, item]) => {
+                                              return (
+                                                <>
+                                                  <option value={index} key={index}>
+                                                    {item}
+                                                  </option>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                    </select>
+                                    */}
+                                </div>
+                              </div>
+                              {/*<div className="col-12 col-md-6 btn_rmv">
+                                <div className="form-group">
+                                  {i !== 0 && (
+                                    <button
+                                      type="button"
+                                      className="btn btn-filled"
+                                      onClick={() => deleteRecord(i)}
+                                    >
+                                      Remove
+                                    </button>
+                                  )}
+                                </div>
+                              </div>*/}
+                              {localStorage.getItem("user_id") ===
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site number</label>
 
-                                                                <div className="col-12 col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label for="">Site name</label>
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        value={
+                                          siteNumberAll[hpc[i]?.siteNumberIndex]
+                                            ? siteNumberAll[
+                                            hpc[i]?.siteNumberIndex
+                                            ]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Number"}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site name</label>
 
-                                                                        <Select
-                                                                            options={siteNameAll}
-                                                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                            onChange={(event) =>
-                                                                                onSiteNameChange(event, i)
-                                                                            }
-                                                                            value={
-                                                                                siteNameAll[hpc[i]?.siteNameIndex]
-                                                                                    ? siteNameAll[hpc[i]?.siteNameIndex]
-                                                                                    : ""
-                                                                            }
-                                                                            placeholder={
-                                                                                typeof siteNameAll[
-                                                                                    hpc[i]?.siteNameIndex
-                                                                                ] === "undefined"
-                                                                                    ? "Select Site Name"
-                                                                                    : siteNameAll[hpc[i]?.siteNameIndex]
-                                                                            }
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                            </>
-                                                        ) : null}
-                                                    </div>
-                                                </div>
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(event, i)
+                                        }
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                            : ""
+                                        }
+                                        placeholder={"Select Site Name"}
+                                      />
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
 
-                                                <div className="hcp-modal-action">
-                                                    <div className="hcp-action-block">
-                                                        {activeManual == "active" ? (
-                                                            <>
-                                                                {hpc.length > 1 && (
-                                                                    <div className="hcp-remove">
-                                                                        <button
-                                                                            type="button"
-                                                                            className="btn btn-filled"
-                                                                            onClick={() => deleteRecord(i)}
-                                                                        >
-                                                                            <img
-                                                                                src={path_image + "delete.svg"}
-                                                                                alt="Delete Row"
-                                                                            />
-                                                                        </button>
-                                                                    </div>
-                                                                )}
-                                                            </>
-                                                        ) : null}
-                                                        <ul className="nav nav-tabs" role="tablist">
-                                                            <li className="nav-item add_hcp">
-                                                                <a
-                                                                    id="add_hcp_btn"
-                                                                    onClick={addMoreHcp}
-                                                                    className="nav-link btn-bordered"
-                                                                    data-bs-toggle="tab"
-                                                                    href="javascipt:;"
-                                                                >
-                                                                    {localStorage.getItem("user_id") == userId
-                                                                        ? "Add User +"
-                                                                        : "Add HCP +"}
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                          <div className="hcp-modal-action">
+                            <div className="hcp-action-block">
+                              {activeManual == "active" ? (
+                                <>
+                                  {hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Delete Row"
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+                              <ul className="nav nav-tabs" role="tablist">
+                                <li className="nav-item add_hcp">
+                                  <a
+                                    id="add_hcp_btn"
+                                    onClick={addMoreHcp}
+                                    className="nav-link btn-bordered"
+                                    data-bs-toggle="tab"
+                                    href="javascipt:;"
+                                  >
+                                    {localStorage.getItem("user_id") == userId
+                                      ? "Add User +"
+                                      : "Add HCP +"}
+                                  </a>
+                                </li>
+                                {/*<li className="nav-item add-file">
+                                    <a
+                                      id="add_file_btn"
+                                      onClick={(e) => addFile(e)}
+                                      className="nav-link btn-filled"
+                                      data-bs-toggle="tab"
+                                      href="javascipt:;"
+                                    >
+                                      Add File
+                                    </a>
+                                  </li>*/}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                                         </>
                                     );
                                 })}
