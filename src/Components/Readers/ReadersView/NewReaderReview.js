@@ -231,7 +231,7 @@ const NewReadersReview = () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
-      console.log(res,'resres')
+      // console.log(res,'resres')
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
@@ -312,7 +312,7 @@ const NewReadersReview = () => {
 
       // const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       const res = await postData(ENDPOINT.PROFILES_READER, payload);
-      console.log(res?.data?.data,'data')
+      // console.log(res?.data?.data,'data')
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -427,8 +427,8 @@ const NewReadersReview = () => {
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
-      console.log("Response from CRM:", res);
-      console.log("payload from CRM:",payload );
+      // console.log("Response from CRM:", res);
+      // console.log("payload from CRM:",payload );
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;

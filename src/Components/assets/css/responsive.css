@@ -47,6 +47,7 @@
     flex: 0 0 auto;
     width: 25%;
   }
+
   #send-sample.modal-dialog {
     height: calc(100% - 16rem);
   }
@@ -198,14 +199,17 @@
     right: -23px;
     top: 13px;
   }
-#add_hcp .modal-header h5,
-.modal-header h4,
-.modal-header h5 {
-  font-size: 22px;
-}
-#download-qr .modal-body .form-group label {
-  font-size: 16px;
-}
+
+  #add_hcp .modal-header h5,
+  .modal-header h4,
+  .modal-header h5 {
+    font-size: 22px;
+  }
+
+  #download-qr .modal-body .form-group label {
+    font-size: 16px;
+  }
+
   .page-top-nav .tabnav-link li a {
     font-size: 15px;
   }
@@ -243,19 +247,24 @@
     padding-left: 30px;
     padding-right: 30px;
   }
-.form-inline .form-group input,
-#tagsModal .modal-footer form .form-group input {
-  max-width: 565px;
-}
-.form-inline .form-group input#email-address {
-  max-width: 320px;
-}
-.email-form .form-inline .form-group input[type="text"] {
-  min-width: 280px;
-}
-.form-inline .form-group input#email-address {
-  max-width: 295px;
-}
+
+  .form-inline .form-group input,
+  #tagsModal .modal-footer form .form-group input {
+    max-width: 565px;
+  }
+
+  .form-inline .form-group input#email-address {
+    max-width: 320px;
+  }
+
+  .email-form .form-inline .form-group input[type="text"] {
+    min-width: 280px;
+  }
+
+  .form-inline .form-group input#email-address {
+    max-width: 295px;
+  }
+
   .register-popup-view .footer-inner::before {
     left: 65%;
   }
@@ -398,6 +407,20 @@
     font-size: 13px;
     padding: 9px;
     min-width: 85px;
+  }
+
+  .survey_data_accordion_heading table thead tr th:first-child,
+  .survey_data_accordion_heading table tbody tr td:first-child {
+    width: 210px;
+  }
+
+  .survey_data_accordion_heading table thead tr th:nth-child(2),
+  .survey_data_accordion_heading table tbody tr td:nth-child(2) {
+    width: 270px;
+  }
+
+  .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 70px;
   }
 
   .stream-url input.form-control,
@@ -557,21 +580,26 @@
   .mail-recipt-right .mail-content-select-box {
     width: 100%;
   }
-    .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
-      max-width: 100%;
-    }
+
+  .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
+    max-width: 100%;
+  }
 }
 
 @media only screen and (max-width: 1450px) {
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 16px;
   }
-.create-smart-step-box .form-group.col {
-  max-width: 50%;
-}
-.template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3), .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+
+  .create-smart-step-box .form-group.col {
+    max-width: 50%;
+  }
+
+  .template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3),
+  .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
     min-height: 40px;
-}
+  }
+
   .filter-block {
     padding: 10px;
   }
@@ -799,13 +827,15 @@
     line-height: 38px;
   }
 
-  .table-title .selected-hcp-table-action a.show-less-info {
+  .table-title .selected-hcp-table-action a.show-less-info,   .table-title .selected-hcp-table-action a.show-less-info p {
     font-size: 14px;
     line-height: 16px;
   }
-
+a.show-less-info p::after {
+  top: 1px;
+}
   a.show-less-info p:after {
-    line-height: 11px;
+    line-height: 13px;
   }
 
   .right-sidebar {
@@ -924,7 +954,7 @@
 
   header nav.navbar {
     padding: 12px 10px;
-    min-height:80px;
+    min-height: 80px;
   }
 
   .sidebar-menu ul li {
@@ -1139,9 +1169,11 @@
   .smartlist-view .mail-box-content {
     padding: 12px 12px 10px;
   }
-.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
     padding: 1px 10px;
-}
+  }
+
   .verify-mail-box {
     padding: 15px 15px 11px 15px;
   }
@@ -1366,9 +1398,11 @@
     width: 160px;
     flex: 0 0 160px;
   }
-.email-form .form-inline .form-group input[type="text"] {
+
+  .email-form .form-inline .form-group input[type="text"] {
     min-width: 280px;
-}
+  }
+
   .form-buttons .btn {
     height: 36px;
     padding: 6px 16px;
@@ -1655,41 +1689,69 @@
   .event-status-msg p {
     font-size: 14px;
   }
-    .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3)>div div {
-      margin: 0;
-    }
-        .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
-          padding: 4px 50px 4px 15px;
-          min-height: 36px;
-        }
+
+  .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3)>div div {
+    margin: 0;
+  }
+
+  .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
+    padding: 4px 50px 4px 15px;
+    min-height: 36px;
+  }
 }
 
 @media only screen and (max-width: 1399px) {
   .question-outer-layout .question-action {
     gap: 30px;
   }
+
+  .survey_data_accordion_heading table thead tr th:first-child,
+  .survey_data_accordion_heading table tbody tr td:first-child,
+  .survey_data_accordion_heading table thead tr th:nth-child(5),
+  .survey_data_accordion_heading table tbody tr td:nth-child(5) {
+    width: 190px;
+  }
+
+  .survey_data_accordion_heading table thead tr th:nth-child(2),
+  .survey_data_accordion_heading table tbody tr td:nth-child(2){
+    width: 230px;
+  }
+
+  .survey_data_accordion_heading table tbody tr.view:after {
+    background-size: 13px;
+    width: 13px;
+    height: 8px;
+  }
+
   .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
     font-size: 12px;
-}
-.form-inline .form-group input#email-address {
-  max-width: 280px;
-}
-.email-form .form-inline .form-group input[type="text"] {
-  min-width: 250px;
-}
-.left-sidebar .sidebar_txt {
-  margin: 0px 0 0;
-}
-.sidebar-menu ul {
-  margin: 20px 0 0;
-}
-.sidebar-menu .sidebar-menu-secondary ul::-webkit-scrollbar {
-  display: none;
-}
-.sidebar-menu ul li {
-  margin-top: 9px;
-  margin-bottom: 9px;
-}
+  }
+
+  .form-inline .form-group input#email-address {
+    max-width: 280px;
+  }
+
+  .email-form .form-inline .form-group input[type="text"] {
+    min-width: 250px;
+  }
+
+  .left-sidebar .sidebar_txt {
+    margin: 0px 0 0;
+  }
+
+  .sidebar-menu ul {
+    margin: 20px 0 0;
+  }
+
+  .sidebar-menu .sidebar-menu-secondary ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-menu ul li {
+    margin-top: 9px;
+    margin-bottom: 9px;
+  }
+
   .poll-creation .question-outer-inset .question-boxed {
     padding: 5px;
   }
@@ -1936,35 +1998,60 @@
 }
 
 @media only screen and (max-width: 1365px) {
+  header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header {
+    top: 126px;
+  }
+    .survey_data_accordion_heading table thead tr th {
+      padding: 5px 8px 16px;
+    }
+        .survey_data_accordion_heading table tbody td {
+          padding: 17px 8px;
+        }
+.survey_data_accordion_heading table thead tr th:first-child,
+.survey_data_accordion_heading table tbody tr td:first-child,
+.survey_data_accordion_heading table thead tr th:nth-child(5),
+.survey_data_accordion_heading table tbody tr td:nth-child(5) {
+  width: 155px;
+}
+  .invitee table#table-to-xls thead.sticky-header {
+    top: 65px;
+  }
+
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
-    .create_smart_list {
-      margin-top: 30px;
-    }
-        .select-smart-list .filter_btn_div .apply-filter .filter-block {
-          padding: 4px 16px;
-        }
-.verify-email-detail .form-buttons.right-side {
-  margin: 0 0 10px;
-  display: flex;
-  justify-content: flex-end;
-}
 
-.verify-email-detail h6 {
-  font-size: 14px;
-  line-height: 17px;
-  margin-bottom: 7px;
-}
-.preview_mail h4,
-.verify-email-detail h4 {
-  font-size: 16px;
-}
-.verify-email-detail .form-buttons.right-side {
-  margin: 0 0 10px;
-  display: flex;
-  justify-content: flex-end;
-}
+  .create_smart_list {
+    margin-top: 30px;
+  }
+
+  .select-smart-list .filter_btn_div .apply-filter .filter-block {
+    padding: 4px 16px;
+  }
+
+  .verify-email-detail .form-buttons.right-side {
+    margin: 0 0 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .verify-email-detail h6 {
+    font-size: 14px;
+    line-height: 17px;
+    margin-bottom: 7px;
+  }
+
+  .preview_mail h4,
+  .verify-email-detail h4 {
+    font-size: 16px;
+  }
+
+  .verify-email-detail .form-buttons.right-side {
+    margin: 0 0 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 15px;
   }
@@ -2176,7 +2263,7 @@
 
   header nav.navbar {
     padding: 3px 10px;
-    min-height:62px;
+    min-height: 62px;
   }
 
   #add_hcp .modal-body .hcp-add-form form .form-group button {
@@ -2246,7 +2333,10 @@
     height: 35px;
     font-size: 14px;
   }
-
+.top-header.regi-web .header_btns a.btn-filled {
+    padding: 5px 16px;
+    font-size: 14px;
+}
   .invitee table .split-button-dropup>div:nth-child(3) {
     min-height: 34px;
   }
@@ -2461,9 +2551,11 @@
   header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-header {
     top: 130px;
   }
-header.top-0~div .custom-change .smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+
+  header.top-0~div .custom-change .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
     top: 55px;
-}
+  }
+
   header.top-0~div .custom-change .search-hcp table thead.sticky-header {
     top: 129px;
   }
@@ -2542,9 +2634,11 @@ header.top-0~div .custom-change .smart_list_names + .search-hcp.smart-list-view 
   .form-inline .form-group input#email-address {
     max-width: 235px;
   }
-.email-form .form-inline .form-group input[type="text"] {
+
+  .email-form .form-inline .form-group input[type="text"] {
     min-width: initial;
-}
+  }
+
   .mail-preview-img img {
     max-height: 72px;
     max-width: 63px;
@@ -2611,39 +2705,62 @@ header.top-0~div .custom-change .smart_list_names + .search-hcp.smart-list-view 
   .nav-item.user-login .dropdown #dropdown-basic {
     padding: 0 28px;
   }
+
   .result-hcp-table .selected-hcp-list {
     overflow-x: auto;
-}
-header.top-0~div .custom-chang .smart_list_names + .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  }
+
+  header.top-0~div .custom-chang .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
     top: 74px;
-}
+  }
+
+  .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    top: 64px;
+  }
+
+  header.top-0~div .custom-change .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header,
+  header.-top-24~div .custom-change .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+    z-index: 3;
+  }
 }
 
 @media only screen and (max-width: 1199px) {
   .dropdown-menu.filter-options {
     width: 270px;
   }
+.survey_data_accordion_heading table thead tr th:first-child,
+.survey_data_accordion_heading table tbody tr td:first-child,
+.survey_data_accordion_heading table thead tr th:nth-child(5),
+.survey_data_accordion_heading table tbody tr td:nth-child(5) {
+  width: 140px;
+}
   .new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
     flex: 0 0 125px;
-}
-    .select-mail-template .email-form {
-      padding: 0 12px;
-    }
-    .left-sidebar .sidebar_txt {
-      margin: 15px 0 0;
-    }
-.verify_email .verify-left {
-  width: 100%;
-}
-.verify_email .verify-right {
-  width: 100%;
-  margin: 20px 0 0;
-}
-.form-inline .form-group label {
-  width: 100%;
-  flex: 0 0 100%;
-  margin:0 0 3px;
-}
+  }
+
+  .select-mail-template .email-form {
+    padding: 0 12px;
+  }
+
+  .left-sidebar .sidebar_txt {
+    margin: 15px 0 0;
+  }
+
+  .verify_email .verify-left {
+    width: 100%;
+  }
+
+  .verify_email .verify-right {
+    width: 100%;
+    margin: 20px 0 0;
+  }
+
+  .form-inline .form-group label {
+    width: 100%;
+    flex: 0 0 100%;
+    margin: 0 0 3px;
+  }
+
   .apply-filter {
     padding-left: 10px;
     padding-right: 10px;
@@ -2765,7 +2882,7 @@ header.top-0~div .custom-chang .smart_list_names + .search-hcp.smart-list-view t
 
   header nav.navbar {
     padding: 3px 8px;
-    min-height:49px;
+    min-height: 49px;
   }
 
   .email-result-block {
@@ -3373,9 +3490,11 @@ header.top-0~div .custom-chang .smart_list_names + .search-hcp.smart-list-view t
     font-size: 20px;
     line-height: 24px;
   }
-.session-modal #pollModel {
-  max-width: 95%;
-}
+
+  .session-modal #pollModel {
+    max-width: 95%;
+  }
+
   .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
   }
@@ -3586,9 +3705,11 @@ header.top-0~div .custom-chang .smart_list_names + .search-hcp.smart-list-view t
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
-.register-popup-view .motivation-body .consent-form-inner .form-control#restiration {
-  font-size: 11px;
-}
+
+  .register-popup-view .motivation-body .consent-form-inner .form-control#restiration {
+    font-size: 11px;
+  }
+
   .page_not_found-inset {
     padding: 20px 20px 30px;
     width: 94%;
@@ -4598,9 +4719,11 @@ header.top-0~div .custom-chang .smart_list_names + .search-hcp.smart-list-view t
     left: 4px;
     top: 9px;
   }
-.session-modal #pollModel .form-group.no_child label {
-  line-height: 20px;
-}
+
+  .session-modal #pollModel .form-group.no_child label {
+    line-height: 20px;
+  }
+
   .left-sidebar.active~.right-sidebar {
     position: relative;
   }

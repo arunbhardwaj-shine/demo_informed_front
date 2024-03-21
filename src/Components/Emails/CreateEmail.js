@@ -18,12 +18,14 @@ import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
 import Select, { createFilter } from "react-select";
 import { Editor } from "@tinymce/tinymce-react";
+import SmartListLayout from "../CommonComponent/SmartListLayout";
 
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { ProgressBar } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 var dxr = 0;
 var state_object = {};
 
@@ -172,6 +174,7 @@ const CreateEmail = (props) => {
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
+  const [selectedListId, setSelectedListId] = useState(0);
 
   const [hpc, setHpc] = useState([
     {
@@ -1766,33 +1769,33 @@ const CreateEmail = (props) => {
     e.preventDefault();
     setShowLessInfo(!showLessInfo);
   };
-  const openSmartListPopup = async (smart_list_id) => {
-    setShowLessInfo(true);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      list_id: smart_list_id,
-      show_specific: 1,
-    };
-    loader("show");
-    await axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        if (res.data.status_code == 200) {
-          setAddListOpen(false);
-          setReaderDetails(res.data.response.data);
-          setSmartListName(res.data.response.smart_list_name);
-          setSmartListPopupStatus(true);
-        } else {
-          toast.warning(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        toast.warning("Something went wrong");
-        loader("hide");
-      });
-  };
+  // const openSmartListPopup = async (smart_list_id) => {
+  //   setShowLessInfo(true);
+  //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  //   const body = {
+  //     user_id: localStorage.getItem("user_id"),
+  //     list_id: smart_list_id,
+  //     show_specific: 1,
+  //   };
+  //   loader("show");
+  //   await axios
+  //     .post(`distributes/get_reders_list`, body)
+  //     .then((res) => {
+  //       if (res.data.status_code == 200) {
+  //         setAddListOpen(false);
+  //         setReaderDetails(res.data.response.data);
+  //         setSmartListName(res.data.response.smart_list_name);
+  //         setSmartListPopupStatus(true);
+  //       } else {
+  //         toast.warning(res.data.message);
+  //       }
+  //       loader("hide");
+  //     })
+  //     .catch((err) => {
+  //       toast.warning("Something went wrong");
+  //       loader("hide");
+  //     });
+  // };
 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
@@ -2130,6 +2133,17 @@ const CreateEmail = (props) => {
     });
   };
 
+
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
+  }
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -2242,7 +2256,7 @@ const CreateEmail = (props) => {
                   <input type="hidden" id="mail_template" value={templateId} />
                   {validator.message("Templates", templateId, "required")}
 
-                  <div className="email-form">
+                  <div className="email-form padding-add">
                     <form>
                       {localStorage.getItem("user_id") !=
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -2356,7 +2370,7 @@ const CreateEmail = (props) => {
                           </div>
                         </>
                       ) : null}
-                      <div className="input-group w-100">
+                      <div className="input-group row w-100">
                         <div className="input-group-prepend">
                           <button
                             className="btn btn-bordered btn-primary"
@@ -3059,7 +3073,7 @@ const CreateEmail = (props) => {
                 </div>
               */}
             </div>
-            <div className="col smartlist-result-block">
+            <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                 smartListData.map((data, index) => {
@@ -3068,6 +3082,7 @@ const CreateEmail = (props) => {
                       <div className="smartlist_box_block" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
                             <h5>{data.name}</h5>
                             <div className="select-mail-option">
                               <input
@@ -3084,7 +3099,9 @@ const CreateEmail = (props) => {
                               />
                               <span className="checkmark"></span>
                             </div>
-                            <div className="mailbox-table">
+                            </div>
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+                            {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -3134,7 +3151,7 @@ const CreateEmail = (props) => {
                                 alt="User icon"
                               />
                               {data.readers_count}
-                            </div>
+                            </div> */}
                             {/*
                                   <div className="mail-stats">
                                   <ul>
@@ -3179,13 +3196,13 @@ const CreateEmail = (props) => {
                                   </ul>
                                   </div>
                                 */}
-                            <div className="smartlist-buttons">
+                            {/* <div className="smartlist-buttons">
                               <button className="btn btn-primary btn-bordered view">
                                 <a onClick={() => openSmartListPopup(data.id)}>
                                   View
                                 </a>
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -3965,10 +3982,10 @@ const CreateEmail = (props) => {
             <div className="result-hcp-table">
               <div className="table-title">
                 <h4>
-                  HCPs{" "}
+                  HCPs {" "}
                   <span>
                     |
-                    {typeof getReaderDetails !== "undefined" &&
+                     {typeof getReaderDetails !== "undefined" &&
                       getReaderDetails.length > 0 &&
                       getReaderDetails.length}
                   </span>
@@ -4218,6 +4235,12 @@ const CreateEmail = (props) => {
       </Modal>
 
       {/*Reader Details popup end*/}
+
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };
