@@ -535,7 +535,7 @@ const WebinarCreateNewEmail = (props) => {
                             visible: "show",
                             message: "Your changes has been saved <br />successfully !",
                             type: "success",
-                            redirect: "/webinar/event-listing",
+                            redirect: "/webinar/email",
                         });
                         // toast.success("Draft saved");
                     } else {
