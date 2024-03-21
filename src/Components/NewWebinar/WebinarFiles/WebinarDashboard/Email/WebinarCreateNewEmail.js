@@ -1405,9 +1405,10 @@ const WebinarCreateNewEmail = (props) => {
     };
 
     const savenewtemplate = async (e) => {
+        console.log("i am here")
         e.preventDefault();
-        let template_name = document.getElementById("template_name").value;
-        let template_subject = document.getElementById("template_subject").value;
+        let template_name = document.getElementById("template_name").value?.trim();
+        let template_subject = document.getElementById("template_subject").value?.trim();
         let template_id = props?.getWebinarEmailData
             ? templateId
             : props?.getWebinarDraftData?.template_id;
@@ -1436,10 +1437,10 @@ const WebinarCreateNewEmail = (props) => {
                 await axios
                   .post(`webinar/add_update_template`, body)
                   .then((res) => {
-                    if (res.data.status_code === 200) {
+                    if (res?.data?.status_code === 200) {
                       getTemplateListData(1);
-                      setTemplateId(res.data.response.data.last_id);
-                      templateIdRef.current = res.data.response.data.last_id;
+                      setTemplateId(res?.data?.response?.data?.last_id);
+                      templateIdRef.current = res?.data?.response?.data?.last_id;
                     } else {
                       loader("hide");
                       toast.warning("Template not selected.");
