@@ -56,7 +56,7 @@ const FilterSegment = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
-    var x = localStorage.getItem("sd_i");
+    var x = localStorage.getItem("webinar_sd_i");
     if (x) {
       setStorageState(true);
     } else {
@@ -1282,9 +1282,9 @@ const FilterSegment = (props) => {
   };
 
   const closeCancelClicked = () => {
-    var x = localStorage.getItem("sd_i");
+    var x = localStorage.getItem("webinar_sd_i");
     if (x) {
-      localStorage.removeItem("sd_i");
+      localStorage.removeItem("webinar_sd_i");
       Navigate("/webinar/email/selectSmartList");
     } else {
       Navigate("/webinar/email/smartlist");

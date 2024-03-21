@@ -189,9 +189,9 @@ const CreateSmartList = () => {
   };
 
   const closeClicked = () => {
-    var x = localStorage.getItem("sd_i");
+    var x = localStorage.getItem("webinar_sd_i");
     if (x) {
-      localStorage.removeItem("sd_i");
+      localStorage.removeItem("webinar_sd_i");
       navigate("/webinar/email/selectSmartList");
     } else {
       navigate("/webinar/email/smartlist");

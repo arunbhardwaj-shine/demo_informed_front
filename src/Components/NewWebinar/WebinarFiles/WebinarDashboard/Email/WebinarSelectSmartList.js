@@ -235,34 +235,34 @@ const WebinarSelectSmartList = (props) => {
     console.log("in save as draft-->",body)
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    navigate("/webinar/email/smartlist/createsmartlist");
-    // loader("show");
-    // await axios
-    //   .post(`emailapi/save_draft`, body)
-    //   .then((res) => {
-    //     if (res?.data?.status_code === 200) {
-    //       setCampaign_id(res?.data?.response?.data?.id);
-    //       if (flag == "draft") {
-    //         popup_alert({
-    //           visible: "show",
-    //           message: "Your changes has been saved <br />successfully !",
-    //           type: "success",
-    //           redirect: "/EmailList",
-    //         });
-    //       } else {
-    //         body.campaign_id = res?.data?.response?.data?.id;
-    //         props.getWebinarDraftData(body);
-    //         localStorage.setItem("webinar_sd_i", res?.data?.response?.data?.id);
-    //         navigate("/webinar/email/createSmartList");
-    //       }
-    //     } else {
-    //       toast.warning(res?.data?.message);
-    //     }
-    //     loader("hide");
-    //   })
-    //   .catch((err) => {
-    //     toast.error("Something went wrong");
-    //   });
+    // navigate("/webinar/email/smartlist/createsmartlist");
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        if (res?.data?.status_code === 200) {
+          setCampaign_id(res?.data?.response?.data?.id);
+          if (flag == "draft") {
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/webinar/email",
+            });
+          } else {
+            body.campaign_id = res?.data?.response?.data?.id;
+            props.getWebinarDraftData(body);
+            localStorage.setItem("webinar_sd_i", res?.data?.response?.data?.id);
+            navigate("/webinar/email/smartlist/createsmartlist");
+          }
+        } else {
+          toast.warning(res?.data?.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        toast.error("Something went wrong");
+      });
   };
 
   const handleInputChange = (event, selected) => {
@@ -277,7 +277,7 @@ const WebinarSelectSmartList = (props) => {
 
   const redirectToList = () => {
     setpopupopeningstatus(false);
-    window.open("/webinar/email/createSmartList", "_blank");
+    window.open("/webinar/email/smartlist/createsmartlist", "_blank");
     // navigate("/CreateSmartList");
   };
 
@@ -290,22 +290,22 @@ const WebinarSelectSmartList = (props) => {
       show_specific: 1,
     };
     loader("show");
-    // await axios
-    //   .post(`distributes/get_reders_list`, body)
-    //   .then((res) => {
-    //     if (res?.data?.status_code == 200) {
-    //       setReaderDetails(res?.data?.response?.data);
-    //       setSmartListName(res?.data?.response?.smart_list_name);
-    //       setSmartListPopupStatus(true);
-    //     } else {
-    //       toast.warning(res?.data?.message);
-    //     }
-    //     loader("hide");
-    //   })
-    //   .catch((err) => {
-    //     toast.warning("Something went wrong");
-    //     loader("hide");
-    //   });
+    await axios
+      .post(`distributes/get_reders_list`, body)
+      .then((res) => {
+        if (res?.data?.status_code == 200) {
+          setReaderDetails(res?.data?.response?.data);
+          setSmartListName(res?.data?.response?.smart_list_name);
+          setSmartListPopupStatus(true);
+        } else {
+          toast.warning(res?.data?.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        toast.warning("Something went wrong");
+        loader("hide");
+      });
   };
 
   const showMoreInfo = (e) => {
@@ -392,51 +392,51 @@ const WebinarSelectSmartList = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
    
-    // await axios
-    //   .post(`distributes/create_upload_list`, formData)
-    //   .then((res) => {
-    //     if (res?.data?.status_code === 200) {
-    //       setUploadOrDownloadCount(100);
-    //       clearInterval(timer);
-    //       setTimeout(() => {
-    //         setFileUploadPopup(false);
-    //         getSmartListData(1);
-    //         popup_alert({
-    //           visible: "show",
-    //           message: "Smart list created.",
-    //           type: "success",
-    //         });
-    //         setShowProgressBar(false);
-    //         setUploadOrDownloadCount(0);
-    //       }, 1000);
-    //     } else {
-    //       clearInterval(timer);
-    //       setUploadOrDownloadCount(0);
+    await axios
+      .post(`distributes/create_upload_list`, formData)
+      .then((res) => {
+        if (res?.data?.status_code === 200) {
+          setUploadOrDownloadCount(100);
+          clearInterval(timer);
+          setTimeout(() => {
+            setFileUploadPopup(false);
+            getSmartListData(1);
+            popup_alert({
+              visible: "show",
+              message: "Smart list created.",
+              type: "success",
+            });
+            setShowProgressBar(false);
+            setUploadOrDownloadCount(0);
+          }, 1000);
+        } else {
+          clearInterval(timer);
+          setUploadOrDownloadCount(0);
 
-    //       setShowAlertPopup(true);
-    //       setShowProgressBar(false);
-    //       setFileUploadPopup(false);
-    //       popup_alert({
-    //         visible: "show",
-    //         message: res.data.message,
-    //         type: "error",
-    //       });
-    //     }
-    //     setCreatedListName("");
-    //     setCreatorName("");
-    //     setCustomIbu("");
+          setShowAlertPopup(true);
+          setShowProgressBar(false);
+          setFileUploadPopup(false);
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
+        setCreatedListName("");
+        setCreatorName("");
+        setCustomIbu("");
    
-    //   })
-    //   .catch((err) => {
-    //     clearInterval(timer);
-    //     setShowProgressBar(false);
-    //     setCreatedListName("");
-    //     setCreatorName("");
-    //     setCustomIbu("");
-    //     loader("hide");
-    //     toast.error("Something went wrong.");
-    //     setFileUploadPopup(false);
-    //   });
+      })
+      .catch((err) => {
+        clearInterval(timer);
+        setShowProgressBar(false);
+        setCreatedListName("");
+        setCreatorName("");
+        setCustomIbu("");
+        loader("hide");
+        toast.error("Something went wrong.");
+        setFileUploadPopup(false);
+      });
   };
 
   const handleSmartListName = async (event) => {
