@@ -333,6 +333,9 @@ const WebinarVerifyMAIL = (props) => {
           list_selection: props.getWebinarEmailData?.selected
             ? props.getWebinarEmailData?.selected
             : props.getWebinarDraftData?.campaign_data.list_selection,
+          auto_responder_id: props.getWebinarEmailData?.templateId
+            ? props.getWebinarEmailData?.templateId
+            : props.getWebinarDraftData?.campaign_data?.template_id, 
         },
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -340,7 +343,7 @@ const WebinarVerifyMAIL = (props) => {
       setShowProgressBar(true);
       if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg==') {
         await axios
-          .post(`emailapi/send_email_new`, body)
+          .post(`webinar/send_webinar_email_new`, body)
           .then((res) => {
             // loader("hide");
             if (res?.data?.status_code === 200) {
