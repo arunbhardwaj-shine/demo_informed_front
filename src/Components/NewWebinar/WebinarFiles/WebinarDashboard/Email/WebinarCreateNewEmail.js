@@ -663,9 +663,10 @@ const WebinarCreateNewEmail = (props) => {
                 ? emailDescription
                 : props?.getWebinarDraftData?.description,
             creator: props?.getWebinarEmailData ? emailCreator : props?.getWebinarDraftData?.creator,
-            campaign_name: props?.getWebinarEmailData
-                ? emailCampaign
-                : props?.getWebinarDraftData?.campaign,
+            // campaign_name: props?.getWebinarEmailData
+            //     ? emailCampaign
+            //     : props?.getWebinarDraftData?.campaign,
+            campaign_name:"webinar",
             subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
             route_location: "webinar/email/create-new-email",
             tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
@@ -1405,7 +1406,6 @@ const WebinarCreateNewEmail = (props) => {
     };
 
     const savenewtemplate = async (e) => {
-        console.log("i am here")
         e.preventDefault();
         let template_name = document.getElementById("template_name").value?.trim();
         let template_subject = document.getElementById("template_subject").value?.trim();
