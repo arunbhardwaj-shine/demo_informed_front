@@ -338,10 +338,10 @@ const WebinarSelectHCP = (props) => {
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                               onClick={(e) => handleInputChange(e, option?.id)}
                             >
-                              <input type="radio" name="select-option-hcp" value={option.value} />
-                              <img src={option.imageUrl} alt={option.alt} />
+                              <input type="radio" name="select-option-hcp" value={option?.value} />
+                              <img src={option?.imageUrl} alt={option.alt} />
                             </div>
-                            <p>{option.label}</p>
+                            <p>{option?.label}</p>
                           </li>
                         </>)
                       }
@@ -361,7 +361,7 @@ const WebinarSelectHCP = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  new_object = state.getSelectedSmartListData;
+  new_object = state.getWebinarSelectedSmartListData;
   old_object = state.getWebinarEmailData ? state.getWebinarEmailData : {};
   draft_object = state.getWebinarDraftData ? state.getWebinarDraftData : {};
   return state;

@@ -302,7 +302,13 @@ const WebinarSelectSmartListUsers = (props) => {
             ? props.getWebinarDraftData?.campaign_data?.list_selection
             : 0,
         removedHcp: removedReaders,
+        auto_responder_id: props.old_object?.templateId
+                ? props.old_object?.templateId
+                : props.getWebinarDraftData?.campaign_data?.template_id
       },
+      auto_responder_id: props.old_object?.templateId
+      ? props.old_object?.templateId
+      : props.getWebinarDraftData?.campaign_data?.template_id,
       campaign_id: campaign_id_st,
       source_code: old_object?.template
         ? old_object?.template

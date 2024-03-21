@@ -544,7 +544,7 @@ const WebinarCreateNewEmail = (props) => {
                         });
                         // toast.success("Draft saved");
                     } else {
-                        toast.warning(res.data.message);
+                        toast.warning(res?.data?.message);
                     }
                     loader("hide");
                 })

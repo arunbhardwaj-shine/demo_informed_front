@@ -256,10 +256,11 @@ const WebinarVerifyHcpMAIL = (props) => {
             const body = {
                 user_id: localStorage.getItem("user_id"),
                 route_location: "webinar/email/verifyHcpMAIL",
+                pdf_id:0,
                 // pdf_id: props.getWebinarEmailData?.PdfSelected
                 //     ? props.getWebinarEmailData?.PdfSelected
                 //     : props.getWebinarDraftData?.pdf_id,
-                   pdf_id: 0,
+                
                 subject: props.getWebinarEmailData?.emailSubject
                     ? props.getWebinarEmailData?.emailSubject
                     : props.getWebinarDraftData?.subject, 
@@ -278,9 +279,10 @@ const WebinarVerifyHcpMAIL = (props) => {
                     : props.getWebinarDraftData?.creator
                         ? props.getWebinarDraftData?.creator
                         : "",
-                campaign_name: props.getWebinarEmailData?.emailSubject
-                    ? props.getWebinarEmailData?.emailSubject
-                    : props.getWebinarDraftData?.subject,
+                        campaign_name:"webinar",
+                // campaign_name: props.getWebinarEmailData?.emailSubject
+                //     ? props.getWebinarEmailData?.emailSubject
+                //     : props.getWebinarDraftData?.subject,
                 tags: finalTags,
                 template_source_code: props.getWebinarEmailData?.template
                     ? props.getWebinarEmailData?.template
@@ -299,6 +301,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 ? props.getWebinarEmailData?.templateId
                 : props.getWebinarDraftData?.campaign_data?.template_id
             };
+            console.log("body list-->",body)
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==') {
@@ -674,7 +677,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                         </div>
                                         <div className="mail-recipt">
                                             <div className="row">
-                                                <div className="col-12 col-md-12 mail-recipt-right">
+                                                {/* <div className="col-12 col-md-12 mail-recipt-right">
                                                     <h6>Content that will be send</h6>
                                                     <p>
                                                         Content <span>| 1</span>
@@ -835,7 +838,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                             </div>
                                                         </>
                                                     )}
-                                                </div>
+                                                </div> */}
 
                                                 <div className="col-12 col-md-12 mail-recipt-left">
                                                     <h6>

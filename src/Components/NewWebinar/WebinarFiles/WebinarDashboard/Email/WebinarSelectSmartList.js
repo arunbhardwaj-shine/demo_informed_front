@@ -236,10 +236,7 @@ const WebinarSelectSmartList = (props) => {
       : props?.getWebinarDraftData?.campaign_data?.template_id
     };
 
-    console.log("in save as draft-->",body)
-
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    // navigate("/webinar/email/smartlist/createsmartlist");
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
