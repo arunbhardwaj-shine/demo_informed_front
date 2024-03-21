@@ -998,7 +998,6 @@ const WebinarCreateNewEmail = (props) => {
     };
 
     const sendsampeap = (event) => {
-        console.log("in sendsampeap")
         setHcpsSelected(selectedHcp);
         let i = 0;
         const intervals_spend = (25 / 100) * selectedHcp?.length;
@@ -1048,7 +1047,7 @@ const WebinarCreateNewEmail = (props) => {
             // pdf_id: state_object?.PdfSelected
             //   ? state_object?.PdfSelected
             //   : props?.getDraftData?.pdf_id,
-            eventId:eventId,
+            event_id:eventId,
             subject: emailSubject,
             template_id: templateId,
             user_list: selected_ids,
@@ -1056,8 +1055,9 @@ const WebinarCreateNewEmail = (props) => {
             source_code: template,
           };
     
-          //console.log(body);
-          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          console.log("body-->",body);
+         
+        //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     
         //   axios
         //     .post(`emailapi/send_sample_email`, body)
