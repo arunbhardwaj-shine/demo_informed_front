@@ -186,13 +186,38 @@ const WebinarCreateNewEmail = (props) => {
         getSmartListData(0);
     }, []);
 
+    const getSmartListData = (flag) => {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        const body = {
+            user_id: localStorage.getItem("user_id"),
+            search: getsearch,
+            filter: "",
+            event_id:eventId
+        };
+        loader("show");
+        axios
+            .post(`distributes/get_smart_list`, body)
+            .then((res) => {
+                setSmartListData(res?.data?.response?.data);
+                if (flag == 0) {
+                    setPrevSmartListData(res?.data?.response?.data);
+                } else {
+                    loader("hide");
+                }
+            })
+            .catch((err) => {
+                loader("hide");
+                console.log(err);
+            });
+    };
+
     useEffect(() => {
         loader("show");
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             axiosFun();
         }
         getalCountry();
-        loader("hide");
+        
     }, []);
 
     useEffect(() => {
@@ -385,30 +410,7 @@ const WebinarCreateNewEmail = (props) => {
         }
     }
 
-    const getSmartListData = (flag) => {
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        const body = {
-            user_id: localStorage.getItem("user_id"),
-            search: getsearch,
-            filter: "",
-            event_id:eventId
-        };
-        loader("show");
-        axios
-            .post(`distributes/get_smart_list`, body)
-            .then((res) => {
-                setSmartListData(res?.data?.response?.data);
-                if (flag == 0) {
-                    setPrevSmartListData(res?.data?.response?.data);
-                } else {
-                    loader("hide");
-                }
-            })
-            .catch((err) => {
-                loader("hide");
-                console.log(err);
-            });
-    };
+    
 
     const showMoreInfo = (e) => {
         e.preventDefault();
