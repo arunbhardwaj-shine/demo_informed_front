@@ -34,9 +34,17 @@ const SurveyQuestionFormData = () => {
   const [usersData, setUsersData] = useState(null);
   const [userDetails, setUserDetails] = useState([]);
   const [showDetails, setShowDetails] = useState({});
+  const [showAnswerDetails, setShowAnswerDetails] = useState({});
  
   const toggleDetails = (index) => {
     setShowDetails((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
+  const toggleAnswerDetails = (index) => {
+    setShowAnswerDetails((prevState) => ({
       ...prevState,
       [index]: !prevState[index],
     }));
@@ -1444,7 +1452,7 @@ const SurveyQuestionFormData = () => {
                           <tbody>
                             {userData?.map((item, index) => (
                               <>
-                                <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleDetails(index) : undefined} className={quesKey === 'suggestion' ? showDetails[index] ? 'view show' : 'view' : ''}>
+                                <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleAnswerDetails(index) : undefined} className={quesKey === 'suggestion' ? showAnswerDetails[index] ? 'view show' : 'view' : ''}>
                                   <td>{item?.name ? item?.name : "N/A"}</td>
                                   <td>{item?.email ? item?.email : "N/A"}</td>
                                   <td>{item?.region ? item?.region : "N/A"}</td>
@@ -1486,7 +1494,7 @@ const SurveyQuestionFormData = () => {
                                   ) : null}
                                   <td>{item?.created_at ? item?.created_at : "N/A"}</td>
                                 </tr>
-                                {quesKey === 'suggestion' && showDetails[index] && (
+                                {quesKey === 'suggestion' && showAnswerDetails[index] && (
                                   <tr className="fold" key={`details-${index}`}>
                                     <td colSpan="5">
                                     
