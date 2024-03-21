@@ -19,6 +19,8 @@ import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Accordion from "react-bootstrap/Accordion";
 import Select from "react-select";
+import SmartListLayout from "../CommonComponent/SmartListLayout";
+import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 var new_object;
 var draft_object;
@@ -58,7 +60,7 @@ const SelectSmartList = (props) => {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [getloadmore, setloadmore] = useState(0);
-
+  const [selectedListId, setSelectedListId] = useState(0);
   const [showfilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState([]);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -570,6 +572,14 @@ const SelectSmartList = (props) => {
     });
   };
 
+  const viewSmartListData = async(id) => {
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+  }
+
 
   return (
     <>
@@ -926,7 +936,7 @@ const SelectSmartList = (props) => {
               </div>
               */}
 
-                <div className="col smartlist-result-block">
+                <div className="col smartlist-result-block new-smartlist">
                   {
                     apiCallStatus && SendListData?.length > 0
                       ?
@@ -935,6 +945,7 @@ const SelectSmartList = (props) => {
                           <div className="smartlist_box_block">
                             <div className="smartlist-view email_box">
                               <div className="mail-box-content">
+                                <div className="mail-box-conten-title">
                                 <h5>{template.name}</h5>
                                 <div className="select-mail-option">
                                   <input
@@ -952,7 +963,10 @@ const SelectSmartList = (props) => {
                                   />
                                   <span className="checkmark"></span>
                                 </div>
-                                <div className="mailbox-table">
+                                </div>
+                                <SmartListLayout data= {template} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+
+                                {/* <div className="mailbox-table">
                                   <table>
                                     <tbody>
                                       <tr>
@@ -1015,7 +1029,8 @@ const SelectSmartList = (props) => {
                                       View
                                     </a>
                                   </button>
-                                </div>
+                                </div> */}
+
                               </div>
                             </div>
                           </div>
@@ -1559,6 +1574,12 @@ const SelectSmartList = (props) => {
         </Modal.Body>
       </Modal>
       {/*Modal For Creating Smart list with Excel File end*/}
+
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };
