@@ -9134,6 +9134,12 @@ svg.pencil_icon {
   color: #004A89;
   margin: 0;
   word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
