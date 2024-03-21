@@ -11,6 +11,8 @@ import Accordion from "react-bootstrap/Accordion";
 import CommonModel from "../../../../../Model/CommonModel";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { load } from "@amcharts/amcharts4/.internal/core/utils/Net";
+import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
+import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
@@ -32,6 +34,8 @@ const SmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [getloadmore, setloadmore] = useState(0);
   const [show,setShow] = useState(false)
+  const [addListOpen, setAddListOpen] = useState(false);
+  const [selectedListId, setSelectedListId] = useState(0);
   const [userObj, setUserObj] = useState({
     "name":""
   });
@@ -394,6 +398,15 @@ const SmartList = (props) => {
     getSmartListData(0, 2);
     setloadmore(1);
   };
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
+  }
 
   return (
     <>
@@ -872,14 +885,16 @@ const SmartList = (props) => {
                 smartListData.length > 0 ? (
                   smartListData.map((data,index) => {
                     return (
-                      <div className="smartlist_box_block">
+                      <div className="smartlist_box_block new-smartlist">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
                               <h5 contentEditable="true">{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
-                            <div className="mailbox-table">
+                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag="webinar"/>
+                            
+                            {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -929,7 +944,9 @@ const SmartList = (props) => {
                                 alt="User icon"
                               />
                               {data.readers_count}
-                            </div>
+                            </div> */}
+
+
                             {/* <div className="mail-stats">
                             <ul>
 
@@ -946,7 +963,9 @@ const SmartList = (props) => {
                               </div><span>60%</span></li>
                             </ul>
                           </div> */}
-                            <div className="smartlist-buttons">
+
+
+                            {/* <div className="smartlist-buttons">
                               {!deletestatus && (
                                 <>
                                   {data.upload_by_filter == 1 ? (
@@ -999,7 +1018,7 @@ const SmartList = (props) => {
                                   />
                                 </button>
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
                       </div>
@@ -1079,6 +1098,12 @@ const SmartList = (props) => {
         handleSubmit={handleSubmit}
         inputValue
       />
+
+{
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
 
     </>
 

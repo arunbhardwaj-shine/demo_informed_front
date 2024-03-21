@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { Tooltip } from "react-bootstrap";
 import { Tabs, Tab,ProgressBar } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 
 
-const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData}) => {
+const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag}) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [opening_details, setOpeningDetails] = useState([]);
     const [flag, setFlag] = useState(0);
+    const navigate = useNavigate();
     
 
     const tabClicked = async (type, id) => {
@@ -116,7 +117,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                             <Link
                                                 className="btn btn-primary btn-bordered edit_list"
                                                 to={{
-                                                pathname: "/EditList",
+                                                pathname: webinarFlag == "webinar" ? "/webinar/email/smartlist/editlist": "/EditList",
                                                 search: "?listId=" + data.id,
                                                 }}
                                                 onClick={() => linkClicked(data.id)}
@@ -127,7 +128,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                             <Link
                                                 className="btn btn-primary btn-bordered edit_list"
                                                 to={{
-                                                pathname: "/ViewSmartList",
+                                                pathname: webinarFlag == "webinar" ? "/webinar/email/smartlist/viewlist": "/ViewSmartList",
                                                 search: "?listId=" + data.id,
                                                 }}
                                                 onClick={() => linkClicked(data.id)}
@@ -140,7 +141,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                     }
                                     {
                                         isviewshow ? 
-                                        <button className="btn btn-primary btn-bordered view">
+                                        <button className="btn btn-primary btn-filled view">
                                             <a onClick={() => {
                                                 viewSmartList(data.id)
                                             }}>
