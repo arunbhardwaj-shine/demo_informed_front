@@ -3776,7 +3776,7 @@ const TemplateBuilder = (props) => {
                 </form>
               </div>
             </div>
-            <div className="col smartlist-result-block">
+            <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                 smartListData.map((data) => {
@@ -3785,6 +3785,7 @@ const TemplateBuilder = (props) => {
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
                             <h5>{data.name}</h5>
                             <div className="select-mail-option">
                               <input
@@ -3800,6 +3801,7 @@ const TemplateBuilder = (props) => {
                                 }
                               />
                               <span className="checkmark"></span>
+                            </div>
                             </div>
                             <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
                             {/* <div className="mailbox-table">

@@ -2256,7 +2256,7 @@ const CreateEmail = (props) => {
                   <input type="hidden" id="mail_template" value={templateId} />
                   {validator.message("Templates", templateId, "required")}
 
-                  <div className="email-form">
+                  <div className="email-form padding-add">
                     <form>
                       {localStorage.getItem("user_id") !=
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -2370,7 +2370,7 @@ const CreateEmail = (props) => {
                           </div>
                         </>
                       ) : null}
-                      <div className="input-group w-100">
+                      <div className="input-group row w-100">
                         <div className="input-group-prepend">
                           <button
                             className="btn btn-bordered btn-primary"
@@ -3073,7 +3073,7 @@ const CreateEmail = (props) => {
                 </div>
               */}
             </div>
-            <div className="col smartlist-result-block">
+            <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                 smartListData.map((data, index) => {
@@ -3082,6 +3082,7 @@ const CreateEmail = (props) => {
                       <div className="smartlist_box_block" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
                             <h5>{data.name}</h5>
                             <div className="select-mail-option">
                               <input
@@ -3097,6 +3098,7 @@ const CreateEmail = (props) => {
                                 }
                               />
                               <span className="checkmark"></span>
+                            </div>
                             </div>
                             <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
                             {/* <div className="mailbox-table">
@@ -3980,10 +3982,10 @@ const CreateEmail = (props) => {
             <div className="result-hcp-table">
               <div className="table-title">
                 <h4>
-                  HCPs{" "}
+                  HCPs {" "}
                   <span>
                     |
-                    {typeof getReaderDetails !== "undefined" &&
+                     {typeof getReaderDetails !== "undefined" &&
                       getReaderDetails.length > 0 &&
                       getReaderDetails.length}
                   </span>

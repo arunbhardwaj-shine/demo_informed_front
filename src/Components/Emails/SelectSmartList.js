@@ -936,7 +936,7 @@ const SelectSmartList = (props) => {
               </div>
               */}
 
-                <div className="col smartlist-result-block">
+                <div className="col smartlist-result-block new-smartlist">
                   {
                     apiCallStatus && SendListData?.length > 0
                       ?
@@ -945,6 +945,7 @@ const SelectSmartList = (props) => {
                           <div className="smartlist_box_block">
                             <div className="smartlist-view email_box">
                               <div className="mail-box-content">
+                                <div className="mail-box-conten-title">
                                 <h5>{template.name}</h5>
                                 <div className="select-mail-option">
                                   <input
@@ -962,7 +963,7 @@ const SelectSmartList = (props) => {
                                   />
                                   <span className="checkmark"></span>
                                 </div>
-
+                                </div>
                                 <SmartListLayout data= {template} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
 
                                 {/* <div className="mailbox-table">

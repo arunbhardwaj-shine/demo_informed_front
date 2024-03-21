@@ -2112,7 +2112,9 @@ form .input-group .input-group-prepend {
   display: flex;
   align-items: center;
 }
-
+.padding-add form .input-group .input-group-prepend {
+  padding: 0px;
+}
 form .input-group .tags_added ul li {
   list-style: none;
   background: #e9deec;
@@ -4572,7 +4574,12 @@ form#add_hcp_form .row:not(:first-child) {
 #add-list .email_box {
   margin-bottom: 49px;
 }
-
+#add-list .new-smartlist .email_box, .select-smart-list .new-smartlist .email_box{
+  margin-bottom: 0px;
+}
+.smartlist-result-block.new-smartlist .smartlist_box_block {
+  margin-bottom: 49px;
+}
 #add-list .modal-footer,
 #send-sample .modal-footer {
   width: 100%;
@@ -8075,7 +8082,13 @@ table tr.data-not-found td {
   min-width: 330px;
   margin-right: 10px;
 }
+.email-form.padding-add form {
+  padding: 0 12px;
+}
 
+.email-form.padding-add .form-inline .form-group input[type="text"] {
+  margin-right: 0;
+}
 td.removed_td.centered {
   text-align: center;
 }
