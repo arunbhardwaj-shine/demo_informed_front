@@ -837,7 +837,8 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                (Recommended size 300 x 140)
+                                {/* (Recommended size 750 x 180) */}
+                                { formData?.templateId === 8 ?  '(Recommended size 300 x 140)' :'(Recommended size 750 x 180)'}
                               </span>
                             </>
                           ) : value.type === "file" &&
@@ -903,7 +904,7 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                (Recommended size 300 x 140)
+                              { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'}
                               </span>
                             </>
                           ) : value.type === "file" &&
