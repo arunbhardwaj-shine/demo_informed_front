@@ -342,6 +342,7 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                             })}
                         </tbody>
                         
+                        </table>
                         {
                             hide?
                                 !isLoad?
@@ -366,7 +367,6 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                             <Spinner color="#53aff4" size={32} speed={1} animating={true} />
                         </div>
                         ) : null}
-                        </table>
                     </div>
                     </div>
                 </section>
