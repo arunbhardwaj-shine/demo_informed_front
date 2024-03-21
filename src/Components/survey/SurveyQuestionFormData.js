@@ -41,10 +41,7 @@ const SurveyQuestionFormData = () => {
       [index]: !prevState[index],
     }));
   };
-  const [showSuggestion, setShowSuggestion] = useState(false);
-  const toggleSuggestion = () => {
-    setShowSuggestion(!showSuggestion);
-  };
+ 
   useEffect(() => {
     getSurveyData();
   }, []);
@@ -163,6 +160,7 @@ const SurveyQuestionFormData = () => {
                 if (rating >= 1 && rating <= 5) {
                   countObjects[subKey][rating.toString()]++;
                   rest.rating=rating
+                  rest.region=rest.region
                   usersData[subKey].push(rest);
                 }
               } else if (
@@ -173,18 +171,26 @@ const SurveyQuestionFormData = () => {
                 if (answer === "yes" || answer === "no") {
                   countObjects[subKey][answer]++;
                   rest.answer=answer
+                  rest.region=rest.region
                   usersData[subKey].push(rest);
                 }
               }
-            } else if (survey_data[key].trim() !== "") {
+            } 
+            // else if (survey_data[key].trim() !== "") {
+            //   countObjects[key]["suggestion"]++;
+            //   // rest.suggestion=suggestion
+            //   rest.region=rest.region
+            //   usersData[key].push(rest);
+            // }
+            else if (typeof survey_data[key] === "string" && survey_data[key].trim() !== "") {
               countObjects[key]["suggestion"]++;
-              // rest.suggestion=suggestion
+              rest.suggestion = survey_data[key].trim(); 
+              rest.region = rest.region;
               usersData[key].push(rest);
             }
           }
         });
       });
-// console.log(usersData);
       setUsersData(usersData);
       Object.keys(updatedProgressBarData).forEach((key) => {
         updatedProgressBarData[key]["rating"] = { ...countObjects[key] };
@@ -217,7 +223,6 @@ const SurveyQuestionFormData = () => {
           totalCount > 0 ? (weightedSum / sum).toFixed(2) : 0;
         updatedProgressBarData[key]["total_users_answered"] = totalCount;
       });
-      // console.log(updatedProgressBarData)
       setProgressBarData(updatedProgressBarData);
     } catch (error) {
       console.error("An error occurred while processing the data:", error);
@@ -417,7 +422,7 @@ const SurveyQuestionFormData = () => {
                   >
                     Copy Survey Link
                   </a>
-                  {data?.length > 0 ? (
+                
                     <button
                       className="btn print"
                       title="Download data"
@@ -440,9 +445,7 @@ const SurveyQuestionFormData = () => {
                         />
                       </svg>
                     </button>
-                  ) : (
-                    ""
-                  )}
+            
             </div>
             <div className="survey-rating" style={{ display: "flex" }} id='survey-card'>
               
@@ -664,6 +667,40 @@ const SurveyQuestionFormData = () => {
                                   </defs>
                                 </svg>
                               </button></th>
+
+                              <th>
+                        Region
+                        <button
+                          className={`event_sort_btn ${
+                            isActive?.region == "dec"
+                              ? "svg_active"
+                              : isActive?.region == "asc"
+                              ? "svg_asc"
+                              : ""
+                          }`}
+                          onClick={(e) => userSort(e, "region")}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="8"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            fill="none"
+                          >
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path
+                                d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                fill="#97B6CF"
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button>
+                      </th>
                             <th> Country
                               <button
                                 className={`event_sort_btn ${isActive?.country == "dec"
@@ -1053,12 +1090,12 @@ const SurveyQuestionFormData = () => {
                   <tbody>
                     
                   {data?.map((item, index) => {
-                    // console.log(item,'itemitem')
                     return (
                       <>
                       <tr className={showDetails[index] ? 'show' : ''}  onClick={() => toggleDetails(index)}>
                         <td>{item?.name ? item?.name : "N/A"}</td>
                         <td>{item?.email ? item?.email : "N/A"}</td>
+                        <td>{item?.region ? item?.region : "N/A"}</td>
                         <td>{item?.country ? item?.country : "N/A"}</td>
                         <td>{item?.created_at ? item?.created_at : "N/A"}</td>
                           <td>
@@ -1316,7 +1353,6 @@ const SurveyQuestionFormData = () => {
               
                 {userData?.length > 0  ?  (
                   <>
-                  {/* {console.log(quesKey,'userData')} */}
                   <div className="survey_data_details">
                     <div className="survey_data_accordion_heading">
                       <table>
@@ -1324,6 +1360,7 @@ const SurveyQuestionFormData = () => {
                           <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Region</th>
                             <th>Country</th>
                             {quesKey === 'patient_case_rating' ? (
                                 <th>Rating</th>
@@ -1342,6 +1379,7 @@ const SurveyQuestionFormData = () => {
                                 <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleDetails(index) : undefined} className={quesKey === 'suggestion' ? showDetails[index] ? 'show' : '' : ''}>
                                   <td>{item?.name ? item?.name : "N/A"}</td>
                                   <td>{item?.email ? item?.email : "N/A"}</td>
+                                  <td>{item?.region ? item?.region : "N/A"}</td>
                                   <td>{item?.country ? item?.country : "N/A"}</td>
                                   {quesKey === 'patient_case_rating' ? (
                                     <td>
@@ -1383,7 +1421,21 @@ const SurveyQuestionFormData = () => {
                                 {quesKey === 'suggestion' && showDetails[index] && (
                                   <tr key={`details-${index}`}>
                                     <td colSpan="7">
-                                      <p>fgh</p>
+                                    
+                           <div className="survey-data">
+                              <h6>
+                                {" "}
+                                Q4. Please suggest a topic for a
+                                future Clinical Practice patient case:
+                              </h6>
+                              <p>
+                                {/* {item?.survey_data?.suggestion
+                                  ? item?.survey_data?.suggestion
+                                  : "N/A"} */}
+                                { item?.suggestion}
+                              </p>
+                            </div>
+                           
                                     </td>
                                   </tr>
                                 )}
