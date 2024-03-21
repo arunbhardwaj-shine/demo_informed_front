@@ -194,7 +194,14 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                         <h6 className="tab-content-title">
                         Country
                         </h6>
-                        <h6>
+                                    <h6 title={opening_details.findIndex(
+                                        (el) => el.listid == data?.id
+                                    ) !== -1
+                                        ? opening_details[
+                                            opening_details.findIndex(
+                                                (el) => el.listid == data?.id
+                                            )
+                                        ]?.country : "N/A"}>
                         {
                             opening_details.findIndex(
                                 (el) => el.listid == data?.id

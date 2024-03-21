@@ -923,7 +923,7 @@ const Invitees = () => {
                             
                             {user?.is_blocked === 0 ? (
                                 <>
-                                    {moment(user?.register_time).format('DD MMMM YYYY')} <span>|</span> {moment(user?.register_time).format('hh:mm:ss A')}
+                                    {moment(user?.register_time).format('DD MMM YYYY')} <span>|</span> {moment(user?.register_time).format('hh:mm:ss A')}
                                 </>
                             ) : (
                                 "Blocked"
