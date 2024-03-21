@@ -266,7 +266,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                     templateId: props.getWebinarEmailData?.templateId
                     ? props.getWebinarEmailData?.templateId
                     : 0,
-                    event_id:eventId,
+                event_id:eventId,
 
                 description: props.getWebinarEmailData?.emailDescription
                     ? props.getWebinarEmailData?.emailDescription
@@ -295,12 +295,15 @@ const WebinarVerifyHcpMAIL = (props) => {
                         ? props.getWebinarEmailData?.selected
                         : props.getWebinarDraftData?.campaign_data?.list_selection,
                 },
+                auto_responder_id: props.getWebinarEmailData?.templateId
+                ? props.getWebinarEmailData?.templateId
+                : props.getWebinarDraftData?.campaign_data?.template_id
             };
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==') {
                 await axios
-                    .post(`emailapi/send_email_new`, body)
+                    .post(`webinar/send_webinar_email_new`, body)
                     .then((res) => {
                         loader("hide");
                         if (res?.data?.status_code === 200) {
@@ -571,7 +574,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                         >
                                             Save As Draft
                                         </button>
-                                        {/* <button
+                                        <button
                                             className={
                                                 getSelectedPdfId == 13
                                                     ? "btn btn-primary btn-filled next send_btn send_disabled"
@@ -580,7 +583,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                             onClick={createEmail}
                                         >
                                             Send
-                                        </button> */}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
