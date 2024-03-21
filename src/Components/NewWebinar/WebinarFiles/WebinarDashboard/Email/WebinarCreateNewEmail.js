@@ -1057,47 +1057,47 @@ const WebinarCreateNewEmail = (props) => {
     
           console.log("body-->",body);
          
-        //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     
-        //   axios
-        //     .post(`emailapi/send_sample_email`, body)
-        //     .then((res) => {
-        //       loader("hide");
-        //       if (res?.data?.status_code === 200) {
-        //         setUploadOrDownloadCount(100);
-        //         setMailsIncrement(selectedHcp?.length);
-        //         clearInterval(timer);
-        //         setTimeout(() => {
-        //           popup_alert({
-        //             visible: "show",
-        //             message: "Email sent successfully",
-        //             type: "success",
-        //           });
+          axios
+            .post(`webinar/send_sample_email`, body)
+            .then((res) => {
+              loader("hide");
+              if (res?.data?.status_code === 200) {
+                setUploadOrDownloadCount(100);
+                setMailsIncrement(selectedHcp?.length);
+                clearInterval(timer);
+                setTimeout(() => {
+                  popup_alert({
+                    visible: "show",
+                    message: "Email sent successfully",
+                    type: "success",
+                  });
     
-        //           setShowProgressBar(false);
-        //           setUploadOrDownloadCount(0);
-        //           setMailsIncrement(0);
-        //         }, 1000);
-        //       } else {
-        //         clearInterval(timer);
-        //         setUploadOrDownloadCount(0);
-        //         setMailsIncrement(0);
+                  setShowProgressBar(false);
+                  setUploadOrDownloadCount(0);
+                  setMailsIncrement(0);
+                }, 1000);
+              } else {
+                clearInterval(timer);
+                setUploadOrDownloadCount(0);
+                setMailsIncrement(0);
     
-        //         setShowProgressBar(false);
-        //         popup_alert({
-        //           visible: "show",
-        //           message: res?.data?.message,
-        //           type: "error",
-        //         });
-        //       }
-        //     })
-        //     .catch((err) => {
-        //       clearInterval(timer);
-        //       setShowProgressBar(false);
-        //       loader("hide");
-        //       toast.error("Something went wrong");
-        //       console.log(err);
-        //     });
+                setShowProgressBar(false);
+                popup_alert({
+                  visible: "show",
+                  message: res?.data?.message,
+                  type: "error",
+                });
+              }
+            })
+            .catch((err) => {
+              clearInterval(timer);
+              setShowProgressBar(false);
+              loader("hide");
+              toast.error("Something went wrong");
+              console.log(err);
+            });
     
           setSelectedHcp([]);
           setSearchedUsers([]);
