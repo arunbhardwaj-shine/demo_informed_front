@@ -889,7 +889,7 @@ const WebinarSelectSmartListUsers = (props) => {
   };
 
   const sortData = (data, key, order) => {
-    return data.sort((a, b) => {
+    return data?.sort((a, b) => {
       const valueA = a[key];
       const valueB = b[key];
   

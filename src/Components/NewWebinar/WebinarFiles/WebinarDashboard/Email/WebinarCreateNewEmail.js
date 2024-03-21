@@ -1076,7 +1076,8 @@ const WebinarCreateNewEmail = (props) => {
                     message: "Email sent successfully",
                     type: "success",
                   });
-    
+                  setName("")
+              setEmail("")
                   setShowProgressBar(false);
                   setUploadOrDownloadCount(0);
                   setMailsIncrement(0);

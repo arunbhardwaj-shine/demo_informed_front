@@ -419,7 +419,8 @@ const WebinarAutoEmail = () => {
       setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
-        pdf_id: "3487",
+        // pdf_id: "3487",
+        event_id:eventId,
         subject: emailSubject,
         description: emailDescription,
         template_id: templateId,
@@ -430,7 +431,7 @@ const WebinarAutoEmail = () => {
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       axios
-        .post(`emailapi/send_sample_email`, body)
+        .post(`webinar/send_sample_email`, body)
         .then((res) => {
           loader("hide");
           if (res?.data?.status_code === 200) {
@@ -443,7 +444,8 @@ const WebinarAutoEmail = () => {
                 message: "Email sent successfully",
                 type: "success",
               });
-
+              setName("")
+              setEmail("")
               setShowProgressBar(false);
               setUploadOrDownloadCount(0);
               setMailsIncrement(0);
@@ -1822,6 +1824,7 @@ const WebinarAutoEmail = () => {
                           type="text"
                           className="form-control"
                           onChange={(e) => setName(e?.target?.value)}
+                          value={name}
                           id=""
                         />
                       </div>
@@ -1830,6 +1833,7 @@ const WebinarAutoEmail = () => {
                         <input
                           type="mail"
                           onChange={(e) => setEmail(e?.target?.value)}
+                          value={email}
                           className="form-control"
                           id=""
                         />
