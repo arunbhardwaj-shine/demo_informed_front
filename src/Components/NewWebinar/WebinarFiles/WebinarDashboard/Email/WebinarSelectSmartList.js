@@ -18,6 +18,8 @@ import "react-circular-progressbar/dist/styles.css";
 import Accordion from "react-bootstrap/Accordion";
 import Select from "react-select";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
+import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 var new_object;
 var draft_object;
@@ -78,6 +80,8 @@ const WebinarSelectSmartList = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  const [selectedListId, setSelectedListId] = useState(0);
+  const [addListOpen, setAddListOpen] = useState(false);
   const [ibu, setIbu] = useState([
     {
       label: "All",
@@ -560,6 +564,16 @@ const WebinarSelectSmartList = (props) => {
     setShowFilter(false);
   };
 
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
+  }
+
 
   return (
     <>
@@ -845,9 +859,10 @@ const WebinarSelectSmartList = (props) => {
                       ?
                       SendListData?.map((template) => {
                         return (
-                          <div className="smartlist_box_block">
+                          <div className="smartlist_box_block new-smartlist">
                             <div className="smartlist-view email_box">
                               <div className="mail-box-content">
+                              <div className="mail-box-conten-title">
                                 <h5>{template?.name}</h5>
                                 <div className="select-mail-option">
                                   <input
@@ -865,7 +880,10 @@ const WebinarSelectSmartList = (props) => {
                                   />
                                   <span className="checkmark"></span>
                                 </div>
-                                <div className="mailbox-table">
+                                </div>
+                                <SmartListLayout data= {template} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+
+                                {/* <div className="mailbox-table">
                                   <table>
                                     <tbody>
                                       <tr>
@@ -928,7 +946,7 @@ const WebinarSelectSmartList = (props) => {
                                       View
                                     </a>
                                   </button>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -1361,6 +1379,11 @@ const WebinarSelectSmartList = (props) => {
         </Modal.Body>
       </Modal>
       {/*Modal For Creating Smart list with Excel File end*/}
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };

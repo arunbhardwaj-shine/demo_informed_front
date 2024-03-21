@@ -16,6 +16,8 @@ import { getWebinarEmailData, getWebinarCampaignId } from '../../../../../action
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { popup_alert } from '../../../../../popup_alert';
+import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
+import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 var dxr = 0;
 var state_object = {};
 
@@ -35,6 +37,7 @@ const WebinarCreateNewEmail = (props) => {
     const campaign_id = props?.getWebinarDraftData ? props?.getWebinarDraftData?.campaign_id : "";
     const [activeIndex, setActiveIndex] = useState(0);
     const syncActiveIndex = ({ item }) => setActiveIndex(item);
+    const [selectedListId, setSelectedListId] = useState(0);
     const [templateList, setTemplateList] = useState([]);
     const responsive = {
         0: { items: 1 },
@@ -1608,6 +1611,15 @@ const WebinarCreateNewEmail = (props) => {
         setIsOpensend(true);
         setAddListOpen(false);
     };
+    const viewSmartListData = async(id) => {
+        setAddListOpen(false);
+        setSelectedListId(id);
+      }
+    
+      const closeSmartListPopup = async() => {
+        setSelectedListId(0);
+        setAddListOpen(true);
+      }
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -2587,9 +2599,10 @@ const WebinarCreateNewEmail = (props) => {
                                 smartListData?.map((data, index) => {
                                     return (
                                         <>
-                                            <div className="smartlist_box_block" key={index}>
+                                            <div className="smartlist_box_block new-smartlist" key={index}>
                                                 <div className="smartlist-view email_box">
                                                     <div className="mail-box-content">
+                                                    <div className="mail-box-conten-title">
                                                         <h5>{data.name}</h5>
                                                         <div className="select-mail-option">
                                                             <input
@@ -2606,7 +2619,10 @@ const WebinarCreateNewEmail = (props) => {
                                                             />
                                                             <span className="checkmark"></span>
                                                         </div>
-                                                        <div className="mailbox-table">
+                                                    </div>
+                                                        <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+
+                                                        {/* <div className="mailbox-table">
                                                             <table>
                                                                 <tbody>
                                                                     <tr>
@@ -2656,7 +2672,8 @@ const WebinarCreateNewEmail = (props) => {
                                                                 alt="User icon"
                                                             />
                                                             {data?.readers_count}
-                                                        </div>
+                                                        </div> */}
+
                                                         {/*
                                   <div className="mail-stats">
                                   <ul>
@@ -2701,13 +2718,13 @@ const WebinarCreateNewEmail = (props) => {
                                   </ul>
                                   </div>
                                 */}
-                                                        <div className="smartlist-buttons">
+                                                        {/* <div className="smartlist-buttons">
                                                             <button className="btn btn-primary btn-bordered view">
                                                                 <a onClick={() => openSmartListPopup(data?.id)}>
                                                                     View
                                                                 </a>
                                                             </button>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             </div>
@@ -2931,6 +2948,11 @@ const WebinarCreateNewEmail = (props) => {
 
                 {/*Reader Details popup end*/}
             </div>
+            {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
         </>)
 }
 

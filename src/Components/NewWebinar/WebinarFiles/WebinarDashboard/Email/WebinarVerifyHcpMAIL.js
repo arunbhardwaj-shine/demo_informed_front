@@ -10,6 +10,8 @@ import { geWebinarCampaignId } from "../../../../../actions";
 import { popup_alert } from "../../../../../popup_alert";
 import { toast } from "react-toastify";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
+import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 const WebinarVerifyHcpMAIL = (props) => {
     const location = useLocation();
@@ -53,6 +55,8 @@ const WebinarVerifyHcpMAIL = (props) => {
     const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
     const [showLessInfo, setShowLessInfo] = useState(true);
     const [getSelectedPdfId, setSelectedPdfId] = useState(PdfSelected);
+    const [selectedListId, setSelectedListId] = useState(0);
+  const [addListOpen, setAddListOpen] = useState(false);
     const [getArticleType, setArticleType] = useState(
         props.getWebinarEmailData?.status
             ? props.getWebinarEmailData?.status
@@ -495,6 +499,17 @@ const WebinarVerifyHcpMAIL = (props) => {
         newWindow.data = data;
     };
 
+    const viewSmartListData = async(id) => {
+        setAddListOpen(false);
+        setSelectedListId(id);
+      }
+    
+      const closeSmartListPopup = async() => {
+        setSelectedListId(0);
+        setAddListOpen(true);
+      }
+    
+
     return (
         <>
             <div className="col right-sidebar custom-change">
@@ -824,14 +839,18 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                         The recipients <span>| {selectedHcp?.length}</span>
                                                     </h6>
                                                     <p>{/* Single HCP <span>| 1</span> */}</p>
-
-                                                    {/*getSmartListData.length !== 0 && (
-                        <div className="smartlist-view email_box_outer">
+                                                    
+                                                    {getSmartListData.length !== 0 && (
+                        <div className="smartlist-view email_box_outer new-smartlist">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
                               <h5>{getSmartListData.name}</h5>
+                            </div>
+                              <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
 
-                              <div className="mailbox-table">
+
+                              {/* <div className="mailbox-table">
                                 <table>
                                   <tbody>
                                     <tr>
@@ -870,16 +889,16 @@ const WebinarVerifyHcpMAIL = (props) => {
                                     </tr>
                                   </tbody>
                                 </table>
-                              </div>
+                              </div> */}
 
-                              <div className="mail-time">
+                              {/* <div className="mail-time">
                                 <span>{getSmartListData.created_at}</span>
                               </div>
                               <div className="smart-list-added-user">
                                 <img
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
-                                />
+                                /> */}
                                 {/*getSmartListData.readers_count*/}
                                                     {/*selectedHcp.length*/}
                                                     {/*</div>*/}
@@ -940,9 +959,13 @@ const WebinarVerifyHcpMAIL = (props) => {
                         </div>
                       )}*/}
                                                 </div>
-                                            </div>
+                                            </div>  
                                         </div>
+                                          )}
                                     </div>
+                                </div>
+                                </div>
+                                </div>
                                 </div>
                                 <div className="col-12 verify-right">
                                     <div className="preview_mail">
@@ -1148,6 +1171,11 @@ const WebinarVerifyHcpMAIL = (props) => {
                 </Modal.Body>
             </Modal>
             {/*Reader Details popup end*/}
+            {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
         </>
     );
 };
