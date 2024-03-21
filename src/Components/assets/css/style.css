@@ -865,7 +865,9 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding: 16px 16px 20px;
   height: calc(100% - 22px);
 }
-
+.email-result-block .approved .mail-box-content {
+  height: 100%;
+}
 .event_listing .email-result-block .mail-box-content {
   height: 100%;
   padding: 16px 16px 20px 24px;
@@ -1433,6 +1435,12 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .smartlist-view .mail-box-content h5 {
   color: var(--light-blue);
   margin: 0 0 6px;
+  overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .smartlist-view .mailbox-table th {
@@ -1523,13 +1531,17 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   margin: 0 0px;
   font-weight: 500;
 }
-
+.smartlist-buttons button.btn.btn-primary.btn-filled{
+    border: 1px solid var(--light-blue);
+      background: var(--light-blue);
+      color: var(--white);
+}
 .smartlist-buttons button.edit_list:hover,
 .smartlist-buttons button.view:hover,
 .btn.btn-filled:hover,
 a.btn.btn-filled:hover .smartlist-buttons a.btn.btn-primary.btn-filled:hover,
 .smartlist-buttons a.btn.btn-primary.btn-filled:active,
-.smartlist-buttons a.btn.btn-primary.btn-filled:focus {
+.smartlist-buttons a.btn.btn-primary.btn-filled:focus, .smartlist-buttons button.btn.btn-primary.btn-filled:hover {
   background: var(--dark-blue);
   color: var(--white);
   border-color: var(--dark-blue);
@@ -2185,7 +2197,7 @@ form .input-group {
     height: 100%;
 }
 .new-smartlist .smartlist-view .mail-box-content .tabs-data {
-  height: calc(100% - 61px);
+  height: calc(100% - 74px);
 }
 .new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-pane .tab-panel {
   height: 100%;
@@ -3698,7 +3710,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .preview_mail .preview-mail-box {
-  max-height: 860px;
+  max-height: 785px;
   height: 100%;
   overflow-y: auto;
   background: rgba(151, 182, 207, 0.22);
@@ -3828,6 +3840,7 @@ form#add_hcp_form .row:not(:first-child) {
   line-height: 21px;
   color: var(--dark-blue);
   font-weight: 500;
+      margin: 0 0 5px;
 }
 
 .mail-recipt p span,
@@ -5989,6 +6002,7 @@ h2 {
   line-height: 16px;
   color: var(--dark-blue);
   font-weight: 500;
+  margin-bottom:.5rem;
 }
 
 #accordion-smart .smart-name-list {
@@ -8755,7 +8769,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  min-height: 60px;
+  min-height: 75px;
 }
 
 .load_more {
