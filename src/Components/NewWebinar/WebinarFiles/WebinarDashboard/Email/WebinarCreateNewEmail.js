@@ -186,13 +186,38 @@ const WebinarCreateNewEmail = (props) => {
         getSmartListData(0);
     }, []);
 
+    const getSmartListData = (flag) => {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        const body = {
+            user_id: localStorage.getItem("user_id"),
+            search: getsearch,
+            filter: "",
+            event_id:eventId
+        };
+        loader("show");
+        axios
+            .post(`distributes/get_smart_list`, body)
+            .then((res) => {
+                setSmartListData(res?.data?.response?.data);
+                if (flag == 0) {
+                    setPrevSmartListData(res?.data?.response?.data);
+                } else {
+                    loader("hide");
+                }
+            })
+            .catch((err) => {
+                loader("hide");
+                console.log(err);
+            });
+    };
+
     useEffect(() => {
         loader("show");
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             axiosFun();
         }
         getalCountry();
-        loader("hide");
+        
     }, []);
 
     useEffect(() => {
@@ -385,30 +410,7 @@ const WebinarCreateNewEmail = (props) => {
         }
     }
 
-    const getSmartListData = (flag) => {
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        const body = {
-            user_id: localStorage.getItem("user_id"),
-            search: getsearch,
-            filter: "",
-            event_id:eventId
-        };
-        loader("show");
-        axios
-            .post(`distributes/get_smart_list`, body)
-            .then((res) => {
-                setSmartListData(res?.data?.response?.data);
-                if (flag == 0) {
-                    setPrevSmartListData(res?.data?.response?.data);
-                } else {
-                    loader("hide");
-                }
-            })
-            .catch((err) => {
-                loader("hide");
-                console.log(err);
-            });
-    };
+    
 
     const showMoreInfo = (e) => {
         e.preventDefault();
@@ -535,7 +537,7 @@ const WebinarCreateNewEmail = (props) => {
                             visible: "show",
                             message: "Your changes has been saved <br />successfully !",
                             type: "success",
-                            redirect: "/webinar/event-listing",
+                            redirect: "/webinar/email",
                         });
                         // toast.success("Draft saved");
                     } else {
@@ -661,9 +663,10 @@ const WebinarCreateNewEmail = (props) => {
                 ? emailDescription
                 : props?.getWebinarDraftData?.description,
             creator: props?.getWebinarEmailData ? emailCreator : props?.getWebinarDraftData?.creator,
-            campaign_name: props?.getWebinarEmailData
-                ? emailCampaign
-                : props?.getWebinarDraftData?.campaign,
+            // campaign_name: props?.getWebinarEmailData
+            //     ? emailCampaign
+            //     : props?.getWebinarDraftData?.campaign,
+            campaign_name:"webinar",
             subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
             route_location: "webinar/email/create-new-email",
             tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
@@ -995,7 +998,6 @@ const WebinarCreateNewEmail = (props) => {
     };
 
     const sendsampeap = (event) => {
-        console.log("in sendsampeap")
         setHcpsSelected(selectedHcp);
         let i = 0;
         const intervals_spend = (25 / 100) * selectedHcp?.length;
@@ -1045,7 +1047,7 @@ const WebinarCreateNewEmail = (props) => {
             // pdf_id: state_object?.PdfSelected
             //   ? state_object?.PdfSelected
             //   : props?.getDraftData?.pdf_id,
-            eventId:eventId,
+            event_id:eventId,
             subject: emailSubject,
             template_id: templateId,
             user_list: selected_ids,
@@ -1053,8 +1055,9 @@ const WebinarCreateNewEmail = (props) => {
             source_code: template,
           };
     
-          //console.log(body);
-          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          console.log("body-->",body);
+         
+        //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     
         //   axios
         //     .post(`emailapi/send_sample_email`, body)
@@ -1404,8 +1407,8 @@ const WebinarCreateNewEmail = (props) => {
 
     const savenewtemplate = async (e) => {
         e.preventDefault();
-        let template_name = document.getElementById("template_name").value;
-        let template_subject = document.getElementById("template_subject").value;
+        let template_name = document.getElementById("template_name").value?.trim();
+        let template_subject = document.getElementById("template_subject").value?.trim();
         let template_id = props?.getWebinarEmailData
             ? templateId
             : props?.getWebinarDraftData?.template_id;
@@ -1434,10 +1437,10 @@ const WebinarCreateNewEmail = (props) => {
                 await axios
                   .post(`webinar/add_update_template`, body)
                   .then((res) => {
-                    if (res.data.status_code === 200) {
+                    if (res?.data?.status_code === 200) {
                       getTemplateListData(1);
-                      setTemplateId(res.data.response.data.last_id);
-                      templateIdRef.current = res.data.response.data.last_id;
+                      setTemplateId(res?.data?.response?.data?.last_id);
+                      templateIdRef.current = res?.data?.response?.data?.last_id;
                     } else {
                       loader("hide");
                       toast.warning("Template not selected.");
@@ -2311,6 +2314,7 @@ const WebinarCreateNewEmail = (props) => {
                     role={role}
                     institutionType={institutionType}
                     saveClicked={saveClicked}
+                    validationError={validationError}
                 />
 
                 {/*Modal for Template action start*/}
@@ -2526,7 +2530,7 @@ const WebinarCreateNewEmail = (props) => {
                                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                                     <input
                                         className="form-control me-2"
-                                        type="text"
+                                        type="search"
                                         placeholder="Search"
                                         onChange={(e) => searchChange(e)}
                                     />

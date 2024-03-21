@@ -183,6 +183,32 @@ const WebinarSelectHCP = (props) => {
       }
     }
 
+    else if (selected == 5) {
+      loader("show")
+      let body = {
+        eventId: eventId
+      }
+      loader("hide")
+      const response = await postData(ENDPOINT.NO_REGISTERED_USERS, body)
+      console.log("res-->", response)
+
+      let data = response?.data?.data
+      if (data?.length) {
+        if (new_object?.id) {
+          if (data[0].id != new_object.id) {
+            if (old_object?.removedHcp) {
+              old_object.removedHcp = [];
+            }
+          }
+        }
+        props.getWebinarSelectedSmartListData(data[0]);
+
+        navigate("/webinar/email/selectSmartListUsers", {
+          state: { smartListSelected: data[0], flag: 1, selected },
+        });
+      }
+    }
+
     else if (selected == 6) {
       loader("show")
       let body = {
