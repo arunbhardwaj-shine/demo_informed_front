@@ -2481,8 +2481,10 @@ form .input-group {
   background: var(--white);
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2);
   border-radius: 15px;
-  width: 224px;
-  height: 224px;
+  /* width: 224px;
+  height: 224px; */
+  width: 164px;
+  height: 164px;
   margin: 0 auto;
   text-align: center;
   display: flex;
@@ -11704,6 +11706,7 @@ button.event_sort_btn.svg_active svg {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  background: transparent;
 }
 
 .chatlink-left .form-group:first-child {

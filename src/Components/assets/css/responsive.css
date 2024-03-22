@@ -829,7 +829,7 @@
 
   .table-title .selected-hcp-table-action a.show-less-info,   .table-title .selected-hcp-table-action a.show-less-info p {
     font-size: 14px;
-    line-height: 16px;
+    line-height: 17px;
   }
 a.show-less-info p::after {
   top: 1px;
