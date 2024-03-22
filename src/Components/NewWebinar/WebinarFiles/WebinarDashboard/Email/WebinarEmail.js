@@ -227,7 +227,7 @@ const WebinarEmail = (props) => {
               typeof campaign_data.smart_list_data != "undefined" &&
               campaign_data.smart_list_data != ""
             ) {
-              props.getSelectedSmartListData(campaign_data.smart_list_data);
+              props.getWebinarSelectedSmartListData(campaign_data.smart_list_data);
             }
           }
         } else {
