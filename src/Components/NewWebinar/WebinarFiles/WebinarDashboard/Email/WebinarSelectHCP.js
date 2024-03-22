@@ -62,7 +62,6 @@ const WebinarSelectHCP = (props) => {
   const saveAsDraft = async () => {
     const body = {
       pdf_id: 0,
-
       user_id: localStorage.getItem("user_id"),
       eventId: eventId,
       description: old_object?.emailDescription
@@ -99,7 +98,6 @@ const WebinarSelectHCP = (props) => {
         ? old_object?.templateId
         : props?.getWebinarDraftData?.campaign_data?.template_id
     };
-
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -145,7 +143,7 @@ const WebinarSelectHCP = (props) => {
       let data = response?.data?.data
       if (data?.length) {
         if (new_object?.id) {
-          if (data[0].id != new_object.id) {
+          if (data[0].id != new_object?.id) {
             if (old_object?.removedHcp) {
               old_object.removedHcp = [];
             }
@@ -153,10 +151,15 @@ const WebinarSelectHCP = (props) => {
         }
         props.getWebinarSelectedSmartListData(data[0]);
 
-        navigate("/webinar/email/selectSmartListUsers", {
-          state: { smartListSelected: data[0], flag: 1, selected },
-        });
+        // navigate("/webinar/email/selectSmartListUsers", {
+        //   state: { smartListSelected: data[0], flag: 1, selected },
+        // });
+      }else{
+        props.getWebinarSelectedSmartListData(null);
       }
+      navigate("/webinar/email/selectSmartListUsers", {
+        state: { smartListSelected: data[0], flag: 1, selected },
+      });
     }
     else if (selected == 4) {
       loader("show")
@@ -164,8 +167,6 @@ const WebinarSelectHCP = (props) => {
         eventId: eventId
       }
       const response = await postData(ENDPOINT.US_LIST, body)
-      console.log("res-->", response)
-
       let data = response?.data?.data
       if (data?.length) {
         if (new_object?.id) {
@@ -177,10 +178,15 @@ const WebinarSelectHCP = (props) => {
         }
         props.getWebinarSelectedSmartListData(data[0]);
 
-        navigate("/webinar/email/selectSmartListUsers", {
-          state: { smartListSelected: data[0], flag: 1, selected },
-        });
+        // navigate("/webinar/email/selectSmartListUsers", {
+        //   state: { smartListSelected: data[0], flag: 1, selected },
+        // });
+      }else{
+        props.getWebinarSelectedSmartListData(null);
       }
+      navigate("/webinar/email/selectSmartListUsers", {
+        state: { smartListSelected: data[0], flag: 1, selected },
+      });
     }
 
     else if (selected == 5) {
@@ -190,9 +196,10 @@ const WebinarSelectHCP = (props) => {
       }
       loader("hide")
       const response = await postData(ENDPOINT.NO_REGISTERED_USERS, body)
-      console.log("res-->", response)
+     
 
       let data = response?.data?.data
+      console.log("NO_REGISTERED_USERS-->", data)
       if (data?.length) {
         if (new_object?.id) {
           if (data[0].id != new_object.id) {
@@ -203,10 +210,15 @@ const WebinarSelectHCP = (props) => {
         }
         props.getWebinarSelectedSmartListData(data[0]);
 
-        navigate("/webinar/email/selectSmartListUsers", {
-          state: { smartListSelected: data[0], flag: 1, selected },
-        });
+        // navigate("/webinar/email/selectSmartListUsers", {
+        //   state: { smartListSelected: data[0], flag: 1, selected },
+        // });
+      }else{
+        props.getWebinarSelectedSmartListData(null);
       }
+      navigate("/webinar/email/selectSmartListUsers", {
+        state: { smartListSelected: data[0], flag: 1, selected },
+      });
     }
 
     else if (selected == 6) {
@@ -216,9 +228,8 @@ const WebinarSelectHCP = (props) => {
       }
       loader("hide")
       const response = await postData(ENDPOINT.REGISTERED_USERS, body)
-      console.log("res-->", response)
-
       let data = response?.data?.data
+      console.log("REGISTERED_USERS-->", data)
       if (data?.length) {
         if (new_object?.id) {
           if (data[0].id != new_object.id) {
@@ -229,10 +240,15 @@ const WebinarSelectHCP = (props) => {
         }
         props.getWebinarSelectedSmartListData(data[0]);
 
-        navigate("/webinar/email/selectSmartListUsers", {
-          state: { smartListSelected: data[0], flag: 1, selected },
-        });
+        // navigate("/webinar/email/selectSmartListUsers", {
+        //   state: { smartListSelected: data[0], flag: 1, selected },
+        // });
+      }else{
+        props.getWebinarSelectedSmartListData(null);
       }
+      navigate("/webinar/email/selectSmartListUsers", {
+        state: { smartListSelected: data[0], flag: 1, selected },
+      });
     }
   };
 

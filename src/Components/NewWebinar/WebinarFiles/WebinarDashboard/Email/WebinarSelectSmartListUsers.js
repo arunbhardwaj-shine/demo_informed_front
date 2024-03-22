@@ -129,8 +129,8 @@ const WebinarSelectSmartListUsers = (props) => {
         : props.getWebinarDraftData?.campaign_data?.smart_list_id,
       show_specific: 1,
     };
-
     if (props.getWebinarSelectedSmartListData?.id) {
+      console.log("i am here in if",props.getWebinarSelectedSmartListData?.id)
       loader("show");
       axios
         .post(`distributes/get_reders_list`, body)
@@ -171,6 +171,7 @@ const WebinarSelectSmartListUsers = (props) => {
               setReaders(res?.data?.response?.data);
             }
           } else {
+            console.log("set Readers--->",res?.data?.response?.data)
             setReaders(res?.data?.response?.data);
           }
 
@@ -263,6 +264,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
+      pdf_id:0,
       // pdf_id: old_object?.PdfSelected
       //   ? old_object.PdfSelected
       //   : props.getDraftData.pdf_id,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Accordion, Button, Modal } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -12,8 +12,10 @@ import { popup_alert } from "../../../../../popup_alert";
 import { connect } from "react-redux";
 import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarDraftData} from '../../../../../actions'
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const WebinarEmail = (props) => {
+  const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -38,8 +40,12 @@ const WebinarEmail = (props) => {
   );
   const [campaignId, setCampaignId] = useState("");
   const [viewEmailData, setviewEmailData] = useState();
+  const [getreference, setReference] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [ctrName, setCTRName] = useState("");
   const [readerDetailsData, setReaderDetailsData] = useState([])
+  const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
+  const [getDraftCamapignId, setDraftCamapignId] = useState(0);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
     useState(false);
   const [detailPopupName, setDetailPopupName] = useState("");
@@ -51,7 +57,7 @@ const WebinarEmail = (props) => {
   });
   const [options, setOptions] = useState({
     chart: {
-      type: "column",
+      type: "bar",
       options3d: {
         enabled: true,
         alpha: 10,
@@ -160,17 +166,17 @@ const WebinarEmail = (props) => {
           loader("hide");
           console.log(err);
       });
-      console.log(response);
+      console.log("res-->",response?.response?.data);
       // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
       let filterData = []
       if (search != "") {
-        filterData = response?.data?.data?.filter((item, index) => item?.subject?.includes(search))
+        filterData = response?.response?.data?.filter((item, index) => item?.subject?.includes(search))
       } else {
-        filterData = response?.data?.data
+        filterData =response?.response?.data
       }
       console.log(filterData);
       setEmailListData(filterData)
-      setTotalEmailListData(response?.data?.data)
+      setTotalEmailListData(response?.data)
       if(Object.keys(filterdata)?.length==0){
         getFilterList()
       }
@@ -188,6 +194,56 @@ const WebinarEmail = (props) => {
       console.log("--err", err)
     }
   }
+
+  const draftNavigate = async (
+    campaign_id,
+    pdf_id,
+    route,
+    campaign,
+    creator,
+    discription,
+    subject,
+    tags
+  ) => {
+    // if (campaign_id != "" && route != "" && pdf_id != "") {
+    // navigate("/" + route, {
+    //   state: { campaign_id: campaign_id, PdfSelected: pdf_id },
+    // });
+
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: campaign_id,
+    };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/get_campaign_details`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          let campaign_data = res.data.response.data;
+          props.getDraftData(campaign_data);
+          if (campaign_data?.smart_list_data) {
+            if (
+              typeof campaign_data.smart_list_data != "undefined" &&
+              campaign_data.smart_list_data != ""
+            ) {
+              props.getSelectedSmartListData(campaign_data.smart_list_data);
+            }
+          }
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+
+    //console.log(props);
+    navigate("/" + route);
+    //  }
+  };
 
   const searchChange = (e) => {
     setSearch(e?.target?.value);
@@ -388,6 +444,17 @@ const WebinarEmail = (props) => {
 
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
+  };
+
+  const showModal = (refernce, id) => {
+    hideEmailModal();
+    setReference(refernce);
+    setCampaignId(id);
+    setIsOpen(true);
+  };
+
+  const draftEmailCampaign = (draftContent) => {
+    setDraftCamapignId(draftContent);
   };
 
   return (
@@ -728,7 +795,7 @@ const WebinarEmail = (props) => {
                                   : "approved")
                           }
                         >
-                          {/* <div className="mail-top-title">
+                          <div className="mail-top-title">
 
                             <span>
                               {( data?.status == 5)
@@ -736,18 +803,18 @@ const WebinarEmail = (props) => {
                                 data?.status == 2 ? "Draft" : "Approved Draft"
                               }
                             </span>
-                          </div> */}
+                          </div>
                           <div className="mail-box-content">
                             <div className="mail-box-content-top">
                               <div className="mail-box-content-top-view">
-                                {/* {
+                                {
                                   data?.resend_badge >= 2 ?
                                     <div className="mail-resend" title="Resend Emails">
                                       <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
                                       <span>{data?.resend_badge - 1}</span>
                                     </div>
                                     : null
-                                } */}
+                                }
                                 <h5>{data?.subject ? data?.subject : ""}</h5>
                                 <p>{data?.event}</p>
                                 <div className="mailbox-table">
@@ -887,44 +954,121 @@ const WebinarEmail = (props) => {
                                 </ul>
                               </div>
                             </div>
-                            {/* {data?.status == 1 ? ( */}
-                            <div className="mailbox-buttons">
-                              {!deletestatus && (
+                            {
+                              data?.previous_campaign != 1 ?
                                 <>
-                                  {/* <div className="send_new">
-                                      <button
-                                        className="btn btn-primary btn-bordered send-new"
-                                        onClick={() =>
-                                          draftNavigate(
-                                            data.id,
-                                            data.pdf_id,
-                                            "SelectHCP",
-                                            data.campaign,
-                                            data.creator,
-                                            data.discription,
-                                            data.subject,
-                                            data.tags
-                                          )
-                                        }
-                                      >
-                                        Send New
-                                      </button>
-                                    </div> */}
+                                    {data?.status == 1 ? (
+                                    <div className="mailbox-buttons">
+                                      {!deletestatus && (
+                                        <>
+                                          <div className="send_new">
+                                              <button
+                                                className="btn btn-primary btn-bordered send-new"
+                                                onClick={() =>
+                                                  draftNavigate(
+                                                    data.id,
+                                                    data.pdf_id,
+                                                    "SelectHCP",
+                                                    data.campaign,
+                                                    data.creator,
+                                                    data.discription,
+                                                    data.subject,
+                                                    data.tags
+                                                  )
+                                                }
+                                              >
+                                                Send New
+                                              </button>
+                                            </div>
 
+                                          <div className="mailbox-buttons-list">
+                                            {data?.total_Opened_pr < 100 ? (
+                                                <button
+                                                  className="btn btn-primary btn-bordered send"
+                                                  onClick={(e) =>
+                                                    showModal("resend", data.id)
+                                                  }
+                                                >
+                                                  Resend
+                                                </button>
+                                              ) : (
+                                                ""
+                                              )}
+
+                                            <button
+                                              className="btn btn-primary btn-filled edit"
+                                              onClick={(e) =>
+                                                showViewEmailModal(data)
+                                              }
+                                            >
+                                              View
+                                            </button>
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                                    ) : 
+                                    data.status == 5 ? (
+                                        <div className="mailbox-buttons d-flex justify-content-end">
+                                          <button
+                                                className="btn btn-primary btn-filled edit"
+                                                onClick={(e) =>
+                                                  showViewEmailModal(data.id)
+                                                }
+                                              >
+                                                View
+                                              </button>
+                                        </div>
+                                      ) :(
+                                      <div className="mailbox-buttons">
+                                        {!deletestatus && (
+                                          <div className="mailbox-buttons-list">
+                                            {data.route_location == "VerifyMAIL" &&
+                                              data.pdf_id != 13 ? (
+                                              <button
+                                                className="btn btn-primary send btn-bordered"
+                                                onClick={() => {
+                                                  getWebinarEmailData(null);
+                                                  draftEmailCampaign(data.id);
+                                                  setDraftEmailSendStatus(
+                                                    (getDraftEmailSendStatus) =>
+                                                      !getDraftEmailSendStatus
+                                                  );
+                                                }}                                     
+                                              >
+                                                Send
+                                              </button>
+                                            ) : (
+                                              ""
+                                            )}
+                                            <button
+                                              className="btn btn-primary edit btn-filled"
+                                              onClick={() => {
+                                                getWebinarEmailData(null);
+                                                // getSelectedSmartListData(null);
+                                                draftNavigate(
+                                                  data.id,
+                                                  data.pdf_id,
+                                                  data.route_location,
+                                                  data.campaign,
+                                                  data.creator,
+                                                  data.discription,
+                                                  data.subject,
+                                                  data.tags
+                                                );
+                                              }}
+                                            >
+                                              Edit
+                                            </button>
+                                          </div>
+                                        )}
+                                      </div>
+                                    ) 
+                                    }
+                                </>
+                              : 
+                              <div className="mailbox-buttons">
                                   <div className="mailbox-buttons-list">
-                                    {/* {data?.total_Opened_pr < 100 ? (
-                                        <button
-                                          className="btn btn-primary btn-bordered send"
-                                          onClick={(e) =>
-                                            showModal("resend", data.id)
-                                          }
-                                        >
-                                          Resend
-                                        </button>
-                                      ) : (
-                                        ""
-                                      )} */}
-
                                     <button
                                       className="btn btn-primary btn-filled edit"
                                       onClick={(e) =>
@@ -934,67 +1078,8 @@ const WebinarEmail = (props) => {
                                       View
                                     </button>
                                   </div>
-                                </>
-                              )}
-                            </div>
-                            {/* ) :  */}
-                            {/* data.status == 5 ? (
-                                <div className="mailbox-buttons d-flex justify-content-end">
-                                  <button
-                                        className="btn btn-primary btn-filled edit"
-                                        onClick={(e) =>
-                                          showViewEmailModal(data.id)
-                                        }
-                                      >
-                                        View
-                                      </button>
                                 </div>
-                              ) :(
-                              <div className="mailbox-buttons">
-                                {!deletestatus && (
-                                  <div className="mailbox-buttons-list">
-                                    {data.route_location == "VerifyMAIL" &&
-                                      data.pdf_id != 13 ? (
-                                      <button
-                                        className="btn btn-primary send btn-bordered"
-                                        onClick={() => {
-                                          getEmailData(null);
-                                          draftEmailCampaign(data.id);
-                                          setDraftEmailSendStatus(
-                                            (getDraftEmailSendStatus) =>
-                                              !getDraftEmailSendStatus
-                                          );
-                                        }}                                     
-                                      >
-                                        Send
-                                      </button>
-                                    ) : (
-                                      ""
-                                    )}
-                                    <button
-                                      className="btn btn-primary edit btn-filled"
-                                      onClick={() => {
-                                        getEmailData(null);
-                                        // getSelectedSmartListData(null);
-                                        draftNavigate(
-                                          data.id,
-                                          data.pdf_id,
-                                          data.route_location,
-                                          data.campaign,
-                                          data.creator,
-                                          data.discription,
-                                          data.subject,
-                                          data.tags
-                                        );
-                                      }}
-                                    >
-                                      Edit
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            ) 
-                            }*/}
+                            }
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button

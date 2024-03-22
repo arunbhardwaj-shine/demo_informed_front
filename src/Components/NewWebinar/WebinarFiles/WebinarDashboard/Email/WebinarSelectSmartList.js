@@ -136,12 +136,12 @@ const WebinarSelectSmartList = (props) => {
 
   useEffect(() => {
     let listid = new_object?.id
-      ? new_object.id
+      ? new_object?.id
       : draft_object?.campaign_data?.smart_list_id
         ? draft_object?.campaign_data?.smart_list_id
         : 0;
     setselecedlistid(listid);
-    // setPdfSelected(listid);
+    setPdfSelected(listid);
   }, []);
 
 //   useEffect(() => {
@@ -152,7 +152,7 @@ const WebinarSelectSmartList = (props) => {
 
   const handleSelect = (e) => {
     if (new_object?.id) {
-      if (e.id != new_object.id) {
+      if (e.id != new_object?.id) {
         if (old_object?.removedHcp) {
           old_object.removedHcp = [];
         }
@@ -160,7 +160,7 @@ const WebinarSelectSmartList = (props) => {
     }
 
     if (PdfSelected != "") {
-      if (PdfSelected == e.id) {
+      if (PdfSelected == e?.id) {
         setSmartListSelected({});
         props.getWebinarSelectedSmartListData(null);
         setPdfSelected(0);
@@ -168,13 +168,13 @@ const WebinarSelectSmartList = (props) => {
       } else {
         setSmartListSelected(e);
         props.getWebinarSelectedSmartListData(e);
-        // setPdfSelected(e.id);
+        setPdfSelected(e.id);
         setselecedlistid(e?.id);
       }
     } else {
       setSmartListSelected(e);
       props.getWebinarSelectedSmartListData(e);
-    //   setPdfSelected(e.id);
+      setPdfSelected(e.id);
       setselecedlistid(e?.id);
     }
   };
@@ -186,7 +186,6 @@ const WebinarSelectSmartList = (props) => {
   const saveAsDraft = async (flag) => {
     const body = {
       pdf_id:0,
-
       user_id: localStorage.getItem("user_id"),
       event_id:eventId,
       description: old_object?.emailDescription
@@ -212,7 +211,7 @@ const WebinarSelectSmartList = (props) => {
         template_id: old_object?.templateId
           ? old_object?.templateId
           : draft_object?.campaign_data?.template_id,
-        // smart_list_id: PdfSelected,
+        smart_list_id: PdfSelected,
         list_selection: old_object?.selected
           ? old_object?.selected
           : props.getWebinarDraftData?.campaign_data?.list_selection

@@ -527,8 +527,6 @@ const WebinarCreateNewEmail = (props) => {
                 ? templateId
                 : props?.getWebinarDraftData?.template_id
             };
-// console.log(body);
-// // return
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios

@@ -370,7 +370,8 @@ const SmartList = (props) => {
   };
 
   const applyFilter = () => {
-    setFilterApply(true);
+    // setFilterApply(true);
+    setFilterApply(filter);
     getSmartListData(1);
     setShowFilter(false);
   };
@@ -731,7 +732,7 @@ const SmartList = (props) => {
             </div>
 
             {updateflag > 0 &&
-              (filterapplied&&(getfiltername.length > 0 ||
+              ((getfiltername.length > 0 ||
                 getFilterCreator.length > 0 ||
                 getFilterIbu.length > 0 ||
                 filterdate.length > 0)) && (
