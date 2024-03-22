@@ -2397,7 +2397,7 @@ const WebinarCreateNewEmail = (props) => {
                         <Modal.Body>
                             <form>
                                 <div className="form-group">
-                                    <label>Enter new template name<span>*</span> </label>
+                                    <label>Enter template name<span>*</span> </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -2411,7 +2411,7 @@ const WebinarCreateNewEmail = (props) => {
                                 </div>
                              
                                 <div className="form-group">
-                                    <label>Enter new template Subject<span>*</span></label>
+                                    <label>Enter template subject<span>*</span></label>
                                     <input
                                         type="text"
                                         className="form-control"
