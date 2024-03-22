@@ -3168,7 +3168,7 @@ h5 {
 
 table tr td.delete_row img,
 table tr:hover td.delete_row img {
-  padding: 0;
+  /* padding: 0; */
   position: absolute;
   background: var(--light-blue);
   right: -10px;
@@ -6881,7 +6881,10 @@ input:-webkit-autofill {
   top: 45px;
   bottom: auto;
 }
-
+.selected-hcp-list table tr:last-child td .split-button-dropup.edit-country-dropdown>div:nth-child(4){
+  top: auto;
+    bottom: 25px;
+}
 .modal.update_quest .bottom-open .split-button-dropup>div:nth-child(4) {
   top: auto;
   bottom: 45px;
