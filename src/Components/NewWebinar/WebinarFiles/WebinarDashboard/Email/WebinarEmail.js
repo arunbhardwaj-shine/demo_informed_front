@@ -57,7 +57,7 @@ const WebinarEmail = (props) => {
   });
   const [options, setOptions] = useState({
     chart: {
-      type: "bar",
+      type: "column",
       options3d: {
         enabled: true,
         alpha: 10,

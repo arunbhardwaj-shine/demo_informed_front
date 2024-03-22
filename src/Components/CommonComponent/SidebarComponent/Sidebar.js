@@ -208,6 +208,12 @@ const Sidebar = () => {
       webinar_c_id = localStorage.getItem("webinar_sd_i");
       console.log("hello i am here---->",webinar_c_id)
     } 
+  } else if(location.pathname == "/webinar/email/smartlist/uploadsmartlist"){
+    if (localStorage.getItem("webinar_sd_i")) {
+     
+      webinar_c_id = localStorage.getItem("webinar_sd_i");
+      console.log("hello i am here---->",webinar_c_id)
+    } 
   }
   else if (location.pathname == "webinar/email/smartlist") {
     localStorage.removeItem("webinar_sd_i");
@@ -266,11 +272,12 @@ const Sidebar = () => {
     location.pathname === '/webinar/email/verifyHcpMAIL' ||
     location.pathname === '/webinar/email/selectSmartListUsers' ||
     ((location.pathname == "/webinar/email/smartlist/createsmartlist" ||
-      location.pathname == "/webinar/email/smartlist/smartlistfilter")
+      location.pathname == "/webinar/email/smartlist/smartlistfilter"||
+      location.pathname =="/webinar/email/smartlist/uploadsmartlist")
       && webinar_c_id != 0)
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
-    location.pathname == "/webinar/email/smartlist/uploadsmartlist" ||
+    
     location.pathname == "/webinar/email/smartlist/editlist" ||
     location.pathname == "/webinar/email/smartlist/filterSegment" ||
     location.pathname == "/webinar/email/smartlist/table" ||
@@ -278,6 +285,7 @@ const Sidebar = () => {
     location.pathname == "/webinar/email/smartlist/viewTable" ||
     location.pathname == "/webinar/email/smartlist/verifylist"||
     ((location.pathname == "/webinar/email/smartlist/createsmartlist" ||
+    location.pathname == "/webinar/email/smartlist/uploadsmartlist" ||
     location.pathname == "/webinar/email/smartlist/smartlistfilter" 
     ) && webinar_c_id == 0);
 
