@@ -731,10 +731,10 @@ const SmartList = (props) => {
             </div>
 
             {updateflag > 0 &&
-              (getfiltername.length > 0 ||
+              (filterapplied&&(getfiltername.length > 0 ||
                 getFilterCreator.length > 0 ||
                 getFilterIbu.length > 0 ||
-                filterdate.length > 0) && (
+                filterdate.length > 0)) && (
                 <div className="apply-filter">
                   <h6>Applied filters</h6>
                   <div className="filter-block">

@@ -301,7 +301,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 ? props.getWebinarEmailData?.templateId
                 : props.getWebinarDraftData?.campaign_data?.template_id
             };
-            console.log("body list-->",body)
+            
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==') {
