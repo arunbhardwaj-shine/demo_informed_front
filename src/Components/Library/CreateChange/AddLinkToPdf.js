@@ -66,6 +66,8 @@ const AddLinkToPdf = () => {
   const [viewerscroll, setViewerscroll] = useState(0);
   const [selectedUrl, setSelectedUrl] = useState("");
   const [pageNo, setPageNo] = useState(0);
+  const [defaultScale, setDefaultScale] = useState(1.3347);
+  const [count, setCount] = useState(0);
   const [dynamicScale, setDynamicScale] = useState(0);
   const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
@@ -83,7 +85,44 @@ const AddLinkToPdf = () => {
   });
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const defaultScale = 1.3347;
+  //const defaultScale = 1.3347;
+  
+
+    const fitToWidth = ()=> {
+    // Calculate the scale factor based on the width of the viewport and the PDF page
+    const viewportWidth = document.documentElement.clientWidth;
+    const viewportHeight = document.documentElement.clientHeight;
+    console.log(viewportWidth,"view");
+    console.log(viewportHeight,"view");
+    const pageWidth = document.querySelector('.viewer-text-layer').clientWidth;
+    const pageHeight = document.querySelector('.viewer-text-layer').clientHeight;
+    console.log(pageWidth,"page");
+    console.log(pageHeight,"page");
+    const scale = viewportWidth / pageWidth;
+    console.log(scale);
+
+
+    if(scale<1.3347){
+      setDefaultScale(scale)
+      console.log(file);
+      setFile(file)
+      var file_tem =file;
+      setFile((prevst)=>file_tem+'?v=1')
+
+      setTimeout(()=>{setFile((prevst)=>file_tem)},10)
+      //setFile((prevst)=>file_tem)
+    }
+   // https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1711002590.pdf
+    // Update the state to reflect the new scale
+    // You might also need to adjust the page number if you want to maintain the current page
+    // For simplicity, this example resets to the first page
+    
+    // Apply the scale using CSS
+  //  document.querySelector('.react-pdf__Page').style.transform = `scale(${scale})`;
+  }
+
+
+  
   const parentRef = useRef(null);
   const popupRef = useRef(null);
   const renderPage = (props: RenderPageProps) => {
@@ -134,6 +173,8 @@ const AddLinkToPdf = () => {
 
       const divElement = document.querySelector(".modal-body-content");
       const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
+
+
 
       if (viewPageLayers) {
         setTimeout(() => {
@@ -225,6 +266,8 @@ const AddLinkToPdf = () => {
               }
             });
           }
+
+          fitToWidth()
         }, 1000);
       }
     } catch (err) {
@@ -235,7 +278,11 @@ const AddLinkToPdf = () => {
   useEffect(() => {
     initFun();
     videoFun();
+    console.log("changed");
   }, []);
+
+
+  
 
   const initFun = async () => {
     try {
@@ -595,11 +642,23 @@ const AddLinkToPdf = () => {
     console.log(box_width,"box_width")
     console.log(actual_width,"actual_width")
     let x_cord = actual_width / 3.8;
+    
     let actual_height = mousefirstdown - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
     let box_width_y = box_height / 3.7;
+    
+    if(defaultScale<1.3347){
+      box_width_y = 1.85*box_width_y;
+      box_width_x = 1.85*box_width_x;
+      y_cord = 1.85*y_cord;
+      x_cord = x_cord*1.85;
+
+
+    }
+
+
     // console.log(box_width_x,"box_width_x");
     // console.log(box_width_y,"box_width_y");
     let cordinates =
@@ -950,6 +1009,12 @@ const AddLinkToPdf = () => {
                             >
                               Upload new Video +
                             </Button>
+                             <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={() => fitToWidth(true)}
+                            >
+                             Calculate
+                            </Button>
                           </div>
                         </Form.Group>
                       </div>
@@ -1016,6 +1081,7 @@ const AddLinkToPdf = () => {
                               id="container"
                               renderPage={renderPage}
                               defaultScale={defaultScale}
+                              count={count}
                               onPageChange={handleDocumentLoad}
                               onDocumentLoad={handleCompleteDocumentLoad}
                               renderMode="canvas"
