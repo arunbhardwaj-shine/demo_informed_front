@@ -510,7 +510,7 @@ const GetMedpakDetails = () => {
                                     </div>
                                     </div>
                                     <div className="table_xls">
-                                        <table className="table" id="table-to-xls">
+                                        <table className="table get-details" id="table-to-xls">
                                             <thead className="sticky-header">
                                                 <tr>
                                                     <>
@@ -626,7 +626,7 @@ const GetMedpakDetails = () => {
                                                     </>
                                                 </tr>
                                             </thead>
-                                            <tbody className="form-group">
+                                            <tbody>
                                                 {typeof data != "undefined" && data.length > 0 ? (
                                                     data.map((item, index) => (
                                                         <>
