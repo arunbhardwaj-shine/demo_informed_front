@@ -930,7 +930,12 @@ a.show-less-info p::after {
     font-size: 12px;
     min-width: 55px;
   }
-
+.header-btn .btn.btn-primary.send-sample,
+.header-btn .btn.btn-primary.send-sample:active {
+  font-size: 14px;
+  min-width: 140px;
+  padding: 7px 10px;
+}
   .mailbox-table td span {
     font-size: 13px;
     padding: 1px 9px;
@@ -1698,6 +1703,9 @@ a.show-less-info p::after {
     padding: 4px 50px 4px 15px;
     min-height: 36px;
   }
+    .email-form .form-inline .form-group.template_builder_div {
+      gap: 10px;
+    }
 }
 
 @media only screen and (max-width: 1399px) {
@@ -2165,13 +2173,16 @@ a.show-less-info p::after {
     justify-content: flex-start !important;
   }
 
-  .email-form .form-inline .form-buttons.right-side {
+  /* .email-form .form-inline .form-buttons.right-side {
     width: 100%;
     float: left;
     justify-content: flex-start;
     margin: 10px 0 0;
-  }
-
+  } */
+.form-buttons-template button.btn {
+  min-width: 90px;
+  margin-left: 10px;
+}
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
   }
