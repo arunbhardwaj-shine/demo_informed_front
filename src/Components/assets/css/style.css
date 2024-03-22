@@ -2063,13 +2063,14 @@ ul.tabnav-link li {
   position: relative;
 }
 
-.create-smart-step-box .form-group .login-validation {
+.create-smart-step-box .form-group .login-validation, .email-form form .form-inline .login-validation {
   position: static;
 }
 
 .email-form form .form-inline .login-validation {
   top: 70px;
   left: 30px;
+  position: static;
 }
 
 .email-form {
@@ -3171,7 +3172,7 @@ h5 {
 
 table tr td.delete_row img,
 table tr:hover td.delete_row img {
-  padding: 0;
+  /* padding: 0; */
   position: absolute;
   background: var(--light-blue);
   right: -10px;
@@ -8093,12 +8094,12 @@ hr {
   border-color: var(--light-gray);
 }
 
-.selected-hcp-list#analytics-hcp-table table tr td:last-child {
-  padding: 10px 5px;
+.selected-hcp-list#analytics-hcp-table table tr td:last-child, .selected-hcp-list#analytics-hcp-table table thead tr th:last-child {
+  padding: 14px 5px;
 }
 
 #analytics-hcp-table.selected-hcp-list table td {
-  padding: 24px 5px;
+  padding: 14px 11px;
 }
 
 .selected-hcp-list#analytics-hcp-table table tr td:nth-last-child(2) {
@@ -8111,8 +8112,8 @@ hr {
 }
 
 .selected-hcp-list#analytics-hcp-table table th {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .smart-list-view .selected-hcp-list_detail {
@@ -8425,7 +8426,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   max-width: 100%;
 }
 .search-hcp .email_stats .accordion .accordion-item button.accordion-button {
-  padding: 0 50px 0 20px;
+  padding: 0 50px 0 0px;
 }
 
 .search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button>table tr td:first-child,
@@ -8453,7 +8454,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .email_stats_title_heading {
-  padding: 0 70px 0 27px;
+  padding: 0 70px 0 0px;
 }
 
 .search-hcp .email_stats#analytics-hcp-table table tr th:nth-child(4) {
@@ -8505,19 +8506,20 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 #analytics-hcp-table.selected-hcp-list table th.smartlistth,
 #analytics-hcp-table.selected-hcp-list table td.smartlistth {
-  word-break: break-word;
+  /* word-break: break-word; */
   width: 170px;
 }
-
+.smart-list-view .selected-hcp-list#analytics-hcp-table .accordion .accordion-collapse .accordion-body {
+  padding: 10px 0;
+}
 #analytics-hcp-table .load_more {
   margin-top: 20px !important;
 }
 
 .selected-hcp-list table tr td .mail-resend {
   position: relative;
-  /* float: right; */
-  display: inline-table;
-  margin: 0 0 0 8px;
+  /* display: inline-table; */
+  margin: 0 4px 0 8px;
 }
 
 .selected-hcp-list table tr td .mail-resend svg {
@@ -8529,8 +8531,8 @@ section.search-hcp.smart-list-view .header-btn-left {
   color: var(--white);
 }
 
-/** Auto Mail **/
 
+/** Auto Mail **/
 .mail_trigger_left h4 {
   color: var(--light-blue);
   font-weight: 500;

@@ -1732,13 +1732,13 @@ const WebinarCreateNewEmail = (props) => {
                                     <input type="hidden" id="mail_template" value={templateId} />
                                     {validator.message("Templates", templateId, "required")}
 
-                                    <div className="email-form">
+                                    <div className="email-form padding-add">
                                         <form>
                                             {localStorage.getItem("user_id") !=
                                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                 <>
                                                     <div className="form-inline row justify-content-between align-items-center">
-                                                        <div className="form-group col-12 col-md-7">
+                                                            <div className="form-group col-12 col-md-7 d-flex align-items-center">
                                                             <label htmlFor="exampleInputEmail1">
                                                                 Email Description <span>*</span>{" "}
                                                             </label>
@@ -1764,7 +1764,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 "required"
                                                             )}
                                                         </div>
-                                                        <div className="form-group right-side col-12 col-md-5">
+                                                            <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
                                                             <label htmlFor="exampleInputEmail1">
                                                                 Email Creator <span>*</span>
                                                             </label>
@@ -1821,7 +1821,7 @@ const WebinarCreateNewEmail = (props) => {
                                                     </div> */}
                                                 </>
                                             ) : null}
-                                            <div className="input-group w-100">
+                                            <div className="input-group row w-100">
                                                 <div className="input-group-prepend">
                                                     <button
                                                         className="btn btn-bordered btn-primary"
@@ -1855,7 +1855,7 @@ const WebinarCreateNewEmail = (props) => {
                                             </div>
 
                                             <div className="form-inline row justify-content-end align-items-center">
-                                                <div className="form-group col-12 col-md-5">
+                                                <div className="form-group col-12 col-md-5 d-flex align-items-center">
                                                     <label htmlFor="exampleInputEmail1">
                                                         Email Subject <span>*</span>
                                                     </label>
