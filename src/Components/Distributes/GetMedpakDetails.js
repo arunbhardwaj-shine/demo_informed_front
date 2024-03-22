@@ -634,7 +634,7 @@ const GetMedpakDetails = () => {
                                                     </>
                                                 </tr>
                                             </thead>
-                                            <tbody className="form-group">
+                                            <tbody>
                                                 {typeof data != "undefined" && data.length > 0 ? (
                                                     data.map((item, index) => (
                                                         <>

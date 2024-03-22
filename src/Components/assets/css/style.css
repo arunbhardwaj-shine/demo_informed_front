@@ -7104,7 +7104,9 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 74px;
 }
-
+.search-hcp.smart-list-view table.get-details#table-to-xls thead.sticky-header {
+  top: 14px;
+}
 .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header,
 .invitee table#table-to-xls thead.sticky-header {
   top: 74px;
@@ -8509,8 +8511,8 @@ section.search-hcp.smart-list-view .header-btn-left {
 .selected-hcp-list table tr td .mail-resend {
   position: relative;
   /* float: right; */
-  display: inline-table;
-  margin: 0 0 0 8px;
+  /* display: inline-table; */
+  margin: 0 3px 0 8px;
 }
 
 .selected-hcp-list table tr td .mail-resend svg {
