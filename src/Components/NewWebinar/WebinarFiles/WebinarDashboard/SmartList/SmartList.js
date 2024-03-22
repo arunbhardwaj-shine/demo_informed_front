@@ -889,7 +889,7 @@ const SmartList = (props) => {
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
-                              <h5 contentEditable="true">{data.name}</h5>
+                              <h5>{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
                             <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag="webinar"/>
