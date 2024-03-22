@@ -210,7 +210,7 @@ const WebinarEmail = (props) => {
     // navigate("/" + route, {
     //   state: { campaign_id: campaign_id, PdfSelected: pdf_id },
     // });
-
+console.log("route-->",route)
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
@@ -228,7 +228,7 @@ const WebinarEmail = (props) => {
               typeof campaign_data.smart_list_data != "undefined" &&
               campaign_data.smart_list_data != ""
             ) {
-              props.getSelectedSmartListData(campaign_data.smart_list_data);
+              props.getWebinarSelectedSmartListData(campaign_data?.smart_list_data);
             }
           }
         } else {
