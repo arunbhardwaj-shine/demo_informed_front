@@ -221,7 +221,7 @@ const WebinarEmail = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           let campaign_data = res.data.response.data;
-          props.getDraftData(campaign_data);
+          props.getWebinarDraftData(campaign_data);
           if (campaign_data?.smart_list_data) {
             if (
               typeof campaign_data.smart_list_data != "undefined" &&
@@ -237,6 +237,8 @@ const WebinarEmail = (props) => {
       })
       .catch((err) => {
         loader("hide");
+            console.log(err);
+
         toast.error("Something went wrong");
       });
 
