@@ -909,7 +909,7 @@ const WebinarVerifyMAIL = (props) => {
 
                         <div className="col-12 col-md-12 mail-recipt-left">
                           <h6>
-                            The recipients <span>| {selectedHcp.length}</span>
+                            The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 

@@ -153,8 +153,9 @@ const WebinarEmail = (props) => {
         user_id: localStorage.getItem("user_id"),
         event_id: eventId,
         search:'',
-        filter:''
+        filter:filter
       };
+      console.log("body-->",body)
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       let response=[]
      await axios
@@ -176,7 +177,7 @@ const WebinarEmail = (props) => {
       }
       console.log(filterData);
       setEmailListData(filterData)
-      setTotalEmailListData(response?.data)
+      setTotalEmailListData(response?.response?.data)
       if(Object.keys(filterdata)?.length==0){
         getFilterList()
       }
@@ -824,6 +825,8 @@ const WebinarEmail = (props) => {
                                 ? "approved"
                                 : data?.status == 2
                                   ? "email-draft"
+                                  :data?.status == 3
+                                  ? "draft-approved"
                                   : "approved")
                           }
                         >

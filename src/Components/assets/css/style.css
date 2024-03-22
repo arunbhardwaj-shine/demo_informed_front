@@ -3848,6 +3848,8 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 30px;
   padding: 20px 24px 24px;
   height: 100%;
+  display:flex;
+  flex-direction: column;
 }
 
 .preview_mail .preview-mail-box {
@@ -3859,6 +3861,7 @@ form#add_hcp_form .row:not(:first-child) {
   padding: 20px 16px;
   margin: 0 auto;
   text-align: center;
+  width:100%;
 }
 
 .preview_mail .preview-mail-box img {
