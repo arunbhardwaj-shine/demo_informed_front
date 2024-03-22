@@ -46,7 +46,7 @@ const GetMedpakDetails = () => {
         await axios
             .post(`distributes/get_campaign_readers_details`, body)
             .then((res) => {
-                console.log(res.data.response.data.readers,'===>reminder')
+                // console.log(res.data.response.data.readers,'===>reminder')
                 if (res.data.status_code == 200) {
                     if (flag == 1) {
                         setData([]);
@@ -107,7 +107,7 @@ const GetMedpakDetails = () => {
     const sortName = () => {
         let normalArr = [];
         normalArr = data;
-        console.log(sortingName);
+        // console.log(sortingName);
         if (sortingName === 0) {
             normalArr.sort((a, b) => {
                 if (a.first_name === null) {
@@ -296,15 +296,22 @@ const GetMedpakDetails = () => {
                  reminderUsers: reminderChecked,
                  user_id: localStorage.getItem("user_id"),
               };
+              const reminderCheckedValues = Object.values(reminderChecked);
+              const isAnyReminderChecked = reminderCheckedValues.includes(true);
      
               await axios
                  .post(`emailapi/change-email-reminder`, data)
                  .then((res) => {
-                    console.log("Response from the server:", res);
-                    if (res.data.status_code === 200) {
-                       toast.success("User reminder status updated successfully.");
-                    } else {
-                       toast.warning(res.data.message);
+                    // console.log("Response from the server:", reminderChecked);
+                    // if (res.data.status_code === 200) {
+                    //    toast.success("User reminder status updated successfully.");
+                    // } else {
+                    //    toast.warning(res.data.message);
+                    // }
+                    if(isAnyReminderChecked){
+                        toast.success("Reminders blocked successfully");
+                    }else{
+                        toast.success("Reminders unblocked successfully");
                     }
                     loader('hide');
                  })
@@ -316,7 +323,8 @@ const GetMedpakDetails = () => {
                  //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
                 //   console.log("res--->", res);
            } else {
-              toast.error("Please select at least one reader for reminder");
+            //   toast.error("Please select at least one reader for reminder");
+              toast.error("Please tick/untick on block reminder column to update the user status. ");
            }
         } catch (err) {
            console.log("--err", err);
@@ -510,7 +518,7 @@ const GetMedpakDetails = () => {
                                     </div>
                                     </div>
                                     <div className="table_xls">
-                                        <table className="table" id="table-to-xls">
+                                        <table className="table get-details" id="table-to-xls">
                                             <thead className="sticky-header">
                                                 <tr>
                                                     <>
