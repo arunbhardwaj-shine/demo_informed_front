@@ -228,7 +228,7 @@ console.log("route-->",route)
               typeof campaign_data.smart_list_data != "undefined" &&
               campaign_data.smart_list_data != ""
             ) {
-              props.getWebinarSelectedSmartListData(campaign_data?.smart_list_data);
+              props.getWebinarSelectedSmartListData(campaign_data.smart_list_data);
             }
           }
         } else {
@@ -405,8 +405,8 @@ console.log("route-->",route)
     }
   }
 
-  const showConfirmationPopup = (id) => {
-    setCampaignId(id);
+  const showConfirmationPopup = (id,previous_campaign) => {
+    setCampaignId({id:id,previousCampaign:previous_campaign});
     setPopupMessage({
       message1: "You are about to remove this compaign.",
       message2: "Are you sure you want to do this?",
@@ -419,14 +419,40 @@ console.log("route-->",route)
     }
   };
 
-  const deleteCompaign = async (id) => {
+  const deleteCompaign = async (item) => {
     loader("show");
     try {
       let body = {
         eventId: eventId,
-        emailAutoresponserId: id
+        emailAutoresponserId: item?.id
       }
-      const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
+
+      if(item?.previousCampaign==1){
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          campaign_id: item?.id,
+        };
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        axios
+          .post(`emailapi/delete_campaign`, body)
+          .then((res) => {
+            if (res.data.status_code == 200) {
+        
+            } else {
+              toast.warning(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            loader("hide");
+            toast.error("Something went wrong");
+          });
+      }
+      else{
+        const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
+
+      }
       loader("hide");
       popup_alert({
         visible: "show",
@@ -434,7 +460,8 @@ console.log("route-->",route)
         type: "success",
         redirect: "",
       });
-      const updatedRes = emailListData?.filter((item) => item?.auto_id !== id);
+      let filterId=item?.id
+      const updatedRes = emailListData?.filter((item) => item?.auto_id !== filterId);
       setEmailListData(updatedRes);
       hideConfirmationModal();
       loader("hide");
@@ -444,6 +471,9 @@ console.log("route-->",route)
       console.log("--err", err)
     }
   }
+
+
+
 
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
@@ -1089,7 +1119,7 @@ console.log("route-->",route)
                               <div className="dlt_btn">
                                 <button
                                   onClick={(e) =>
-                                    showConfirmationPopup(data?.auto_id)
+                                    showConfirmationPopup(data?.auto_id,data?.previous_campaign)
                                   }
                                 >
                                   <img
