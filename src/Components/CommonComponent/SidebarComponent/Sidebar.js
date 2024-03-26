@@ -242,7 +242,7 @@ const Sidebar = () => {
     const divElement = document.querySelector('.left-sidebar');
 
     if (
-      currentLocation === '/webinar/event-listing'
+      currentLocation === '/webinar/event-listing' || currentLocation === '/library-add-link'
     ) {
       divElement?.classList.add('hidesidebar');
     } else {

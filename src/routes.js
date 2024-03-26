@@ -185,7 +185,7 @@ import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Liv
 import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
 import RDListing from "./Components/R&D/RDListing";
-
+import PdfViewer from "./Components/Library/PdfViewer";
 //Survey Form
 
 import Check8 from "./Components/survey/Check8";
@@ -260,6 +260,7 @@ const Routing = () => {
     <Router>
       <Routes>
         //DefaultLayout for Login pages
+        <Route path="/pdfviewer" element={<DefaultLayout component={PdfViewer} />} />
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
         <Route
           path="/informed"
