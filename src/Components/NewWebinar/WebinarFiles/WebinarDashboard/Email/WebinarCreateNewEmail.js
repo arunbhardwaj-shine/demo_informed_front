@@ -582,6 +582,7 @@ const WebinarCreateNewEmail = (props) => {
         }
     };
     const templateClicked = (template, e) => {
+        // console.log(template);
         const div = document.querySelector("img.select_mm");
 
         if (div) {
@@ -589,6 +590,7 @@ const WebinarCreateNewEmail = (props) => {
         }
 
         setTemplateId(template?.id);
+        setEmailSubject(template?.subject);
         templateIdRef.current = template?.id;
 
         setTemplateName(template?.subject);
