@@ -427,7 +427,7 @@ const WebinarEmail = (props) => {
       if(item?.previous_campaign!=1){
         const body = {
           user_id: localStorage.getItem("user_id"),
-          campaign_id: item?.auto_id,
+          campaign_id: item?.id,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -445,9 +445,15 @@ const WebinarEmail = (props) => {
             loader("hide");
             toast.error("Something went wrong");
           });
+          let filterId=item?.id
+      const updatedRes = emailListData?.filter((item) => item?.id !== filterId);
+      setEmailListData(updatedRes);
       }
       else{
         const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
+        let filterId=item?.auto_id
+      const updatedRes = emailListData?.filter((item) => item?.auto_id !== filterId);
+      setEmailListData(updatedRes);
 
       }
       loader("hide");
@@ -457,9 +463,7 @@ const WebinarEmail = (props) => {
         type: "success",
         redirect: "",
       });
-      let filterId=item?.id
-      const updatedRes = emailListData?.filter((item) => item?.id !== filterId);
-      setEmailListData(updatedRes);
+      
       hideConfirmationModal();
       loader("hide");
 
