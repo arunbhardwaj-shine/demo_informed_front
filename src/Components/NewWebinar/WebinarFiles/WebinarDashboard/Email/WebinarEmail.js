@@ -155,7 +155,6 @@ const WebinarEmail = (props) => {
         search:'',
         filter:filter
       };
-      console.log("body-->",body)
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       let response=[]
      await axios
@@ -167,7 +166,6 @@ const WebinarEmail = (props) => {
           loader("hide");
           console.log(err);
       });
-      console.log("res-->",response?.response?.data);
       // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
       let filterData = []
       if (search != "") {
@@ -175,7 +173,6 @@ const WebinarEmail = (props) => {
       } else {
         filterData =response?.response?.data
       }
-      console.log(filterData);
       setEmailListData(filterData)
       setTotalEmailListData(response?.response?.data)
       if(Object.keys(filterdata)?.length==0){
