@@ -427,7 +427,7 @@ const WebinarEmail = (props) => {
         emailAutoresponserId: item?.auto_id
       }
 
-      if(item?.previous_campaign==1){
+      if(item?.previous_campaign!=1){
         const body = {
           user_id: localStorage.getItem("user_id"),
           campaign_id: item?.auto_id,
