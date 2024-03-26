@@ -155,7 +155,7 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                         <table className="table">
                         <thead className="sticky-header">
                             <tr>
-                            <th scope="col" >
+                            <th scope="col" className="sort_option" onClick={() => handleSort('first_name')} >
                                 Name
                             <button
                                 className={`event_sort_btn ${sortBy == "first_name" ?
@@ -178,7 +178,7 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                 </svg>
                                 </button>
                             </th>
-                            <th scope="col">Email
+                            <th scope="col" className="sort_option" onClick={() => handleSort('email')}>Email
                                 <button
                                     className={`event_sort_btn ${sortBy == "email" ?
                                     sortOrder == "asc"
@@ -201,7 +201,7 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                 </button>
                             </th>
                             <th scope="col">Bounced</th>
-                            <th scope="col">Country
+                            <th scope="col" className="sort_option" onClick={() => handleSort('country')}>Country
                                 <button
                                     className={`event_sort_btn ${sortBy == "country" ?
                                     sortOrder == "asc"
@@ -232,7 +232,7 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                 </>
                             ) : (
                                 <>
-                                <th scope="col">Business unit
+                                <th scope="col" className="sort_option" onClick={() => handleSort('ibu')}>Business unit
                                     <button
                                     className={`event_sort_btn ${sortBy == "ibu" ?
                                     sortOrder == "asc"
