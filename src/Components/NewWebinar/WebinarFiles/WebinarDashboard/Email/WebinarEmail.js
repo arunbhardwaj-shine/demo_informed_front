@@ -287,6 +287,7 @@ const WebinarEmail = (props) => {
         }
       }
     }
+    console.log("new Obj-->",newObj)
     setAppliedFilter(newObj);
     setApifilterObject(apifilterObject);
   }
@@ -321,7 +322,7 @@ const WebinarEmail = (props) => {
       setApifilterObject({});
       setEmailListData([]);
       setTotalEmailListData([]);
-      getWebinarCompaignList(obj);
+      getWebinarCompaignList("");
     }
   }
 
