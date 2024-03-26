@@ -19502,10 +19502,9 @@ img.change-password-image {
 
 /**survey data**/
 .survey_data {
-  // background: rgba(0, 102, 190, 0.03);
-  // border-radius: 20px;
-  // padding: 16px;
-  padding: 0;
+  background: rgba(0, 102, 190, 0.03);
+  border-radius: 20px;
+  padding: 20px 16px 25px;
   margin: 20px 0;
   min-height: 86vh;
   max-height: 86vh;
@@ -19575,6 +19574,25 @@ img.change-password-image {
 
         &:last-child {
           width: 22%;
+        }
+      }
+    }
+
+    table {
+      border-spacing: 0px 3px;
+
+      thead {
+        tr {
+          th {
+            background-color: rgb(243 247 252);
+          }
+        }
+
+        &.sticky-header {
+          &:after {
+            background-color: rgb(243 247 252);
+            height: 33px;
+          }
         }
       }
     }
@@ -19809,7 +19827,7 @@ img.change-password-image {
           align-items: center;
           color: #97B6CF;
           font-size: 16px;
-          font-weight: 600;
+          font-weight: 500;
           line-height: normal;
           text-transform: capitalize;
           min-width: 26px;
@@ -21713,7 +21731,8 @@ img.change-password-image {
 
   .survey-rating {
     gap: 30px 2%;
-    padding: 15px 8px 50px; 
+    padding: 15px 8px 50px;
+
     .question-rating {
       width: 32%;
       flex: 0 0 32%;
@@ -22720,7 +22739,7 @@ img.change-password-image {
 
   .survey_data_details .content_analytics_accordian,
   .survey_data .survey_data_accordion_heading {
-    width: 500px;
+    width: 100%;
   }
 
   .right-sidebar {
