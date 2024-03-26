@@ -13,6 +13,8 @@ import { getCampaignId } from "../../actions";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
+import SmartListLayout from "../CommonComponent/SmartListLayout";
+import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
@@ -35,6 +37,7 @@ const VerifyMAIL = (props) => {
     useState(false);
   const [reRender, setReRender] = useState(0);
   const [mailsIncrement, setMailsIncrement] = useState(0);
+  const [selectedListId, setSelectedListId] = useState(0);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [template_source_code, setTemplate] = useState(
     props.getEmailData?.template
@@ -583,11 +586,19 @@ const VerifyMAIL = (props) => {
         return order === 'asc' ? valueA - valueB : valueB - valueA;
       } else {
         return order === 'asc'
-          ? valueA.localeCompare(valueB) // Handle string sorting with locale awareness
-          : valueB.localeCompare(valueA);
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
       }
     });
   };
+
+  const viewSmartListData = async(id) => {
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+  }
   
   return (
     <>
@@ -922,12 +933,15 @@ const VerifyMAIL = (props) => {
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
                           {getSmartListData.length !== 0 && (
-                            <div className="smartlist-view email_box_outer">
+                            <div className="smartlist-view email_box_outer new-smartlist">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
-                                  <h5>{getSmartListData.name}</h5>
+                                  <div className="mail-box-conten-title">
+                                    <h5>{getSmartListData?.name}</h5>
+                                  </div>
+                                  <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
 
-                                  <div className="mailbox-table">
+                                  {/* <div className="mailbox-table">
                                     <table>
                                       <tbody>
                                         <tr>
@@ -982,9 +996,9 @@ const VerifyMAIL = (props) => {
                                       src={path_image + "smartlist-user.svg"}
                                       alt="User icon"
                                     />
-                                    {/*getSmartListData.readers_count*/}
                                     {selectedHcp.length}
-                                  </div>
+                                  </div> */}
+                                  
                                   {/* <div className="mail-stats">
                               <ul>
                                 <li>
@@ -1027,7 +1041,7 @@ const VerifyMAIL = (props) => {
                                 </li>
                               </ul>
                             </div> */}
-                                  <div className="smartlist-buttons">
+                                  {/* <div className="smartlist-buttons">
                                     <button
                                       className="btn btn-primary btn-bordered view"
                                       onClick={() =>
@@ -1036,7 +1050,7 @@ const VerifyMAIL = (props) => {
                                     >
                                       View
                                     </button>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -1096,7 +1110,7 @@ const VerifyMAIL = (props) => {
               Email Sent
             </h5>
           </div>
-          <div className="modal-body">Email has been sent successfuly</div>
+          <div className="modal-body">Email has been sent successfully</div>
           <div className="modal-footer">
             <button
               type="button"
@@ -1370,6 +1384,12 @@ const VerifyMAIL = (props) => {
           {mailsIncrement} mails sent of {selectedHcp.length}
         </h4>
       </Modal>
+
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };

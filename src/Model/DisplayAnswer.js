@@ -153,7 +153,10 @@ if(customAnswer == 1 || graphType === 'bar'){
         }
     },
     legend: {
-        labelFormat: '{name} ({percentage:.0f}%)',
+      labelFormat: '{name} ({percentage:.0f}%)', 
+      itemStyle: {
+        fontSize: '14px'
+      }
     },
     plotOptions: {
         pie: {
