@@ -2640,6 +2640,23 @@ form .input-group {
 .survey_data_accordion_heading table {
   border-spacing: 0px 0px;
   padding-right:8px;
+  width:100%;
+}
+.survey_detail_modal .survey_data_accordion_heading table {
+  border-spacing: 0px 3px;
+}
+.modal .survey_data_accordion_heading table thead.sticky-header th {
+  background: #fff;
+}
+.survey_detail_modal #tagsModal .modal-body {
+  padding-top: 0;
+}
+.survey_detail_modal #tagsModal .modal-header {
+  width: 100%;
+  margin: 0;
+}
+.survey_detail_modal #tagsModal .modal-header .btn-close {
+  right: 0;
 }
 .survey_data_accordion_heading table thead.sticky-header {
   position: sticky;
@@ -2670,6 +2687,16 @@ form .input-group {
 .survey_data_accordion_heading table thead tr th:first-child,
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
+  word-break: break-all;
+}
+.survey_detail_modal .survey_data_accordion_heading table thead tr th:first-child,
+.survey_detail_modal .survey_data_accordion_heading table tbody tr td:first-child {
+  width: 230px;
+  word-break: break-all;
+}
+.survey_detail_modal .survey_data_accordion_heading table thead tr th:nth-child(2),
+.survey_detail_modal .survey_data_accordion_heading table tbody tr td:nth-child(2) {
+  width: 280px;
   word-break: break-all;
 }
 .survey_data_accordion_heading table thead tr th button {
