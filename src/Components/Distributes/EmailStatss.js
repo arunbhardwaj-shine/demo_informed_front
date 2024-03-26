@@ -223,8 +223,6 @@ const EmailStats = (props) => {
   return (
     <>
       <div className="right-sidebar">
-
-
         <section className="search-hcp smart-list-view">
           <div className="result-hcp-table">
             <div className="table-title">

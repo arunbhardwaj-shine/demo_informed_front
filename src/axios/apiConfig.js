@@ -179,4 +179,13 @@ export const ENDPOINT = {
   WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA: "/webinar/get-online-readers",
   STORE_SURVEY_DATA:"auth/store-survey-data",
   GET_SURVEY_DATA:"auth/get-survey-data",
+  WEBINAR_EMAIL_COMPAIGN_LIST:"/webinarEmail/get-campaign-list",
+  WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list",
+  WEBINAR_EMAIL_GET_FILTER_LIST:"/webinarEmail/get-filter-list",
+  WEBINAR_EMAIL_DELETE_COMPAIGN:"/webinarEmail/delete-list",
+  WEBINAR_EMAIL_GET_TEMPLATE_LIST:"/webinarEmail/get-templates-list",
+  INTERNAL_HCP:"/webinarEmail/internal-hcps",
+  US_LIST:"/webinarEmail/us-list",
+  REGISTERED_USERS:"/webinarEmail/registered-users",
+  NO_REGISTERED_USERS:"/webinarEmail/no-registered-users"
 };
