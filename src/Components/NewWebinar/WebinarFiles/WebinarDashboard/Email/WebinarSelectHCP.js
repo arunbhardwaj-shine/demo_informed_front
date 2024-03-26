@@ -63,7 +63,7 @@ const WebinarSelectHCP = (props) => {
     const body = {
       pdf_id: 0,
       user_id: localStorage.getItem("user_id"),
-      eventId: eventId,
+      event_id: eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
         : props?.getWebinarDraftData?.description
