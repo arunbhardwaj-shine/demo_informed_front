@@ -6194,6 +6194,7 @@ h2 {
 
 #accordion-smart .card-body .col {
   flex: 0 0 14.1%;
+  width: 14.1%;
   position: relative;
   margin-right: 2.5%;
   margin-bottom: 30px;

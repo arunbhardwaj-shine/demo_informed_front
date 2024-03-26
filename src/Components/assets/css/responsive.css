@@ -551,6 +551,7 @@
 
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
+    width: 17.5%;
   }
 
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
@@ -2176,6 +2177,7 @@ a.show-less-info p::after {
 
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
+    width: 17.5%;
   }
 
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
