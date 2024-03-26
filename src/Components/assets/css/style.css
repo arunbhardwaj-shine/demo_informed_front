@@ -654,7 +654,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   flex: 0 0 430px;
   text-align: center;
   max-width: 430px;
-  min-height: 342px;
+  min-height: 366px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -806,7 +806,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding: 27px 16px 16px 24px;
   background: var(--white);
   border-radius: 20px 20px;
-  z-index: 4;
+  z-index: 5;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -2481,8 +2481,10 @@ form .input-group {
   background: var(--white);
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2);
   border-radius: 15px;
-  width: 224px;
-  height: 224px;
+  /* width: 224px;
+  height: 224px; */
+  width: 164px;
+  height: 164px;
   margin: 0 auto;
   text-align: center;
   display: flex;
@@ -2638,6 +2640,23 @@ form .input-group {
 .survey_data_accordion_heading table {
   border-spacing: 0px 0px;
   padding-right:8px;
+  width:100%;
+}
+.survey_detail_modal .survey_data_accordion_heading table {
+  border-spacing: 0px 3px;
+}
+.modal .survey_data_accordion_heading table thead.sticky-header th {
+  background: #fff;
+}
+.survey_detail_modal #tagsModal .modal-body {
+  padding-top: 0;
+}
+.survey_detail_modal #tagsModal .modal-header {
+  width: 100%;
+  margin: 0;
+}
+.survey_detail_modal #tagsModal .modal-header .btn-close {
+  right: 0;
 }
 .survey_data_accordion_heading table thead.sticky-header {
   position: sticky;
@@ -2668,6 +2687,16 @@ form .input-group {
 .survey_data_accordion_heading table thead tr th:first-child,
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
+  word-break: break-all;
+}
+.survey_detail_modal .survey_data_accordion_heading table thead tr th:first-child,
+.survey_detail_modal .survey_data_accordion_heading table tbody tr td:first-child {
+  width: 230px;
+  word-break: break-all;
+}
+.survey_detail_modal .survey_data_accordion_heading table thead tr th:nth-child(2),
+.survey_detail_modal .survey_data_accordion_heading table tbody tr td:nth-child(2) {
+  width: 280px;
   word-break: break-all;
 }
 .survey_data_accordion_heading table thead tr th button {
@@ -3168,7 +3197,7 @@ h5 {
 
 table tr td.delete_row img,
 table tr:hover td.delete_row img {
-  padding: 0;
+  /* padding: 0; */
   position: absolute;
   background: var(--light-blue);
   right: -10px;
@@ -5029,16 +5058,15 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 15px;
   padding: 15px 49px 25px 25px;
 }
-
+#mail-view .mail-stats ul li .mail_click .mail_click_box {
+  min-width: 98px;
+}
 #mail-view .mail-stats ul li .mail_click {
   display: flex;
   min-width: 130px;
   justify-content: space-between;
 }
 
-#mail-view .mail-stats ul li .mail_click .mail_click_box {
-  min-width: 98px;
-}
 
 /**View-Smart-List**/
 .smart-list-btns {
@@ -6653,6 +6681,7 @@ button.btn-bordered.btn-primary.disabled {
 
 .select-mail-template .email-form form .input-group .tags_added {
   flex: 1 1;
+  padding-left:20px;
 }
 
 #save_new_template_action_modal form .form-group {
@@ -6881,7 +6910,10 @@ input:-webkit-autofill {
   top: 45px;
   bottom: auto;
 }
-
+.selected-hcp-list table tr:last-child td .split-button-dropup.edit-country-dropdown>div:nth-child(4){
+  top: auto;
+    bottom: 25px;
+}
 .modal.update_quest .bottom-open .split-button-dropup>div:nth-child(4) {
   top: auto;
   bottom: 45px;
@@ -8937,7 +8969,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .link-popup {
   position: absolute;
   z-index: 4;
-  padding: 10px;
+  padding: 0 10px 10px;
 }
 
 .link-popup .link-popup-inner {
@@ -8995,7 +9027,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .link-popup .link-popup-inner div button {
   background: transparent;
   color: var(--white);
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 300;
 }
 
@@ -11701,6 +11733,7 @@ button.event_sort_btn.svg_active svg {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  background: transparent;
 }
 
 .chatlink-left .form-group:first-child {

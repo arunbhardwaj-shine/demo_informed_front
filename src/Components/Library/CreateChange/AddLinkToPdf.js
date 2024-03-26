@@ -9,7 +9,7 @@ import Viewer from "@phuocng/react-pdf-viewer";
 import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
 import Select from "react-select";
 import axios from "axios";
-import { DocumentLoadEvent, RenderPageProps } from "@react-pdf-viewer/core";
+import { DocumentLoadEvent, RenderPageProps, SpecialZoomLevel } from "@react-pdf-viewer/core";
 import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
 import ConfirmationModal from "../../../Model/ConfirmationModel";
@@ -35,6 +35,7 @@ const AddLinkToPdf = () => {
   const [endX, setEndX] = useState(0);
   const [endY, setEndY] = useState(0);
   const [file, setFile] = useState();
+  const [documentHeight, setDocumentHeight] = useState(0);
   const [startXCordinate, setStartXCordinate] = useState(0);
   const [startYCordinate, setStartYCordinate] = useState(0);
   const [endXCordinate, setEndXCordinate] = useState(0);
@@ -65,6 +66,9 @@ const AddLinkToPdf = () => {
   const [viewerscroll, setViewerscroll] = useState(0);
   const [selectedUrl, setSelectedUrl] = useState("");
   const [pageNo, setPageNo] = useState(0);
+  const [defaultScale, setDefaultScale] = useState(1.3347);
+  const [count, setCount] = useState(0);
+  const [dynamicScale, setDynamicScale] = useState(0);
   const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
   const [commanShow, setCommanShow] = useState(false);
@@ -81,10 +85,49 @@ const AddLinkToPdf = () => {
   });
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const defaultScale = 1.3347;
+  //const defaultScale = 1.3347;
+  
+
+    const fitToWidth = ()=> {
+    // Calculate the scale factor based on the width of the viewport and the PDF page
+    const viewportWidth = document.documentElement.clientWidth;
+    const viewportHeight = document.documentElement.clientHeight;
+    console.log(viewportWidth,"view");
+    console.log(viewportHeight,"view");
+    const pageWidth = document.querySelector('.viewer-text-layer').clientWidth;
+    const pageHeight = document.querySelector('.viewer-text-layer').clientHeight;
+    console.log(pageWidth,"page");
+    console.log(pageHeight,"page");
+    const scale = viewportWidth / pageWidth;
+    console.log(scale);
+
+
+    if(scale<1.3347){
+      setDefaultScale(scale)
+      console.log(file);
+      setFile(file)
+      var file_tem =file;
+      setFile((prevst)=>file_tem+'?v=1')
+
+      setTimeout(()=>{setFile((prevst)=>file_tem)},10)
+      //setFile((prevst)=>file_tem)
+    }
+   // https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1711002590.pdf
+    // Update the state to reflect the new scale
+    // You might also need to adjust the page number if you want to maintain the current page
+    // For simplicity, this example resets to the first page
+    
+    // Apply the scale using CSS
+  //  document.querySelector('.react-pdf__Page').style.transform = `scale(${scale})`;
+  }
+
+
+  
   const parentRef = useRef(null);
   const popupRef = useRef(null);
   const renderPage = (props: RenderPageProps) => {
+    // console.log(props.scale,"pure scale");
+    setDynamicScale(props.scale);
     return (
       <>
         <div id={"canvas_page_" + props.pageIndex}>
@@ -102,6 +145,19 @@ const AddLinkToPdf = () => {
     );
   };
 
+  const handleCompleteDocumentLoad = (e: DocumentLoadEvent) => {
+    setTimeout(function(){
+      const divElement = document.querySelector(".viewer-layout-container");
+      if (divElement) {
+        const height = divElement.clientHeight;
+       
+        setDocumentHeight(height);
+      } else {
+        console.error('Element with class "modal-body-content" not found.');
+      }
+    }, 2000);
+};
+
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     try {
       const toolbar = document.querySelector(".viewer-layout-toolbar");
@@ -117,6 +173,8 @@ const AddLinkToPdf = () => {
 
       const divElement = document.querySelector(".modal-body-content");
       const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
+
+
 
       if (viewPageLayers) {
         setTimeout(() => {
@@ -208,6 +266,8 @@ const AddLinkToPdf = () => {
               }
             });
           }
+
+          fitToWidth()
         }, 1000);
       }
     } catch (err) {
@@ -218,7 +278,11 @@ const AddLinkToPdf = () => {
   useEffect(() => {
     initFun();
     videoFun();
+    console.log("changed");
   }, []);
+
+
+  
 
   const initFun = async () => {
     try {
@@ -363,6 +427,14 @@ const AddLinkToPdf = () => {
   };
 
   useEffect(() => {
+    const handleGlobalMouseUp = (event) => {
+      console.log("Global");
+      // Check if the mouseup event target is not inside the parentRef
+      if (parentRef.current && !parentRef.current.contains(event.target)) {
+        handleMouseUp(event);
+      }
+    };
+
     parentRef?.current?.addEventListener("mousedown", handleMouseDown);
     parentRef?.current?.addEventListener("mousemove", handleMouseMove);
     parentRef?.current?.addEventListener("mouseup", handleMouseUp);
@@ -371,6 +443,9 @@ const AddLinkToPdf = () => {
       parentRef?.current?.addEventListener("dragstart", handleDragStart); // Attach the event listener
     }
 
+     // Add global mouseup event listener
+    document.addEventListener("mouseup", handleGlobalMouseUp);
+
     return () => {
       parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
@@ -378,6 +453,9 @@ const AddLinkToPdf = () => {
       if (parentRef?.current) {
         parentRef?.current.removeEventListener("dragstart", handleDragStart);
       }
+
+      // Remove global mouseup event listener
+      document.removeEventListener("mouseup", handleGlobalMouseUp);
     };
   }, [dragging, startX, startY, endX, endY, file]);
 
@@ -407,7 +485,7 @@ const AddLinkToPdf = () => {
 
   const handleMouseMove = (event) => {
     const targetLink = event.target.closest(".viewer-annotation-link");
-
+    
     if (targetLink) {
       const anchorTag = targetLink.querySelector("a");
       if (anchorTag) {
@@ -471,9 +549,8 @@ const AddLinkToPdf = () => {
       const scrollTop = scrollLayer.scrollTop;
       const textLayer = parentRef.current.querySelector(".viewer-text-layer");
       const pageHeight = textLayer.getBoundingClientRect().height;
-
       getMousePosition(parentRef.current, event, scrollTop);
-
+      
       // Calculate the coordinates relative to the viewer
       const x = event.clientX - viewerRect.left;
       const y = event.clientY - viewerRect.top;
@@ -510,10 +587,22 @@ const AddLinkToPdf = () => {
       if (showAddLink) {
         setHighlighted(true);
       }
+    }else{
+      if(dragging){
+        if (event.target.name === "url") return;
+        if (event.target.name === "addurl") return;
+        window.getSelection().removeAllRanges();
+        setDragging(false);
+        if (showAddLink) {
+          setHighlighted(true);
+        }
+        console.log("Outside function");
+      }
     }
   };
 
   const getMousePosition = (canvas, event, scrollTop) => {
+    // console.log(event.clientX,"event.clientX");
     const closestElement = event.target.closest(".pdf_page_class");
     if (closestElement) {
       const closestElementId = closestElement.id;
@@ -523,8 +612,11 @@ const AddLinkToPdf = () => {
         `#${closestElementId} .viewer-text-layer`
       );
       const rect = viewerTextLayer.getBoundingClientRect();
+      // console.log(event.clientX,rect.left,"RECT LEFT")
       const x = event.clientX - 16 - rect.left;
       const y = event.clientY - rect.top - scrollTop;
+      console.log(event.clientX,"event.clientX");
+      console.log(rect.left,"rect.left");
       setXcoordinates(x);
       setYcoordinates(rect.top);
     }
@@ -546,14 +638,32 @@ const AddLinkToPdf = () => {
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
     let actual_width = xcoordinates + 15 - box_width;
+    console.log(xcoordinates,"xcoordinates")
+    console.log(box_width,"box_width")
+    console.log(actual_width,"actual_width")
     let x_cord = actual_width / 3.8;
-    let actual_height = mousefirstdown + 11 - ycoordinates;
+    
+    let actual_height = mousefirstdown - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
     let box_width_y = box_height / 3.7;
+    
+    if(defaultScale<1.3347){
+      box_width_y = 1.85*box_width_y;
+      box_width_x = 1.85*box_width_x;
+      y_cord = 1.85*y_cord;
+      x_cord = x_cord*1.85;
+
+
+    }
+
+
+    // console.log(box_width_x,"box_width_x");
+    // console.log(box_width_y,"box_width_y");
     let cordinates =
       x_cord + "," + parseInt(y_cord) + "," + box_width_x + "," + box_width_y;
+      console.log(cordinates,"cordinates");
     addLinkToPdf(cordinates, page_no, embed_url, file);
   };
 
@@ -767,9 +877,7 @@ const AddLinkToPdf = () => {
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
-        <div className="custom-container">
-          <Row>
+      <Col className="right-sidebar custom-change full-screen">
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
@@ -800,7 +908,8 @@ const AddLinkToPdf = () => {
                           <a href="">Create Your Content</a>
                         </li>
                         {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <li className="active active-main">
                             <a href="">[Embedding Video]</a>
                           </li>
@@ -811,7 +920,7 @@ const AddLinkToPdf = () => {
                             className={
                               localStorage.getItem("user_id") !=
                               "rjiGlqA9DXJVH7bDDTX0Lg=="
-                                ? "active active-main"
+                                ? ""
                                 : ""
                             }
                           >
@@ -901,6 +1010,12 @@ const AddLinkToPdf = () => {
                             >
                               Upload new Video +
                             </Button>
+                             {/* <Button
+                              className="btn-bordered btn-voilet"
+                              onClick={() => fitToWidth(true)}
+                            >
+                             Calculate
+                            </Button> */}
                           </div>
                         </Form.Group>
                       </div>
@@ -967,7 +1082,9 @@ const AddLinkToPdf = () => {
                               id="container"
                               renderPage={renderPage}
                               defaultScale={defaultScale}
+                              count={count}
                               onPageChange={handleDocumentLoad}
+                              onDocumentLoad={handleCompleteDocumentLoad}
                               renderMode="canvas"
                               fileUrl={file}
                               // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
@@ -988,7 +1105,16 @@ const AddLinkToPdf = () => {
                               }}
                             />
                             {highlighted && (
-                              <div className="link_popup">
+                              <div className="link_popup" style={{
+                                left: `${Math.min(startX, endX)}px`,
+                                top: `${
+                                      Math.min(startY, endY) < 145 ?
+                                        Math.min(startY, endY) + 151
+                                      :
+                                        (documentHeight) - (Math.min(startY, endY) + Math.abs(startY - endY)) > 145 ? 
+                                        Math.min(startY, endY) + Math.abs(startY - endY) + 10 :
+                                        Math.min(startY, endY) - 151}px`,
+                              }}>
                                 <form action="#" id="addLinkForm">
                                   <button
                                     type="button"
@@ -1035,8 +1161,6 @@ const AddLinkToPdf = () => {
                 </div>
               </div>
             </div>
-          </Row>
-        </div>
       </Col>
       <CommonModel
         show={commanShow}
@@ -1084,7 +1208,7 @@ const AddLinkToPdf = () => {
           <div className="form-group">
             <div className="ebook-format">
               <label htmlFor="">
-                Video title <span>*</span>
+                Video title <span style={{"color":"#d61975"}}>*</span>
               </label>
               <input
                 type="text"

@@ -570,6 +570,7 @@ const PreviewContent = () => {
                         Change content file
                       </Button>
                     </div>
+                    <div className="new_preview_pdflink">
                     {newTemplateClicked ? (
                       pdfData?.file_type && pdfData.file_type == "ebook" ? (
                         <RenderPdf
@@ -593,6 +594,7 @@ const PreviewContent = () => {
                         />
                       )
                     ) : null}
+                    </div>
                   </>
                 </Col>
               </div>
