@@ -2209,8 +2209,7 @@ const TemplateBuilder = (props) => {
             </div>
 
             <div className="top-header">
-              <div className="custom-container">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center w-100">
                   <div className="page-title">
                     <h5>Select Template</h5>
                   </div>
@@ -2221,7 +2220,6 @@ const TemplateBuilder = (props) => {
                     Create a new template
                   </button>
                 </div>
-              </div>
             </div>
 
             <section className="select-mail-template">
@@ -2265,8 +2263,7 @@ const TemplateBuilder = (props) => {
                   {newTemplateClicked == true ? (
                     <div className="email-form">
                       <form>
-                        <div className="form-inline row justify-content-between align-items-center"></div>
-                        <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-inline d-flex justify-content-end align-items-center">
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {
                               <>
@@ -2361,7 +2358,7 @@ const TemplateBuilder = (props) => {
                     <div className="email-form">
                       <form>
                         <div className="form-inline row justify-content-between align-items-center"></div>
-                        <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-inline d-flex justify-content-end align-items-center">
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {templateName != "" && (
                               <>
