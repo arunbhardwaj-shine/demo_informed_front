@@ -867,9 +867,11 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding: 16px 16px 20px;
   height: calc(100% - 22px);
 }
+
 .email-result-block .approved .mail-box-content {
   height: 100%;
 }
+
 .event_listing .email-result-block .mail-box-content {
   height: 100%;
   padding: 16px 16px 20px 24px;
@@ -1438,11 +1440,11 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   color: var(--light-blue);
   margin: 0 0 6px;
   overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .smartlist-view .mailbox-table th {
@@ -1536,17 +1538,20 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   margin: 0 0px;
   font-weight: 500;
 }
-.smartlist-buttons button.btn.btn-primary.btn-filled{
-    border: 1px solid var(--light-blue);
-      background: var(--light-blue);
-      color: var(--white);
+
+.smartlist-buttons button.btn.btn-primary.btn-filled {
+  border: 1px solid var(--light-blue);
+  background: var(--light-blue);
+  color: var(--white);
 }
+
 .smartlist-buttons button.edit_list:hover,
 .smartlist-buttons button.view:hover,
 .btn.btn-filled:hover,
 a.btn.btn-filled:hover .smartlist-buttons a.btn.btn-primary.btn-filled:hover,
 .smartlist-buttons a.btn.btn-primary.btn-filled:active,
-.smartlist-buttons a.btn.btn-primary.btn-filled:focus, .smartlist-buttons button.btn.btn-primary.btn-filled:hover {
+.smartlist-buttons a.btn.btn-primary.btn-filled:focus,
+.smartlist-buttons button.btn.btn-primary.btn-filled:hover {
   background: var(--dark-blue);
   color: var(--white);
   border-color: var(--dark-blue);
@@ -2063,13 +2068,15 @@ ul.tabnav-link li {
   position: relative;
 }
 
-.create-smart-step-box .form-group .login-validation {
+.create-smart-step-box .form-group .login-validation,
+.email-form form .form-inline .login-validation {
   position: static;
 }
 
 .email-form form .form-inline .login-validation {
   top: 70px;
   left: 30px;
+  position: static;
 }
 
 .email-form {
@@ -2131,9 +2138,11 @@ form .input-group .input-group-prepend {
   display: flex;
   align-items: center;
 }
+
 .padding-add form .input-group .input-group-prepend {
   padding: 0px;
 }
+
 form .input-group .tags_added ul li {
   list-style: none;
   background: #e9deec;
@@ -2469,6 +2478,8 @@ form .input-group {
   display: flex;
   justify-content: center;
   align-content: center;
+  flex-wrap: wrap;
+  gap: 30px 0px;
 }
 
 .send-option-list ul li {
@@ -2514,10 +2525,11 @@ form .input-group {
 }
 
 .send-mail-options {
-  height: calc(100vh - 200px);
+  min-height: calc(100vh - 200px);
   align-items: center;
   justify-content: center;
   display: flex;
+  padding: 30px 0;
 }
 
 .search-hcp-table {
@@ -2588,14 +2600,17 @@ form .input-group {
   font-size: 13px;
   padding: 17px 16px;
 }
+
 .survey_data_accordion_heading table tbody td svg {
   width: 12px;
   height: 12px;
   margin: -1px 0 0 2px;
 }
+
 .survey_data_accordion_heading table tbody tr {
   position: relative;
 }
+
 .survey_data_accordion_heading table tbody tr.view:after {
   content: "";
   position: absolute;
@@ -2635,39 +2650,48 @@ form .input-group {
   border-collapse: separate;
   border-spacing: 0px 22px;
   padding-left: 5px;
+  padding-right: 11px;
 }
 
 .survey_data_accordion_heading table {
   border-spacing: 0px 0px;
-  padding-right:8px;
-  width:100%;
+  padding-right: 8px;
+  width: 100%;
 }
+
 .survey_detail_modal .survey_data_accordion_heading table {
   border-spacing: 0px 3px;
 }
+
 .modal .survey_data_accordion_heading table thead.sticky-header th {
   background: #fff;
 }
+
 .survey_detail_modal #tagsModal .modal-body {
   padding-top: 0;
 }
+
 .survey_detail_modal #tagsModal .modal-header {
   width: 100%;
   margin: 0;
 }
+
 .survey_detail_modal #tagsModal .modal-header .btn-close {
   right: 0;
 }
+
 .survey_data_accordion_heading table thead.sticky-header {
   position: sticky;
   z-index: 5;
   top: 0;
   transition: 0.3s linear;
 }
-.survey_data_accordion_heading table thead.sticky-header tr th{
+
+.survey_data_accordion_heading table thead.sticky-header tr th {
   padding-bottom: 10px;
-    background: #fbfcfd;
+  background: #fbfcfd;
 }
+
 .survey_data_accordion_heading table thead tr {
   box-shadow: none;
   background: transparent;
@@ -2680,28 +2704,34 @@ form .input-group {
   color: var(--dark-blue);
   padding: 5px 16px 16px;
 }
-.survey_data_accordion_heading table thead tr th:nth-child(2), .survey_data_accordion_heading table tbody tr td:nth-child(2) {
-  width:300px;
+
+.survey_data_accordion_heading table thead tr th:nth-child(2),
+.survey_data_accordion_heading table tbody tr td:nth-child(2) {
+  width: 300px;
   word-break: break-all;
 }
+
 .survey_data_accordion_heading table thead tr th:first-child,
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
   word-break: break-all;
 }
+
 .survey_detail_modal .survey_data_accordion_heading table thead tr th:first-child,
 .survey_detail_modal .survey_data_accordion_heading table tbody tr td:first-child {
   width: 230px;
   word-break: break-all;
 }
+
 .survey_detail_modal .survey_data_accordion_heading table thead tr th:nth-child(2),
 .survey_detail_modal .survey_data_accordion_heading table tbody tr td:nth-child(2) {
   width: 280px;
   word-break: break-all;
 }
+
 .survey_data_accordion_heading table thead tr th button {
   background: transparent;
-  padding-left:3px;
+  padding-left: 3px;
 }
 
 
@@ -2736,14 +2766,17 @@ form .input-group {
   border-radius: 0px 13px 13px 0px;
   padding: 10px 10px;
 }
+
 .survey_data_accordion_heading table tbody td:last-child {
   border-radius: 0px 9px 9px 0px;
   padding-right: 44px;
 }
+
 .selected-hcp-list table tr td:nth-last-child(2),
 .result-hcp-table .table tbody tr td:nth-last-child(2) {
   border-radius: 0px 13px 13px 0px;
 }
+
 .survey_data_accordion_heading table tbody tr.view.show:after {
   transform: rotate(180deg) translateY(50%);
 }
@@ -2765,17 +2798,20 @@ form .input-group {
   border-top: 0.5px dashed #97B6CF;
   padding-right: 16px;
 }
-.survey_data_accordion_heading table tbody tr.fold td .survey-data h6{
+
+.survey_data_accordion_heading table tbody tr.fold td .survey-data h6 {
   color: #004A89;
-    font-size: 13px;
-    font-weight: 500;
-    margin:0 0 6px;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 6px;
 }
+
 .survey_data_accordion_heading table tbody tr.fold td .survey-data p {
-color: #70899E;
+  color: #70899E;
   font-size: 13px;
   font-weight: 400;
 }
+
 .table tr:hover td.add-new-hcp {
   background: transparent;
 }
@@ -3879,6 +3915,8 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 30px;
   padding: 20px 24px 24px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .preview_mail .preview-mail-box {
@@ -3890,6 +3928,7 @@ form#add_hcp_form .row:not(:first-child) {
   padding: 20px 16px;
   margin: 0 auto;
   text-align: center;
+  width: 100%;
 }
 
 .preview_mail .preview-mail-box img {
@@ -4012,7 +4051,7 @@ form#add_hcp_form .row:not(:first-child) {
   line-height: 21px;
   color: var(--dark-blue);
   font-weight: 500;
-      margin: 0 0 5px;
+  margin: 0 0 5px;
 }
 
 .mail-recipt p span,
@@ -4783,12 +4822,16 @@ form#add_hcp_form .row:not(:first-child) {
 #add-list .email_box {
   margin-bottom: 49px;
 }
-#add-list .new-smartlist .email_box, .select-smart-list .new-smartlist .email_box{
+
+#add-list .new-smartlist .email_box,
+.select-smart-list .new-smartlist .email_box {
   margin-bottom: 0px;
 }
+
 .smartlist-result-block.new-smartlist .smartlist_box_block {
   margin-bottom: 49px;
 }
+
 #add-list .modal-footer,
 #send-sample .modal-footer {
   width: 100%;
@@ -4850,6 +4893,7 @@ form#add_hcp_form .row:not(:first-child) {
   align-items: center;
   justify-content: center;
   display: flex;
+  cursor: pointer;
 }
 
 .selected-hcp-table .search-hcp-box .remove-existing-field img {
@@ -5001,6 +5045,12 @@ form#add_hcp_form .row:not(:first-child) {
 
 #mail-view .mail-stats ul {
   justify-content: space-between;
+}
+
+#mail-view .webinar-mail-stats ul {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 #mail-view .mail-stats ul.mail-stats-ul {
@@ -6694,7 +6744,7 @@ button.btn-bordered.btn-primary.disabled {
 
 .select-mail-template .email-form form .input-group .tags_added {
   flex: 1 1;
-  padding-left:20px;
+  padding-left: 20px;
 }
 
 #save_new_template_action_modal form .form-group {
@@ -6923,10 +6973,12 @@ input:-webkit-autofill {
   top: 45px;
   bottom: auto;
 }
-.selected-hcp-list table tr:last-child td .split-button-dropup.edit-country-dropdown>div:nth-child(4){
+
+.selected-hcp-list table tr:last-child td .split-button-dropup.edit-country-dropdown>div:nth-child(4) {
   top: auto;
-    bottom: 25px;
+  bottom: 25px;
 }
+
 .modal.update_quest .bottom-open .split-button-dropup>div:nth-child(4) {
   top: auto;
   bottom: 45px;
@@ -7149,9 +7201,11 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 74px;
 }
+
 .search-hcp.smart-list-view table.get-details#table-to-xls thead.sticky-header {
   top: 14px;
 }
+
 .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header,
 .invitee table#table-to-xls thead.sticky-header {
   top: 74px;
@@ -8133,12 +8187,13 @@ hr {
   border-color: var(--light-gray);
 }
 
-.selected-hcp-list#analytics-hcp-table table tr td:last-child {
-  padding: 10px 5px;
+.selected-hcp-list#analytics-hcp-table table tr td:last-child,
+.selected-hcp-list#analytics-hcp-table table thead tr th:last-child {
+  padding: 14px 5px;
 }
 
 #analytics-hcp-table.selected-hcp-list table td {
-  padding: 24px 5px;
+  padding: 14px 11px;
 }
 
 .selected-hcp-list#analytics-hcp-table table tr td:nth-last-child(2) {
@@ -8151,8 +8206,8 @@ hr {
 }
 
 .selected-hcp-list#analytics-hcp-table table th {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .smart-list-view .selected-hcp-list_detail {
@@ -8318,6 +8373,7 @@ table tr.data-not-found td {
   min-width: 330px;
   margin-right: 10px;
 }
+
 .email-form.padding-add form {
   padding: 0 12px;
 }
@@ -8325,6 +8381,7 @@ table tr.data-not-found td {
 .email-form.padding-add .form-inline .form-group input[type="text"] {
   margin-right: 0;
 }
+
 td.removed_td.centered {
   text-align: center;
 }
@@ -8461,11 +8518,14 @@ section.search-hcp.smart-list-view .header-btn-left {
   max-width: 1057px;
   margin: 0 auto;
 }
-.smart-list-view .selected-hcp-list.expand, .smart-list-view .selected-hcp-list.expand table {
+
+.smart-list-view .selected-hcp-list.expand,
+.smart-list-view .selected-hcp-list.expand table {
   max-width: 100%;
 }
+
 .search-hcp .email_stats .accordion .accordion-item button.accordion-button {
-  padding: 0 50px 0 20px;
+  padding: 0 50px 0 0px;
 }
 
 .search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button>table tr td:first-child,
@@ -8493,7 +8553,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .email_stats_title_heading {
-  padding: 0 70px 0 27px;
+  padding: 0 70px 0 0px;
 }
 
 .search-hcp .email_stats#analytics-hcp-table table tr th:nth-child(4) {
@@ -8545,8 +8605,12 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 #analytics-hcp-table.selected-hcp-list table th.smartlistth,
 #analytics-hcp-table.selected-hcp-list table td.smartlistth {
-  word-break: break-word;
+  /* word-break: break-word; */
   width: 170px;
+}
+
+.smart-list-view .selected-hcp-list#analytics-hcp-table .accordion .accordion-collapse .accordion-body {
+  padding: 10px 0;
 }
 
 #analytics-hcp-table .load_more {
@@ -8569,8 +8633,8 @@ section.search-hcp.smart-list-view .header-btn-left {
   color: var(--white);
 }
 
-/** Auto Mail **/
 
+/** Auto Mail **/
 .mail_trigger_left h4 {
   color: var(--light-blue);
   font-weight: 500;
