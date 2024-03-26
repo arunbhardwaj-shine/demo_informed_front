@@ -492,7 +492,6 @@ const WebinarCreateNewEmail = (props) => {
             : props?.getWebinarDraftData?.campaign;
 
         // if (typeof campaign !== "undefined" && campaign !== "") {
-            console.log(props?.getWebinarDraftData);
 
             let up_temp = template;
             if (editorRef.current) {
@@ -582,7 +581,6 @@ const WebinarCreateNewEmail = (props) => {
         }
     };
     const templateClicked = (template, e) => {
-        // console.log(template);
         const div = document.querySelector("img.select_mm");
 
         if (div) {
@@ -590,7 +588,10 @@ const WebinarCreateNewEmail = (props) => {
         }
 
         setTemplateId(template?.id);
-        setEmailSubject(template?.subject);
+        if(!emailSubject){
+            setEmailSubject(template?.subject);
+
+        }
         templateIdRef.current = template?.id;
 
         setTemplateName(template?.subject);
