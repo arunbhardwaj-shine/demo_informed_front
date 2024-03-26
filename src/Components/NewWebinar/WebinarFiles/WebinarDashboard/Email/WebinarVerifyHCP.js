@@ -994,7 +994,6 @@ const WebinarVerifyHCP = (props) => {
         setTimeout(() => {
             setSelectedHcp(vr);
             updateReader();
-            console.log("This will run after 1 second!");
             setUpdateCounter(updateCounter + 1);
         }, 50);
     };

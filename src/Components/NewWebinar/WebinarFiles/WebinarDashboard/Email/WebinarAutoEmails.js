@@ -541,7 +541,6 @@ const WebinarAutoEmail = () => {
           };
         }
       });
-      console.log("body_dat", body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),

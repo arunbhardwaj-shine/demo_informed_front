@@ -340,7 +340,6 @@ const WebinarVerifyMAIL = (props) => {
             : props.getWebinarDraftData?.campaign_data?.template_id, 
         },
       };
-      console.log("body single-->",body)
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
@@ -430,12 +429,9 @@ const WebinarVerifyMAIL = (props) => {
     const allTags = props.getWebinarEmailData?.tags
       ? props.getWebinarEmailData?.tags
       : props.getWebinarDraftData?.tags;
-    console.log(allTags);
     allTags?.splice(i, 1);
-    console.log(allTags);
     setReRender(reRender + 1);
-    console.log("props.tags");
-    //  console.log(props.getEmailData.tags);
+
 
     //  props.getEmailData();
   };
@@ -1239,7 +1235,6 @@ const WebinarVerifyMAIL = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
 
   //  let emailData = state.getEmailData;
   return state;
