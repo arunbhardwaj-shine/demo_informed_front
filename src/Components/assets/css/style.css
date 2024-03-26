@@ -5058,16 +5058,15 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 15px;
   padding: 15px 49px 25px 25px;
 }
-
+#mail-view .mail-stats ul li .mail_click .mail_click_box {
+  min-width: 98px;
+}
 #mail-view .mail-stats ul li .mail_click {
   display: flex;
   min-width: 130px;
   justify-content: space-between;
 }
 
-#mail-view .mail-stats ul li .mail_click .mail_click_box {
-  min-width: 98px;
-}
 
 /**View-Smart-List**/
 .smart-list-btns {
