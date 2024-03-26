@@ -3,7 +3,6 @@ import { combineReducers } from "redux";
 
 const getListId = (listId = JSON.parse(localStorage.getItem('getListId')), action) => {
   if (action.type === "LIST_ID") {
-    // console.log("helllo in 1")
     localStorage.setItem('getListId', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -12,7 +11,6 @@ const getListId = (listId = JSON.parse(localStorage.getItem('getListId')), actio
 
 const getUpdatedData = (data = JSON.parse(localStorage.getItem('getUpdatedData')), action) => {
   if (action.type === "GET_UPDATED_DATA") {
-    // console.log("helllo in 2")
     localStorage.setItem('getUpdatedData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -21,7 +19,6 @@ const getUpdatedData = (data = JSON.parse(localStorage.getItem('getUpdatedData')
 
 const getEmailData = (emailData = JSON.parse(localStorage.getItem('getEmailData')), action) => {
   if (action.type === "GET_EMAIL_DATA") {
-    // console.log("helllo in 3")
     localStorage.setItem('getEmailData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -30,7 +27,6 @@ const getEmailData = (emailData = JSON.parse(localStorage.getItem('getEmailData'
 
 const getSelectedSmartListData = (smartListData = JSON.parse(localStorage.getItem('getSelectedSmartListData')), action) => {
   if (action.type === "GET_SMART_LIST_DATA") {
-    // console.log("helllo in 4")
     localStorage.setItem('getSelectedSmartListData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -39,7 +35,6 @@ const getSelectedSmartListData = (smartListData = JSON.parse(localStorage.getIte
 
 const getCampaignId = (uniqueId = JSON.parse(localStorage.getItem('getCampaignId')), action) => {
   if (action.type === "GET_UNIQUE_ID") {
-    // console.log("helllo in 5")
     localStorage.setItem('getCampaignId', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -49,7 +44,6 @@ const getCampaignId = (uniqueId = JSON.parse(localStorage.getItem('getCampaignId
 
 const getDraftData = (draftData = JSON.parse(localStorage.getItem('getDraftData')), action) => {
   if (action.type === "GET_DRAFT_DATA") {
-    // console.log("helllo in 6")
     localStorage.setItem('getDraftData', JSON.stringify(action.payload));
     return action.payload;
   }
@@ -58,13 +52,61 @@ const getDraftData = (draftData = JSON.parse(localStorage.getItem('getDraftData'
 
 const getSelected =(selected=JSON.parse(localStorage.getItem('getSelected')),action) => {
   if (action.type === "GET_SELECTED") {
-    // console.log("helllo in 7")
-    // console.log(action.payload)
     localStorage.setItem('getSelected', JSON.stringify(action.payload));
     return action.payload;
   }
   return selected;
 
+}
+
+const getTestingSelected =(testselected=JSON.parse(localStorage.getItem('getTestSelected')),action) => {
+  if (action.type === "GET_TESTING_SELECTED") {
+
+    localStorage.setItem('getTestingSelected', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return testselected;
+
+}
+
+const getWebinarEmailData = ( webinarEmailData = JSON.parse(localStorage.getItem('getWebinarEmailData')), action) => {
+  if (action.type === "GET_WEBINAR_EMAIL_DATA") {
+    localStorage.setItem('getWebinarEmailData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarEmailData;
+};
+
+const getWebinarSelectedSmartListData = (webinarSelectedSmartListData = JSON.parse(localStorage.getItem('getWebinarSelectedSmartListData')), action) => {
+  if (action.type === "GET_WEBINAR_SMART_LIST_DATA") {
+    localStorage.setItem('getWebinarSelectedSmartListData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarSelectedSmartListData;
+};
+
+const getWebinarDraftData = (webinarDraftData = JSON.parse(localStorage.getItem('getWebinarDraftData')), action) => {
+  if (action.type === "GET_WEBINAR_DRAFT_DATA") {
+    localStorage.setItem('getWebinarDraftData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarDraftData;
+};
+
+const getWebinarCampaignId = (webinarUniqueId = JSON.parse(localStorage.getItem('getWebinarCampaignId')), action) => {
+  if (action.type === "GET_WEBINAR_UNIQUE_ID") {
+    localStorage.setItem('getWebinarCampaignId', JSON.stringify(action.payload));
+    return action.payload;
+  }  
+  return webinarUniqueId;
+};
+
+const getWebinarSelected =(webinarSelected=JSON.parse(localStorage.getItem('getWebinarSelected')),action) => {
+  if (action.type === "GET_WEBINAR_SELECTED") {
+    localStorage.setItem('getWebinarSelected', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarSelected; 
 }
 
 export default combineReducers({
@@ -74,5 +116,11 @@ export default combineReducers({
   getSelectedSmartListData: getSelectedSmartListData,
   getCampaignId: getCampaignId,
   getDraftData: getDraftData,
-  getSelected: getSelected
+  getSelected: getSelected,
+  getTestingSelected:getTestingSelected,
+  getWebinarEmailData:getWebinarEmailData,
+  getWebinarSelectedSmartListData:getWebinarSelectedSmartListData,
+  getWebinarDraftData:getWebinarDraftData,
+  getWebinarCampaignId:getWebinarCampaignId,
+  getWebinarSelected:getWebinarSelected,
 });

@@ -402,7 +402,11 @@ const Header = () => {
                     window.location.pathname == "/webinar/live-stream/settings" ||
                     window.location.pathname == "/webinar/live-stream/chat-link" ||
                     window.location.pathname == "/webinar/analytics" ||
-                    window.location.pathname == "/webinar/event-listing"
+                    window.location.pathname == "/webinar/event-listing"||
+                    window.location.pathname == "/webinar/email/auto-emails"||
+                    window.location.pathname == "/webinar/email/smartlist"||
+                    window.location.pathname == "/webinar/email/create-new-email"||
+                    window.location.pathname == "/webinar/email/selectHCP"
                         ? "nav-item active active-main"
                     : "nav-item"
                   }>

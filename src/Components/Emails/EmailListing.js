@@ -326,7 +326,7 @@ const EmailList = (props) => {
       .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          let campaign_data = res.data.response.data;
+          let campaign_data = res?.data?.response?.data;
           props.getDraftData(campaign_data);
           if (campaign_data?.smart_list_data) {
             if (
