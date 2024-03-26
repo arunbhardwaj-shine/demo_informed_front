@@ -2261,7 +2261,7 @@ const CreateEmail = (props) => {
                       {localStorage.getItem("user_id") !=
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
-                          <div className="form-inline row justify-content-between align-items-center">
+                          <div className="form-inline d-flex justify-content-between align-items-center">
                             <div className="form-group col-12 col-md-7 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
                                   Email Description <span>*</span>  
@@ -2328,8 +2328,8 @@ const CreateEmail = (props) => {
                               )}
                             </div>
                           </div>
-                          <div className="form-inline row justify-content-between align-items-center">
-                            <div className="form-group d-flex align-items-center">
+                          <div className="form-inline d-flex justify-content-between align-items-center">
+                              <div className="form-group col-12 col-md-7 d-flex align-items-center">
                               <label htmlFor="exampleInputEmail1">
                                   Email Campaign <span>*</span> 
                                 <LinkWithTooltip
@@ -2403,7 +2403,7 @@ const CreateEmail = (props) => {
                         </div>
                       </div>
 
-                      <div className="form-inline row justify-content-end align-items-center">
+                      <div className="form-inline d-flex justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-5">
                           <label htmlFor="exampleInputEmail1">
                             Email Subject <span>*</span>
