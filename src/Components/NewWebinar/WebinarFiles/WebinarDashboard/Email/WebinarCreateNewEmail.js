@@ -492,7 +492,6 @@ const WebinarCreateNewEmail = (props) => {
             : props?.getWebinarDraftData?.campaign;
 
         // if (typeof campaign !== "undefined" && campaign !== "") {
-            console.log(props?.getWebinarDraftData);
 
             let up_temp = template;
             if (editorRef.current) {
