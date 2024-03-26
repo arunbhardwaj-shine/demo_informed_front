@@ -2915,7 +2915,7 @@ color: #70899E;
 }
 
 .search-hcp {
-  padding-top: 32px;
+  padding: 32px 0 0;
 }
 
 h3 {
@@ -2994,7 +2994,7 @@ h5 {
 .search-hcp .accordion .accordion-item button.accordion-button {
   line-height: normal;
   color: var(--dark-gray);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 18px;
   background: transparent;
@@ -3034,7 +3034,13 @@ h5 {
   border-top: .5px dashed var(--skyblue);
   padding: 10px 20px;
 }
-
+.search-hcp .smart-list-dropdown .accordion .accordion-item .accordion-body {
+  border-top: 0;
+  padding: 10px 24px 14px;
+}
+.search-hcp .smart-list-dropdown #accordion-smart .accordion .accordion-item .accordion-body .card-body {
+  padding: 0;
+}
 .search-hcp .accordion .accordion-item button.accordion-button:after {
   background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
   background-position: center;
@@ -6155,7 +6161,9 @@ h2 {
 .smart-list-dropdown .card .card-header .btn button.collapsed::after {
   transform: rotate(180deg);
 }
-
+#accordion-smart .accordion .segmentation-button .btn.btn-primary {
+  min-width: 106px;
+}
 .smart-list-dropdown .card .card-header .btn button::after {
   top: 18px;
   right: 25px;
@@ -6165,6 +6173,7 @@ h2 {
   position: absolute;
   background-size: 100%;
   transform: rotate(0);
+  margin: 0;
 }
 
 .smart-list-dropdown .card .card-header .btn button:focus {
@@ -6195,7 +6204,7 @@ h2 {
   line-height: 16px;
   color: var(--dark-blue);
   font-weight: 500;
-  margin-bottom:.5rem;
+  margin-bottom:13px;
 }
 
 #accordion-smart .smart-name-list {
@@ -6307,13 +6316,15 @@ h2 {
   display: flex;
   justify-content: space-between;
 }
-
-.segmentation-button .btn:first-child {
+ #accordion-smart .accordion .segmentation-button {
+  padding-top: 0;
+}
+/* .segmentation-button .btn:first-child {
   background: transparent;
   color: var(--light-blue);
   border-color: var(--light-blue);
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
-}
+} */
 
 .segmentation-button .btn.btn-bordered:hover {
   background: var(--light-blue);
@@ -6336,7 +6347,9 @@ h2 {
   padding: 0;
   margin: 0 0 17px;
 }
-
+#accordion-smart .card-body .col.registered ul:nth-of-type(2) {
+  margin: 0 0 0px;
+}
 .send-option-list ul li img {
   pointer-events: none;
 }
