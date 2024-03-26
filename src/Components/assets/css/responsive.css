@@ -902,7 +902,9 @@ a.show-less-info p::after {
   .preview_mail .preview-mail-box {
     padding: 30px 20px;
   }
-
+.input-group-prepend::after {
+  left: 142px;
+}
   .sidebar-menu {
     background-size: 140px;
   }

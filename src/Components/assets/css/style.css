@@ -6655,6 +6655,7 @@ button.btn-bordered.btn-primary.disabled {
 
 .select-mail-template .email-form form .input-group .tags_added {
   flex: 1 1;
+  padding-left:20px;
 }
 
 #save_new_template_action_modal form .form-group {
