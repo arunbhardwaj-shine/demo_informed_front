@@ -2671,15 +2671,15 @@ const FilterSegment = (props) => {
                         {/*Display only in case of create*/}
 
                         <div className="segmentation-button">
-                          {typeof props.action !== "undefined" &&
-                            props.action !== "edit" && (
+                          {/* {typeof props.action !== "undefined" &&
+                            props.action !== "edit" && ( */}
                               <button
                                 className="btn btn-bordered btn-primary"
                                 onClick={clearFilter}
                               >
                                 Clear
                               </button>
-                            )}
+                            {/* )} */}
                           <button
                             className="btn btn-filled btn-primary"
                             onClick={applyFilter}

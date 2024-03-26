@@ -88,6 +88,13 @@ const SelectSmartList = (props) => {
     { label: "Immunotherapy", value: "Immunotherapy" },
   ]);
 
+  const [creatorList, setCreatorList] = useState([
+    {label: "alexandr.litvinov@octapharma.com",value: "alexandr.litvinov@octapharma.com"},
+    {label: "igor.ilic@octapharma.com",value: "igor.ilic@octapharma.com"},
+    {label: "maria.legina@octapharma.com", value: "maria.legina@octapharma.com"},
+    {label: "zvenyslava.husak@octapharma.com", value: "zvenyslava.husak@octapharma.com"},
+  ]);
+
   useEffect(() => {
     getSmartListData(1);
   }, []);
@@ -429,7 +436,9 @@ const SelectSmartList = (props) => {
   };
 
   const handleCreatorName = async (event) => {
-    setCreatorName(event.target.value);
+    const creatorName = event?.target?.value ? event?.target?.value : event?.value;
+    setCreatorName(creatorName);
+    // setCreatorName(event.target.value);
   };
 
   const handleIBUChange = async(value) => {
@@ -1428,16 +1437,35 @@ const SelectSmartList = (props) => {
                         <label htmlFor="creator-name">
                           Creator’s name<span>*</span>
                         </label>
-                        <input
-                          type="text"
-                          className={
-                            validationError?.creatorName
-                              ? "form-control error"
-                              : "form-control"
-                          }
-                          value={creatorName}
-                          onChange={(event) => handleCreatorName(event)}
-                        />
+                        {
+                          localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                          <>
+                            <Select
+                              options={creatorList}
+                              createNewLabel = "true"
+                              placeholder="Select creator name"
+                              name="creator"
+                              className={
+                                validationError?.creatorName
+                                  ? "dropdown-basic-button split-button-dropup error"
+                                  : "dropdown-basic-button split-button-dropup"
+                              }
+                              isClearable
+                              onChange={(e) => handleCreatorName(e)}
+                            />
+                          </>
+                          :
+                          <input
+                            type="text"
+                            className={
+                              validationError?.creatorName
+                                ? "form-control error"
+                                : "form-control"
+                            }
+                            value={creatorName}
+                            onChange={(event) => handleCreatorName(event)}
+                          />
+                        }
                         {validationError?.creatorName ? (
                           <div className="login-validation">
                             {validationError?.creatorName}
