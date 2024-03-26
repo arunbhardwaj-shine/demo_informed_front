@@ -2559,9 +2559,9 @@ const EditLibrary = () => {
                       userInputs.docintelFormat?.includes("ebook")) ||
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
-                    ) &&
-                      localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
+                    )) && (localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                        "iSnEsKu5gB/DRlycxB6G4g==") ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
