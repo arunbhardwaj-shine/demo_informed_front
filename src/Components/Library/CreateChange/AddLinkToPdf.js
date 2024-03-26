@@ -908,7 +908,8 @@ const AddLinkToPdf = () => {
                           <a href="">Create Your Content</a>
                         </li>
                         {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
+                        "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <li className="active active-main">
                             <a href="">[Embedding Video]</a>
                           </li>
@@ -919,7 +920,7 @@ const AddLinkToPdf = () => {
                             className={
                               localStorage.getItem("user_id") !=
                               "rjiGlqA9DXJVH7bDDTX0Lg=="
-                                ? "active active-main"
+                                ? ""
                                 : ""
                             }
                           >
@@ -1009,12 +1010,12 @@ const AddLinkToPdf = () => {
                             >
                               Upload new Video +
                             </Button>
-                             <Button
+                             {/* <Button
                               className="btn-bordered btn-voilet"
                               onClick={() => fitToWidth(true)}
                             >
                              Calculate
-                            </Button>
+                            </Button> */}
                           </div>
                         </Form.Group>
                       </div>
@@ -1207,7 +1208,7 @@ const AddLinkToPdf = () => {
           <div className="form-group">
             <div className="ebook-format">
               <label htmlFor="">
-                Video title <span>*</span>
+                Video title <span style={{"color":"#d61975"}}>*</span>
               </label>
               <input
                 type="text"
