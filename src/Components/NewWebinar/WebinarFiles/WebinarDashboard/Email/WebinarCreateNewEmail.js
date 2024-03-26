@@ -100,6 +100,15 @@ const WebinarCreateNewEmail = (props) => {
                 ? props?.getWebinarDraftData?.subject
                 : ""
     );
+    const [firstTimeEmailSubject, setFirstTimeEmailSubject] = useState(
+        state_object != null &&
+            state_object != "undefined" &&
+            state_object?.emailSubject
+            ? state_object?.emailSubject
+            : props?.getWebinarDraftData
+                ? props?.getWebinarDraftData?.subject
+                : ""
+    );
     const [templateId, setTemplateId] = useState(
         state_object != null &&
             state_object != "undefined" &&
@@ -234,6 +243,7 @@ const WebinarCreateNewEmail = (props) => {
                 setEmailCreator(props?.getWebinarDraftData?.creator);
                 setemailCampaign(props?.getWebinarDraftData?.campaign);
                 setEmailSubject(props?.getWebinarDraftData?.subject);
+                setFirstTimeEmailSubject(props?.getWebinarDraftData?.subject);
                 setFinalTags(props?.getWebinarDraftData?.tags);
                 setTagClickedFirst(props?.getWebinarDraftData?.tags);
                 setTemplateId(props?.getWebinarDraftData?.campaign_data?.template_id);
@@ -588,7 +598,7 @@ const WebinarCreateNewEmail = (props) => {
         }
 
         setTemplateId(template?.id);
-        if(!emailSubject){
+        if(!firstTimeEmailSubject){
             setEmailSubject(template?.subject);
 
         }
