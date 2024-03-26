@@ -2370,7 +2370,7 @@ const CreateEmail = (props) => {
                           </div>
                         </>
                       ) : null}
-                      <div className="input-group row w-100">
+                      <div className="input-group d-flex w-100">
                         <div className="input-group-prepend">
                           <button
                             className="btn btn-bordered btn-primary"
