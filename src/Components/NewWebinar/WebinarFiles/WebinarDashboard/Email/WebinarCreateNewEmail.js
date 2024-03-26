@@ -617,7 +617,6 @@ const WebinarCreateNewEmail = (props) => {
         const tags = tagClickedFirst;
 
         tags?.splice(index, 1);
-        //console.log(tags);
         setTagClickedFirst(tags);
         setFinalTags(tags);
         setTagsReRender(tagsReRender + 1);
@@ -654,7 +653,6 @@ const WebinarCreateNewEmail = (props) => {
     const approvedClicked = async (e) => {
         e.preventDefault();
         let ab = getIsApprovedStatus;
-        console.log(ab);
         if (getIsApprovedStatus === 3) {
             await setIsApprovedStatus(2);
             ab = 2;
@@ -700,7 +698,6 @@ const WebinarCreateNewEmail = (props) => {
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
-        console.log("in aproved clicked")
         await axios
             .post(`emailapi/save_draft`, body)
             .then((res) => {
@@ -723,7 +720,6 @@ const WebinarCreateNewEmail = (props) => {
     };
 
     const sendSample = (event) => {
-        console.log("in send a sample", selectedHcp);
 
         event.preventDefault();
         let error = {};
@@ -787,7 +783,6 @@ const WebinarCreateNewEmail = (props) => {
 
                         if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
                             let urlvalue = newLink?.value?.split("&redirect_url=")
-                            console.log("firstToxControlWrap.value-->", firstToxControlWrap.value)
                             const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
                             const substring = urlvalue[0].substring(startIndex);
                             firstToxControlWrap.value = urlvalue[1]
@@ -830,7 +825,6 @@ const WebinarCreateNewEmail = (props) => {
                             axios
                                 .post(apiLink, payload)
                                 .then((res) => {
-                                    console.log("done");
                                 })
                                 .catch((err) => {
                                     loader("hide");
@@ -1069,7 +1063,6 @@ const WebinarCreateNewEmail = (props) => {
             source_code: template,
           };
     
-          console.log("body-->",body);
          
           axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     
@@ -1185,7 +1178,6 @@ const WebinarCreateNewEmail = (props) => {
             };
 
             const status = body?.data?.map((data, index) => {
-                console.log(data);
                 if (
                     data?.email == "" ||
                     data?.institution_type == "" ||
@@ -1323,7 +1315,6 @@ const WebinarCreateNewEmail = (props) => {
             formData.append("smart_list_id", "");
             formData.append("reader_file", selectedFile);
 
-            console.log(formData);
 
             if (selectedFile) {
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

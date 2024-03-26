@@ -362,11 +362,8 @@ const WebinarVerifyHcpMAIL = (props) => {
         const allTags = props.getWebinarEmailData?.tags
             ? props.getWebinarEmailData?.tags
             : props.getWebinarDraftData?.tags;
-        console.log(allTags);
         allTags.splice(i, 1);
-        console.log(allTags);
         setReRender(reRender + 1);
-        console.log("props.tags");
         //  console.log(props.getEmailData.tags);
 
         //  props.getEmailData();

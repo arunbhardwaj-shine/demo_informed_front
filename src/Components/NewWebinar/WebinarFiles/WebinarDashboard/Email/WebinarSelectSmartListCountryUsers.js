@@ -463,7 +463,6 @@ const WebinarSelectSmartListCountryUsers = (props) => {
         setReaders([]);
         setTimeout(() => {
             setReaders(vr);
-            console.log("This will run after 1 second!");
             setUpdateCounter(updateCounter + 1);
         }, 50);
     };
