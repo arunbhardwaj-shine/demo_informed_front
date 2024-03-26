@@ -12680,7 +12680,13 @@ color:var(--white);
   color: var(--skyblue);
   font-size: 14px;
 }
+table thead th.sort_option span {
+  cursor: pointer;
+}
 
+table thead th.sort_option span button {
+  margin: 0 0 0 3px;
+}
 .consent-form .container {
   padding: 0;
 }
