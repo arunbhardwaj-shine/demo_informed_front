@@ -355,6 +355,7 @@ const WebinarEmail = (props) => {
   };
 
   const showViewEmailModal = (data) => {
+    console.log(" view data--->",data)
     let id = data?.auto_id;
     if (typeof data !== "undefined") {
       // let valueupdate =JSON.parse(JSON.stringify(options)) ;
@@ -1049,7 +1050,7 @@ const WebinarEmail = (props) => {
                                           <button
                                                 className="btn btn-primary btn-filled edit"
                                                 onClick={(e) =>
-                                                  showViewEmailModal(data.id)
+                                                  showViewEmailModal(data)
                                                 }
                                               >
                                                 View
@@ -1059,13 +1060,13 @@ const WebinarEmail = (props) => {
                                       <div className="mailbox-buttons">
                                         {!deletestatus && (
                                           <div className="mailbox-buttons-list">
-                                            {data.route_location == "VerifyMAIL" &&
-                                              data.pdf_id != 13 ? (
+                                            {data?.route_location == "VerifyMAIL" &&
+                                              data?.pdf_id != 13 ? (
                                               <button
                                                 className="btn btn-primary send btn-bordered"
                                                 onClick={() => {
                                                   getWebinarEmailData(null);
-                                                  draftEmailCampaign(data.id);
+                                                  draftEmailCampaign(data?.id);
                                                   setDraftEmailSendStatus(
                                                     (getDraftEmailSendStatus) =>
                                                       !getDraftEmailSendStatus
