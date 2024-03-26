@@ -79,7 +79,7 @@ const WebinarEmail = (props) => {
       },
     },
     exporting: {
-      enabled: false,
+      enabled: true,
     },
     tooltip: {
 
