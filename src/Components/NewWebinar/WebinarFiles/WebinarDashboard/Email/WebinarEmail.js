@@ -287,7 +287,6 @@ const WebinarEmail = (props) => {
         }
       }
     }
-    console.log("new Obj-->",newObj)
     setAppliedFilter(newObj);
     setApifilterObject(apifilterObject);
   }
@@ -356,7 +355,6 @@ const WebinarEmail = (props) => {
   };
 
   const showViewEmailModal = (data) => {
-    console.log(" view data--->",data)
     let id = data?.auto_id;
     if (typeof data !== "undefined") {
       // let valueupdate =JSON.parse(JSON.stringify(options)) ;
