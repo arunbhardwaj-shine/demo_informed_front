@@ -130,7 +130,6 @@ const WebinarSelectSmartListUsers = (props) => {
       show_specific: 1,
     };
     if (props.getWebinarSelectedSmartListData?.id) {
-      console.log("i am here in if",props.getWebinarSelectedSmartListData?.id)
       loader("show");
       axios
         .post(`distributes/get_reders_list`, body)
@@ -171,7 +170,6 @@ const WebinarSelectSmartListUsers = (props) => {
               setReaders(res?.data?.response?.data);
             }
           } else {
-            console.log("set Readers--->",res?.data?.response?.data)
             setReaders(res?.data?.response?.data);
           }
 
@@ -477,7 +475,6 @@ const WebinarSelectSmartListUsers = (props) => {
             : 0
       );
     }
-
     setReaders(normalArr);
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
@@ -1021,7 +1018,7 @@ const WebinarSelectSmartListUsers = (props) => {
                             <img src={path_image + "edit.svg"} alt="Edit" />
                           </button>
                         </div>
-                        <div className="hcp-sort">
+                        {/* <div className="hcp-sort">
                           {sortingCount == 0 ? (
                             <>
                               <button
@@ -1062,7 +1059,7 @@ const WebinarSelectSmartListUsers = (props) => {
                               </button>
                             </>
                           )}
-                        </div>
+                        </div> */}
                       </>
                     ) : null}
                     {saveOpen ? (
