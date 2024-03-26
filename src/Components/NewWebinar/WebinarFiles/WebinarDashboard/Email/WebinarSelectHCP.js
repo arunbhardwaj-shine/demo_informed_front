@@ -139,6 +139,7 @@ const WebinarSelectHCP = (props) => {
       });
     } else {
       props.getWebinarSelectedSmartListData(null);
+      toast.warning("No Data Found")
     }
   };
   
