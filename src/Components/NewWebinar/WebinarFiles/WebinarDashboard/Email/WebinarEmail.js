@@ -57,7 +57,7 @@ const WebinarEmail = (props) => {
   });
   const [options, setOptions] = useState({
     chart: {
-      type: "column",
+      type: "bar",
       options3d: {
         enabled: true,
         alpha: 10,
@@ -210,7 +210,7 @@ const WebinarEmail = (props) => {
     // navigate("/" + route, {
     //   state: { campaign_id: campaign_id, PdfSelected: pdf_id },
     // });
-console.log("route-->",route)
+
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
@@ -381,7 +381,7 @@ console.log("route-->",route)
       setviewEmailData(data);
     }
     setviewEmailModal(true);
-    setCampaignId(id);
+    setCampaignId(data);
   };
 
   const getReaderData = async (type = "", dynamic_name = "", popup_name = "") => {
@@ -389,7 +389,7 @@ console.log("route-->",route)
       loader("show")
       const body = {
         eventId: eventId,
-        autoId: campaignId,
+        autoId: campaignId?.auto_id,
         type: type,
         name: dynamic_name
       }
@@ -405,8 +405,8 @@ console.log("route-->",route)
     }
   }
 
-  const showConfirmationPopup = (id,previous_campaign) => {
-    setCampaignId({id:id,previousCampaign:previous_campaign});
+  const showConfirmationPopup = (item) => {
+    setCampaignId(item);
     setPopupMessage({
       message1: "You are about to remove this compaign.",
       message2: "Are you sure you want to do this?",
@@ -424,13 +424,13 @@ console.log("route-->",route)
     try {
       let body = {
         eventId: eventId,
-        emailAutoresponserId: item?.id
+        emailAutoresponserId: item?.auto_id
       }
 
-      if(item?.previousCampaign==1){
+      if(item?.previous_campaign==1){
         const body = {
           user_id: localStorage.getItem("user_id"),
-          campaign_id: item?.id,
+          campaign_id: item?.auto_id,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -461,7 +461,7 @@ console.log("route-->",route)
         redirect: "",
       });
       let filterId=item?.id
-      const updatedRes = emailListData?.filter((item) => item?.auto_id !== filterId);
+      const updatedRes = emailListData?.filter((item) => item?.id !== filterId);
       setEmailListData(updatedRes);
       hideConfirmationModal();
       loader("hide");
@@ -479,10 +479,10 @@ console.log("route-->",route)
     setConfirmationPopup(false);
   };
 
-  const showModal = (refernce, id) => {
+  const showModal = (refernce, item) => {
     hideEmailModal();
     setReference(refernce);
-    setCampaignId(id);
+    setCampaignId(item);
     setIsOpen(true);
   };
 
@@ -1021,7 +1021,7 @@ console.log("route-->",route)
                                                 <button
                                                   className="btn btn-primary btn-bordered send"
                                                   onClick={(e) =>
-                                                    showModal("resend", data.id)
+                                                    showModal("resend", data)
                                                   }
                                                 >
                                                   Resend
@@ -1119,7 +1119,7 @@ console.log("route-->",route)
                               <div className="dlt_btn">
                                 <button
                                   onClick={(e) =>
-                                    showConfirmationPopup(data?.auto_id,data?.previous_campaign)
+                                    showConfirmationPopup(data)
                                   }
                                 >
                                   <img
@@ -1370,7 +1370,7 @@ console.log("route-->",route)
                 <div className="chart-description">
                   <div className="chart-description-view">
                     <HighchartsReact
-                      key={campaignId}
+                      key={campaignId?.auto_id}
                       highcharts={Highcharts}
                       options={options}
                     />
