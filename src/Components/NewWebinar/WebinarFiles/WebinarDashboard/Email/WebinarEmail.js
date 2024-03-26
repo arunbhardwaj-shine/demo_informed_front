@@ -387,6 +387,7 @@ const WebinarEmail = (props) => {
       const body = {
         eventId: eventId,
         autoId: campaignId?.auto_id,
+        campaign_id: campaignId?.id || 0 ,
         type: type,
         name: dynamic_name
       }
@@ -991,13 +992,13 @@ const WebinarEmail = (props) => {
                               </div>
                             </div>
                             {
-                              data?.previous_campaign != 1 ?
-                                <>
+                              data?.previous_campaign != 1&&data?.status!=5 ?
+                                (<>
                                     {data?.status == 1 ? (
                                     <div className="mailbox-buttons">
                                       {!deletestatus && (
                                         <>
-                                          <div className="send_new">
+                                          {/* <div className="send_new">
                                               <button
                                                 className="btn btn-primary btn-bordered send-new"
                                                 onClick={() =>
@@ -1015,10 +1016,10 @@ const WebinarEmail = (props) => {
                                               >
                                                 Send New
                                               </button>
-                                            </div>
+                                            </div> */}
 
                                           <div className="mailbox-buttons-list">
-                                            {data?.total_Opened_pr < 100 ? (
+                                            {/* {data?.total_Opened_pr < 100 ? (
                                                 <button
                                                   className="btn btn-primary btn-bordered send"
                                                   onClick={(e) =>
@@ -1029,7 +1030,7 @@ const WebinarEmail = (props) => {
                                                 </button>
                                               ) : (
                                                 ""
-                                              )}
+                                              )} */}
 
                                             <button
                                               className="btn btn-primary btn-filled edit"
@@ -1043,18 +1044,18 @@ const WebinarEmail = (props) => {
                                         </>
                                       )}
                                     </div>
-                                    ) : 
-                                    data.status == 5 ? (
-                                        <div className="mailbox-buttons d-flex justify-content-end">
-                                          <button
-                                                className="btn btn-primary btn-filled edit"
-                                                onClick={(e) =>
-                                                  showViewEmailModal(data)
-                                                }
-                                              >
-                                                View
-                                              </button>
-                                        </div>
+                                    // ) : 
+                                    // data.status == 5 ? (
+                                    //     <div className="mailbox-buttons d-flex justify-content-end">
+                                    //       <button
+                                    //             className="btn btn-primary btn-filled edit"
+                                    //             onClick={(e) =>
+                                    //               showViewEmailModal(data)
+                                    //             }
+                                    //           >
+                                    //             View
+                                    //           </button>
+                                    //     </div>
                                       ) :(
                                       <div className="mailbox-buttons">
                                         {!deletestatus && (
@@ -1101,8 +1102,8 @@ const WebinarEmail = (props) => {
                                       </div>
                                     ) 
                                     }
-                                </>
-                              : 
+                                </>)
+                              : data?.status!=5 ?(<>
                               <div className="mailbox-buttons">
                                   <div className="mailbox-buttons-list">
                                     <button
@@ -1114,7 +1115,7 @@ const WebinarEmail = (props) => {
                                       View
                                     </button>
                                   </div>
-                                </div>
+                                </div></>):""
                             }
                             {deletestatus && (
                               <div className="dlt_btn">
@@ -1196,11 +1197,11 @@ const WebinarEmail = (props) => {
                           <th>List</th>
                           <td>{viewEmailData?.smart_list_name ? viewEmailData?.smart_list_name : "N/A"}</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                           <th>Content Title </th>
                           <td>{viewEmailData?.article_title ? viewEmailData?.article_title : "N/A"}</td>
-                        </tr>
-                        <tr>
+                        </tr> */}
+                        {/* <tr>
                           <th>Docintel Link </th>
                           <td>
                             <a
@@ -1210,7 +1211,7 @@ const WebinarEmail = (props) => {
                               {viewEmailData?.docintel_link ? viewEmailData?.docintel_link : ""}
                             </a>
                           </td>
-                        </tr>
+                        </tr> */}
                       </tbody>
                     </table>
                   </div>
@@ -1377,13 +1378,14 @@ const WebinarEmail = (props) => {
                     />
                   </div>
                 </div>
-
+{viewEmailData?.template?(<>
                 <div
                   className="preview-mail-box"
                   dangerouslySetInnerHTML={{
                     __html: viewEmailData?.template,
                   }}
                 ></div>
+                </>):""}
               </div>
             )}
           </Modal.Body>

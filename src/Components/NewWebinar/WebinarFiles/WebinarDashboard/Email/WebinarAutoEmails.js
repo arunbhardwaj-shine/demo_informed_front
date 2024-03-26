@@ -1266,7 +1266,7 @@ const WebinarAutoEmail = () => {
                       <h4>Triggered emails</h4>{" "}                     
                     </div>
                     <div className="mail_trigger_content">
-                      {typeof templates !== "undefined" && templates.length > 0
+                      {typeof templates !== "undefined" && templates?.length > 0
                         ? templates.map((template, index) => {
                           return (
                             <>
@@ -1285,7 +1285,7 @@ const WebinarAutoEmail = () => {
                                 </div>
                                 <div className="trigger_content">
                                   <h6>
-                                    {template?.subject} ({template?.language_code})
+                                    {template?.subject} 
                                   </h6>
                                   <p>
                                     When New content add to the user library

@@ -46,10 +46,10 @@ const WebinarSelectHCP = (props) => {
   const sendOptions = [
     { id: 1,navigateUrl:"/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of Users" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` },
     { id: 2,navigateUrl:"/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 3,navigateUrl:"/webinar/email/selectSmartListUsers", label: "Internal Hcp", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 4,navigateUrl:"/webinar/email/selectSmartListUsers", label: "US List", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 5,navigateUrl:"/webinar/email/selectSmartListUsers", label: "No Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 6,navigateUrl:"/webinar/email/selectSmartListUsers",label: "Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` }
+    { id: 3,navigateUrl:"/webinar/email/selectSmartListUsers", label: "Internal HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 4,navigateUrl:"/webinar/email/selectSmartListUsers", label: "US List", alt: "US List", value: "US List", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 5,navigateUrl:"/webinar/email/selectSmartListUsers", label: "Non Registered Users", alt: "Non Registered Users", value: "Non Registered Users", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 6,navigateUrl:"/webinar/email/selectSmartListUsers",label: "Registered Users", alt: "Registered Users", value: "Registered Users", imageUrl: `${path_image}single-hcp.svg` }
   ];
 
   const backClicked = () => {

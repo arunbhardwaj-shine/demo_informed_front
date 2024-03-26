@@ -508,6 +508,7 @@ const WebinarVerifyMAIL = (props) => {
     e.preventDefault();
     const body = {
       user_id: localStorage.getItem("user_id"),
+      pdf_id:0,
     //   pdf_id: props.getWebinarEmailData?.PdfSelected
     //     ? props.getEmailData.PdfSelected
     //     : props.getDraftData.pdf_id,
@@ -540,7 +541,7 @@ const WebinarVerifyMAIL = (props) => {
         smart_list_id:
           typeof getSmartListData !== "undefined" &&
             getSmartListData.hasOwnProperty("id")
-            ? getSmartListData.id
+            ? getSmartListData?.id
             : "",
         selectedHcp: selectedHcp,
         list_selection: props.getWebinarEmailData?.selected
