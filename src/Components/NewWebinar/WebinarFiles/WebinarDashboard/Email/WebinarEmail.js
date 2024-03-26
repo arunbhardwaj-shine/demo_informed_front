@@ -1417,8 +1417,6 @@ const WebinarEmail = (props) => {
           <Modal.Body>
             {
               <div className="selected-hcp-list">
-                {typeof readerDetailsData !== "undefined" &&
-                  readerDetailsData?.length > 0 ? (<>
                     <table className="table" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
@@ -1429,6 +1427,8 @@ const WebinarEmail = (props) => {
                         </tr>
                       </thead>
                       <tbody>
+                      {typeof readerDetailsData !== "undefined" &&
+                  readerDetailsData?.length > 0 ? (<>
                         {readerDetailsData?.map((item, index) => (
                           <>
                             <tr
@@ -1454,8 +1454,7 @@ const WebinarEmail = (props) => {
                             </tr>
                           </>
                         ))}
-                      </tbody>
-                    </table>
+                     
                   </>) : readerDetailsData?.length == 0 ? (
                     <tr className="table_no_data_found">
                       <td colspan="6">
@@ -1465,6 +1464,8 @@ const WebinarEmail = (props) => {
                       </td>
                     </tr>
                   ) : null}
+                   </tbody>
+                  </table>
               </div>
             }
           </Modal.Body>
