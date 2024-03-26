@@ -44,12 +44,12 @@ const WebinarSelectHCP = (props) => {
     ["iSnEsKu5gB/DRlycxB6G4g==", "B7SHpAc XDXSH NXkN0rdQ==", "UbCJcnLM9fe HsRMgX8c1A==", "wW0geGtDPvig5gF 6KbJrg==", "z2TunmZQf3QwCsICFTLGGQ==", "qDgwPdToP05Kgzc g2VjIQ=="];
   const currentUserId = localStorage.getItem("user_id")
   const sendOptions = [
-    { id: 1, label: localStorage.getItem("user_id") == userId ? "Group of Users" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` },
-    { id: 2, label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 3, label: "Internal Hcp", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 4, label: "US List", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 5, label: "No Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 6, label: "Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` }
+    { id: 1,navigateUrl:"/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of Users" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` },
+    { id: 2,navigateUrl:"/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 3,navigateUrl:"/webinar/email/selectSmartListUsers", label: "Internal Hcp", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 4,navigateUrl:"/webinar/email/selectSmartListUsers", label: "US List", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 5,navigateUrl:"/webinar/email/selectSmartListUsers", label: "No Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
+    { id: 6,navigateUrl:"/webinar/email/selectSmartListUsers",label: "Register", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` }
   ];
 
   const backClicked = () => {
@@ -122,135 +122,60 @@ const WebinarSelectHCP = (props) => {
       });
   };
 
-  const nextClicked = async (selected) => {
-    props.getWebinarEmailData(old_object);
-    props.getWebinarSelected(null);
-    if (selected == 1) {
-      navigate("/webinar/email/selectSmartList", {
-        state: { UserSelected: selected },
-      });
-    } else if (selected === 2) {
-      navigate("/webinar/email/verifyHCP", {
-        state: { UserSelected: selected },
-      });
-    }
-    else if (selected == 3) {
-      loader("show")
-      let body = {
-        eventId: eventId
-      }
-      const response = await postData(ENDPOINT.INTERNAL_HCP, body)
-      let data = response?.data?.data
-      if (data?.length) {
-        if (new_object?.id) {
-          if (data[0].id != new_object?.id) {
-            if (old_object?.removedHcp) {
-              old_object.removedHcp = [];
-            }
-          }
+  const fetchDataAndNavigate = async (endpoint, body,selected) => {
+    loader("show");
+    const response = await postData(endpoint, body);
+    loader("hide");
+    const data = response?.data?.data;
+    if (data?.length) {
+      if (new_object?.id && data[0].id !== new_object.id) {
+        if (old_object?.removedHcp) {
+          old_object.removedHcp = [];
         }
-        props.getWebinarSelectedSmartListData(data[0]);
-
-        // navigate("/webinar/email/selectSmartListUsers", {
-        //   state: { smartListSelected: data[0], flag: 1, selected },
-        // });
-      }else{
-        props.getWebinarSelectedSmartListData(null);
       }
+      props.getWebinarSelectedSmartListData(data[0]);
       navigate("/webinar/email/selectSmartListUsers", {
         state: { smartListSelected: data[0], flag: 1, selected },
       });
-    }
-    else if (selected == 4) {
-      loader("show")
-      let body = {
-        eventId: eventId
-      }
-      const response = await postData(ENDPOINT.US_LIST, body)
-      let data = response?.data?.data
-      if (data?.length) {
-        if (new_object?.id) {
-          if (data[0].id != new_object.id) {
-            if (old_object?.removedHcp) {
-              old_object.removedHcp = [];
-            }
-          }
-        }
-        props.getWebinarSelectedSmartListData(data[0]);
-
-        // navigate("/webinar/email/selectSmartListUsers", {
-        //   state: { smartListSelected: data[0], flag: 1, selected },
-        // });
-      }else{
-        props.getWebinarSelectedSmartListData(null);
-      }
-      navigate("/webinar/email/selectSmartListUsers", {
-        state: { smartListSelected: data[0], flag: 1, selected },
-      });
-    }
-
-    else if (selected == 5) {
-      loader("show")
-      let body = {
-        eventId: eventId
-      }
-      loader("hide")
-      const response = await postData(ENDPOINT.NO_REGISTERED_USERS, body)
-     
-
-      let data = response?.data?.data
-      console.log("NO_REGISTERED_USERS-->", data)
-      if (data?.length) {
-        if (new_object?.id) {
-          if (data[0].id != new_object.id) {
-            if (old_object?.removedHcp) {
-              old_object.removedHcp = [];
-            }
-          }
-        }
-        props.getWebinarSelectedSmartListData(data[0]);
-
-        // navigate("/webinar/email/selectSmartListUsers", {
-        //   state: { smartListSelected: data[0], flag: 1, selected },
-        // });
-      }else{
-        props.getWebinarSelectedSmartListData(null);
-      }
-      navigate("/webinar/email/selectSmartListUsers", {
-        state: { smartListSelected: data[0], flag: 1, selected },
-      });
-    }
-
-    else if (selected == 6) {
-      loader("show")
-      let body = {
-        eventId: eventId
-      }
-      loader("hide")
-      const response = await postData(ENDPOINT.REGISTERED_USERS, body)
-      let data = response?.data?.data
-      console.log("REGISTERED_USERS-->", data)
-      if (data?.length) {
-        if (new_object?.id) {
-          if (data[0].id != new_object.id) {
-            if (old_object?.removedHcp) {
-              old_object.removedHcp = [];
-            }
-          }
-        }
-        props.getWebinarSelectedSmartListData(data[0]);
-
-        // navigate("/webinar/email/selectSmartListUsers", {
-        //   state: { smartListSelected: data[0], flag: 1, selected },
-        // });
-      }else{
-        props.getWebinarSelectedSmartListData(null);
-      }
-      navigate("/webinar/email/selectSmartListUsers", {
-        state: { smartListSelected: data[0], flag: 1, selected },
-      });
+    } else {
+      props.getWebinarSelectedSmartListData(null);
     }
   };
+  
+  const nextClicked = async (selected) => {
+    props.getWebinarEmailData(old_object);
+    const option = sendOptions.find((item) => item?.id == selected);
+    let url = option?.navigateUrl || "";
+  
+    props.getWebinarSelected(null);
+  
+    if (selected == 1 || selected === 2) {
+      navigate(url, {
+        state: { UserSelected: selected },
+      });
+    } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
+      let endpoint;
+      switch (selected) {
+        case 3:
+          endpoint = ENDPOINT.INTERNAL_HCP;
+          break;
+        case 4:
+          endpoint = ENDPOINT.US_LIST;
+          break;
+        case 5:
+          endpoint = ENDPOINT.NO_REGISTERED_USERS;
+          break;
+        case 6:
+          endpoint = ENDPOINT.REGISTERED_USERS;
+          break;
+          default:
+            break
+      }
+      const body = { eventId: eventId };
+      await fetchDataAndNavigate(endpoint, body,selected);
+    }
+  };
+  
 
   const handleInputChange = (event, selectede) => {
     if (old_object) {
@@ -272,7 +197,7 @@ const WebinarSelectHCP = (props) => {
     }
     event.target.classList.toggle("active");
     setTemplateId(selectede);
-    nextClicked(selectede);
+    // nextClicked(selectede);
   };
   return (<>
     <div className="col right-sidebar">
