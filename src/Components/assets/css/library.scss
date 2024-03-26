@@ -2919,6 +2919,10 @@ form.product-unit button {
 
 .sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
   padding: 0;
+  // overflow-y: auto;
+  // max-height: 61vh;
+}
+.sublink_right.preview-content .add_link_to_pdf .new_preview_pdflink .viewer-layout-main {
   overflow-y: auto;
   max-height: 61vh;
 }
@@ -2942,15 +2946,15 @@ form.product-unit button {
 }
 
 .sublink_right.preview-content .modal-body-content {
-  border: 0.5px solid $light-gray;
-  box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
-  border-radius: 15px;
-  min-height: 68vh;
-  padding: 20px;
-  margin: 0;
+  // border: 0.5px solid $light-gray;
+  // box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
+  // border-radius: 15px;
+  // min-height: 68vh;
+  // padding: 20px;
+  // margin: 0;
   position: relative;
-  overflow-y: auto;
-  max-height: 61vh;
+  // overflow-y: auto;
+  // max-height: 61vh;
 }
 
 .form-group .add_product span {
@@ -5940,7 +5944,13 @@ input.viewer-toolbar-current-page-input {
     margin: 0 auto 40px;
   }
 }
-
+.custom-change.full-screen .create-change-content.spc-content {
+  max-width: 100%;
+  padding: 12px;
+}
+.custom-change.full-screen .sublink_right.preview-content {
+  max-width: 100%;
+}
 header.-top-24~div .custom-change .top-header.sticky,
 header.-top-24~div .custom-change .page-top-nav.sticky {
   top: 0px;
@@ -24811,6 +24821,105 @@ img.change-password-image {
         }
       }
     }
+
+    .filter-by button {
+      padding: 6px 6px;
+    }
+
+    .library-content-box-layuot.readerlist .doc-content-main-box {
+      margin: 0px 0 15px;
+    }
+
+    .library-content-box-layuot .doc-content-main-box .doc-content-header {
+      margin-bottom: 5px;
+    }
+
+    .create-change-content .form-group .form-control,
+    .create-change-content .form-group .react-datepicker__input-container input {
+      padding: 9px 18px;
+    }
+
+    .poll-question .poll-question-create .speaker-detail .display-result>div {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .webinarRegistrationBody #registration-form .centered-input {
+      margin: 0 0 5px;
+    }
+
+    .webinarRegistrationBody #registration-form .form-group {
+      justify-content: flex-end;
+    }
+
+    .poll-question .poll-question-create .speaker-detail .display-result>div button.btn {
+      margin-top: 16px;
+    }
+
+    .library_create .library_create-box .create-library-content h5 {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .library_create .library_create-box {
+      max-width: 47%;
+      flex: 0 0 47%;
+      min-height: 120px;
+      padding: 14px 6px;
+    }
+
+    .library_create.landing-layout {
+      max-width: 100%;
+      padding: 0 30px;
+      min-height: 92.5vh;
+    }
+
+    .library_create.landing-layout .row,
+    .library_create,
+    .library_create.spc-box {
+      gap: 25px 6%;
+    }
+
+    .library_create .library_create-box .create-library-img img {
+      max-height: 18px;
+      max-width: 18px;
+    }
+
+    .library_create .library_create-box .create-library-img {
+      width: 35px;
+      height: 35px;
+    }
+
+    .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+      font-size: 12px;
+    }
+
+    .library-content-box-layuot .doc-content-main-box .tab-content .tab-pane,
+    .library-content-box-layuot .doc-content-main-box .tab-content {
+      min-height: 200px;
+    }
+
+    .survey_data {
+      padding: 12px;
+    }
+
+    .survey_data .accordion-item .accordion-collapse .accordion-body {
+      padding: 0px 15px 15px;
+    }
+
+    .survey_data .accordion-item h2 button {
+      font-size: 15px;
+      padding: 13px;
+    }
+
+    .survey_data .accordion-item .accordion-collapse .accordion-body .survey-data h6 {
+      font-size: 15px;
+      line-height: 22px;
+    }
+  .filter-by button {
+    padding: 6px 6px;
+  }
+
   }
 
   .filter-by button {
@@ -24907,7 +25016,6 @@ img.change-password-image {
     font-size: 15px;
     line-height: 22px;
   }
-
 }
 
 /**Landing page Responsive End**/
