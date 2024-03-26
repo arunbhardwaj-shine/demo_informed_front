@@ -8943,7 +8943,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .link-popup {
   position: absolute;
   z-index: 4;
-  padding: 10px;
+  padding: 0 10px 10px;
 }
 
 .link-popup .link-popup-inner {
@@ -9001,7 +9001,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .link-popup .link-popup-inner div button {
   background: transparent;
   color: var(--white);
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 300;
 }
 
