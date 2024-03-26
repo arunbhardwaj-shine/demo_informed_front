@@ -387,6 +387,7 @@ const WebinarEmail = (props) => {
       const body = {
         eventId: eventId,
         autoId: campaignId?.auto_id,
+        campaign_id: campaignId?.id || 0 ,
         type: type,
         name: dynamic_name
       }
