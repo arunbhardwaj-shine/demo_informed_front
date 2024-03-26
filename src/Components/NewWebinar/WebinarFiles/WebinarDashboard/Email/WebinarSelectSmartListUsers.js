@@ -286,7 +286,7 @@ const WebinarSelectSmartListUsers = (props) => {
       subject: old_object?.emailSubject
         ? old_object?.emailSubject
         : props.getWebinarDraftData?.subject,
-      route_location: "/webinar/email/selectSmartListUsers",
+      route_location: "webinar/email/selectSmartListUsers",
       tags: old_object?.tags ? old_object?.tags : props.getWebinarDraftData?.tags,
       campaign_data: {
         template_id: old_object?.templateId
