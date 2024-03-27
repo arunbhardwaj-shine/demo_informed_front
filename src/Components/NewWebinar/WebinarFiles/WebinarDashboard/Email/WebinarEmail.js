@@ -1492,7 +1492,9 @@ const WebinarEmail = (props) => {
           <Modal.Body>
             {
               <div className="selected-hcp-list">
-                <button
+                <div className="d-flex justify-content-end">
+                  <div className="clear-search mx-3">
+                    <button
                       className="btn print"
                       title="Download data"
                       onClick={() => {
@@ -1516,6 +1518,9 @@ const WebinarEmail = (props) => {
                         />
                       </svg>
                     </button>
+                  </div>
+                </div>
+                    
                     <table className="table" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
