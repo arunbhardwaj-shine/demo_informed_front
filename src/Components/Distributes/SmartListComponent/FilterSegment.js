@@ -3542,13 +3542,13 @@ const FilterSegment = (props) => {
                   dataFromComp == "edit" ?
                     <div className="text-center load_more">
                       <button className="btn btn-primary" onClick={handleLoadMore}>
-                        Load More
+                        Load All
                       </button>
                       </div>
                   : 
                   <div className="text-center load_more">
                     <button className="btn btn-primary" onClick={(e) => applyFilter(2)}>
-                      Load More
+                      Load All
                     </button>
                   </div>
                 : null  
