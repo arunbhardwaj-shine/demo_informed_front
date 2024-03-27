@@ -1316,6 +1316,12 @@ const WebinarAutoEmail = () => {
                                     src={template?.template_img}
                                     alt="Preview"
                                   />
+                                    {template?.approved==1?
+                                  <img
+                                  src={path_image+"approved-btn.svg"}
+                                  alt="Preview"
+                                />
+                                  :""}
                                 </div>
                                 <div className="trigger_content">
                                   <h6>
@@ -1372,6 +1378,12 @@ const WebinarAutoEmail = () => {
                                     src={template?.template_img}
                                     alt="Preview"
                                   />
+                                  {template?.approved==1?
+                                  <img
+                                  src={path_image+"approved-btn.svg"}
+                                  alt="Preview"
+                                />
+                                  :""}
                                 </div>
                                 <div className="trigger_content">
                                   <h6>
