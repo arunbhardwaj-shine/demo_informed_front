@@ -1190,12 +1190,14 @@ const FilterSegment = (props) => {
               let total_count = res?.data?.response?.list_count;
               setTotalLostCount(total_count);
               // console.log(res.data.response.data,"DATE")
-              popup_alert({
-                visible: "show",
-                message: total_count+" Users found.<br> Use create smart list to confirm the list.",
-                type: "success",
-                redirect: "",
-              });
+              if(total_count != 0){
+                popup_alert({
+                  visible: "show",
+                  message: total_count+" Users found.<br> Use create smart list to confirm the list.",
+                  type: "success",
+                  redirect: "",
+                });
+              }
             }else{
               setloadMorePage(false);
               setFilterData((oldArray)=>[...oldArray,...res?.data?.response?.data]);

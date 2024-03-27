@@ -1792,11 +1792,14 @@ const Table = (props, ref) => {
                 {localStorage.getItem("user_id") == userId
                   ? "Uploaded Users for the smart list"
                   : "Uploaded HCPs for the smart list"}
-                <span>| {editList?.length > 0 ? editList?.length : 0}</span>
+                <span>| {
+                  props?.listcount ? props?.listcount :
+                  editList?.length > 0 ? editList?.length : 0
+                  }</span>
               </h4>
             ) : (
               <h4>
-                Selected HCPs for the smart list |{" "}
+                Selected HCPs for the smart list |
                 <span>
                   {
                     props?.listcount ? props?.listcount :
