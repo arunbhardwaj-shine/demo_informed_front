@@ -343,7 +343,12 @@ const WebinarVerifyMAIL = (props) => {
             ? props.getWebinarEmailData?.templateId
             : props.getWebinarDraftData?.campaign_data?.template_id, 
         },
+        auto_responder_id: props.getWebinarEmailData?.templateId
+        ? props.getWebinarEmailData?.templateId
+        : props.getWebinarDraftData?.campaign_data?.template_id, 
       };
+
+     
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
@@ -555,6 +560,9 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.source_code,
       status: status,
       approved_page: 1,
+      auto_responder_id:props.getWebinarEmailData?.templateId
+      ? props.getWebinarEmailData?.templateId
+      : props.getWebinarDraftData?.campaign_data?.template_id,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
