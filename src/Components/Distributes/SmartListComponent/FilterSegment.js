@@ -3540,13 +3540,17 @@ const FilterSegment = (props) => {
               {
                 loadMorePage && totalLostCount > getfilterdata?.length ?
                   dataFromComp == "edit" ?
-                    <button className="btn btn-primary" onClick={handleLoadMore}>
-                      Load More
-                    </button>
+                    <div className="text-center load_more">
+                      <button className="btn btn-primary" onClick={handleLoadMore}>
+                        Load More
+                      </button>
+                      </div>
                   : 
+                  <div className="text-center load_more">
                     <button className="btn btn-primary" onClick={(e) => applyFilter(2)}>
                       Load More
                     </button>
+                  </div>
                 : null  
               }
               {
