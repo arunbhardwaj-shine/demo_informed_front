@@ -1320,7 +1320,68 @@ const WebinarAutoEmail = () => {
                     </div>
                   </div>
 
+
+
+{/** Reminder templates  */}
+
+                  {/* <div className="auto_mail_trigger_box">
+                    <div className="mail_trigger_left d-flex align-items-center">
+                      <div className="mail_trigger_mail-icon">
+                        <img
+                          src={path_image + "triggered_mail.svg"}
+                          alt="Preview"
+                        />
+                      </div>
+                      <h4>Reminder emails</h4>{" "}                     
+                    </div>
+                    <div className="mail_trigger_content">
+                      {typeof templates !== "undefined" && templates?.length > 0
+                        ? templates.map((template, index) => {
+                          return (
+                            <>
+                              <div
+                                className={
+                                  indexClicked == index
+                                    ? "trigger_content_box d-flex active"
+                                    : "trigger_content_box d-flex"
+                                }
+                              >
+                                <div className="trigger_content_image">
+                                  <img
+                                    src={template?.template_img}
+                                    alt="Preview"
+                                  />
+                                </div>
+                                <div className="trigger_content">
+                                  <h6>
+                                    {template?.subject} 
+                                  </h6>
+                                  <p>
+                                    {template?.description?template?.description:"When New content add to the user library"}
+                                    
+                                  </p>
+                                  {indexClicked !== index ? (
+                                    <button
+                                      onClick={() =>
+                                        viewButtonClicked(template, index)
+                                      }
+                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                    >
+                                      View
+                                    </button>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })
+                        : null}
+                    </div>
+                  </div> */}
+
                 </div>
+
+                
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
