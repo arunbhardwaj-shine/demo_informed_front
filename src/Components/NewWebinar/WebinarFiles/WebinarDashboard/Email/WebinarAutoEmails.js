@@ -117,6 +117,14 @@ const WebinarAutoEmail = () => {
   const filterConfig = {
     matchFrom: "start",
   };
+  const staticImages=[
+    {id:1,src:"https://webinar.informed.pro/template_images/1711523721_987284112.png"},
+    {id:2,src:"https://webinar.informed.pro/template_images/1711523804_1089277909.png"},
+    {id:3,src:"https://webinar.informed.pro/template_images/1711523892_2131645076.png"},
+    {id:4,src:"https://webinar.informed.pro/template_images/1711523977_1182234127.png"},
+    {id:5,src:"https://webinar.informed.pro/template_images/1711524034_2063365762.png"},
+    {id:6,src:"https://webinar.informed.pro/template_images/1711524166_856412767.png"},
+]
 
   useEffect(() => {
     getSmartListData(0);
@@ -1375,7 +1383,8 @@ const WebinarAutoEmail = () => {
                               >
                                 <div className="trigger_content_image">
                                   <img
-                                    src={template?.template_img}
+                                    // src={template?.template_img}
+                                    src={staticImages[index]?.src}
                                     alt="Preview"
                                   />
                                   {template?.approved==1?
