@@ -240,14 +240,14 @@ const WebinarAutoEmail = () => {
 
   const viewButtonClicked = (template, index) => {
     setEmailSubject(template?.subject)
-    // setEmailDescription(template?.name)
+    setEmailDescription(template?.description)
     setCreateNewTemplate(false)
     setNewTemplateName("")
     setNewTemplateSubject("")
     // setEmailSubject("");
     setEmailSubject(template?.subject)
 
-    setEmailDescription("");
+    // setEmailDescription("");
     setApproveClicked(false);
     setTemplateClicked(true);
     setSourceCode(template?.template);
@@ -276,7 +276,7 @@ const WebinarAutoEmail = () => {
   };
 
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setSmartListData(prevsmartListData);
     }
@@ -287,6 +287,11 @@ const WebinarAutoEmail = () => {
     setTemplateClicked(false);
     setValidationError({})
     setSourceCode("");
+    setSourceCode("");
+    setIndexClicked();
+    setTemplateId(0);
+    templateIdRef.current = "";
+    setTempLang(0);
     setNewTemplateName("")
     setNewTemplateSubject("")
     setCreateNewTemplate(false)
@@ -1055,10 +1060,15 @@ const WebinarAutoEmail = () => {
 
   const CreateNewTemplateClicked=(e)=>{
     e.preventDefault()
+    let defaultSourceCode= templates?.find(item => item?.name?.includes("Invitation"))
     setIndexClicked();
     setTemplateClicked(false);
     setValidationError({})
-    setSourceCode("");
+    setSourceCode(defaultSourceCode?.template);
+    setTemplateId(defaultSourceCode?.id);
+    templateIdRef.current = defaultSourceCode?.id;
+    setNewTemplateName(defaultSourceCode?.name)
+    setNewTemplateSubject(defaultSourceCode?.subject)
     setCreateNewTemplate(true)
   }
   const closeClicked = () => {
@@ -1288,7 +1298,8 @@ const WebinarAutoEmail = () => {
                                     {template?.subject} 
                                   </h6>
                                   <p>
-                                    When New content add to the user library
+                                    {template?.description?template?.description:"When New content add to the user library"}
+                                    
                                   </p>
                                   {indexClicked !== index ? (
                                     <button
@@ -1309,7 +1320,68 @@ const WebinarAutoEmail = () => {
                     </div>
                   </div>
 
+
+
+{/** Reminder templates  */}
+
+                  {/* <div className="auto_mail_trigger_box">
+                    <div className="mail_trigger_left d-flex align-items-center">
+                      <div className="mail_trigger_mail-icon">
+                        <img
+                          src={path_image + "triggered_mail.svg"}
+                          alt="Preview"
+                        />
+                      </div>
+                      <h4>Reminder emails</h4>{" "}                     
+                    </div>
+                    <div className="mail_trigger_content">
+                      {typeof templates !== "undefined" && templates?.length > 0
+                        ? templates.map((template, index) => {
+                          return (
+                            <>
+                              <div
+                                className={
+                                  indexClicked == index
+                                    ? "trigger_content_box d-flex active"
+                                    : "trigger_content_box d-flex"
+                                }
+                              >
+                                <div className="trigger_content_image">
+                                  <img
+                                    src={template?.template_img}
+                                    alt="Preview"
+                                  />
+                                </div>
+                                <div className="trigger_content">
+                                  <h6>
+                                    {template?.subject} 
+                                  </h6>
+                                  <p>
+                                    {template?.description?template?.description:"When New content add to the user library"}
+                                    
+                                  </p>
+                                  {indexClicked !== index ? (
+                                    <button
+                                      onClick={() =>
+                                        viewButtonClicked(template, index)
+                                      }
+                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                    >
+                                      View
+                                    </button>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })
+                        : null}
+                    </div>
+                  </div> */}
+
                 </div>
+
+                
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
@@ -1696,7 +1768,7 @@ const WebinarAutoEmail = () => {
                           onInit={(evt, editor) =>
                             (editorRef.current = editor)
                           }
-                          initialValue={""}
+                          initialValue={sourceCode}
                           init={{
                             height: "100vh",
                             menubar:
