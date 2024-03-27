@@ -1204,8 +1204,8 @@ const SelectSmartListUsers = (props) => {
             <section className="search-hcp">
               <div className="result-hcp-table">
                 <div className="table-title">
-                  <h4>
-                    {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
+                <h4>
+                    HCPs <span>| {(readersNewlyAdded?.length||0) + (readers?.length||0)} </span>
                   </h4>
                   <div className="selected-hcp-table-action">
                     {editable == false ? (

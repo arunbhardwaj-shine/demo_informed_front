@@ -40,6 +40,7 @@ const WebinarAutoEmail = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [tempLang, setTempLang] = useState(0);
   const [templates, setTemplates] = useState([]);
+  const [reminderTemplates,setReminderTemplates]=useState([])
   const [countryall, setCountryall] = useState([]);
   const [templateClicked, setTemplateClicked] = useState(false);
   const [sourceCode, setSourceCode] = useState("");
@@ -106,7 +107,7 @@ const WebinarAutoEmail = () => {
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
   const [createNewTemplate, setCreateNewTemplate] = useState(false)
-  const [newTemplateName, setNewTemplateName] = useState("")
+  const [newTemplateDescription, setNewTemplateDescription] = useState("")
   const [newTemplateSubject, setNewTemplateSubject] = useState("");
   const templateIdRef = useRef("");
   const editorRef = useRef(null);
@@ -229,8 +230,10 @@ const WebinarAutoEmail = () => {
       let body = {
         eventId: eventId
       }
-      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST, body)
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_AUTO_TEMPLATE_LIST, body)
       setTemplates(response?.data?.data)
+      setReminderTemplates(response?.data?.data?.reminderTemplate)
+      console.log("res--->",response?.data?.data)
       loader("hide")
     } catch (err) {
       loader("hide")
@@ -240,22 +243,23 @@ const WebinarAutoEmail = () => {
 
   const viewButtonClicked = (template, index) => {
     setEmailSubject(template?.subject)
-    // setEmailDescription(template?.name)
+    setEmailDescription(template?.description)
     setCreateNewTemplate(false)
-    setNewTemplateName("")
+    // setNewTemplateName("")
+    setNewTemplateDescription("")
     setNewTemplateSubject("")
     // setEmailSubject("");
     setEmailSubject(template?.subject)
 
-    setEmailDescription("");
+    // setEmailDescription("");
     setApproveClicked(false);
     setTemplateClicked(true);
     setSourceCode(template?.template);
-    setIndexClicked(index);
+    // setIndexClicked(index);
     setTemplateId(template?.id);
     templateIdRef.current = template?.id;
     setTempLang(template?.language_code);
-    if (template?.status == 1) {
+    if (template?.approved == 1) {
       setApproveClicked(true);
     } else {
       setApproveClicked(false);
@@ -272,22 +276,26 @@ const WebinarAutoEmail = () => {
     setIndexClickedReminder(index);
     setTemplateId(template?.id);
     setTemplateName(template?.subject);
-    setIndexClicked();
+    // setIndexClicked();
   };
 
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setSmartListData(prevsmartListData);
     }
   };
 
   const cancelClicked = () => {
-    setIndexClicked();
+    // setIndexClicked();
     setTemplateClicked(false);
     setValidationError({})
     setSourceCode("");
-    setNewTemplateName("")
+    setTemplateId(0);
+    templateIdRef.current = "";
+    setTempLang(0);
+    // setNewTemplateName("")
+    setNewTemplateDescription("")
     setNewTemplateSubject("")
     setCreateNewTemplate(false)
   };
@@ -745,9 +753,12 @@ const WebinarAutoEmail = () => {
       if (editorRef.current) {
         const body = {
           user_id: localStorage.getItem("user_id"),
+          subject:emailSubject,
+          description:emailDescription,
           source_code: editorRef.current.getContent(),
           template_id: templateId,
-          name: templateName,
+          // name: templateName,
+          name:emailSubject,
           status: status === 0 ? 2 : status === 1 ? 3 : 4,
           event_id: eventId,
         };
@@ -782,7 +793,7 @@ const WebinarAutoEmail = () => {
       creator: "",
       campaign_name: "",
       subject: emailSubject,
-      route_location: "AutoEmail",
+      route_location: "webinar/email/auto-emails",
       tags: [],
       campaign_data: {
         templateId: templateId,
@@ -1010,8 +1021,8 @@ const WebinarAutoEmail = () => {
   const createTemplate=async(e)=>{
     e.preventDefault()
     let error={}
-    if(newTemplateName==""){
-      error.newTemplateName="Please enter template name"
+    if(newTemplateDescription==""){
+      error.newTemplateDescription="Please enter template name"
       setValidationError(error)
       return
     }else if(newTemplateSubject==""){
@@ -1028,8 +1039,9 @@ const WebinarAutoEmail = () => {
           user_id: localStorage.getItem("user_id"),
           source_code: editorRef.current.getContent(),
           template_id: "",
-          name: newTemplateName,
+          name: newTemplateSubject,
           subject: newTemplateSubject,
+          description:newTemplateDescription,
           status: 1,
           event_id: eventId,
         };
@@ -1040,6 +1052,18 @@ const WebinarAutoEmail = () => {
           .then((res) => {
             if (res?.data?.status_code == 200) {
               getTemplateListData();
+              setIndexClicked();
+              setTemplateClicked(false);
+              setValidationError({})
+              setSourceCode("");
+              setIndexClicked();
+              setTemplateId(0);
+              templateIdRef.current = "";
+              setTempLang(0);
+              // setNewTemplateName("")
+              setNewTemplateDescription("")
+              setNewTemplateSubject("")
+              setCreateNewTemplate(false)
               toast.success("Template Created");
               loader("hide");
             }
@@ -1055,10 +1079,16 @@ const WebinarAutoEmail = () => {
 
   const CreateNewTemplateClicked=(e)=>{
     e.preventDefault()
+    let defaultSourceCode= templates?.triggeredTemplate?.find(item => item?.name?.includes("Invitation"))
     setIndexClicked();
     setTemplateClicked(false);
     setValidationError({})
-    setSourceCode("");
+    setSourceCode(defaultSourceCode?.template);
+    setTemplateId(defaultSourceCode?.id);
+    templateIdRef.current = defaultSourceCode?.id;
+    // setNewTemplateName(defaultSourceCode?.name)
+    setNewTemplateSubject(defaultSourceCode?.subject)
+    setNewTemplateDescription(defaultSourceCode?.description)
     setCreateNewTemplate(true)
   }
   const closeClicked = () => {
@@ -1269,13 +1299,14 @@ const WebinarAutoEmail = () => {
                       <h4>Triggered Emails</h4>{" "}                     
                     </div>
                     <div className="mail_trigger_content">
-                      {typeof templates !== "undefined" && templates.length > 0
-                        ? templates.map((template, index) => {
+                      {typeof templates?.triggeredTemplate !== "undefined" && templates?.triggeredTemplate?.length > 0
+                        ? templates?.triggeredTemplate?.map((template, index) => {
                           return (
                             <>
                               <div
                                 className={
-                                  indexClicked == index
+                                  // indexClicked == index
+                                  templateId == template?.id 
                                     ? "trigger_content_box d-flex active"
                                     : "trigger_content_box d-flex"
                                 }
@@ -1285,15 +1316,23 @@ const WebinarAutoEmail = () => {
                                     src={template?.template_img}
                                     alt="Preview"
                                   />
+                                    {template?.approved==1?
+                                  <img
+                                  src={path_image+"approved-btn.svg"}
+                                  alt="Preview"
+                                />
+                                  :""}
                                 </div>
                                 <div className="trigger_content">
                                   <h6>
-                                    {template?.subject} ({template?.language_code})
+                                    {template?.subject} 
                                   </h6>
                                   <p>
-                                    When New content add to the user library
+                                    {template?.description?template?.description:""}
+                                    
                                   </p>
-                                  {indexClicked !== index ? (
+                                  {/* {indexClicked !== index ? ( */}
+                                  {templateId !== template?.id ? (
                                     <button
                                       onClick={() =>
                                         viewButtonClicked(template, index)
@@ -1322,13 +1361,14 @@ const WebinarAutoEmail = () => {
                       <h4>Reminder AutoMails</h4>{" "}
                     </div>
                     <div className="mail_trigger_content">
-                      {typeof templates !== "undefined" && templates.length > 0
-                        ? templates.map((template, index) => {
+                      {typeof templates?.reminderTemplate !== "undefined" && templates?.reminderTemplate?.length > 0
+                        ? templates?.reminderTemplate?.map((template, index) => {
                           return (
                             <>
                               <div
                                 className={
-                                  indexClicked == index
+                                  // indexClicked == index
+                                  templateId == template?.id
                                     ? "trigger_content_box d-flex active"
                                     : "trigger_content_box d-flex"
                                 }
@@ -1338,15 +1378,24 @@ const WebinarAutoEmail = () => {
                                     src={template?.template_img}
                                     alt="Preview"
                                   />
+                                  {template?.approved==1?
+                                  <img
+                                  src={path_image+"approved-btn.svg"}
+                                  alt="Preview"
+                                />
+                                  :""}
                                 </div>
                                 <div className="trigger_content">
                                   <h6>
-                                    {template?.subject} ({template?.language_code})
+                                    {template?.subject} 
                                   </h6>
                                   <p>
-                                    When New content add to the user library
+                                    
+                                    {template?.description? template?.description:""}
+                                    
                                   </p>
-                                  {indexClicked !== index ? (
+                                  {/* {indexClicked !== index ? ( */}
+                                  {templateId !== template?.id ? (
                                     <button
                                       onClick={() =>
                                         viewButtonClicked(template, index)
@@ -1365,6 +1414,8 @@ const WebinarAutoEmail = () => {
                     </div>
                   </div>
                 </div>
+
+                
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
@@ -1380,7 +1431,7 @@ const WebinarAutoEmail = () => {
                         <div className="form-inline row justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
-                              Email Subject Line{" "}
+                              Template subject{" "}
                               <span className="astrick">*</span>
                             </label>
                             <input
@@ -1402,7 +1453,7 @@ const WebinarAutoEmail = () => {
                           </div>
                           <div className="form-group right-side col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
-                              Email description{" "}
+                              Template description{" "}
                               <span className="astrick">*</span>{" "}
                             </label>
                             <input
@@ -1427,8 +1478,8 @@ const WebinarAutoEmail = () => {
                           <div className="form-buttons right-side col-12 col-md-5">
                             {/* {templateName == "Welcome mail" ||
                               templateName ==
-                              "Reset password" ? null : approveClicked ===
-                                true ? (
+                              "Reset password" ? null : approveClickedd ==
+                                1 ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e, 2)}
@@ -1446,8 +1497,33 @@ const WebinarAutoEmail = () => {
                                 onClick={(e) => updateTemplate(e, 1)}
                               >
                                 Approve?{" "}
+                                
                               </button>
                             )} */}
+
+<button
+                                                        className={
+                                                            typeof approveClickedd !== "undefined" &&
+                                                            approveClickedd === true
+                                                                ? "btn btn-primary approved-btn btn-bordered checked"
+                                                                : "btn btn-primary approved-btn btn-bordered"
+                                                        }
+                                                        onClick={(e) => updateTemplate(e, approveClickedd===true ?2:1)}                                                    >
+                                                        {typeof approveClickedd !== "undefined" &&
+                                                            approveClickedd ===true
+                                                            ? "Approved"
+                                                            : "Approve?"}
+                                                        <img
+                                                            src={path_image + "approved-btn.svg"}
+                                                            className="approve_btn"
+                                                            alt=""
+                                                        />
+                                                        <img
+                                                            src={path_image + "/approved-by-btn.svg"}
+                                                            className="approved_btn"
+                                                            alt=""
+                                                        />
+                                                    </button>
                                   <button
                                       className="btn btn-primary btn-filled"
                                       onClick={(e) => {
@@ -1700,28 +1776,7 @@ const WebinarAutoEmail = () => {
                     <div className="email-form">
                       <form>
                         <div className="form-inline row justify-content-between align-items-center">
-                          <div className="form-group col-12 col-md-6">
-                            <label htmlFor="exampleInputEmail1">
-                              Template name{" "}
-                              <span className="astrick">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={
-                                validationError?.emailSubject
-                                  ? "form-control error"
-                                  : "form-control"
-                              }
-                              id="email-desc"
-                              onChange={(e) => setNewTemplateName(e?.target?.value)}
-                              value={newTemplateName}
-                            />
-                            {validationError?.newTemplateName ? (
-                              <div className="login-validation">
-                                {validationError?.newTemplateName}
-                              </div>
-                            ) : null}
-                          </div>
+                        
                           <div className="form-group right-side col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
                               Template subject{" "}
@@ -1730,7 +1785,7 @@ const WebinarAutoEmail = () => {
                             <input
                               type="text"
                               className={
-                                validationError?.emailDescription
+                                validationError?.newTemplateSubject
                                   ? "form-control error"
                                   : "form-control"
                               }
@@ -1744,6 +1799,28 @@ const WebinarAutoEmail = () => {
                               </div>
                             ) : null}
                           </div>
+                          <div className="form-group col-12 col-md-6">
+                            <label htmlFor="exampleInputEmail1">
+                              Template description{" "}
+                              <span className="astrick">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={
+                                validationError?.newTemplateDescription
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-desc"
+                              onChange={(e) => setNewTemplateDescription(e?.target?.value)}
+                              value={newTemplateDescription}
+                            />
+                            {validationError?.newTemplateDescription ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateDescription}
+                              </div>
+                            ) : null}
+                          </div>
                         </div>
                         <div className="row">
                           <Editor
@@ -1751,7 +1828,7 @@ const WebinarAutoEmail = () => {
                           onInit={(evt, editor) =>
                             (editorRef.current = editor)
                           }
-                          initialValue={""}
+                          initialValue={sourceCode}
                           init={{
                             height: "100vh",
                             menubar:

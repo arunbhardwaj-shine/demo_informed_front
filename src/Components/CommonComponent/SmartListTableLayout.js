@@ -155,9 +155,10 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                         <table className="table">
                         <thead className="sticky-header">
                             <tr>
-                            <th scope="col" >
+                            <th scope="col" className="sort_option" >
+                                <span onClick={() => handleSort('first_name')} >
                                 Name
-                            <button
+                                <button
                                 className={`event_sort_btn ${sortBy == "first_name" ?
                                 sortOrder == "asc"
                                 ? "svg_asc"
@@ -177,9 +178,13 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                     </defs>
                                 </svg>
                                 </button>
+                                </span>
+                            
                             </th>
-                            <th scope="col">Email
-                                <button
+                            <th scope="col" className="sort_option" >
+                            <span onClick={() => handleSort('email')}>
+                            Email
+                            <button
                                     className={`event_sort_btn ${sortBy == "email" ?
                                     sortOrder == "asc"
                                         ? "svg_asc"
@@ -199,10 +204,13 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                     </defs>
                                     </svg>
                                 </button>
+                            </span>
+                              
                             </th>
                             <th scope="col">Bounced</th>
-                            <th scope="col">Country
-                                <button
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('country')}>Country
+                            <button
                                     className={`event_sort_btn ${sortBy == "country" ?
                                     sortOrder == "asc"
                                         ? "svg_asc"
@@ -222,6 +230,8 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                         </defs>
                                     </svg>
                                     </button>
+                            </span>
+                               
                             </th>
 
                             {localStorage.getItem("user_id") ==
@@ -232,7 +242,9 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                 </>
                             ) : (
                                 <>
-                                <th scope="col">Business unit
+                                <th scope="col" className="sort_option" >
+                                    <span onClick={() => handleSort('ibu')}>
+                                    Business unit
                                     <button
                                     className={`event_sort_btn ${sortBy == "ibu" ?
                                     sortOrder == "asc"
@@ -253,6 +265,7 @@ const SmartListTableLayout = ({id, closeSmartListPopup}) => {
                                         </defs>
                                     </svg>
                                     </button>
+                                    </span>
                                 </th>
                                 <th scope="col">Contact type</th>
                                 </>

@@ -406,7 +406,15 @@ const Header = () => {
                     window.location.pathname == "/webinar/email/auto-emails"||
                     window.location.pathname == "/webinar/email/smartlist"||
                     window.location.pathname == "/webinar/email/create-new-email"||
-                    window.location.pathname == "/webinar/email/selectHCP"
+                    window.location.pathname == "/webinar/email/selectHCP"||
+                    window.location.pathname == "/webinar/email/verifyHCP"||
+                    window.location.pathname == "/webinar/email/selectSmartList"||
+                    window.location.pathname == "/webinar/email/selectSmartListUsers"||
+                    window.location.pathname == "/webinar/email/verifyMAIL"||
+                    window.location.pathname == "/webinar/email/verifyHcpMAIL"||
+                    window.location.pathname =="/webinar/email/smartlist/editlist"||
+                    window.location.pathname =="/webinar/email/smartlist/createsmartlist"||
+                    window.location.pathname =="/webinar/email/smartlist/smartlistfilter"
                         ? "nav-item active active-main"
                     : "nav-item"
                   }>

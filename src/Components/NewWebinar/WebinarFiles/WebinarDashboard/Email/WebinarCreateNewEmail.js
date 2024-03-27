@@ -1413,8 +1413,9 @@ const WebinarCreateNewEmail = (props) => {
 
     const savenewtemplate = async (e) => {
         e.preventDefault();
-        let template_name = document.getElementById("template_name").value?.trim();
+        
         let template_subject = document.getElementById("template_subject").value?.trim();
+        let template_description = document.getElementById("template_description").value?.trim();
         let template_id = props?.getWebinarEmailData
             ? templateId
             : props?.getWebinarDraftData?.template_id;
@@ -1427,13 +1428,14 @@ const WebinarCreateNewEmail = (props) => {
             template_id != "" &&
             template_id != 0
         ) {
-            if (template_name !== "" && template_name?.trim()?.length > 0 && template_subject !== "" && template_subject?.trim()?.length > 0) {
+            if (template_description !== "" && template_description?.trim()?.length > 0 && template_subject !== "" && template_subject?.trim()?.length > 0) {
                 const body = {
                     user_id: localStorage.getItem("user_id"),
                     source_code: source,
                     template_id: "",
-                    name: template_name,
+                    name: template_subject,
                     subject: template_subject,
+                    description:template_description,
                     status: 1,
                     event_id:eventId
                 };
@@ -1461,10 +1463,10 @@ const WebinarCreateNewEmail = (props) => {
             } else {
                 let error={}
 
-                if(template_name == "" && template_name?.trim()?.length <= 0)
+                if(template_description == "" && template_description?.trim()?.length <= 0)
                 {
-                    toast.warning("Please enter template name.");
-                    error.newTemplateName="Please enter template name"
+                    toast.warning("Please enter template description.");
+                    error.newTemplateDescription="Please enter template description"
 
 
                 }
@@ -2399,29 +2401,29 @@ const WebinarCreateNewEmail = (props) => {
                         <Modal.Body>
                             <form>
                                 <div className="form-group">
-                                    <label>Enter template name<span>*</span> </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="template_name"
-                                    />
-                                       {validationError?.newTemplateName ? (
-                              <div className="login-validation">
-                                {validationError?.newTemplateName}
-                              </div>
-                            ) : null}
-                                </div>
-                             
-                                <div className="form-group">
-                                    <label>Enter template subject<span>*</span></label>
+                                    <label>Enter template subject<span>*</span> </label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         id="template_subject"
                                     />
-                                     {validationError?.newTemplateSubject ? (
+                                       {validationError?.newTemplateSubject ? (
                               <div className="login-validation">
                                 {validationError?.newTemplateSubject}
+                              </div>
+                            ) : null}
+                                </div>
+                             
+                                <div className="form-group">
+                                    <label>Enter template description<span>*</span></label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="template_description"
+                                    />
+                                     {validationError?.newTemplatedescription ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplatedescription}
                               </div>
                             ) : null}
                                 </div>

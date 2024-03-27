@@ -4,6 +4,8 @@ import { Tooltip } from "react-bootstrap";
 import { Tabs, Tab,ProgressBar } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { Link ,useNavigate} from "react-router-dom";
+import { useSidebar } from "./LoginLayout";
+
 
 
 const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag}) => {
@@ -11,31 +13,71 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
     const [opening_details, setOpeningDetails] = useState([]);
     const [flag, setFlag] = useState(0);
     const navigate = useNavigate();
+
+    const { eventIdContext, handleEventId } = useSidebar()
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+    const [eventId, setEventId] = useState(
+      eventIdContext?.eventId
+        ? eventIdContext?.eventId
+        : localStorageEvent?.eventId
+    );
     
 
+    // const tabClicked = async (type, id) => {
+    //     if (type == "more-details") {
+    //         let index = opening_details.findIndex((el) => el?.listid == id);
+    //         if (index === -1) {
+    //         let normal_data = opening_details;
+    //         try {
+    //             let body = {
+    //             user_id: localStorage.getItem('user_id'),
+    //             list_id: id,
+    //             };
+    //             const res =  await axios.post(`distributes/get_list_more_details`,body);
+    //             if (res?.data?.response) {
+    //             let new_data = res?.data?.response;
+    //             normal_data.push(new_data);
+    //             setOpeningDetails(normal_data);
+    //             setFlag(flag + 1);
+    //             }
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //         }
+    //     }
+    // }
+
     const tabClicked = async (type, id) => {
-        if (type == "more-details") {
-            let index = opening_details.findIndex((el) => el?.listid == id);
+        if (type === "more-details") {
+            let index = opening_details.findIndex((el) => el?.listid === id);
             if (index === -1) {
-            let normal_data = opening_details;
-            try {
-                let body = {
-                user_id: localStorage.getItem('user_id'),
-                list_id: id,
-                };
-                const res =  await axios.post(`distributes/get_list_more_details`,body);
-                if (res?.data?.response) {
-                let new_data = res?.data?.response;
-                normal_data.push(new_data);
-                setOpeningDetails(normal_data);
-                setFlag(flag + 1);
+                let normal_data = opening_details;
+                try {
+                    let body = {
+                        user_id: localStorage.getItem('user_id'),
+                        list_id: id,
+                        event_id : eventId
+                    };
+                    let endpoint = "";
+                    if (webinarFlag === 1) {
+                        endpoint = "distributes/get_webinar_list_more_details";
+                    } else {
+                        endpoint = "distributes/get_list_more_details";
+                    }
+                    const res = await axios.post(endpoint, body);
+                    if (res?.data?.response) {
+                        let new_data = res?.data?.response;
+                        normal_data.push(new_data);
+                        setOpeningDetails(normal_data);
+                        setFlag(flag + 1);
+                    }
+                } catch (err) {
+                    console.log(err);
                 }
-            } catch (err) {
-                console.log(err);
-            }
             }
         }
-    }
+    };
+    
 
     function LinkWithTooltip({ id, children, href, tooltip }) {
         return (
@@ -117,7 +159,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                             <Link
                                                 className="btn btn-primary btn-bordered edit_list"
                                                 to={{
-                                                pathname: webinarFlag == "webinar" ? "/webinar/email/smartlist/editlist": "/EditList",
+                                                pathname: webinarFlag == 1 ? "/webinar/email/smartlist/editlist": "/EditList",
                                                 search: "?listId=" + data.id,
                                                 }}
                                                 onClick={() => linkClicked(data.id)}
@@ -128,7 +170,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                             <Link
                                                 className="btn btn-primary btn-bordered edit_list"
                                                 to={{
-                                                pathname: webinarFlag == "webinar" ? "/webinar/email/smartlist/viewlist": "/ViewSmartList",
+                                                pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": "/ViewSmartList",
                                                 search: "?listId=" + data.id,
                                                 }}
                                                 onClick={() => linkClicked(data.id)}
