@@ -1152,6 +1152,7 @@ const WebinarEmail = (props) => {
           show={viewEmailModal}
           onHide={hideEmailModal}
           custom-atr="non-scroll"
+          className="mail-view-webinar"
         >
           <Modal.Header>
             <h4>Email View</h4>
@@ -1230,6 +1231,9 @@ const WebinarEmail = (props) => {
                       )}
                     </ul>
                   </div>
+                  
+                </div>
+                <div className="chart-description">
                   <div className="mail-stats webinar-mail-stats">
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
@@ -1368,8 +1372,6 @@ const WebinarEmail = (props) => {
                         : ""}
                     </ul>
                   </div>
-                </div>
-                <div className="chart-description">
                   <div className="chart-description-view">
                     <HighchartsReact
                       key={campaignId?.auto_id}
