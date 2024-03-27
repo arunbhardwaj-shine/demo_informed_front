@@ -240,14 +240,14 @@ const WebinarAutoEmail = () => {
 
   const viewButtonClicked = (template, index) => {
     setEmailSubject(template?.subject)
-    // setEmailDescription(template?.name)
+    setEmailDescription(template?.description)
     setCreateNewTemplate(false)
     setNewTemplateName("")
     setNewTemplateSubject("")
     // setEmailSubject("");
     setEmailSubject(template?.subject)
 
-    setEmailDescription("");
+    // setEmailDescription("");
     setApproveClicked(false);
     setTemplateClicked(true);
     setSourceCode(template?.template);
@@ -276,7 +276,7 @@ const WebinarAutoEmail = () => {
   };
 
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setSmartListData(prevsmartListData);
     }
@@ -287,6 +287,11 @@ const WebinarAutoEmail = () => {
     setTemplateClicked(false);
     setValidationError({})
     setSourceCode("");
+    setSourceCode("");
+    setIndexClicked();
+    setTemplateId(0);
+    templateIdRef.current = "";
+    setTempLang(0);
     setNewTemplateName("")
     setNewTemplateSubject("")
     setCreateNewTemplate(false)
@@ -1055,10 +1060,15 @@ const WebinarAutoEmail = () => {
 
   const CreateNewTemplateClicked=(e)=>{
     e.preventDefault()
+    let defaultSourceCode= templates?.find(item => item?.name?.includes("Invitation"))
     setIndexClicked();
     setTemplateClicked(false);
     setValidationError({})
-    setSourceCode("");
+    setSourceCode(defaultSourceCode?.template);
+    setTemplateId(defaultSourceCode?.id);
+    templateIdRef.current = defaultSourceCode?.id;
+    setNewTemplateName(defaultSourceCode?.name)
+    setNewTemplateSubject(defaultSourceCode?.subject)
     setCreateNewTemplate(true)
   }
   const closeClicked = () => {
@@ -1288,7 +1298,8 @@ const WebinarAutoEmail = () => {
                                     {template?.subject} 
                                   </h6>
                                   <p>
-                                    When New content add to the user library
+                                    {template?.description?template?.description:"When New content add to the user library"}
+                                    
                                   </p>
                                   {indexClicked !== index ? (
                                     <button
@@ -1696,7 +1707,7 @@ const WebinarAutoEmail = () => {
                           onInit={(evt, editor) =>
                             (editorRef.current = editor)
                           }
-                          initialValue={""}
+                          initialValue={sourceCode}
                           init={{
                             height: "100vh",
                             menubar:
