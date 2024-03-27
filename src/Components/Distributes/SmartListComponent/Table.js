@@ -1806,8 +1806,8 @@ const Table = (props, ref) => {
               </h4>
             )}
 
-            {
-              props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
+            {/*
+              props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?*/}
                 <div className="selected-hcp-table-action">
                   {editable == false ? (
                     <>
@@ -1907,12 +1907,12 @@ const Table = (props, ref) => {
                     </>
                   ) : null}
                 </div>
-                : null
-            }
+                {/*: null
+                  */}
           </div>
 
-          {
-            props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
+          {/*
+            props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?*/}
               <div className="selected-hcp-list new-hcp-list">
                 <table className="table " id="table-to-xls">
                   <thead className="sticky-header">
@@ -2320,8 +2320,8 @@ const Table = (props, ref) => {
                   </tbody>
                 </table>
               </div>
-              : null
-          }
+              {/*: null
+          */}
         </div>
       </section>
 
