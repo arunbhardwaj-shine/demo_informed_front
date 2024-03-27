@@ -1912,8 +1912,8 @@ const Table = (props, ref) => {
 
           {
             props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
-              <div className="selected-hcp-list">
-                <table className="table" id="table-to-xls">
+              <div className="selected-hcp-list new-hcp-list">
+                <table className="table " id="table-to-xls">
                   <thead className="sticky-header">
                     <tr>
                       <th scope="col">Name

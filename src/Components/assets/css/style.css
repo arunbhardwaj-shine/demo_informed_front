@@ -3076,6 +3076,7 @@ h5 {
 }
 .search-hcp .smart-list-dropdown #accordion-smart .accordion .accordion-item .accordion-body .card-body {
   padding: 0;
+  gap: 30px 0;
 }
 .search-hcp .accordion .accordion-item button.accordion-button:after {
   background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
@@ -6244,9 +6245,10 @@ h2 {
 
 #accordion-smart .card-body .col {
   flex: 0 0 14.1%;
+  width: 14.1%;
   position: relative;
   margin-right: 2.5%;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 
 #accordion-smart .block-smart-name h6 {
@@ -7201,7 +7203,13 @@ table thead.sticky-header:after {
 .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
   top: 74px;
 }
-
+.search-hcp.smart-list-view .selected-hcp-list.new-hcp-list table#table-to-xls thead.sticky-header {
+  top: 0;
+}
+header.top-0~div .search-hcp.smart-list-view .selected-hcp-list.new-hcp-list table#table-to-xls thead.sticky-header {
+  top: 83px;
+  transition: 0.3s linear;
+}
 .search-hcp.smart-list-view table.get-details#table-to-xls thead.sticky-header {
   top: 14px;
 }
@@ -8374,9 +8382,9 @@ table tr.data-not-found td {
   margin-right: 10px;
 }
 
-.email-form.padding-add form {
+/* .email-form.padding-add form {
   padding: 0 12px;
-}
+} */
 
 .email-form.padding-add .form-inline .form-group input[type="text"] {
   margin-right: 0;
