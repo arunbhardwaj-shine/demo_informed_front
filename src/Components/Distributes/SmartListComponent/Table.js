@@ -1799,6 +1799,7 @@ const Table = (props, ref) => {
                 Selected HCPs for the smart list |{" "}
                 <span>
                   {
+                    props?.listcount ? props?.listcount :
                     editList?.length > 0 ? editList?.length : 0
                   }
                 </span>
