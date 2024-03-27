@@ -2989,6 +2989,7 @@ h5 {
 .result-hcp-table .table-title h4 span,
 .select-smart-list .table-title h4 span {
   font-weight: 300;
+  padding-left: 5px;
 }
 
 .selected-hcp-list .not-found h4 {
@@ -8681,7 +8682,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
   border-radius: 6px;
   padding: 7px;
-  max-height: 85px;
+  max-height: 95px;
   width: 75px;
   text-align: center;
 }
@@ -8717,8 +8718,8 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .trigger_content_image img {
   max-width: 73px;
-  max-height: 72px;
-  width: 100%;
+  max-height: 82px;
+  /* width: 100%; */
 }
 
 .auto_mail_trigger_right .email-form .form-inline .form-group input[type="text"] {
@@ -8764,7 +8765,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .mail_trigger_dummy_content {
   flex-direction: column;
   align-items: center;
-  padding-top: 250px;
+  padding-top: 220px;
 }
 
 /* .mail_trigger_right_dummy {
@@ -8791,7 +8792,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   margin-bottom: 47px;
   top: 50px;
 }
-
+.webinar-auto .auto_mail_trigger_box {
+  position: relative;
+  top: 0;
+  margin-bottom: 58px;
+}
 .auto_mail_trigger_box:after {
   content: "";
   position: absolute;
