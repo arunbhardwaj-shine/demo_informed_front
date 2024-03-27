@@ -51,7 +51,7 @@ const UploadExcel = (props) => {
                   data > listData ?
                   <div className="load_more">
                     <button className="btn btn-primary btn-filled" onClick={load_more}>
-                      Load More
+                      Load All
                     </button>
                   </div>
                   : null
