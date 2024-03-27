@@ -893,7 +893,7 @@ const SmartList = (props) => {
                               <h5>{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
-                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag="webinar"/>
+                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1}/>
                             
                             {/* <div className="mailbox-table">
                               <table>

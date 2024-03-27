@@ -13,6 +13,9 @@ import { connect } from "react-redux";
 import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarDraftData} from '../../../../../actions'
 import axios from "axios";
 import { toast } from "react-toastify";
+import domtoimage from "dom-to-image";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const WebinarEmail = (props) => {
   const navigate = useNavigate();
@@ -403,6 +406,49 @@ const WebinarEmail = (props) => {
     }
   }
 
+  const downloadUsers = (readerDetailsData) => {
+    try {
+      if (readerDetailsData?.length == 0) {
+        toast.warning("No data found");
+        return;
+      }
+      readerDetailsData = readerDetailsData?.map((item, index) => {
+        let finalData = {};
+        finalData.Name = item?.name ? item?.name.trim() : "N/A";
+        finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        finalData.Country = item?.country ? item?.country.trim() : "N/A";
+        finalData.Date = item?.formatted_date ? item?.formatted_date.trim() : "N/A";
+        return finalData;
+      });
+      const worksheet = XLSX.utils.json_to_sheet(readerDetailsData);
+      // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
+      const columnWidths = [
+        { wch: 20 }, // Width of column A (Name)
+        { wch: 25 }, // Width of column B (Email)
+        { wch: 15 }, // Width of column C (Country)
+        { wch: 15 }, // Width of column D (Date)
+      ];
+
+      // Apply column widths
+      worksheet["!cols"] = columnWidths;
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+      saveAs(blob, `${detailPopupName}.xlsx`);
+    } catch (error) {
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
+    }
+  };
+
   const showConfirmationPopup = (item) => {
     setCampaignId(item);
     setPopupMessage({
@@ -490,6 +536,25 @@ const WebinarEmail = (props) => {
 
   const draftEmailCampaign = (draftContent) => {
     setDraftCamapignId(draftContent);
+  };
+  const handleParent = async () => {
+    try {
+      loader("show");
+      const element = document.getElementById("chart-description");
+      // add padding to the element
+
+      const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
+
+      const link = document.createElement("a");
+      link.download = `${Math.random()}.png`;
+      link.href = dataUrl;
+      link.click();
+
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log(err);
+    }
   };
 
   return (
@@ -1152,6 +1217,7 @@ const WebinarEmail = (props) => {
           show={viewEmailModal}
           onHide={hideEmailModal}
           custom-atr="non-scroll"
+          className="mail-view-webinar"
         >
           <Modal.Header>
             <h4>Email View</h4>
@@ -1171,6 +1237,14 @@ const WebinarEmail = (props) => {
                     <div className="mail-box-heading">
                       <h5>{viewEmailData?.subject}</h5>
                       <p>{viewEmailData?.event}</p>
+                    </div>
+                    <div className="clear-search">
+                      <button
+                        className="btn print"
+                        title="Download data"
+                        onClick={handleParent}>
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24px" width="24px"><path d="M42.653,170.667A21.333,21.333,0,0,1,21.32,149.333V85.32a64.073,64.073,0,0,1,64-64h64.014a21.333,21.333,0,1,1,0,42.667H85.32A21.357,21.357,0,0,0,63.986,85.32v64.014A21.333,21.333,0,0,1,42.653,170.667Z" fill="#0066be"></path><path d="M426.68,490.68H362.667a21.333,21.333,0,1,1,0-42.667H426.68a21.357,21.357,0,0,0,21.333-21.333V362.667a21.333,21.333,0,1,1,42.667,0V426.68A64.073,64.073,0,0,1,426.68,490.68Z" fill="#0066be"></path><path d="M448,170.667a21.333,21.333,0,0,1-21.333-21.333V85.32a21.357,21.357,0,0,0-21.333-21.333H341.32a21.333,21.333,0,1,1,0-42.667h64.014a64.073,64.073,0,0,1,64,64v64.014A21.333,21.333,0,0,1,448,170.667Z" fill="#0066be"></path><path d="M149.333,490.68H85.32a64.073,64.073,0,0,1-64-64V362.667a21.333,21.333,0,1,1,42.667,0V426.68A21.357,21.357,0,0,0,85.32,448.014h64.014a21.333,21.333,0,1,1,0,42.667Z" fill="#0066be"></path><path d="M362.68,384.014H149.32a42.716,42.716,0,0,1-42.667-42.667V213.32a42.716,42.716,0,0,1,42.667-42.667h29.5l15.436-30.874a21.334,21.334,0,0,1,19.081-11.793h85.333a21.334,21.334,0,0,1,19.081,11.793l15.436,30.874h29.5a42.716,42.716,0,0,1,42.667,42.667V341.347A42.716,42.716,0,0,1,362.68,384.014ZM149.32,213.32V341.347H362.68V213.32H320a21.334,21.334,0,0,1-19.081-11.793l-15.436-30.874H226.518l-15.436,30.874A21.334,21.334,0,0,1,192,213.32Z" fill="#0066be"></path><path d="M256,330.667a64,64,0,1,1,64-64A64.073,64.073,0,0,1,256,330.667Zm0-85.333a21.333,21.333,0,1,0,21.333,21.333A21.357,21.357,0,0,0,256,245.333Z" fill="#0066BE"></path></svg>
+                      </button>
                     </div>
                     {/* {
                       viewEmailData?.status != 5
@@ -1230,6 +1304,9 @@ const WebinarEmail = (props) => {
                       )}
                     </ul>
                   </div>
+                  
+                </div>
+                <div className="chart-description" id="chart-description">
                   <div className="mail-stats webinar-mail-stats">
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
@@ -1368,8 +1445,6 @@ const WebinarEmail = (props) => {
                         : ""}
                     </ul>
                   </div>
-                </div>
-                <div className="chart-description">
                   <div className="chart-description-view">
                     <HighchartsReact
                       key={campaignId?.auto_id}
@@ -1417,6 +1492,35 @@ const WebinarEmail = (props) => {
           <Modal.Body>
             {
               <div className="selected-hcp-list">
+                <div className="d-flex justify-content-end">
+                  <div className="clear-search mx-3">
+                    <button
+                      className="btn print"
+                      title="Download data"
+                      onClick={() => {
+                        downloadUsers(readerDetailsData);
+                      }}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                          fill="#0066BE"
+                        />
+                        <path
+                          d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                          fill="#0066BE"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                    
                     <table className="table" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
