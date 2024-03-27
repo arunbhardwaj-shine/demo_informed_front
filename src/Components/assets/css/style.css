@@ -5044,7 +5044,12 @@ form#add_hcp_form .row:not(:first-child) {
   width: 100%;
   margin: 18px 0 8px;
 }
-
+.mail-view-webinar #mail-view .mail-stats {
+  margin: 0px 0 23px;
+}
+.mail-view-webinar .mailbox-tags {
+  margin-bottom: 0px;
+}
 #mail-view .mail-stats ul {
   justify-content: space-between;
 }
