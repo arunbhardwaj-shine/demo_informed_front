@@ -1520,7 +1520,7 @@ const WebinarAutoEmail = () => {
                                   ? "btn btn-primary approved-btn btn-bordered checked"
                                   : "btn btn-primary approved-btn btn-bordered"
                               }
-                              onClick={(e) => updateTemplate(e, 1)}
+                              onClick={(e) => updateTemplate(e, approveClickedd==1?0:1)}
                             >
                               {typeof approveClickedd !== "undefined" &&
                               approveClickedd == 1
