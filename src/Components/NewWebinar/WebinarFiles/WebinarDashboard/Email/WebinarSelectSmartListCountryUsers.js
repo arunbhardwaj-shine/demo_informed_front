@@ -321,6 +321,9 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 ? old_object?.template
                 : props.getWebinarDraftData?.source_code,
             status: 2,
+            auto_responder_id: old_object?.templateId
+            ? old_object?.templateId
+            : props.getWebinarDraftData?.campaign_data?.template_id,
         };
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

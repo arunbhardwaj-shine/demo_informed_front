@@ -1298,7 +1298,8 @@ const WebinarAutoEmail = () => {
                                 </div>
                                 <div className="trigger_content">
                                   <h6>
-                                    {template?.subject} ({template?.language_code})
+                                    {template?.subject} 
+                                    {/* ({template?.language_code}) */}
                                   </h6>
                                   <p>
                                     When New content add to the user library
@@ -1376,6 +1377,8 @@ const WebinarAutoEmail = () => {
                     </div>
                   </div>
                 </div>
+
+                
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
