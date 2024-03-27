@@ -440,7 +440,7 @@ const WebinarEmail = (props) => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `${detailPopupName}_Data.xlsx`);
+      saveAs(blob, `${detailPopupName}.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
