@@ -551,6 +551,7 @@
 
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
+    width: 17.5%;
   }
 
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
@@ -1708,6 +1709,9 @@ a.show-less-info p::after {
     .email-form .form-inline .form-group.template_builder_div {
       gap: 10px;
     }
+        header.top-0~div .search-hcp.smart-list-view .selected-hcp-list.new-hcp-list table#table-to-xls thead.sticky-header {
+          top: 80px;
+        }
 }
 
 @media only screen and (max-width: 1399px) {
@@ -2187,6 +2191,7 @@ a.show-less-info p::after {
 }
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
+    width: 17.5%;
   }
 
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {

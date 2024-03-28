@@ -343,7 +343,12 @@ const WebinarVerifyMAIL = (props) => {
             ? props.getWebinarEmailData?.templateId
             : props.getWebinarDraftData?.campaign_data?.template_id, 
         },
+        auto_responder_id: props.getWebinarEmailData?.templateId
+        ? props.getWebinarEmailData?.templateId
+        : props.getWebinarDraftData?.campaign_data?.template_id, 
       };
+
+     
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
@@ -508,6 +513,7 @@ const WebinarVerifyMAIL = (props) => {
     e.preventDefault();
     const body = {
       user_id: localStorage.getItem("user_id"),
+      pdf_id:0,
     //   pdf_id: props.getWebinarEmailData?.PdfSelected
     //     ? props.getEmailData.PdfSelected
     //     : props.getDraftData.pdf_id,
@@ -540,7 +546,7 @@ const WebinarVerifyMAIL = (props) => {
         smart_list_id:
           typeof getSmartListData !== "undefined" &&
             getSmartListData.hasOwnProperty("id")
-            ? getSmartListData.id
+            ? getSmartListData?.id
             : "",
         selectedHcp: selectedHcp,
         list_selection: props.getWebinarEmailData?.selected
@@ -554,6 +560,9 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.source_code,
       status: status,
       approved_page: 1,
+      auto_responder_id:props.getWebinarEmailData?.templateId
+      ? props.getWebinarEmailData?.templateId
+      : props.getWebinarDraftData?.campaign_data?.template_id,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");

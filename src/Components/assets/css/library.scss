@@ -2922,6 +2922,7 @@ form.product-unit button {
   // overflow-y: auto;
   // max-height: 61vh;
 }
+
 .sublink_right.preview-content .add_link_to_pdf .new_preview_pdflink .viewer-layout-main {
   overflow-y: auto;
   max-height: 61vh;
@@ -5944,13 +5945,16 @@ input.viewer-toolbar-current-page-input {
     margin: 0 auto 40px;
   }
 }
+
 .custom-change.full-screen .create-change-content.spc-content {
   max-width: 100%;
   padding: 12px;
 }
+
 .custom-change.full-screen .sublink_right.preview-content {
   max-width: 100%;
 }
+
 header.-top-24~div .custom-change .top-header.sticky,
 header.-top-24~div .custom-change .page-top-nav.sticky {
   top: 0px;
@@ -6526,7 +6530,7 @@ svg.pencil_icon {
 }
 
 .right-sidebar {
-  padding-top: 20px;
+  padding-top: 25px;
 
   &.full-width-survey {
     border-radius: 0;
@@ -9157,7 +9161,9 @@ svg.pencil_icon {
   background: #E7F4FF;
   color: #0066BE;
   font-size: 13px;
-  padding: 1px 30px;
+  padding: 1px 10px;
+  min-width: 105px;
+  text-align: center;
 }
 
 .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
@@ -24921,9 +24927,10 @@ img.change-password-image {
       font-size: 15px;
       line-height: 22px;
     }
-  .filter-by button {
-    padding: 6px 6px;
-  }
+
+    .filter-by button {
+      padding: 6px 6px;
+    }
 
   }
 

@@ -980,7 +980,7 @@ const WebinarSelectSmartListUsers = (props) => {
               <div className="result-hcp-table">
                 <div className="table-title">
                   <h4>
-                    {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
+                    HCPs <span>| {(readersNewlyAdded?.length||0) + (readers?.length||0)} </span>
                   </h4>
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
@@ -1084,8 +1084,10 @@ const WebinarSelectSmartListUsers = (props) => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">Name
-                          <button
+                        <th scope="col" className="sort_option" >
+                        <span onClick={() => handleSort('first_name')}>
+                        Name
+                        <button
                               className={`event_sort_btn ${sortBy == "first_name" ?
                               sortOrder == "asc"
                               ? "svg_asc"
@@ -1105,9 +1107,13 @@ const WebinarSelectSmartListUsers = (props) => {
                                 </defs>
                               </svg>
                             </button>
+                        </span>
+                         
                         </th>
-                        <th scope="col">Email
-                          <button
+                        <th scope="col" className="sort_option" >
+                        <span onClick={() => handleSort('email')}>
+                        Email
+                        <button
                               className={`event_sort_btn ${sortBy == "email" ?
                                   sortOrder == "asc"
                                   ? "svg_asc"
@@ -1127,10 +1133,15 @@ const WebinarSelectSmartListUsers = (props) => {
                                 </defs>
                               </svg>
                             </button>
+
+                        </span>
+                          
                         </th>
                         <th scope="col">Bounced</th>
-                        <th scope="col">Country
-                          <button
+                        <th scope="col" className="sort_option"  >
+                        <span onClick={() => handleSort('country')}>
+                        Country
+                        <button
                                 className={`event_sort_btn ${sortBy == "country" ?
                                 sortOrder == "asc"
                                   ? "svg_asc"
@@ -1150,6 +1161,8 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </defs>
                                 </svg>
                               </button>
+                        </span>
+                          
                         </th>
 
                         {localStorage.getItem("user_id") ==
@@ -1160,8 +1173,10 @@ const WebinarSelectSmartListUsers = (props) => {
                           </>
                         ) : (
                           <>
-                            <th scope="col">Business unit
-                              <button
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('ibu')}>
+                            Business unit
+                            <button
                                 className={`event_sort_btn ${sortBy == "ibu" ?
                                 sortOrder == "asc"
                                   ? "svg_asc"
@@ -1181,6 +1196,8 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </defs>
                                 </svg>
                               </button>
+                            </span>
+                             
                             </th>
                             <th scope="col">Contact type</th>
                           </>
