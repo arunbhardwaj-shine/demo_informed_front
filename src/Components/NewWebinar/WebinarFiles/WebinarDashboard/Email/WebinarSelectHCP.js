@@ -149,6 +149,7 @@ const WebinarSelectHCP = (props) => {
     let url = option?.navigateUrl || "";
   
     props.getWebinarSelected(null);
+    props.getWebinarSelectedSmartListData(null);
   
     if (selected == 1 || selected === 2) {
       navigate(url, {
