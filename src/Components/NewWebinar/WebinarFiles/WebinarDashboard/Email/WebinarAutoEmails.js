@@ -1137,7 +1137,7 @@ const WebinarAutoEmail = () => {
           formData.append('template_name', "");
           formData.append('event_id', eventId);
   
-          axios.post('http://192.168.0.162:5000/api/update-template', formData, {
+          axios.post('https://onesource.informed.pro/api/update-template', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -1416,7 +1416,7 @@ const WebinarAutoEmail = () => {
                 </div>
 
                 
-                <div className="auto_mail_trigger_right col-md-8 col-sm-8">
+                <div className="auto_mail_trigger_right webinar-auto-right col-md-8 col-sm-8">
                   {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
                       <div className="mail_trigger_dummy_content d-flex justify-content-center">

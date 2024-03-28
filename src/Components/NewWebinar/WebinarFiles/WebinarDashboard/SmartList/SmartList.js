@@ -893,8 +893,21 @@ const SmartList = (props) => {
                               <h5>{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
-                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1}/>
-                            
+                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus={deletestatus} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1}/>
+                            {deletestatus && (
+                              <div className="dlt_btn">
+                                <button
+                                  onClick={(e) =>
+                                    showConfirmationPopup(data.id)
+                                  }
+                                >
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            )}
                             {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
@@ -1026,7 +1039,14 @@ const SmartList = (props) => {
                     );
                   })
                 ) : (
-                  <div className="not_found">No Data Found</div>
+                  <>
+                  <div className="mail_trigger_right_dummy">
+                    <div className="mail_trigger_dummy_content d-flex justify-content-center">
+                      <h3>Create your first smart list by clicking on <img src={path_image + "add_smartlist.svg"} alt="" /></h3>
+                    </div>
+                  </div>
+                    </>
+                  // <div className="not_found">No Data Found</div>
                 )}
               </div>
             </div>
