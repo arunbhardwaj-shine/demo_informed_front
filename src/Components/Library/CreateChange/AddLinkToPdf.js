@@ -102,7 +102,7 @@ const AddLinkToPdf = () => {
     console.log(scale);
 
 
-    if(scale<1.3347){
+    if(scale < 1.3347 && scale>.7){
       setDefaultScale(scale)
       console.log(file);
       setFile(file)
