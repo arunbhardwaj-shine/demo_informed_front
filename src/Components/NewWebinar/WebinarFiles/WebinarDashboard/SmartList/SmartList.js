@@ -1026,7 +1026,14 @@ const SmartList = (props) => {
                     );
                   })
                 ) : (
-                  <div className="not_found">No Data Found</div>
+                  <>
+                  <div className="mail_trigger_right_dummy">
+                    <div className="mail_trigger_dummy_content d-flex justify-content-center">
+                      <h3>Create your first smart list by clicking on <img src={path_image + "add_smartlist.svg"} alt="" /></h3>
+                    </div>
+                  </div>
+                    </>
+                  // <div className="not_found">No Data Found</div>
                 )}
               </div>
             </div>
