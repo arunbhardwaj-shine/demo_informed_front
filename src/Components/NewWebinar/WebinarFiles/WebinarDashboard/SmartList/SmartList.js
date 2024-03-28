@@ -893,8 +893,21 @@ const SmartList = (props) => {
                               <h5>{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
-                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1}/>
-                            
+                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus={deletestatus} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1}/>
+                            {deletestatus && (
+                              <div className="dlt_btn">
+                                <button
+                                  onClick={(e) =>
+                                    showConfirmationPopup(data.id)
+                                  }
+                                >
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            )}
                             {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
