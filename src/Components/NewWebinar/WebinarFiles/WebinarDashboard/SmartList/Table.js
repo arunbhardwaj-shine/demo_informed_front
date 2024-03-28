@@ -1759,7 +1759,7 @@ const Table = (props, ref) => {
     <>
       {typeof props.upload_by_filter !== "undefined" &&
         props.upload_by_filter == 0 && (
-          <div className="page-top-nav smart_list_names">
+        <div className="page-top-nav smart_list_names sticky">
             <div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">

@@ -2056,7 +2056,9 @@ ul.tabnav-link li {
   flex: 0 0 100%;
   margin: 2px 0 0;
 }
-
+.email-form .form-inline .right-side .srv-validation-message {
+  text-align: right;
+}
 .form-inline .form-group {
   display: flex;
   align-items: center;
@@ -3117,6 +3119,8 @@ h5 {
   padding: 2px 6px 2px;
   border-radius: 20px;
   line-height: 1.1;
+  min-width: 71px;
+    text-align: center;
 }
 
 .accordion-item .last-activity {
@@ -8418,7 +8422,9 @@ table tr.data-not-found td {
 .email-form.padding-add .form-inline .form-group input[type="text"] {
   margin-right: 0;
 }
-
+.email-form.padding-add .form-inline .form-group input#email-subject {
+  flex: 1 1;
+}
 td.removed_td.centered {
   text-align: center;
 }
@@ -8663,7 +8669,7 @@ max-width: 100%;
   position: relative;
   /* float: right; */
   /* display: inline-table; */
-  margin: 0 3px 0 8px;
+  margin: 0 3px 0 1px;
 }
 
 .selected-hcp-list table tr td .mail-resend svg {

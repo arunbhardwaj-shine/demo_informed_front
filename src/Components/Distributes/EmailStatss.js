@@ -264,7 +264,7 @@ const EmailStats = (props) => {
                     </div>
             </div>
             <div
-              className="selected-hcp-list search_view email_stats"
+              className="selected-hcp-list search_view email_stats email-resultss"
               id="analytics-hcp-table"
             >
               <div className="email_stats_title_heading">
