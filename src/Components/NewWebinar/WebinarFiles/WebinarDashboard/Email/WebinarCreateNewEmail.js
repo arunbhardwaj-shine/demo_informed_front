@@ -600,6 +600,7 @@ const WebinarCreateNewEmail = (props) => {
         setTemplateId(template?.id);
         if(!firstTimeEmailSubject){
             setEmailSubject(template?.subject);
+            setEmailDescription(template?.description)
 
         }
         templateIdRef.current = template?.id;
@@ -2625,7 +2626,7 @@ const WebinarCreateNewEmail = (props) => {
                                                             <span className="checkmark"></span>
                                                         </div>
                                                     </div>
-                                                        <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+                                                        <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
 
                                                         {/* <div className="mailbox-table">
                                                             <table>

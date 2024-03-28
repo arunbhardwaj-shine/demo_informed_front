@@ -568,13 +568,13 @@ const WebinarSelectSmartListUsers = (props) => {
     if (editableData?.length > 0) {
       editableData?.map((data) => {
         const name_edit = document.getElementById(
-          "field_name" + data.profile_user_id
+          "field_name" + data?.profile_user_id
         ).innerText;
         const country_edit = document.getElementById(
-          "field_country" + data.profile_user_id
+          "field_country" + data?.profile_user_id
         ).value;
         const edit_index = document.getElementById(
-          "field_index" + data.profile_user_id
+          "field_index" + data?.profile_user_id
         ).value;
         const contact_type_edit =
           localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
