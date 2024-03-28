@@ -600,6 +600,7 @@ const WebinarCreateNewEmail = (props) => {
         setTemplateId(template?.id);
         if(!firstTimeEmailSubject){
             setEmailSubject(template?.subject);
+            setEmailDescription(template?.description)
 
         }
         templateIdRef.current = template?.id;
