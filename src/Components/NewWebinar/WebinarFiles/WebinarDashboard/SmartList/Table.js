@@ -688,8 +688,15 @@ const Table = (props, ref) => {
 
   const showMoreInfo = (e) => {
     e.preventDefault();
-
     setShowLessInfo(!showLessInfo);
+
+    const selectedHcpList = document.querySelector('.selected-hcp-list');
+
+    if (showLessInfo) {
+      selectedHcpList.classList.add('expand');
+    } else {
+      selectedHcpList.classList.remove('expand');
+    }
   };
 
   const editButtonClicked = () => {
@@ -1759,7 +1766,7 @@ const Table = (props, ref) => {
     <>
       {typeof props.upload_by_filter !== "undefined" &&
         props.upload_by_filter == 0 && (
-          <div className="page-top-nav smart_list_names">
+        <div className="page-top-nav smart_list_names sticky">
             <div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
@@ -1933,7 +1940,7 @@ const Table = (props, ref) => {
 
           {/* {
             props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ? */}
-              <div className="selected-hcp-list">
+              <div className="selected-hcp-list ">
                 <table className="table" id="table-to-xls">
                   <thead className="sticky-header">
                     <tr>

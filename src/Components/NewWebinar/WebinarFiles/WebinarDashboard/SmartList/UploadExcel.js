@@ -34,7 +34,7 @@ const UploadExcel = (props) => {
   return (
     <>
     {
-      <div className="col right-sidebar">
+        <div className="col right-sidebar custom-change">
         <div className="custom-container">
           {/* <div className="row">
         <Table data={data} smartListName={smartListName} upload_by_filter="0" creator={creator} sendDataToParent={sendDataToParent} ibu={ibu} />

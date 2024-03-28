@@ -117,14 +117,6 @@ const WebinarAutoEmail = () => {
   const filterConfig = {
     matchFrom: "start",
   };
-  const staticImages=[
-    {id:1,src:"https://webinar.informed.pro/template_images/1711523721_987284112.png"},
-    {id:2,src:"https://webinar.informed.pro/template_images/1711523804_1089277909.png"},
-    {id:3,src:"https://webinar.informed.pro/template_images/1711523892_2131645076.png"},
-    {id:4,src:"https://webinar.informed.pro/template_images/1711523977_1182234127.png"},
-    {id:5,src:"https://webinar.informed.pro/template_images/1711524034_2063365762.png"},
-    {id:6,src:"https://webinar.informed.pro/template_images/1711524166_856412767.png"},
-]
 
   useEffect(() => {
     getSmartListData(0);
@@ -241,6 +233,7 @@ const WebinarAutoEmail = () => {
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_AUTO_TEMPLATE_LIST, body)
       setTemplates(response?.data?.data)
       setReminderTemplates(response?.data?.data?.reminderTemplate)
+      console.log("res--->",response?.data?.data)
       loader("hide")
     } catch (err) {
       loader("hide")
@@ -1144,7 +1137,7 @@ const WebinarAutoEmail = () => {
           formData.append('template_name', "");
           formData.append('event_id', eventId);
   
-          axios.post('http://192.168.0.162:5000/api/update-template', formData, {
+          axios.post('https://onesource.informed.pro/api/update-template', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -1382,8 +1375,7 @@ const WebinarAutoEmail = () => {
                               >
                                 <div className="trigger_content_image">
                                   <img
-                                    // src={template?.template_img}
-                                    src={staticImages[index]?.src}
+                                    src={template?.template_img}
                                     alt="Preview"
                                   />
                                   {template?.approved==1?
@@ -2184,7 +2176,7 @@ const WebinarAutoEmail = () => {
                               <span className="checkmark"></span>
                             </div>
                           </div>
-                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
 
                             {/* <div className="mailbox-table">
                               <table>

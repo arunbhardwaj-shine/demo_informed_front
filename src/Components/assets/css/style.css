@@ -2056,7 +2056,9 @@ ul.tabnav-link li {
   flex: 0 0 100%;
   margin: 2px 0 0;
 }
-
+.email-form .form-inline .right-side .srv-validation-message {
+  text-align: right;
+}
 .form-inline .form-group {
   display: flex;
   align-items: center;
@@ -2614,7 +2616,7 @@ form .input-group {
   line-height: 15px;
   color: var(--light-gray);
   font-weight: 300;
-  padding: 24px 10px;
+  padding: 18px 10px;
   border: 0;
   background: var(--white);
 }
@@ -3117,6 +3119,8 @@ h5 {
   padding: 2px 6px 2px;
   border-radius: 20px;
   line-height: 1.1;
+  min-width: 71px;
+    text-align: center;
 }
 
 .accordion-item .last-activity {
@@ -5207,7 +5211,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 .smart-list-view .selected-hcp-list table {
   max-width: 1057px;
-  margin: 8px auto;
+  margin: 3px auto;
   padding-left: 4px;
 }
 
@@ -8418,7 +8422,9 @@ table tr.data-not-found td {
 .email-form.padding-add .form-inline .form-group input[type="text"] {
   margin-right: 0;
 }
-
+.email-form.padding-add .form-inline .form-group input#email-subject {
+  flex: 1 1;
+}
 td.removed_td.centered {
   text-align: center;
 }
@@ -8460,7 +8466,7 @@ td.removed_td.centered {
 
 section.search-hcp.smart-list-view {
   position: relative;
-  padding-top: 30px;
+  padding: 30px 8px 0;
 }
 
 .top-right-action.full {
@@ -8663,7 +8669,7 @@ max-width: 100%;
   position: relative;
   /* float: right; */
   /* display: inline-table; */
-  margin: 0 3px 0 8px;
+  margin: 0 3px 0 1px;
 }
 
 .selected-hcp-list table tr td .mail-resend svg {
