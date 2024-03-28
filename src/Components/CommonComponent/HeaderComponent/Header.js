@@ -414,7 +414,8 @@ const Header = () => {
                     window.location.pathname == "/webinar/email/verifyHcpMAIL"||
                     window.location.pathname =="/webinar/email/smartlist/editlist"||
                     window.location.pathname =="/webinar/email/smartlist/createsmartlist"||
-                    window.location.pathname =="/webinar/email/smartlist/smartlistfilter"
+                    window.location.pathname =="/webinar/email/smartlist/smartlistfilter"||
+                    window.location.pathname =="/webinar/email/smartlist/uploadsmartlist"
                         ? "nav-item active active-main"
                     : "nav-item"
                   }>

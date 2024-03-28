@@ -1770,10 +1770,10 @@ const Table = (props, ref) => {
               </div>
               <div className="col-12 col-md-8">
                 <ul className="tabnav-link">
-                  <li className="">
+                  <li className="active">
                     <a href="javascript:void(0)">Create smart List</a>
                   </li>
-                  <li className="active">
+                  <li className="active active-main">
                     <a href="javascript:void(0)">Verify Your List</a>
                   </li>
                 </ul>

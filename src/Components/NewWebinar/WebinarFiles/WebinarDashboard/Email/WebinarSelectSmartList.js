@@ -168,13 +168,13 @@ const WebinarSelectSmartList = (props) => {
       } else {
         setSmartListSelected(e);
         props.getWebinarSelectedSmartListData(e);
-        setPdfSelected(e.id);
+        setPdfSelected(e?.id);
         setselecedlistid(e?.id);
       }
     } else {
       setSmartListSelected(e);
       props.getWebinarSelectedSmartListData(e);
-      setPdfSelected(e.id);
+      setPdfSelected(e?.id);
       setselecedlistid(e?.id);
     }
   };
@@ -623,14 +623,14 @@ const WebinarSelectSmartList = (props) => {
                     >
                       Save As Draft
                     </button>
-                    {/* {PdfSelected === 0 ? (
+                    {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}
                         className="btn btn-primary btn-filled next disabled"
                       >
                         Next
                       </button>
-                    ) : ( */}
+                    ) : (
                       <Link
                         to="/webinar/email/selectSmartListUsers"
                         state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected}}
@@ -643,7 +643,7 @@ const WebinarSelectSmartList = (props) => {
                           Next
                         </button>
                       </Link>
-                    {/* )} */}
+                    )} 
                   </div>
                 </div>
               </div>
