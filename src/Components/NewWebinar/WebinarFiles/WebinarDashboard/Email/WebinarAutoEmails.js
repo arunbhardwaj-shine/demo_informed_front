@@ -241,7 +241,6 @@ const WebinarAutoEmail = () => {
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_AUTO_TEMPLATE_LIST, body)
       setTemplates(response?.data?.data)
       setReminderTemplates(response?.data?.data?.reminderTemplate)
-      console.log("res--->",response?.data?.data)
       loader("hide")
     } catch (err) {
       loader("hide")
