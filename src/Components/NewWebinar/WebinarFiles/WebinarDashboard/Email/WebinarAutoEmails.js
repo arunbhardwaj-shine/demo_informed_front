@@ -5,7 +5,7 @@ import { loader } from "../../../../../loader";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Modal, ModalDialog, Dropdown, Col, Button } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown,Col,Button } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { popup_alert } from "../../../../../popup_alert";
 import Select, { createFilter } from "react-select";
@@ -22,8 +22,8 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
-  const { eventIdContext, handleEventId } = useSidebar();
-  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const { eventIdContext, handleEventId } = useSidebar()
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
       ? eventIdContext?.eventId
@@ -40,7 +40,7 @@ const WebinarAutoEmail = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [tempLang, setTempLang] = useState(0);
   const [templates, setTemplates] = useState([]);
-  const [reminderTemplates, setReminderTemplates] = useState([]);
+  const [reminderTemplates,setReminderTemplates]=useState([])
   const [countryall, setCountryall] = useState([]);
   const [templateClicked, setTemplateClicked] = useState(false);
   const [sourceCode, setSourceCode] = useState("");
@@ -106,8 +106,8 @@ const WebinarAutoEmail = () => {
     },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
-  const [createNewTemplate, setCreateNewTemplate] = useState(false);
-  const [newTemplateDescription, setNewTemplateDescription] = useState("");
+  const [createNewTemplate, setCreateNewTemplate] = useState(false)
+  const [newTemplateDescription, setNewTemplateDescription] = useState("")
   const [newTemplateSubject, setNewTemplateSubject] = useState("");
   const templateIdRef = useRef("");
   const editorRef = useRef(null);
@@ -117,6 +117,14 @@ const WebinarAutoEmail = () => {
   const filterConfig = {
     matchFrom: "start",
   };
+  const staticImages=[
+    {id:1,src:"https://webinar.informed.pro/template_images/1711523721_987284112.png"},
+    {id:2,src:"https://webinar.informed.pro/template_images/1711523804_1089277909.png"},
+    {id:3,src:"https://webinar.informed.pro/template_images/1711523892_2131645076.png"},
+    {id:4,src:"https://webinar.informed.pro/template_images/1711523977_1182234127.png"},
+    {id:5,src:"https://webinar.informed.pro/template_images/1711524034_2063365762.png"},
+    {id:6,src:"https://webinar.informed.pro/template_images/1711524166_856412767.png"},
+]
 
   useEffect(() => {
     getSmartListData(0);
@@ -226,33 +234,29 @@ const WebinarAutoEmail = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async () => {
     try {
-      loader("show");
+      loader("show")
       let body = {
-        eventId: eventId,
-      };
-      const response = await postData(
-        ENDPOINT.WEBINAR_EMAIL_GET_AUTO_TEMPLATE_LIST,
-        body
-      );
-      setTemplates(response?.data?.data);
-      setReminderTemplates(response?.data?.data?.reminderTemplate);
-      console.log("res--->", response?.data?.data);
-      loader("hide");
+        eventId: eventId
+      }
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_AUTO_TEMPLATE_LIST, body)
+      setTemplates(response?.data?.data)
+      setReminderTemplates(response?.data?.data?.reminderTemplate)
+      loader("hide")
     } catch (err) {
-      loader("hide");
-      console.log("--err", err);
+      loader("hide")
+      console.log("--err", err)
     }
-  };
+  }
 
   const viewButtonClicked = (template, index) => {
-    setEmailSubject(template?.subject);
-    setEmailDescription(template?.description);
-    setCreateNewTemplate(false);
+    setEmailSubject(template?.subject)
+    setEmailDescription(template?.description)
+    setCreateNewTemplate(false)
     // setNewTemplateName("")
-    setNewTemplateDescription("");
-    setNewTemplateSubject("");
+    setNewTemplateDescription("")
+    setNewTemplateSubject("")
     // setEmailSubject("");
-    setEmailSubject(template?.subject);
+    setEmailSubject(template?.subject)
 
     // setEmailDescription("");
     setApproveClicked(false);
@@ -262,7 +266,7 @@ const WebinarAutoEmail = () => {
     setTemplateId(template?.id);
     templateIdRef.current = template?.id;
     setTempLang(template?.language_code);
-    if (template?.status == 1) {
+    if (template?.approved == 1) {
       setApproveClicked(true);
     } else {
       setApproveClicked(false);
@@ -292,15 +296,15 @@ const WebinarAutoEmail = () => {
   const cancelClicked = () => {
     // setIndexClicked();
     setTemplateClicked(false);
-    setValidationError({});
+    setValidationError({})
     setSourceCode("");
     setTemplateId(0);
     templateIdRef.current = "";
     setTempLang(0);
     // setNewTemplateName("")
-    setNewTemplateDescription("");
-    setNewTemplateSubject("");
-    setCreateNewTemplate(false);
+    setNewTemplateDescription("")
+    setNewTemplateSubject("")
+    setCreateNewTemplate(false)
   };
 
   const sendSample = (event) => {
@@ -325,6 +329,7 @@ const WebinarAutoEmail = () => {
       setIsOpensend(true);
     }
   };
+
 
   const searchHcp = async (e) => {
     e.preventDefault();
@@ -385,9 +390,7 @@ const WebinarAutoEmail = () => {
     let arr = [];
     arr = searchedUsers;
     let added_user_id = arr[index]?.profile_user_id;
-    let prev_obj = selectedHcp?.find(
-      (x) => x?.profile_user_id === added_user_id
-    );
+    let prev_obj = selectedHcp?.find((x) => x?.profile_user_id === added_user_id);
     if (typeof prev_obj == "undefined") {
       const removedArray = arr?.splice(index, 1);
       setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
@@ -436,7 +439,7 @@ const WebinarAutoEmail = () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
         // pdf_id: "3487",
-        event_id: eventId,
+        event_id:eventId,
         subject: emailSubject,
         description: emailDescription,
         template_id: templateId,
@@ -460,8 +463,8 @@ const WebinarAutoEmail = () => {
                 message: "Email sent successfully",
                 type: "success",
               });
-              setName("");
-              setEmail("");
+              setName("")
+              setEmail("")
               setShowProgressBar(false);
               setUploadOrDownloadCount(0);
               setMailsIncrement(0);
@@ -494,7 +497,7 @@ const WebinarAutoEmail = () => {
       toast.warning("Please select subject first");
     }
   };
-
+ 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
       const mailViewElement = document.querySelector("#mail-view");
@@ -523,10 +526,12 @@ const WebinarAutoEmail = () => {
     setReRender(reRender + 1);
   };
 
+
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -570,10 +575,7 @@ const WebinarAutoEmail = () => {
         } else if (data?.institution_type == "") {
           return "Please select the institution type";
         }
-        if (
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
-          localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg=="
-        ) {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
             return "Please select country";
           }
@@ -583,9 +585,7 @@ const WebinarAutoEmail = () => {
           let useremail = email?.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find(
-              (x) => x?.email?.toLowerCase() === useremail?.toLowerCase()
-            );
+            let prev_obj = selectedHcp.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
             if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
             } else {
@@ -676,6 +676,9 @@ const WebinarAutoEmail = () => {
     setSmartListId(data?.id);
   };
 
+
+  
+
   const openSmartListPopup = async (smart_list_id) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
@@ -718,9 +721,7 @@ const WebinarAutoEmail = () => {
             setReaders(res?.data?.response?.data);
 
             res?.data?.response?.data?.map((data) => {
-              let prev_obj = selectedHcp?.find(
-                (x) => x?.email?.toLowerCase() === data?.email?.toLowerCase()
-              );
+              let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === data?.email?.toLowerCase());
               if (typeof prev_obj === "undefined") {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               }
@@ -759,12 +760,12 @@ const WebinarAutoEmail = () => {
       if (editorRef.current) {
         const body = {
           user_id: localStorage.getItem("user_id"),
-          subject: emailSubject,
-          description: emailDescription,
+          subject:emailSubject,
+          description:emailDescription,
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           // name: templateName,
-          name: emailSubject,
+          name:emailSubject,
           status: status === 0 ? 2 : status === 1 ? 3 : 4,
           event_id: eventId,
         };
@@ -887,121 +888,113 @@ const WebinarAutoEmail = () => {
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog = document.getElementsByClassName("tox-dialog")[0];
-      if (dialog) {
-        let header = dialog?.querySelector(".tox-dialog__header");
-        const closeButton = header?.querySelector('[aria-label="Close"]');
-        let text = header?.querySelector(".tox-dialog__title");
-        let url = dialog?.querySelector(".tox-control-wrap");
-        let newLink = url?.querySelector(".tox-textfield");
-        let newButton = document.createElement("button");
-        const baseLink =
-          "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-        let payload = {};
-        let apiLink = "";
+        let dialog = document.getElementsByClassName("tox-dialog")[0];
+        if (dialog) {
+            let header = dialog?.querySelector(".tox-dialog__header");
+            const closeButton = header?.querySelector('[aria-label="Close"]');
+            let text = header?.querySelector(".tox-dialog__title");
+            let url = dialog?.querySelector(".tox-control-wrap")
+            let newLink = url?.querySelector(".tox-textfield")
+            let newButton = document.createElement("button");
+            const baseLink =
+                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            let payload = {}
+            let apiLink = ""
 
-        if (text?.innerText == "Insert/Edit Link") {
-          let uploadIcon = document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-          );
-          uploadIcon.style.display = "none";
-          // let newButton = document.createElement("button");
-          if (newLink?.value?.includes(baseLink)) {
-            newButton.innerText = "Remove Tracking";
-            apiLink = `https://onesource.informed.pro/api/delete-track-links`;
-          } else {
-            newButton.innerText = "Add Tracking";
-            apiLink = `https://onesource.informed.pro/api/track-links`;
-          }
-          newButton.classList.add("tox-button");
-          newButton.classList.add("tox-button--icon");
-          newButton.classList.add("tox-button--naked");
-          newButton.classList.add("track");
+            if (text?.innerText == "Insert/Edit Link") {
+                let uploadIcon = document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+                );
+                uploadIcon.style.display = "none";
+                // let newButton = document.createElement("button");
+                if (newLink?.value?.includes(baseLink)) {
+                    newButton.innerText = "Remove Tracking";
+                    apiLink = `https://onesource.informed.pro/api/delete-track-links`;
+                } else {
+                    newButton.innerText = "Add Tracking";
+                    apiLink = `https://onesource.informed.pro/api/track-links`;
+                }
+                newButton.classList.add("tox-button");
+                newButton.classList.add("tox-button--icon");
+                newButton.classList.add("tox-button--naked");
+                newButton.classList.add("track");
 
-          newButton.onclick = function () {
-            if (templateIdRef.current == "") {
-              alert(
-                "Please select or create the template first before adding the link"
-              );
-              return;
+                newButton.onclick = function () {
+                    if (templateIdRef.current == "") {
+                        alert("Please select or create the template first before adding the link");
+                        return;
+                    }
+                    let firstToxControlWrap = document.querySelector(
+                        "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+                    );
+
+                    if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+                        let urlvalue = newLink?.value?.split("&redirect_url=")
+                        const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
+                        const substring = urlvalue[0].substring(startIndex);
+                        firstToxControlWrap.value = urlvalue[1]
+                        payload = {
+                            template_id: templateIdRef.current,
+                            url_code: substring,
+                        };
+                    }
+                    if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+                        if (!newLink?.value) {
+                            alert("Please enter a link")
+                            return
+                        }
+                        if (!firstToxControlWrap.value) {
+                            alert("Please enter a link");
+                            return;
+                        }
+                        if (firstToxControlWrap.value.startsWith(baseLink)) {
+                            alert("Traking already added");
+                            return;
+                        }
+                        let slugValue = prompt("Enter a slug value");
+
+                        const currentTimestamp = Date.now();
+                        payload = {
+                            slug_value: slugValue,
+                            template_id: templateIdRef.current,
+                            url_code: `clicked_track_doc_${currentTimestamp}`,
+                        };
+                        linkingPayload.current = payload;
+                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                        firstToxControlWrap.value = link;
+
+                    }
+
+                    var saveButton = document.querySelector(
+                        '.tox-button[title="Save"]'
+                    );
+                    saveButton.addEventListener("click", function () {
+                        axios
+                            .post(apiLink, payload)
+                            .then((res) => {
+                                console.log("done");
+                            })
+                            .catch((err) => {
+                                loader("hide");
+                                console.log(err);
+                            });
+                    });
+                    if (newLink?.value?.includes(baseLink)) {
+                        alert("Traking added");
+                    } else {
+                        alert("Traking removed");
+                    }
+                };
+
+                header.insertBefore(newButton, closeButton);
+            } else if (text.innerText == "Insert/Edit Media") {
+                document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+                ).innerText += " (Max size: 1GB)";
             }
-            let firstToxControlWrap = document.querySelector(
-              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-            );
-
-            if (
-              newLink?.value?.includes(baseLink) &&
-              newButton.innerText == "Remove Tracking"
-            ) {
-              let urlvalue = newLink?.value?.split("&redirect_url=");
-              const startIndex =
-                urlvalue[0].indexOf("tracking_code=") + "tracking_code=".length;
-              const substring = urlvalue[0].substring(startIndex);
-              firstToxControlWrap.value = urlvalue[1];
-              payload = {
-                template_id: templateIdRef.current,
-                url_code: substring,
-              };
-            }
-            if (
-              !newLink?.value?.includes(baseLink) &&
-              newButton.innerText == "Add Tracking"
-            ) {
-              if (!newLink?.value) {
-                alert("Please enter a link");
-                return;
-              }
-              if (!firstToxControlWrap.value) {
-                alert("Please enter a link");
-                return;
-              }
-              if (firstToxControlWrap.value.startsWith(baseLink)) {
-                alert("Traking already added");
-                return;
-              }
-              let slugValue = prompt("Enter a slug value");
-
-              const currentTimestamp = Date.now();
-              payload = {
-                slug_value: slugValue,
-                template_id: templateIdRef.current,
-                url_code: `clicked_track_doc_${currentTimestamp}`,
-              };
-              linkingPayload.current = payload;
-              let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-              firstToxControlWrap.value = link;
-            }
-
-            var saveButton = document.querySelector(
-              '.tox-button[title="Save"]'
-            );
-            saveButton.addEventListener("click", function () {
-              axios
-                .post(apiLink, payload)
-                .then((res) => {
-                  console.log("done");
-                })
-                .catch((err) => {
-                  loader("hide");
-                  console.log(err);
-                });
-            });
-            if (newLink?.value?.includes(baseLink)) {
-              alert("Traking added");
-            } else {
-              alert("Traking removed");
-            }
-          };
-
-          header.insertBefore(newButton, closeButton);
-        } else if (text.innerText == "Insert/Edit Media") {
-          document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-          ).innerText += " (Max size: 1GB)";
         }
-      }
     });
-  };
+};
 
   const uploadImageToServer = async (file) => {
     try {
@@ -1032,21 +1025,22 @@ const WebinarAutoEmail = () => {
     }
   };
 
-  const createTemplate = async (e) => {
-    e.preventDefault();
-    let error = {};
-    if (newTemplateDescription == "") {
-      error.newTemplateDescription = "Please enter template name";
-      setValidationError(error);
-      return;
-    } else if (newTemplateSubject == "") {
-      error.newTemplateSubject = "Please enter template subject";
-      setValidationError(error);
-      return;
-    } else if (templateSaving == "") {
-      toast.warning("Template can't be empty");
-      return;
-    } else {
+  const createTemplate=async(e)=>{
+    e.preventDefault()
+    let error={}
+    if(newTemplateDescription==""){
+      error.newTemplateDescription="Please enter template name"
+      setValidationError(error)
+      return
+    }else if(newTemplateSubject==""){
+      error.newTemplateSubject="Please enter template subject"
+      setValidationError(error)
+      return
+    }else if(templateSaving==""){
+      toast.warning("Template can't be empty")
+      return
+    }else{
+ 
       if (editorRef.current) {
         const body = {
           user_id: localStorage.getItem("user_id"),
@@ -1054,7 +1048,7 @@ const WebinarAutoEmail = () => {
           template_id: "",
           name: newTemplateSubject,
           subject: newTemplateSubject,
-          description: newTemplateDescription,
+          description:newTemplateDescription,
           status: 1,
           event_id: eventId,
         };
@@ -1067,16 +1061,16 @@ const WebinarAutoEmail = () => {
               getTemplateListData();
               setIndexClicked();
               setTemplateClicked(false);
-              setValidationError({});
+              setValidationError({})
               setSourceCode("");
               setIndexClicked();
               setTemplateId(0);
               templateIdRef.current = "";
               setTempLang(0);
               // setNewTemplateName("")
-              setNewTemplateDescription("");
-              setNewTemplateSubject("");
-              setCreateNewTemplate(false);
+              setNewTemplateDescription("")
+              setNewTemplateSubject("")
+              setCreateNewTemplate(false)
               toast.success("Template Created");
               loader("hide");
             }
@@ -1085,26 +1079,25 @@ const WebinarAutoEmail = () => {
             loader("hide");
             toast.error("Something went wrong");
           });
-      }
+    } 
     }
-  };
 
-  const CreateNewTemplateClicked = (e) => {
-    e.preventDefault();
-    let defaultSourceCode = templates?.triggeredTemplate?.find((item) =>
-      item?.name?.includes("Invitation")
-    );
+  }
+
+  const CreateNewTemplateClicked=(e)=>{
+    e.preventDefault()
+    let defaultSourceCode= templates?.triggeredTemplate?.find(item => item?.name?.includes("Invitation"))
     setIndexClicked();
     setTemplateClicked(false);
-    setValidationError({});
+    setValidationError({})
     setSourceCode(defaultSourceCode?.template);
     setTemplateId(defaultSourceCode?.id);
     templateIdRef.current = defaultSourceCode?.id;
     // setNewTemplateName(defaultSourceCode?.name)
-    setNewTemplateSubject(defaultSourceCode?.subject);
-    setNewTemplateDescription(defaultSourceCode?.description);
-    setCreateNewTemplate(true);
-  };
+    setNewTemplateSubject(defaultSourceCode?.subject)
+    setNewTemplateDescription(defaultSourceCode?.description)
+    setCreateNewTemplate(true)
+  }
   const closeClicked = () => {
     setIsOpenAdd(false);
     setIsOpensend(true);
@@ -1116,11 +1109,13 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="
             ? "yes"
             : "",
         institutionType: "",
@@ -1128,60 +1123,57 @@ const WebinarAutoEmail = () => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-  };
+  }
   const setHpcList = (list) => {
-    setHpc(list);
-  };
+    setHpc(list)
+  }
   const generate_thumb = useCallback(async () => {
     if (ref.current === null) {
       return;
     }
     loader("show");
 
-    html2canvas(ref.current, {
-      useCORS: true,
-      proxy: "https://docintel.s3-eu-west-1.amazonaws.com",
+    html2canvas(ref.current, { useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
+    .then((canvas) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const formData = new FormData();
+          formData.append('user_id', localStorage.getItem("user_id"));
+          formData.append('template_id', templateId);
+          formData.append('image_url', blob, 'image.png'); // Assuming the file name is 'image.png'
+          formData.append('template_name', "");
+          formData.append('event_id', eventId);
+  
+          axios.post('http://192.168.0.162:5000/api/update-template', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then((res) => {
+            if (res.data.status_code == 200) {
+              toast.success(res.data.message);
+              getTemplateListData();
+            } else {
+              toast.warning(res.data.message);
+            }
+            setviewEmailModal(false);
+            loader("hide");
+          })
+          .catch((err) => {
+            setviewEmailModal(false);
+            loader("hide");
+            toast.error("Something went wrong.");
+          });
+        }
+      }, 'image/png');
     })
-      .then((canvas) => {
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const formData = new FormData();
-            formData.append("user_id", localStorage.getItem("user_id"));
-            formData.append("template_id", templateId);
-            formData.append("image_url", blob, "image.png"); // Assuming the file name is 'image.png'
-            formData.append("template_name", "");
-            formData.append("event_id", eventId);
-
-            axios
-              .post("http://192.168.0.162:5000/api/update-template", formData, {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              })
-              .then((res) => {
-                if (res.data.status_code == 200) {
-                  toast.success(res.data.message);
-                  getTemplateListData();
-                } else {
-                  toast.warning(res.data.message);
-                }
-                setviewEmailModal(false);
-                loader("hide");
-              })
-              .catch((err) => {
-                setviewEmailModal(false);
-                loader("hide");
-                toast.error("Something went wrong.");
-              });
-          }
-        }, "image/png");
-      })
-      .catch((err) => {
-        setviewEmailModal(false);
-        loader("hide");
-        toast.error("Something went wrong.");
-        console.log(err);
-      });
+    .catch((err) => {
+      setviewEmailModal(false);
+      loader("hide");
+      toast.error("Something went wrong.");
+      console.log(err);
+    });
+  
   }, [ref, templateId]);
 
   const replaceDangerHtml = (dynamicTempHtml) => {
@@ -1226,15 +1218,15 @@ const WebinarAutoEmail = () => {
       toast.warning("Template not selected.");
     }
   };
-  const viewSmartListData = async (id) => {
+  const viewSmartListData = async(id) => {
     setAddListOpen(false);
     setSelectedListId(id);
-  };
+  }
 
-  const closeSmartListPopup = async () => {
+  const closeSmartListPopup = async() => {
     setSelectedListId(0);
     setAddListOpen(true);
-  };
+  }
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1247,26 +1239,22 @@ const WebinarAutoEmail = () => {
               <div className="template_builder-option">
                 {localStorage.getItem("user_id") ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
-                  <div className="template_language">
-                    <span>Language</span>
-                    <div className="form-group">
-                      <Select
-                        options={getTemplateLanguage}
-                        defaultValue={getTemplateLanguage[0]}
-                        onChange={(e) => changeLanguage(e)}
-                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      />
+                    <div className="template_language">
+                      <span>Language</span>
+                      <div className="form-group">
+                        <Select
+                          options={getTemplateLanguage}
+                          defaultValue={getTemplateLanguage[0]}
+                          onChange={(e) => changeLanguage(e)}
+                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
               <div className="top-right-action">
-                {!createNewTemplate && (
-                  <Button onClick={(e) => CreateNewTemplateClicked(e)}>
-                    Create New Template
-                  </Button>
-                )}
-                {templateClicked || createNewTemplate ? (
+                {!createNewTemplate && <Button onClick={(e) => CreateNewTemplateClicked(e)}>Create New Template</Button>}
+                {templateClicked ||createNewTemplate? (
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered"
@@ -1274,30 +1262,31 @@ const WebinarAutoEmail = () => {
                     >
                       Cancel
                     </button>
-                    {templateName == "Reset password" ||
-                    templateName == "Welcome mail" ||
-                    createNewTemplate ? null : (
+                    {(templateName == "Reset password" ||
+                      templateName == "Welcome mail")||createNewTemplate ? null : (
                       <button
                         className="btn btn-primary btn-filled next"
                         onClick={(e) => {
-                          updateTemplate(e);
+                          updateTemplate(e)
                         }}
                       >
                         Save
                       </button>
                     )}
-                    {createNewTemplate ? (
-                      <button
-                        className="btn btn-primary btn-filled next"
-                        onClick={(e) => {
-                          createTemplate(e);
-                        }}
-                      >
-                        Create
-                      </button>
-                    ) : null}
+                    {createNewTemplate?(
+                       <button
+                       className="btn btn-primary btn-filled next"
+                       onClick={(e) => {
+                        createTemplate(e)
+                       }}
+                     >
+                       Create
+                     </button>
+                    )
+                    :null}
                   </div>
                 ) : null}
+                
               </div>
             </div>
             <div className="auto_mail_trigger">
@@ -1314,53 +1303,57 @@ const WebinarAutoEmail = () => {
                           alt="Preview"
                         />
                       </div>
-                      <h4>Triggered Emails</h4>{" "}
+                      <h4>Triggered Emails</h4>{" "}                     
                     </div>
                     <div className="mail_trigger_content">
-                      {typeof templates?.triggeredTemplate !== "undefined" &&
-                      templates?.triggeredTemplate?.length > 0
-                        ? templates?.triggeredTemplate?.map(
-                            (template, index) => {
-                              return (
-                                <>
-                                  <div
-                                    className={
-                                      // indexClicked == index
-                                      templateId == template?.id
-                                        ? "trigger_content_box d-flex active"
-                                        : "trigger_content_box d-flex"
-                                    }
-                                  >
-                                    <div className="trigger_content_image">
-                                      <img
-                                        src={template?.template_img}
-                                        alt="Preview"
-                                      />
-                                    </div>
-                                    <div className="trigger_content">
-                                      <h6>{template?.subject}</h6>
-                                      <p>
-                                        {template?.description
-                                          ? template?.description
-                                          : ""}
-                                      </p>
-                                      {/* {indexClicked !== index ? ( */}
-                                      {/* {templateId !== template?.id ? ( */}
-                                        <button
-                                          onClick={() =>
-                                            viewButtonClicked(template, index)
-                                          }
-                                          className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                        >
-                                          View
-                                        </button>
-                                      {/* ) : null} */}
-                                    </div>
-                                  </div>
-                                </>
-                              );
-                            }
-                          )
+                      {typeof templates?.triggeredTemplate !== "undefined" && templates?.triggeredTemplate?.length > 0
+                        ? templates?.triggeredTemplate?.map((template, index) => {
+                          return (
+                            <>
+                              <div
+                                className={
+                                  // indexClicked == index
+                                  templateId == template?.id 
+                                    ? "trigger_content_box d-flex active"
+                                    : "trigger_content_box d-flex"
+                                }
+                              >
+                                <div className="trigger_content_image">
+                                  <img
+                                    src={template?.template_img}
+                                    alt="Preview"
+                                  />
+                                    {template?.approved==1?
+                                  <img
+                                  src={path_image+"approved-btn.svg"}
+                                  alt="Preview"
+                                />
+                                  :""}
+                                </div>
+                                <div className="trigger_content">
+                                  <h6>
+                                    {template?.subject} 
+                                  </h6>
+                                  <p>
+                                    {template?.description?template?.description:""}
+                                    
+                                  </p>
+                                  {/* {indexClicked !== index ? ( */}
+                                  {templateId !== template?.id ? (
+                                    <button
+                                      onClick={() =>
+                                        viewButtonClicked(template, index)
+                                      }
+                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                    >
+                                      View
+                                    </button>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })
                         : null}
                     </div>
                   </div>
@@ -1375,56 +1368,63 @@ const WebinarAutoEmail = () => {
                       <h4>Reminder AutoMails</h4>{" "}
                     </div>
                     <div className="mail_trigger_content">
-                      {typeof templates?.reminderTemplate !== "undefined" &&
-                      templates?.reminderTemplate?.length > 0
-                        ? templates?.reminderTemplate?.map(
-                            (template, index) => {
-                              return (
-                                <>
-                                  <div
-                                    className={
-                                      // indexClicked == index
-                                      templateId == template?.id
-                                        ? "trigger_content_box d-flex active"
-                                        : "trigger_content_box d-flex"
-                                    }
-                                  >
-                                    <div className="trigger_content_image">
-                                      <img
-                                        src={template?.template_img}
-                                        alt="Preview"
-                                      />
-                                    </div>
-                                    <div className="trigger_content">
-                                      <h6>{template?.subject}</h6>
-                                      <p>
-                                        {template?.description
-                                          ? template?.description
-                                          : ""}
-                                      </p>
-                                      {/* {indexClicked !== index ? ( */}
-                                      {/* {templateId !== template?.id ? ( */}
-                                        <button
-                                          onClick={() =>
-                                            viewButtonClicked(template, index)
-                                          }
-                                          className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                        >
-                                          View
-                                        </button>
-                                      {/* ) : null} */}
-                                    </div>
-                                  </div>
-                                </>
-                              );
-                            }
-                          )
+                      {typeof templates?.reminderTemplate !== "undefined" && templates?.reminderTemplate?.length > 0
+                        ? templates?.reminderTemplate?.map((template, index) => {
+                          return (
+                            <>
+                              <div
+                                className={
+                                  // indexClicked == index
+                                  templateId == template?.id
+                                    ? "trigger_content_box d-flex active"
+                                    : "trigger_content_box d-flex"
+                                }
+                              >
+                                <div className="trigger_content_image">
+                                  <img
+                                    // src={template?.template_img}
+                                    src={staticImages[index]?.src}
+                                    alt="Preview"
+                                  />
+                                  {template?.approved==1?
+                                  <img
+                                  src={path_image+"approved-btn.svg"}
+                                  alt="Preview"
+                                />
+                                  :""}
+                                </div>
+                                <div className="trigger_content">
+                                  <h6>
+                                    {template?.subject} 
+                                  </h6>
+                                  <p>
+                                    
+                                    {template?.description? template?.description:""}
+                                    
+                                  </p>
+                                  {/* {indexClicked !== index ? ( */}
+                                  {templateId !== template?.id ? (
+                                    <button
+                                      onClick={() =>
+                                        viewButtonClicked(template, index)
+                                      }
+                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                    >
+                                      View
+                                    </button>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })
                         : null}
                     </div>
                   </div>
                 </div>
 
-                <div className="auto_mail_trigger_right webinar-auto-right col-md-8 col-sm-8">
+                
+                <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
                       <div className="mail_trigger_dummy_content d-flex justify-content-center">
@@ -1450,9 +1450,7 @@ const WebinarAutoEmail = () => {
                                   : "form-control"
                               }
                               id="email-desc"
-                              onChange={(e) =>
-                                setEmailSubject(e?.target?.value)
-                              }
+                              onChange={(e) => setEmailSubject(e?.target?.value)}
                               value={emailSubject}
                             />
                             {validationError?.emailSubject ? (
@@ -1474,9 +1472,7 @@ const WebinarAutoEmail = () => {
                                   : "form-control"
                               }
                               id="email-address"
-                              onChange={(e) =>
-                                setEmailDescription(e?.target?.value)
-                              }
+                              onChange={(e) => setEmailDescription(e?.target?.value)}
                               value={emailDescription}
                             />
                             {validationError?.emailDescription ? (
@@ -1513,38 +1509,37 @@ const WebinarAutoEmail = () => {
                               </button>
                             )} */}
 
-                            <button
-                              className={
-                                typeof approveClickedd !== "undefined" &&
-                                approveClickedd == 1
-                                  ? "btn btn-primary approved-btn btn-bordered checked"
-                                  : "btn btn-primary approved-btn btn-bordered"
-                              }
-                              onClick={(e) => updateTemplate(e, approveClickedd==1?4:3)}
-                            >
-                              {typeof approveClickedd !== "undefined" &&
-                              approveClickedd == 1
-                                ? "Approved"
-                                : "Approve?"}
-                              <img
-                                src={path_image + "approved-btn.svg"}
-                                className="approve_btn"
-                                alt=""
-                              />
-                              <img
-                                src={path_image + "/approved-by-btn.svg"}
-                                className="approved_btn"
-                                alt=""
-                              />
-                            </button>
-                            <button
-                              className="btn btn-primary btn-filled"
-                              onClick={(e) => {
-                                openPreviewThumbPopup(e);
-                              }}
-                            >
-                              Generate Thumbnail
-                            </button>
+<button
+                                                        className={
+                                                            typeof approveClickedd !== "undefined" &&
+                                                            approveClickedd === true
+                                                                ? "btn btn-primary approved-btn btn-bordered checked"
+                                                                : "btn btn-primary approved-btn btn-bordered"
+                                                        }
+                                                        onClick={(e) => updateTemplate(e, approveClickedd===true ?2:1)}                                                    >
+                                                        {typeof approveClickedd !== "undefined" &&
+                                                            approveClickedd ===true
+                                                            ? "Approved"
+                                                            : "Approve?"}
+                                                        <img
+                                                            src={path_image + "approved-btn.svg"}
+                                                            className="approve_btn"
+                                                            alt=""
+                                                        />
+                                                        <img
+                                                            src={path_image + "/approved-by-btn.svg"}
+                                                            className="approved_btn"
+                                                            alt=""
+                                                        />
+                                                    </button>
+                                  <button
+                                      className="btn btn-primary btn-filled"
+                                      onClick={(e) => {
+                                        openPreviewThumbPopup(e);
+                                      }}
+                                    >
+                                      Generate Thumbnail
+                                    </button>
                             <button
                               onClick={sendSample}
                               className="btn btn-primary btn-bordered btn-large"
@@ -1554,8 +1549,8 @@ const WebinarAutoEmail = () => {
                           </div>
                         </div>
                         <div className="template_editor">
-                          {templateName == "Reset password" ||
-                          templateName == "Welcome mail" ? (
+                            {templateName == "Reset password" ||
+                            templateName == "Welcome mail" ? (
                             <Editor
                               apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                               onInit={(evt, editor) =>
@@ -1789,6 +1784,7 @@ const WebinarAutoEmail = () => {
                     <div className="email-form">
                       <form>
                         <div className="form-inline row justify-content-between align-items-center">
+                        
                           <div className="form-group right-side col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
                               Template subject{" "}
@@ -1802,9 +1798,7 @@ const WebinarAutoEmail = () => {
                                   : "form-control"
                               }
                               id="email-address"
-                              onChange={(e) =>
-                                setNewTemplateSubject(e?.target?.value)
-                              }
+                              onChange={(e) => setNewTemplateSubject(e?.target?.value)}
                               value={newTemplateSubject}
                             />
                             {validationError?.newTemplateSubject ? (
@@ -1826,9 +1820,7 @@ const WebinarAutoEmail = () => {
                                   : "form-control"
                               }
                               id="email-desc"
-                              onChange={(e) =>
-                                setNewTemplateDescription(e?.target?.value)
-                              }
+                              onChange={(e) => setNewTemplateDescription(e?.target?.value)}
                               value={newTemplateDescription}
                             />
                             {validationError?.newTemplateDescription ? (
@@ -1840,91 +1832,97 @@ const WebinarAutoEmail = () => {
                         </div>
                         <div className="row">
                           <Editor
-                            apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                            onInit={(evt, editor) =>
-                              (editorRef.current = editor)
-                            }
-                            initialValue={sourceCode}
-                            init={{
-                              height: "100vh",
-                              menubar:
-                                "file edit view insert format tools table help",
-                              plugins:
-                                "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                              toolbar:
-                                "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                              content_style:
-                                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                              init_instance_callback: (editor) =>
-                                addTracking(editor),
-                              file_picker_callback: function (
-                                callback,
-                                value,
-                                meta
-                              ) {
-                                const input = document.createElement("input");
-                                input.setAttribute("type", "file");
-                                input.setAttribute("accept", "image/*");
+                          apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                          onInit={(evt, editor) =>
+                            (editorRef.current = editor)
+                          }
+                          initialValue={sourceCode}
+                          init={{
+                            height: "100vh",
+                            menubar:
+                              "file edit view insert format tools table help",
+                            plugins:
+                              "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                            toolbar:
+                              "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                            content_style:
+                              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                            init_instance_callback: (editor) =>
+                              addTracking(editor),
+                            file_picker_callback: function (
+                              callback,
+                              value,
+                              meta
+                            ) {
+                              const input = document.createElement("input");
+                              input.setAttribute("type", "file");
+                              input.setAttribute("accept", "image/*");
 
-                                // Create a loading indicator element (e.g., a spinner)
-                                const loadingIndicator =
-                                  document.createElement("div");
-                                loadingIndicator.className =
-                                  "loading-indicator";
-                                loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+                              // Create a loading indicator element (e.g., a spinner)
+                              const loadingIndicator =
+                                document.createElement("div");
+                              loadingIndicator.className =
+                                "loading-indicator";
+                              loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
 
-                                input.onchange = async () => {
-                                  document.body.appendChild(loadingIndicator); // Show loading indicator
+                              input.onchange = async () => {
+                                document.body.appendChild(loadingIndicator); // Show loading indicator
 
-                                  const file = input.files[0];
-                                  if (file) {
-                                    let uploadedImageUrl;
+                                const file = input.files[0];
+                                if (file) {
+                                  let uploadedImageUrl;
 
-                                    try {
-                                      if (meta && meta.width && meta.height) {
-                                        uploadedImageUrl =
-                                          await uploadImageToServer(
-                                            file,
-                                            meta.width,
-                                            meta.height
-                                          );
-                                      } else {
-                                        uploadedImageUrl =
-                                          await uploadImageToServer(file);
-                                      }
-
-                                      if (uploadedImageUrl) {
-                                        callback(uploadedImageUrl, {
-                                          width: 500,
-                                          height: 500,
-                                        });
-                                        loader("hide");
-                                      } else {
-                                        console.error("Failed to upload image");
-                                      }
-                                    } catch (error) {
-                                      console.error(
-                                        "Error uploading image:",
-                                        error
-                                      );
-                                    } finally {
-                                      document.body.removeChild(
-                                        loadingIndicator
-                                      ); // Hide loading indicator
+                                  try {
+                                    if (meta && meta.width && meta.height) {
+                                      uploadedImageUrl =
+                                        await uploadImageToServer(
+                                          file,
+                                          meta.width,
+                                          meta.height
+                                        );
+                                    } else {
+                                      uploadedImageUrl =
+                                        await uploadImageToServer(file);
                                     }
-                                  }
-                                };
 
-                                input.click();
-                              },
-                            }}
-                            onEditorChange={(content) => {
-                              setTemplateSaving(content);
-                            }}
-                          />
-                        </div>
+                                    if (uploadedImageUrl) {
+                                      callback(uploadedImageUrl, {
+                                        width: 500,
+                                        height: 500,
+                                      });
+                                      loader("hide");
+                                    } else {
+                                      console.error(
+                                        "Failed to upload image"
+                                      );
+                                    }
+                                  } catch (error) {
+                                    console.error(
+                                      "Error uploading image:",
+                                      error
+                                    );
+                                  } finally {
+                                    document.body.removeChild(
+                                      loadingIndicator
+                                    ); // Hide loading indicator
+                                  }
+                                }
+                              };
+
+                              input.click();
+                            },
+                          }}
+                          onEditorChange={(content) => {
+                            setTemplateSaving(content);
+                          }}
+                          
+                         />
+                          </div>
                       </form>
                     </div>
+
+
+
                   ) : null}
                 </div>
               </div>
@@ -2161,38 +2159,32 @@ const WebinarAutoEmail = () => {
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-              smartListData.length > 0 ? (
+                smartListData.length > 0 ? (
                 smartListData.map((data) => {
                   return (
                     <>
                       <div className="smartlist_box_block new-smartlist">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
-                            <div className="mail-box-conten-title">
-                              <h5>{data.name}</h5>
-                              <div className="select-mail-option">
-                                <input
-                                  type="radio"
-                                  name="radio"
-                                  onClick={(e) => handleSelect(data, e)}
-                                  checked={
-                                    typeof getSmartListId !== "undefined" &&
+                          <div className="mail-box-conten-title">
+                            <h5>{data.name}</h5>
+                            <div className="select-mail-option">
+                              <input
+                                type="radio"
+                                name="radio"
+                                onClick={(e) => handleSelect(data, e)}
+                                checked={
+                                  typeof getSmartListId !== "undefined" &&
                                     getSmartListId !== 0 &&
                                     getSmartListId == data.id
-                                      ? "checked"
-                                      : ""
-                                  }
-                                />
-                                <span className="checkmark"></span>
-                              </div>
+                                    ? "checked"
+                                    : ""
+                                }
+                              />
+                              <span className="checkmark"></span>
                             </div>
-                            <SmartListLayout
-                              data={data}
-                              iseditshow={0}
-                              isviewshow={1}
-                              deletestatus={0}
-                              viewSmartListData={viewSmartListData}
-                            />
+                          </div>
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
 
                             {/* <div className="mailbox-table">
                               <table>
@@ -2361,13 +2353,11 @@ const WebinarAutoEmail = () => {
         saveClicked={saveClicked}
         validationError={validationError}
       />
-      {selectedListId ? (
-        <SmartListTableLayout
-          id={selectedListId}
-          closeSmartListPopup={closeSmartListPopup}
-        />
-      ) : null}
-    </>
-  );
+       {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
+    </>)
 };
 export default WebinarAutoEmail;
