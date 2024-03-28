@@ -1065,7 +1065,7 @@ const AutoEmail = () => {
           .then((res) => {
             if (res.data.status_code == 200) {
               getTemplateListData();
-              toast.success("Template updated");
+              toast.success("Your changes saved successfully");
               loader("hide");
             }
           })
