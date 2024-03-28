@@ -1170,6 +1170,8 @@ const WebinarEmail = (props) => {
                                 </>)
                               : data?.status!=5 ?(<>
                               <div className="mailbox-buttons">
+                              {!deletestatus && (
+                              // <div className="mailbox-buttons">
                                   <div className="mailbox-buttons-list">
                                     <button
                                       className="btn btn-primary btn-filled edit"
@@ -1180,7 +1182,10 @@ const WebinarEmail = (props) => {
                                       View
                                     </button>
                                   </div>
-                                </div></>):""
+                                // </div>
+                                )
+                              } </div>
+                              </>):""
                             }
                             {deletestatus && (
                               <div className="dlt_btn">
