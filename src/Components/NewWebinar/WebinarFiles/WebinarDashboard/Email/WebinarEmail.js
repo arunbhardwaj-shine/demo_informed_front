@@ -412,6 +412,8 @@ const WebinarEmail = (props) => {
         toast.warning("No data found");
         return;
       }
+  
+      
       readerDetailsData = readerDetailsData?.map((item, index) => {
         let finalData = {};
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
@@ -440,7 +442,8 @@ const WebinarEmail = (props) => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `${detailPopupName}.xlsx`);
+      let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject +" "+detailPopupName).replaceAll(" ","_")
+      saveAs(blob, `${fileName}.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
@@ -1170,6 +1173,8 @@ const WebinarEmail = (props) => {
                                 </>)
                               : data?.status!=5 ?(<>
                               <div className="mailbox-buttons">
+                              {!deletestatus && (
+                              // <div className="mailbox-buttons">
                                   <div className="mailbox-buttons-list">
                                     <button
                                       className="btn btn-primary btn-filled edit"
@@ -1180,7 +1185,10 @@ const WebinarEmail = (props) => {
                                       View
                                     </button>
                                   </div>
-                                </div></>):""
+                                // </div>
+                                )
+                              } </div>
+                              </>):""
                             }
                             {deletestatus && (
                               <div className="dlt_btn">
