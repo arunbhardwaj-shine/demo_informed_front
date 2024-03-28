@@ -850,7 +850,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                             <div className="mail-box-conten-title">
                               <h5>{getSmartListData.name}</h5>
                             </div>
-                              <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+                              <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1} />
 
 
                               {/* <div className="mailbox-table">

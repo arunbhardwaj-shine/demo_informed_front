@@ -2184,7 +2184,7 @@ const WebinarAutoEmail = () => {
                               <span className="checkmark"></span>
                             </div>
                           </div>
-                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
 
                             {/* <div className="mailbox-table">
                               <table>

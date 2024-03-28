@@ -935,7 +935,7 @@ const WebinarVerifyMAIL = (props) => {
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
                                   <h5>{getSmartListData?.name}</h5>
-                                  <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+                                  <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
                                   {/* <div className="mailbox-table">
                                     <table>
                                       <tbody>
