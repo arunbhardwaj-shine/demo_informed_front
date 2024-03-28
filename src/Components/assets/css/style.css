@@ -2616,7 +2616,7 @@ form .input-group {
   line-height: 15px;
   color: var(--light-gray);
   font-weight: 300;
-  padding: 24px 10px;
+  padding: 18px 10px;
   border: 0;
   background: var(--white);
 }
@@ -5211,7 +5211,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 .smart-list-view .selected-hcp-list table {
   max-width: 1057px;
-  margin: 8px auto;
+  margin: 3px auto;
   padding-left: 4px;
 }
 
@@ -8466,7 +8466,7 @@ td.removed_td.centered {
 
 section.search-hcp.smart-list-view {
   position: relative;
-  padding-top: 30px;
+  padding: 30px 8px 0;
 }
 
 .top-right-action.full {
