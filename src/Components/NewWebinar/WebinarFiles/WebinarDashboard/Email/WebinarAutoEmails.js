@@ -1229,7 +1229,7 @@ const WebinarAutoEmail = () => {
               <div className="page-title">
                 <h2>Auto Email</h2>
               </div>
-              <div className="template_builder-option">
+              {/* <div className="template_builder-option">
                 {localStorage.getItem("user_id") ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
                     <div className="template_language">
@@ -1244,13 +1244,13 @@ const WebinarAutoEmail = () => {
                       </div>
                     </div>
                   )}
-              </div>
+              </div> */}
               <div className="top-right-action">
                 {!createNewTemplate && <Button onClick={(e) => CreateNewTemplateClicked(e)}>Create New Template</Button>}
                 {templateClicked ||createNewTemplate? (
                   <div className="header-btn">
                     <button
-                      className="btn btn-primary btn-bordered"
+                      className="btn btn-primary btn-bordered next"
                       onClick={cancelClicked}
                     >
                       Cancel
@@ -1319,7 +1319,7 @@ const WebinarAutoEmail = () => {
                                     {template?.approved==1?
                                   <img
                                   src={path_image+"approved-btn.svg"}
-                                  alt="Preview"
+                                  alt="Preview" className="approved_img"
                                 />
                                   :""}
                                 </div>
