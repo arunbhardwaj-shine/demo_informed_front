@@ -1712,13 +1712,21 @@ a.show-less-info p::after {
         header.top-0~div .search-hcp.smart-list-view .selected-hcp-list.new-hcp-list table#table-to-xls thead.sticky-header {
           top: 80px;
         }
+                section.search-hcp.smart-list-view.bounced-email-page {
+                  padding-top: 0;
+                }
+                                .bounced-email-page #analytics-hcp-table .selected-hcp-list {
+                                  overflow: initial;
+                                }
 }
 
 @media only screen and (max-width: 1399px) {
   .question-outer-layout .question-action {
     gap: 30px;
   }
-
+.bounced-email-page .selected-hcp-list table th:nth-child(4) {
+  width: 390px;
+}
   .survey_data_accordion_heading table thead tr th:first-child,
   .survey_data_accordion_heading table tbody tr td:first-child,
   .survey_data_accordion_heading table thead tr th:nth-child(5),

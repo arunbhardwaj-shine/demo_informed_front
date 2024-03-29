@@ -125,7 +125,7 @@ const EditList = () => {
             {
                 hide?!isLoad?<div className="text-center load_more">
                 <button className="btn btn-primary"  onClick={handleLoadMore}>
-                  Load More
+                  Load All
                 </button>
               </div>:"" :""
             }
