@@ -199,7 +199,7 @@ const WebinarSelectHCP = (props) => {
     }
     event.target.classList.toggle("active");
     setTemplateId(selectede);
-    // nextClicked(selectede);
+    nextClicked(selectede);
   };
   return (<>
     <div className="col right-sidebar">
