@@ -676,7 +676,7 @@ const EmailList = (props) => {
     setloadmore(1);
   };
 
-  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "",page=0) => {
+  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "",page=1) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: viewEmailData?.[0]?.id,
@@ -704,7 +704,8 @@ const EmailList = (props) => {
         if (res.data.status_code == 200) {
           loader("hide");
           if (res?.data?.response?.data) {
-            setReaderDetailsData(res?.data?.response?.data);
+            let temporaryUsers=[...readerDetailsData,...res?.data?.response?.data];
+            setReaderDetailsData(temporaryUsers);
           }
           setReaderDetailsPopupStatus(true);
         } else {
@@ -2532,9 +2533,9 @@ const EmailList = (props) => {
                      
                           </>
                         ))}
-                        {readerDetailsData.length && !functionParameter?.page &&  
+                        {readerDetailsData.length >50 && functionParameter?.page==1 &&  
                           (<div className="load_more">
-                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,1)}>
+                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,2)}>
                           Load All
                         </button>
                       </div>)}

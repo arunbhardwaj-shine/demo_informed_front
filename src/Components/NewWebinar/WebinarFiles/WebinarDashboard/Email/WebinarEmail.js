@@ -396,7 +396,7 @@ const WebinarEmail = (props) => {
     setCampaignId(data);
   };
 
-  const getReaderData = async (type = "", dynamic_name = "", popup_name = "",loadAll=false) => {
+  const getReaderData = async (type = "", dynamic_name = "", popup_name = "",loadAll=1) => {
     try {
       loader("show")
       const body = {
@@ -412,7 +412,8 @@ const WebinarEmail = (props) => {
       setFunctionParameter({
         type, dynamic_name, popup_name ,loadAll
       })
-      setReaderDetailsData(response?.data?.data);
+      let temporaryUsers=[...readerDetailsData,...response?.data?.data];
+      setReaderDetailsData(temporaryUsers);
       setDetailPopupName(popup_name)
       setReaderDetailsPopupStatus(true);
       loader("hide")
@@ -1761,8 +1762,8 @@ const WebinarEmail = (props) => {
                           </>
                         ))}
                    
-             {  readerDetailsData?.length > 15 && !functionParameter?.loadAll &&    (<div className="load_more">
-                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,true)}>
+             {  readerDetailsData?.length > 50 && functionParameter?.loadAll==1 &&    (<div className="load_more">
+                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
                       Load All
                     </button>
                   </div>)}
