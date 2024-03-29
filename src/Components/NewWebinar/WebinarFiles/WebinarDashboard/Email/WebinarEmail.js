@@ -1078,9 +1078,9 @@ const WebinarEmail = (props) => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {data?.read_precent != ""
+                                      {data?.read_precent != "0.00%"
                                         ? data?.read_precent
-                                        : 0 + "%"}{" "}
+                                        : 0 }{" "}
                                     </span>
                                   </li>
                                   <li>
