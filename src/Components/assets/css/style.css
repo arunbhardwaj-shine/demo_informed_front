@@ -4135,6 +4135,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 .table-title .selected-hcp-table-action a.show-less-info p {
   margin-bottom: 0;
+  font-size: 16px;
 }
 
 .result-hcp-table .table-title .selected-hcp-table-action .hcp-added,
@@ -6660,6 +6661,7 @@ button#test-table-xls-button:hover {
 .table-title .selected-hcp-table-action a.show-less-info p {
   padding-right: 21px;
   position: relative;
+  font-size: 16px;
 }
 
 a.show-less-info p:after {
@@ -8296,7 +8298,16 @@ hr {
   margin: 0 auto;
   padding: 0px 8px 10px 0px;
 }
-
+.bounced-email-page #analytics-hcp-table #table-to-xls, .bounced-email-page #analytics-hcp-table {
+  max-width: 100%;
+  overflow: initial;
+}
+.bounced-email-page #analytics-hcp-table .selected-hcp-list{
+  max-width: 100%;
+}
+.bounced-email-page.smart-list-view #analytics-hcp-table thead.sticky-header th {
+  background: #fbfcfd;
+}
 .table_xls.search_view {
   padding: 10px 5px 20px;
 }

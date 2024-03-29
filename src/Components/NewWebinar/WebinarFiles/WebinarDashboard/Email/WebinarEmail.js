@@ -47,6 +47,9 @@ const WebinarEmail = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ctrName, setCTRName] = useState("");
   const [readerDetailsData, setReaderDetailsData] = useState([])
+  const [functionParameter, setFunctionParameter] = useState({
+
+  })
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
@@ -393,7 +396,7 @@ const WebinarEmail = (props) => {
     setCampaignId(data);
   };
 
-  const getReaderData = async (type = "", dynamic_name = "", popup_name = "") => {
+  const getReaderData = async (type = "", dynamic_name = "", popup_name = "",loadAll=false) => {
     try {
       loader("show")
       const body = {
@@ -401,10 +404,14 @@ const WebinarEmail = (props) => {
         autoId: campaignId?.auto_id,
         campaign_id: campaignId?.id || 0 ,
         type: type,
-        name: dynamic_name
+        name: dynamic_name,
+        loadAll:loadAll
       }
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST, body)
       setviewEmailModal(false);
+      setFunctionParameter({
+        type, dynamic_name, popup_name ,loadAll
+      })
       setReaderDetailsData(response?.data?.data);
       setDetailPopupName(popup_name)
       setReaderDetailsPopupStatus(true);
@@ -1512,6 +1519,7 @@ const WebinarEmail = (props) => {
                 setReaderDetailsPopupStatus(false);
                 setReaderDetailsData([]);
                 setviewEmailModal(true);
+                setFunctionParameter({})
               }}
             ></button>
           </Modal.Header>
@@ -1752,6 +1760,13 @@ const WebinarEmail = (props) => {
                             </tr>
                           </>
                         ))}
+                   
+             {  viewEmailData?.email_sent>15 && !functionParameter?.loadAll &&    (<div className="load_more">
+                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,true)}>
+                      Load All
+                    </button>
+                  </div>)}
+                
                      
                   </>) : readerDetailsData?.length == 0 ? (
                     <tr className="table_no_data_found">

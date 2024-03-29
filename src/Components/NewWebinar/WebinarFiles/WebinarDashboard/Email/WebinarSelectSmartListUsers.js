@@ -64,6 +64,9 @@ const WebinarSelectSmartListUsers = (props) => {
   const [sortingCount, setSortingCount] = useState(0);
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
+  const [selected,setSelected]=useState(location?.state?.selected ? 
+    location?.state?.selected 
+    : props.getWebinarDraftData?.campaign_data?.selected)
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -185,7 +188,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
-    if(location?.state?.selected==1){
+    if(selected==1){    
       navigate("/webinar/email/selectSmartList");
     
     }else{
@@ -304,7 +307,10 @@ const WebinarSelectSmartListUsers = (props) => {
         removedHcp: removedReaders,
         auto_responder_id: props.old_object?.templateId
                 ? props.old_object?.templateId
-                : props.getWebinarDraftData?.campaign_data?.template_id
+                : props.getWebinarDraftData?.campaign_data?.template_id,
+        selected:location?.state?.selected
+        ?location?.state?.selected
+        :props.getWebinarDraftData?.campaign_data?.selected
       },
       auto_responder_id: props.old_object?.templateId
       ? props.old_object?.templateId
