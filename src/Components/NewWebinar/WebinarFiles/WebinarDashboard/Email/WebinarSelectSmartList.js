@@ -150,7 +150,13 @@ const WebinarSelectSmartList = (props) => {
 
   const handleSelect = (e) => {
     // setCheckPdfSelected(false)
-    checkPdfSelected.current=!checkPdfSelected.current
+    if(PdfSelected==e?.id){
+      checkPdfSelected.current=!checkPdfSelected.current
+    }else{
+      checkPdfSelected.current=false
+    }
+    
+    
     if (new_object?.id) {
       if (e.id != new_object?.id) {
         if (old_object?.removedHcp) {
