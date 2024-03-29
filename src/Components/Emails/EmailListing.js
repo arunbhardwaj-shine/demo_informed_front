@@ -687,7 +687,7 @@ const EmailList = (props) => {
     };
     setviewEmailModal(false);
     setFunctionParameter({
-      type, dynamic_name, name ,page
+      type , name , color_code , dynamic_name,page
     })
     console.log(functionParameter?.page)
     // if(type == "ctr"){
@@ -2532,9 +2532,9 @@ const EmailList = (props) => {
                      
                           </>
                         ))}
-                        {!functionParameter?.page &&  
+                        {readerDetailsData.length && !functionParameter?.page &&  
                           (<div className="load_more">
-                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.name,1)}>
+                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,1)}>
                           Load All
                         </button>
                       </div>)}
