@@ -1250,7 +1250,7 @@ const WebinarAutoEmail = () => {
                 {templateClicked ||createNewTemplate? (
                   <div className="header-btn">
                     <button
-                      className="btn btn-primary btn-bordered"
+                      className="btn btn-primary btn-bordered next"
                       onClick={cancelClicked}
                     >
                       Cancel
