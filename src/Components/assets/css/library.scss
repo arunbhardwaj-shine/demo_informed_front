@@ -4823,7 +4823,7 @@ section.verify_email.content_details {
 
 .scroll_pdf {
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   height: 100%;
   border: 0.5px solid $light-gray;
 }
@@ -4831,6 +4831,11 @@ section.verify_email.content_details {
 .viewer-layout-container .viewer-layout-main {
   overflow: unset;
   padding: 15px 0;
+}
+
+.add_link_to_pdf .viewer-layout-container .viewer-layout-main {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .dropdown-menu.filter-options .accordion .card-header button {
