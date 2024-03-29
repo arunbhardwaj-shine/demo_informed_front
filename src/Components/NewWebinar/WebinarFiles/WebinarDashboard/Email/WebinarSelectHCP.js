@@ -151,9 +151,9 @@ const WebinarSelectHCP = (props) => {
     props.getWebinarSelected(null);
     props.getWebinarSelectedSmartListData(null);
   
-    if (selected == 1 || selected === 2) {
+    if (selected == 1 || selected == 2) {
       navigate(url, {
-        state: { UserSelected: selected },
+        state: { UserSelected: selected,flag:2 },
       });
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
