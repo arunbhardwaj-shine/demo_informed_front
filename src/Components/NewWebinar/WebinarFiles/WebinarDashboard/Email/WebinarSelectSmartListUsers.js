@@ -355,6 +355,7 @@ const WebinarSelectSmartListUsers = (props) => {
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
+        selected:selected
       },
     });
   };
