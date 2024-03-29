@@ -225,8 +225,8 @@ const BouncedEmail = () => {
                     <th scope="col">Subject</th>
                     <th scope="col">Bounce Reason</th>
                     <th scope="col" className="sort_option">
-                      Date
                       <span  onClick={sortDate}>
+                      Date
                       <div className="hcp-sort" onClick={sortDate}>
                         {sortingCountDate == 0 ? (
                           <>

@@ -2970,13 +2970,15 @@ form .input-group {
   width: 1px;
   top: -7px;
 }
-
+.box.mt-2 .search-hcp.smart-list-view {
+  padding: 30px 0 0;
+}
 .form-search-hcp form .form-inline {
   margin-bottom: 20px;
 }
 
 .search-hcp {
-  padding: 32px 0 0;
+  padding: 32px 8px 0;
 }
 
 h3 {
@@ -5249,7 +5251,7 @@ form#add_hcp_form .row:not(:first-child) {
 .create_smart_list .create-smart-step,
 #create_list_popup .create-smart-step {
   position: relative;
-  margin: 0 auto 35px;
+  margin: 0 auto 30px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box,
@@ -5258,7 +5260,7 @@ form#add_hcp_form .row:not(:first-child) {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
   border-radius: 15px;
-  padding: 26px 32px 32px;
+  padding: 22px 32px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box form label,
@@ -5422,7 +5424,7 @@ h2 {
 }
 
 .create_smart_list {
-  margin-top: 66px;
+  margin-top: 30px;
 }
 
 #create_list_popup .add_hcp_boxes {
@@ -5492,7 +5494,7 @@ h2 {
 }
 
 .create-smart-step-box ul li p {
-  margin: 22px 0 18px;
+  margin: 22px 0 0px;
   font-size: 18px;
   line-height: 21px;
   color: var(--light-blue);
@@ -7289,6 +7291,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 
 .modal table thead.sticky-header:after {
   background: var(--white);
+  width: 20px;
 }
 
 .search-hcp-table table th,
@@ -8304,6 +8307,9 @@ hr {
 }
 .bounced-email-page #analytics-hcp-table .selected-hcp-list{
   max-width: 100%;
+}
+.bounced-email-page .selected-hcp-list table th:nth-child(4) {
+  width: 500px;
 }
 .bounced-email-page.smart-list-view #analytics-hcp-table thead.sticky-header th {
   background: #fbfcfd;

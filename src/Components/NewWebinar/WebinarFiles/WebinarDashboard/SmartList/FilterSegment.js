@@ -3470,6 +3470,7 @@ const FilterSegment = (props) => {
           </div>
         </div>
 
+      </section>
         {apifilterflag > 0 ? (
           (typeof getfilterdata === "object" && getfilterdata.length > 0) ||
           (typeof getNewAddedUser === "object" &&
@@ -3493,7 +3494,6 @@ const FilterSegment = (props) => {
             </div>
           )
         ) : null}
-      </section>
 
       {/*Confrimation Popup start*/}
       <Modal
