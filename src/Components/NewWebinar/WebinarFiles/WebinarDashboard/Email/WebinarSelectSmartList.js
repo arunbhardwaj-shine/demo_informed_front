@@ -59,15 +59,13 @@ const WebinarSelectSmartList = (props) => {
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getFileUploadPopup, setFileUploadPopup] = useState(false);
-
+  const checkPdfSelected=useRef(location?.state?.flag==2?true:false)
   const [fileLength, setFileLength] = useState();
   const [getCreatedListName, setCreatedListName] = useState("");
   const [creatorName, setCreatorName] = useState("");
   const [validationError, setValidationError] = useState({});
-
   const [selectedFile, setSelectedFile] = useState(null);
   const [getloadmore, setloadmore] = useState(0);
-
   const [showfilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState([]);
   const [updateflag, setUpdateFlag] = useState(0);
@@ -144,13 +142,15 @@ const WebinarSelectSmartList = (props) => {
     setPdfSelected(listid);
   }, []);
 
-//   useEffect(() => {
-//     if (PdfSelected !== 0) {
-//       inputElement.current.classList.remove("disabled");
-//     }
-//   }, [PdfSelected]);
+  // useEffect(() => {
+  //   if (PdfSelected !== 0) {
+  //     inputElement.current.classList.remove("disabled");
+  //   }
+  // }, [PdfSelected]);
 
   const handleSelect = (e) => {
+    // setCheckPdfSelected(false)
+    checkPdfSelected.current=!checkPdfSelected.current
     if (new_object?.id) {
       if (e.id != new_object?.id) {
         if (old_object?.removedHcp) {
@@ -332,8 +332,6 @@ const WebinarSelectSmartList = (props) => {
       const ws = readedData?.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      // console.log(dataParse);
-
       setFileLength(dataParse?.length);
     };
     reader.readAsBinaryString(f);
@@ -630,7 +628,7 @@ const WebinarSelectSmartList = (props) => {
                     >
                       Save As Draft
                     </button>
-                    {PdfSelected === 0 ? (
+                    {checkPdfSelected.current==true ? (
                       <button
                         ref={inputElement}
                         className="btn btn-primary btn-filled next disabled"
@@ -895,11 +893,22 @@ const WebinarSelectSmartList = (props) => {
                               <div className="mail-box-conten-title">
                                 <h5>{template?.name}</h5>
                                 <div className="select-mail-option">
-                                  <input
+                                 
+                                  {checkPdfSelected.current==true?(<>
+                                  
+                                    <input
                                     onClick={() => handleSelect(template)}
                                     type="radio"
                                     name="radio"
-                                    checked={
+                                    checked={false}
+                                  />
+                                  </>):(<>
+                                   
+                                    <input
+                                    onClick={() => handleSelect(template)}
+                                    type="radio"
+                                    name="radio"
+                                    defaultChecked={
                                       template?.id == PdfSelected
                                         ? true
                                         : template?.id == getselecedlistid &&
@@ -907,7 +916,9 @@ const WebinarSelectSmartList = (props) => {
                                           ? true
                                           : false
                                     }
-                                  />
+                                  /></>)
+                                   } 
+                                 
                                   <span className="checkmark"></span>
                                 </div>
                                 </div>
