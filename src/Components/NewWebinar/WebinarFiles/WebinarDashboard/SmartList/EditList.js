@@ -12,12 +12,14 @@ const EditList = () => {
   const [listName, setListName] = useState('');
   const [creator, setCreator] = useState('');
   const [ibu, setIbu] = useState('');
+  const [listcount, setListCount] = useState('');
+  const [pageNo, setPageNo] = useState(1);
   const queryParams = queryString.parse(window.location.search);
 
   const body = {
     user_id: localStorage.getItem("user_id"),
     list_id: queryParams.listId,
-    editType:1
+    page:pageNo
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -33,6 +35,7 @@ const EditList = () => {
           setListName(res.data.response.smart_list_name);
           setCreator(res.data.response.creator_name);
           setIbu(res?.data?.response?.ibu);
+          setListCount(res?.data?.response?.list_count);
           getfilterlist();
         }
       })
@@ -64,19 +67,21 @@ const EditList = () => {
     <>
     <div className="col right-sidebar">
     <div className="custom-container">
-          <div className="row">
-      {'country' in filterList && Object.keys(filterList.country).length > 0 &&
-        <FilterSegment
-        filters={filterList}
-        listname={listName}
-        selectedFilter={selectedFilter}
-        data={filteredData}
-        creator={creator}
-        ibu = {ibu}
-        action="edit"
-        />
-      }
-    </div>
+        <div className="row">
+            {'country' in filterList && Object.keys(filterList.country).length > 0 &&
+              <FilterSegment
+              filters={filterList}
+              listname={listName}
+              selectedFilter={selectedFilter}
+              data={filteredData}
+              creator={creator}
+              ibu = {ibu}
+              listcount = {listcount}
+              listId = {queryParams.listId}
+              action="edit"
+              />
+            }
+        </div>
     </div>
     </div>
     </>
