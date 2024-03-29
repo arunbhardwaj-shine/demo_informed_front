@@ -9,6 +9,7 @@ import { loader } from "../../../../../loader";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
+import { Spinner } from "react-activity";
 
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
@@ -52,6 +53,10 @@ const FilterSegment = (props) => {
   const [confirmationPopupStatus, setConfirmationPopupStatus] = useState(false);
   const [getfilterapplied, setfilterapplied] = useState(0);
   const [getStorageState, setStorageState] = useState(false);
+  const [loadMoreFlag, setLoadMoreFlag] = useState(false);
+  const [loadMorePage, setloadMorePage] = useState(true);
+  const [totalLostCount, setTotalLostCount] = useState(props?.listcount);
+  const [dataFromComp, setDataFromComp] = useState(props?.action);
   const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -901,10 +906,12 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
   };
 
-  const applyFilter = async () => {
+  const applyFilter = async (pageno = 1) => {
+    setDataFromComp('filter');
     let flag_to_check_data = false;
     const payload = {
       user_id: localStorage.getItem("user_id"),
+      page:pageno,
     };
 
     //For Contact Type
@@ -1163,7 +1170,13 @@ const FilterSegment = (props) => {
     if (flag_to_check_data) {
       setfilterapplied(1);
       setPayload(payload);
-      setApiFilterFlag(0);
+      if(pageno == 1){
+        loader("show");
+        setApiFilterFlag(0);
+      }else{
+        setloadMorePage(false);
+        setLoadMoreFlag(true);
+      }
       // console.log(payload);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
@@ -1172,17 +1185,31 @@ const FilterSegment = (props) => {
         .then((res) => {
           // console.log(res.data.status_code);
           if (res.data.status_code == 200) {
-            setFilterData(res.data.response.data);
-            let total_count = res?.data?.response?.data?.length;
-            // console.log(res.data.response.data,"DATE")
-            popup_alert({
-              visible: "show",
-              message: total_count+" Users found.<br> Use create smart list to confirm the list.",
-              type: "success",
-              redirect: "",
-            });
+            if(pageno == 1){
+              setloadMorePage(true);
+              setFilterData(res?.data?.response?.data);
+              // let total_count = res?.data?.response?.data?.length;
+              let total_count = res?.data?.response?.list_count;
+              setTotalLostCount(total_count);
+              // console.log(res.data.response.data,"DATE")
+              if(total_count != 0){
+                popup_alert({
+                  visible: "show",
+                  message: total_count+" Users found.<br> Use create smart list to confirm the list.",
+                  type: "success",
+                  redirect: "",
+                });
+              }
+            }else{
+              setloadMorePage(false);
+              setFilterData((oldArray)=>[...oldArray,...res?.data?.response?.data]);
+              setLoadMoreFlag(false);
+              // setFilterData(res.data.response.data);
+            }
           } else {
+            setloadMorePage(false);
             setFilterData();
+            setLoadMoreFlag(false);
           }
           setApiFilterFlag(1);
           loader("hide");
@@ -1290,6 +1317,28 @@ const FilterSegment = (props) => {
       Navigate("/webinar/email/smartlist");
     }
   };
+
+  const handleLoadMore = async() => {
+    try{
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        list_id: props?.listId,
+        page:2
+      };
+      setLoadMoreFlag(true);
+      setloadMorePage(false);
+      const res = await axios.post(`distributes/get_reders_list`, body)
+        if (res.data.response) {
+          if (res.data.response.data.length) {
+            setFilterData((oldArray)=>[...oldArray,...res.data.response.data]);
+            setLoadMoreFlag(false);
+          }
+        }
+    }catch(err){
+      setLoadMoreFlag(false);
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -2671,18 +2720,18 @@ const FilterSegment = (props) => {
                         {/*Display only in case of create*/}
 
                         <div className="segmentation-button">
-                          {typeof props.action !== "undefined" &&
-                            props.action !== "edit" && (
+                          {/* {typeof props.action !== "undefined" &&
+                            props.action !== "edit" && ( */}
                               <button
                                 className="btn btn-bordered btn-primary"
                                 onClick={clearFilter}
                               >
                                 Clear
                               </button>
-                            )}
+                            {/* )} */}
                           <button
                             className="btn btn-filled btn-primary"
-                            onClick={applyFilter}
+                            onClick={(e) => applyFilter(1)}
                           >
                             Apply
                           </button>
@@ -3484,12 +3533,44 @@ const FilterSegment = (props) => {
                 upload_by_filter="1"
                 filter_payload={getpayload}
                 creator={props.creator}
+                listcount = {totalLostCount ? totalLostCount : 0}
                 ibu={props.ibu}
                 sendDataToParent={sendDataToParent}
               />
+
+              {
+                loadMorePage && totalLostCount > getfilterdata?.length ?
+                  dataFromComp == "edit" ?
+                    <div className="text-center load_more">
+                      <button className="btn btn-primary" onClick={handleLoadMore}>
+                        Load All
+                      </button>
+                      </div>
+                  : 
+                  <div className="text-center load_more">
+                    <button className="btn btn-primary" onClick={(e) => applyFilter(2)}>
+                      Load All
+                    </button>
+                  </div>
+                : null  
+              }
+              {
+                loadMoreFlag ? 
+                <div
+                  className="load_more"
+                  style={{
+                    margin: "0 auto",
+                    justifyContent: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                </div>
+                : null
+              }
             </div>
           ) : (
-            <div className="box mt-2 no-data">
+            <div className="box mt-2 no_found">
               <p>No Data Found</p>
             </div>
           )
