@@ -75,7 +75,7 @@ const WebinarSelectSmartList = (props) => {
   const [filter, setFilter] = useState("");
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
-
+  const [isToggled, setIsToggled] = useState(true); 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -106,7 +106,7 @@ const WebinarSelectSmartList = (props) => {
       search: "",
       filter: filter,
       paging: "32",
-      event_id: eventId,
+      event_id: isToggled ? eventId : '',
     };
     loader("show");
     axios
@@ -570,6 +570,13 @@ const WebinarSelectSmartList = (props) => {
     setAddListOpen(true);
   }
 
+  const handleToggle = async(e) => {
+    setIsToggled(!isToggled);
+  }
+
+  useEffect(() => {
+    getSmartListData(1);
+  }, [isToggled]);
 
   return (
     <>
@@ -682,7 +689,12 @@ const WebinarSelectSmartList = (props) => {
                   <div className="hcp-options d-flex align-items-center justify-content-between">
                     <div className="switch6">
                       <label className="switch6-light">
-                        <input type="checkbox"/>
+                        <input type="checkbox"
+                          checked={isToggled}
+                          onChange={(e) => {
+                            handleToggle(e.target?.checked);
+                          }}
+                        />
                         <span>
                           <span>All Smart List
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
