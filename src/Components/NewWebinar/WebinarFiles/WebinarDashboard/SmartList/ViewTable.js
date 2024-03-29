@@ -642,6 +642,13 @@ const ViewTable = (props) => {
   const showMoreInfo = (e) => {
     e.preventDefault();
     setShowLessInfo(!showLessInfo);
+    const selectedHcpList = document.querySelector('.selected-hcp-list');
+
+    if (showLessInfo) {
+      selectedHcpList.classList.add('expand');
+    } else {
+      selectedHcpList.classList.remove('expand');
+    }
   };
 
   const addMoreHcp = (e) => {
