@@ -224,9 +224,10 @@ const BouncedEmail = () => {
                     <th scope="col">Email</th>
                     <th scope="col">Subject</th>
                     <th scope="col">Bounce Reason</th>
-                    <th scope="col">
-                        Date
-                      <div className="hcp-sort">
+                    <th scope="col" className="sort_option">
+                      Date
+                      <span  onClick={sortDate}>
+                      <div className="hcp-sort" onClick={sortDate}>
                         {sortingCountDate == 0 ? (
                           <>
                             <button
@@ -265,7 +266,7 @@ const BouncedEmail = () => {
                           </>
                         )}
                       </div>
-                      
+                      </span>
                     </th>
                   </tr>
                 </thead>

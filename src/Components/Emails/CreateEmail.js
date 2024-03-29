@@ -1831,7 +1831,7 @@ const CreateEmail = (props) => {
     ) {
       if (editorRef.current) {
         setTemplate(editorRef.current.getContent());
-        toast.success("Template updated successfully");
+        toast.success("Your changes saved successfully");
       }
     } else {
       toast.warning("Template not selected.");
