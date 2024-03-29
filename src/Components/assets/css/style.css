@@ -4278,12 +4278,20 @@ form#add_hcp_form .row:not(:first-child) {
   justify-content: space-between;
   margin-bottom: 0px;
 }
-
+.search-hcp.webinar-smart {
+  padding-top: 0;
+}
 .select-smart-list .table-title {
   margin-bottom: 80px;
   flex-wrap: wrap;
 }
+.select-smart-list .table-title.webinar-smart {
+  margin-bottom: 24px;
+}
 
+.select-smart-list .hcp-options {
+  margin: 0 0 40px;
+}
 .select-smart-list .filter_btn_div {
   flex: 0 0 100%;
 }

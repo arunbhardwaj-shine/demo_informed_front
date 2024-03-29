@@ -649,9 +649,9 @@ const WebinarSelectSmartList = (props) => {
               </div>
             </div>
 
-            <section className="search-hcp">
+            <section className="search-hcp webinar-smart">
               <div className="select-smart-list">
-                <div className="table-title">
+                <div className="table-title webinar-smart">
 
                   <div className="create-smart-list">
                     <p>
@@ -848,7 +848,7 @@ const WebinarSelectSmartList = (props) => {
                     : null  
                   }
                 </div>
-                  <div className="hcp-options">
+                  <div className="hcp-options d-flex align-items-center justify-content-between">
                     <div className="switch6">
                       <label className="switch6-light">
                         <input type="checkbox"/>
@@ -868,6 +868,7 @@ const WebinarSelectSmartList = (props) => {
                         <a className="btn btn-primary"></a>
                       </label>
                     </div>
+                    <></>
                   </div>
 
                 <div className="col smartlist-result-block">
