@@ -1761,7 +1761,7 @@ const WebinarEmail = (props) => {
                           </>
                         ))}
                    
-             {  viewEmailData?.email_sent>15 && !functionParameter?.loadAll &&    (<div className="load_more">
+             {  readerDetailsData?.length > 15 && !functionParameter?.loadAll &&    (<div className="load_more">
                     <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,true)}>
                       Load All
                     </button>

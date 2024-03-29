@@ -62,6 +62,9 @@ const EmailList = (props) => {
   const [sorting, setSorting] = useState(0);
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [isActive, setIsActive] = useState({});
+  const [functionParameter, setFunctionParameter] = useState({
+
+  })
 
   const [options_ch, setOptions_ch] = useState({
     chart: {
@@ -673,15 +676,20 @@ const EmailList = (props) => {
     setloadmore(1);
   };
 
-  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "") => {
+  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "",page=0) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: viewEmailData?.[0]?.id,
       pdf_id: viewEmailData?.[0]?.pdf_id,
       name: dynamic_name,
       type: type,
+      page:page
     };
     setviewEmailModal(false);
+    setFunctionParameter({
+      type, dynamic_name, name ,page
+    })
+    console.log(functionParameter?.page)
     // if(type == "ctr"){
     //   setDetailPopupName(name);
     // }else{
@@ -2223,6 +2231,7 @@ const EmailList = (props) => {
                   setReaderDetailsPopupStatus(false);
                   setReaderDetailsData([]);
                   setviewEmailModal(true);
+                  setFunctionParameter({})
                 }}
               ></button>
             </Modal.Header>
@@ -2426,7 +2435,8 @@ const EmailList = (props) => {
                     <tbody>
                       {typeof readerDetailsData !== "undefined" &&
                         readerDetailsData.length > 0 ? (
-                        readerDetailsData.map((item, index) => (
+                          <>
+                          { readerDetailsData.map((item, index) => (
                           <>
                             <tr
                               key={"readers_" + index}
@@ -2519,8 +2529,16 @@ const EmailList = (props) => {
 
                                 : null
                             }
+                     
                           </>
-                        ))
+                        ))}
+                        {!functionParameter?.page &&  
+                          (<div className="load_more">
+                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.name,1)}>
+                          Load All
+                        </button>
+                      </div>)}
+                        </>
                       ) : readerDetailsData.length == 0 ? (
                         <tr className="table_no_data_found">
                           <td colspan="6">
