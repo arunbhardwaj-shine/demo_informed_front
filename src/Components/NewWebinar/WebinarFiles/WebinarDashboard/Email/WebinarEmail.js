@@ -47,6 +47,9 @@ const WebinarEmail = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ctrName, setCTRName] = useState("");
   const [readerDetailsData, setReaderDetailsData] = useState([])
+  const [functionParameter, setFunctionParameter] = useState({
+
+  })
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
@@ -58,6 +61,15 @@ const WebinarEmail = (props) => {
     message2: "",
     footerButton: "",
   });
+
+  const [sortingCount, setSortingCount] = useState(0);
+  const [sorting, setSorting] = useState(0);
+  const [sortNameDirection, setSortNameDirection] = useState(0);
+  const [isActive, setIsActive] = useState({});
+
+  const [sortBy, setSortBy] = useState('name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');
+
   const [options, setOptions] = useState({
     chart: {
       type: "bar",
@@ -384,7 +396,7 @@ const WebinarEmail = (props) => {
     setCampaignId(data);
   };
 
-  const getReaderData = async (type = "", dynamic_name = "", popup_name = "") => {
+  const getReaderData = async (type = "", dynamic_name = "", popup_name = "",loadAll=1) => {
     try {
       loader("show")
       const body = {
@@ -392,11 +404,16 @@ const WebinarEmail = (props) => {
         autoId: campaignId?.auto_id,
         campaign_id: campaignId?.id || 0 ,
         type: type,
-        name: dynamic_name
+        name: dynamic_name,
+        loadAll:loadAll
       }
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST, body)
       setviewEmailModal(false);
-      setReaderDetailsData(response?.data?.data);
+      setFunctionParameter({
+        type, dynamic_name, popup_name ,loadAll
+      })
+      let temporaryUsers=[...readerDetailsData,...response?.data?.data];
+      setReaderDetailsData(temporaryUsers);
       setDetailPopupName(popup_name)
       setReaderDetailsPopupStatus(true);
       loader("hide")
@@ -559,6 +576,45 @@ const WebinarEmail = (props) => {
       console.log(err);
     }
   };
+
+  const dynamicSort = (key, direction) => (a, b) => {
+    // Function to get the value of a nested key
+    const getNestedValue = (obj, keys) => {
+      for (const key of keys) {
+        obj = obj?.[key];
+      }
+      return obj;
+    };
+   
+    // If key is a string, split it into an array of keys
+    const keys = typeof key === 'string' ? key.split('.') : [key];
+    const valueA = getNestedValue(a, keys);
+    const valueB = getNestedValue(b, keys);
+   
+    if (direction === 'asc') {
+      return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+    } else {
+      return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+    }
+  };
+   
+  const userSort = (e, key) => {
+    const direction = sortNameDirection === 0 ? 'asc' : 'dec';
+   
+    const sortedUserData = [...readerDetailsData].sort(dynamicSort(key, direction));
+   
+    setReaderDetailsData(sortedUserData);
+    setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
+    setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
+    setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
+  };
+
+  const handleSort = (key) => {
+    setSortBy(key);
+    console.log(sortBy,'fgdrfthrtyjh')
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+};
 
   return (
     <>
@@ -1023,9 +1079,9 @@ const WebinarEmail = (props) => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {data?.read_precent != ""
+                                      {data?.read_precent != "0.00%"
                                         ? data?.read_precent
-                                        : 0 + "%"}{" "}
+                                        : 0 }{" "}
                                     </span>
                                   </li>
                                   <li>
@@ -1464,6 +1520,7 @@ const WebinarEmail = (props) => {
                 setReaderDetailsPopupStatus(false);
                 setReaderDetailsData([]);
                 setviewEmailModal(true);
+                setFunctionParameter({})
               }}
             ></button>
           </Modal.Header>
@@ -1500,13 +1557,181 @@ const WebinarEmail = (props) => {
                 </div>
                     
                     <table className="table" id="table-to-xls">
-                      <thead className="sticky-header">
+                       <thead className="sticky-header">
                         <tr>
-                          <th scope="col">Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Country</th>
-                          <th scope="col">Date</th>
+                          {/* <th scope="col">Name</th> */}
+                          <th scope="col" className="sort_option" >
+                                <span onClick={(e) => userSort(e, "name")} >
+                                Name
+                                <button
+                                className={`event_sort_btn ${isActive?.name == "dec"
+                                    ? "svg_active"
+                                    : isActive?.name == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSort(e, "name")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                                </span>
+                           
+                            </th>
+
+                            {/* <th scope="col" className="sort_option" >
+                                <span onClick={() => handleSort('name')} >
+                                Name
+                                <button
+                                className={`event_sort_btn ${sortBy == "name" ?
+                                sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                                : "" 
+                                }`}
+                                onClick={() => handleSort('name')}
+                                >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                    <g clip-path="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                        <rect width="8" height="8" fill="white"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
+                                </button>
+                                </span>
+                            
+                            </th> */}
+                          {/* <th scope="col">Email</th> */}
+                          <th scope="col" className="sort_option" >
+                                <span onClick={(e) => userSort(e, "email")} >
+                                Email
+                                <button
+                                className={`event_sort_btn ${isActive?.email == "dec"
+                                    ? "svg_active"
+                                    : isActive?.email == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSort(e, "email")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                                </span>
+                           
+                            </th>
+                          {/* <th scope="col">Country</th> */}
+                          <th scope="col" className="sort_option" >
+                                <span onClick={(e) => userSort(e, "country")}>
+                                Country
+                                <button
+                                className={`event_sort_btn ${isActive?.country == "dec"
+                                    ? "svg_active"
+                                    : isActive?.country == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSort(e, "country")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                                </span>
+                           
+                            </th>
+                          {/* <th scope="col">Date</th> */}
+                          <th scope="col" className="sort_option" >
+                                <span  onClick={(e) => userSort(e, "formatted_date")}>
+                                Date
+                                <button
+                                className={`event_sort_btn ${isActive?.formatted_date == "dec"
+                                    ? "svg_active"
+                                    : isActive?.formatted_date == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSort(e, "formatted_date")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                                </span>
+                           
+                            </th>
                         </tr>
+                        
                       </thead>
                       <tbody>
                       {typeof readerDetailsData !== "undefined" &&
@@ -1536,6 +1761,13 @@ const WebinarEmail = (props) => {
                             </tr>
                           </>
                         ))}
+                   
+             {  readerDetailsData?.length > 50 && functionParameter?.loadAll==1 &&    (<div className="load_more">
+                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
+                      Load All
+                    </button>
+                  </div>)}
+                
                      
                   </>) : readerDetailsData?.length == 0 ? (
                     <tr className="table_no_data_found">

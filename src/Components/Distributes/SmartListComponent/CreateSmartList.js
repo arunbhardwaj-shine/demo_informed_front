@@ -332,7 +332,7 @@ const CreateSmartList = () => {
                   </ul>
                 </div>
                 <div className="col-12 col-md-1">
-                  <div className="header-btn-right">
+                  <div className="header-btn-right d-flex justify-content-end">
                     <button
                       className="btn btn-primary btn-bordered light"
                       onClick={closeClicked}

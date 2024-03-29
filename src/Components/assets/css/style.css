@@ -2970,13 +2970,15 @@ form .input-group {
   width: 1px;
   top: -7px;
 }
-
+.box.mt-2 .search-hcp.smart-list-view {
+  padding: 30px 0 0;
+}
 .form-search-hcp form .form-inline {
   margin-bottom: 20px;
 }
 
 .search-hcp {
-  padding: 32px 0 0;
+  padding: 32px 8px 0;
 }
 
 h3 {
@@ -4135,6 +4137,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 .table-title .selected-hcp-table-action a.show-less-info p {
   margin-bottom: 0;
+  font-size: 16px;
 }
 
 .result-hcp-table .table-title .selected-hcp-table-action .hcp-added,
@@ -4275,10 +4278,25 @@ form#add_hcp_form .row:not(:first-child) {
   justify-content: space-between;
   margin-bottom: 0px;
 }
-
+.search-hcp.webinar-smart {
+  padding-top: 0;
+}
 .select-smart-list .table-title {
   margin-bottom: 80px;
   flex-wrap: wrap;
+}
+.select-smart-list .table-title.webinar-smart {
+  margin-bottom: 40px;
+}
+
+.select-smart-list .hcp-options {
+  margin: 24px 0 0px;
+  flex:0 0 100%;
+}
+
+.hcp-options .filter_btn_div {
+  flex: 1 1;
+  margin:0 ;
 }
 
 .select-smart-list .filter_btn_div {
@@ -5248,7 +5266,7 @@ form#add_hcp_form .row:not(:first-child) {
 .create_smart_list .create-smart-step,
 #create_list_popup .create-smart-step {
   position: relative;
-  margin: 0 auto 35px;
+  margin: 0 auto 30px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box,
@@ -5257,7 +5275,7 @@ form#add_hcp_form .row:not(:first-child) {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
   border-radius: 15px;
-  padding: 26px 32px 32px;
+  padding: 22px 32px;
 }
 
 .create_smart_list .create-smart-step .create-smart-step-box form label,
@@ -5421,7 +5439,7 @@ h2 {
 }
 
 .create_smart_list {
-  margin-top: 66px;
+  margin-top: 30px;
 }
 
 #create_list_popup .add_hcp_boxes {
@@ -5491,7 +5509,7 @@ h2 {
 }
 
 .create-smart-step-box ul li p {
-  margin: 22px 0 18px;
+  margin: 22px 0 0px;
   font-size: 18px;
   line-height: 21px;
   color: var(--light-blue);
@@ -6660,6 +6678,7 @@ button#test-table-xls-button:hover {
 .table-title .selected-hcp-table-action a.show-less-info p {
   padding-right: 21px;
   position: relative;
+  font-size: 16px;
 }
 
 a.show-less-info p:after {
@@ -7287,6 +7306,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 
 .modal table thead.sticky-header:after {
   background: var(--white);
+  width: 20px;
 }
 
 .search-hcp-table table th,
@@ -8296,7 +8316,19 @@ hr {
   margin: 0 auto;
   padding: 0px 8px 10px 0px;
 }
-
+.bounced-email-page #analytics-hcp-table #table-to-xls, .bounced-email-page #analytics-hcp-table {
+  max-width: 100%;
+  overflow: initial;
+}
+.bounced-email-page #analytics-hcp-table .selected-hcp-list{
+  max-width: 100%;
+}
+.bounced-email-page .selected-hcp-list table th:nth-child(4) {
+  width: 500px;
+}
+.bounced-email-page.smart-list-view #analytics-hcp-table thead.sticky-header th {
+  background: #fbfcfd;
+}
 .table_xls.search_view {
   padding: 10px 5px 20px;
 }
@@ -8734,8 +8766,13 @@ max-width: 100%;
   max-height: 95px;
   width: 75px;
   text-align: center;
+  position: relative;
 }
-
+.trigger_content_image img.approved_img {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+}
 .mail_trigger_right_dummy {
   height: 100%;
 }

@@ -12790,6 +12790,15 @@ img.change-password-image {
   width: 59px;
 }
 
+.hcp-options .switch6 {
+  width: 100%;
+  max-width: 242px;
+}
+
+.hcp-options .switch6-light {
+  height: 40px;
+}
+
 .switch6-light {
   background: rgba(0, 102, 190, 0.2);
   border-radius: 26px;
@@ -12818,6 +12827,32 @@ img.change-password-image {
   top: 8px;
   width: 50%;
   z-index: 5;
+}
+
+.hcp-options .switch6-light>span span {
+  top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hcp-options .switch6-light a.btn {
+  height: calc(100% - 8px);
+  top: 4px;
+  width: 50%;
+  right: calc(50% - 4px);
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+}
+
+.hcp-options .switch6-light a.btn:hover{
+  background: $white;
+  border:0;
+} 
+.hcp-options .switch6-light input:checked~a.btn,
+.hcp-options .switch6-light.active input~a.btn {
+  right: 4px;
 }
 
 .switch6-light>span {
@@ -12867,6 +12902,27 @@ img.change-password-image {
   fill: rgba(0, 102, 190, 0.4);
 }
 
+.hcp-options .switch6-light input:not(:checked)~span span {
+  color: $primary-color;
+}
+
+.hcp-options .switch6-light input:checked~span span,
+.hcp-options .switch6-light.active input~span span {
+  color: $primary-color;
+}
+
+.switch6-light input:not(:checked)~span span:last-child svg path {
+  fill: rgba(0, 102, 190, 0.4);
+}
+
+.switch6-light input:not(:checked)~span span:last-child {
+  color: rgba(0, 102, 190, 0.4);
+}
+
+.switch6-light input:checked~span span:first-child {
+  color: rgba(0, 102, 190, 0.4);
+}
+
 .switch6-light input:not(:checked)~span span:last-child svg path {
   fill: rgba(0, 102, 190, 0.4);
 }
@@ -12883,7 +12939,7 @@ img.change-password-image {
 
 .rd-analytics-content {
   margin: 40px 0 25px;
-  padding: 0;
+  padding: 0 8px;
 
   .row {
     margin: 0 -26px;

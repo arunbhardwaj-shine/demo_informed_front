@@ -50,6 +50,9 @@ const WebinarVerifyMAIL = (props) => {
       ? props.getWebinarEmailData?.template
       : props.getWebinarDraftData?.source_code
   );
+  const [selected,setSelected]=useState(location?.state?.selected ? 
+    location?.state?.selected 
+    : props.getWebinarDraftData?.campaign_data?.selected)
 
   var var_template_source_code = template_source_code?.replaceAll("800", "450");
   var_template_source_code = var_template_source_code?.replaceAll("600", "450");
@@ -212,6 +215,9 @@ const WebinarVerifyMAIL = (props) => {
           ? props.getWebinarEmailData?.selected
           : props.getWebinarDraftData?.campaign_data?.list_selection,
         removedHcp: getRemovedHcp,
+        selected:location?.state?.selected
+        ?location?.state?.selected
+        :props.getWebinarDraftData?.campaign_data?.selected
       },
       campaign_id: campaign_id_st,
       source_code: props.getWebinarEmailData?.template
@@ -324,7 +330,7 @@ const WebinarVerifyMAIL = (props) => {
         tags: finalTags,
         template_source_code: props.getWebinarEmailData?.template
           ? props.getWebinarEmailData?.template
-          : props.getWebinarDraftData.source_code,
+          : props.getWebinarDraftData?.source_code,
         campaign_id: campaign_id_st,
         campaign_data: {
           user_list: user_list,
@@ -563,6 +569,7 @@ const WebinarVerifyMAIL = (props) => {
       auto_responder_id:props.getWebinarEmailData?.templateId
       ? props.getWebinarEmailData?.templateId
       : props.getWebinarDraftData?.campaign_data?.template_id,
+
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
@@ -930,7 +937,7 @@ const WebinarVerifyMAIL = (props) => {
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                          {getSmartListData?.length !== 0 && (
+                          {(getSmartListData?.length !== 0 && selected==1)&&(
                             <div className="smartlist-view email_box_outer">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
@@ -1062,7 +1069,7 @@ const WebinarVerifyMAIL = (props) => {
               Email Sent
             </h5>
           </div>
-          <div className="modal-body">Email has been sent successfuly</div>
+          <div className="modal-body">Email has been sent successfully</div>
           <div className="modal-footer">
             <button
               type="button"

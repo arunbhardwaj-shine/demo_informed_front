@@ -79,7 +79,9 @@ const ViewTable = (props) => {
   const [siteData, setSiteData] = useState([]);
   const animatedComponents = makeAnimated();
   const [forceRender, setForceRender] = useState(false);
-  const { eventIdContext, handleEventId } = useSidebar()
+  const { eventIdContext, handleEventId } = useSidebar();
+  const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
@@ -642,6 +644,13 @@ const ViewTable = (props) => {
   const showMoreInfo = (e) => {
     e.preventDefault();
     setShowLessInfo(!showLessInfo);
+    const selectedHcpList = document.querySelector('.selected-hcp-list');
+
+    if (showLessInfo) {
+      selectedHcpList.classList.add('expand');
+    } else {
+      selectedHcpList.classList.remove('expand');
+    }
   };
 
   const addMoreHcp = (e) => {
@@ -1529,7 +1538,7 @@ const ViewTable = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              //toast.success("User added successfuly");
+              //toast.success("User added successfully");
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData((oldArray) => [...new_data, ...oldArray]);
@@ -1571,7 +1580,7 @@ const ViewTable = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               let old_data = editList;
               let new_data = res.data.response.data;
@@ -1651,6 +1660,27 @@ const ViewTable = (props) => {
       return d.profile_user_id != profile_user_id;
     });
     setNewData(dataUpdated);
+  };
+
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB.localeCompare(valueA);
+      }
+    });
   };
 
   return (
@@ -1826,10 +1856,82 @@ const ViewTable = (props) => {
             <table className="table" id="table-to-xls">
               <thead className="sticky-header">
                 <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
+                  <th scope="col" className="sort_option">
+                    <span onClick={() => handleSort('first_name')} >
+                      Name
+                      <button
+                          className={`event_sort_btn ${sortBy == "first_name" ?
+                          sortOrder == "asc"
+                            ? "svg_asc"
+                            : "svg_active"
+                          : "" 
+                          }`}
+                          onClick={() => handleSort('first_name')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button>
+                    </span> 
+                  </th>
+                  <th scope="col" className="sort_option">
+                    <span onClick={() => handleSort('email')} >
+                      Email
+                      <button
+                          className={`event_sort_btn ${sortBy == "email" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                            }`}
+                          onClick={() => handleSort('email')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                      </button>
+                    </span>
+                  </th>
                   <th scope="col">Bounced</th>
-                  <th scope="col">Country</th>
+                  <th scope="col" className="sort_option">
+                    <span onClick={() => handleSort('country')} >
+                      Country
+                      <button
+                            className={`event_sort_btn ${sortBy == "country" ?
+                            sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                            : "" 
+                            }`}
+                            onClick={() => handleSort('country')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                        </button>
+                    </span>    
+                  </th>
 
                   {localStorage.getItem("user_id") ==
                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1839,7 +1941,31 @@ const ViewTable = (props) => {
                     </>
                   ) : (
                     <>
-                      <th scope="col">Business unit</th>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort('ibu')} >
+                          Business unit
+                          <button
+                            className={`event_sort_btn ${sortBy == "ibu" ?
+                            sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                            : "" 
+                            }`}
+                            onClick={() => handleSort('ibu')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+                      </th>
                       <th scope="col">Contact type</th>
                     </>
                   )}
@@ -1858,7 +1984,7 @@ const ViewTable = (props) => {
                 </tr>
               </thead>
               <tbody className="form-group">
-                {newData.map((item, index) => (
+                {sortData(newData, sortBy, sortOrder)?.map((item, index) => (
                   <tr
                     key={item}
                     className="hcps-added"
@@ -1990,7 +2116,7 @@ const ViewTable = (props) => {
                   <td colspan="13"></td>
                 </tr>
 
-                {editList.map((item, index) => (
+                {sortData(editList, sortBy, sortOrder)?.map((item, index) => (
                   <tr
                     key={item}
                     id={`row-selected` + index}
