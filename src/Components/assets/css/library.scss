@@ -5646,6 +5646,10 @@ input.viewer-toolbar-current-page-input {
   }
 }
 
+.top-header.regi-web {
+  padding-bottom: 40px;
+}
+
 .top-header.regi-web.sticky {
   padding-top: 25px;
 }
@@ -12846,10 +12850,11 @@ img.change-password-image {
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
 }
 
-.hcp-options .switch6-light a.btn:hover{
+.hcp-options .switch6-light a.btn:hover {
   background: $white;
-  border:0;
-} 
+  border: 0;
+}
+
 .hcp-options .switch6-light input:checked~a.btn,
 .hcp-options .switch6-light.active input~a.btn {
   right: 4px;
@@ -19651,7 +19656,7 @@ img.change-password-image {
     }
 
     table {
-      border-spacing: 0px 3px;
+      border-spacing: 0px 0px;
 
       thead {
         tr {
