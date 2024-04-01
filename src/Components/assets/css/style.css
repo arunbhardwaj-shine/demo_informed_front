@@ -2517,8 +2517,6 @@ form .input-group {
   background: var(--white);
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2);
   border-radius: 15px;
-  /* width: 224px;
-  height: 224px; */
   width: 164px;
   height: 164px;
   margin: 0 auto;
@@ -2528,7 +2526,10 @@ form .input-group {
   justify-content: center;
   position: relative;
 }
-
+.send-option-list ul li .send-option-img img {
+  max-width: 84px;
+  max-height: 84px;
+}
 .send-option-list ul li p {
   text-align: center;
   margin: 25px 0 8px;
@@ -2663,11 +2664,16 @@ form .input-group {
   border-radius: 13px;
   border-spacing: 0px 10px;
 }
-
+.survey_data_accordion_heading table tbody tr.fold td {
+  background: rgb(243 247 252);
+}
 .selected-hcp-list tbody tr.queue_row {
   box-shadow: 0px 1px 6px #956ca7;
 }
-
+#chart-description {
+  background: var(--white);
+  padding-top:7px;
+}
 .search-hcp-table table,
 .selected-hcp-list table,
 .result-hcp-table .table,
@@ -2796,7 +2802,15 @@ form .input-group {
   border-radius: 0px 9px 9px 0px;
   padding-right: 44px;
 }
-
+.survey_data_accordion_heading table tbody .view.show td:first-child {
+  border-radius: 13px 0 0 0;
+}
+.survey_data_accordion_heading table tbody .view.show td:last-child {
+  border-radius: 0px 13px 0 0;
+}
+.survey_data_accordion_heading table tbody tr.fold{
+border-radius: 0 0 13px 13px;
+}
 .selected-hcp-list table tr td:nth-last-child(2),
 .result-hcp-table .table tbody tr td:nth-last-child(2) {
   border-radius: 0px 13px 13px 0px;
@@ -7315,7 +7329,9 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   padding-bottom: 10px;
   background: #fbfcfd;
 }
-
+.invitee table th:first-child {
+  width: 250px;
+}
 .dropdown-item.active,
 .dropdown-item:active,
 .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item.active {
@@ -10520,7 +10536,7 @@ button.event_sort_btn.svg_active svg {
 .left-sidebar .sidebar_txt button.toggle_btn {
   width: 18px;
   height: 18px;
-  margin: 2px 12px 0 10px;
+  margin: 0px 12px 0 10px;
   display: flex;
   align-items: center;
   justify-content: center;
