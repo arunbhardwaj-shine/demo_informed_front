@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Accordion, Button, Modal } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -10,7 +10,7 @@ import HighchartsReact from "highcharts-react-official";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
 import { connect } from "react-redux";
-import {getWebinarEmailData,getWebinarSelectedSmartListData,getWebinarDraftData} from '../../../../../actions'
+import { getWebinarEmailData, getWebinarSelectedSmartListData, getWebinarDraftData } from '../../../../../actions'
 import axios from "axios";
 import { toast } from "react-toastify";
 import domtoimage from "dom-to-image";
@@ -66,9 +66,6 @@ const WebinarEmail = (props) => {
   const [sorting, setSorting] = useState(0);
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [isActive, setIsActive] = useState({});
-
-  const [sortBy, setSortBy] = useState('name'); // Initial sort key
-  const [sortOrder, setSortOrder] = useState('asc');
 
   const [options, setOptions] = useState({
     chart: {
@@ -161,36 +158,59 @@ const WebinarEmail = (props) => {
     getWebinarCompaignList()
   }, [])
 
+  useEffect(() => {
+    props.getWebinarEmailData(null);
+    props.getWebinarDraftData(null);
+    props.getWebinarSelectedSmartListData(null);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   const getWebinarCompaignList = async (filter = "") => {
     try {
       loader("show")
       let body = {
         user_id: localStorage.getItem("user_id"),
         event_id: eventId,
-        search:'',
-        filter:filter
+        search: '',
+        filter: filter
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      let response=[]
-     await axios
-      .post(`/webinar/get_webinar_campaign`, body)
-      .then((res) => {
-        response=res?.data
-      })
-      .catch((err) => {
+      let response = []
+      await axios
+        .post(`/webinar/get_webinar_campaign`, body)
+        .then((res) => {
+          response = res?.data
+        })
+        .catch((err) => {
           loader("hide");
           console.log(err);
-      });
+        });
       // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
       let filterData = []
       if (search != "") {
         filterData = response?.response?.data?.filter((item, index) => item?.subject?.includes(search))
       } else {
-        filterData =response?.response?.data
+        filterData = response?.response?.data
       }
       setEmailListData(filterData)
       setTotalEmailListData(response?.response?.data)
-      if(Object.keys(filterdata)?.length==0){
+      if (Object.keys(filterdata)?.length == 0) {
         getFilterList()
       }
       loader("hide")
@@ -250,7 +270,7 @@ const WebinarEmail = (props) => {
       })
       .catch((err) => {
         loader("hide");
-            console.log(err);
+        console.log(err);
 
         toast.error("Something went wrong");
       });
@@ -396,23 +416,23 @@ const WebinarEmail = (props) => {
     setCampaignId(data);
   };
 
-  const getReaderData = async (type = "", dynamic_name = "", popup_name = "",loadAll=1) => {
+  const getReaderData = async (type = "", dynamic_name = "", popup_name = "", loadAll = 1) => {
     try {
       loader("show")
       const body = {
         eventId: eventId,
         autoId: campaignId?.auto_id,
-        campaign_id: campaignId?.id || 0 ,
+        campaign_id: campaignId?.id || 0,
         type: type,
         name: dynamic_name,
-        loadAll:loadAll
+        loadAll: loadAll
       }
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST, body)
       setviewEmailModal(false);
       setFunctionParameter({
-        type, dynamic_name, popup_name ,loadAll
+        type, dynamic_name, popup_name, loadAll
       })
-      let temporaryUsers=[...readerDetailsData,...response?.data?.data];
+      let temporaryUsers = [...readerDetailsData, ...response?.data?.data];
       setReaderDetailsData(temporaryUsers);
       setDetailPopupName(popup_name)
       setReaderDetailsPopupStatus(true);
@@ -429,8 +449,8 @@ const WebinarEmail = (props) => {
         toast.warning("No data found");
         return;
       }
-  
-      
+
+
       readerDetailsData = readerDetailsData?.map((item, index) => {
         let finalData = {};
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
@@ -459,7 +479,7 @@ const WebinarEmail = (props) => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject +" "+detailPopupName).replaceAll(" ","_")
+      let fileName = (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject + " " + detailPopupName).replaceAll(" ", "_")
       saveAs(blob, `${fileName}.xlsx`);
     } catch (error) {
       console.error(
@@ -491,7 +511,7 @@ const WebinarEmail = (props) => {
         emailAutoresponserId: item?.auto_id
       }
 
-      if(item?.previous_campaign!=1){
+      if (item?.previous_campaign != 1) {
         const body = {
           user_id: localStorage.getItem("user_id"),
           campaign_id: item?.id,
@@ -502,7 +522,7 @@ const WebinarEmail = (props) => {
           .post(`emailapi/delete_campaign`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
-        
+
             } else {
               toast.warning(res.data.message);
             }
@@ -512,15 +532,15 @@ const WebinarEmail = (props) => {
             loader("hide");
             toast.error("Something went wrong");
           });
-          let filterId=item?.id
-      const updatedRes = emailListData?.filter((item) => item?.id !== filterId);
-      setEmailListData(updatedRes);
+        let filterId = item?.id
+        const updatedRes = emailListData?.filter((item) => item?.id !== filterId);
+        setEmailListData(updatedRes);
       }
-      else{
+      else {
         const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
-        let filterId=item?.auto_id
-      const updatedRes = emailListData?.filter((item) => item?.auto_id !== filterId);
-      setEmailListData(updatedRes);
+        let filterId = item?.auto_id
+        const updatedRes = emailListData?.filter((item) => item?.auto_id !== filterId);
+        setEmailListData(updatedRes);
 
       }
       loader("hide");
@@ -530,7 +550,7 @@ const WebinarEmail = (props) => {
         type: "success",
         redirect: "",
       });
-      
+
       hideConfirmationModal();
       loader("hide");
 
@@ -562,14 +582,13 @@ const WebinarEmail = (props) => {
       loader("show");
       const element = document.getElementById("chart-description");
       // add padding to the element
-
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
-
+      let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject).replaceAll(" ","_")
       const link = document.createElement("a");
-      link.download = `${Math.random()}.png`;
+      // link.download = `${Math.random()}.png`;
+      link.download = `${fileName}.png`;
       link.href = dataUrl;
       link.click();
-
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -585,24 +604,24 @@ const WebinarEmail = (props) => {
       }
       return obj;
     };
-   
+
     // If key is a string, split it into an array of keys
     const keys = typeof key === 'string' ? key.split('.') : [key];
     const valueA = getNestedValue(a, keys);
     const valueB = getNestedValue(b, keys);
-   
+
     if (direction === 'asc') {
       return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
     } else {
       return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
     }
   };
-   
+
   const userSort = (e, key) => {
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
-   
+
     const sortedUserData = [...readerDetailsData].sort(dynamicSort(key, direction));
-   
+
     setReaderDetailsData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
     setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
@@ -610,10 +629,10 @@ const WebinarEmail = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
-  const handleSort = (key) => {
-    setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
-  };
+  // const handleSort = (key) => {
+  //   setSortBy(key);
+  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  // };
 
   const resendemail = () => {
     hideModal();
@@ -797,7 +816,7 @@ const WebinarEmail = (props) => {
                                                         ]?.includes(item)
                                                           ? true
                                                           : false
-                                                    }                                      
+                                                    }
                                                     onChange={(e) =>
                                                       handleOnFilterChange(
                                                         e,
@@ -813,7 +832,7 @@ const WebinarEmail = (props) => {
                                                   />
                                                   {typeof item == "object"
                                                     ? item?.title
-                                                    : item}                                                 
+                                                    : item}
                                                   <span className="checkmark"></span>
                                                 </label>
                                               ) : null}
@@ -960,7 +979,7 @@ const WebinarEmail = (props) => {
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <Link
-                        to="/webinar/email/create-new-email"                        
+                        to="/webinar/email/create-new-email"
                         onClick={createNewEmail}>
                         <img src={path_image + "add-button.svg"} alt="" />
                       </Link>
@@ -981,15 +1000,15 @@ const WebinarEmail = (props) => {
                                 ? "approved"
                                 : data?.status == 2
                                   ? "email-draft"
-                                  :data?.status == 3
-                                  ? "draft-approved"
-                                  : "approved")
+                                  : data?.status == 3
+                                    ? "draft-approved"
+                                    : "approved")
                           }
                         >
                           <div className="mail-top-title">
 
                             <span>
-                              {( data?.status == 5)
+                              {(data?.status == 5)
                                 ? "Sending in queue" :
                                 data?.status == 2 ? "Draft" : "Approved Draft"
                               }
@@ -1111,7 +1130,7 @@ const WebinarEmail = (props) => {
                                     <span>
                                       {data?.read_precent != "0.00%"
                                         ? data?.read_precent
-                                        : 0 }{" "}
+                                        : 0}{" "}
                                     </span>
                                   </li>
                                   <li>
@@ -1137,7 +1156,7 @@ const WebinarEmail = (props) => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
+                                      {(data?.labels_value[Object.keys(data?.labels_value)[0]] > 0 && data?.email_read > 0)
                                         ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_read) * 100)?.toFixed(2) + "%"
                                         : 0}{" "}
                                     </span>
@@ -1146,9 +1165,9 @@ const WebinarEmail = (props) => {
                               </div>
                             </div>
                             {
-                              data?.previous_campaign != 1&&data?.status!=5 ?
+                              data?.previous_campaign != 1 && data?.status != 5 ?
                                 (<>
-                                    {data?.status == 1 ? (
+                                  {data?.status == 1 ? (
                                     <div className="mailbox-buttons">
                                       {!deletestatus && (
                                         <>
@@ -1210,71 +1229,71 @@ const WebinarEmail = (props) => {
                                     //             View
                                     //           </button>
                                     //     </div>
-                                      ) :(
-                                      <div className="mailbox-buttons">
-                                        {!deletestatus && (
-                                          <div className="mailbox-buttons-list">
-                                            {data?.route_location == "VerifyMAIL" &&
-                                              data?.pdf_id != 13 ? (
-                                              <button
-                                                className="btn btn-primary send btn-bordered"
-                                                onClick={() => {
-                                                  getWebinarEmailData(null);
-                                                  draftEmailCampaign(data?.id);
-                                                  setDraftEmailSendStatus(
-                                                    (getDraftEmailSendStatus) =>
-                                                      !getDraftEmailSendStatus
-                                                  );
-                                                }}                                     
-                                              >
-                                                Send
-                                              </button>
-                                            ) : (
-                                              ""
-                                            )}
+                                  ) : (
+                                    <div className="mailbox-buttons">
+                                      {!deletestatus && (
+                                        <div className="mailbox-buttons-list">
+                                          {data?.route_location == "VerifyMAIL" &&
+                                            data?.pdf_id != 13 ? (
                                             <button
-                                              className="btn btn-primary edit btn-filled"
+                                              className="btn btn-primary send btn-bordered"
                                               onClick={() => {
                                                 getWebinarEmailData(null);
-                                                // getSelectedSmartListData(null);
-                                                draftNavigate(
-                                                  data.id,
-                                                  data.pdf_id,
-                                                  data.route_location,
-                                                  data.campaign,
-                                                  data.creator,
-                                                  data.discription,
-                                                  data.subject,
-                                                  data.tags
+                                                draftEmailCampaign(data?.id);
+                                                setDraftEmailSendStatus(
+                                                  (getDraftEmailSendStatus) =>
+                                                    !getDraftEmailSendStatus
                                                 );
                                               }}
                                             >
-                                              Edit
+                                              Send
                                             </button>
-                                          </div>
-                                        )}
-                                      </div>
-                                    ) 
-                                    }
+                                          ) : (
+                                            ""
+                                          )}
+                                          <button
+                                            className="btn btn-primary edit btn-filled"
+                                            onClick={() => {
+                                              getWebinarEmailData(null);
+                                              // getSelectedSmartListData(null);
+                                              draftNavigate(
+                                                data.id,
+                                                data.pdf_id,
+                                                data.route_location,
+                                                data.campaign,
+                                                data.creator,
+                                                data.discription,
+                                                data.subject,
+                                                data.tags
+                                              );
+                                            }}
+                                          >
+                                            Edit
+                                          </button>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )
+                                  }
                                 </>)
-                              : data?.status!=5 ?(<>
-                              <div className="mailbox-buttons">
-                              {!deletestatus && (
-                              // <div className="mailbox-buttons">
-                                  <div className="mailbox-buttons-list">
-                                    <button
-                                      className="btn btn-primary btn-filled edit"
-                                      onClick={(e) =>
-                                        showViewEmailModal(data)
-                                      }
-                                    >
-                                      View
-                                    </button>
-                                  </div>
-                                // </div>
-                                )
-                              } </div>
-                              </>):""
+                                : data?.status != 5 ? (<>
+                                  <div className="mailbox-buttons">
+                                    {!deletestatus && (
+                                      // <div className="mailbox-buttons">
+                                      <div className="mailbox-buttons-list">
+                                        <button
+                                          className="btn btn-primary btn-filled edit"
+                                          onClick={(e) =>
+                                            showViewEmailModal(data)
+                                          }
+                                        >
+                                          View
+                                        </button>
+                                      </div>
+                                      // </div>
+                                    )
+                                    } </div>
+                                </>) : ""
                             }
                             {deletestatus && (
                               <div className="dlt_btn">
@@ -1326,6 +1345,7 @@ const WebinarEmail = (props) => {
           <Modal.Body onScroll={handleScroll}>
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
+                <div className="mail-box-wrap" id="chart-description">
                 <div className="mail-box-content">
                   <div className="mail-box-heading-block">
                     <div className="mail-box-heading">
@@ -1348,9 +1368,16 @@ const WebinarEmail = (props) => {
                       }
                       <button
                         className="btn print"
-                        title="Download data"
+                        title="Print Stats"
                         onClick={handleParent}>
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24px" width="24px"><path d="M42.653,170.667A21.333,21.333,0,0,1,21.32,149.333V85.32a64.073,64.073,0,0,1,64-64h64.014a21.333,21.333,0,1,1,0,42.667H85.32A21.357,21.357,0,0,0,63.986,85.32v64.014A21.333,21.333,0,0,1,42.653,170.667Z" fill="#0066be"></path><path d="M426.68,490.68H362.667a21.333,21.333,0,1,1,0-42.667H426.68a21.357,21.357,0,0,0,21.333-21.333V362.667a21.333,21.333,0,1,1,42.667,0V426.68A64.073,64.073,0,0,1,426.68,490.68Z" fill="#0066be"></path><path d="M448,170.667a21.333,21.333,0,0,1-21.333-21.333V85.32a21.357,21.357,0,0,0-21.333-21.333H341.32a21.333,21.333,0,1,1,0-42.667h64.014a64.073,64.073,0,0,1,64,64v64.014A21.333,21.333,0,0,1,448,170.667Z" fill="#0066be"></path><path d="M149.333,490.68H85.32a64.073,64.073,0,0,1-64-64V362.667a21.333,21.333,0,1,1,42.667,0V426.68A21.357,21.357,0,0,0,85.32,448.014h64.014a21.333,21.333,0,1,1,0,42.667Z" fill="#0066be"></path><path d="M362.68,384.014H149.32a42.716,42.716,0,0,1-42.667-42.667V213.32a42.716,42.716,0,0,1,42.667-42.667h29.5l15.436-30.874a21.334,21.334,0,0,1,19.081-11.793h85.333a21.334,21.334,0,0,1,19.081,11.793l15.436,30.874h29.5a42.716,42.716,0,0,1,42.667,42.667V341.347A42.716,42.716,0,0,1,362.68,384.014ZM149.32,213.32V341.347H362.68V213.32H320a21.334,21.334,0,0,1-19.081-11.793l-15.436-30.874H226.518l-15.436,30.874A21.334,21.334,0,0,1,192,213.32Z" fill="#0066be"></path><path d="M256,330.667a64,64,0,1,1,64-64A64.073,64.073,0,0,1,256,330.667Zm0-85.333a21.333,21.333,0,1,0,21.333,21.333A21.357,21.357,0,0,0,256,245.333Z" fill="#0066BE"></path></svg>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M2 4C2 2.89543 2.89543 2 4 2H7.41667C7.96895 2 8.41667 1.55228 8.41667 1C8.41667 0.447715 7.96895 0 7.41667 0H4C1.79086 0 0 1.79086 0 4V7.41667C0 7.96895 0.447715 8.41667 1 8.41667C1.55228 8.41667 2 7.96895 2 7.41667V4Z" fill="#0066BE"/>
+                        <path d="M16.5833 0C16.031 0 15.5833 0.447715 15.5833 1C15.5833 1.55228 16.031 2 16.5833 2H20C21.1046 2 22 2.89543 22 4V7.41667C22 7.96895 22.4477 8.41667 23 8.41667C23.5523 8.41667 24 7.96895 24 7.41667V4C24 1.79086 22.2091 0 20 0H16.5833Z" fill="#0066BE"/>
+                        <path d="M2 16.5833C2 16.031 1.55228 15.5833 1 15.5833C0.447715 15.5833 0 16.031 0 16.5833V20C0 22.2091 1.79086 24 4 24H8.33333C8.88562 24 9.33333 23.5523 9.33333 23C9.33333 22.4477 8.88562 22 8.33333 22H4C2.89543 22 2 21.1046 2 20V16.5833Z" fill="#0066BE"/>
+                        <path d="M24 16.5833C24 16.031 23.5523 15.5833 23 15.5833C22.4477 15.5833 22 16.031 22 16.5833V20C22 21.1046 21.1046 22 20 22H16.5833C16.031 22 15.5833 22.4477 15.5833 23C15.5833 23.5523 16.031 24 16.5833 24H20C22.2091 24 24 22.2091 24 20V16.5833Z" fill="#0066BE"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.5004C9 10.8449 10.344 9.5 11.9996 9.5C13.6551 9.5 15 10.8449 15 12.5004C15 14.156 13.6551 15.5 11.9996 15.5C10.344 15.5 9 14.156 9 12.5004ZM13.7991 12.5004C13.7991 11.5073 12.9927 10.7 11.9996 10.7C11.0064 10.7 10.2 11.5073 10.2 12.5004C10.2 13.4936 11.0064 14.3 11.9996 14.3C12.9927 14.3 13.7991 13.4936 13.7991 12.5004Z" fill="#0066BE"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5963 8.3H18.4615C18.8952 8.3 19.3118 8.46771 19.6194 8.7676C19.927 9.06757 20.1 9.47489 20.1 9.9V16.5C20.1 17.3862 19.3642 18.1 18.4615 18.1H5.53846C4.63579 18.1 3.9 17.3862 3.9 16.5V9.9C3.9 9.47489 4.07298 9.06757 4.38065 8.7676C4.68823 8.46771 5.10478 8.3 5.53846 8.3H7.4037C7.47384 8.3 7.53879 8.26556 7.57717 8.2097L8.67004 6.61137C8.97401 6.16652 9.48587 5.9 10.0326 5.9H13.9674C14.5141 5.9 15.026 6.1665 15.33 6.61137L16.4228 8.20961C16.4611 8.26552 16.5261 8.3 16.5963 8.3ZM9.85906 7.3904L8.76624 8.98866C8.46169 9.43342 7.94989 9.7 7.4037 9.7H5.53846C5.48265 9.7 5.42956 9.72164 5.39042 9.7592C5.35199 9.79727 5.33077 9.84786 5.33077 9.9V16.5C5.33077 16.608 5.42144 16.7 5.53846 16.7H18.4615C18.5786 16.7 18.6692 16.608 18.6692 16.5V9.9C18.6692 9.84787 18.648 9.79729 18.6096 9.75923C18.5705 9.72165 18.5174 9.7 18.4615 9.7H16.5963C16.0501 9.7 15.5383 9.43347 15.2338 8.98871L14.1409 7.3904C14.1026 7.33449 14.0376 7.3 13.9674 7.3H10.0326C9.96249 7.3 9.89744 7.33457 9.85906 7.3904Z" fill="#0066BE"/>
+                       </svg>
                       </button>
                     </div>
                   </div>
@@ -1398,9 +1425,9 @@ const WebinarEmail = (props) => {
                       )}
                     </ul>
                   </div>
-                  
+
                 </div>
-                <div className="chart-description" id="chart-description">
+                <div className="chart-description">
                   <div className="mail-stats webinar-mail-stats">
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
@@ -1491,7 +1518,11 @@ const WebinarEmail = (props) => {
                                 fill="#FAC755"
                               />
                             </svg>
-                            <span>{viewEmailData?.read_precent}</span>
+
+                            <span>{(viewEmailData?.read_precent && viewEmailData?.read_precent != "0.00%")
+                              ? viewEmailData?.read_precent
+                              : 0}
+                            </span>
                           </div>
                         </div>
                       </li>
@@ -1523,6 +1554,7 @@ const WebinarEmail = (props) => {
                       options={options}
                     />
                   </div>
+                </div>
                 </div>
                 {viewEmailData?.template ? (<> <div className="preview-mail-box" dangerouslySetInnerHTML={{ __html: viewEmailData?.template, }} ></div> </>) : ""}
               </div>
@@ -1585,48 +1617,48 @@ const WebinarEmail = (props) => {
                     </button>
                   </div>
                 </div>
-                    
-                    <table className="table" id="table-to-xls">
-                       <thead className="sticky-header">
-                        <tr>
-                          {/* <th scope="col">Name</th> */}
-                          <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "name")} >
-                                Name
-                                <button
-                                className={`event_sort_btn ${isActive?.name == "dec"
-                                    ? "svg_active"
-                                    : isActive?.name == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "name")}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
-                            </th>
 
-                            {/* <th scope="col" className="sort_option" >
+                <table className="table" id="table-to-xls">
+                  <thead className="sticky-header">
+                    <tr>
+                      {/* <th scope="col">Name</th> */}
+                      <th scope="col" className="sort_option" >
+                        <span onClick={(e) => userSort(e, "name")} >
+                          Name
+                          <button
+                            className={`event_sort_btn ${isActive?.name == "dec"
+                              ? "svg_active"
+                              : isActive?.name == "asc"
+                                ? "svg_asc"
+                                : ""
+                              }`}
+                            onClick={(e) => userSort(e, "name")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              fill="none"
+                            >
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path
+                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                  fill="#97B6CF"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+
+                      </th>
+
+                      {/* <th scope="col" className="sort_option" >
                                 <span onClick={() => handleSort('name')} >
                                 Name
                                 <button
@@ -1652,120 +1684,120 @@ const WebinarEmail = (props) => {
                                 </span>
                             
                             </th> */}
-                          {/* <th scope="col">Email</th> */}
-                          <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "email")} >
-                                Email
-                                <button
-                                className={`event_sort_btn ${isActive?.email == "dec"
-                                    ? "svg_active"
-                                    : isActive?.email == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "email")}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
-                            </th>
-                          {/* <th scope="col">Country</th> */}
-                          <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "country")}>
-                                Country
-                                <button
-                                className={`event_sort_btn ${isActive?.country == "dec"
-                                    ? "svg_active"
-                                    : isActive?.country == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "country")}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
-                            </th>
-                          {/* <th scope="col">Date</th> */}
-                          <th scope="col" className="sort_option" >
-                                <span  onClick={(e) => userSort(e, "formatted_date")}>
-                                Date
-                                <button
-                                className={`event_sort_btn ${isActive?.formatted_date == "dec"
-                                    ? "svg_active"
-                                    : isActive?.formatted_date == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "formatted_date")}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
-                            </th>
-                        </tr>
-                        
-                      </thead>
-                      <tbody>
-                      {typeof readerDetailsData !== "undefined" &&
-                  readerDetailsData?.length > 0 ? (<>
+                      {/* <th scope="col">Email</th> */}
+                      <th scope="col" className="sort_option" >
+                        <span onClick={(e) => userSort(e, "email")} >
+                          Email
+                          <button
+                            className={`event_sort_btn ${isActive?.email == "dec"
+                              ? "svg_active"
+                              : isActive?.email == "asc"
+                                ? "svg_asc"
+                                : ""
+                              }`}
+                            onClick={(e) => userSort(e, "email")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              fill="none"
+                            >
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path
+                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                  fill="#97B6CF"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+
+                      </th>
+                      {/* <th scope="col">Country</th> */}
+                      <th scope="col" className="sort_option" >
+                        <span onClick={(e) => userSort(e, "country")}>
+                          Country
+                          <button
+                            className={`event_sort_btn ${isActive?.country == "dec"
+                              ? "svg_active"
+                              : isActive?.country == "asc"
+                                ? "svg_asc"
+                                : ""
+                              }`}
+                            onClick={(e) => userSort(e, "country")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              fill="none"
+                            >
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path
+                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                  fill="#97B6CF"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+
+                      </th>
+                      {/* <th scope="col">Date</th> */}
+                      <th scope="col" className="sort_option" >
+                        <span onClick={(e) => userSort(e, "formatted_date")}>
+                          Date
+                          <button
+                            className={`event_sort_btn ${isActive?.formatted_date == "dec"
+                              ? "svg_active"
+                              : isActive?.formatted_date == "asc"
+                                ? "svg_asc"
+                                : ""
+                              }`}
+                            onClick={(e) => userSort(e, "formatted_date")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              fill="none"
+                            >
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path
+                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                  fill="#97B6CF"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+
+                      </th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    {typeof readerDetailsData !== "undefined" &&
+                      readerDetailsData?.length > 0 ? (<>
                         {readerDetailsData?.map((item, index) => (
                           <>
                             <tr
@@ -1791,13 +1823,6 @@ const WebinarEmail = (props) => {
                             </tr>
                           </>
                         ))}
-                   
-             {  readerDetailsData?.length >= 50 && functionParameter?.loadAll==1 &&    (<div className="load_more">
-                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
-                      Load All
-                    </button>
-                  </div>)}
-                
                      
                   </>) : readerDetailsData?.length == 0 ? (
                     <tr className="table_no_data_found">
@@ -1810,6 +1835,11 @@ const WebinarEmail = (props) => {
                   ) : null}
                    </tbody>
                   </table>
+                  {  readerDetailsData?.length >= 50 && functionParameter?.loadAll==1 &&    (<div className="text-center load_more">
+                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
+                      Load All
+                    </button>
+                  </div>)}
               </div>
             }
           </Modal.Body>
