@@ -1677,8 +1677,8 @@ const ViewTable = (props) => {
         return order === 'asc' ? valueA - valueB : valueB - valueA;
       } else {
         return order === 'asc'
-          ? valueA.localeCompare(valueB) // Handle string sorting with locale awareness
-          : valueB.localeCompare(valueA);
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
       }
     });
   };
