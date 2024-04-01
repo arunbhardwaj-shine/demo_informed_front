@@ -82,8 +82,10 @@ const WebinarVerifyMAIL = (props) => {
         ? props.getWebinarDraftData?.status
         : 0
   );
-  console.log("props.getWebinarEmailData-->",props.getWebinarEmailData?.status)
-  console.log("props.getWebinarDraftData?.status-->",props.getWebinarDraftData?.status)
+  const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
+    location?.state?.thisEventToggled 
+    : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
+ 
 
   useEffect(() => {
     let campaign_id =
@@ -223,7 +225,8 @@ const WebinarVerifyMAIL = (props) => {
         removedHcp: getRemovedHcp,
         selected: location?.state?.selected
           ? location?.state?.selected
-          : props.getWebinarDraftData?.campaign_data?.selected
+          : props.getWebinarDraftData?.campaign_data?.selected,
+          thisEventToggled:thisEventToggled
       },
       campaign_id: campaign_id_st,
       source_code: props.getWebinarEmailData?.template
@@ -235,7 +238,7 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.campaign_data?.template_id,
 
     };
-    console.log("webinar verify Mail", body);
+   
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -473,7 +476,7 @@ const WebinarVerifyMAIL = (props) => {
     ) {
       navigate("/webinar/email/selectSmartListUsers", {
         state: {
-          ...location?.state
+          ...location?.state,
         },
       });
     } else {
@@ -570,7 +573,8 @@ const WebinarVerifyMAIL = (props) => {
         removedHcp: getRemovedHcp,
         selected: location?.state?.selected
           ? location?.state?.selected
-          : props.getWebinarDraftData?.campaign_data?.selected
+          : props.getWebinarDraftData?.campaign_data?.selected,
+          thisEventToggled:thisEventToggled
       },
       campaign_id: campaign_id_st,
       source_code: props.getWebinarEmailData?.template
@@ -643,7 +647,11 @@ const WebinarVerifyMAIL = (props) => {
                       <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to={selected == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}>{localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
+                      <Link 
+                      to={selected == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}
+                      state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                      >
+                        {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                     {/*
@@ -658,7 +666,10 @@ const WebinarVerifyMAIL = (props) => {
                     {typeof getSmartListData !== "undefined" &&
                       getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
-                        <Link to="/webinar/email/selectSmartListUsers">Verify Your List</Link>
+                        <Link 
+                        to="/webinar/email/selectSmartListUsers"
+                        state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                        >Verify Your List</Link>
                       </li>
                     ) : (
                       <li className="active">
@@ -751,7 +762,7 @@ const WebinarVerifyMAIL = (props) => {
                         </h6>
                       </div>
                       <div className="form-buttons right-side">
-                        {console.log("get Article type-->",getArticleType)}
+                       
                         <button
                           className={
                             typeof getArticleType !== "undefined" &&
