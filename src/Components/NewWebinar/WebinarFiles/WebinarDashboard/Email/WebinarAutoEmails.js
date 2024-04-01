@@ -1078,8 +1078,7 @@ const WebinarAutoEmail = () => {
 
   const CreateNewTemplateClicked=(e)=>{
     e.preventDefault()
-    let defaultSourceCode= templates?.triggeredTemplate?.find(item => item?.template_code==="INVITATION_-_CLINICAL_PRACTICE")
-    console.log(defaultSourceCode);
+    let defaultSourceCode= templates?.triggeredTemplate?.find(item => item?.template_code==="INVITATION_REAL_TEMPLATE")
     setIndexClicked();
     setTemplateClicked(false);
     setValidationError({})
