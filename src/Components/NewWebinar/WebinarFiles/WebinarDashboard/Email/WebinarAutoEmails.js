@@ -481,8 +481,8 @@ const WebinarAutoEmail = () => {
           toast.error("Something went wrong");
           console.log(err);
         });
-      setEmailSubject("");
-      setEmailDescription("");
+      // setEmailSubject("");
+      // setEmailDescription("");
       setSelectedHcp([]);
       setSearchedUsers([]);
     } else {
