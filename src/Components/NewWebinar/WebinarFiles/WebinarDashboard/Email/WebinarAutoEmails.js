@@ -233,7 +233,6 @@ const WebinarAutoEmail = () => {
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_AUTO_TEMPLATE_LIST, body)
       setTemplates(response?.data?.data)
       setReminderTemplates(response?.data?.data?.reminderTemplate)
-      console.log("res--->",response?.data?.data)
       loader("hide")
     } catch (err) {
       loader("hide")
@@ -1079,7 +1078,8 @@ const WebinarAutoEmail = () => {
 
   const CreateNewTemplateClicked=(e)=>{
     e.preventDefault()
-    let defaultSourceCode= templates?.triggeredTemplate?.find(item => item?.name?.includes("Invitation"))
+    let defaultSourceCode= templates?.triggeredTemplate?.find(item => item?.template_code==="INVITATION_-_CLINICAL_PRACTICE")
+    console.log(defaultSourceCode);
     setIndexClicked();
     setTemplateClicked(false);
     setValidationError({})
