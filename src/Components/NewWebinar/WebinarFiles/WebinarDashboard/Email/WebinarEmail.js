@@ -566,7 +566,8 @@ const WebinarEmail = (props) => {
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
 
       const link = document.createElement("a");
-      link.download = `${Math.random()}.png`;
+      // link.download = `${Math.random()}.png`;
+      link.download = "email_campaign.png";
       link.href = dataUrl;
       link.click();
 
