@@ -3918,7 +3918,7 @@ input[type="number"] {
 .timeline-left-user-detail .mail {
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
   border-radius: 30px;
-  background: #ffffff;
+  background: $white;
   padding: 4px;
   width: 34px;
   height: 34px;
@@ -5663,7 +5663,7 @@ input.viewer-toolbar-current-page-input {
     }
 
     h3 {
-      color: #004A89;
+      color: $dark-blue;
     }
 
     .library-content-box-layuot {
@@ -5675,7 +5675,7 @@ input.viewer-toolbar-current-page-input {
         // max-width: 905px;
         width: 60%;
         border-radius: 20px;
-        background: #FFF;
+        background: $white;
         box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.20);
       }
 
@@ -5688,7 +5688,7 @@ input.viewer-toolbar-current-page-input {
           margin: 0;
 
           .tabs-data {
-            border-top: 0.5px dashed #0066BE;
+            border-top: 0.5px dashed $primary-color;
             padding-top: 20px;
 
             .tab-content-links {
@@ -5733,11 +5733,11 @@ input.viewer-toolbar-current-page-input {
 
         .data-main-box {
           width: 50%;
-          border-left: 0.5px dashed #0066BE;
+          border-left: 0.5px dashed $primary-color;
           padding: 16px 24px 16px 26px;
 
           h6 {
-            color: #0066BE;
+            color: $primary-color;
             font-size: 16px;
             font-weight: 500;
             margin: 0 0 25px;
@@ -5787,7 +5787,7 @@ input.viewer-toolbar-current-page-input {
               margin: 0;
 
               h5 {
-                color: #004A89;
+                color: $dark-blue;
                 margin: 0 0 10px;
                 font-size: 20px;
               }
@@ -5839,7 +5839,7 @@ input.viewer-toolbar-current-page-input {
                   padding: 14px 24px 26px;
 
                   label {
-                    color: #004A89;
+                    color: $dark-blue;
                     font-size: 16px;
                     flex: 0 0 100%;
                   }
@@ -5889,12 +5889,12 @@ input.viewer-toolbar-current-page-input {
           width: 100%;
           padding: 24px 10px;
           border-radius: 20px;
-          background: #FFF;
+          background: $white;
           box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.20);
 
           .old-data-detail {
             @include flex-center;
-            border-bottom: 1px dashed #0066BE;
+            border-bottom: 1px dashed $primary-color;
             padding-bottom: 20px;
             margin-bottom: 10px;
 
@@ -5907,7 +5907,7 @@ input.viewer-toolbar-current-page-input {
             }
 
             p {
-              color: #004A89;
+              color: $dark-blue;
               font-size: 14px;
             }
           }
@@ -6474,7 +6474,7 @@ svg.pencil_icon {
 
 .delivery-trends .tabs_content_load .no-margin.highchart-listed.row {
   border-radius: 12px;
-  background: #FFF;
+  background: $white;
   box-shadow: 0px 1px 7px 0px rgba(0, 102, 190, 0.20);
   padding: 8px 0;
   border: 0;
@@ -6500,7 +6500,7 @@ svg.pencil_icon {
 .high_charts-rightside .distribute-page-reader p {
   font-size: 11px;
   padding-left: 8px;
-  color: #004A89;
+  color: $dark-blue;
 }
 
 .high_charts-rightside .distribute-page-reader svg {
@@ -9039,8 +9039,8 @@ svg.pencil_icon {
 }
 
 .smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button.active {
-  color: #0066BE;
-  background: #ffffff;
+  color: $primary-color;
+  background: $white;
   box-shadow: 0px -5px 7px rgba(0, 102, 190, 0.13);
   border-radius: 20px 20px 0 0;
   z-index: 2;
@@ -9105,7 +9105,7 @@ svg.pencil_icon {
 }
 
 .smartlist-view .mail-box-content .tabs-data .tab-content {
-  background: #ffffff;
+  background: $white;
   mix-blend-mode: normal;
   box-shadow: 0px -4px 8px rgba(0, 102, 190, 0.07);
   border-radius: 20px 20px 20px;
@@ -9156,9 +9156,9 @@ svg.pencil_icon {
 .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
   font-size: 14px;
   line-height: 16px;
-  color: #0066BE;
+  color: $primary-color;
   font-weight: 400;
-  color: #004A89;
+  color: $dark-blue;
   margin: 0;
   word-break: break-all;
   text-overflow: ellipsis;
@@ -9172,7 +9172,7 @@ svg.pencil_icon {
 .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
   border-radius: 3px;
   background: #E7F4FF;
-  color: #0066BE;
+  color: $primary-color;
   font-size: 13px;
   padding: 1px 10px;
   min-width: 105px;
@@ -19133,7 +19133,7 @@ img.change-password-image {
 
   .registration-preview {
     width: 100%;
-    border: 1px solid #0066BE;
+    border: 1px solid $primary-color;
     border-radius: 12px;
     cursor: pointer;
     overflow: hidden;
@@ -19618,7 +19618,7 @@ img.change-password-image {
           padding: 7px 16px;
 
           &:hover {
-            color: #ffffff;
+            color: $white;
             background: #8A4E9C;
           }
         }
@@ -19633,7 +19633,7 @@ img.change-password-image {
       li {
         font-weight: 500;
         line-height: 18px;
-        color: #004A89;
+        color: $dark-blue;
       }
     }
   }
@@ -19779,7 +19779,7 @@ img.change-password-image {
 
   .question-rating {
     border-radius: 20px;
-    background: #FFF;
+    background: $white;
     box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
     padding: 16px;
     width: 22%;
@@ -19807,7 +19807,7 @@ img.change-password-image {
 
       span {
         font-size: 16px;
-        color: #004A89;
+        color: $dark-blue;
         font-weight: 500;
         line-height: normal;
         margin-right: 8px;
@@ -19854,7 +19854,7 @@ img.change-password-image {
       // }
 
       h2 {
-        color: #004A89;
+        color: $dark-blue;
         font-size: 36px;
         font-weight: 500;
         line-height: normal;
@@ -19930,7 +19930,7 @@ img.change-password-image {
         }
 
         .survey-rating-number {
-          color: #004A89;
+          color: $dark-blue;
           font-size: 16px;
           font-weight: 500;
           line-height: normal;
