@@ -1302,7 +1302,7 @@ const WebinarEmail = (props) => {
                       <h5>{viewEmailData?.subject}</h5>
                       <p>{viewEmailData?.event}</p>
                     </div>
-                    <div className="clear-search">
+                    <div className="clear-search top-right-action">
                       {
                         (viewEmailData?.status == 1) && (viewEmailData?.email_read != viewEmailData?.email_sent)
                         ? 
