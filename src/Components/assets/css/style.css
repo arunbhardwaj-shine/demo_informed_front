@@ -4286,12 +4286,19 @@ form#add_hcp_form .row:not(:first-child) {
   flex-wrap: wrap;
 }
 .select-smart-list .table-title.webinar-smart {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
 
 .select-smart-list .hcp-options {
-  margin: 0 0 40px;
+  margin: 24px 0 0px;
+  flex:0 0 100%;
 }
+
+.hcp-options .filter_btn_div {
+  flex: 1 1;
+  margin:0 ;
+}
+
 .select-smart-list .filter_btn_div {
   flex: 0 0 100%;
 }
@@ -8828,6 +8835,7 @@ max-width: 100%;
   text-transform: capitalize;
   color: var(--light-blue);
   margin-bottom: 5px;
+  word-break: break-all;
 }
 
 .trigger_content p {
