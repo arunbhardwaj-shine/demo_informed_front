@@ -629,6 +629,41 @@ const WebinarEmail = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
+  // const handleSort = (key) => {
+  //   setSortBy(key);
+  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  // };
+
+  const resendemail = () => {
+    hideModal();
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: campaignId?.id,
+      event_id:eventId
+    };
+    loader("show");
+    axios
+      .post(`webinar/resend_webinar_email`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          toast.success(res.data.message ?? "Email send successfully.");
+        } else if (res.data.status_code == 201) {
+          toast.warning(res.data.message);
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  };
+
+  const hideModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -1136,14 +1171,14 @@ const WebinarEmail = (props) => {
                                     <div className="mailbox-buttons">
                                       {!deletestatus && (
                                         <>
-                                          {/* <div className="send_new">
+                                          <div className="send_new">
                                               <button
                                                 className="btn btn-primary btn-bordered send-new"
                                                 onClick={() =>
                                                   draftNavigate(
                                                     data.id,
                                                     data.pdf_id,
-                                                    "SelectHCP",
+                                                    "webinar/email/selectHCP",
                                                     data.campaign,
                                                     data.creator,
                                                     data.discription,
@@ -1154,10 +1189,10 @@ const WebinarEmail = (props) => {
                                               >
                                                 Send New
                                               </button>
-                                            </div> */}
+                                            </div>
 
                                           <div className="mailbox-buttons-list">
-                                            {/* {data?.total_Opened_pr < 100 ? (
+                                            {(data?.status == 1) && (data?.email_read != data?.email_sent) ? (
                                                 <button
                                                   className="btn btn-primary btn-bordered send"
                                                   onClick={(e) =>
@@ -1168,7 +1203,7 @@ const WebinarEmail = (props) => {
                                                 </button>
                                               ) : (
                                                 ""
-                                              )} */}
+                                              )}
 
                                             <button
                                               className="btn btn-primary btn-filled edit"
@@ -1317,7 +1352,20 @@ const WebinarEmail = (props) => {
                       <h5>{viewEmailData?.subject}</h5>
                       <p>{viewEmailData?.event}</p>
                     </div>
-                    <div className="clear-search">
+                    <div className="clear-search top-right-action">
+                      {
+                        (viewEmailData?.status == 1) && (viewEmailData?.email_read != viewEmailData?.email_sent)
+                        ? 
+                        <div className="mail-view-btn">
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            onClick={(e) => showModal("send", campaignId)}
+                          >
+                            Resend
+                          </button>
+                        </div>
+                        : null
+                      }
                       <button
                         className="btn print"
                         title="Print Stats"
@@ -1332,19 +1380,6 @@ const WebinarEmail = (props) => {
                        </svg>
                       </button>
                     </div>
-                    {/* {
-                      viewEmailData?.status != 5
-                      ? 
-                      <div className="mail-view-btn">
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={(e) => showModal("send", campaignId)}
-                        >
-                          Resend
-                        </button>
-                      </div>
-                      : null
-                    } */}
                   </div>
                   <div className="mailbox-table">
                     <table>
@@ -1810,6 +1845,55 @@ const WebinarEmail = (props) => {
           </Modal.Body>
         </Modal>
       </div>
+
+      <div>
+        <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={hideModal}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path + "alert.png"} alt="" />
+            <h4>
+              This email will be sent to everybody who has not opened the email{" "}
+            </h4>
+
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={resendemail}
+              >
+                Yes Please!
+              </button>
+              {getreference == "resend" ? (
+                <button
+                  type="button"
+                  className="btn btn-primary btn-bordered"
+                  onClick={(e) => showViewEmailModal(campaignId)}
+                >
+                  View Email
+                </button>
+              ) : (
+                ""
+              )}
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={hideModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
+
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}

@@ -375,7 +375,9 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   align-items: center;
   justify-content: center;
 }
-
+.modal .mail-box-heading-block .clear-search.top-right-action .btn.print:active {
+  background: #0066be;
+}
 .analytic-charts .circle_graph .col button.btn {
   margin-left: auto;
   margin-top: -43px;
@@ -7378,7 +7380,9 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
   min-height: 20px;
 }
-
+.modal .selected-hcp-list table thead.sticky-header th.sort_option {
+  min-width: 110px;
+}
 .split-button-dropup.edit-country-dropdown>div:nth-child(4) {
   width: 100%;
   border: 0.5px solid rgba(0, 102, 190, 0.06);
@@ -8846,6 +8850,11 @@ max-width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.modal .clear-search.top-right-action {
+  margin: 0;
+  gap: 16px;
+  align-items: center;
 }
 .trigger_content h6 {
   font-size: 16px;
