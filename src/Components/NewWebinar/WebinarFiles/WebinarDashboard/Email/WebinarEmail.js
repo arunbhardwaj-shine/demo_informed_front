@@ -612,9 +612,39 @@ const WebinarEmail = (props) => {
 
   const handleSort = (key) => {
     setSortBy(key);
-    console.log(sortBy,'fgdrfthrtyjh')
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
-};
+  };
+
+  const resendemail = () => {
+    hideModal();
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: campaignId?.id,
+      event_id:eventId
+    };
+    loader("show");
+    axios
+      .post(`webinar/resend_webinar_email`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          toast.success(res.data.message ?? "Email send successfully.");
+        } else if (res.data.status_code == 201) {
+          toast.warning(res.data.message);
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  };
+
+  const hideModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -1785,6 +1815,55 @@ const WebinarEmail = (props) => {
           </Modal.Body>
         </Modal>
       </div>
+
+      <div>
+        <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={hideModal}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path + "alert.png"} alt="" />
+            <h4>
+              This email will be sent to everybody who has not opened the email{" "}
+            </h4>
+
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={resendemail}
+              >
+                Yes Please!
+              </button>
+              {getreference == "resend" ? (
+                <button
+                  type="button"
+                  className="btn btn-primary btn-bordered"
+                  onClick={(e) => showViewEmailModal(campaignId)}
+                >
+                  View Email
+                </button>
+              ) : (
+                ""
+              )}
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={hideModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
+
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
