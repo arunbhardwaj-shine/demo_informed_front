@@ -51,7 +51,9 @@ const WebinarVerifyMAIL = (props) => {
       : props.getWebinarDraftData?.source_code
   );
   const [selected, setSelected] = useState(location?.state?.selected ?
-    location?.state?.selected
+    location?.state?.selected:
+    props.getWebinarEmailData?.selected
+      ? props.getWebinarEmailData?.selected
     : props.getWebinarDraftData?.campaign_data?.selected)
 
   var var_template_source_code = template_source_code?.replaceAll("800", "450");
@@ -83,9 +85,11 @@ const WebinarVerifyMAIL = (props) => {
         : 0
   );
   const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
-    location?.state?.thisEventToggled 
+    location?.state?.thisEventToggled :
+    props.getWebinarEmailData?.thisEventToggled
+    ? props.getWebinarEmailData?.thisEventToggled
     : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
- 
+ console.log("location Verify Mail--->",location?.state)
 
   useEffect(() => {
     let campaign_id =
@@ -649,7 +653,8 @@ const WebinarVerifyMAIL = (props) => {
                     <li className="active">
                       <Link 
                       to={selected == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}
-                      state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                      // state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                      state={{...location?.state}}
                       >
                         {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
@@ -662,13 +667,16 @@ const WebinarVerifyMAIL = (props) => {
                    </li>
                      :  ""
                      */}
+                     {console.log("getSmartListData--->",getSmartListData)}
+                     {console.log("selected--->",selected)}
 
                     {typeof getSmartListData !== "undefined" &&
                       getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
                         <Link 
                         to="/webinar/email/selectSmartListUsers"
-                        state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                        // state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                        state={{...location?.state}}
                         >Verify Your List</Link>
                       </li>
                     ) : (

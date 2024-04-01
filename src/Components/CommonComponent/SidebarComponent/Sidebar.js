@@ -206,13 +206,13 @@ const Sidebar = () => {
     if (localStorage.getItem("webinar_sd_i")) {
      
       webinar_c_id = localStorage.getItem("webinar_sd_i");
-      console.log("hello i am here---->",webinar_c_id)
+      
     } 
   } else if(location.pathname == "/webinar/email/smartlist/uploadsmartlist"){
     if (localStorage.getItem("webinar_sd_i")) {
      
       webinar_c_id = localStorage.getItem("webinar_sd_i");
-      console.log("hello i am here---->",webinar_c_id)
+      
     } 
   }
   else if (location.pathname == "webinar/email/smartlist") {
