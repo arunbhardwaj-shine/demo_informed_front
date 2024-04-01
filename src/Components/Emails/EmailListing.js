@@ -2533,7 +2533,7 @@ const EmailList = (props) => {
                      
                           </>
                         ))}
-                        {readerDetailsData.length >50 && functionParameter?.page==1 &&  
+                        {readerDetailsData.length >=50 && functionParameter?.page==1 &&  
                           (<div className="load_more">
                         <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,2)}>
                           Load All
