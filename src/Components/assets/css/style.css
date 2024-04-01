@@ -8377,7 +8377,9 @@ hr {
 .smart-list-view .selected-hcp-list_detail:hover svg path {
   fill: #0b3a81;
 }
-
+.send-option-new li.disabled .send-option-img {
+  pointer-events: none;
+}
 .selected-hcp-list_detail ul {
   margin: 0;
   padding: 0;

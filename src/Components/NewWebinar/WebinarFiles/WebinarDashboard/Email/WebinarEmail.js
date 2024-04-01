@@ -212,6 +212,7 @@ const WebinarEmail = (props) => {
         filterData = response?.response?.data
       }
       setEmailListData(filterData)
+      localStorage.setItem("inviteFlag",response?.response?.invite_flag)
       setTotalEmailListData(response?.response?.data)
       if (Object.keys(filterdata)?.length == 0) {
         getFilterList()
