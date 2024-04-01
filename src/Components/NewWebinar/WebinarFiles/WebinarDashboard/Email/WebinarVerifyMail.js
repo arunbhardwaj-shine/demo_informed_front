@@ -961,11 +961,13 @@ const WebinarVerifyMAIL = (props) => {
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                          {(getSmartListData?.length !== 0 && selected == 1) && (
-                            <div className="smartlist-view email_box_outer">
+                          {(getSmartListData?.length !== 0 && selected==1)&&(
+                            <div className="smartlist-view email_box_outer new-smartlist">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
-                                  <h5>{getSmartListData?.name}</h5>
+                                  <div className="mail-box-conten-title">
+                                     <h5>{getSmartListData?.name}</h5>
+                                  </div>
                                   <SmartListLayout data={getSmartListData} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} webinarFlag={1} />
                                   {/* <div className="mailbox-table">
                                     <table>

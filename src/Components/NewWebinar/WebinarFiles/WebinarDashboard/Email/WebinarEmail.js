@@ -67,9 +67,6 @@ const WebinarEmail = (props) => {
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [isActive, setIsActive] = useState({});
 
-  const [sortBy, setSortBy] = useState('name'); // Initial sort key
-  const [sortOrder, setSortOrder] = useState('asc');
-
   const [options, setOptions] = useState({
     chart: {
       type: "bar",
@@ -212,6 +209,7 @@ const WebinarEmail = (props) => {
         filterData = response?.response?.data
       }
       setEmailListData(filterData)
+      localStorage.setItem("inviteFlag",response?.response?.invite_flag)
       setTotalEmailListData(response?.response?.data)
       if (Object.keys(filterdata)?.length == 0) {
         getFilterList()
@@ -585,15 +583,13 @@ const WebinarEmail = (props) => {
       loader("show");
       const element = document.getElementById("chart-description");
       // add padding to the element
-
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
-
+      let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject).replaceAll(" ","_")
       const link = document.createElement("a");
       // link.download = `${Math.random()}.png`;
-      link.download = "email_campaign.png";
+      link.download = `${fileName}.png`;
       link.href = dataUrl;
       link.click();
-
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -634,9 +630,40 @@ const WebinarEmail = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
-  const handleSort = (key) => {
-    setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  // const handleSort = (key) => {
+  //   setSortBy(key);
+  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  // };
+
+  const resendemail = () => {
+    hideModal();
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: campaignId?.id,
+      event_id:eventId
+    };
+    loader("show");
+    axios
+      .post(`webinar/resend_webinar_email`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          toast.success(res.data.message ?? "Email send successfully.");
+        } else if (res.data.status_code == 201) {
+          toast.warning(res.data.message);
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  };
+
+  const hideModal = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -1145,14 +1172,14 @@ const WebinarEmail = (props) => {
                                     <div className="mailbox-buttons">
                                       {!deletestatus && (
                                         <>
-                                          {/* <div className="send_new">
+                                          <div className="send_new">
                                               <button
                                                 className="btn btn-primary btn-bordered send-new"
                                                 onClick={() =>
                                                   draftNavigate(
                                                     data.id,
                                                     data.pdf_id,
-                                                    "SelectHCP",
+                                                    "webinar/email/selectHCP",
                                                     data.campaign,
                                                     data.creator,
                                                     data.discription,
@@ -1163,10 +1190,10 @@ const WebinarEmail = (props) => {
                                               >
                                                 Send New
                                               </button>
-                                            </div> */}
+                                            </div>
 
                                           <div className="mailbox-buttons-list">
-                                            {/* {data?.total_Opened_pr < 100 ? (
+                                            {(data?.status == 1) && (data?.email_read != data?.email_sent) ? (
                                                 <button
                                                   className="btn btn-primary btn-bordered send"
                                                   onClick={(e) =>
@@ -1177,7 +1204,7 @@ const WebinarEmail = (props) => {
                                                 </button>
                                               ) : (
                                                 ""
-                                              )} */}
+                                              )}
 
                                             <button
                                               className="btn btn-primary btn-filled edit"
@@ -1319,33 +1346,41 @@ const WebinarEmail = (props) => {
           <Modal.Body onScroll={handleScroll}>
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
+                <div className="mail-box-wrap" id="chart-description">
                 <div className="mail-box-content">
                   <div className="mail-box-heading-block">
                     <div className="mail-box-heading">
                       <h5>{viewEmailData?.subject}</h5>
                       <p>{viewEmailData?.event}</p>
                     </div>
-                    <div className="clear-search">
+                    <div className="clear-search top-right-action">
+                      {
+                        (viewEmailData?.status == 1) && (viewEmailData?.email_read != viewEmailData?.email_sent)
+                        ? 
+                        <div className="mail-view-btn">
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            onClick={(e) => showModal("send", campaignId)}
+                          >
+                            Resend
+                          </button>
+                        </div>
+                        : null
+                      }
                       <button
                         className="btn print"
-                        title="Download data"
+                        title="Print Stats"
                         onClick={handleParent}>
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24px" width="24px"><path d="M42.653,170.667A21.333,21.333,0,0,1,21.32,149.333V85.32a64.073,64.073,0,0,1,64-64h64.014a21.333,21.333,0,1,1,0,42.667H85.32A21.357,21.357,0,0,0,63.986,85.32v64.014A21.333,21.333,0,0,1,42.653,170.667Z" fill="#0066be"></path><path d="M426.68,490.68H362.667a21.333,21.333,0,1,1,0-42.667H426.68a21.357,21.357,0,0,0,21.333-21.333V362.667a21.333,21.333,0,1,1,42.667,0V426.68A64.073,64.073,0,0,1,426.68,490.68Z" fill="#0066be"></path><path d="M448,170.667a21.333,21.333,0,0,1-21.333-21.333V85.32a21.357,21.357,0,0,0-21.333-21.333H341.32a21.333,21.333,0,1,1,0-42.667h64.014a64.073,64.073,0,0,1,64,64v64.014A21.333,21.333,0,0,1,448,170.667Z" fill="#0066be"></path><path d="M149.333,490.68H85.32a64.073,64.073,0,0,1-64-64V362.667a21.333,21.333,0,1,1,42.667,0V426.68A21.357,21.357,0,0,0,85.32,448.014h64.014a21.333,21.333,0,1,1,0,42.667Z" fill="#0066be"></path><path d="M362.68,384.014H149.32a42.716,42.716,0,0,1-42.667-42.667V213.32a42.716,42.716,0,0,1,42.667-42.667h29.5l15.436-30.874a21.334,21.334,0,0,1,19.081-11.793h85.333a21.334,21.334,0,0,1,19.081,11.793l15.436,30.874h29.5a42.716,42.716,0,0,1,42.667,42.667V341.347A42.716,42.716,0,0,1,362.68,384.014ZM149.32,213.32V341.347H362.68V213.32H320a21.334,21.334,0,0,1-19.081-11.793l-15.436-30.874H226.518l-15.436,30.874A21.334,21.334,0,0,1,192,213.32Z" fill="#0066be"></path><path d="M256,330.667a64,64,0,1,1,64-64A64.073,64.073,0,0,1,256,330.667Zm0-85.333a21.333,21.333,0,1,0,21.333,21.333A21.357,21.357,0,0,0,256,245.333Z" fill="#0066BE"></path></svg>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M2 4C2 2.89543 2.89543 2 4 2H7.41667C7.96895 2 8.41667 1.55228 8.41667 1C8.41667 0.447715 7.96895 0 7.41667 0H4C1.79086 0 0 1.79086 0 4V7.41667C0 7.96895 0.447715 8.41667 1 8.41667C1.55228 8.41667 2 7.96895 2 7.41667V4Z" fill="#0066BE"/>
+                        <path d="M16.5833 0C16.031 0 15.5833 0.447715 15.5833 1C15.5833 1.55228 16.031 2 16.5833 2H20C21.1046 2 22 2.89543 22 4V7.41667C22 7.96895 22.4477 8.41667 23 8.41667C23.5523 8.41667 24 7.96895 24 7.41667V4C24 1.79086 22.2091 0 20 0H16.5833Z" fill="#0066BE"/>
+                        <path d="M2 16.5833C2 16.031 1.55228 15.5833 1 15.5833C0.447715 15.5833 0 16.031 0 16.5833V20C0 22.2091 1.79086 24 4 24H8.33333C8.88562 24 9.33333 23.5523 9.33333 23C9.33333 22.4477 8.88562 22 8.33333 22H4C2.89543 22 2 21.1046 2 20V16.5833Z" fill="#0066BE"/>
+                        <path d="M24 16.5833C24 16.031 23.5523 15.5833 23 15.5833C22.4477 15.5833 22 16.031 22 16.5833V20C22 21.1046 21.1046 22 20 22H16.5833C16.031 22 15.5833 22.4477 15.5833 23C15.5833 23.5523 16.031 24 16.5833 24H20C22.2091 24 24 22.2091 24 20V16.5833Z" fill="#0066BE"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12.5004C9 10.8449 10.344 9.5 11.9996 9.5C13.6551 9.5 15 10.8449 15 12.5004C15 14.156 13.6551 15.5 11.9996 15.5C10.344 15.5 9 14.156 9 12.5004ZM13.7991 12.5004C13.7991 11.5073 12.9927 10.7 11.9996 10.7C11.0064 10.7 10.2 11.5073 10.2 12.5004C10.2 13.4936 11.0064 14.3 11.9996 14.3C12.9927 14.3 13.7991 13.4936 13.7991 12.5004Z" fill="#0066BE"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5963 8.3H18.4615C18.8952 8.3 19.3118 8.46771 19.6194 8.7676C19.927 9.06757 20.1 9.47489 20.1 9.9V16.5C20.1 17.3862 19.3642 18.1 18.4615 18.1H5.53846C4.63579 18.1 3.9 17.3862 3.9 16.5V9.9C3.9 9.47489 4.07298 9.06757 4.38065 8.7676C4.68823 8.46771 5.10478 8.3 5.53846 8.3H7.4037C7.47384 8.3 7.53879 8.26556 7.57717 8.2097L8.67004 6.61137C8.97401 6.16652 9.48587 5.9 10.0326 5.9H13.9674C14.5141 5.9 15.026 6.1665 15.33 6.61137L16.4228 8.20961C16.4611 8.26552 16.5261 8.3 16.5963 8.3ZM9.85906 7.3904L8.76624 8.98866C8.46169 9.43342 7.94989 9.7 7.4037 9.7H5.53846C5.48265 9.7 5.42956 9.72164 5.39042 9.7592C5.35199 9.79727 5.33077 9.84786 5.33077 9.9V16.5C5.33077 16.608 5.42144 16.7 5.53846 16.7H18.4615C18.5786 16.7 18.6692 16.608 18.6692 16.5V9.9C18.6692 9.84787 18.648 9.79729 18.6096 9.75923C18.5705 9.72165 18.5174 9.7 18.4615 9.7H16.5963C16.0501 9.7 15.5383 9.43347 15.2338 8.98871L14.1409 7.3904C14.1026 7.33449 14.0376 7.3 13.9674 7.3H10.0326C9.96249 7.3 9.89744 7.33457 9.85906 7.3904Z" fill="#0066BE"/>
+                       </svg>
                       </button>
                     </div>
-                    {/* {
-                      viewEmailData?.status != 5
-                      ? 
-                      <div className="mail-view-btn">
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={(e) => showModal("send", campaignId)}
-                        >
-                          Resend
-                        </button>
-                      </div>
-                      : null
-                    } */}
                   </div>
                   <div className="mailbox-table">
                     <table>
@@ -1393,7 +1428,7 @@ const WebinarEmail = (props) => {
                   </div>
 
                 </div>
-                <div className="chart-description" id="chart-description">
+                <div className="chart-description">
                   <div className="mail-stats webinar-mail-stats">
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
@@ -1520,6 +1555,7 @@ const WebinarEmail = (props) => {
                       options={options}
                     />
                   </div>
+                </div>
                 </div>
                 {viewEmailData?.template ? (<> <div className="preview-mail-box" dangerouslySetInnerHTML={{ __html: viewEmailData?.template, }} ></div> </>) : ""}
               </div>
@@ -1788,30 +1824,77 @@ const WebinarEmail = (props) => {
                             </tr>
                           </>
                         ))}
-
-                        {readerDetailsData?.length >= 50 && functionParameter?.loadAll == 1 && (<div className="load_more">
-                          <button className="btn btn-primary btn-filled" onClick={() => getReaderData(functionParameter?.type, functionParameter?.dynamic_name, functionParameter?.popup_name, 2)}>
-                            Load All
-                          </button>
-                        </div>)}
-
-
-                      </>) : readerDetailsData?.length == 0 ? (
-                        <tr className="table_no_data_found">
-                          <td colspan="6">
-                            <div className="no_found">
-                              <p>No Data Found</p>
-                            </div>
-                          </td>
-                        </tr>
-                      ) : null}
-                  </tbody>
-                </table>
+                     
+                  </>) : readerDetailsData?.length == 0 ? (
+                    <tr className="table_no_data_found">
+                      <td colspan="6">
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : null}
+                   </tbody>
+                  </table>
+                  {  readerDetailsData?.length >= 50 && functionParameter?.loadAll==1 &&    (<div className="text-center load_more">
+                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
+                      Load All
+                    </button>
+                  </div>)}
               </div>
             }
           </Modal.Body>
         </Modal>
       </div>
+
+      <div>
+        <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={hideModal}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path + "alert.png"} alt="" />
+            <h4>
+              This email will be sent to everybody who has not opened the email{" "}
+            </h4>
+
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={resendemail}
+              >
+                Yes Please!
+              </button>
+              {getreference == "resend" ? (
+                <button
+                  type="button"
+                  className="btn btn-primary btn-bordered"
+                  onClick={(e) => showViewEmailModal(campaignId)}
+                >
+                  View Email
+                </button>
+              ) : (
+                ""
+              )}
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={hideModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
+
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
