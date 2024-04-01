@@ -209,6 +209,7 @@ const WebinarEmail = (props) => {
         filterData = response?.response?.data
       }
       setEmailListData(filterData)
+      localStorage.setItem("inviteFlag",response?.response?.invite_flag)
       setTotalEmailListData(response?.response?.data)
       if (Object.keys(filterdata)?.length == 0) {
         getFilterList()
@@ -577,11 +578,41 @@ const WebinarEmail = (props) => {
   const draftEmailCampaign = (draftContent) => {
     setDraftCamapignId(draftContent);
   };
+  // const handleParent = async () => {
+  //   try {
+  //     loader("show");
+  //     const element = document.getElementById("chart-description");
+  //     // add padding to the element
+  //     const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
+  //     let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject).replaceAll(" ","_")
+  //     const link = document.createElement("a");
+  //     // link.download = `${Math.random()}.png`;
+  //     link.download = `${fileName}.png`;
+  //     link.href = dataUrl;
+  //     link.click();
+
+  //   const divElement = document.querySelector('.clear-search.top-right-action');
+  //   divElement.classList.add('hide');
+
+  //   setTimeout(() => {
+  //     divElement.classList.remove('hide');
+  //   }, 2000);
+    
+  //     loader("hide");
+  //   } catch (err) {
+  //     loader("hide");
+  //     console.log(err);
+  //   }
+  // };
+
   const handleParent = async () => {
     try {
+      const buttonsContainer = document.querySelector('.clear-search.top-right-action');
+      buttonsContainer.classList.add('hide');
+  
       loader("show");
       const element = document.getElementById("chart-description");
-      // add padding to the element
+  
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
       let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject).replaceAll(" ","_")
       const link = document.createElement("a");
@@ -589,6 +620,11 @@ const WebinarEmail = (props) => {
       link.download = `${fileName}.png`;
       link.href = dataUrl;
       link.click();
+      
+      setTimeout(() => {
+        buttonsContainer.classList.remove('hide');
+      }, 1000);
+  
       loader("hide");
     } catch (err) {
       loader("hide");

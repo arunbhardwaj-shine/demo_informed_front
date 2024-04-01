@@ -153,7 +153,7 @@ const WebinarSelectHCP = (props) => {
   
     if (selected == 1 || selected == 2) {
       navigate(url, {
-        state: { UserSelected: selected,flag:2 },
+        state: { UserSelected: selected,flag:2 ,thisEventToggled:true},
       });
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
@@ -282,7 +282,7 @@ const WebinarSelectHCP = (props) => {
                         return null
                       } else {
                         return (<>
-                          <li key={option?.id}>
+                          <li key={option?.id} className={(localStorage.getItem("inviteFlag")!=1 && (option.id == 5 || option.id == 6))?"disabled":''}>
                             <div
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                               onClick={(e) => handleInputChange(e, option?.id)}
@@ -305,12 +305,12 @@ const WebinarSelectHCP = (props) => {
                         return null
                       } else {
                         return (<>
-                          <li key={option?.id}>
+                          <li key={option?.id} >
                             <div
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                               onClick={(e) => handleInputChange(e, option?.id)}
                             >
-                              <input type="radio" name="select-option-hcp" value={option?.value} />
+                              <input type="radio" name="select-option-hcp" value={option?.value}  />
                               <img src={option?.imageUrl} alt={option.alt} />
                             </div>
                             <p>{option?.label}</p>
