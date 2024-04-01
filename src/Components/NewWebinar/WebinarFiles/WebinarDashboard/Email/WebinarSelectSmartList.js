@@ -80,6 +80,10 @@ const WebinarSelectSmartList = (props) => {
       ? draft_object?.thisEventToggled
       : ""
   )
+  const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp
+    ?location?.state?.typeOfHcp
+    :props.getWebinarDraftData?.campaign_data?.typeOfHcp
+    )
 
 
   const inputElement = useRef();
@@ -237,7 +241,8 @@ const WebinarSelectSmartList = (props) => {
             : draft_object?.campaign_data?.template_id,
 
         // selectedHcp: selectedHcp,
-        thisEventToggled:isToggled
+        thisEventToggled:isToggled,
+        typeOfHcp:typeOfHcp
       },
       source_code: old_object?.template
         ? old_object?.template
@@ -655,7 +660,7 @@ const WebinarSelectSmartList = (props) => {
                     ) : (
                       <Link
                         to="/webinar/email/selectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected,thisEventToggled:isToggled}}
+                        state={{ smartListSelected: smartListSelected, flag: 1 ,typeOfHcp:typeOfHcp,thisEventToggled:isToggled}}
                       >
                         <button
                           ref={inputElement}
