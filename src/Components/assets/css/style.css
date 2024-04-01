@@ -8881,6 +8881,7 @@ max-width: 100%;
 .auto_mail_trigger_right.webinar-auto-right .mail_trigger_right_dummy {
   border-radius: 20px;
   background: rgba(0, 102, 190, 0.03);
+  padding:16px;
 }
 .mail_trigger_dummy_content h3 {
   font-size: 40px;
