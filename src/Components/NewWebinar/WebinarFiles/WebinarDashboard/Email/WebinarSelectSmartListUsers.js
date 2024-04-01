@@ -941,7 +941,7 @@ const WebinarSelectSmartListUsers = (props) => {
                       <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/webinar/email/selectSmartList">
+                      <Link to={selected==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}>
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
                           : "Select HCPs"}
