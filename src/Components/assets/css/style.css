@@ -8932,7 +8932,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   gap: 16px;
   align-items: center;
 }
-
+.clear-search.top-right-action.hide{
+  display:none;
+}
 .trigger_content h6 {
   font-size: 16px;
   line-height: 19px;
