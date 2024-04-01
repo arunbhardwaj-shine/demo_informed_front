@@ -647,8 +647,8 @@ const WebinarVerifyMAIL = (props) => {
                     <li className="active">
                       <Link 
                       to={typeOfHcp == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}
-                      // state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
-                      state={{...location?.state}}
+                      state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                      // state={{...location?.state}}
                       >
                         {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
@@ -661,16 +661,15 @@ const WebinarVerifyMAIL = (props) => {
                    </li>
                      :  ""
                      */}
-                     {console.log("getSmartListData--->",getSmartListData)}
-                     {console.log("selected--->",typeOfHcp)}
+                 
 
                     {typeof getSmartListData !== "undefined" &&
                       getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
                         <Link 
                         to="/webinar/email/selectSmartListUsers"
-                        // state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
-                        state={{...location?.state}}
+                        state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                        // state={{...location?.state}}
                         >Verify Your List</Link>
                       </li>
                     ) : (

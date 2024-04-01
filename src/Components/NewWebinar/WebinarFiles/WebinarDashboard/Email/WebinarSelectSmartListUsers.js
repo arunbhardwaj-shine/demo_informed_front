@@ -97,6 +97,7 @@ const WebinarSelectSmartListUsers = (props) => {
     location?.state?.thisEventToggled 
     : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
 
+    console.log("smart list users-->",location?.state?.thisEventToggled )
   useEffect(() => {
     let campaign_id =
       typeof old_object === "object" &&
@@ -190,6 +191,7 @@ const WebinarSelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
+    console.log("thisEventToggled-->",thisEventToggled)
     // navigate("/webinar/email/selectsmartlist");
     if(typeOfHcp==1){    
       navigate("/webinar/email/selectSmartList",{state:{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}});
@@ -946,8 +948,8 @@ const WebinarSelectSmartListUsers = (props) => {
                     <li className="active">
                       <Link 
                       to={typeOfHcp==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}
-                      // state={typeOfHcp==1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
-                      state={{...location?.state}}
+                      state={typeOfHcp==1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                      
                       >
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
