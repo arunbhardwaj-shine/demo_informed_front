@@ -1268,7 +1268,7 @@ const WebinarAutoEmail = () => {
                     )}
                     {createNewTemplate?(
                        <button
-                       className="btn btn-primary btn-filled next"
+                        className="btn btn-primary btn-filled next send_btn"
                        onClick={(e) => {
                         createTemplate(e)
                        }}
@@ -1324,6 +1324,7 @@ const WebinarAutoEmail = () => {
                                   :""}
                                 </div>
                                 <div className="trigger_content">
+                                  <div>
                                   <h6>
                                     {template?.subject} 
                                   </h6>
@@ -1331,6 +1332,7 @@ const WebinarAutoEmail = () => {
                                     {template?.description?template?.description:""}
                                     
                                   </p>
+                                  </div>
                                   {/* {indexClicked !== index ? ( */}
                                   {templateId !== template?.id ? (
                                     <button
@@ -1426,7 +1428,7 @@ const WebinarAutoEmail = () => {
                     </div>
                   ) : null}
                   {templateClicked ? (
-                    <div className="email-form">
+                    <div className="email-form mail_trigger_right_dummy">
                       <form>
                         <div className="form-inline row justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-6">
@@ -1475,7 +1477,7 @@ const WebinarAutoEmail = () => {
                           </div>
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
-                          <div className="form-buttons right-side col-12 col-md-5">
+                          <div className="form-buttons right-side col-12 justify-content-between">
                             {/* {templateName == "Welcome mail" ||
                               templateName ==
                               "Reset password" ? null : approveClickedd ==
@@ -1500,8 +1502,18 @@ const WebinarAutoEmail = () => {
                                 
                               </button>
                             )} */}
-
-<button
+                              <div>
+                              <button
+                                className="btn btn-primary btn-bordered btn-voilet"
+                                onClick={(e) => {
+                                  openPreviewThumbPopup(e);
+                                }} style={{margin:"0 0"}}
+                              >
+                                Generate Thumbnail
+                              </button>
+                                    </div>
+                                    <div>
+                                                      <button
                                                         className={
                                                             typeof approveClickedd !== "undefined" &&
                                                             approveClickedd === true
@@ -1524,20 +1536,14 @@ const WebinarAutoEmail = () => {
                                                             alt=""
                                                         />
                                                     </button>
-                                  <button
-                                      className="btn btn-primary btn-filled"
-                                      onClick={(e) => {
-                                        openPreviewThumbPopup(e);
-                                      }}
-                                    >
-                                      Generate Thumbnail
-                                    </button>
+                                 
                             <button
                               onClick={sendSample}
                               className="btn btn-primary btn-bordered btn-large"
                             >
                               Send A Sample
                             </button>
+                            </div>
                           </div>
                         </div>
                         <div className="template_editor">
@@ -1773,7 +1779,7 @@ const WebinarAutoEmail = () => {
                   ) : null}
 
                   {createNewTemplate ? (
-                    <div className="email-form">
+                    <div className="email-form mail_trigger_right_dummy">
                       <form>
                         <div className="form-inline row justify-content-between align-items-center">
                         
@@ -1822,7 +1828,7 @@ const WebinarAutoEmail = () => {
                             ) : null}
                           </div>
                         </div>
-                        <div className="row">
+                        <div className="template_editor">
                           <Editor
                           apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                           onInit={(evt, editor) =>
@@ -1912,9 +1918,6 @@ const WebinarAutoEmail = () => {
                           </div>
                       </form>
                     </div>
-
-
-
                   ) : null}
                 </div>
               </div>

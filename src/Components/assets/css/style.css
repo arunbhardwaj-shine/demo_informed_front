@@ -8827,8 +8827,10 @@ max-width: 100%;
 .trigger_content_box .trigger_content {
   flex: 1 1;
   padding-left: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-
 .trigger_content h6 {
   font-size: 16px;
   line-height: 19px;
@@ -8842,7 +8844,8 @@ max-width: 100%;
   font-size: 16px;
   line-height: 19px;
   color: var(--skyblue);
-  min-height: 41px;
+  margin:0 0 6px;
+  /* min-height: 41px; */
 }
 
 .auto_mail_trigger {
@@ -8881,6 +8884,7 @@ max-width: 100%;
 .auto_mail_trigger_right.webinar-auto-right .mail_trigger_right_dummy {
   border-radius: 20px;
   background: rgba(0, 102, 190, 0.03);
+  padding:16px;
 }
 .mail_trigger_dummy_content h3 {
   font-size: 40px;
