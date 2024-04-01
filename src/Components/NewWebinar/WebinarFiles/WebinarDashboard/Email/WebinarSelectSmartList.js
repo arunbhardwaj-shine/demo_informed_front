@@ -73,7 +73,15 @@ const WebinarSelectSmartList = (props) => {
   const [filter, setFilter] = useState("");
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
-  const [isToggled, setIsToggled] = useState(true); 
+  // const [isToggled, setIsToggled] = useState(true); 
+  const [isToggled,setIsToggled]=useState(location?.state?.thisEventToggled ? 
+    location?.state?.thisEventToggled 
+    : draft_object?.thisEventToggled
+      ? draft_object?.thisEventToggled
+      : ""
+  )
+
+
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -94,6 +102,7 @@ const WebinarSelectSmartList = (props) => {
   ]);
 
   useEffect(() => {
+    
     getSmartListData(1);
   }, []);
 
@@ -225,9 +234,10 @@ const WebinarSelectSmartList = (props) => {
             : 0,
             auto_responder_id: old_object?.templateId
             ? old_object?.templateId
-            : draft_object?.campaign_data?.template_id
+            : draft_object?.campaign_data?.template_id,
 
         // selectedHcp: selectedHcp,
+        thisEventToggled:isToggled
       },
       source_code: old_object?.template
         ? old_object?.template
@@ -579,6 +589,7 @@ const WebinarSelectSmartList = (props) => {
   }
 
   useEffect(() => {
+  
     getSmartListData(1);
   }, [isToggled]);
 
@@ -644,7 +655,7 @@ const WebinarSelectSmartList = (props) => {
                     ) : (
                       <Link
                         to="/webinar/email/selectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected}}
+                        state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected,thisEventToggled:isToggled}}
                       >
                         <button
                           ref={inputElement}
@@ -693,6 +704,7 @@ const WebinarSelectSmartList = (props) => {
                   <div className="hcp-options d-flex align-items-center justify-content-between">
                     <div className="switch6">
                       <label className="switch6-light">
+                       
                         <input type="checkbox"
                           checked={isToggled}
                           onChange={(e) => {

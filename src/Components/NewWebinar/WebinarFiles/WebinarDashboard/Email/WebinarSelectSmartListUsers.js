@@ -93,6 +93,9 @@ const WebinarSelectSmartListUsers = (props) => {
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
+  const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
+    location?.state?.thisEventToggled 
+    : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
 
   useEffect(() => {
     let campaign_id =
@@ -189,7 +192,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
     if(selected==1){    
-      navigate("/webinar/email/selectSmartList");
+      navigate("/webinar/email/selectSmartList",{state:{UserSelected:selected,thisEventToggled:thisEventToggled}});
     
     }else{
       navigate("/webinar/email/selectHCP");
@@ -310,7 +313,8 @@ const WebinarSelectSmartListUsers = (props) => {
                 : props.getWebinarDraftData?.campaign_data?.template_id,
         selected:location?.state?.selected
         ?location?.state?.selected
-        :props.getWebinarDraftData?.campaign_data?.selected
+        :props.getWebinarDraftData?.campaign_data?.selected,
+        thisEventToggled:thisEventToggled
       },
       auto_responder_id: props.old_object?.templateId
       ? props.old_object?.templateId
@@ -355,7 +359,8 @@ const WebinarSelectSmartListUsers = (props) => {
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
-        selected:selected
+        selected:selected,
+        thisEventToggled:thisEventToggled
       },
     });
   };
@@ -941,7 +946,10 @@ const WebinarSelectSmartListUsers = (props) => {
                       <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to={selected==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}>
+                      <Link 
+                      to={selected==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}
+                      state={selected==1?{UserSelected:selected,thisEventToggled:thisEventToggled}:null}
+                      >
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
                           : "Select HCPs"}
