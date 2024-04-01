@@ -1122,14 +1122,14 @@ const WebinarEmail = (props) => {
                                     <div className="mailbox-buttons">
                                       {!deletestatus && (
                                         <>
-                                          {/* <div className="send_new">
+                                          <div className="send_new">
                                               <button
                                                 className="btn btn-primary btn-bordered send-new"
                                                 onClick={() =>
                                                   draftNavigate(
                                                     data.id,
                                                     data.pdf_id,
-                                                    "SelectHCP",
+                                                    "webinar/email/selectHCP",
                                                     data.campaign,
                                                     data.creator,
                                                     data.discription,
@@ -1140,10 +1140,10 @@ const WebinarEmail = (props) => {
                                               >
                                                 Send New
                                               </button>
-                                            </div> */}
+                                            </div>
 
                                           <div className="mailbox-buttons-list">
-                                            {/* {data?.total_Opened_pr < 100 ? (
+                                            {(data?.status == 1) && (data?.email_read != data?.email_sent) ? (
                                                 <button
                                                   className="btn btn-primary btn-bordered send"
                                                   onClick={(e) =>
@@ -1154,7 +1154,7 @@ const WebinarEmail = (props) => {
                                                 </button>
                                               ) : (
                                                 ""
-                                              )} */}
+                                              )}
 
                                             <button
                                               className="btn btn-primary btn-filled edit"
@@ -1303,6 +1303,19 @@ const WebinarEmail = (props) => {
                       <p>{viewEmailData?.event}</p>
                     </div>
                     <div className="clear-search">
+                      {
+                        (viewEmailData?.status == 1) && (viewEmailData?.email_read != viewEmailData?.email_sent)
+                        ? 
+                        <div className="mail-view-btn">
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            onClick={(e) => showModal("send", campaignId)}
+                          >
+                            Resend
+                          </button>
+                        </div>
+                        : null
+                      }
                       <button
                         className="btn print"
                         title="Download data"
@@ -1310,19 +1323,6 @@ const WebinarEmail = (props) => {
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24px" width="24px"><path d="M42.653,170.667A21.333,21.333,0,0,1,21.32,149.333V85.32a64.073,64.073,0,0,1,64-64h64.014a21.333,21.333,0,1,1,0,42.667H85.32A21.357,21.357,0,0,0,63.986,85.32v64.014A21.333,21.333,0,0,1,42.653,170.667Z" fill="#0066be"></path><path d="M426.68,490.68H362.667a21.333,21.333,0,1,1,0-42.667H426.68a21.357,21.357,0,0,0,21.333-21.333V362.667a21.333,21.333,0,1,1,42.667,0V426.68A64.073,64.073,0,0,1,426.68,490.68Z" fill="#0066be"></path><path d="M448,170.667a21.333,21.333,0,0,1-21.333-21.333V85.32a21.357,21.357,0,0,0-21.333-21.333H341.32a21.333,21.333,0,1,1,0-42.667h64.014a64.073,64.073,0,0,1,64,64v64.014A21.333,21.333,0,0,1,448,170.667Z" fill="#0066be"></path><path d="M149.333,490.68H85.32a64.073,64.073,0,0,1-64-64V362.667a21.333,21.333,0,1,1,42.667,0V426.68A21.357,21.357,0,0,0,85.32,448.014h64.014a21.333,21.333,0,1,1,0,42.667Z" fill="#0066be"></path><path d="M362.68,384.014H149.32a42.716,42.716,0,0,1-42.667-42.667V213.32a42.716,42.716,0,0,1,42.667-42.667h29.5l15.436-30.874a21.334,21.334,0,0,1,19.081-11.793h85.333a21.334,21.334,0,0,1,19.081,11.793l15.436,30.874h29.5a42.716,42.716,0,0,1,42.667,42.667V341.347A42.716,42.716,0,0,1,362.68,384.014ZM149.32,213.32V341.347H362.68V213.32H320a21.334,21.334,0,0,1-19.081-11.793l-15.436-30.874H226.518l-15.436,30.874A21.334,21.334,0,0,1,192,213.32Z" fill="#0066be"></path><path d="M256,330.667a64,64,0,1,1,64-64A64.073,64.073,0,0,1,256,330.667Zm0-85.333a21.333,21.333,0,1,0,21.333,21.333A21.357,21.357,0,0,0,256,245.333Z" fill="#0066BE"></path></svg>
                       </button>
                     </div>
-                    {/* {
-                      viewEmailData?.status != 5
-                      ? 
-                      <div className="mail-view-btn">
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={(e) => showModal("send", campaignId)}
-                        >
-                          Resend
-                        </button>
-                      </div>
-                      : null
-                    } */}
                   </div>
                   <div className="mailbox-table">
                     <table>
