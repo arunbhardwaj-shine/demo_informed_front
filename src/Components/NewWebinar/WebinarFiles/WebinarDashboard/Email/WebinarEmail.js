@@ -1108,7 +1108,7 @@ const WebinarEmail = (props) => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
+                                      {(data?.labels_value[Object.keys(data?.labels_value)[0]] > 0 && data?.email_read >0)
                                         ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_read) * 100)?.toFixed(2) + "%"
                                         : 0}{" "}
                                     </span>

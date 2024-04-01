@@ -1381,7 +1381,7 @@ const WebinarAutoEmail = () => {
                                   {template?.approved==1?
                                   <img
                                   src={path_image+"approved-btn.svg"}
-                                  alt="Preview"
+                                  alt="Preview" className="approved_img"
                                 />
                                   :""}
                                 </div>
