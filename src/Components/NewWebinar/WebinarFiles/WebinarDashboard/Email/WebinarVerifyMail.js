@@ -51,9 +51,7 @@ const WebinarVerifyMAIL = (props) => {
       : props.getWebinarDraftData?.source_code
   );
   const [selected, setSelected] = useState(location?.state?.selected ?
-    location?.state?.selected:
-    props.getWebinarEmailData?.selected
-      ? props.getWebinarEmailData?.selected
+    location?.state?.selected
     : props.getWebinarDraftData?.campaign_data?.selected)
 
   var var_template_source_code = template_source_code?.replaceAll("800", "450");
@@ -85,9 +83,7 @@ const WebinarVerifyMAIL = (props) => {
         : 0
   );
   const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
-    location?.state?.thisEventToggled :
-    props.getWebinarEmailData?.thisEventToggled
-    ? props.getWebinarEmailData?.thisEventToggled
+    location?.state?.thisEventToggled 
     : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
  console.log("location Verify Mail--->",location?.state)
 
