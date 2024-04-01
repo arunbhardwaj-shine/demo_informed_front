@@ -161,6 +161,29 @@ const WebinarEmail = (props) => {
     getWebinarCompaignList()
   }, [])
 
+  useEffect(() => {
+    props.getWebinarEmailData(null);
+    props.getWebinarDraftData(null);
+    props.getWebinarSelectedSmartListData(null);
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   const getWebinarCompaignList = async (filter = "") => {
     try {
       loader("show")
