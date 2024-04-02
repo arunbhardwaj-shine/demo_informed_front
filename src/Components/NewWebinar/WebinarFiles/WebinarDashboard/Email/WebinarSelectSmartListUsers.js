@@ -161,9 +161,10 @@ const WebinarSelectSmartListUsers = (props) => {
             if (old_object?.removedHcp?.length > 0) {
               var removedUsers = old_object?.removedHcp;
               var allUsers = res?.data?.response.data;
+              let count=0
               var pendingUsers = allUsers?.filter(function (objFromA) {
                 return !removedUsers?.find(function (objFromB) {
-                  return objFromA?.profile_id === objFromB?.profile_id;
+                  return objFromA?.profile_user_id === objFromB?.profile_user_id;
                 });
               });
 
@@ -185,7 +186,7 @@ const WebinarSelectSmartListUsers = (props) => {
               var allUsers = res?.data?.response?.data;
               var pendingUsers = allUsers?.filter(function (objFromA) {
                 return !removedUsers?.find(function (objFromB) {
-                  return objFromA?.profile_id === objFromB?.profile_id;
+                  return objFromA?.profile_user_id === objFromB?.profile_user_id;
                 });
               });
 
