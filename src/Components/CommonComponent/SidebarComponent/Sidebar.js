@@ -206,13 +206,13 @@ const Sidebar = () => {
     if (localStorage.getItem("webinar_sd_i")) {
      
       webinar_c_id = localStorage.getItem("webinar_sd_i");
-      console.log("hello i am here---->",webinar_c_id)
+      
     } 
   } else if(location.pathname == "/webinar/email/smartlist/uploadsmartlist"){
     if (localStorage.getItem("webinar_sd_i")) {
      
       webinar_c_id = localStorage.getItem("webinar_sd_i");
-      console.log("hello i am here---->",webinar_c_id)
+      
     } 
   }
   else if (location.pathname == "webinar/email/smartlist") {
@@ -321,7 +321,7 @@ const Sidebar = () => {
                 <button className="toggle_btn" onClick={() => {
                   eventList();
                 }}>
-                  <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+                  <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                 </button>
                 {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
                 <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
@@ -1315,7 +1315,7 @@ const Sidebar = () => {
                           <button className="toggle_btn" onClick={() => {
                             eventList();
                           }}>
-                            <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+                            <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                           </button>
                           {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
                           <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
@@ -1444,7 +1444,7 @@ const Sidebar = () => {
                           <button className="toggle_btn" onClick={() => {
                             eventList();
                           }}>
-                            <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+                            <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                           </button>
                           {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
                           <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>

@@ -689,7 +689,7 @@ const EmailList = (props) => {
     setFunctionParameter({
       type , name , color_code , dynamic_name,page
     })
-    console.log(functionParameter?.page)
+    // console.log(functionParameter?.page)
     // if(type == "ctr"){
     //   setDetailPopupName(name);
     // }else{
@@ -2533,12 +2533,6 @@ const EmailList = (props) => {
                      
                           </>
                         ))}
-                        {readerDetailsData.length >50 && functionParameter?.page==1 &&  
-                          (<div className="load_more">
-                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,2)}>
-                          Load All
-                        </button>
-                      </div>)}
                         </>
                       ) : readerDetailsData.length == 0 ? (
                         <tr className="table_no_data_found">
@@ -2551,6 +2545,12 @@ const EmailList = (props) => {
                       ) : null}
                     </tbody>
                   </table>
+                  {readerDetailsData.length >=50 && functionParameter?.page==1 &&  
+                          (<div className="text-center load_more">
+                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,2)}>
+                          Load All
+                        </button>
+                      </div>)}
                 </div>
               }
             </Modal.Body>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getWebinarEmailData } from "../../../../../actions";
 import { connect, connectAdvanced } from "react-redux";
 import axios from "axios";
-import { Link ,useNavigate,useLocation} from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 
 import { compose } from "redux";
@@ -50,9 +50,9 @@ const WebinarVerifyMAIL = (props) => {
       ? props.getWebinarEmailData?.template
       : props.getWebinarDraftData?.source_code
   );
-  const [selected,setSelected]=useState(location?.state?.selected ? 
-    location?.state?.selected 
-    : props.getWebinarDraftData?.campaign_data?.selected)
+  const [typeOfHcp, setTypeOfHcp] = useState(location?.state?.typeOfHcp ?
+    location?.state?.typeOfHcp
+    : props.getWebinarDraftData?.campaign_data?.typeOfHcp)
 
   var var_template_source_code = template_source_code?.replaceAll("800", "450");
   var_template_source_code = var_template_source_code?.replaceAll("600", "450");
@@ -78,12 +78,18 @@ const WebinarVerifyMAIL = (props) => {
   const [getArticleType, setArticleType] = useState(
     props.getWebinarEmailData?.status
       ? props.getWebinarEmailData?.status
-      : props.getWebinarDraftData?.status && props?.getWebinarDraftData?.status != ""
+      : props.getWebinarDraftData?.status && props.getWebinarDraftData?.status != ""
         ? props.getWebinarDraftData?.status
         : 0
   );
+  const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
+    location?.state?.thisEventToggled 
+    : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
+ console.log("location Verify Mail--->",location?.state)
 
   useEffect(() => {
+    console.log("location?.state?.typeOfHcp-->",location?.state?.typeOfHcp)
+    console.log("typeOfHcp-->",typeOfHcp)
     let campaign_id =
       typeof props.getWebinarEmailData === "object" &&
         props.getWebinarEmailData !== null &&
@@ -181,8 +187,8 @@ const WebinarVerifyMAIL = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       pdf_id: 0,
-    event_id:eventId,
-    description: props.getWebinarEmailData?.emailDescription
+      event_id: eventId,
+      description: props.getWebinarEmailData?.emailDescription
         ? props.getWebinarEmailData?.emailDescription
         : props.getWebinarDraftData?.description
           ? props.getWebinarDraftData?.description
@@ -192,7 +198,7 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.creator
           ? props.getWebinarDraftData?.creator
           : "",
-          campaign_name: "webinar",
+      campaign_name: "webinar",
 
       subject: props.getWebinarEmailData?.emailSubject
         ? props.getWebinarEmailData?.emailSubject
@@ -214,10 +220,13 @@ const WebinarVerifyMAIL = (props) => {
         list_selection: props.getWebinarEmailData?.selected
           ? props.getWebinarEmailData?.selected
           : props.getWebinarDraftData?.campaign_data?.list_selection,
+        auto_responder_id: props.getWebinarEmailData?.templateId
+          ? props.getWebinarEmailData?.templateId
+          : props.getWebinarDraftData?.campaign_data?.template_id,
+
         removedHcp: getRemovedHcp,
-        selected:location?.state?.selected
-        ?location?.state?.selected
-        :props.getWebinarDraftData?.campaign_data?.selected
+        typeOfHcp: typeOfHcp,
+          thisEventToggled:thisEventToggled
       },
       campaign_id: campaign_id_st,
       source_code: props.getWebinarEmailData?.template
@@ -225,11 +234,11 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.source_code,
       status: 2,
       auto_responder_id: props.getWebinarEmailData?.templateId
-      ? props.getWebinarEmailData?.templateId
-      : props.getWebinarDraftData?.campaign_data?.template_id,
+        ? props.getWebinarEmailData?.templateId
+        : props.getWebinarDraftData?.campaign_data?.template_id,
 
     };
-    // console.log(body);
+   
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -305,11 +314,11 @@ const WebinarVerifyMAIL = (props) => {
       const body = {
         user_id: localStorage.getItem("user_id"),
         route_location: "webinar/email/verifyMAIL",
-        pdf_id:0,
+        pdf_id: 0,
         // pdf_id: props.getWebinarEmailData?.PdfSelected
         //   ? props.getEmailData.PdfSelected
         //   : props.getDraftData.pdf_id,
-        event_id:eventId,
+        event_id: eventId,
         subject: props.getWebinarEmailData?.emailSubject
           ? props.getWebinarEmailData?.emailSubject
           : props.getWebinarDraftData?.subject,
@@ -323,7 +332,7 @@ const WebinarVerifyMAIL = (props) => {
           : props.getWebinarDraftData?.creator
             ? props.getWebinarDraftData?.creator
             : "",
-            campaign_name:"webinar",
+        campaign_name: "webinar",
         // campaign_name: props.getWebinarEmailData?.emailCampaign
         //   ? props.getWebinarEmailData?.emailCampaign
         //   : props.getWebinarDraftData?.campaign,
@@ -347,14 +356,16 @@ const WebinarVerifyMAIL = (props) => {
             : props.getWebinarDraftData?.campaign_data.list_selection,
           auto_responder_id: props.getWebinarEmailData?.templateId
             ? props.getWebinarEmailData?.templateId
-            : props.getWebinarDraftData?.campaign_data?.template_id, 
+            : props.getWebinarDraftData?.campaign_data?.template_id,
+            typeOfHcp:typeOfHcp,
+            thisEventToggled:thisEventToggled
         },
         auto_responder_id: props.getWebinarEmailData?.templateId
-        ? props.getWebinarEmailData?.templateId
-        : props.getWebinarDraftData?.campaign_data?.template_id, 
+          ? props.getWebinarEmailData?.templateId
+          : props.getWebinarDraftData?.campaign_data?.template_id,
       };
 
-     
+
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
@@ -467,7 +478,7 @@ const WebinarVerifyMAIL = (props) => {
     ) {
       navigate("/webinar/email/selectSmartListUsers", {
         state: {
-          ...location?.state
+          ...location?.state,
         },
       });
     } else {
@@ -519,12 +530,12 @@ const WebinarVerifyMAIL = (props) => {
     e.preventDefault();
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id:0,
-    //   pdf_id: props.getWebinarEmailData?.PdfSelected
-    //     ? props.getEmailData.PdfSelected
-    //     : props.getDraftData.pdf_id,
-    event_id:eventId,
-    description: props.getWebinarEmailData?.emailDescription
+      pdf_id: 0,
+      //   pdf_id: props.getWebinarEmailData?.PdfSelected
+      //     ? props.getEmailData.PdfSelected
+      //     : props.getDraftData.pdf_id,
+      event_id: eventId,
+      description: props.getWebinarEmailData?.emailDescription
         ? props.getWebinarEmailData?.emailDescription
         : props.getWebinarDraftData?.description
           ? props.getWebinarDraftData?.description
@@ -534,7 +545,7 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.creator
           ? props.getWebinarDraftData?.creator
           : "",
-          campaign_name:"webinar",
+      campaign_name: "webinar",
       // campaign_name: props.getWebinarEmailData?.emailCampaign
       //   ? props.getWebinarEmailData?.emailCampaign
       //   : props.getWebinarDraftData?.campaign,
@@ -558,7 +569,12 @@ const WebinarVerifyMAIL = (props) => {
         list_selection: props.getWebinarEmailData?.selected
           ? props.getWebinarEmailData?.selected
           : props.getWebinarDraftData?.campaign_data?.list_selection,
-        removedHcp: getRemovedHcp
+        auto_responder_id: props.getWebinarEmailData?.templateId
+          ? props.getWebinarEmailData?.templateId
+          : props.getWebinarDraftData?.campaign_data?.template_id,
+        removedHcp: getRemovedHcp,
+        typeOfHcp: typeOfHcp,
+          thisEventToggled:thisEventToggled
       },
       campaign_id: campaign_id_st,
       source_code: props.getWebinarEmailData?.template
@@ -566,9 +582,9 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.source_code,
       status: status,
       approved_page: 1,
-      auto_responder_id:props.getWebinarEmailData?.templateId
-      ? props.getWebinarEmailData?.templateId
-      : props.getWebinarDraftData?.campaign_data?.template_id,
+      auto_responder_id: props.getWebinarEmailData?.templateId
+        ? props.getWebinarEmailData?.templateId
+        : props.getWebinarDraftData?.campaign_data?.template_id,
 
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -599,11 +615,11 @@ const WebinarVerifyMAIL = (props) => {
     newWindow = window.open("/article_preview");
     newWindow.data = data;
   };
-  const viewSmartListData = async(id) => {
+  const viewSmartListData = async (id) => {
     setAddListOpen(false);
     setSelectedListId(id);
   }
-  const closeSmartListPopup = async() => {
+  const closeSmartListPopup = async () => {
     setSelectedListId(0);
     setAddListOpen(true);
   }
@@ -626,12 +642,17 @@ const WebinarVerifyMAIL = (props) => {
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                   
+
                     <li className="active">
                       <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/webinar/email/selectSmartList">{localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
+                      <Link 
+                      to={typeOfHcp == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}
+                      state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                      // state={{...location?.state}}
+                      >
+                        {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                     {/*
@@ -642,15 +663,21 @@ const WebinarVerifyMAIL = (props) => {
                    </li>
                      :  ""
                      */}
+                 
 
                     {typeof getSmartListData !== "undefined" &&
                       getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
-                        <Link to="/webinar/email/selectSmartListUsers">Verify Your List</Link>
+                        <Link 
+                        to="/webinar/email/selectSmartListUsers"
+                        // state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                        state={{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}}
+                        // state={{...location?.state}}
+                        >Verify Your List</Link>
                       </li>
                     ) : (
                       <li className="active">
-                        <Link to="/webinar/email/verifyHCP">Select Verify Your HCPs</Link>
+                        <Link to="/webinar/email/verifyHCP" >Select Verify Your HCPs</Link>
                       </li>
                     )}
 
@@ -739,6 +766,7 @@ const WebinarVerifyMAIL = (props) => {
                         </h6>
                       </div>
                       <div className="form-buttons right-side">
+                       
                         <button
                           className={
                             typeof getArticleType !== "undefined" &&
@@ -937,12 +965,14 @@ const WebinarVerifyMAIL = (props) => {
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                          {(getSmartListData?.length !== 0 && selected==1)&&(
-                            <div className="smartlist-view email_box_outer">
+                          {(getSmartListData?.length !== 0 && typeOfHcp==1)&&(
+                            <div className="smartlist-view email_box_outer new-smartlist">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
-                                  <h5>{getSmartListData?.name}</h5>
-                                  <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
+                                  <div className="mail-box-conten-title">
+                                     <h5>{getSmartListData?.name}</h5>
+                                  </div>
+                                  <SmartListLayout data={getSmartListData} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} webinarFlag={1} />
                                   {/* <div className="mailbox-table">
                                     <table>
                                       <tbody>
@@ -1001,7 +1031,7 @@ const WebinarVerifyMAIL = (props) => {
                                   
                                     {selectedHcp?.length}
                                   </div> */}
-                                  
+
                                   {/* <div className="smartlist-buttons">
                                     <button
                                       className="btn btn-primary btn-bordered view"
@@ -1056,14 +1086,14 @@ const WebinarVerifyMAIL = (props) => {
         centered
       >
         <div
-          
+
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
-         
+
           aria-hidden="true"
         >
-          
+
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               Email Sent
@@ -1075,13 +1105,13 @@ const WebinarVerifyMAIL = (props) => {
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={closeButtonClicked}
-           
+
             >
               Close
             </button>
           </div>
         </div>
-      
+
       </Modal>
 
       {/* Reader Details popup */}
@@ -1260,8 +1290,8 @@ const WebinarVerifyMAIL = (props) => {
       </Modal>
       {
         selectedListId ?
-         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
-         : null
+          <SmartListTableLayout id={selectedListId} closeSmartListPopup={closeSmartListPopup} />
+          : null
       }
     </>
   );

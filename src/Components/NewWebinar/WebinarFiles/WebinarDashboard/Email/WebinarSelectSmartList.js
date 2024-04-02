@@ -73,7 +73,24 @@ const WebinarSelectSmartList = (props) => {
   const [filter, setFilter] = useState("");
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
-  const [isToggled, setIsToggled] = useState(true); 
+  // const [isToggled, setIsToggled] = useState(true); 
+  const [isToggled,setIsToggled]=useState(location?.state?.thisEventToggled!=null&&
+    location?.state?.thisEventToggled!="undefined"&&location?.state?.thisEventToggled
+     ? 
+    location?.state?.thisEventToggled 
+    : draft_object?.thisEventToggled
+      ? draft_object?.thisEventToggled
+      : ""
+  )
+
+  console.log("isToggled-->",isToggled)
+  const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
+    location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
+    ?location?.state?.typeOfHcp
+    :props.getWebinarDraftData?.campaign_data?.typeOfHcp
+    )
+
+    console.log("typeOfHcp-->",typeOfHcp)
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -94,6 +111,7 @@ const WebinarSelectSmartList = (props) => {
   ]);
 
   useEffect(() => {
+    
     getSmartListData(1);
   }, []);
 
@@ -104,7 +122,7 @@ const WebinarSelectSmartList = (props) => {
       search: "",
       filter: filter,
       paging: "32",
-      event_id: isToggled ? eventId : '',
+      event_id: isToggled==1 ? eventId : '',
     };
     loader("show");
     axios
@@ -150,7 +168,13 @@ const WebinarSelectSmartList = (props) => {
 
   const handleSelect = (e) => {
     // setCheckPdfSelected(false)
-    checkPdfSelected.current=!checkPdfSelected.current
+    if(PdfSelected==e?.id){
+      checkPdfSelected.current=!checkPdfSelected.current
+    }else{
+      checkPdfSelected.current=false
+    }
+    
+    
     if (new_object?.id) {
       if (e.id != new_object?.id) {
         if (old_object?.removedHcp) {
@@ -219,9 +243,11 @@ const WebinarSelectSmartList = (props) => {
             : 0,
             auto_responder_id: old_object?.templateId
             ? old_object?.templateId
-            : draft_object?.campaign_data?.template_id
+            : draft_object?.campaign_data?.template_id,
 
         // selectedHcp: selectedHcp,
+        thisEventToggled:isToggled,
+        typeOfHcp:typeOfHcp
       },
       source_code: old_object?.template
         ? old_object?.template
@@ -569,10 +595,16 @@ const WebinarSelectSmartList = (props) => {
   }
 
   const handleToggle = async(e) => {
-    setIsToggled(!isToggled);
+    if(isToggled==1){
+      setIsToggled(2);
+    }else{
+      setIsToggled(1);
+    }
+    
   }
 
   useEffect(() => {
+  
     getSmartListData(1);
   }, [isToggled]);
 
@@ -638,7 +670,7 @@ const WebinarSelectSmartList = (props) => {
                     ) : (
                       <Link
                         to="/webinar/email/selectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected}}
+                        state={{ smartListSelected: smartListSelected, flag: 1 ,typeOfHcp:typeOfHcp,thisEventToggled:isToggled}}
                       >
                         <button
                           ref={inputElement}
@@ -687,8 +719,9 @@ const WebinarSelectSmartList = (props) => {
                   <div className="hcp-options d-flex align-items-center justify-content-between">
                     <div className="switch6">
                       <label className="switch6-light">
+                       
                         <input type="checkbox"
-                          checked={isToggled}
+                          checked={isToggled==1?true:false}
                           onChange={(e) => {
                             handleToggle(e.target?.checked);
                           }}
