@@ -64,7 +64,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const [sortingCount, setSortingCount] = useState(0);
   const [sortBy, setSortBy] = useState("first_name"); // Initial sort key
   const [sortOrder, setSortOrder] = useState("asc");
-
+  // console.log(location?.state,"location?.state smart list users",props.getWebinarDraftData)
   const [typeOfHcp, setTypeOfHcp] = useState(
     location?.state?.typeOfHcp
       ? location?.state?.typeOfHcp
@@ -117,8 +117,10 @@ const WebinarSelectSmartListUsers = (props) => {
         ? props.getWebinarDraftData?.campaign_id
         : "";
     setCampaign_id(campaign_id);
-
+    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
+    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
     // removedHcp
+    // console.log("test",props?.getWebinarDraftData)
     if (old_object?.removedHcp) {
       if (old_object?.removedHcp?.length > 0) {
         setRemovedReaders(old_object?.removedHcp);
@@ -126,16 +128,38 @@ const WebinarSelectSmartListUsers = (props) => {
     } else {
       if (
         props?.getWebinarDraftData &&
-        props.getWebinarDraftData?.campaign_data?.removedHcp
+        props.getWebinarDraftData?.campaign_data?.removedHcp 
       ) {
         if (
           typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
             "undefined" &&
-          props.getWebinarDraftData?.campaign_data?.removedHcp != "" &&
-          location?.state?.flag != 1
+          props.getWebinarDraftData?.campaign_data?.removedHcp != "" /*&&
+          location?.state?.flag != 1*/
         ) {
           setRemovedReaders(
             props.getWebinarDraftData?.campaign_data?.removedHcp
+          );
+        }
+      }
+    }
+
+    if (old_object?.addedHcp) {
+      if (old_object?.addedHcp?.length > 0) {
+        setReadersNewlyAdded(old_object?.addedHcp);
+      }
+    } else {
+      if (
+        props?.getWebinarDraftData &&
+        props.getWebinarDraftData?.campaign_data?.addedHcp
+      ) {
+        if (
+          typeof props.getWebinarDraftData?.campaign_data?.addedHcp !=
+            "undefined" &&
+          props.getWebinarDraftData?.campaign_data?.addedHcp != "" /*&&
+          location?.state?.flag != 1*/
+        ) {
+          setReadersNewlyAdded(
+            props.getWebinarDraftData?.campaign_data?.addedHcp
           );
         }
       }
@@ -166,9 +190,10 @@ const WebinarSelectSmartListUsers = (props) => {
                   return objFromA?.profile_id === objFromB?.profile_id;
                 });
               });
-
+              
               setReaders(pendingUsers);
             } else {
+              
               setReaders(res?.data?.response?.data);
             }
           } else if (
@@ -188,7 +213,6 @@ const WebinarSelectSmartListUsers = (props) => {
                   return objFromA?.profile_id === objFromB?.profile_id;
                 });
               });
-
               setReaders(pendingUsers);
             } else {
               setReaders(res?.data?.response?.data);
@@ -207,6 +231,14 @@ const WebinarSelectSmartListUsers = (props) => {
       setReaders(props.getWebinarDraftData?.campaign_data?.selectedHcp);
     }
   }, []);
+
+  useEffect(() => {
+    if (props.getWebinarDraftData?.campaign_data) {
+      if (props.getWebinarDraftData?.campaign_data?.addedHcp) {
+        props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
+      }
+    }
+  },[readersNewlyAdded]);
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
@@ -329,6 +361,7 @@ const WebinarSelectSmartListUsers = (props) => {
           ? props.getWebinarDraftData?.campaign_data?.list_selection
           : 0,
         removedHcp: removedReaders,
+        addedHcp: readersNewlyAdded,
         auto_responder_id: props.old_object?.templateId
           ? props.old_object?.templateId
           : props.getWebinarDraftData?.campaign_data?.template_id,
@@ -373,11 +406,12 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const nextClicked = () => {
     navigate("/webinar/email/verifyMAIL", {
-      // data: data,
+      // data: data
       // smartListName: smartListName,
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
+        addedHcp: readersNewlyAdded,
         typeOfHcp: typeOfHcp,
         thisEventToggled: thisEventToggled,
       },
@@ -709,7 +743,6 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
-
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -744,93 +777,146 @@ const WebinarSelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data?.map((data, index) => {
+      // const status = body.data?.map((data, index) => {
+      //   if (
+      //     data.email == "" ||
+      //     data?.institution_type == "" ||
+      //     data.first_name == "" ||
+      //     data.last_name == "" ||
+      //     data.country == ""
+      //   ) {
+      //     if (
+      //       data.first_name == "" &&
+      //       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      //     ) {
+      //       setValidationError({
+      //         newHcpFirstName: "Please enter the first name",
+      //         index: index,
+      //       });
+      //       return;
+      //     }
+      //     if (
+      //       data.last_name == "" &&
+      //       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      //     ) {
+      //       setValidationError({
+      //         newHcpLastName: "Please enter the last name",
+      //         index: index,
+      //       });
+      //       return;
+      //     }
+      //     if (data.email == "") {
+      //       setValidationError({
+      //         newHcpEmail: "Please enter the email atleast",
+      //         index: index,
+      //       });
+
+      //       return;
+      //     }
+
+      //     if (
+      //       data.institution_type == "" &&
+      //       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      //     ) {
+      //       setValidationError({
+      //         newHcpInstitution: "Please enter the institution ",
+      //         index: index,
+      //       });
+      //       return;
+      //     }
+
+      //     if (
+      //       data.country == "" &&
+      //       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      //     ) {
+      //       setValidationError({
+      //         newHcpCountry: "Please select the country",
+      //         index: index,
+      //       });
+      //       return;
+      //     }
+      //     return "true";
+      //   } else if (data.email != "") {
+      //     console.log("email",data.email)
+      //     let email = data.email;
+      //     let useremail = email.trim();
+      //     var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      //     if (regex.test(String(useremail).toLowerCase())) {
+      //       console.log("NEW USER ADDED",readers,readersNewlyAdded)
+      //       let prev_obj = readers.find((x) => x.email === useremail);
+      //       let prev_obj_new = readersNewlyAdded.find(
+      //         (x) => x.email === useremail
+      //       );
+
+      //       if (
+      //         typeof prev_obj != "undefined" ||
+      //         typeof prev_obj_new != "undefined"
+      //       ) {
+      //         setValidationError({
+      //           newHcpEmail: "User with same email already added in list.",
+      //           index: index,
+      //         });
+      //         return;
+      //       }
+      //     } else {
+      //       setValidationError({
+      //         newHcpEmail: "Email format is not valid",
+      //         index: index,
+      //       });
+      //       return;
+      //     }
+      //     return "true";
+      //   } else {
+      //     return "true";
+      //   }
+      // });
+
+      const status = body.data.map((data) => {
         if (
-          data.email == "" ||
-          data?.institution_type == "" ||
-          data.first_name == "" ||
-          data.last_name == "" ||
-          data.country == ""
+          data.first_name == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ) {
-          if (
-            data.first_name == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ) {
-            setValidationError({
-              newHcpFirstName: "Please enter the first name",
-              index: index,
-            });
-            return;
-          }
-          if (
-            data.last_name == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ) {
-            setValidationError({
-              newHcpLastName: "Please enter the last name",
-              index: index,
-            });
-            return;
-          }
-          if (data.email == "") {
-            setValidationError({
-              newHcpEmail: "Please enter the email atleast",
-              index: index,
-            });
-
-            return;
-          }
-
-          if (
-            data.institution_type == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ) {
-            setValidationError({
-              newHcpInstitution: "Please enter the institution ",
-              index: index,
-            });
-            return;
-          }
-
-          if (
-            data.country == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ) {
-            setValidationError({
-              newHcpCountry: "Please select the country",
-              index: index,
-            });
-            return;
-          }
-          return "true";
+          return "Please enter the First name";
+        } else if (
+          data.last_name == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
+          return "Please enter the Last name";
+        } else if (data.email == "") {
+          // setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          return "Please enter the email atleast";
+        } else if (
+          data.institution_type == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
+          return "Please select Institution";
+        } else if (
+          data.country == "" &&
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
+            localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==")
+        ) {
+          return "Please select country";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
+          // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = readers.find((x) => x.email === useremail);
-            let prev_obj_new = readersNewlyAdded.find(
-              (x) => x.email === useremail
-            );
-
-            if (
-              typeof prev_obj != "undefined" ||
-              typeof prev_obj_new != "undefined"
-            ) {
-              setValidationError({
-                newHcpEmail: "User with same email already added in list.",
-                index: index,
-              });
-              return;
+            let prev_obj_new = readersNewlyAdded.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined" || typeof prev_obj_new != "undefined") {
+              // setValidationError({
+              //   newHcpEmail: "User with same email already added in list.",
+              // });
+              return "User with same email already added in list.";
+            } else {
+              return "true";
             }
           } else {
-            setValidationError({
-              newHcpEmail: "Email format is not valid",
-              index: index,
-            });
-            return;
+            // setValidationError({ newHcpEmail: "Email format is not valid" });
+            return "Email format is not valid";
           }
-          return "true";
         } else {
           return "true";
         }
@@ -863,7 +949,8 @@ const WebinarSelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        const filteredArray = status?.filter((value) => value !== "true");
+        // const filteredArray = status?.filter((value) => value !== "true");
+        const filteredArray = status.filter((value) => value !== "true");
         toast.warning(filteredArray?.[0]);
         // toast.warning(status[0]);
       }
@@ -1309,7 +1396,7 @@ const WebinarSelectSmartListUsers = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {removedReaders?.map((rr, i) => {
+                      {sortData(removedReaders,sortBy, sortOrder)?.map((rr, i) => {
                         return (
                           <>
                             <tr className="hcps-deleted">
@@ -1404,7 +1491,7 @@ const WebinarSelectSmartListUsers = (props) => {
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
                       </tr>
-                      {readersNewlyAdded?.map((readers, i) => {
+                      {sortData(readersNewlyAdded,sortBy, sortOrder)?.map((readers, i) => {
                         return (
                           <>
                             <tr

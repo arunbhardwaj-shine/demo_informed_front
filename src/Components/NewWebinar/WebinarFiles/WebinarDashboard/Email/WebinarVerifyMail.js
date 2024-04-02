@@ -38,6 +38,7 @@ const WebinarVerifyMAIL = (props) => {
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
   const [getRemovedHcp, setRemovedHcp] = useState([]);
+  const [getNewAddedHcp, setNewAddedHcp] = useState([]);
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [getSmartListData, setSmartListData] = useState([]);
   const [showCircularProgressView, setShowCircularProgressView] =
@@ -56,7 +57,7 @@ const WebinarVerifyMAIL = (props) => {
 
   var var_template_source_code = template_source_code?.replaceAll("800", "450");
   var_template_source_code = var_template_source_code?.replaceAll("600", "450");
-
+  
   const selectedHcp = location?.state
     ? location.state?.selectedHcp
     : props.getWebinarDraftData?.campaign_data?.selectedHcp;
@@ -85,11 +86,7 @@ const WebinarVerifyMAIL = (props) => {
   const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
     location?.state?.thisEventToggled 
     : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
- console.log("location Verify Mail--->",location?.state)
-
   useEffect(() => {
-    console.log("location?.state?.typeOfHcp-->",location?.state?.typeOfHcp)
-    console.log("typeOfHcp-->",typeOfHcp)
     let campaign_id =
       typeof props.getWebinarEmailData === "object" &&
         props.getWebinarEmailData !== null &&
@@ -127,6 +124,24 @@ const WebinarVerifyMAIL = (props) => {
           props.getWebinarDraftData?.campaign_data?.removedHcp != ""
         ) {
           setRemovedHcp(props.getWebinarDraftData?.campaign_data?.removedHcp);
+        }
+      }
+    }
+
+    if (location.state?.addedHcp) {
+      if (
+        typeof location.state?.addedHcp != "undefined" &&
+        location.state?.addedHcp != ""
+      ) {
+        setNewAddedHcp(location.state?.addedHcp);
+      }
+    } else {
+      if (props.getWebinarDraftData?.campaign_data?.addedHcp) {
+        if (
+          typeof props.getWebinarDraftData?.campaign_data?.addedHcp != "undefined" &&
+          props.getWebinarDraftData?.campaign_data?.addedHcp != ""
+        ) {
+          setNewAddedHcp(props.getWebinarDraftData?.campaign_data?.addedHcp);
         }
       }
     }
@@ -225,6 +240,7 @@ const WebinarVerifyMAIL = (props) => {
           : props.getWebinarDraftData?.campaign_data?.template_id,
 
         removedHcp: getRemovedHcp,
+        addedHcp: getNewAddedHcp,
         typeOfHcp: typeOfHcp,
           thisEventToggled:thisEventToggled
       },
@@ -573,6 +589,7 @@ const WebinarVerifyMAIL = (props) => {
           ? props.getWebinarEmailData?.templateId
           : props.getWebinarDraftData?.campaign_data?.template_id,
         removedHcp: getRemovedHcp,
+        addedHcp: getNewAddedHcp,
         typeOfHcp: typeOfHcp,
           thisEventToggled:thisEventToggled
       },
@@ -671,7 +688,13 @@ const WebinarVerifyMAIL = (props) => {
                         <Link 
                         to="/webinar/email/selectSmartListUsers"
                         // state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
-                        state={{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}}
+                        state={{
+                            typeOfHcp:typeOfHcp,
+                            thisEventToggled:thisEventToggled,
+                            selectedHcp:location?.state?.selectedHcp ? location?.state?.selectedHcp : props.getWebinarDraftData?.campaign_data?.selectedHcp,
+                            removedHcp: location?.state?.removedHcp ? location?.state?.removedHcp : props.getWebinarDraftData?.campaign_data?.removedHcp,
+                            addedHcp: location?.state?.addedHcp ? location?.state?.addedHcp : props.getWebinarDraftData?.campaign_data?.addedHcp,
+                          }}
                         // state={{...location?.state}}
                         >Verify Your List</Link>
                       </li>
