@@ -153,6 +153,29 @@ const WebinarSelectHCP = (props) => {
   
     props.getWebinarSelected(null);
     props.getWebinarSelectedSmartListData(null);
+    
+    if(draft_object?.campaign_data?.typeOfHcp!=selected){
+      if (old_object?.removedHcp) {
+        old_object.removedHcp = [];
+      }
+      if (old_object?.addedHcp) {
+        old_object.addedHcp = [];
+      }
+      if (old_object?.selectedHcp) {
+        old_object.selectedHcp = [];
+      }
+
+      if(draft_object?.campaign_data?.removedHcp){
+        draft_object.campaign_data.removedHcp = [];
+      }
+
+      if(draft_object?.campaign_data?.addedHcp){
+        draft_object.campaign_data.addedHcp = [];
+      }
+      if(draft_object?.campaign_data?.selectedHcp){
+        draft_object.campaign_data.selectedHcp = [];
+      }
+    }
   
     if (selected == 1 || selected == 2) {
       navigate(url, {
