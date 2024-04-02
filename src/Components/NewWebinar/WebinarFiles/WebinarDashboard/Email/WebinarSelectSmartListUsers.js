@@ -872,50 +872,75 @@ const WebinarSelectSmartListUsers = (props) => {
       //   }
       // });
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data,index) => {
         if (
           data.first_name == "" &&
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ) {
+          setValidationError({
+            newHcpFirstName: "Please enter the first name",
+            index: index,
+        });
           return "Please enter the First name";
         } else if (
           data.last_name == "" &&
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ) {
+          setValidationError({
+            newHcpLastName: "Please enter the last name",
+            index: index,
+        });
           return "Please enter the Last name";
         } else if (data.email == "") {
           // setValidationError({ newHcpEmail: "Please enter the email atleast" });
+          setValidationError({
+            newHcpEmail: "Please enter the email atleast",
+            index: index,
+        });
           return "Please enter the email atleast";
         } else if (
           data.institution_type == "" &&
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ) {
+          setValidationError({
+            newHcpInstitution: "Please select Institution",
+            index: index,
+        });
           return "Please select Institution";
         } else if (
           data.country == "" &&
           (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
             localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
+          setValidationError({
+            newHcpCountry: "Please select country",
+            index: index,
+        });
           return "Please select country";
-        } else if (data.email != "") {
+        } 
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find((x) => x.email === useremail);
-            let prev_obj_new = readersNewlyAdded.find((x) => x.email === useremail);
+            let prev_obj = readers.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
+            let prev_obj_new = readersNewlyAdded.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
             if (typeof prev_obj != "undefined" || typeof prev_obj_new != "undefined") {
-              // setValidationError({
-              //   newHcpEmail: "User with same email already added in list.",
-              // });
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+                index: index
+              });
               return "User with same email already added in list.";
             } else {
               return "true";
             }
           } else {
-            // setValidationError({ newHcpEmail: "Email format is not valid" });
+            setValidationError({ 
+              newHcpEmail: "Email format is not valid" ,
+              index: index
+            });
             return "Email format is not valid";
           }
         } else {

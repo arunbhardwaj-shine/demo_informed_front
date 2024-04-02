@@ -669,16 +669,40 @@ const WebinarVerifyHCP = (props) => {
                             index: index,
                         });
                         return "Please enter the last name";
-                    } else if (data?.email == "") {
+                    } 
+                    else if (data?.email == "") {
 
                         setValidationError({
                             newHcpEmail: "Please enter the email atleast",
                             index: index,
                         });
                         return "Please enter the email atleast";
+                    }  
+                    else if (data?.email != "") {
+                        console.log("data?.email-->",data?.email)
+                        let email = data?.email;
+                        let useremail = email?.trim();
+                        var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                        if (regex.test(String(useremail).toLowerCase())) {
+                            let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
+                            if (typeof prev_obj != "undefined") {
+                                setValidationError({
+                                    newHcpEmail: "User with same email already added in list.",
+                                    index: index,
+                                });
+                                return "User with same email already added in list.";
+                            }
+                        } else {
+                            setValidationError({
+                                newHcpEmail: "Email format is not valid",
+                                index: index,
+                            });
+                            return "Email format is not valid";
+                        }
+                        // return "true";
                     }
 
-                    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                    else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
                         if (data?.institution_type == "") {
                             setValidationError({
                                 newHcpInstitution: "Please Select the institution ",
@@ -696,30 +720,8 @@ const WebinarVerifyHCP = (props) => {
                         }
                     }
                     return "true";
-                } else if (data?.email != "") {
-                    let email = data?.email;
-                    let useremail = email?.trim();
-                    var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                    if (regex.test(String(useremail).toLowerCase())) {
-                        let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
-                        if (typeof prev_obj != "undefined") {
-                            setValidationError({
-                                newHcpEmail: "User with same email already added in list.",
-                                index: index,
-                            });
-                            return "User with same email already added in list.";
-                        }
-                    } else {
-                        setValidationError({
-                            newHcpEmail: "Email format is not valid",
-                            index: index,
-                        });
-                        return "Email format is not valid";
-                    }
-                    return "true";
-                } else {
-                    return "true";
-                }
+                } 
+                
             });
             status.sort();
             if (status.every((element) => element == "true")) {
