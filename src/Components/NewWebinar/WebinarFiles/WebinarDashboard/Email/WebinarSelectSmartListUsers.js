@@ -239,7 +239,17 @@ const WebinarSelectSmartListUsers = (props) => {
         props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
       }
     }
+    old_object.addedHcp = readersNewlyAdded;
   },[readersNewlyAdded]);
+
+  useEffect(() => {
+    if (props.getWebinarDraftData?.campaign_data) {
+      if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
+        props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
+      }
+    }
+    old_object.removedHcp = removedReaders;
+  },[removedReaders]);
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
@@ -488,13 +498,12 @@ const WebinarSelectSmartListUsers = (props) => {
     newlyAdded.splice(i, 1);
     setReadersNewlyAdded(newlyAdded);
     let merged_array = [reader, ...readersRemoved];
-    old_object.removedHcp = merged_array;
-
-    if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
-        props.getWebinarDraftData.campaign_data.removedHcp = merged_array;
-      }
-    }
+    // old_object.removedHcp = merged_array;
+    // if (props.getWebinarDraftData?.campaign_data) {
+    //   if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
+    //     props.getWebinarDraftData.campaign_data.removedHcp = merged_array;
+    //   }
+    // }
     setUpdate(update + 1);
   };
 
@@ -618,14 +627,13 @@ const WebinarSelectSmartListUsers = (props) => {
     const removedReader = readersList?.splice(i, 1);
     setReaders(readersList);
     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-    let merged_array = [...previous_removed_users, ...removedReader];
-    old_object.removedHcp = merged_array;
-
-    if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
-        props.getWebinarDraftData.campaign_data.removedHcp = merged_array;
-      }
-    }
+    // let merged_array = [...previous_removed_users, ...removedReader];
+    // old_object.removedHcp = merged_array;
+    // if (props.getWebinarDraftData?.campaign_data) {
+    //   if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
+    //     props.getWebinarDraftData.campaign_data.removedHcp = merged_array;
+    //   }
+    // }
   };
 
   const saveEditClicked = async () => {
