@@ -74,14 +74,23 @@ const WebinarSelectSmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   // const [isToggled, setIsToggled] = useState(true); 
-  const [isToggled,setIsToggled]=useState(location?.state?.thisEventToggled ? 
+  const [isToggled,setIsToggled]=useState(location?.state?.thisEventToggled!=null&&
+    location?.state?.thisEventToggled!="undefined"&&location?.state?.thisEventToggled
+     ? 
     location?.state?.thisEventToggled 
     : draft_object?.thisEventToggled
       ? draft_object?.thisEventToggled
       : ""
   )
 
+  console.log("isToggled-->",isToggled)
+  const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
+    location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
+    ?location?.state?.typeOfHcp
+    :props.getWebinarDraftData?.campaign_data?.typeOfHcp
+    )
 
+    console.log("typeOfHcp-->",typeOfHcp)
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -113,7 +122,7 @@ const WebinarSelectSmartList = (props) => {
       search: "",
       filter: filter,
       paging: "32",
-      event_id: isToggled ? eventId : '',
+      event_id: isToggled==1 ? eventId : '',
     };
     loader("show");
     axios
@@ -237,7 +246,8 @@ const WebinarSelectSmartList = (props) => {
             : draft_object?.campaign_data?.template_id,
 
         // selectedHcp: selectedHcp,
-        thisEventToggled:isToggled
+        thisEventToggled:isToggled,
+        typeOfHcp:typeOfHcp
       },
       source_code: old_object?.template
         ? old_object?.template
@@ -585,7 +595,12 @@ const WebinarSelectSmartList = (props) => {
   }
 
   const handleToggle = async(e) => {
-    setIsToggled(!isToggled);
+    if(isToggled==1){
+      setIsToggled(2);
+    }else{
+      setIsToggled(1);
+    }
+    
   }
 
   useEffect(() => {
@@ -655,7 +670,7 @@ const WebinarSelectSmartList = (props) => {
                     ) : (
                       <Link
                         to="/webinar/email/selectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected, flag: 1 ,selected:location?.state?.UserSelected,thisEventToggled:isToggled}}
+                        state={{ smartListSelected: smartListSelected, flag: 1 ,typeOfHcp:typeOfHcp,thisEventToggled:isToggled}}
                       >
                         <button
                           ref={inputElement}
@@ -706,7 +721,7 @@ const WebinarSelectSmartList = (props) => {
                       <label className="switch6-light">
                        
                         <input type="checkbox"
-                          checked={isToggled}
+                          checked={isToggled==1?true:false}
                           onChange={(e) => {
                             handleToggle(e.target?.checked);
                           }}

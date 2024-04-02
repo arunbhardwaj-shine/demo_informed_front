@@ -10,12 +10,12 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
-import AddNewContactModal from "../../../../../Model/AddNewContactModal"
+import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 var old_object = {};
 const WebinarSelectSmartListUsers = (props) => {
-  const { eventIdContext, handleEventId } = useSidebar()
-  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+  const { eventIdContext, handleEventId } = useSidebar();
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
       ? eventIdContext?.eventId
@@ -62,11 +62,14 @@ const WebinarSelectSmartListUsers = (props) => {
   const [editable, setEditable] = useState(0);
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
-  const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [selected,setSelected]=useState(location?.state?.selected ? 
-    location?.state?.selected 
-    : props.getWebinarDraftData?.campaign_data?.selected)
+  const [sortBy, setSortBy] = useState("first_name"); // Initial sort key
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const [typeOfHcp, setTypeOfHcp] = useState(
+    location?.state?.typeOfHcp
+      ? location?.state?.typeOfHcp
+      : props.getWebinarDraftData?.campaign_data?.typeOfHcp
+  );
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -93,19 +96,26 @@ const WebinarSelectSmartListUsers = (props) => {
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
-  const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
-    location?.state?.thisEventToggled 
-    : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
+  const [thisEventToggled, setThisEventToggled] = useState(
+    location?.state?.thisEventToggled
+      ? location?.state?.thisEventToggled
+      : props.getWebinarDraftData?.campaign_data?.thisEventToggled
+  );
 
   useEffect(() => {
+    if (location?.state?.typeOfHcp) {
+      setTypeOfHcp(location?.state?.typeOfHcp);
+    } else {
+      setTypeOfHcp(props.getWebinarDraftData?.campaign_data?.typeOfHcp);
+    }
     let campaign_id =
       typeof old_object === "object" &&
-        old_object !== null &&
-        old_object?.campaign_id
+      old_object !== null &&
+      old_object?.campaign_id
         ? old_object?.campaign_id
         : props.getWebinarDraftData?.campaign_id
-          ? props.getWebinarDraftData?.campaign_id
-          : "";
+        ? props.getWebinarDraftData?.campaign_id
+        : "";
     setCampaign_id(campaign_id);
 
     // removedHcp
@@ -114,12 +124,19 @@ const WebinarSelectSmartListUsers = (props) => {
         setRemovedReaders(old_object?.removedHcp);
       }
     } else {
-      if (props?.getWebinarDraftData && props.getWebinarDraftData?.campaign_data?.removedHcp) {
+      if (
+        props?.getWebinarDraftData &&
+        props.getWebinarDraftData?.campaign_data?.removedHcp
+      ) {
         if (
-          typeof props.getWebinarDraftData?.campaign_data?.removedHcp != "undefined" &&
-          props.getWebinarDraftData?.campaign_data?.removedHcp != "" && location?.state?.flag != 1
+          typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
+            "undefined" &&
+          props.getWebinarDraftData?.campaign_data?.removedHcp != "" &&
+          location?.state?.flag != 1
         ) {
-          setRemovedReaders(props.getWebinarDraftData?.campaign_data?.removedHcp);
+          setRemovedReaders(
+            props.getWebinarDraftData?.campaign_data?.removedHcp
+          );
         }
       }
     }
@@ -160,10 +177,11 @@ const WebinarSelectSmartListUsers = (props) => {
           ) {
             if (
               typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
-              "undefined" &&
+                "undefined" &&
               props.getWebinarDraftData?.campaign_data?.removedHcp != ""
             ) {
-              var removedUsers = props.getWebinarDraftData?.campaign_data?.removedHcp;
+              var removedUsers =
+                props.getWebinarDraftData?.campaign_data?.removedHcp;
               var allUsers = res?.data?.response?.data;
               var pendingUsers = allUsers?.filter(function (objFromA) {
                 return !removedUsers?.find(function (objFromB) {
@@ -192,12 +210,12 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
-    if(selected==1){    
-      navigate("/webinar/email/selectSmartList",{state:{UserSelected:selected,thisEventToggled:thisEventToggled}});
-    
-    }else{
+    if (typeOfHcp == 1) {
+      navigate("/webinar/email/selectSmartList", {
+        state: { typeOfHcp: typeOfHcp, thisEventToggled: thisEventToggled },
+      });
+    } else {
       navigate("/webinar/email/selectHCP");
-    
     }
   };
 
@@ -269,22 +287,22 @@ const WebinarSelectSmartListUsers = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id:0,
+      pdf_id: 0,
       // pdf_id: old_object?.PdfSelected
       //   ? old_object.PdfSelected
       //   : props.getDraftData.pdf_id,
-      event_id:eventId,
+      event_id: eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
         : props.getWebinarDraftData?.description
-          ? props.getWebinarDraftData?.description
-          : "",
+        ? props.getWebinarDraftData?.description
+        : "",
       creator: old_object?.emailCreator
         ? old_object?.emailCreator
         : props.getWebinarDraftData?.creator
-          ? props.getWebinarDraftData?.creator
-          : "",
-          campaign_name:"webinar",
+        ? props.getWebinarDraftData?.creator
+        : "",
+      campaign_name: "webinar",
       // campaign_name: old_object?.emailCampaign
       //   ? old_object?.emailCampaign
       //   : props.getWebinarDraftData?.campaign,
@@ -292,7 +310,9 @@ const WebinarSelectSmartListUsers = (props) => {
         ? old_object?.emailSubject
         : props.getWebinarDraftData?.subject,
       route_location: "webinar/email/selectSmartListUsers",
-      tags: old_object?.tags ? old_object?.tags : props.getWebinarDraftData?.tags,
+      tags: old_object?.tags
+        ? old_object?.tags
+        : props.getWebinarDraftData?.tags,
       campaign_data: {
         template_id: old_object?.templateId
           ? old_object?.templateId
@@ -306,20 +326,18 @@ const WebinarSelectSmartListUsers = (props) => {
         list_selection: old_object?.selected
           ? old_object?.selected
           : props.getWebinarDraftData?.campaign_data?.list_selection
-            ? props.getWebinarDraftData?.campaign_data?.list_selection
-            : 0,
+          ? props.getWebinarDraftData?.campaign_data?.list_selection
+          : 0,
         removedHcp: removedReaders,
         auto_responder_id: props.old_object?.templateId
-                ? props.old_object?.templateId
-                : props.getWebinarDraftData?.campaign_data?.template_id,
-        selected:location?.state?.selected
-        ?location?.state?.selected
-        :props.getWebinarDraftData?.campaign_data?.selected,
-        thisEventToggled:thisEventToggled
+          ? props.old_object?.templateId
+          : props.getWebinarDraftData?.campaign_data?.template_id,
+        typeOfHcp: typeOfHcp,
+        thisEventToggled: thisEventToggled,
       },
       auto_responder_id: props.old_object?.templateId
-      ? props.old_object?.templateId
-      : props.getWebinarDraftData?.campaign_data?.template_id,
+        ? props.old_object?.templateId
+        : props.getWebinarDraftData?.campaign_data?.template_id,
       campaign_id: campaign_id_st,
       source_code: old_object?.template
         ? old_object?.template
@@ -360,8 +378,8 @@ const WebinarSelectSmartListUsers = (props) => {
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
-        selected:selected,
-        thisEventToggled:thisEventToggled
+        typeOfHcp: typeOfHcp,
+        thisEventToggled: thisEventToggled,
       },
     });
   };
@@ -397,7 +415,6 @@ const WebinarSelectSmartListUsers = (props) => {
 
     setShowLessInfo(!showLessInfo);
   };
-
 
   const addNewUser = () => {
     setIsOpenAdd(true);
@@ -467,7 +484,6 @@ const WebinarSelectSmartListUsers = (props) => {
     setReRender(reRender + 1);
   };
 
-
   const sortSelectedUsers = () => {
     let normalArr = [];
     normalArr = readers;
@@ -476,16 +492,16 @@ const WebinarSelectSmartListUsers = (props) => {
         a.first_name.toLowerCase() > b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-            ? -1
-            : 0
+          ? -1
+          : 0
       );
     } else {
       normalArr.sort((a, b) =>
         a.first_name.toLowerCase() < b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-            ? -1
-            : 0
+          ? -1
+          : 0
       );
     }
     setReaders(normalArr);
@@ -531,7 +547,7 @@ const WebinarSelectSmartListUsers = (props) => {
       const contact_type_edit =
         localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
           ? document.getElementById("field_contact_type" + profile_user_id)
-            .value
+              .value
           : "";
 
       const arr = [];
@@ -552,7 +568,8 @@ const WebinarSelectSmartListUsers = (props) => {
       if (typeof prev_obj != "undefined") {
         //update existing
         editableData?.map(
-          (obj) => arr.find((o) => o?.profile_user_id === profile_user_id) || obj
+          (obj) =>
+            arr.find((o) => o?.profile_user_id === profile_user_id) || obj
         );
       } else {
         //create new
@@ -592,8 +609,8 @@ const WebinarSelectSmartListUsers = (props) => {
         const contact_type_edit =
           localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
             ? document.getElementById(
-              "field_contact_type" + data.profile_user_id
-            ).value
+                "field_contact_type" + data.profile_user_id
+              ).value
             : "";
 
         let prev_obj = readers?.find(
@@ -661,13 +678,11 @@ const WebinarSelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         role:
-          localStorage.getItem("user_id") ==
-            "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-          localStorage.getItem("user_id") ==
-            "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ? "yes"
             : "",
         institutionType: "",
@@ -675,11 +690,11 @@ const WebinarSelectSmartListUsers = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-  }
+  };
 
   const setHpcList = (list) => {
-    setHpc(list)
-}
+    setHpc(list);
+  };
 
   const closeClicked = () => {
     setSaveOpen(false);
@@ -765,7 +780,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
             return;
           }
-         
+
           if (
             data.institution_type == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -902,17 +917,17 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const handleSort = (key) => {
     setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
   const sortData = (data, key, order) => {
     return data?.sort((a, b) => {
       const valueA = a[key];
       const valueB = b[key];
-  
+
       // Handle different data types (numbers, strings)
-      if (typeof valueA === 'number' && typeof valueB === 'number') {
-        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      if (typeof valueA === "number" && typeof valueB === "number") {
+        return order === "asc" ? valueA - valueB : valueB - valueA;
       } else {
         return order === 'asc'
           ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
@@ -944,12 +959,25 @@ const WebinarSelectSmartListUsers = (props) => {
                       <Link to="/EmailArticleSelect">Select Content</Link>
                     </li> */}
                     <li className="active">
-                      <Link to="/webinar/email/create-new-email">Create Your Email</Link>
+                      <Link to="/webinar/email/create-new-email">
+                        Create Your Email
+                      </Link>
                     </li>
                     <li className="active">
-                      <Link 
-                      to={selected==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}
-                      state={selected==1?{UserSelected:selected,thisEventToggled:thisEventToggled}:null}
+                      <Link
+                        to={
+                          typeOfHcp == 1
+                            ? "/webinar/email/selectSmartList"
+                            : "/webinar/email/selectHCP"
+                        }
+                        state={
+                          typeOfHcp == 1
+                            ? {
+                                typeOfHcp: typeOfHcp,
+                                thisEventToggled: thisEventToggled,
+                              }
+                            : null
+                        }
                       >
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
@@ -963,7 +991,9 @@ const WebinarSelectSmartListUsers = (props) => {
                   */}
 
                     <li className="active active-main">
-                      <Link to="/webinar/email/selectSmartListUsers">Verify Your List</Link>
+                      <Link to="/webinar/email/selectSmartListUsers">
+                        Verify Your List
+                      </Link>
                     </li>
 
                     <li className="">
@@ -976,14 +1006,18 @@ const WebinarSelectSmartListUsers = (props) => {
                     <button
                       className="btn btn-primary btn-bordered move-draft"
                       onClick={saveAsDraft}
-                      disabled={readers?.length < 1 && readersNewlyAdded?.length < 1}
+                      disabled={
+                        readers?.length < 1 && readersNewlyAdded?.length < 1
+                      }
                     >
                       Save As Draft
                     </button>
                     <button
                       className="btn btn-primary btn-filled next"
                       onClick={nextClicked}
-                      disabled={readers?.length < 1 && readersNewlyAdded?.length < 1}
+                      disabled={
+                        readers?.length < 1 && readersNewlyAdded?.length < 1
+                      }
                     >
                       Next
                     </button>
@@ -996,24 +1030,29 @@ const WebinarSelectSmartListUsers = (props) => {
               <div className="result-hcp-table">
                 <div className="table-title">
                   <h4>
-                    HCPs <span>| {(readersNewlyAdded?.length||0) + (readers?.length||0)} </span>
+                    HCPs{" "}
+                    <span>
+                      |{" "}
+                      {(readersNewlyAdded?.length || 0) +
+                        (readers?.length || 0)}{" "}
+                    </span>
                   </h4>
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
                       <>
-                        {
-                          localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
-                            <a
-                              className="show-less-info"
-                              onClick={(e) => showMoreInfo(e)}
-                            >
-                              {showLessInfo == true ? (
-                                <p className="show_more">Show More information</p>
-                              ) : (
-                                <p className="show_less">Show less information</p>
-                              )}{" "}
-                            </a> : null
-                        }
+                        {localStorage.getItem("user_id") !=
+                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                          <a
+                            className="show-less-info"
+                            onClick={(e) => showMoreInfo(e)}
+                          >
+                            {showLessInfo == true ? (
+                              <p className="show_more">Show More information</p>
+                            ) : (
+                              <p className="show_less">Show less information</p>
+                            )}{" "}
+                          </a>
+                        ) : null}
                         <div className="hcp-new-user">
                           <button
                             className="btn btn-outline-primary"
@@ -1100,89 +1139,115 @@ const WebinarSelectSmartListUsers = (props) => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col" className="sort_option" >
-                        <span onClick={() => handleSort('first_name')}>
-                        Name
-                        <button
-                              className={`event_sort_btn ${sortBy == "first_name" ?
-                              sortOrder == "asc"
-                              ? "svg_asc"
-                              : "svg_active"
-                              : "" 
-                            }`}
-                              onClick={() => handleSort('first_name')}
+                        <th scope="col" className="sort_option">
+                          <span onClick={() => handleSort("first_name")}>
+                            Name
+                            <button
+                              className={`event_sort_btn ${
+                                sortBy == "first_name"
+                                  ? sortOrder == "asc"
+                                    ? "svg_asc"
+                                    : "svg_active"
+                                  : ""
+                              }`}
+                              onClick={() => handleSort("first_name")}
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
+                              >
                                 <g clip-path="url(#clip0_3722_6611)">
-                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
                                 </g>
                                 <defs>
                                   <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white"/>
+                                    <rect width="8" height="8" fill="white" />
                                   </clipPath>
                                 </defs>
                               </svg>
                             </button>
-                        </span>
-                         
+                          </span>
                         </th>
-                        <th scope="col" className="sort_option" >
-                        <span onClick={() => handleSort('email')}>
-                        Email
-                        <button
-                              className={`event_sort_btn ${sortBy == "email" ?
-                                  sortOrder == "asc"
-                                  ? "svg_asc"
-                                  : "svg_active"
-                                  : "" 
-                                }`}
-                              onClick={() => handleSort('email')}
+                        <th scope="col" className="sort_option">
+                          <span onClick={() => handleSort("email")}>
+                            Email
+                            <button
+                              className={`event_sort_btn ${
+                                sortBy == "email"
+                                  ? sortOrder == "asc"
+                                    ? "svg_asc"
+                                    : "svg_active"
+                                  : ""
+                              }`}
+                              onClick={() => handleSort("email")}
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
+                              >
                                 <g clip-path="url(#clip0_3722_6611)">
-                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
                                 </g>
                                 <defs>
                                   <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white"/>
+                                    <rect width="8" height="8" fill="white" />
                                   </clipPath>
                                 </defs>
                               </svg>
                             </button>
-
-                        </span>
-                          
+                          </span>
                         </th>
                         <th scope="col">Bounced</th>
-                        <th scope="col" className="sort_option"  >
-                        <span onClick={() => handleSort('country')}>
-                        Country
-                        <button
-                                className={`event_sort_btn ${sortBy == "country" ?
-                                sortOrder == "asc"
-                                  ? "svg_asc"
-                                  : "svg_active"
-                                : "" 
+                        <th scope="col" className="sort_option">
+                          <span onClick={() => handleSort("country")}>
+                            Country
+                            <button
+                              className={`event_sort_btn ${
+                                sortBy == "country"
+                                  ? sortOrder == "asc"
+                                    ? "svg_asc"
+                                    : "svg_active"
+                                  : ""
                               }`}
-                                onClick={() => handleSort('country')}
+                              onClick={() => handleSort("country")}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
                               >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white"/>
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                        </span>
-                          
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                          </span>
                         </th>
 
                         {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <>
                             <th scope="col">IRT mandatory training</th>
                             <th scope="col">IRT role</th>
@@ -1190,30 +1255,43 @@ const WebinarSelectSmartListUsers = (props) => {
                         ) : (
                           <>
                             <th scope="col" className="sort_option">
-                            <span onClick={() => handleSort('ibu')}>
-                            Business unit
-                            <button
-                                className={`event_sort_btn ${sortBy == "ibu" ?
-                                sortOrder == "asc"
-                                  ? "svg_asc"
-                                  : "svg_active"
-                                : "" 
-                              }`}
-                                onClick={() => handleSort('ibu')}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white"/>
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                             
+                              <span onClick={() => handleSort("ibu")}>
+                                Business unit
+                                <button
+                                  className={`event_sort_btn ${
+                                    sortBy == "ibu"
+                                      ? sortOrder == "asc"
+                                        ? "svg_asc"
+                                        : "svg_active"
+                                      : ""
+                                  }`}
+                                  onClick={() => handleSort("ibu")}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                    fill="none"
+                                  >
+                                    <g clip-path="url(#clip0_3722_6611)">
+                                      <path
+                                        d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                        fill="#97B6CF"
+                                      />
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_3722_6611">
+                                        <rect
+                                          width="8"
+                                          height="8"
+                                          fill="white"
+                                        />
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
+                                </button>
+                              </span>
                             </th>
                             <th scope="col">Contact type</th>
                           </>
@@ -1250,16 +1328,16 @@ const WebinarSelectSmartListUsers = (props) => {
                               <td>
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
                                   : rr?.ibu && rr?.ibu != 0
-                                    ? rr?.ibu
-                                    : "N/A"}
+                                  ? rr?.ibu
+                                  : "N/A"}
                               </td>
                               {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <td>
                                   {rr?.user_type != 0 ? rr?.user_type : "N/A"}
                                 </td>
@@ -1271,7 +1349,9 @@ const WebinarSelectSmartListUsers = (props) => {
 
                               {showLessInfo == false ? (
                                 <td>
-                                  <span>{rr?.consent ? rr?.consent : "N/A"}</span>{" "}
+                                  <span>
+                                    {rr?.consent ? rr?.consent : "N/A"}
+                                  </span>{" "}
                                 </td>
                               ) : null}
                               {showLessInfo == false ? (
@@ -1295,7 +1375,9 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {rr?.registration ? rr?.registration : "N/A"}
+                                    {rr?.registration
+                                      ? rr?.registration
+                                      : "N/A"}
                                   </span>
                                 </td>
                               ) : null}
@@ -1349,8 +1431,8 @@ const WebinarSelectSmartListUsers = (props) => {
                                 <span>
                                   {readers?.first_name
                                     ? readers?.first_name +
-                                    " " +
-                                    readers?.last_name
+                                      " " +
+                                      readers?.last_name
                                     : "N/A"}
                                 </span>
                               </td>
@@ -1360,7 +1442,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                 id={`field_index` + readers.profile_user_id}
                                 value={i}
                               />
-                              <td>{readers?.bounce ? readers?.bounce : "N/A"}</td>
+                              <td>
+                                {readers?.bounce ? readers?.bounce : "N/A"}
+                              </td>
                               <td>
                                 {editable ? (
                                   <EditCountry
@@ -1369,24 +1453,26 @@ const WebinarSelectSmartListUsers = (props) => {
                                   ></EditCountry>
                                 ) : (
                                   <span>
-                                    {readers?.country ? readers?.country : "N/A"}
+                                    {readers?.country
+                                      ? readers?.country
+                                      : "N/A"}
                                   </span>
                                 )}
                               </td>
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
                                   : readers.ibu && readers.ibu != 0
-                                    ? readers.ibu
-                                    : "N/A"}
+                                  ? readers.ibu
+                                  : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
                                     {readers.user_type != 0
                                       ? readers?.user_type
@@ -1408,7 +1494,9 @@ const WebinarSelectSmartListUsers = (props) => {
                               {showLessInfo == false ? (
                                 <td>
                                   <span>
-                                    {readers?.consent ? readers?.consent : "N/A"}
+                                    {readers?.consent
+                                      ? readers?.consent
+                                      : "N/A"}
                                   </span>{" "}
                                 </td>
                               ) : null}
@@ -1459,150 +1547,160 @@ const WebinarSelectSmartListUsers = (props) => {
                           </>
                         );
                       })}
-                      {sortData(readers, sortBy, sortOrder)?.map((readers, i) => {
-                        return (
-                          <>
-                            <tr
-                              id={`row-selected` + i}
-                              onClick={(e) =>
-                                editing(
-                                  readers.profile_id,
-                                  readers.profile_user_id,
-                                  readers.email,
-                                  readers.jobTitle,
-                                  readers.company,
-                                  readers.country,
-                                  readers.first_name + " " + readers.last_name,
-                                  readers.contact_type
-                                )
-                              }
-                            >
-                              <td
-                                id={`field_name` + readers.profile_user_id}
-                                contentEditable={
-                                  editable === 0 ? "false" : "true"
+                      {sortData(readers, sortBy, sortOrder)?.map(
+                        (readers, i) => {
+                          return (
+                            <>
+                              <tr
+                                id={`row-selected` + i}
+                                onClick={(e) =>
+                                  editing(
+                                    readers.profile_id,
+                                    readers.profile_user_id,
+                                    readers.email,
+                                    readers.jobTitle,
+                                    readers.company,
+                                    readers.country,
+                                    readers.first_name +
+                                      " " +
+                                      readers.last_name,
+                                    readers.contact_type
+                                  )
                                 }
                               >
-                                <span>
-                                  {" "}
-                                  {readers?.first_name
-                                    ? readers?.first_name +
-                                    " " +
-                                    readers?.last_name
-                                    : "N/A"}{" "}
-                                </span>
-                              </td>
-                              <td id={`field_email` + readers.profile_user_id}>
-                                {readers?.email ? readers?.email : "N/A"}
-                              </td>
-                              <input
-                                type="hidden"
-                                id={`field_index` + readers.profile_user_id}
-                                value={i}
-                              />
-                              <td
-                                id={`field_bounced` + readers.profile_user_id}
-                              >
-                                {readers?.bounce ? readers?.bounce : "N/A"}
-                              </td>
-                              <td>
-                                {editable ? (
-                                  <EditCountry
-                                    selected_country={readers?.country}
-                                    profile_user={readers?.profile_user_id}
-                                  ></EditCountry>
-                                ) : (
+                                <td
+                                  id={`field_name` + readers.profile_user_id}
+                                  contentEditable={
+                                    editable === 0 ? "false" : "true"
+                                  }
+                                >
                                   <span>
-                                    {readers?.country ? readers?.country : "N/A"}
+                                    {" "}
+                                    {readers?.first_name
+                                      ? readers?.first_name +
+                                        " " +
+                                        readers?.last_name
+                                      : "N/A"}{" "}
                                   </span>
-                                )}
-                              </td>
-                              <td>
-                                {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                {localStorage.getItem("user_id") ==
+                                </td>
+                                <td
+                                  id={`field_email` + readers.profile_user_id}
+                                >
+                                  {readers?.email ? readers?.email : "N/A"}
+                                </td>
+                                <input
+                                  type="hidden"
+                                  id={`field_index` + readers.profile_user_id}
+                                  value={i}
+                                />
+                                <td
+                                  id={`field_bounced` + readers.profile_user_id}
+                                >
+                                  {readers?.bounce ? readers?.bounce : "N/A"}
+                                </td>
+                                <td>
+                                  {editable ? (
+                                    <EditCountry
+                                      selected_country={readers?.country}
+                                      profile_user={readers?.profile_user_id}
+                                    ></EditCountry>
+                                  ) : (
+                                    <span>
+                                      {readers?.country
+                                        ? readers?.country
+                                        : "N/A"}
+                                    </span>
+                                  )}
+                                </td>
+                                <td>
+                                  {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                  {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? readers?.irt
-                                    ? "Yes"
-                                    : "No"
-                                  : readers?.ibu && readers.ibu != 0
+                                    ? readers?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    : readers?.ibu && readers.ibu != 0
                                     ? readers?.ibu
                                     : "N/A"}
-                              </td>
-                              <td>
-                                {localStorage.getItem("user_id") ==
+                                </td>
+                                <td>
+                                  {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                  <span>
-                                    {readers.user_type != 0
-                                      ? readers?.user_type
-                                      : "N/A"}
-                                  </span>
-                                ) : editable ? (
-                                  <EditContactType
-                                    selected_ibu={readers?.contact_type}
-                                    profile_user={readers?.profile_user_id}
-                                  ></EditContactType>
-                                ) : (
-                                  <span>
-                                    {readers?.contact_type
-                                      ? readers?.contact_type
-                                      : "N/A"}
-                                  </span>
-                                )}
-                              </td>
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.consent ? readers?.consent : "N/A"}
-                                  </span>
+                                    <span>
+                                      {readers.user_type != 0
+                                        ? readers?.user_type
+                                        : "N/A"}
+                                    </span>
+                                  ) : editable ? (
+                                    <EditContactType
+                                      selected_ibu={readers?.contact_type}
+                                      profile_user={readers?.profile_user_id}
+                                    ></EditContactType>
+                                  ) : (
+                                    <span>
+                                      {readers?.contact_type
+                                        ? readers?.contact_type
+                                        : "N/A"}
+                                    </span>
+                                  )}
                                 </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.email_received
-                                      ? readers?.email_received
-                                      : "N/A"}
-                                  </span>
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.consent
+                                        ? readers?.consent
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.email_received
+                                        ? readers?.email_received
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.email_opening
+                                        ? readers?.email_opening
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.registration
+                                        ? readers?.registration
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.last_email
+                                        ? readers?.last_email
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                <td className="delete_row" colSpan="12">
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Add Row"
+                                    onClick={() => deleteReader(i)}
+                                  />
                                 </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.email_opening
-                                      ? readers?.email_opening
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.registration
-                                      ? readers?.registration
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.last_email
-                                      ? readers?.last_email
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              <td className="delete_row" colSpan="12">
-                                <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Add Row"
-                                  onClick={() => deleteReader(i)}
-                                />
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
+                              </tr>
+                            </>
+                          );
+                        }
+                      )}
                     </tbody>
                   </table>
                 </div>

@@ -135,7 +135,7 @@ const WebinarSelectHCP = (props) => {
       }
       props.getWebinarSelectedSmartListData(data[0]);
       navigate("/webinar/email/selectSmartListUsers", {
-        state: { smartListSelected: data[0], flag: 1, selected },
+        state: { smartListSelected: data[0], flag: 1, typeOfHcp:selected },
       });
     } else {
       props.getWebinarSelectedSmartListData(null);
@@ -153,7 +153,7 @@ const WebinarSelectHCP = (props) => {
   
     if (selected == 1 || selected == 2) {
       navigate(url, {
-        state: { UserSelected: selected,flag:2 ,thisEventToggled:true},
+        state: { typeOfHcp: selected,flag:2 ,thisEventToggled:1},
       });
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
