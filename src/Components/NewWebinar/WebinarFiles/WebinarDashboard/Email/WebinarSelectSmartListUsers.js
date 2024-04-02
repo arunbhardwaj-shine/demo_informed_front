@@ -238,6 +238,7 @@ const WebinarSelectSmartListUsers = (props) => {
         props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
       }
     }
+    old_object.addedHcp = readersNewlyAdded;
   },[readersNewlyAdded]);
 
   const backClicked = () => {
