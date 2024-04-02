@@ -83,14 +83,12 @@ const WebinarSelectSmartList = (props) => {
       : ""
   )
 
-  console.log("isToggled-->",isToggled)
   const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
     location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
     ?location?.state?.typeOfHcp
     :props.getWebinarDraftData?.campaign_data?.typeOfHcp
-    )
-
-    console.log("typeOfHcp-->",typeOfHcp)
+  )
+  
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -111,7 +109,6 @@ const WebinarSelectSmartList = (props) => {
   ]);
 
   useEffect(() => {
-    
     getSmartListData(1);
   }, []);
 
@@ -179,6 +176,17 @@ const WebinarSelectSmartList = (props) => {
       if (e.id != new_object?.id) {
         if (old_object?.removedHcp) {
           old_object.removedHcp = [];
+        }
+        if (old_object?.addedHcp) {
+          old_object.addedHcp = [];
+        }
+
+        if(draft_object?.campaign_data?.removedHcp){
+          draft_object.campaign_data.removedHcp = [];
+        }
+
+        if(draft_object?.campaign_data?.addedHcp){
+          draft_object.campaign_data.addedHcp = [];
         }
       }
     }
@@ -1449,7 +1457,7 @@ const WebinarSelectSmartList = (props) => {
                 )}
               </div>
             </div>
-          ) : null}{" "}
+          ) : null}
         </Modal.Body>
       </Modal>
       {/*Modal For Creating Smart list with Excel File end*/}
