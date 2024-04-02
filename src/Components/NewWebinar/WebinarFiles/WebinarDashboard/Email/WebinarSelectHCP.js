@@ -52,6 +52,8 @@ const WebinarSelectHCP = (props) => {
     { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` }
   ];
 
+  const [typeOfHcp,setTypeOfHcp]=useState(null)
+
   const backClicked = () => {
     let event_Id = eventId
     navigate("/webinar/email/create-new-email", {
@@ -144,6 +146,7 @@ const WebinarSelectHCP = (props) => {
   };
   
   const nextClicked = async (selected) => {
+    setTypeOfHcp(selected)
     props.getWebinarEmailData(old_object);
     const option = sendOptions.find((item) => item?.id == selected);
     let url = option?.navigateUrl || "";
