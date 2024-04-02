@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Modal, Dropdown } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import {
     getWebinarCampaignId,
@@ -26,6 +26,7 @@ var old_object = {};
 var selected_Data = [];
 const WebinarVerifyHCP = (props) => {
     const { eventIdContext, handleEventId } = useSidebar()
+    const location=useLocation()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
         eventIdContext?.eventId
@@ -107,6 +108,11 @@ const WebinarVerifyHCP = (props) => {
         },
     ]);
     const [updateCounter, setUpdateCounter] = useState(0);
+    const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
+        location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
+        ?location?.state?.typeOfHcp
+        :props.getWebinarDraftData?.campaign_data?.typeOfHcp
+        )
 
     const axiosFun = async () => {
         try {
@@ -271,6 +277,7 @@ const WebinarVerifyHCP = (props) => {
             state: {
                 selectedHcp: selectedHcp,
                 removedHcp: "",
+                typeOfHcp:typeOfHcp
             },
         });
     };
@@ -1049,6 +1056,7 @@ const WebinarVerifyHCP = (props) => {
                 list_selection: old_object?.selected
                     ? old_object?.selected
                     : props.getWebinarDraftData?.campaign_data?.list_selection,
+                    typeOfHcp:typeOfHcp
             },
 
             campaign_id: campaign_id_st,

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Col } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import axios from "axios";
 import { loader } from "../../../../../loader";
@@ -24,6 +24,7 @@ var state_object = {};
 const WebinarCreateNewEmail = (props) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
+    const location = useLocation();
     const [percent, setPercent] = useState(0);
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
@@ -81,6 +82,8 @@ const WebinarCreateNewEmail = (props) => {
                 : ""
     );
 
+    const [manualEmailDescription,setManualEmailDescription]=useState("")
+
     const [emailCreator, setEmailCreator] = useState(
         state_object != null &&
             state_object != "undefined" &&
@@ -100,6 +103,7 @@ const WebinarCreateNewEmail = (props) => {
                 ? props?.getWebinarDraftData?.subject
                 : ""
     );
+    const [firstTimeLoad,setFirstTimeLoad]=useState(location?.state?.flag==1?true:false)
     const [firstTimeEmailSubject, setFirstTimeEmailSubject] = useState(
         state_object != null &&
             state_object != "undefined" &&
@@ -233,6 +237,7 @@ const WebinarCreateNewEmail = (props) => {
     }, []);
 
     useEffect(() => {
+       
         if (
             typeof props !== "undefined" &&
             props !== null &&
@@ -590,24 +595,38 @@ const WebinarCreateNewEmail = (props) => {
             setRenderAfterValidation(renderAfterValidation + 1);
         }
     };
-    const templateClicked = (template, e) => {
-        const div = document.querySelector("img.select_mm");
+    const templateClicked = (template, e,) => {
+        console.log("in template clicked-->",template?.id)
+        // const div = document.querySelector("img.select_mm");
+
+        // if (div) {
+        //     div.classList.remove("select_mm");
+        // }
+
+      
+        if(firstTimeLoad){
+            const div = document.querySelector("img.select_mm");
 
         if (div) {
             div.classList.remove("select_mm");
         }
-
-        setTemplateId(template?.id);
-        if(!firstTimeEmailSubject){
             setEmailSubject(template?.subject);
-            setEmailDescription(template?.description)
+            setEmailDescription(manualEmailDescription?manualEmailDescription:template?.description)
+            setTemplateId(template?.id);
+            templateIdRef.current = template?.id;
+    
+            setTemplateName(template?.subject);
+            setTemplate(template?.template);
+            e.target.classList.toggle("select_mm");
 
         }
-        templateIdRef.current = template?.id;
+        setFirstTimeLoad(true)
+        // setTemplateId(template?.id);
+        // templateIdRef.current = template?.id;
 
-        setTemplateName(template?.subject);
-        setTemplate(template?.template);
-        e.target.classList.toggle("select_mm");
+        // setTemplateName(template?.subject);
+        // setTemplate(template?.template);
+        // e.target.classList.toggle("select_mm");
     };
     const tagButtonClicked = () => {
         setIsOpenTagModal(true);
@@ -1355,7 +1374,7 @@ const WebinarCreateNewEmail = (props) => {
         setTemplatePopup(false);
     };
     const saveAsTemplateButtonClicked = async () => {
-        console.log("in save as template buton clicked")
+       
         let template_id = props?.getWebinarEmailData
             ? templateId
             : props?.getWebinarDraftData.template_id;
@@ -1729,6 +1748,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                     : ""
                                                             }
                                                         />
+                                                       
                                                         <p>{template?.subject}</p>
                                                     </div>
                                                 </>
@@ -1751,7 +1771,10 @@ const WebinarCreateNewEmail = (props) => {
                                                             </label>
 
                                                             <input
-                                                                onChange={(e) => setEmailDescription(e?.target?.value)}
+                                                                onChange={(e) => {
+                                                                    setEmailDescription(e?.target?.value);
+                                                                    setManualEmailDescription(e?.target?.value)
+                                                                }}
                                                                 type="text"
                                                                 className={
                                                                     validator?.message(

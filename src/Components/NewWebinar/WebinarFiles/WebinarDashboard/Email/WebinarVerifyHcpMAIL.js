@@ -65,6 +65,10 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : 0
     );
 
+    const [typeOfHcp, setTypeOfHcp] = useState(location?.state?.typeOfHcp ?
+        location?.state?.typeOfHcp
+        : props.getWebinarDraftData?.campaign_data?.typeOfHcp)
+
     useEffect(() => {
         let campaign_id =
             typeof props.getWebinarEmailData === "object" &&
@@ -194,6 +198,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                     ? props.getWebinarEmailData?.selected
                     : props.getWebinarDraftData?.campaign_data.list_selection,
                 removedHcp: getRemovedHcp,
+                typeOfHcp:typeOfHcp
             },
             campaign_id: campaign_id_st,
             source_code: props.getWebinarEmailData?.template
@@ -379,14 +384,14 @@ const WebinarVerifyHcpMAIL = (props) => {
     };
 
     const backClicked = () => {
-        if (
-          typeof getSmartListData !== "undefined" &&
-          getSmartListData.hasOwnProperty("id")
-        ) {
-          navigate("/webinar/email/selectSmartListUsers");
-        } else {
-        navigate("/webinar/email/verifyHCP");
-        }
+        // if (
+        //   typeof getSmartListData !== "undefined" &&
+        //   getSmartListData.hasOwnProperty("id")
+        // ) {
+        //   navigate("/webinar/email/selectSmartListUsers");
+        // } else {
+        navigate("/webinar/email/verifyHCP",{state:{typeOfHcp:typeOfHcp}});
+        // }
     };
 
     const openSmartListPopup = async (smart_list_id) => {
@@ -462,6 +467,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 list_selection: props.getWebinarEmailData?.selected
                     ? props.getWebinarEmailData?.selected
                     : props.getWebinarDraftData?.campaign_data?.list_selection,
+                    typeOfHcp:typeOfHcp
             },
             campaign_id: campaign_id_st,
             source_code: props.getWebinarEmailData?.template
@@ -558,7 +564,10 @@ const WebinarVerifyHcpMAIL = (props) => {
                      :
                           */}
                                         <li className="active">
-                                            <Link to="/webinar/email/verifyHCP">Select Verify Your HCPs</Link>
+                                            <Link 
+                                            to="/webinar/email/verifyHCP"
+                                            state={{typeOfHcp:typeOfHcp}}
+                                            >Select Verify Your HCPs</Link>
                                         </li>
 
                                         <li className="active active-main">
@@ -843,7 +852,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                     </h6>
                                                     <p>{/* Single HCP <span>| 1</span> */}</p>
                                                     
-                                                    {getSmartListData.length !== 0 && (
+                                                    {(getSmartListData.length !== 0 &&typeOfHcp==1)&& (
                         <div className="smartlist-view email_box_outer new-smartlist">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
