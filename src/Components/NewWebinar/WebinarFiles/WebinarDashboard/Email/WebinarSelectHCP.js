@@ -135,7 +135,7 @@ const WebinarSelectHCP = (props) => {
       }
       props.getWebinarSelectedSmartListData(data[0]);
       navigate("/webinar/email/selectSmartListUsers", {
-        state: { smartListSelected: data[0], flag: 1, selected },
+        state: { smartListSelected: data[0], flag: 1, typeOfHcp:selected },
       });
     } else {
       props.getWebinarSelectedSmartListData(null);

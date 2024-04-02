@@ -88,6 +88,8 @@ const WebinarVerifyMAIL = (props) => {
  console.log("location Verify Mail--->",location?.state)
 
   useEffect(() => {
+    console.log("location?.state?.typeOfHcp-->",location?.state?.typeOfHcp)
+    console.log("typeOfHcp-->",typeOfHcp)
     let campaign_id =
       typeof props.getWebinarEmailData === "object" &&
         props.getWebinarEmailData !== null &&
@@ -668,13 +670,14 @@ const WebinarVerifyMAIL = (props) => {
                       <li className="active">
                         <Link 
                         to="/webinar/email/selectSmartListUsers"
-                        state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                        // state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                        state={{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}}
                         // state={{...location?.state}}
                         >Verify Your List</Link>
                       </li>
                     ) : (
                       <li className="active">
-                        <Link to="/webinar/email/verifyHCP">Select Verify Your HCPs</Link>
+                        <Link to="/webinar/email/verifyHCP" >Select Verify Your HCPs</Link>
                       </li>
                     )}
 
