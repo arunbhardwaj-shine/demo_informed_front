@@ -153,7 +153,7 @@ const WebinarSelectHCP = (props) => {
   
     if (selected == 1 || selected == 2) {
       navigate(url, {
-        state: { UserSelected: selected,flag:2 ,thisEventToggled:true},
+        state: { typeOfHcp: selected,flag:2 ,thisEventToggled:true},
       });
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;

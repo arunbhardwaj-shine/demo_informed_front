@@ -64,9 +64,9 @@ const WebinarSelectSmartListUsers = (props) => {
   const [sortingCount, setSortingCount] = useState(0);
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
-  const [selected,setSelected]=useState(location?.state?.selected ? 
-    location?.state?.selected 
-    : props.getWebinarDraftData?.campaign_data?.selected)
+  const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp ? 
+    location?.state?.typeOfHcp 
+    : props.getWebinarDraftData?.campaign_data?.typeOfHcp)
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -97,6 +97,7 @@ const WebinarSelectSmartListUsers = (props) => {
     location?.state?.thisEventToggled 
     : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
 
+    console.log("smart list users-->",location?.state?.thisEventToggled )
   useEffect(() => {
     let campaign_id =
       typeof old_object === "object" &&
@@ -190,9 +191,10 @@ const WebinarSelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
+    console.log("thisEventToggled-->",thisEventToggled)
     // navigate("/webinar/email/selectsmartlist");
-    if(selected==1){    
-      navigate("/webinar/email/selectSmartList",{state:{UserSelected:selected,thisEventToggled:thisEventToggled}});
+    if(typeOfHcp==1){    
+      navigate("/webinar/email/selectSmartList",{state:{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}});
     
     }else{
       navigate("/webinar/email/selectHCP");
@@ -311,10 +313,8 @@ const WebinarSelectSmartListUsers = (props) => {
         auto_responder_id: props.old_object?.templateId
                 ? props.old_object?.templateId
                 : props.getWebinarDraftData?.campaign_data?.template_id,
-        selected:location?.state?.selected
-        ?location?.state?.selected
-        :props.getWebinarDraftData?.campaign_data?.selected,
-        thisEventToggled:thisEventToggled
+        typeOfHcp:typeOfHcp,
+        thisEventToggled:thisEventToggled,
       },
       auto_responder_id: props.old_object?.templateId
       ? props.old_object?.templateId
@@ -359,7 +359,7 @@ const WebinarSelectSmartListUsers = (props) => {
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
-        selected:selected,
+        typeOfHcp:typeOfHcp,
         thisEventToggled:thisEventToggled
       },
     });
@@ -947,8 +947,9 @@ const WebinarSelectSmartListUsers = (props) => {
                     </li>
                     <li className="active">
                       <Link 
-                      to={selected==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}
-                      state={selected==1?{UserSelected:selected,thisEventToggled:thisEventToggled}:null}
+                      to={typeOfHcp==1?"/webinar/email/selectSmartList":"/webinar/email/selectHCP"}
+                      state={typeOfHcp==1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                      
                       >
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"

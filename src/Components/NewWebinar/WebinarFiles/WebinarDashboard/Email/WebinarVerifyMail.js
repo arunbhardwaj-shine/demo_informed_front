@@ -50,9 +50,9 @@ const WebinarVerifyMAIL = (props) => {
       ? props.getWebinarEmailData?.template
       : props.getWebinarDraftData?.source_code
   );
-  const [selected, setSelected] = useState(location?.state?.selected ?
-    location?.state?.selected
-    : props.getWebinarDraftData?.campaign_data?.selected)
+  const [typeOfHcp, setTypeOfHcp] = useState(location?.state?.typeOfHcp ?
+    location?.state?.typeOfHcp
+    : props.getWebinarDraftData?.campaign_data?.typeOfHcp)
 
   var var_template_source_code = template_source_code?.replaceAll("800", "450");
   var_template_source_code = var_template_source_code?.replaceAll("600", "450");
@@ -85,7 +85,7 @@ const WebinarVerifyMAIL = (props) => {
   const [thisEventToggled,setThisEventToggled]=useState(location?.state?.thisEventToggled ? 
     location?.state?.thisEventToggled 
     : props.getWebinarDraftData?.campaign_data?.thisEventToggled)
- 
+ console.log("location Verify Mail--->",location?.state)
 
   useEffect(() => {
     let campaign_id =
@@ -223,9 +223,7 @@ const WebinarVerifyMAIL = (props) => {
           : props.getWebinarDraftData?.campaign_data?.template_id,
 
         removedHcp: getRemovedHcp,
-        selected: location?.state?.selected
-          ? location?.state?.selected
-          : props.getWebinarDraftData?.campaign_data?.selected,
+        typeOfHcp: typeOfHcp,
           thisEventToggled:thisEventToggled
       },
       campaign_id: campaign_id_st,
@@ -357,6 +355,8 @@ const WebinarVerifyMAIL = (props) => {
           auto_responder_id: props.getWebinarEmailData?.templateId
             ? props.getWebinarEmailData?.templateId
             : props.getWebinarDraftData?.campaign_data?.template_id,
+            typeOfHcp:typeOfHcp,
+            thisEventToggled:thisEventToggled
         },
         auto_responder_id: props.getWebinarEmailData?.templateId
           ? props.getWebinarEmailData?.templateId
@@ -571,9 +571,7 @@ const WebinarVerifyMAIL = (props) => {
           ? props.getWebinarEmailData?.templateId
           : props.getWebinarDraftData?.campaign_data?.template_id,
         removedHcp: getRemovedHcp,
-        selected: location?.state?.selected
-          ? location?.state?.selected
-          : props.getWebinarDraftData?.campaign_data?.selected,
+        typeOfHcp: typeOfHcp,
           thisEventToggled:thisEventToggled
       },
       campaign_id: campaign_id_st,
@@ -648,8 +646,9 @@ const WebinarVerifyMAIL = (props) => {
                     </li>
                     <li className="active">
                       <Link 
-                      to={selected == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}
-                      state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                      to={typeOfHcp == 1 ? "/webinar/email/selectSmartList" : "/webinar/email/selectHCP"}
+                      state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                      // state={{...location?.state}}
                       >
                         {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
@@ -662,13 +661,15 @@ const WebinarVerifyMAIL = (props) => {
                    </li>
                      :  ""
                      */}
+                 
 
                     {typeof getSmartListData !== "undefined" &&
                       getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
                         <Link 
                         to="/webinar/email/selectSmartListUsers"
-                        state={selected == 1?{selected:selected,thisEventToggled:thisEventToggled}:null}
+                        state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
+                        // state={{...location?.state}}
                         >Verify Your List</Link>
                       </li>
                     ) : (
@@ -961,7 +962,7 @@ const WebinarVerifyMAIL = (props) => {
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                          {(getSmartListData?.length !== 0 && selected==1)&&(
+                          {(getSmartListData?.length !== 0 && typeOfHcp==1)&&(
                             <div className="smartlist-view email_box_outer new-smartlist">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
