@@ -244,6 +244,8 @@ const WebinarAutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
+    setValidationError({});
+
     setEmailSubject(template?.subject);
     setEmailDescription(template?.description);
     setCreateNewTemplate(false);
