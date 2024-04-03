@@ -554,21 +554,42 @@ const WebinarAutoEmail = () => {
         smart_list_id: "",
       };
 
-      const status = body?.data?.map((data) => {
+      const status = body?.data?.map((data,index) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           if (data?.first_name == "") {
+            setValidationError({
+              newHcpFirstName: "Please enter the first name",
+              index: index,
+          });
             return "Please enter the first name";
           } else if (data?.last_name == "") {
+            setValidationError({
+              newHcpLastName: "Please enter the last name",
+              index: index,
+          });
             return "Please enter the last name";
           }
         }
         if (data?.email == "") {
+          setValidationError({
+            newHcpEmail: "Please enter the email atleast",
+            index: index,
+        });
           return "Please enter the email atleast";
+
         } else if (data?.institution_type == "") {
+          setValidationError({
+            newHcpInstitution: "Please select Institution",
+            index: index,
+        });
           return "Please select the institution type";
         }
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
+            setValidationError({
+              newHcpCountry: "Please select country",
+              index: index,
+          });
             return "Please select country";
           }
         }
@@ -579,11 +600,19 @@ const WebinarAutoEmail = () => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = selectedHcp.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
             if (typeof prev_obj != "undefined") {
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+                index: index
+              });
               return "User with same email already added in list.";
             } else {
               return "true";
             }
           } else {
+            setValidationError({ 
+              newHcpEmail: "Email format is not valid" ,
+              index: index
+            });
             return "Email format is not valid";
           }
         }
@@ -604,6 +633,7 @@ const WebinarAutoEmail = () => {
               });
               setIsOpenAdd(false);
               setIsOpensend(true);
+              setValidationError({})
             } else {
               toast.warning(res?.data?.message);
               loader("hide");
@@ -1123,6 +1153,7 @@ const WebinarAutoEmail = () => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
+    setValidationError({})
   }
   const setHpcList = (list) => {
     setHpc(list)

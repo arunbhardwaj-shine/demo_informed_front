@@ -1157,6 +1157,7 @@ const WebinarCreateNewEmail = (props) => {
         ]);
         setActiveManual("active");
         setActiveExcel("");
+        setValidationError({})
     }
     const setHpcList = (list) => {
         setHpc(list)
@@ -1300,29 +1301,30 @@ const WebinarCreateNewEmail = (props) => {
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
-                // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                // await axios
-                //     .post(`distributes/add_new_readers_in_list`, body)
-                //     .then((res) => {
-                //         if (res?.data?.status_code === 200) {
-                //             toast.success("User added successfully");
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                await axios
+                    .post(`distributes/add_new_readers_in_list`, body)
+                    .then((res) => {
+                        if (res?.data?.status_code === 200) {
+                            toast.success("User added successfully");
 
-                //             res?.data?.response?.data?.map((data) => {
-                //                 setSelectedHcp((oldArray) => [...oldArray, data]);
-                //             });
-                //             setIsOpenAdd(false);
-                //             setIsOpensend(true);
-                //         } else {
-                //             toast.warning(res?.data?.message);
-                //             loader("hide");
-                //         }
-                //         loader("hide");
-                //         //setSelectedHcp(res.data.response.data);
-                //     })
-                //     .catch((err) => {
-                //         toast.error("Something went wrong");
-                //         loader("hide");
-                //     });
+                            res?.data?.response?.data?.map((data) => {
+                                setSelectedHcp((oldArray) => [...oldArray, data]);
+                            });
+                            setIsOpenAdd(false);
+                            setIsOpensend(true);
+                            setValidationError({})
+                        } else {
+                            toast.warning(res?.data?.message);
+                            loader("hide");
+                        }
+                        loader("hide");
+                        //setSelectedHcp(res.data.response.data);
+                    })
+                    .catch((err) => {
+                        toast.error("Something went wrong");
+                        loader("hide");
+                    });
             } else {
                 const filteredArray = status?.filter((value) => value !== "true");
                 toast.warning(filteredArray?.[0]);
