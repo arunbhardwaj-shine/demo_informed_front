@@ -52,6 +52,8 @@ const WebinarSelectHCP = (props) => {
     { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` }
   ];
 
+  const [typeOfHcp,setTypeOfHcp]=useState(null)
+
   const backClicked = () => {
     let event_Id = eventId
     navigate("/webinar/email/create-new-email", {
@@ -144,12 +146,36 @@ const WebinarSelectHCP = (props) => {
   };
   
   const nextClicked = async (selected) => {
+    setTypeOfHcp(selected)
     props.getWebinarEmailData(old_object);
     const option = sendOptions.find((item) => item?.id == selected);
     let url = option?.navigateUrl || "";
   
     props.getWebinarSelected(null);
     props.getWebinarSelectedSmartListData(null);
+    
+    if(draft_object?.campaign_data?.typeOfHcp!=selected){
+      if (old_object?.removedHcp) {
+        old_object.removedHcp = [];
+      }
+      if (old_object?.addedHcp) {
+        old_object.addedHcp = [];
+      }
+      if (old_object?.selectedHcp) {
+        old_object.selectedHcp = [];
+      }
+
+      if(draft_object?.campaign_data?.removedHcp){
+        draft_object.campaign_data.removedHcp = [];
+      }
+
+      if(draft_object?.campaign_data?.addedHcp){
+        draft_object.campaign_data.addedHcp = [];
+      }
+      if(draft_object?.campaign_data?.selectedHcp){
+        draft_object.campaign_data.selectedHcp = [];
+      }
+    }
   
     if (selected == 1 || selected == 2) {
       navigate(url, {

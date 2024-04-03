@@ -623,7 +623,7 @@ const WebinarEmail = (props) => {
       
       setTimeout(() => {
         buttonsContainer.classList.remove('hide');
-      }, 1000);
+      }, 100);
   
       loader("hide");
     } catch (err) {
@@ -1016,6 +1016,7 @@ const WebinarEmail = (props) => {
                     <div className="email-block-add">
                       <Link
                         to="/webinar/email/create-new-email"
+                        state={{flag:1}}
                         onClick={createNewEmail}>
                         <img src={path_image + "add-button.svg"} alt="" />
                       </Link>
