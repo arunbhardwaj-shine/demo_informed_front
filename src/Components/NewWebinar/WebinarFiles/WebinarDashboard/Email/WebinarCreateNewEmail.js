@@ -770,7 +770,7 @@ const WebinarCreateNewEmail = (props) => {
                 let newLink = url?.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
                 const baseLink =
-                    "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+                "https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
                 let payload = {}
                 let apiLink = ""
 
@@ -802,15 +802,19 @@ const WebinarCreateNewEmail = (props) => {
                         );
 
                         if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
-                            let urlvalue = newLink?.value?.split("&redirect_url=")
-                            const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
-                            const substring = urlvalue[0].substring(startIndex);
-                            firstToxControlWrap.value = urlvalue[1]
-                            payload = {
-                                template_id: templateIdRef.current,
-                                url_code: substring,
-                            };
-                        }
+                            if (!window.confirm("Are you sure you want to remove the tracking?")) {
+                              return;
+                          }
+                                          const urlParams = new URLSearchParams(newLink.value);
+                                          const redirectUrl = urlParams.get('redirect_url');
+                                          const trackingCode = urlParams.get('tracking_code');
+                                          firstToxControlWrap.value = redirectUrl;
+                                          payload = {
+                                            email_autoresponder_id: templateIdRef.current,
+                                              url_code: trackingCode,
+                                          };
+                                      }
+                                      
                         if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
                             if (!newLink?.value) {
                                 alert("Please enter a link")
@@ -829,12 +833,11 @@ const WebinarCreateNewEmail = (props) => {
                             const currentTimestamp = Date.now();
                             payload = {
                                 slug_value: slugValue,
-                                template_id: templateIdRef.current,
+                                email_autoresponder_id: templateIdRef.current,
                                 url_code: `clicked_track_doc_${currentTimestamp}`,
                             };
                             linkingPayload.current = payload;
-                            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                            firstToxControlWrap.value = link;
+                            let link = `https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`;                            firstToxControlWrap.value = link;
 
                         }
 
@@ -852,9 +855,10 @@ const WebinarCreateNewEmail = (props) => {
                                 });
                         });
                         if (newLink?.value?.includes(baseLink)) {
-                            alert("Traking added");
+                            alert("Tracking added");
                         } else {
-                            alert("Traking removed");
+                            saveButton.click()
+                            alert("Tracking removed");
                         }
                     };
 
@@ -1157,6 +1161,7 @@ const WebinarCreateNewEmail = (props) => {
         ]);
         setActiveManual("active");
         setActiveExcel("");
+        setValidationError({})
     }
     const setHpcList = (list) => {
         setHpc(list)
@@ -1300,29 +1305,31 @@ const WebinarCreateNewEmail = (props) => {
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
-                // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-                // await axios
-                //     .post(`distributes/add_new_readers_in_list`, body)
-                //     .then((res) => {
-                //         if (res?.data?.status_code === 200) {
-                //             toast.success("User added successfully");
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                await axios
+                    .post(`distributes/add_new_readers_in_list`, body)
+                    .then((res) => {
+                        if (res?.data?.status_code === 200) {
+                            toast.success("User added successfully");
 
-                //             res?.data?.response?.data?.map((data) => {
-                //                 setSelectedHcp((oldArray) => [...oldArray, data]);
-                //             });
-                //             setIsOpenAdd(false);
-                //             setIsOpensend(true);
-                //         } else {
-                //             toast.warning(res?.data?.message);
-                //             loader("hide");
-                //         }
-                //         loader("hide");
-                //         //setSelectedHcp(res.data.response.data);
-                //     })
-                //     .catch((err) => {
-                //         toast.error("Something went wrong");
-                //         loader("hide");
-                //     });
+                            res?.data?.response?.data?.map((data) => {
+                                setSelectedHcp((oldArray) => [...oldArray, data]);
+                            });
+                           
+                            setIsOpenAdd(false);
+                            setIsOpensend(true);
+                            setValidationError({})
+                        } else {
+                            toast.warning(res?.data?.message);
+                            loader("hide");
+                        }
+                        loader("hide");
+                        //setSelectedHcp(res.data.response.data);
+                    })
+                    .catch((err) => {
+                        toast.error("Something went wrong");
+                        loader("hide");
+                    });
             } else {
                 const filteredArray = status?.filter((value) => value !== "true");
                 toast.warning(filteredArray?.[0]);
@@ -1632,7 +1639,7 @@ const WebinarCreateNewEmail = (props) => {
             toast.warning("Please select smart list");
         }
         e.preventDefault();
-        setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+        // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
         setIsOpensend(true);
         setAddListOpen(false);
     };

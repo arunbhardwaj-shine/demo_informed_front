@@ -78,15 +78,17 @@ const WebinarSelectSmartList = (props) => {
     location?.state?.thisEventToggled!="undefined"&&location?.state?.thisEventToggled
      ? 
     location?.state?.thisEventToggled 
-    : draft_object?.thisEventToggled
-      ? draft_object?.thisEventToggled
+    : draft_object?.campaign_data?.thisEventToggled
+      ? draft_object?.campaign_data?.thisEventToggled
       : ""
   )
 
   const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
     location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
     ?location?.state?.typeOfHcp
-    :props.getWebinarDraftData?.campaign_data?.typeOfHcp
+    :draft_object?.campaign_data?.typeOfHcp
+    ?draft_object?.campaign_data?.typeOfHcp
+    :""
   )
   
   const inputElement = useRef();
@@ -109,6 +111,17 @@ const WebinarSelectSmartList = (props) => {
   ]);
 
   useEffect(() => {
+    if (location?.state?.typeOfHcp) {
+      setTypeOfHcp(location?.state?.typeOfHcp);
+    } else {
+      setTypeOfHcp(draft_object?.campaign_data?.typeOfHcp);
+    }
+    if (location?.state?.thisEventToggled) {
+      setIsToggled(location?.state?.thisEventToggled);
+    } else {
+     
+      setTypeOfHcp(draft_object?.campaign_data?.thisEventToggled);
+    }
     getSmartListData(1);
   }, []);
 
@@ -148,6 +161,7 @@ const WebinarSelectSmartList = (props) => {
   };
 
   useEffect(() => {
+    
     let listid = new_object?.id
       ? new_object?.id
       : draft_object?.campaign_data?.smart_list_id
@@ -668,7 +682,7 @@ const WebinarSelectSmartList = (props) => {
                     >
                       Save As Draft
                     </button>
-                    {checkPdfSelected.current==true ? (
+                    {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}
                         className="btn btn-primary btn-filled next disabled"
@@ -934,17 +948,28 @@ const WebinarSelectSmartList = (props) => {
                               <div className="mail-box-conten-title">
                                 <h5>{template?.name}</h5>
                                 <div className="select-mail-option">
+                                <input
+                                    onClick={() => handleSelect(template)}
+                                    type="radio"
+                                    name="radio"
+                                    checked={
+                                      template?.id == PdfSelected
+                                        ? true
+                                        : template?.id == getselecedlistid &&
+                                          !PdfSelected
+                                          ? true
+                                          : false
+                                    }
+                                  />
                                  
-                                  {checkPdfSelected.current==true?(<>
-                                  
+                                  {/* {checkPdfSelected.current==true?(<>                                  
                                     <input
                                     onClick={() => handleSelect(template)}
                                     type="radio"
                                     name="radio"
                                     checked={false}
                                   />
-                                  </>):(<>
-                                   
+                                  </>):(<>                                   
                                     <input
                                     onClick={() => handleSelect(template)}
                                     type="radio"
@@ -958,7 +983,7 @@ const WebinarSelectSmartList = (props) => {
                                           : false
                                     }
                                   /></>)
-                                   } 
+                                   }  */}
                                  
                                   <span className="checkmark"></span>
                                 </div>
