@@ -743,7 +743,9 @@ const WebinarVerifyMAIL = (props) => {
                           <strong>Campaign Title | </strong>
                           {props.getWebinarEmailData?.emailCampaign
                             ? props.getWebinarEmailData?.emailCampaign
-                            : props.getWebinarDraftData?.campaign}
+                            : props.getWebinarDraftData?.campaign
+                            ?props.getWebinarDraftData?.campaign
+                          :"webinar"}
                         </h6>
                         <h6>
                           <strong>Creator | </strong>

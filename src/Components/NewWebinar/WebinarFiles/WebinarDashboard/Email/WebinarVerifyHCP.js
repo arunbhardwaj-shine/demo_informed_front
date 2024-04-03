@@ -298,6 +298,7 @@ const WebinarVerifyHCP = (props) => {
         ]);
         setActiveManual("active");
         setActiveExcel("");
+        setValidationError({})
     };
 
     const editablemade = () => {
@@ -681,7 +682,6 @@ const WebinarVerifyHCP = (props) => {
                         return "Please enter the email atleast";
                     }  
                     else if (data?.email != "") {
-                        console.log("data?.email-->",data?.email)
                         let email = data?.email;
                         let useremail = email?.trim();
                         var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -739,6 +739,7 @@ const WebinarVerifyHCP = (props) => {
                                 setSelectedHcp((oldArray) => [...oldArray, data]);
                             });
                             setIsOpen(false);
+                            setValidationError({})
                             loader("hide");
                         } else {
                             toast.warning(res.data.message);
