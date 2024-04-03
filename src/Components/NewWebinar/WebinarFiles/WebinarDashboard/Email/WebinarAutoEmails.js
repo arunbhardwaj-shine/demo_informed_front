@@ -959,15 +959,19 @@ const WebinarAutoEmail = () => {
                     );
 
                     if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
-                        let urlvalue = newLink?.value?.split("&redirect_url=")
-                        const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
-                        const substring = urlvalue[0].substring(startIndex);
-                        firstToxControlWrap.value = urlvalue[1]
-                        payload = {
-                            template_id: templateIdRef.current,
-                            url_code: substring,
-                        };
-                    }
+        if (!window.confirm("Are you sure you want to remove the tracking?")) {
+          return;
+      }
+                      const urlParams = new URLSearchParams(newLink.value);
+                      const redirectUrl = urlParams.get('redirect_url');
+                      const trackingCode = urlParams.get('tracking_code');
+                      firstToxControlWrap.value = redirectUrl;
+                      payload = {
+                          template_id: templateIdRef.current,
+                          url_code: trackingCode,
+                      };
+                  }
+                  
                     if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
                         if (!newLink?.value) {
                             alert("Please enter a link")
@@ -1011,6 +1015,7 @@ const WebinarAutoEmail = () => {
                     if (newLink?.value?.includes(baseLink)) {
                         alert("Traking added");
                     } else {
+                      saveButton.click()
                         alert("Traking removed");
                     }
                 };
