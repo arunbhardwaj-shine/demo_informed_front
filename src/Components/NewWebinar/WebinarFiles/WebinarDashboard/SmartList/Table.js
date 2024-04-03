@@ -1875,7 +1875,7 @@ const Table = (props, ref) => {
                           <img src={path + "edit-button.svg"} alt="Edit" />
                         </button>
                       </div>
-                      <div className="hcp-sort">
+                      {/* <div className="hcp-sort">
                         {sortingCount == 0 ? (
                           <>
                             <button
@@ -1913,7 +1913,7 @@ const Table = (props, ref) => {
                             </button>
                           </>
                         )}
-                      </div>
+                      </div> */}
                     </>
                   ) : null}
 
