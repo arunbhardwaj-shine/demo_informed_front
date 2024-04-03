@@ -298,6 +298,7 @@ const WebinarVerifyHCP = (props) => {
         ]);
         setActiveManual("active");
         setActiveExcel("");
+        setValidationError({})
     };
 
     const editablemade = () => {
@@ -739,6 +740,7 @@ const WebinarVerifyHCP = (props) => {
                                 setSelectedHcp((oldArray) => [...oldArray, data]);
                             });
                             setIsOpen(false);
+                            setValidationError({})
                             loader("hide");
                         } else {
                             toast.warning(res.data.message);

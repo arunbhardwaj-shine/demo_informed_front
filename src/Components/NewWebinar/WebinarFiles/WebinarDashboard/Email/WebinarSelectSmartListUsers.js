@@ -741,6 +741,7 @@ const WebinarSelectSmartListUsers = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
+    setValidationError({})
   };
 
   const setHpcList = (list) => {
@@ -1016,6 +1017,7 @@ const WebinarSelectSmartListUsers = (props) => {
                 setReadersNewlyAdded((oldArray) => [...oldArray, data]);
               });
               setIsOpenAdd(false);
+              setValidationError({})
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
