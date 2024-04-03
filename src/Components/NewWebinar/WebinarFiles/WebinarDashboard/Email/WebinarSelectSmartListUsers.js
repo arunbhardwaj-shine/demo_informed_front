@@ -181,9 +181,10 @@ const WebinarSelectSmartListUsers = (props) => {
       axios
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
-          if (old_object?.removedHcp) {
-            if (old_object?.removedHcp?.length > 0) {
-              var removedUsers = old_object?.removedHcp;
+          if (old_object?.removedHcp || old_object?.addedHcp) {
+            if (old_object?.removedHcp?.length > 0 || old_object?.addedHcp?.length > 0) {
+              const removedUsers = [... old_object?.removedHcp, ...old_object?.addedHcp];
+              // var removedUsers = old_object?.removedHcp;
               var allUsers = res?.data?.response.data;
               let count=0
               var pendingUsers = allUsers?.filter(function (objFromA) {
@@ -198,16 +199,23 @@ const WebinarSelectSmartListUsers = (props) => {
               setReaders(res?.data?.response?.data);
             }
           } else if (
-            props?.getWebinarDraftData &&
-            props.getWebinarDraftData?.campaign_data?.removedHcp
+            (
+              props?.getWebinarDraftData &&
+              props.getWebinarDraftData?.campaign_data?.removedHcp
+            ) || 
+            (
+              props?.getWebinarDraftData &&
+              props.getWebinarDraftData?.campaign_data?.addedHcp
+            )
           ) {
             if (
-              typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
-                "undefined" &&
-              props.getWebinarDraftData?.campaign_data?.removedHcp != ""
+              ( typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
+                "undefined" && props.getWebinarDraftData?.campaign_data?.removedHcp != "") ||
+              ( typeof props.getWebinarDraftData?.campaign_data?.addedHcp !=
+                  "undefined" && props.getWebinarDraftData?.campaign_data?.addedHcp != "")  
             ) {
-              var removedUsers =
-                props.getWebinarDraftData?.campaign_data?.removedHcp;
+              console.log(props.getWebinarDraftData?.campaign_data?.removedHcp,props.getWebinarDraftData?.campaign_data?.addedHcp,"draft")
+              var removedUsers = [... props.getWebinarDraftData?.campaign_data?.removedHcp, ...props.getWebinarDraftData?.campaign_data?.addedHcp];
               var allUsers = res?.data?.response?.data;
               var pendingUsers = allUsers?.filter(function (objFromA) {
                 return !removedUsers?.find(function (objFromB) {
