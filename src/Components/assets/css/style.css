@@ -2085,6 +2085,7 @@ ul.tabnav-link li {
   top: 70px;
   left: 30px;
   position: static;
+  padding-top:3px;
 }
 
 .email-form {
@@ -2492,9 +2493,10 @@ form .input-group {
   margin: 12px 0 0;
 }
 
-.send-option-list ul.send-option-new li p img {
+.send-option-list ul li p img {
   cursor: pointer;
   pointer-events: all;
+  height: 12px;
 }
 
 .send-option-list h5 {
