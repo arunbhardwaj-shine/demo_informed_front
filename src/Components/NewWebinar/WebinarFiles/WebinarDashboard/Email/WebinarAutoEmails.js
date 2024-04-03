@@ -244,6 +244,8 @@ const WebinarAutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
+    setValidationError({});
+
     setEmailSubject(template?.subject);
     setEmailDescription(template?.description);
     setCreateNewTemplate(false);
@@ -1517,7 +1519,7 @@ const WebinarAutoEmail = () => {
                   {templateClicked ? (
                     <div className="email-form mail_trigger_right_dummy">
                       <form>
-                        <div className="form-inline row justify-content-between align-items-center">
+                        <div className="form-inline row justify-content-between align-items-start">
                           <div className="form-group col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
                               Template subject{" "}
