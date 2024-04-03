@@ -44,12 +44,12 @@ const WebinarSelectHCP = (props) => {
     ["iSnEsKu5gB/DRlycxB6G4g==", "B7SHpAc XDXSH NXkN0rdQ==", "UbCJcnLM9fe HsRMgX8c1A==", "wW0geGtDPvig5gF 6KbJrg==", "z2TunmZQf3QwCsICFTLGGQ==", "qDgwPdToP05Kgzc g2VjIQ=="];
   const currentUserId = localStorage.getItem("user_id")
   const sendOptions = [
-    { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg` },
+    { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`,tooltipMessage:"Everyone from your CRM" },
     { id: 4, navigateUrl: "/webinar/email/selectSmartListUsers", label: "US list", alt: "US List", value: "US List", imageUrl: `${path_image}us-list.svg` },
-    { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg` },
-    { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg` },
-    { id: 2,navigateUrl:"/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` },
-    { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg` }
+    { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg` ,tooltipMessage:"HCPs who HAVE registered to this event" },
+    { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`,tooltipMessage:"The remaining who have NOT yet registered" },
+    { id: 2,navigateUrl:"/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` ,tooltipMessage:"Single HCP - Find or upload a new individual HCP (or a few)"},
+    { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`,tooltipMessage:"Use an existing SmartList or create/upload a new segment of HCPs" }
   ];
 
   const [typeOfHcp,setTypeOfHcp]=useState(null)
@@ -308,7 +308,7 @@ const WebinarSelectHCP = (props) => {
                         return null
                       } else {
                         return (<>
-                          <li key={option?.id} className={(localStorage.getItem("inviteFlag")!=1 && (option.id == 5 || option.id == 6))?"disabled":''}>
+<li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
                             <div
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                               onClick={(e) => handleInputChange(e, option?.id)}
@@ -316,7 +316,7 @@ const WebinarSelectHCP = (props) => {
                               <input type="radio" name="select-option-hcp" value={option?.value} />
                               <img src={option?.imageUrl} alt={option.alt} />
                             </div>
-                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt="" /></p>
+                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage}   title={option?.tooltipMessage} /></p>
                           </li>
                         </>)
                       }
@@ -339,7 +339,7 @@ const WebinarSelectHCP = (props) => {
                               <input type="radio" name="select-option-hcp" value={option?.value}  />
                               <img src={option?.imageUrl} alt={option.alt} />
                             </div>
-                            <p>{option?.label}</p>
+                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage}   title={option?.tooltipMessage} /></p>
                           </li>
                         </>)
                       }
