@@ -802,15 +802,19 @@ const WebinarCreateNewEmail = (props) => {
                         );
 
                         if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
-                            let urlvalue = newLink?.value?.split("&redirect_url=")
-                            const startIndex = urlvalue[0].indexOf('tracking_code=') + 'tracking_code='.length;
-                            const substring = urlvalue[0].substring(startIndex);
-                            firstToxControlWrap.value = urlvalue[1]
-                            payload = {
-                                template_id: templateIdRef.current,
-                                url_code: substring,
-                            };
-                        }
+                            if (!window.confirm("Are you sure you want to remove the tracking?")) {
+                              return;
+                          }
+                                          const urlParams = new URLSearchParams(newLink.value);
+                                          const redirectUrl = urlParams.get('redirect_url');
+                                          const trackingCode = urlParams.get('tracking_code');
+                                          firstToxControlWrap.value = redirectUrl;
+                                          payload = {
+                                            email_autoresponder_id: templateIdRef.current,
+                                              url_code: trackingCode,
+                                          };
+                                      }
+                                      
                         if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
                             if (!newLink?.value) {
                                 alert("Please enter a link")
@@ -851,9 +855,10 @@ const WebinarCreateNewEmail = (props) => {
                                 });
                         });
                         if (newLink?.value?.includes(baseLink)) {
-                            alert("Traking added");
+                            alert("Tracking added");
                         } else {
-                            alert("Traking removed");
+                            saveButton.click()
+                            alert("Tracking removed");
                         }
                     };
 
@@ -1310,6 +1315,7 @@ const WebinarCreateNewEmail = (props) => {
                             res?.data?.response?.data?.map((data) => {
                                 setSelectedHcp((oldArray) => [...oldArray, data]);
                             });
+                           
                             setIsOpenAdd(false);
                             setIsOpensend(true);
                             setValidationError({})
@@ -1633,7 +1639,7 @@ const WebinarCreateNewEmail = (props) => {
             toast.warning("Please select smart list");
         }
         e.preventDefault();
-        setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+        // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
         setIsOpensend(true);
         setAddListOpen(false);
     };
