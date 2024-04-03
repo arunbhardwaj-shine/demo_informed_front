@@ -810,7 +810,7 @@ const WebinarCreateNewEmail = (props) => {
                                           const trackingCode = urlParams.get('tracking_code');
                                           firstToxControlWrap.value = redirectUrl;
                                           payload = {
-                                              template_id: templateIdRef.current,
+                                            email_autoresponder_id: templateIdRef.current,
                                               url_code: trackingCode,
                                           };
                                       }
@@ -855,10 +855,10 @@ const WebinarCreateNewEmail = (props) => {
                                 });
                         });
                         if (newLink?.value?.includes(baseLink)) {
-                            alert("Traking added");
+                            alert("Tracking added");
                         } else {
                             saveButton.click()
-                            alert("Traking removed");
+                            alert("Tracking removed");
                         }
                     };
 
