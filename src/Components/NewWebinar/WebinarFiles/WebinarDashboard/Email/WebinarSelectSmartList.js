@@ -1043,7 +1043,7 @@ const WebinarSelectSmartList = (props) => {
 
                 {typeof SendListData !== "undefined" &&
                   SendListData?.length == 32 &&
-                  getloadmore === 0 && (
+                  getloadmore === 0&&apiCallStatus && (
                     <div className="load_more">
                       <button
                         className="btn btn-primary btn-filled"
