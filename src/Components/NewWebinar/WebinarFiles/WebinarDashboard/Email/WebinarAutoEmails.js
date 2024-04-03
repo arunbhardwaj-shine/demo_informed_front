@@ -737,11 +737,19 @@ const WebinarAutoEmail = () => {
   };
   const updateTemplate = async (e, status = 0) => {
     e.preventDefault();
-    if (approveClickedd) {
-      setApproveClicked(false);
-    } else {
-      setApproveClicked(true);
+    if((status==1 || status==2)){
+      if (approveClickedd ) {
+        setApproveClicked(false);
+      } else {
+        setApproveClicked(true);
+      }
     }
+
+    if((status==0)){
+      setApproveClicked(false);
+
+    }
+   
 
     let template_id = templateId;
     if (

@@ -6514,8 +6514,7 @@ h2 {
 }
 
 .send-option-list ul li img {
-  cursor: pointer;
-  pointer-events: all;
+  pointer-events: none;
 }
 
 .email_box_block.no_found,
