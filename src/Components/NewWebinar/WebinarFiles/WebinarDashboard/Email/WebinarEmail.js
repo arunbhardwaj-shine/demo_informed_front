@@ -623,7 +623,7 @@ const WebinarEmail = (props) => {
       
       setTimeout(() => {
         buttonsContainer.classList.remove('hide');
-      }, 1000);
+      }, 100);
   
       loader("hide");
     } catch (err) {
