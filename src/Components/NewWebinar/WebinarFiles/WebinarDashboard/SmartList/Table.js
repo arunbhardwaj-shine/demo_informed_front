@@ -1419,8 +1419,8 @@ const Table = (props, ref) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email === useremail);
-            let prev_obj_new = getNewReaders.find((x) => x.email === useremail);
+            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
+            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
             if (
               typeof prev_obj != "undefined" ||
               typeof prev_obj_new != "undefined"
@@ -1568,8 +1568,9 @@ const Table = (props, ref) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
+            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
+            if (typeof prev_obj != "undefined" ||typeof prev_obj_new != "undefined"  ) {
               return "User with same email already added in list.";
             } else {
               return "true";
