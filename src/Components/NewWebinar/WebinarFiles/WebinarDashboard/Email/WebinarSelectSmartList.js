@@ -74,18 +74,21 @@ const WebinarSelectSmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   // const [isToggled, setIsToggled] = useState(true); 
-  const [isToggled,setIsToggled]=useState(location?.state?.thisEventToggled ? 
+  const [isToggled,setIsToggled]=useState(location?.state?.thisEventToggled!=null&&
+    location?.state?.thisEventToggled!="undefined"&&location?.state?.thisEventToggled
+     ? 
     location?.state?.thisEventToggled 
     : draft_object?.thisEventToggled
       ? draft_object?.thisEventToggled
       : ""
   )
-  const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp
+
+  const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
+    location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
     ?location?.state?.typeOfHcp
     :props.getWebinarDraftData?.campaign_data?.typeOfHcp
-    )
-
-
+  )
+  
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
@@ -106,7 +109,6 @@ const WebinarSelectSmartList = (props) => {
   ]);
 
   useEffect(() => {
-    
     getSmartListData(1);
   }, []);
 
@@ -117,7 +119,7 @@ const WebinarSelectSmartList = (props) => {
       search: "",
       filter: filter,
       paging: "32",
-      event_id: isToggled ? eventId : '',
+      event_id: isToggled==1 ? eventId : '',
     };
     loader("show");
     axios
@@ -174,6 +176,17 @@ const WebinarSelectSmartList = (props) => {
       if (e.id != new_object?.id) {
         if (old_object?.removedHcp) {
           old_object.removedHcp = [];
+        }
+        if (old_object?.addedHcp) {
+          old_object.addedHcp = [];
+        }
+
+        if(draft_object?.campaign_data?.removedHcp){
+          draft_object.campaign_data.removedHcp = [];
+        }
+
+        if(draft_object?.campaign_data?.addedHcp){
+          draft_object.campaign_data.addedHcp = [];
         }
       }
     }
@@ -590,7 +603,12 @@ const WebinarSelectSmartList = (props) => {
   }
 
   const handleToggle = async(e) => {
-    setIsToggled(!isToggled);
+    if(isToggled==1){
+      setIsToggled(2);
+    }else{
+      setIsToggled(1);
+    }
+    
   }
 
   useEffect(() => {
@@ -711,7 +729,7 @@ const WebinarSelectSmartList = (props) => {
                       <label className="switch6-light">
                        
                         <input type="checkbox"
-                          checked={isToggled}
+                          checked={isToggled==1?true:false}
                           onChange={(e) => {
                             handleToggle(e.target?.checked);
                           }}
@@ -1439,7 +1457,7 @@ const WebinarSelectSmartList = (props) => {
                 )}
               </div>
             </div>
-          ) : null}{" "}
+          ) : null}
         </Modal.Body>
       </Modal>
       {/*Modal For Creating Smart list with Excel File end*/}

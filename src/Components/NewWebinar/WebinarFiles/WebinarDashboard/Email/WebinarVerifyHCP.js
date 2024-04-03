@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Modal, Dropdown } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import {
     getWebinarCampaignId,
@@ -26,6 +26,7 @@ var old_object = {};
 var selected_Data = [];
 const WebinarVerifyHCP = (props) => {
     const { eventIdContext, handleEventId } = useSidebar()
+    const location=useLocation()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
         eventIdContext?.eventId
@@ -107,6 +108,11 @@ const WebinarVerifyHCP = (props) => {
         },
     ]);
     const [updateCounter, setUpdateCounter] = useState(0);
+    const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
+        location?.state?.typeOfHcp!="undefined"&&location?.state?.typeOfHcp
+        ?location?.state?.typeOfHcp
+        :props.getWebinarDraftData?.campaign_data?.typeOfHcp
+        )
 
     const axiosFun = async () => {
         try {
@@ -271,6 +277,7 @@ const WebinarVerifyHCP = (props) => {
             state: {
                 selectedHcp: selectedHcp,
                 removedHcp: "",
+                typeOfHcp:typeOfHcp
             },
         });
     };
@@ -662,16 +669,40 @@ const WebinarVerifyHCP = (props) => {
                             index: index,
                         });
                         return "Please enter the last name";
-                    } else if (data?.email == "") {
+                    } 
+                    else if (data?.email == "") {
 
                         setValidationError({
                             newHcpEmail: "Please enter the email atleast",
                             index: index,
                         });
                         return "Please enter the email atleast";
+                    }  
+                    else if (data?.email != "") {
+                        console.log("data?.email-->",data?.email)
+                        let email = data?.email;
+                        let useremail = email?.trim();
+                        var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                        if (regex.test(String(useremail).toLowerCase())) {
+                            let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
+                            if (typeof prev_obj != "undefined") {
+                                setValidationError({
+                                    newHcpEmail: "User with same email already added in list.",
+                                    index: index,
+                                });
+                                return "User with same email already added in list.";
+                            }
+                        } else {
+                            setValidationError({
+                                newHcpEmail: "Email format is not valid",
+                                index: index,
+                            });
+                            return "Email format is not valid";
+                        }
+                        // return "true";
                     }
 
-                    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                    else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
                         if (data?.institution_type == "") {
                             setValidationError({
                                 newHcpInstitution: "Please Select the institution ",
@@ -689,30 +720,8 @@ const WebinarVerifyHCP = (props) => {
                         }
                     }
                     return "true";
-                } else if (data?.email != "") {
-                    let email = data?.email;
-                    let useremail = email?.trim();
-                    var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                    if (regex.test(String(useremail).toLowerCase())) {
-                        let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
-                        if (typeof prev_obj != "undefined") {
-                            setValidationError({
-                                newHcpEmail: "User with same email already added in list.",
-                                index: index,
-                            });
-                            return "User with same email already added in list.";
-                        }
-                    } else {
-                        setValidationError({
-                            newHcpEmail: "Email format is not valid",
-                            index: index,
-                        });
-                        return "Email format is not valid";
-                    }
-                    return "true";
-                } else {
-                    return "true";
-                }
+                } 
+                
             });
             status.sort();
             if (status.every((element) => element == "true")) {
@@ -1049,6 +1058,7 @@ const WebinarVerifyHCP = (props) => {
                 list_selection: old_object?.selected
                     ? old_object?.selected
                     : props.getWebinarDraftData?.campaign_data?.list_selection,
+                    typeOfHcp:typeOfHcp
             },
 
             campaign_id: campaign_id_st,

@@ -68,6 +68,8 @@ const AddLinkToPdf = () => {
   const [pageNo, setPageNo] = useState(0);
   const [defaultScale, setDefaultScale] = useState(1.3347);
   const [count, setCount] = useState(0);
+  const [multiplyfactor, setMultiplyfactor] = useState(0.26);
+  const [initialscale, setInitialscale] = useState(0);
   const [dynamicScale, setDynamicScale] = useState(0);
   const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
@@ -84,6 +86,8 @@ const AddLinkToPdf = () => {
     y: 0,
   });
 
+  let multiply_factor =0;
+
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //const defaultScale = 1.3347;
   
@@ -94,15 +98,23 @@ const AddLinkToPdf = () => {
     const viewportHeight = document.documentElement.clientHeight;
     console.log(viewportWidth,"view");
     console.log(viewportHeight,"view");
-    const pageWidth = document.querySelector('.viewer-text-layer').clientWidth;
-    const pageHeight = document.querySelector('.viewer-text-layer').clientHeight;
+    const sublink_wid = document.querySelector('.sublink_right').clientWidth;
+     const pageWidth = document.querySelector('.viewer-page-layer').clientWidth;
+    const pageHeight = document.querySelector('.viewer-page-layer').clientHeight;
     console.log(pageWidth,"page");
     console.log(pageHeight,"page");
     const scale = viewportWidth / pageWidth;
+
+    if(initialscale===0){
+      setInitialscale(pageWidth);
+       multiply_factor = 1/scale;
+       console.log("iam")
+      setMultiplyfactor(multiply_factor);
+    }
     console.log(scale);
 
 
-    if(scale < 1.3347 && scale>.7){
+    if(scale < 1.3347){
       setDefaultScale(scale)
       console.log(file);
       setFile(file)
@@ -327,6 +339,8 @@ const AddLinkToPdf = () => {
     closePopup();
     setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
+    setDefaultScale(1.3347);
+    setInitialscale(0);
   };
 
   const videoFun = async () => {
@@ -611,9 +625,14 @@ const AddLinkToPdf = () => {
       const viewerTextLayer = document.querySelector(
         `#${closestElementId} .viewer-text-layer`
       );
+
+      const viewerTextLayer2 = document.querySelector(
+        `.create-change-content`
+      );
+      const rect2 = viewerTextLayer2.getBoundingClientRect();
       const rect = viewerTextLayer.getBoundingClientRect();
       // console.log(event.clientX,rect.left,"RECT LEFT")
-      const x = event.clientX - 16 - rect.left;
+      const x = event.clientX - rect.left;
       const y = event.clientY - rect.top - scrollTop;
       console.log(event.clientX,"event.clientX");
       console.log(rect.left,"rect.left");
@@ -637,25 +656,49 @@ const AddLinkToPdf = () => {
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates + 15 - box_width;
+    let actual_width = xcoordinates- 20  - box_width;
     console.log(xcoordinates,"xcoordinates")
     console.log(box_width,"box_width")
     console.log(actual_width,"actual_width")
-    let x_cord = actual_width / 3.8;
+    let x_cord = actual_width;
     
-    let actual_height = mousefirstdown - ycoordinates;
-    let y_cord = actual_height / 3.8;
+    let actual_height = mousefirstdown -15 - ycoordinates;
+    let y_cord = actual_height;
     let page_no = linkonpage + 1;
-    let box_width_x = box_width / 3.7;
-    let box_width_y = box_height / 3.7;
+    let box_width_x = box_width;
+    let box_width_y = box_height;
     
-    if(defaultScale<1.3347){
-      box_width_y = 1.85*box_width_y;
-      box_width_x = 1.85*box_width_x;
-      y_cord = 1.85*y_cord;
-      x_cord = x_cord*1.85;
-
-
+    if(initialscale>600 && initialscale<800){
+      console.log("i am inside 1200")
+      box_width_y =box_width_y/3.38;
+       box_width_x = box_width_x/3.48;
+       y_cord = y_cord/3.38;
+       x_cord = x_cord/3.48;
+    }else if(initialscale>800 && initialscale<1000){
+      console.log("i am inside 1200")
+      box_width_y =box_width_y/3.58;
+       box_width_x = box_width_x/3.68;
+       y_cord = y_cord/3.58;
+       x_cord = x_cord/3.68;
+    }else if(initialscale>1000 && initialscale<1200){
+      console.log("i am inside 1200")
+       box_width_y =box_width_y/3.58;
+       box_width_x = box_width_x/3.68;
+       y_cord = y_cord/3.58;
+       x_cord = x_cord/3.68;
+    }else if(initialscale>1200 && initialscale<3000){
+      console.log("am inside med");
+      box_width_y =box_width_y/2;
+      box_width_x = box_width_x/2;
+      y_cord = y_cord/2;
+      x_cord = x_cord/2;
+        
+    }else{
+      console.log("i am inside else")
+      box_width_y =box_width_y;
+      box_width_x = box_width_x;
+      y_cord = y_cord;
+      x_cord = x_cord;
     }
 
 
