@@ -64,7 +64,6 @@ const WebinarSelectSmartListUsers = (props) => {
   const [sortingCount, setSortingCount] = useState(0);
   const [sortBy, setSortBy] = useState("first_name"); // Initial sort key
   const [sortOrder, setSortOrder] = useState("asc");
-  // console.log(location?.state,"location?.state smart list users",props.getWebinarDraftData)
   const [typeOfHcp, setTypeOfHcp] = useState(
     location?.state?.typeOfHcp
       ? location?.state?.typeOfHcp
@@ -214,7 +213,6 @@ const WebinarSelectSmartListUsers = (props) => {
               ( typeof props.getWebinarDraftData?.campaign_data?.addedHcp !=
                   "undefined" && props.getWebinarDraftData?.campaign_data?.addedHcp != "")  
             ) {
-              console.log(props.getWebinarDraftData?.campaign_data?.removedHcp,props.getWebinarDraftData?.campaign_data?.addedHcp,"draft")
               var removedUsers = [... props.getWebinarDraftData?.campaign_data?.removedHcp, ...props.getWebinarDraftData?.campaign_data?.addedHcp];
               var allUsers = res?.data?.response?.data;
               var pendingUsers = allUsers?.filter(function (objFromA) {

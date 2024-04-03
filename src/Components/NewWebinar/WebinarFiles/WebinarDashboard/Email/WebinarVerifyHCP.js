@@ -682,7 +682,6 @@ const WebinarVerifyHCP = (props) => {
                         return "Please enter the email atleast";
                     }  
                     else if (data?.email != "") {
-                        console.log("data?.email-->",data?.email)
                         let email = data?.email;
                         let useremail = email?.trim();
                         var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

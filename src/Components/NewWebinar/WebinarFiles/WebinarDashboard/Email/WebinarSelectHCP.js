@@ -152,7 +152,7 @@ const WebinarSelectHCP = (props) => {
     let url = option?.navigateUrl || "";
   
     props.getWebinarSelected(null);
-    props.getWebinarSelectedSmartListData(null);
+    // props.getWebinarSelectedSmartListData(null);
     
     if(draft_object?.campaign_data?.typeOfHcp!=selected){
       if (old_object?.removedHcp) {
