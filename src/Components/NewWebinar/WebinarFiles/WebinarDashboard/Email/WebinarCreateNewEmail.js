@@ -1311,6 +1311,7 @@ const WebinarCreateNewEmail = (props) => {
                             res?.data?.response?.data?.map((data) => {
                                 setSelectedHcp((oldArray) => [...oldArray, data]);
                             });
+                           
                             setIsOpenAdd(false);
                             setIsOpensend(true);
                             setValidationError({})
@@ -1634,7 +1635,7 @@ const WebinarCreateNewEmail = (props) => {
             toast.warning("Please select smart list");
         }
         e.preventDefault();
-        setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+        // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
         setIsOpensend(true);
         setAddListOpen(false);
     };
