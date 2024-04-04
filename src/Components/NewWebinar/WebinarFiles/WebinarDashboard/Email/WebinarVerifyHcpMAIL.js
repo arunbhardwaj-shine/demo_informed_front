@@ -336,7 +336,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                     });
             } else {
                 await axios
-                    .post(`emailapi/send_email`, body)
+                    .post(`webinar/send_webinar_email_new`, body)
                     .then((res) => {
                         loader("hide");
                         if (res?.data?.status_code === 200) {
