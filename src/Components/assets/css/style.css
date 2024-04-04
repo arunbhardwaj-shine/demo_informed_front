@@ -1133,7 +1133,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   content: "";
   height: 1px;
   left: -13px;
-  right: -5px;
+  right: -13px;
   top: 0;
 }
 
@@ -1413,7 +1413,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .smartlist-result-block .smartlist_box_block {
   width: 25%;
   padding: 0 15px;
-  margin-bottom: 29px;
+  margin-bottom: 36px;
 }
 
 .smartlist-result-block {
@@ -4574,6 +4574,7 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 0;
   overflow-y: auto;
   max-height: 240px;
+  min-height: 20px;
 }
 
 .dropdown-menu.filter-options .accordion .card ul li,
@@ -5274,7 +5275,9 @@ form#add_hcp_form .row:not(:first-child) {
 .smart-list-view {
   padding-top: 6px;
 }
-
+.card .accordion-header:active {
+  border-color: transparent;
+}
 .page-top-nav.smart_list_names {
   margin-bottom: 28px;
 }
@@ -5284,7 +5287,9 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 3px auto;
   padding-left: 4px;
 }
-
+header.-top-24~div .smart-list-view .selected-hcp-list table.edit-smart-list#table-to-xls thead.sticky-header {
+top:0;
+}
 .email-resultss#analytics-hcp-table .table_xls {
   max-width: 100%;
 }
@@ -10631,7 +10636,7 @@ button.event_sort_btn.svg_active svg {
 .left-sidebar .sidebar_txt button.toggle_btn {
   width: 18px;
   height: 18px;
-  margin: 0px 12px 0 10px;
+  margin: 0px 12px 0 12px;
   display: flex;
   align-items: center;
   justify-content: center;
