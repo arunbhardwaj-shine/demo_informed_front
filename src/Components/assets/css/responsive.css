@@ -585,13 +585,52 @@
   .create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
     max-width: 100%;
   }
+
+  .email-result-block .mail-box-content {
+    padding: 16px 16px 12px;
+  }
+
+  .mailbox-buttons button.btn {
+    padding: 6px 10px;
+    min-width: 63px;
+  }
 }
 
 @media only screen and (max-width: 1450px) {
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 16px;
   }
+.smartlist-result-block .mail_trigger_dummy_content h3,
+.webinar-auto-right .mail_trigger_dummy_content h3 {
+  font-size: 30px;
+  max-width: 410px;
+  margin: 25px 0 0;
+}
+.trigger_content h6 {
+  font-size: 14px;
+}
+.trigger_content_box .trigger_content {
+  padding-left: 9px;
+}
+.mail_trigger_dummy_content>img {
+  max-width: 100px;
+}
 
+.trigger_content p {
+  font-size: 13px;
+  line-height: 17px;
+  margin: 0 0 8px;
+}
+
+.trigger_content_box .trigger_content button {
+  min-width: 74px;
+}
+.auto_mail_trigger_left {
+  padding-right: 20px;
+}
+.auto_mail_trigger_right form .form-inline .form-group label {
+  width: 100%;
+}
   .create-smart-step-box .form-group.col {
     max-width: 50%;
   }
@@ -828,13 +867,16 @@
     line-height: 38px;
   }
 
-  .table-title .selected-hcp-table-action a.show-less-info,   .table-title .selected-hcp-table-action a.show-less-info p {
+  .table-title .selected-hcp-table-action a.show-less-info,
+  .table-title .selected-hcp-table-action a.show-less-info p {
     font-size: 14px;
     line-height: 17px;
   }
-a.show-less-info p::after {
-  top: 1px;
-}
+
+  a.show-less-info p::after {
+    top: 1px;
+  }
+
   a.show-less-info p:after {
     line-height: 13px;
   }
@@ -903,9 +945,11 @@ a.show-less-info p::after {
   .preview_mail .preview-mail-box {
     padding: 30px 20px;
   }
-.input-group-prepend::after {
-  left: 142px;
-}
+
+  .input-group-prepend::after {
+    left: 142px;
+  }
+
   .sidebar-menu {
     background-size: 140px;
   }
@@ -931,14 +975,15 @@ a.show-less-info p::after {
   .btn.btn-primary,
   .data-main-footer-sec .footer-btn button.view_btn {
     font-size: 12px;
-    min-width: 55px;
   }
-.header-btn .btn.btn-primary.send-sample,
-.header-btn .btn.btn-primary.send-sample:active {
-  font-size: 14px;
-  min-width: 140px;
-  padding: 7px 10px;
-}
+
+  .header-btn .btn.btn-primary.send-sample,
+  .header-btn .btn.btn-primary.send-sample:active {
+    font-size: 14px;
+    min-width: 140px;
+    padding: 7px 10px;
+  }
+
   .mailbox-table td span {
     font-size: 13px;
     padding: 1px 9px;
@@ -1552,7 +1597,9 @@ a.show-less-info p::after {
     padding: 6px 33px 6px 18px;
     height: 36px;
   }
-
+    .modal-body .hcp-add-form form .form-group .dropdown.split-button-dropup button {
+      height: 45px;
+    }
   .smartlist-view .mail-box-content {
     min-height: 352px;
   }
@@ -1706,27 +1753,45 @@ a.show-less-info p::after {
     padding: 4px 50px 4px 15px;
     min-height: 36px;
   }
-    .email-form .form-inline .form-group.template_builder_div {
-      gap: 10px;
-    }
-        header.top-0~div .search-hcp.smart-list-view .selected-hcp-list.new-hcp-list table#table-to-xls thead.sticky-header {
-          top: 80px;
-        }
-                section.search-hcp.smart-list-view.bounced-email-page {
-                  padding-top: 0;
-                }
-                                .bounced-email-page #analytics-hcp-table .selected-hcp-list {
-                                  overflow: initial;
-                                }
+
+  .email-form .form-inline .form-group.template_builder_div {
+    gap: 10px;
+  }
+
+  header.top-0~div .search-hcp.smart-list-view .selected-hcp-list.new-hcp-list table#table-to-xls thead.sticky-header {
+    top: 80px;
+  }
+
+  section.search-hcp.smart-list-view.bounced-email-page {
+    padding-top: 0;
+  }
+
+  .bounced-email-page #analytics-hcp-table .selected-hcp-list {
+    overflow: initial;
+  }
 }
 
 @media only screen and (max-width: 1399px) {
   .question-outer-layout .question-action {
     gap: 30px;
   }
-.bounced-email-page .selected-hcp-list table th:nth-child(4) {
-  width: 390px;
+    .webinar-auto .mail_trigger_content {
+      margin-left: 25px;
+      padding: 4px 10px 0 6px;
+    }
+    .verify-email-detail h6 {
+      font-size: 14px;
+    }
+    .smartlist-result-block {
+      margin: 0 -10px;
+    }
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
+  flex: 0 0 130px;
 }
+  .bounced-email-page .selected-hcp-list table th:nth-child(4) {
+    width: 390px;
+  }
+
   .survey_data_accordion_heading table thead tr th:first-child,
   .survey_data_accordion_heading table tbody tr td:first-child,
   .survey_data_accordion_heading table thead tr th:nth-child(5),
@@ -1735,7 +1800,7 @@ a.show-less-info p::after {
   }
 
   .survey_data_accordion_heading table thead tr th:nth-child(2),
-  .survey_data_accordion_heading table tbody tr td:nth-child(2){
+  .survey_data_accordion_heading table tbody tr td:nth-child(2) {
     width: 230px;
   }
 
@@ -2020,21 +2085,43 @@ a.show-less-info p::after {
 }
 
 @media only screen and (max-width: 1365px) {
+  .trigger_content_image {
+      padding: 5px;
+      width: 68px;
+    }
+        .auto_mail_trigger {
+          margin-top: 19px;
+        }
+        .trigger_content_image img {
+          max-width: 60px;
+        }
   header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header {
     top: 126px;
   }
-    .survey_data_accordion_heading table thead tr th {
-      padding: 5px 8px 16px;
+    #add_hcp .modal-body .hcp-add-form form .form-group .form-control,
+    #add_hcp .modal-body .hcp-add-form form .form-group select, .modal .split-button-dropup.edit-country-dropdown>div:nth-child(3), #add_hcp .modal-body .hcp-add-form form .form-group .dropdown.split-button-dropup button {
+      height: 40px;
     }
-        .survey_data_accordion_heading table tbody td {
-          padding: 17px 8px;
-        }
-.survey_data_accordion_heading table thead tr th:first-child,
-.survey_data_accordion_heading table tbody tr td:first-child,
-.survey_data_accordion_heading table thead tr th:nth-child(5),
-.survey_data_accordion_heading table tbody tr td:nth-child(5) {
-  width: 155px;
+
+.mailbox-buttons button.btn {
+  padding: 6px 7px;
+  min-width: 58px;
 }
+  .survey_data_accordion_heading table thead tr th {
+    padding: 5px 8px 16px;
+  }
+
+  .survey_data_accordion_heading table tbody td {
+    padding: 17px 8px;
+  }
+
+  .survey_data_accordion_heading table thead tr th:first-child,
+  .survey_data_accordion_heading table tbody tr td:first-child,
+  .survey_data_accordion_heading table thead tr th:nth-child(5),
+  .survey_data_accordion_heading table tbody tr td:nth-child(5) {
+    width: 155px;
+  }
+
   .invitee table#table-to-xls thead.sticky-header {
     top: 65px;
   }
@@ -2193,10 +2280,11 @@ a.show-less-info p::after {
     justify-content: flex-start;
     margin: 10px 0 0;
   } */
-.form-buttons-template button.btn {
-  min-width: 90px;
-  margin-left: 10px;
-}
+  .form-buttons-template button.btn {
+    min-width: 90px;
+    margin-left: 10px;
+  }
+
   #accordion-smart .card-body .col {
     flex: 0 0 17.5%;
     width: 17.5%;
@@ -2266,7 +2354,7 @@ a.show-less-info p::after {
 
   #add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content,
   #smart_list_popup_id .search-hcp .selected-hcp-list {
-    max-height: 67vh;
+    max-height: 65vh;
   }
 
   table tr td.delete_row,
@@ -2359,10 +2447,12 @@ a.show-less-info p::after {
     height: 35px;
     font-size: 14px;
   }
-.top-header.regi-web .header_btns a.btn-filled {
+
+  .top-header.regi-web .header_btns a.btn-filled {
     padding: 5px 16px;
     font-size: 14px;
-}
+  }
+
   .invitee table .split-button-dropup>div:nth-child(3) {
     min-height: 34px;
   }
@@ -2466,12 +2556,27 @@ a.show-less-info p::after {
   }
 
   .verify_email .verify-left {
-    width: calc(100% - 600px);
+    width: 35%;
   }
 
   .verify_email .verify-right {
-    width: 600px;
+    width: 65%;
   }
+.verify-email-detail .btn.approved-btn {
+  padding: 5px 8px;
+  min-width: 94px;
+}
+.mail-recipt .mail-recipt-left {
+  padding-right: 12px;
+}
+.mail-recipt .smartlist-view .mail-box-content .tabs-data .tab-content {
+  padding: 16px 12px 0px;
+}
+.new-smartlist .smartlist-view .mail-box-content,
+.new-smartlist .smartlist-add {
+  min-height: 275px;
+}
+
 
   .page-top-nav.smart_list_names .col-md-1 {
     padding-left: 0;
@@ -2563,12 +2668,11 @@ a.show-less-info p::after {
     padding: 0 3px;
   }
 
-  .search-hcp table thead.sticky-header,
   .modal-second #mail-view .modal-body .sticky-header {
     top: 67px;
   }
 
-  .search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
+  .search-hcp.smart-list-view table#table-to-xls thead.sticky-header, .search-hcp table thead.sticky-header {
     top: 0px;
   }
 
@@ -2748,18 +2852,38 @@ a.show-less-info p::after {
   header.-top-24~div .custom-change .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header {
     z-index: 3;
   }
+    #smart_list_popup_id.modal-dialog {
+      max-width: 95%;
+    }
 }
 
 @media only screen and (max-width: 1199px) {
   .dropdown-menu.filter-options {
     width: 270px;
   }
-.survey_data_accordion_heading table thead tr th:first-child,
-.survey_data_accordion_heading table tbody tr td:first-child,
-.survey_data_accordion_heading table thead tr th:nth-child(5),
-.survey_data_accordion_heading table tbody tr td:nth-child(5) {
-  width: 140px;
+.smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
+  min-width: 75px;
 }
+.new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content ul li {
+  margin: 0 0 12px;
+}
+.new-smartlist .smartlist-view .mail-box-content,
+.new-smartlist .smartlist-add {
+  min-height: 325px;
+}
+.mail-box-conten-title {
+  min-height: 64px;
+}
+.new-smartlist .smartlist-view .mail-box-content .tabs-data {
+  height: calc(100% - 64px);
+}
+  .survey_data_accordion_heading table thead tr th:first-child,
+  .survey_data_accordion_heading table tbody tr td:first-child,
+  .survey_data_accordion_heading table thead tr th:nth-child(5),
+  .survey_data_accordion_heading table tbody tr td:nth-child(5) {
+    width: 140px;
+  }
+
   .new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
     flex: 0 0 125px;
   }
@@ -3205,7 +3329,9 @@ a.show-less-info p::after {
   .live-stream-ques-inner {
     margin: 0 0 20px;
   }
-
+.create-smart-step-box ul li {
+  padding: 0 24px;
+}
   .doc-content-header .clear-search .search-bar form.d-flex input {
     max-width: 180px;
     padding: 5px 28px 5px 10px;
@@ -3230,7 +3356,7 @@ a.show-less-info p::after {
   }
 
   .left-sidebar .sidebar_txt button.toggle_btn {
-    margin: 0px 8px 0 6px;
+    margin: 0px 8px 0 8px;
   }
 
   .sidebar_txt span {

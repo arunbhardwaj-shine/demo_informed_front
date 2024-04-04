@@ -9495,6 +9495,8 @@ svg.pencil_icon {
   .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.full label {
     margin: 0 0 8px;
   }
+
+
 }
 
 @media only screen and (max-width: 1500px) {
@@ -9920,6 +9922,10 @@ svg.pencil_icon {
 @media only screen and (max-width: 1450px) {
   .custom-change .top-sticky {
     top: 80px;
+  }
+
+  .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6 {
+    font-size: 13px;
   }
 
   .analytic-charts .form_action,
@@ -12834,7 +12840,7 @@ img.change-password-image {
   text-align: center;
   top: 8px;
   width: 50%;
-  z-index: 5;
+  z-index: 4;
 }
 
 .hcp-options .switch6-light>span span {
@@ -12896,7 +12902,7 @@ img.change-password-image {
   right: 54%;
   top: 3px;
   width: 24px;
-  z-index: 4;
+  z-index: 3;
   min-width: 24px;
   transition: all 0.2s ease-out 0s;
 }
