@@ -577,7 +577,6 @@ const WebinarEmail = (props) => {
   };
 
   const draftEmailCampaign = (draftContent) => {
-    console.log("draftContent-->",draftContent)
     setDraftCamapignId(draftContent);
   };
   // const handleParent = async () => {
@@ -1166,7 +1165,17 @@ const WebinarEmail = (props) => {
                                       </tr>
                                       <tr>
                                         <th>List</th>
-                                        <td>{data?.smart_list_name ? data?.smart_list_name : "N/A"}</td>
+                                        <td>{data?.smart_list_name 
+                                        ? data?.smart_list_name?.includes("_internal_hcps_temporary") 
+                                        ?"All HCPs"
+                                        :data?.smart_list_name?.includes("_registered_users_temporary") 
+                                        ?"Registered HCPs"
+                                        :data?.smart_list_name?.includes("_no_registered_users_temporary")
+                                        ?"Non registered HCPs"
+                                        :data?.smart_list_name?.includes("_uslist_temporary")
+                                        ?"US list"
+                                        :data?.smart_list_name
+                                        : "N/A"}</td>
                                       </tr>
                                     </tbody>
                                   </table>
