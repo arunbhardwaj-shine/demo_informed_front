@@ -685,6 +685,7 @@ const WebinarEmail = (props) => {
       .post(`webinar/resend_webinar_email`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
+          getWebinarCompaignList()
           toast.success(res.data.message ?? "Email send successfully.");
         } else if (res.data.status_code == 201) {
           toast.warning(res.data.message);
