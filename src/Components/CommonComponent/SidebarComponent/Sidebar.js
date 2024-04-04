@@ -215,7 +215,7 @@ const Sidebar = () => {
       
     } 
   }
-  else if (location.pathname == "webinar/email/smartlist") {
+  else if (location.pathname == "/webinar/email/smartlist") {
     localStorage.removeItem("webinar_sd_i");
     title = "Creating new SmartList";
   }

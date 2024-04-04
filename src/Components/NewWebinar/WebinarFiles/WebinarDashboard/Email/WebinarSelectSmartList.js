@@ -80,7 +80,7 @@ const WebinarSelectSmartList = (props) => {
     location?.state?.thisEventToggled 
     : draft_object?.campaign_data?.thisEventToggled
       ? draft_object?.campaign_data?.thisEventToggled
-      : ""
+      : 1
   )
 
   const [typeOfHcp,setTypeOfHcp]=useState(location?.state?.typeOfHcp!=null&&
@@ -118,9 +118,13 @@ const WebinarSelectSmartList = (props) => {
     }
     if (location?.state?.thisEventToggled) {
       setIsToggled(location?.state?.thisEventToggled);
-    } else {
+    } else  {
      
-      setTypeOfHcp(draft_object?.campaign_data?.thisEventToggled);
+      setTypeOfHcp(
+        draft_object?.campaign_data?.thisEventToggled
+        ?draft_object?.campaign_data?.thisEventToggled
+        :1
+        );
     }
     getSmartListData(1);
   }, []);
