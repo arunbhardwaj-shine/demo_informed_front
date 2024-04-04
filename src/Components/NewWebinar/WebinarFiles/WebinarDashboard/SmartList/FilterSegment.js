@@ -1230,6 +1230,7 @@ const FilterSegment = (props) => {
   const sendDataToParent = (childData, flag) => {
     if (flag == "existing") {
       setFilterData(childData);
+      setTotalLostCount(totalLostCount-1)
     } else if (flag == "new") {
       setNewAddedUser(childData);
     }
