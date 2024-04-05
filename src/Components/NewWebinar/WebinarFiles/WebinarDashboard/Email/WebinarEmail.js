@@ -66,6 +66,8 @@ const WebinarEmail = (props) => {
   const [sorting, setSorting] = useState(0);
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [isActive, setIsActive] = useState({});
+  const [sortBy, setSortBy] = useState('name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');
 
   const [options, setOptions] = useState({
     chart: {
@@ -577,7 +579,6 @@ const WebinarEmail = (props) => {
   };
 
   const draftEmailCampaign = (draftContent) => {
-    console.log("draftContent-->",draftContent)
     setDraftCamapignId(draftContent);
   };
   // const handleParent = async () => {
@@ -667,10 +668,26 @@ const WebinarEmail = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
-  // const handleSort = (key) => {
-  //   setSortBy(key);
-  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
-  // };
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
+      }
+    });
+  };
 
   const resendemail = () => {
     hideModal();
@@ -1166,7 +1183,17 @@ const WebinarEmail = (props) => {
                                       </tr>
                                       <tr>
                                         <th>List</th>
-                                        <td>{data?.smart_list_name ? data?.smart_list_name : "N/A"}</td>
+                                        <td>{data?.smart_list_name 
+                                        ? data?.smart_list_name?.includes("_internal_hcps_temporary") 
+                                        ?"All HCPs"
+                                        :data?.smart_list_name?.includes("_registered_users_temporary") 
+                                        ?"Registered HCPs"
+                                        :data?.smart_list_name?.includes("_no_registered_users_temporary")
+                                        ?"Non registered HCPs"
+                                        :data?.smart_list_name?.includes("_uslist_temporary")
+                                        ?"US list"
+                                        :data?.smart_list_name
+                                        : "N/A"}</td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -1766,7 +1793,7 @@ const WebinarEmail = (props) => {
                   <thead className="sticky-header">
                     <tr>
                       {/* <th scope="col">Name</th> */}
-                      <th scope="col" className="sort_option" >
+                      {/* <th scope="col" className="sort_option" >
                         <span onClick={(e) => userSort(e, "name")} >
                           Name
                           <button
@@ -1800,9 +1827,9 @@ const WebinarEmail = (props) => {
                           </button>
                         </span>
 
-                      </th>
+                      </th> */}
 
-                      {/* <th scope="col" className="sort_option" >
+                       <th scope="col" className="sort_option" >
                                 <span onClick={() => handleSort('name')} >
                                 Name
                                 <button
@@ -1827,19 +1854,19 @@ const WebinarEmail = (props) => {
                                 </button>
                                 </span>
                             
-                            </th> */}
+                        </th> 
                       {/* <th scope="col">Email</th> */}
                       <th scope="col" className="sort_option" >
-                        <span onClick={(e) => userSort(e, "email")} >
+                        <span  onClick={() => handleSort('email')} >
                           Email
                           <button
-                            className={`event_sort_btn ${isActive?.email == "dec"
-                              ? "svg_active"
-                              : isActive?.email == "asc"
-                                ? "svg_asc"
-                                : ""
-                              }`}
-                            onClick={(e) => userSort(e, "email")}
+                             className={`event_sort_btn ${sortBy == "email" ?
+                             sortOrder == "asc"
+                             ? "svg_asc"
+                             : "svg_active"
+                             : "" 
+                             }`}
+                              onClick={() => handleSort('email')}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1866,16 +1893,16 @@ const WebinarEmail = (props) => {
                       </th>
                       {/* <th scope="col">Country</th> */}
                       <th scope="col" className="sort_option" >
-                        <span onClick={(e) => userSort(e, "country")}>
+                        <span  onClick={() => handleSort('country')}>
                           Country
                           <button
-                            className={`event_sort_btn ${isActive?.country == "dec"
-                              ? "svg_active"
-                              : isActive?.country == "asc"
-                                ? "svg_asc"
-                                : ""
-                              }`}
-                            onClick={(e) => userSort(e, "country")}
+                            className={`event_sort_btn ${sortBy == "country" ?
+                            sortOrder == "asc"
+                            ? "svg_asc"
+                            : "svg_active"
+                            : "" 
+                            }`}
+                              onClick={() => handleSort('country')}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1902,16 +1929,16 @@ const WebinarEmail = (props) => {
                       </th>
                       {/* <th scope="col">Date</th> */}
                       <th scope="col" className="sort_option" >
-                        <span onClick={(e) => userSort(e, "formatted_date")}>
+                        <span  onClick={() => handleSort('formatted_date')}>
                           Date
                           <button
-                            className={`event_sort_btn ${isActive?.formatted_date == "dec"
-                              ? "svg_active"
-                              : isActive?.formatted_date == "asc"
-                                ? "svg_asc"
-                                : ""
-                              }`}
-                            onClick={(e) => userSort(e, "formatted_date")}
+                            className={`event_sort_btn ${sortBy == "formatted_date" ?
+                            sortOrder == "asc"
+                            ? "svg_asc"
+                            : "svg_active"
+                            : "" 
+                            }`}
+                              onClick={() => handleSort('formatted_date')}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1939,7 +1966,7 @@ const WebinarEmail = (props) => {
                     </tr>
 
                   </thead>
-                  <tbody>
+                  {/* <tbody>
                     {typeof readerDetailsData !== "undefined" &&
                       readerDetailsData?.length > 0 ? (<>
                         {readerDetailsData?.map((item, index) => (
@@ -1977,7 +2004,34 @@ const WebinarEmail = (props) => {
                       </td>
                     </tr>
                   ) : null}
-                   </tbody>
+                   </tbody> */}
+                   <tbody>
+                      {typeof readerDetailsData !== "undefined" && readerDetailsData?.length > 0 ? (
+                        <>
+                          {sortData(readerDetailsData, sortBy, sortOrder).map((item, index) => (
+                            <tr key={"readers_" + index} className="hcp" id={`row-selected${index}`}>
+                              <td>{item?.name}</td>
+                              <td>{item?.email ? item?.email : "N/A"}</td>
+                              <td>
+                                <span>{item?.country ? item?.country : "N/A"}</span>
+                              </td>
+                              <td>
+                                <span>{item?.formatted_date ? item?.formatted_date : "N/A"}</span>
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      ) : readerDetailsData?.length === 0 ? (
+                        <tr className="table_no_data_found">
+                          <td colSpan="4">
+                            <div className="no_found">
+                              <p>No Data Found</p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+
                   </table>
                   {  readerDetailsData?.length >= 50 && functionParameter?.loadAll==1 &&    (<div className="text-center load_more">
                     <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
