@@ -2796,7 +2796,7 @@ form .input-group {
   min-height: 50vh;
 }
 
-.selected-hcp-list .table tr.hcps-deleted {
+.selected-hcp-list .table tr.hcps-deleted, .selected-hcp-list .table tr.hcps-unsubscriber {
   box-shadow: 0px 0px 10px #b91b68;
 }
 
