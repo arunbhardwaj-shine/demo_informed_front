@@ -74,6 +74,7 @@ const WebinarSelectSmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   // const [isToggled, setIsToggled] = useState(true); 
+  
   const [isToggled, setIsToggled] = useState(location?.state?.thisEventToggled != null &&
     location?.state?.thisEventToggled != "undefined" && location?.state?.thisEventToggled
     ?
@@ -82,6 +83,14 @@ const WebinarSelectSmartList = (props) => {
       ? draft_object?.campaign_data?.thisEventToggled
       : 1
   )
+
+  const [isTempToggled,setIsTempToggled]=useState(location?.state?.thisEventToggled != null &&
+    location?.state?.thisEventToggled != "undefined" && location?.state?.thisEventToggled
+    ?
+    location?.state?.thisEventToggled
+    : draft_object?.campaign_data?.thisEventToggled
+      ? draft_object?.campaign_data?.thisEventToggled
+      : 1)
 
   const [typeOfHcp, setTypeOfHcp] = useState(location?.state?.typeOfHcp != null &&
     location?.state?.typeOfHcp != "undefined" && location?.state?.typeOfHcp
@@ -117,10 +126,17 @@ const WebinarSelectSmartList = (props) => {
       setTypeOfHcp(draft_object?.campaign_data?.typeOfHcp);
     }
     if (location?.state?.thisEventToggled) {
+    
       setIsToggled(location?.state?.thisEventToggled);
+      setIsTempToggled(location?.state?.thisEventToggled)
     } else {
-
-      setTypeOfHcp(
+     
+      setIsToggled(
+        draft_object?.campaign_data?.thisEventToggled
+          ? draft_object?.campaign_data?.thisEventToggled
+          : 1
+      );
+      setIsTempToggled(
         draft_object?.campaign_data?.thisEventToggled
           ? draft_object?.campaign_data?.thisEventToggled
           : 1
@@ -130,13 +146,14 @@ const WebinarSelectSmartList = (props) => {
   }, []);
 
   const getSmartListData = (page = 1) => {
+   
     setApiCallStatus(false);
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: "",
       filter: filter,
       paging: "32",
-      event_id: isToggled == 1 ? eventId : '',
+      event_id: isTempToggled == 1 ? eventId : '',
     };
     loader("show");
     axios
@@ -199,11 +216,6 @@ const WebinarSelectSmartList = (props) => {
 
   const handleSelect = (e) => {
     // setCheckPdfSelected(false)
-    if (PdfSelected == e?.id) {
-      checkPdfSelected.current = !checkPdfSelected.current
-    } else {
-      checkPdfSelected.current = false
-    }
 
 
     if (new_object?.id) {
@@ -228,7 +240,7 @@ const WebinarSelectSmartList = (props) => {
     if (PdfSelected != "") {
       if (PdfSelected == e?.id) {
         setSmartListSelected({});
-        props.getWebinarSelectedSmartListData(null);
+        // props.getWebinarSelectedSmartListData(null);
         setPdfSelected(0);
         setselecedlistid(0);
       } else {
@@ -236,20 +248,26 @@ const WebinarSelectSmartList = (props) => {
         props.getWebinarSelectedSmartListData(e);
         setPdfSelected(e?.id);
         setselecedlistid(e?.id);
+        setIsToggled(isTempToggled)
       }
     } else {
       setSmartListSelected(e);
       props.getWebinarSelectedSmartListData(e);
       setPdfSelected(e?.id);
       setselecedlistid(e?.id);
+      setIsToggled(isTempToggled)
     }
   };
 
   const backClicked = () => {
-    navigate("/webinar/email/selectHCP");
+   
+    navigate("/webinar/email/selectHCP",{state:{thisEventToggled:isToggled}});
   };
 
   const saveAsDraft = async (flag) => {
+    if(PdfSelected==0){
+      props.getWebinarSelectedSmartListData(null);
+    }
     const body = {
       pdf_id: 0,
       user_id: localStorage.getItem("user_id"),
@@ -637,18 +655,25 @@ const WebinarSelectSmartList = (props) => {
   }
 
   const handleToggle = async (e) => {
-    if (isToggled == 1) {
-      setIsToggled(2);
+    if (isTempToggled == 1) {
+      setIsTempToggled(2);
+      if(PdfSelected==0){
+        setIsToggled(2)
+      }
     } else {
-      setIsToggled(1);
+      setIsTempToggled(1);
+      if(PdfSelected==0){
+        setIsToggled(1)
+      }
     }
+    
 
   }
 
   useEffect(() => {
 
     getSmartListData(1);
-  }, [isToggled]);
+  }, [isTempToggled]);
 
   return (
     <>
@@ -764,7 +789,7 @@ const WebinarSelectSmartList = (props) => {
                       <label className="switch6-light">
 
                         <input type="checkbox"
-                          checked={isToggled == 1 ? true : false}
+                          checked={isTempToggled == 1 ? true : false}
                           onChange={(e) => {
                             handleToggle(e.target?.checked);
                           }}
