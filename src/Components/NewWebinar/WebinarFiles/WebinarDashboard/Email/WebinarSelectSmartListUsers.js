@@ -91,7 +91,8 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
-
+  const inputElement = useRef();
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
@@ -102,29 +103,17 @@ const WebinarSelectSmartListUsers = (props) => {
   );
 
   useEffect(() => {
-    if (location?.state?.typeOfHcp) {
-      setTypeOfHcp(location?.state?.typeOfHcp);
-    } else {
-      setTypeOfHcp(props.getWebinarDraftData?.campaign_data?.typeOfHcp);
-    }
-    let campaign_id =
-      typeof old_object === "object" &&
-      old_object !== null &&
-      old_object?.campaign_id
-        ? old_object?.campaign_id
-        : props.getWebinarDraftData?.campaign_id
-        ? props.getWebinarDraftData?.campaign_id
-        : "";
-    setCampaign_id(campaign_id);
-    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
-    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
-    // removedHcp
-    // console.log("test",props?.getWebinarDraftData)
+    const typeOfHcp =
+    location?.state?.typeOfHcp || props.getWebinarDraftData?.campaign_data?.typeOfHcp;
+  setTypeOfHcp(typeOfHcp);
+  
+  const campaign_id = old_object?.campaign_id || props.getWebinarDraftData?.campaign_id || "";
+  setCampaign_id(campaign_id);
+  
+
   
   }, []);
 
-  const inputElement = useRef();
-  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     let oldRemovedHcp = old_object?.removedHcp || [];
@@ -196,21 +185,18 @@ const WebinarSelectSmartListUsers = (props) => {
 
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.addedHcp) {
-        props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
-      }
+      props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
     }
     old_object.addedHcp = readersNewlyAdded;
   }, [readersNewlyAdded]);
-
+  
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
-        props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
-      }
+      props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
     }
     old_object.removedHcp = removedReaders;
   }, [removedReaders]);
+  
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
