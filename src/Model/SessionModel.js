@@ -511,7 +511,7 @@ const [comment,setComment]=useState("")
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleSubmit} style={{ background: designData?.buttonColor }}>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </Modal.Footer>
     </Modal>
   );
