@@ -70,6 +70,7 @@ import ReadersTimeLineLayout from "./Components/Readers/ReadersView/ReadersTimeL
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
+import NewReaderReview from "./Components/Readers/ReadersView/NewReaderReview";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
@@ -172,7 +173,10 @@ import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmart
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
-import Emails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/Emails";
+import WebinarEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarEmail";
+import WebinarAutoEmails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarAutoEmails";
+
+import WebinarCreateNewEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarCreateNewEmail";
 import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
@@ -181,7 +185,7 @@ import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Liv
 import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
 import RDListing from "./Components/R&D/RDListing";
-
+import PdfViewer from "./Components/Library/PdfViewer";
 //Survey Form
 
 import Check8 from "./Components/survey/Check8";
@@ -190,6 +194,23 @@ import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
 import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
 import LicenseRenew from "./Components/License/Content/LicenseRenew";
+import WebinarSelectHCP from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectHCP";
+import WebinarSelectSmartList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectSmartList";
+
+import WebinarSmartlist from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/SmartList";
+import WebinarSmartlistTable from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/Table";
+import WebinarSmartlistViewTable from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/ViewTable";
+import WebinarSmartlistEdit from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/EditList";
+import WebinarCreateSmartList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/CreateSmartList";
+import WebinarSmartListFilter from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/SmartListFilter";
+import WebinarSmartlistFilterSegment from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/FilterSegment";
+import WebinarSmartlistVerifyList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/VerifySmartList";
+import WebinarSmartlistViewList from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/ViewList";
+import WebinarSmartlistUploadExcel from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/SmartList/UploadExcel";
+import WebinarSelectSmartListUsersLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSelectSmartListUsersLayout";
+import WebinarVerifyHCP from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyHCP";
+import WebinarVerifyHcpMAIL from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyHcpMAIL";
+import WebinarVerifyMail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyMail";
 
 let platform = 0;
 let show = 0;
@@ -239,6 +260,7 @@ const Routing = () => {
     <Router>
       <Routes>
         //DefaultLayout for Login pages
+        <Route path="/pdfviewer" element={<DefaultLayout component={PdfViewer} />} />
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
         <Route
           path="/informed"
@@ -428,6 +450,10 @@ const Routing = () => {
           path="/reader-add"
           element={<LoginLayout component={ReaderAdd} />}
         />
+        {/* <Route
+          path="/new-readers-reviews"
+          element={<LoginLayout component={NewReaderReview} />}
+        /> */}
         <Route
           path="/reader-review"
           element={<LoginLayout component={ReaderReview} />}
@@ -616,7 +642,39 @@ const Routing = () => {
         />
         <Route
           path="/webinar/email"
-          element={<LoginLayout component={Emails} />}
+          element={<LoginLayout component={WebinarEmail} />}
+        />
+         <Route
+          path="/webinar/email/auto-emails"
+          element={<LoginLayout component={WebinarAutoEmails} />}
+        />
+        <Route
+          path="/webinar/email/create-new-email"
+          element={<LoginLayout component={WebinarCreateNewEmail} />}
+        />
+        <Route
+          path="/webinar/email/selectHCP"
+          element={<LoginLayout component={WebinarSelectHCP} />}
+        />
+        <Route
+          path="/webinar/email/selectSmartList"
+          element={<LoginLayout component={WebinarSelectSmartList} />}
+        />
+        <Route
+          path="/webinar/email/selectSmartListUsers"
+          element={<LoginLayout component={WebinarSelectSmartListUsersLayout} />}
+        />
+        <Route
+          path="/webinar/email/verifyMAIL"
+          element={<LoginLayout component={WebinarVerifyMail} />}
+        />
+         <Route
+          path="/webinar/email/verifyHCP"
+          element={<LoginLayout component={WebinarVerifyHCP} />}
+        />
+          <Route
+          path="/webinar/email/verifyHcpMAIL"
+          element={<LoginLayout component={WebinarVerifyHcpMAIL} />}
         />
         <Route
           path="/webinar/analytics"
@@ -830,6 +888,55 @@ const Routing = () => {
           path="/webinar/live-stream/survey/question-data"
           element={<LoginLayout component={SurveyQuestionFormData} />}
         />
+
+
+        {/* Webinar smart list routes */}
+        <Route
+          path="/webinar/email/smartlist"
+          element={<LoginLayout component={WebinarSmartlist} />}
+        />
+        <Route
+              path="/webinar/email/smartlist/createsmartlist"
+              element={<LoginLayout component={WebinarCreateSmartList} />}
+            />
+        <Route
+              path="/webinar/email/smartlist/smartlistfilter"
+              element={<LoginLayout component={WebinarSmartListFilter} />}
+            />
+        <Route
+              path="/webinar/email/smartlist/uploadsmartlist"
+              element={<LoginLayout component={WebinarSmartlistUploadExcel} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/editlist"
+              element={<LoginLayout component={WebinarSmartlistEdit} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/filterSegment"
+              element={<LoginLayout component={WebinarSmartlistFilterSegment} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/table"
+              element={<LoginLayout component={WebinarSmartlistTable} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/viewlist"
+              element={<LoginLayout component={WebinarSmartlistViewList} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/viewTable"
+              element={<LoginLayout component={WebinarSmartlistViewTable} />}
+            />
+        
+        <Route
+              path="/webinar/email/smartlist/verifylist"
+              element={<LoginLayout component={WebinarSmartlistVerifyList} />}
+            />
       </Routes>
 
       

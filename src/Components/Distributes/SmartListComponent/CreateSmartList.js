@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
 import * as XLSX from "xlsx";
+import Select from "react-select";
 
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
@@ -29,6 +30,7 @@ const CreateSmartList = () => {
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
   const [creatorName, setCreatorName] = useState("");
+  const [customIbu, setCustomIbu] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [api_flag, setapi_flag] = useState(0);
   const [data, setData] = useState([]);
@@ -42,6 +44,25 @@ const CreateSmartList = () => {
   const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [ibu, setIbu] = useState([
+    {
+      label: "All",
+      value: "All",
+    },
+    {
+      label: "Critical Care",
+      value: "Critical Care",
+    },
+    { label: "Haematology", value: "Haematology" },
+    { label: "Immunotherapy", value: "Immunotherapy" },
+  ]);
+
+  const [creatorList, setCreatorList] = useState([
+    {label: "alexandr.litvinov@octapharma.com",value: "alexandr.litvinov@octapharma.com"},
+    {label: "igor.ilic@octapharma.com",value: "igor.ilic@octapharma.com"},
+    {label: "maria.legina@octapharma.com", value: "maria.legina@octapharma.com"},
+    {label: "zvenyslava.husak@octapharma.com", value: "zvenyslava.husak@octapharma.com"},
+  ]);
 
   const handleClose = () => {
     setShow(false);
@@ -51,15 +72,18 @@ const CreateSmartList = () => {
     setShowAlertPopup(false);
     let error = {};
     if (!smartListName.trim()) {
-      error.smartListName = "Please enter the smart list name first";
+      error.smartListName = "Please enter the smart list name";
     }
     if (!creatorName.trim()) {
       error.creatorName = "Please enter the creator name";
     }
+    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && !customIbu.trim()) {
+      error.ibu = "Please enter the IBU";
+    }
 
     if (Object.keys(error)?.length) {
       setValidationError(error);
-      toast.error(error[Object.keys(error)[0]]);
+      // toast.error(error[Object.keys(error)[0]]);
       return;
     } else {
       setShow(true);
@@ -75,12 +99,17 @@ const CreateSmartList = () => {
   };
 
   const handleSmartListName = async (event) => {
-    setSmartListName(event.target.value);
+    setSmartListName(event?.target?.value);
   };
 
   const handleCreatorName = async (event) => {
-    setCreatorName(event.target.value);
+    const creatorName = event?.target?.value ? event?.target?.value : event?.value;
+    setCreatorName(creatorName);
   };
+
+  const handleIBUChange = async(value) => {
+    setCustomIbu(value);
+  }
 
   const onFileChange = (event) => {
     var files = event.target.files,
@@ -124,16 +153,18 @@ const CreateSmartList = () => {
     element2.classList.remove("active");
     let error = {};
     if (!smartListName.trim()) {
-      error.smartListName = "Please enter the smart list name first";
-      // toast.warning("Please enter the smart list name first.");
+      error.smartListName = "Please enter the smart list name";
     }
     if (!creatorName.trim()) {
       error.creatorName = "Please enter the creator name";
-      // toast.warning("Please enter the creator name");
+    }
+
+    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && !customIbu.trim()) {
+      error.ibu = "Please enter the IBU";
     }
     if (Object.keys(error)?.length) {
       setValidationError(error);
-      toast.error(error[Object.keys(error)[0]]);
+      // toast.error(error[Object.keys(error)[0]]);
       return;
     } else {
       if (element.classList.contains("active")) {
@@ -142,7 +173,7 @@ const CreateSmartList = () => {
         element.classList.add("active");
       }
       navigate("/SmartListFilter", {
-        state: { smartListName: smartListName, creatorName: creatorName },
+        state: { smartListName: smartListName, creatorName: creatorName, ibu: customIbu },
       });
     }
   };
@@ -153,7 +184,7 @@ const CreateSmartList = () => {
         uploadFile();
       } else {
         navigate("/SmartListFilter", {
-          state: { smartListName: smartListName },
+          state: { smartListName: smartListName, ibu: customIbu },
         });
       }
     } else {
@@ -224,6 +255,7 @@ const CreateSmartList = () => {
                 data: res.data.response.data,
                 smartListName: smartListName,
                 creator: creatorName,
+                ibu: customIbu
               },
             });
             console.log(uploadOrDownloadCount);
@@ -252,11 +284,11 @@ const CreateSmartList = () => {
       });
   };
 
-  useEffect(() => {
-    if (typeof creator !== "undefined" && creator != "") {
-      setCreatorName(creator);
-    }
-  }, [smartListName]);
+  // useEffect(() => {
+    // if (typeof creator !== "undefined" && creator != "") {
+      // setCreatorName(creator);
+    // }
+  // }, [smartListName]);
 
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
@@ -300,7 +332,7 @@ const CreateSmartList = () => {
                   </ul>
                 </div>
                 <div className="col-12 col-md-1">
-                  <div className="header-btn-right">
+                  <div className="header-btn-right d-flex justify-content-end">
                     <button
                       className="btn btn-primary btn-bordered light"
                       onClick={closeClicked}
@@ -343,22 +375,78 @@ const CreateSmartList = () => {
                           <label htmlFor="creator-name">
                             Creator’s name <span>*</span>
                           </label>
-                          <input
-                            type="text"
-                            className={
-                              validationError?.creatorName
-                                ? "form-control error"
-                                : "form-control"
-                            }
-                            value={creatorName}
-                            onChange={(event) => handleCreatorName(event)}
-                          />
+                          {
+                            localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                            <>
+                              <Select
+                                options={creatorList}
+                                createNewLabel = "true"
+                                placeholder="Select creator name"
+                                name="creator"
+                                className={
+                                  validationError?.creatorName
+                                    ? "dropdown-basic-button split-button-dropup error"
+                                    : "dropdown-basic-button split-button-dropup"
+                                }
+                                isClearable
+                                onChange={(e) => handleCreatorName(e)}
+                              />
+                            </>
+                            :
+                            <input
+                              type="text"
+                              className={
+                                validationError?.creatorName
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              value={creatorName}
+                              onChange={(event) => handleCreatorName(event)}
+                            />
+                          }
                           {validationError?.creatorName ? (
                             <div className="login-validation">
                               {validationError?.creatorName}
                             </div>
                           ) : null}
                         </div>
+                        {
+                          localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                          <div className="form-group col">
+                            <label htmlFor="creator-name">
+                              IBU <span>*</span>
+                            </label>
+                            <Select
+                              options={ibu}
+                              placeholder="Select IBU"
+                              name="ibu"
+                              className={
+                                validationError?.ibu
+                                  ? "dropdown-basic-button split-button-dropup error"
+                                  : "dropdown-basic-button split-button-dropup"
+                              }
+                              isClearable
+                              onChange={(e) => handleIBUChange(e?.value)}
+                            />
+                            {/* <input
+                              type="text"
+                              className={
+                                validationError?.creatorName
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              value={creatorName}
+                              onChange={(event) => handleCreatorName(event)}
+                            /> */}
+                            {validationError?.ibu ? (
+                              <div className="login-validation">
+                                {validationError?.ibu}
+                              </div>
+                            ) : null}
+                          </div>
+                          :
+                          null
+                        }    
 
                         {
                           /*<div className="form-group col-sm-12">

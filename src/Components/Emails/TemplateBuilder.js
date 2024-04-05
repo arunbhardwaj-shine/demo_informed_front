@@ -24,6 +24,10 @@ import Select, { createFilter } from "react-select";
 import { ProgressBar } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { saveNewTemplate } from "../CommonComponent/Validations";
+import html2canvas from 'html2canvas';
+import domtoimage from "dom-to-image";
+import SmartListLayout from "../CommonComponent/SmartListLayout";
+import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 
 var dxr = 0;
@@ -125,7 +129,7 @@ const TemplateBuilder = (props) => {
 
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
-
+  const [selectedListId, setSelectedListId] = useState(0);
   const [ibuList, setIbuList] = useState([]);
   const [languageList, setLanguageList] = useState([]);
   const [hpc, setHpc] = useState([
@@ -208,6 +212,7 @@ const TemplateBuilder = (props) => {
         if (flag == 0) {
           setPrevSmartListData(res.data.response.data);
         }
+        loader("hide");
       })
       .catch((err) => {
         loader("hide");
@@ -415,6 +420,7 @@ const TemplateBuilder = (props) => {
       toast.success("Template saved successfully");
     } else if (flag == 2) {
       setTemplateId();
+      templateIdRef.current=""
       setTemplateName("");
       setNewTemplateName("");
       setTemplate("");
@@ -772,7 +778,7 @@ const TemplateBuilder = (props) => {
             setShowProgressBar(false);
           }
 
-          //toast.success("Test Mail sent successfuly");
+          //toast.success("Test Mail sent successfully");
         })
         .catch((err) => {
           clearInterval(timer);
@@ -829,7 +835,7 @@ const TemplateBuilder = (props) => {
     }
     setTemplateClicked(true);
     setTemplateId(template.id);
-    templateIdRef.current = template.id;
+    templateIdRef.current = template?.id;
 
     setTemplateName(template.name);
     setNewTemplateName(template.name);
@@ -1303,7 +1309,7 @@ const TemplateBuilder = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1340,7 +1346,7 @@ const TemplateBuilder = (props) => {
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
@@ -1467,6 +1473,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
+            templateIdRef.current=res?.data?.response?.data?.last_id
             setTemplateName(userInputs?.template_name);
           } else {
             loader("hide");
@@ -1527,7 +1534,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId(res.data.response.data.last_id);
-            templateIdRef.current = res.data.response.data.last_id;
+            templateIdRef.current = res?.data?.response?.data?.last_id;
             setTemplateName(newTemplateNamee);
             setTemplateClicked(false);
           } else {
@@ -1630,13 +1637,20 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const generate_thumb = useCallback(() => {
+  const generate_thumb = useCallback(async () => {
     if (ref.current === null) {
       return;
     }
     loader("show");
-    toPng(ref.current, { pixelRatio: 1 })
-      .then((dataUrl) => {
+    console.log(ref.current,"ref.currentref.current");
+    // toPng(ref.current, { pixelRatio: 1 })
+    // const dataUrl2 = await domtoimage.toPng(ref.current, { cacheBust: true });
+    // console.log(dataUrl2);
+    // domtoimage.toPng(ref.current, { cacheBust: true })
+    // domtoimage.toPng(ref.current, { cacheBust: true })
+    html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
+      .then((canvasurl) => {
+        const dataUrl = canvasurl.toDataURL('image/png');
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
@@ -1751,6 +1765,7 @@ const TemplateBuilder = (props) => {
               userTemplateType
             );
             setTemplateId();
+            templateIdRef.current=""
             setTemplateName("");
             setNewTemplateName("");
             setTemplate("");
@@ -1791,7 +1806,7 @@ const TemplateBuilder = (props) => {
       ""
     );
 
-    var modifiedStringforsrc = modifiedContent?.replace(
+    var modifiedStringforsrc = modifiedStringagain?.replace(
       '<p><img style="display: none;" src="Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
@@ -1877,90 +1892,205 @@ const TemplateBuilder = (props) => {
       return null;
     }
   };
+  // const addTracking = function (editor) {
+  //   editor.on("OpenWindow", function (e) {
+  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
+
+  //     if (dialog) {
+  //       let header = dialog.querySelector(".tox-dialog__header");
+  //       const closeButton = header.querySelector('[aria-label="Close"]');
+  //       let text = header.querySelector(".tox-dialog__title");
+
+  //       if (text.innerText == "Insert/Edit Link") {
+  //         let uploadIcon = document.querySelector(
+  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+  //         );
+  //         uploadIcon.style.display = "none";
+  //         let newButton = document.createElement("button");
+  //         newButton.innerText = "Add Tracking";
+  //         newButton.classList.add("tox-button");
+  //         newButton.classList.add("tox-button--icon");
+  //         newButton.classList.add("tox-button--naked");
+  //         newButton.classList.add("track");
+  //         newButton.onclick = function () {
+  //           if (templateIdRef.current == "") {
+  //             alert("Please select the template first before adding the link");
+  //             return;
+  //           }
+  //           // alert(templateId);
+  //           let firstToxControlWrap = document.querySelector(
+  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+  //           );
+
+  //           // let text =dialog.querySelector(".tox-form__group");
+  //           if (!firstToxControlWrap.value) {
+  //             alert("Please enter a link");
+  //             return;
+  //           }
+
+  //           const baseLink =
+  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
+  //             alert("Traking already added");
+  //             return;
+  //           }
+  //           let slugValue = prompt("Enter a slug value");
+
+  //           const currentTimestamp = Date.now();
+  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
+  //           let payload = {
+  //             slug_value: slugValue,
+  //             template_id: templateIdRef.current,
+  //             url_code: `clicked_track_doc_${currentTimestamp}`,
+  //           };
+  //           linkingPayload.current = payload;
+  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+  //           firstToxControlWrap.value = link;
+  //           var saveButton = document.querySelector(
+  //             '.tox-button[title="Save"]'
+  //           );
+
+  //           saveButton.addEventListener("click", function () {
+  //             let link = `https://onesource.informed.pro/api/track-links`;
+
+  //             axios
+  //               .post(link, payload)
+  //               .then((res) => {
+  //                 console.log("done");
+  //               })
+  //               .catch((err) => {
+  //                 loader("hide");
+  //                 console.log(err);
+  //               });
+  //           });
+  //           alert("Traking added");
+  //         };
+
+  //         header.insertBefore(newButton, closeButton);
+  //       } else if (text.innerText == "Insert/Edit Media") {
+  //         document.querySelector(
+  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+  //         ).innerText += " (Max size: 1GB)";
+  //       }
+  //     }
+  //   });
+  // };
+
+  
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-      let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-      if (dialog) {
-        let header = dialog.querySelector(".tox-dialog__header");
-        const closeButton = header.querySelector('[aria-label="Close"]');
-        let text = header.querySelector(".tox-dialog__title");
-
-        if (text.innerText == "Insert/Edit Link") {
-          let uploadIcon = document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-          );
-          uploadIcon.style.display = "none";
-          let newButton = document.createElement("button");
-          newButton.innerText = "Add Tracking";
-          newButton.classList.add("tox-button");
-          newButton.classList.add("tox-button--icon");
-          newButton.classList.add("tox-button--naked");
-          newButton.classList.add("track");
-          newButton.onclick = function () {
-            if (templateIdRef.current == "") {
-              alert("Please select the template first before adding the link");
-              return;
-            }
-            // alert(templateId);
-            let firstToxControlWrap = document.querySelector(
-              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-            );
-
-            // let text =dialog.querySelector(".tox-form__group");
-            if (!firstToxControlWrap.value) {
-              alert("Please enter a link");
-              return;
-            }
-
+        let dialog = document.getElementsByClassName("tox-dialog")[0];
+        if (dialog) {
+            let header = dialog?.querySelector(".tox-dialog__header");
+            const closeButton = header?.querySelector('[aria-label="Close"]');
+            let text = header?.querySelector(".tox-dialog__title");
+            let url = dialog?.querySelector(".tox-control-wrap")
+            let newLink = url?.querySelector(".tox-textfield")
+            let newButton = document.createElement("button");
             const baseLink =
-              "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            if (firstToxControlWrap.value.startsWith(baseLink)) {
-              alert("Traking already added");
-              return;
+                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+            let payload = {}
+            let apiLink = ""
+
+            if (text?.innerText == "Insert/Edit Link") {
+                let uploadIcon = document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+                );
+                uploadIcon.style.display = "none";
+                // let newButton = document.createElement("button");
+                if (newLink?.value?.includes(baseLink)) {
+                    newButton.innerText = "Remove Tracking";
+                    apiLink = `https://onesource.informed.pro/api/delete-track-links`;
+                } else {
+                    newButton.innerText = "Add Tracking";
+                    apiLink = `https://onesource.informed.pro/api/track-links`;
+                }
+                newButton.classList.add("tox-button");
+                newButton.classList.add("tox-button--icon");
+                newButton.classList.add("tox-button--naked");
+                newButton.classList.add("track");
+
+                newButton.onclick = function () {
+                    if (templateIdRef.current == "") {
+                        alert("Please select the template first before adding the link");
+                        return;
+                    }
+                    let firstToxControlWrap = document.querySelector(
+                        "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+                    );
+
+                    if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+                      if (!window.confirm("Are you sure you want to remove the tracking?")) {
+                        return;
+                    }
+                                    const urlParams = new URLSearchParams(newLink.value);
+                                    const redirectUrl = urlParams.get('redirect_url');
+                                    const trackingCode = urlParams.get('tracking_code');
+                                    firstToxControlWrap.value = redirectUrl;
+                                    payload = {
+                                        template_id: templateIdRef.current,
+                                        url_code: trackingCode,
+                                    };
+                                }
+                    if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+                        if (!newLink?.value) {
+                            alert("Please enter a link")
+                            return
+                        }
+                        if (!firstToxControlWrap.value) {
+                            alert("Please enter a link");
+                            return;
+                        }
+                        if (firstToxControlWrap.value.startsWith(baseLink)) {
+                            alert("Tracking already added");
+                            return;
+                        }
+                        let slugValue = prompt("Enter a slug value");
+
+                        const currentTimestamp = Date.now();
+                        payload = {
+                            slug_value: slugValue,
+                            template_id: templateIdRef.current,
+                            url_code: `clicked_track_doc_${currentTimestamp}`,
+                        };
+                        linkingPayload.current = payload;
+                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                        firstToxControlWrap.value = link;
+
+                    }
+
+                    var saveButton = document.querySelector(
+                        '.tox-button[title="Save"]'
+                    );
+                    saveButton.addEventListener("click", function () {
+                        axios
+                            .post(apiLink, payload)
+                            .then((res) => {
+                                console.log("done");
+                            })
+                            .catch((err) => {
+                                loader("hide");
+                                console.log(err);
+                            });
+                    });
+                    if (newLink?.value?.includes(baseLink)) {
+                        alert("Tracking added");
+                    } else {
+                      saveButton.click()
+
+                        alert("Tracking removed");
+                    }
+                };
+
+                header.insertBefore(newButton, closeButton);
+            } else if (text.innerText == "Insert/Edit Media") {
+                document.querySelector(
+                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+                ).innerText += " (Max size: 1GB)";
             }
-            let slugValue = prompt("Enter a slug value");
-
-            const currentTimestamp = Date.now();
-            // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-            let payload = {
-              slug_value: slugValue,
-              template_id: templateIdRef.current,
-              url_code: `clicked_track_doc_${currentTimestamp}`,
-            };
-            linkingPayload.current = payload;
-            let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-            firstToxControlWrap.value = link;
-            var saveButton = document.querySelector(
-              '.tox-button[title="Save"]'
-            );
-
-            saveButton.addEventListener("click", function () {
-              let link = `https://onesource.informed.pro/api/track-links`;
-
-              axios
-                .post(link, payload)
-                .then((res) => {
-                  console.log("done");
-                })
-                .catch((err) => {
-                  loader("hide");
-                  console.log(err);
-                });
-            });
-            alert("Traking added");
-          };
-
-          header.insertBefore(newButton, closeButton);
-        } else if (text.innerText == "Insert/Edit Media") {
-          document.querySelector(
-            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-          ).innerText += " (Max size: 1GB)";
         }
-      }
     });
-  };
-
+};
   const userInputChange = (e, isSelectedName) => {
     setSaveTemplateInputs({
       ...userInputs,
@@ -1970,6 +2100,16 @@ const TemplateBuilder = (props) => {
           : e
         : e?.target?.value,
     });
+  }
+
+  const viewSmartListData = async(id) => {
+    setAddListOpen(false);
+    setSelectedListId(id);
+  }
+
+  const closeSmartListPopup = async() => {
+    setSelectedListId(0);
+    setAddListOpen(true);
   }
 
   return (
@@ -2073,8 +2213,7 @@ const TemplateBuilder = (props) => {
             </div>
 
             <div className="top-header">
-              <div className="custom-container">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center w-100">
                   <div className="page-title">
                     <h5>Select Template</h5>
                   </div>
@@ -2085,7 +2224,6 @@ const TemplateBuilder = (props) => {
                     Create a new template
                   </button>
                 </div>
-              </div>
             </div>
 
             <section className="select-mail-template">
@@ -2129,8 +2267,7 @@ const TemplateBuilder = (props) => {
                   {newTemplateClicked == true ? (
                     <div className="email-form">
                       <form>
-                        <div className="form-inline row justify-content-between align-items-center"></div>
-                        <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-inline d-flex justify-content-end align-items-center">
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {
                               <>
@@ -2225,7 +2362,7 @@ const TemplateBuilder = (props) => {
                     <div className="email-form">
                       <form>
                         <div className="form-inline row justify-content-between align-items-center"></div>
-                        <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-inline d-flex justify-content-end align-items-center">
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {templateName != "" && (
                               <>
@@ -3640,7 +3777,7 @@ const TemplateBuilder = (props) => {
                 </form>
               </div>
             </div>
-            <div className="col smartlist-result-block">
+            <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                 smartListData.map((data) => {
@@ -3649,6 +3786,7 @@ const TemplateBuilder = (props) => {
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
+                            <div className="mail-box-conten-title">
                             <h5>{data.name}</h5>
                             <div className="select-mail-option">
                               <input
@@ -3665,7 +3803,9 @@ const TemplateBuilder = (props) => {
                               />
                               <span className="checkmark"></span>
                             </div>
-                            <div className="mailbox-table">
+                            </div>
+                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+                            {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -3715,7 +3855,7 @@ const TemplateBuilder = (props) => {
                                 alt="User icon"
                               />
                               {data.readers_count}
-                            </div>
+                            </div> */}
                             {/*<div className="smartlist-buttons">
                                 <button className="btn btn-primary btn-bordered view">
                                   <a onClick={() => openSmartListPopup(data.id)}>
@@ -3956,6 +4096,12 @@ const TemplateBuilder = (props) => {
         </h4>
       </Modal>
       {/*Confrimation Popup end*/}
+
+      {
+        selectedListId ?
+         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
+         : null
+      }
     </>
   );
 };

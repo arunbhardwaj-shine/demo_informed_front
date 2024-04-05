@@ -31,7 +31,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Write Your Name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -80,7 +80,7 @@
     "headerBackgroundImage": {
         "title": "Header Image",
         "type": "file",
-        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/xRaqZMQ2ojiGspE5WzVrO8uoRz36qvzHPMcGXmHZ.png" 
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/7Xxk95McHVGTKwcNOm3mgqze1ppYVAWqqy6mc2Hb.png" 
     },
     "nameLabel": {
         "title": "Name Label",
@@ -90,7 +90,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Write Your Name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -154,7 +154,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -164,12 +164,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
@@ -228,7 +228,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -238,12 +238,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
@@ -304,7 +304,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -314,17 +314,17 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
         "type": "color",
-        "value": "#64b8b0"
+        "value": "#ff7056"
     },
     "footerImage": {
         "title": "Footer Image",
@@ -379,7 +379,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -389,17 +389,17 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
         "type": "color",
-        "value": "#64b8b0"
+        "value": "#ff7056"
     },
     "footerImage": {
         "title": "Footer Image",
@@ -416,6 +416,77 @@
         "title": "Footer Text",
         "type": "text",
        "value" :"591_HAEQUE_EAHAD 2024<br/>Preparation date: December 2023"
+    }
+   
+    }
+    },
+
+    { "templateId": 8,
+    "templateName": "ISTH Template",
+
+   
+    "fieldData":{ 
+    "logoImageUrl":{
+        "title": "Logo",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/a5u7S4PCPizOUn4PslZsZi87df7ki1o0TetOIh0l.png"
+    },
+    "textColor": {
+        "title": "Text Color",
+        "type": "color",
+        "value": "#233c7a"  
+    },
+    "headerImage": {
+        "title": "Header Image",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/s6H57OStbuoxTQpSDnYdL38ZKc2bNrx4PVYG45Jg.png" 
+    },
+    "formHeading": {
+        "title": "Form Heading",
+        "type": "text",
+        "value": "Type your question here!"
+    },
+    "nameLabel": {
+        "title": "Name Label",
+        "type": "text",
+        "value": "Name"
+    },
+    "namePlaceholder": {
+        "title": "Name Placeholder",
+        "type": "text",
+        "value": "Write your name"
+    },
+    "questionLabel": {
+        "title": "Question Label",
+        "type": "text",
+        "value": "Your question"
+    },
+    "questionPlaceholder": {
+        "title": "Question Placeholder",
+        "type": "text",
+        "value": "Write your question"
+    },
+    "buttonText": {
+        "title": "Button Text",
+        "type": "text",
+        "value": "SEND"
+    },
+    "buttonColor": {
+        "title": "Button Color",
+        "type": "color",
+        "value": "#263A7A"
+    },
+   
+    "footerTextOne": {
+        "title": "Footer Message",
+        "type": "textArea",
+        "value": "This symposium is for healthcare professionals only and is organised and sponsored by Octapharma. Prescribing information may vary depending on local approval in each country. Before prescribing any product, always refer to local materials such as the prescribing information and/or the summary of product characteristics. Product information is available online at <a target='_blank' href='https://www.octapharma.com/products/product-overview/nuwiq'>https://www.octapharma.com/products/product-overview/nuwiq</a>. Products will be discussed."
+
+    },
+    "footerText": {
+        "title": "Footer Text",
+        "type": "text",
+       "value" :"527_HAEQUE_ISTH 2023<br/>Date of preparation: June 2023"
     }
    
     }

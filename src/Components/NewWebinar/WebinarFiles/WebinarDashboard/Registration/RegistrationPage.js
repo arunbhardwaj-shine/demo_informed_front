@@ -6,6 +6,8 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import TemplateThree from "./TemplateThree";
 import TemplateOne from "./TemplateOne";
 import TemplateTwo from "./TemplateTwo";
+import TemplateFive from "./TemplateFive";
+import TemplateSix from "./TemplateSix";
 import moment from "moment";
 import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
@@ -607,6 +609,164 @@ const RegistrationPage = ({ prevData,type }) => {
     </>
   );
 
+  const myContent5 = (
+    <>
+      <section className="consent-form">
+        <div className="container">
+          <div className="consent-form-inner">
+            <form id="registration_form" onSubmit={handleSubmit}>
+              <div className="row" id="form_upper">
+                <div className="col-sm-12 col-md-12 center-sided">
+                  {/* <h2
+                    style={{
+                      color: formData?.content?.eventDetails?.pageTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        formData?.content?.eventDetails?.pageTitle?.value ||
+                        "These meetings are for healthcare professionals only.",
+                    }}
+                  /> */}
+                  {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
+                  {/* <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.bodyText?.color,
+                    }}
+                  >
+                    {" "}
+                    {formData?.content?.bodyText}
+                  </h3> */}
+                </div>
+              </div>
+              <div className="center-sided-inside">
+                <div className="row">
+                  {formData?.content?.body?.map((form, index) => (
+                    <FormField5
+                      form={form}
+                      key={index}
+                      formFieldData={formFieldData}
+                      setFormFieldData={setFormFieldData}
+                      formErrors={formErrors}
+                      pageColors={pageColors}
+                      level="root"
+                      templateId={formData?.content?.templateId}
+                    />
+                  ))}
+                  {!prevData && (
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      id="submit_registration"
+                    >
+                      Send
+                    </button>
+                  )}
+                </div>
+                <div className="footer-sec">
+                  <span>
+                  Preparation date: March 2024
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+
+  const myContent6 = (
+    <>
+      {/* {prevData && (
+        <button
+          type="submit"
+          className="btn btn-primary"
+          id="submit_registration"
+          onClick={handleBackClicked}
+        >
+          Back
+        </button>
+      )} */}
+      {/* <div className="App">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit1}>
+        <label>Username:</label>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit">Login</button>
+      </form>
+    </div> */}
+      <section className="consent-form">
+        <div className="container">
+          <div
+            className="consent-form-inner"
+            style={{ background: `${pageColors?.background}` }}
+          >
+            <form id="registration_form" onSubmit={handleSubmit}>
+              <div className="row" id="form_upper">
+                <div className="col-sm-12 col-md-12 center-sided">
+                  <h2
+                    style={{
+                      color: formData?.content?.eventDetails?.pageTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value,
+                    }}
+                  >
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
+                  </h2>
+
+                  <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.bodyText?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value,
+                    }}
+                  >
+                    {/* {formData?.content?.eventDetails?.bodyText?.value} */}
+                  </h3>
+                </div>
+              </div>
+              <div className="center-sided-inside">
+                <div className="row">
+                  {formData?.content?.body?.map((form, index) => (
+                    <FormField6
+                      key={`${form.label}_${index}`}
+                      form={form}
+                      formFieldData={formFieldData}
+                      setFormFieldData={setFormFieldData}
+                      formErrors={formErrors}
+                      pageColors={pageColors}
+                      level="root"
+                      templateId={formData?.content?.templateId}
+                    />
+                  ))}
+                  {!prevData && (
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      id="submit_registration"
+                    >
+                      Submit
+                    </button>
+                  )}
+                </div>
+                <div className="footer-sec">
+                  {/* <span>
+                    * This consent is mandatory in order to register for the
+                    event.
+                  </span> */}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+
   return (
     <>
       <meta
@@ -637,6 +797,14 @@ const RegistrationPage = ({ prevData,type }) => {
 
       {formData?.content?.templateId === 2 && (
         <TemplateTwo formData={formData}>{myContent2}</TemplateTwo>
+      )}
+
+      {formData?.content?.templateId === 5 && (
+        <TemplateFive formData={formData}>{myContent5}</TemplateFive>
+      )}
+
+    {formData?.content?.templateId === 6 && (
+        <TemplateSix formData={formData}>{myContent6}</TemplateSix>
       )}
 
       {(formData?.content?.templateId === 3 ||
@@ -707,11 +875,11 @@ const FormField1 = ({
   const label = form?.name?.replace(/ /g, "_");
 
   useEffect(()=>{
-    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
   
-    placeholderElements.forEach((placeholderElement) => {
-      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
-    });
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
     },[form])
 
   const handleFieldChange = (value, e = "") => {
@@ -958,11 +1126,11 @@ const FormField2 = ({
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
   useEffect(() => {
-    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
 
-    placeholderElements.forEach((placeholderElement) => {
-      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
-    });
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
   }, [form])
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -1795,6 +1963,515 @@ const FormField4 = ({
   return (
     <div
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
+      <label
+        style={{
+          color: pageColors?.labelColor,
+        }}
+      >
+        {form.label}
+        {isRequired ? "*" : ""}
+      </label>
+      {fieldInput}
+      <div className="help-block">{formErrors[label]}</div>
+      <style>
+      {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+        
+      `}
+    </style>
+    </div>
+  );
+};
+
+const FormField5 = ({
+  form,
+  formFieldData,
+  setFormFieldData,
+  formErrors,
+  pageColors,
+  level,
+  templateId,
+}) => {
+  { console.log(form, 'form') }
+  const [countryList, setCountryList] = useState(CountryList);
+  const [extensionData, setExtensionData] = useState({});
+  const label = form?.name?.replace(/ /g, "_");
+  useEffect(() => {
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
+  }, [form])
+  const handleFieldChange = (value, e = "") => {
+    const newData = { ...formFieldData };
+    if (form?.inputType === "datepicker") {
+      newData[label] = moment(value).format("YYYY-MM-DD");
+    } else if (form?.inputType === "checkbox") {
+      newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+      if (e.target.checked) {
+        newData[label] = [...newData[label], value];
+      } else {
+        newData[label] = newData[label].filter((item) => item !== value);
+      }
+    } else {
+      newData[label] = value;
+    }
+    setFormFieldData(newData);
+  };
+
+  if (label?.includes("country") || label?.includes("Country")) {
+    form.inputType = "selection-country";
+  } else if (label?.includes("state") || label?.includes("state")) {
+    form.inputType = "selection-state";
+  }
+
+  const isRequired = form.required === "yes";
+
+  let fieldInput = null;
+
+  if (form.inputType === "textarea") {
+    fieldInput = (
+      <textarea
+        className="form-control"
+        placeholder={form.placeholder}
+        cols="40"
+        rows="4"
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      ></textarea>
+    );
+  } else if (
+    form.inputType === "selection" ||
+    form.inputType === "selection-country" ||
+    form.inputType === "selection-state"
+  ) {
+    const options = form.option?.map((op) => ({
+      label: op.optionLabel,
+      value: op.optionLabel,
+    }));
+
+    fieldInput = (
+      <Select
+        options={
+          form.inputType === "selection-country"
+            ? countryList
+            : form.inputType === "selection-state"
+              ? stateOptions
+              : options
+        }
+        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+        isClearable
+        onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+    );
+  } else if (form.inputType === "datepicker") {
+    fieldInput = (
+      <DatePicker
+        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
+        name={form.label}
+        dateFormat="dd/MM/yyyy"
+        className="form-control"
+        placeholderText="Select task date"
+        onChange={(date) => handleFieldChange(date)}
+        onKeyDown={(e) => {
+          e.preventDefault();
+        }}
+      />
+    );
+  } else if (form.inputType === "radio") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={() => {
+                  handleFieldChange(item.optionLabel);
+                  // if (item.extension) {
+                  setExtensionData({
+                    [item.optionLabel]: item.extension ? item.extension : [],
+                  });
+                  // }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[item.optionLabel]?.length > 0 &&
+              extensionData[item.optionLabel]?.map((opt, i) => (
+                <FormField5
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  } else if (form.inputType === "checkbox") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={(e) => {
+                  handleFieldChange(item.optionLabel, e);
+                  if (!extensionData[label + index]) {
+                    setExtensionData({
+                      ...extensionData,
+                      [label + index]: item.extension ? item.extension : [],
+                    });
+                  } else {
+                    const updatedExtensionData = { ...extensionData };
+                    delete updatedExtensionData[label + index];
+                    setExtensionData(updatedExtensionData);
+                  }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[label + index]?.length > 0 &&
+              extensionData[label + index]?.map((opt, i) => (
+                <FormField5
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  }
+
+  else {
+    fieldInput = (
+      <>
+        <input
+          type={form.inputType}
+          className="form-control"
+          id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+          placeholder={form.placeholder}
+          onChange={(e) => handleFieldChange(e.target.value)}
+          style={{
+            color: pageColors?.typedTextColor,
+          }}
+          data-placeholder-color={pageColors?.placeholderTextColor}
+        />
+        <div className="field-icon">
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <div
+      // className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")
+      //   ? "country"
+      //   : ""
+      //   }`}
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
+        } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
+        }`}
+
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
+      {form.label != "Name" && form.inputType != "email" ? (
+        <label
+          style={{
+            color: pageColors?.labelColor,
+          }}
+        >
+          {form.label}
+          {
+            // isRequired ? "*" : ""
+          }
+        </label>
+      ) : null}
+
+      {fieldInput}
+      <div className="help-block">{formErrors[label]}</div>
+      <style>
+        {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+       
+      `}
+      </style>
+    </div>
+  );
+};
+
+const FormField6 = ({
+  form,
+  formFieldData,
+  setFormFieldData,
+  formErrors,
+  pageColors,
+  level,
+  templateId,
+}) => {
+  const [countryList, setCountryList] = useState(CountryList);
+  const [extensionData, setExtensionData] = useState({});
+  const label = form?.name?.replace(/ /g, "_");
+
+  useEffect(()=>{
+    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+  
+    placeholderElements.forEach((placeholderElement) => {
+      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    });
+    },[form])
+
+  const handleFieldChange = (value, e = "") => {
+    const newData = { ...formFieldData };
+
+    if (form?.inputType === "datepicker") {
+      newData[label] = moment(value).format("YYYY-MM-DD");
+    } else if (form?.inputType === "checkbox") {
+      newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+
+      if (e.target.checked) {
+        newData[label] = [...newData[label], value];
+      } else {
+        newData[label] = newData[label].filter((item) => item !== value);
+      }
+    } else {
+      newData[label] = value;
+    }
+    setFormFieldData(newData);
+  };
+
+  if (label?.includes("country") || label?.includes("Country")) {
+    form.inputType = "selection-country";
+  } else if (label?.includes("state") || label?.includes("state")) {
+    form.inputType = "selection-state";
+  }
+
+  const isRequired = form.required === "yes";
+
+  let fieldInput = null;
+
+  if (form.inputType === "textarea") {
+    fieldInput = (
+      <textarea
+        className="form-control"
+        placeholder={form.placeholder}
+        cols="40"
+        rows="4"
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      ></textarea>
+    );
+  } else if (
+    form.inputType === "selection" ||
+    form.inputType === "selection-country" ||
+    form.inputType === "selection-state"
+  ) {
+    const options = form.option?.map((op) => ({
+      label: op.optionLabel,
+      value: op.optionLabel,
+    }));
+
+    fieldInput = (
+      <Select
+        options={
+          form.inputType === "selection-country"
+            ? countryList
+            : form.inputType === "selection-state"
+              ? stateOptions
+              : options
+        }
+        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+        isClearable
+        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+    );
+  } else if (form.inputType === "datepicker") {
+    fieldInput = (
+      <DatePicker
+        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
+        name={form.label}
+        dateFormat="dd/MM/yyyy"
+        className="form-control"
+        placeholderText="Select task date"
+        onChange={(date) => handleFieldChange(date)}
+        onKeyDown={(e) => {
+          e.preventDefault();
+        }}
+      />
+    );
+  } else if (form.inputType === "radio") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={() => {
+                  handleFieldChange(item.optionLabel);
+                  // if (item.extension) {
+                  setExtensionData({
+                    [item.optionLabel]: item.extension ? item.extension : [],
+                  });
+                  // }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[item.optionLabel]?.length > 0 &&
+              extensionData[item.optionLabel]?.map((opt, i) => (
+                <FormField6
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  } else if (form.inputType === "checkbox") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={(e) => {
+                  handleFieldChange(item.optionLabel, e);
+
+                  if (!extensionData[label + index]) {
+                    setExtensionData({
+                      ...extensionData,
+                      [label + index]: item.extension ? item.extension : [],
+                    });
+                  } else {
+                    const updatedExtensionData = { ...extensionData };
+                    delete updatedExtensionData[label + index];
+                    setExtensionData(updatedExtensionData);
+                  }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[label + index]?.length > 0 &&
+              extensionData[label + index]?.map((opt, i) => (
+                <FormField6
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  } else {
+    fieldInput = (
+      <input
+        type={form.inputType}
+        className="form-control"
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+        placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />  
+    );
+  }
+// console.log(label,'label')
+  return (
+    <div
+      // className="col-sm-12 col-md-12 consent-form-list attend-sec"
+      className={`${(label?.includes("consent") ? "col-sm-12 col-md-12 consent-form-list attend-sec" : "col-sm-6 col-md-6 consent-form-list attend-sec"
+   ) }
+        `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
       <label

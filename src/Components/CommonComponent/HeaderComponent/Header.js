@@ -186,7 +186,10 @@ const Header = () => {
               // to={"/library-content"}
               to={"/home"}
             >
-              <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              {
+                window.location.pathname === "/spc-render" ||  window.location.pathname === "/timeline-detail" ? "" : 
+                <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              }
             </Link>
             {/* <button
               className="navbar-toggler"
@@ -241,7 +244,7 @@ const Header = () => {
                 </li>
                 <li
                   className={
-                    window.location.pathname == "/readers-view" ||
+                    window.location.pathname == "/readers-view" ||  window.location.pathname == "/new-readers-reviews" ||
                     window.location.pathname == "/readers-list" ||
                     window.location.pathname == "/reader-add" ||
                     window.location.pathname == "/reader-edit" ||
@@ -399,7 +402,20 @@ const Header = () => {
                     window.location.pathname == "/webinar/live-stream/settings" ||
                     window.location.pathname == "/webinar/live-stream/chat-link" ||
                     window.location.pathname == "/webinar/analytics" ||
-                    window.location.pathname == "/webinar/event-listing"
+                    window.location.pathname == "/webinar/event-listing"||
+                    window.location.pathname == "/webinar/email/auto-emails"||
+                    window.location.pathname == "/webinar/email/smartlist"||
+                    window.location.pathname == "/webinar/email/create-new-email"||
+                    window.location.pathname == "/webinar/email/selectHCP"||
+                    window.location.pathname == "/webinar/email/verifyHCP"||
+                    window.location.pathname == "/webinar/email/selectSmartList"||
+                    window.location.pathname == "/webinar/email/selectSmartListUsers"||
+                    window.location.pathname == "/webinar/email/verifyMAIL"||
+                    window.location.pathname == "/webinar/email/verifyHcpMAIL"||
+                    window.location.pathname =="/webinar/email/smartlist/editlist"||
+                    window.location.pathname =="/webinar/email/smartlist/createsmartlist"||
+                    window.location.pathname =="/webinar/email/smartlist/smartlistfilter"||
+                    window.location.pathname =="/webinar/email/smartlist/uploadsmartlist"
                         ? "nav-item active active-main"
                     : "nav-item"
                   }>

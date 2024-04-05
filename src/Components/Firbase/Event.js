@@ -104,11 +104,19 @@ const Event = () => {
   };
   const handleSubmit = async (e) => {
     try {
+      // console.log(formData?.templateId,'formData?.templateId')
       e.preventDefault();
-      if (Object.keys(user).length === 0 || !user.question?.trim()) {
+      if ((Object.keys(user).length === 0 || !user.question?.trim()) && formData?.templateId === 2 )   {
+        setError({ question: "Por favor escriba su pregunta" });
+        return;
+      } 
+      else if (Object.keys(user).length === 0 || !user.question?.trim()) {
         setError({ question: "Please enter your question" });
         return;
-      } else {
+      }
+      
+   
+      else {
         setError({});
       }
       loader("show");
@@ -1112,7 +1120,7 @@ eventId={eventId}
                     src={`${
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : ""
                     }`}
                     alt="OneSource logo"
                   />
@@ -1127,7 +1135,7 @@ eventId={eventId}
                       dangerouslySetInnerHTML={{
                         __html: formData?.heading
                           ? formData?.heading
-                          : " Write your question here!",
+                          : "",
                       }}
                     ></h2>
                   </div>
@@ -1151,7 +1159,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.nameLabel
                             ? formData?.nameLabel
-                            : "Name",
+                            : "",
                         }}
                       />
 
@@ -1163,7 +1171,7 @@ eventId={eventId}
                         placeholder={
                           formData?.namePlaceholder
                             ? formData?.namePlaceholder
-                            : "Write your name"
+                            : ""
                         }
                         name="name"
                         value={user?.name}
@@ -1198,7 +1206,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.questionLabel
                             ? formData?.questionLabel
-                            : "Your question",
+                            : "",
                         }}
                       />
 
@@ -1210,7 +1218,7 @@ eventId={eventId}
                         placeholder={
                           formData?.questionPlaceholder
                             ? formData?.questionPlaceholder
-                            : "Write your question"
+                            : ""
                         }
                         cols="40"
                         rows="4"
@@ -1240,7 +1248,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.buttonText
                             ? formData?.buttonText
-                            : "SEND",
+                            : "",
                         }}
                       ></Button>
                     </div>
@@ -1253,7 +1261,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerText
                         ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
+                        : "",
                     }}
                   />
                 </div>
@@ -1271,7 +1279,7 @@ eventId={eventId}
                     src={`${
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : ""
                     }`}
                     alt="OneSource logo"
                   />
@@ -1284,7 +1292,7 @@ eventId={eventId}
                       src={`${
                         formData?.headerBackgroundImage
                           ? formData?.headerBackgroundImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/xRaqZMQ2ojiGspE5WzVrO8uoRz36qvzHPMcGXmHZ.png"
+                          : ""
                       }`}
                       alt="OneSource logo"
                     />
@@ -1309,7 +1317,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.nameLabel
                             ? formData?.nameLabel
-                            : "Name",
+                            : "",
                         }}
                       />
 
@@ -1321,7 +1329,7 @@ eventId={eventId}
                         placeholder={
                           formData?.namePlaceholder
                             ? formData?.namePlaceholder
-                            : "Write your name"
+                            : ""
                         }
                         name="name"
                         value={user?.name}
@@ -1356,7 +1364,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.questionLabel
                             ? formData?.questionLabel
-                            : "Your question",
+                            : "",
                         }}
                       />
 
@@ -1368,7 +1376,7 @@ eventId={eventId}
                         placeholder={
                           formData?.questionPlaceholder
                             ? formData?.questionPlaceholder
-                            : "Write your question"
+                            : ""
                         }
                         cols="40"
                         rows="4"
@@ -1398,7 +1406,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.buttonText
                             ? formData?.buttonText
-                            : "SEND",
+                            : "",
                         }}
                       ></Button>
                     </div>
@@ -1411,7 +1419,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerText
                         ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
+                        : "",
                     }}
                   />
                 </div>
@@ -1618,7 +1626,7 @@ eventId={eventId}
                     src={
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : ""
                     }
                     alt="OneSource logo"
                   />
@@ -1633,7 +1641,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/YjgEfQQsYoqo7FxJYL9frU5mivp0GziGEJEMSFze.png"
+                          : ""
                       }
                       alt="OneSource logo"
                     />
@@ -1643,7 +1651,7 @@ eventId={eventId}
                 <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
                           __html: formData?.formHeading
                             ? formData?.formHeading
-                            : "Type your question here!",
+                            : "",
                         }}/>
               </div>
 
@@ -1665,7 +1673,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.nameLabel
                             ? formData?.nameLabel
-                            : "Name",
+                            : "",
                         }}
                       />
 
@@ -1677,7 +1685,7 @@ eventId={eventId}
                         placeholder={
                           formData?.namePlaceholder
                             ? formData?.namePlaceholder
-                            : "Write your name"
+                            : ""
                         }
                         name="name"
                         value={user?.name}
@@ -1712,7 +1720,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.questionLabel
                             ? formData?.questionLabel
-                            : "Your question",
+                            : "",
                         }}
                       />
 
@@ -1724,7 +1732,7 @@ eventId={eventId}
                         placeholder={
                           formData?.questionPlaceholder
                             ? formData?.questionPlaceholder
-                            : "Write your question"
+                            : ""
                         }
                         cols="40"
                         rows="4"
@@ -1752,7 +1760,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.buttonText
                             ? formData?.buttonText
-                            : "SEND",
+                            : "",
                         }}
                       ></Button>
                     </div>
@@ -1765,7 +1773,7 @@ eventId={eventId}
                        src={
                          formData?.footerImage
                            ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                           : ""
                        }
                       alt=""
                     />
@@ -1775,7 +1783,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerTextOne
                         ? formData?.footerTextOne
-                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
+                        : "",
                     }}
                   />
                     </div>
@@ -1787,7 +1795,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerText
                         ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
+                        : "",
                     }}
                   />
                 </div>
@@ -1807,7 +1815,7 @@ eventId={eventId}
                     src={
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : ""
                     }
                     alt="OneSource logo"
                   />
@@ -1822,7 +1830,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/oLbpvIMzDZQ2DwzqRyRTRc70qPpLXL1uJEKFpuC2.png"
+                          : ""
                       }
                       alt="OneSource logo"
                     />
@@ -1832,7 +1840,7 @@ eventId={eventId}
                 <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
                           __html: formData?.formHeading
                             ? formData?.formHeading
-                            : "Type your question here!",
+                            : "",
                         }}/>
               </div>
 
@@ -1854,7 +1862,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.nameLabel
                             ? formData?.nameLabel
-                            : "Name",
+                            : "",
                         }}
                       />
 
@@ -1866,7 +1874,7 @@ eventId={eventId}
                         placeholder={
                           formData?.namePlaceholder
                             ? formData?.namePlaceholder
-                            : "Write your name"
+                            : ""
                         }
                         name="name"
                         value={user?.name}
@@ -1901,7 +1909,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.questionLabel
                             ? formData?.questionLabel
-                            : "Your question",
+                            : "",
                         }}
                       />
 
@@ -1913,7 +1921,7 @@ eventId={eventId}
                         placeholder={
                           formData?.questionPlaceholder
                             ? formData?.questionPlaceholder
-                            : "Write your question"
+                            : ""
                         }
                         cols="40"
                         rows="4"
@@ -1941,7 +1949,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.buttonText
                             ? formData?.buttonText
-                            : "SEND",
+                            : "",
                         }}
                       ></Button>
                     </div>
@@ -1954,7 +1962,7 @@ eventId={eventId}
                        src={
                          formData?.footerImage
                            ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                           : ""
                        }
                       alt=""
                     />
@@ -1964,7 +1972,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerTextOne
                         ? formData?.footerTextOne
-                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
+                        : "",
                     }}
                   />
                     </div>
@@ -1976,7 +1984,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerText
                         ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
+                        : "",
                     }}
                   />
                 </div>
@@ -1996,7 +2004,7 @@ eventId={eventId}
                     src={
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : ""
                     }
                     alt="OneSource logo"
                   />
@@ -2011,7 +2019,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/Nhe1keWKvcPYVIHrKc3I9Lp2N3wemWSvYXMN8pwD.png"
+                          : ""
                       }
                       alt="OneSource logo"
                     />
@@ -2021,7 +2029,7 @@ eventId={eventId}
                 <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
                           __html: formData?.formHeading
                             ? formData?.formHeading
-                            : "Type your question here!",
+                            : "",
                         }}/>
               </div>
 
@@ -2043,7 +2051,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.nameLabel
                             ? formData?.nameLabel
-                            : "Name",
+                            : "",
                         }}
                       />
 
@@ -2055,7 +2063,7 @@ eventId={eventId}
                         placeholder={
                           formData?.namePlaceholder
                             ? formData?.namePlaceholder
-                            : "Write your name"
+                            : ""
                         }
                         name="name"
                         value={user?.name}
@@ -2090,7 +2098,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.questionLabel
                             ? formData?.questionLabel
-                            : "Your question",
+                            : "",
                         }}
                       />
 
@@ -2102,7 +2110,7 @@ eventId={eventId}
                         placeholder={
                           formData?.questionPlaceholder
                             ? formData?.questionPlaceholder
-                            : "Write your question"
+                            : ""
                         }
                         cols="40"
                         rows="4"
@@ -2130,7 +2138,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.buttonText
                             ? formData?.buttonText
-                            : "SEND",
+                            : "",
                         }}
                       ></Button>
                     </div>
@@ -2143,7 +2151,7 @@ eventId={eventId}
                        src={
                          formData?.footerImage
                            ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
+                           : ""
                        }
                       alt=""
                     />
@@ -2153,7 +2161,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerTextOne
                         ? formData?.footerTextOne
-                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
+                        : "",
                     }}
                   />
                     </div>
@@ -2165,7 +2173,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerText
                         ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
+                        : "",
                     }}
                   />
                 </div>
@@ -2185,7 +2193,7 @@ eventId={eventId}
                     src={
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : ""
                     }
                     alt="OneSource logo"
                   />
@@ -2195,12 +2203,12 @@ eventId={eventId}
                 <div className="log-inner">
                   <div 
                   // className="head-sec "
-                  className="head-sec template2">
+                  className="head-sec template2" >
                     <img
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/pWcVWFwxOiDZzQsruqEVWj9UXp6YVPkPCLhU11ZO.png"
+                          : ""
                       }
                       alt="OneSource logo"
                     />
@@ -2210,7 +2218,7 @@ eventId={eventId}
                 <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
                           __html: formData?.formHeading
                             ? formData?.formHeading
-                            : "Type your question here!",
+                            : "",
                         }}/>
               </div>
 
@@ -2232,7 +2240,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.nameLabel
                             ? formData?.nameLabel
-                            : "Name",
+                            : "",
                         }}
                       />
 
@@ -2244,7 +2252,7 @@ eventId={eventId}
                         placeholder={
                           formData?.namePlaceholder
                             ? formData?.namePlaceholder
-                            : "Write your name"
+                            : ""
                         }
                         name="name"
                         value={user?.name}
@@ -2279,7 +2287,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.questionLabel
                             ? formData?.questionLabel
-                            : "Your question",
+                            : "",
                         }}
                       />
 
@@ -2291,7 +2299,7 @@ eventId={eventId}
                         placeholder={
                           formData?.questionPlaceholder
                             ? formData?.questionPlaceholder
-                            : "Write your question"
+                            : ""
                         }
                         cols="40"
                         rows="4"
@@ -2319,7 +2327,7 @@ eventId={eventId}
                         dangerouslySetInnerHTML={{
                           __html: formData?.buttonText
                             ? formData?.buttonText
-                            : "SEND",
+                            : "",
                         }}
                       ></Button>
                     </div>
@@ -2332,7 +2340,7 @@ eventId={eventId}
                        src={
                          formData?.footerImage
                            ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
+                           : ""
                        }
                       alt=""
                     />
@@ -2342,7 +2350,7 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerTextOne
                         ? formData?.footerTextOne
-                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
+                        : "",
                     }}
                   />
                     </div>
@@ -2354,7 +2362,187 @@ eventId={eventId}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerText
                         ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
+                        : "",
+                    }}
+                  />
+                </div>
+
+                
+              </div>
+            </div>
+          </div>
+        )}
+
+        {formData?.templateId === 8 && (
+          <div className="container">
+            <div className="question-block">
+              <div className="header-logo">
+                <div>
+                  <img
+                    src={
+                      formData?.logoImageUrl
+                        ? formData?.logoImageUrl
+                        : ""
+                    }
+                    alt="OneSource logo"
+                  />
+                </div>
+              </div>
+              <div className="question-block-form isth_template">
+                <div className="log-inner">
+                  <div 
+                  // className="head-sec "
+                  className="head-sec template2 isth" >
+                    <img
+                      src={
+                      formData?.headerImage
+                      ? formData?.headerImage
+                       : ""
+                       }
+                      alt="OneSource logo"
+                      />
+                  </div>
+                </div>
+                <div className="event_title">
+                <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
+                          __html: formData?.formHeading
+                            ? formData?.formHeading
+                            : "",
+                        }}/>
+              </div>
+
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="hidden"
+                    className="form-control"
+                    id="guest_id"
+                    name="guest_id"
+                    value="lji3sjpsdc21tux2st"
+                  />
+
+                  <div className="row">
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="fname"
+                        className="form-label"
+                        style={{ color: formData?.textColor }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.nameLabel
+                            ? formData?.nameLabel
+                            : "",
+                        }}
+                      />
+
+                      <input
+                        type="text"
+                        id="name"
+                        onChange={handleChange}
+                        className="form-control "
+                        placeholder={
+                          formData?.namePlaceholder
+                            ? formData?.namePlaceholder
+                            : ""
+                        }
+                        name="name"
+                        value={user?.name}
+                        style={{
+                          borderColor: formData?.textColor,
+                        }}
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="Question submitted successfully"
+                        name="succ_message"
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="Please enter message"
+                        name="err_message"
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="index.php?evnt=octa-academy-2023"
+                        name="page"
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="fname"
+                        className="form-label"
+                        style={{ color: formData?.textColor }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.questionLabel
+                            ? formData?.questionLabel
+                            : "",
+                        }}
+                      />
+
+                      <textarea
+                        name="question"
+                        id="question"
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder={
+                          formData?.questionPlaceholder
+                            ? formData?.questionPlaceholder
+                            : ""
+                        }
+                        cols="40"
+                        rows="4"
+                        value={user?.question}
+                        style={{
+                          borderColor: formData?.textColor,
+                        }}
+                      ></textarea>
+
+                      {error?.question && (
+                        <span className="event-validation">
+                          {error?.question}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="col-md-12">
+                      <Button
+                        type="submit"
+                        className="btn btn-success"
+                        style={{
+                          background: formData?.buttonColor,
+                          borderColor: formData?.buttonColor,
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.buttonText
+                            ? formData?.buttonText
+                            : "",
+                        }}
+                      ></Button>
+                    </div>
+                  </div>
+                </form>
+
+                <div className="eahad-footer">
+                    <div className="footer-msg">
+                    <p
+                    style={{ color: formData?.textColor }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.footerTextOne
+                        // ? formData?.footerTextOne
+                        // : "This symposium is for healthcare professionals attending the ISTH congress only and is organised and sponsored by Octapharma. It has been approved in line with UK regulations for an international audience. Prescribing information may vary depending on local approval in each country. Before prescribing any product, always refer to local materials such as the prescribing information and/or the summary of product characteristics. This is a promotional symposium and products will be discussed.",
+                    }}
+                  />
+                    </div>
+                  </div>
+
+                <div className="copy-right-bottom-text">
+                  <p
+                    style={{ color: formData?.textColor }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.footerText
+                        // ? formData?.footerText
+                        // : "Preparation date: xx xxx 2024",
                     }}
                   />
                 </div>
