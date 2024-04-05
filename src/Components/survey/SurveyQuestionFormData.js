@@ -1511,7 +1511,8 @@ const SurveyQuestionFormData = () => {
           centered
           backdrop="static"
         >
-          <Modal.Header>
+          <Modal.Header className="d-flex justify-content-between">
+            <div></div>
               <h5 className="modal-title" id="staticBackdropLabel">
                 Preview{" "}
               </h5>
@@ -1522,7 +1523,7 @@ const SurveyQuestionFormData = () => {
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
-                <div className="clear-search d-flex align-items-center">
+                <div className="clear-search d-flex align-items-center" style={{margin:'0 23px 0 0'}}>
                 {userData?.length > 0 ? (
                     <button
                     className="btn print"
