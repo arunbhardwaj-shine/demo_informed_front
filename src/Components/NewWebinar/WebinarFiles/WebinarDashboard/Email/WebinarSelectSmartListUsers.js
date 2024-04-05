@@ -91,7 +91,8 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
-
+  const inputElement = useRef();
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
@@ -102,132 +103,74 @@ const WebinarSelectSmartListUsers = (props) => {
   );
 
   useEffect(() => {
-    if (location?.state?.typeOfHcp) {
-      setTypeOfHcp(location?.state?.typeOfHcp);
-    } else {
-      setTypeOfHcp(props.getWebinarDraftData?.campaign_data?.typeOfHcp);
-    }
-    let campaign_id =
-      typeof old_object === "object" &&
-      old_object !== null &&
-      old_object?.campaign_id
-        ? old_object?.campaign_id
-        : props.getWebinarDraftData?.campaign_id
-        ? props.getWebinarDraftData?.campaign_id
-        : "";
-    setCampaign_id(campaign_id);
-    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
-    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
-    // removedHcp
-    // console.log("test",props?.getWebinarDraftData)
-    if (old_object?.removedHcp) {
-      if (old_object?.removedHcp?.length > 0) {
-        setRemovedReaders(old_object?.removedHcp);
-      }
-    } else {
-      if (
-        props?.getWebinarDraftData &&
-        props.getWebinarDraftData?.campaign_data?.removedHcp 
-      ) {
-        if (
-          typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
-            "undefined" &&
-          props.getWebinarDraftData?.campaign_data?.removedHcp != "" /*&&
-          location?.state?.flag != 1*/
-        ) {
-          setRemovedReaders(
-            props.getWebinarDraftData?.campaign_data?.removedHcp
-          );
-        }
-      }
-    }
+    const typeOfHcp =
+    location?.state?.typeOfHcp || props.getWebinarDraftData?.campaign_data?.typeOfHcp;
+  setTypeOfHcp(typeOfHcp);
+  
+  const campaign_id = old_object?.campaign_id || props.getWebinarDraftData?.campaign_id || "";
+  setCampaign_id(campaign_id);
+  
 
-    if (old_object?.addedHcp) {
-      if (old_object?.addedHcp?.length > 0) {
-        setReadersNewlyAdded(old_object?.addedHcp);
-      }
-    } else {
-      if (
-        props?.getWebinarDraftData &&
-        props.getWebinarDraftData?.campaign_data?.addedHcp
-      ) {
-        if (
-          typeof props.getWebinarDraftData?.campaign_data?.addedHcp !=
-            "undefined" &&
-          props.getWebinarDraftData?.campaign_data?.addedHcp != "" /*&&
-          location?.state?.flag != 1*/
-        ) {
-          setReadersNewlyAdded(
-            props.getWebinarDraftData?.campaign_data?.addedHcp
-          );
-        }
-      }
-    }
+  
   }, []);
 
-  const inputElement = useRef();
-  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
   useEffect(() => {
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      list_id: props.getWebinarSelectedSmartListData?.id
-        ? props.getWebinarSelectedSmartListData?.id
-        : props.getWebinarDraftData?.campaign_data?.smart_list_id,
-      show_specific: 1,
-    };
-    if (props.getWebinarSelectedSmartListData?.id) {
+    let oldRemovedHcp = old_object?.removedHcp || [];
+    oldRemovedHcp = oldRemovedHcp.length > 0 ? oldRemovedHcp : props.getWebinarDraftData?.campaign_data?.removedHcp || [];
+  
+    let oldAddedHcp = old_object?.addedHcp || [];
+    oldAddedHcp = oldAddedHcp.length > 0 ? oldAddedHcp : props.getWebinarDraftData?.campaign_data?.addedHcp || [];
+  
+    const userId = localStorage.getItem("user_id");
+    const selectedListId =
+      props.getWebinarSelectedSmartListData?.id ||
+      props.getWebinarDraftData?.campaign_data?.smart_list_id;
+  
+    const hasSelectedSmartList = !!props.getWebinarSelectedSmartListData?.id;
+  
+    if (hasSelectedSmartList) {
       loader("show");
       axios
-        .post(`distributes/get_reders_list`, body)
+        .post(`distributes/get_reders_list`, {
+          user_id: userId,
+          list_id: selectedListId,
+          show_specific: 1,
+        })
         .then((res) => {
-          if (old_object?.removedHcp || old_object?.addedHcp) {
-            if (old_object?.removedHcp?.length > 0 || old_object?.addedHcp?.length > 0) {
-              const removedUsers = [... old_object?.removedHcp, ...old_object?.addedHcp];
-              // var removedUsers = old_object?.removedHcp;
-              var allUsers = res?.data?.response.data;
-              let count=0
-              var pendingUsers = allUsers?.filter(function (objFromA) {
-                return !removedUsers?.find(function (objFromB) {
-                  return objFromA?.profile_user_id === objFromB?.profile_user_id;
-                });
-              });
-              
-              setReaders(pendingUsers);
-            } else {
-              
-              setReaders(res?.data?.response?.data);
+          let pendingUsers = res?.data?.response?.data;
+          let subscribersZero = [];
+  
+          const removedUsersData = [
+            ...oldAddedHcp,
+            ...oldRemovedHcp,
+            ...props.getWebinarDraftData?.campaign_data?.removedHcp,
+            ...props.getWebinarDraftData?.campaign_data?.addedHcp,
+          ];
+  
+          pendingUsers = pendingUsers.filter((objFromA) => {
+            if (objFromA?.subscriber === 0) {
+              subscribersZero.push(objFromA);
+              return false;
             }
-          } else if (
-            (
-              props?.getWebinarDraftData &&
-              props.getWebinarDraftData?.campaign_data?.removedHcp
-            ) || 
-            (
-              props?.getWebinarDraftData &&
-              props.getWebinarDraftData?.campaign_data?.addedHcp
-            )
-          ) {
-            if (
-              ( typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
-                "undefined" && props.getWebinarDraftData?.campaign_data?.removedHcp != "") ||
-              ( typeof props.getWebinarDraftData?.campaign_data?.addedHcp !=
-                  "undefined" && props.getWebinarDraftData?.campaign_data?.addedHcp != "")  
-            ) {
-              var removedUsers = [... props.getWebinarDraftData?.campaign_data?.removedHcp, ...props.getWebinarDraftData?.campaign_data?.addedHcp];
-              var allUsers = res?.data?.response?.data;
-              var pendingUsers = allUsers?.filter(function (objFromA) {
-                return !removedUsers?.find(function (objFromB) {
-                  return objFromA?.profile_user_id === objFromB?.profile_user_id;
-                });
-              });
-              setReaders(pendingUsers);
-            } else {
-              setReaders(res?.data?.response?.data);
-            }
-          } else {
-            setReaders(res?.data?.response?.data);
-          }
-
+            return !removedUsersData.find(
+              (objFromB) =>
+                objFromA?.profile_user_id === objFromB?.profile_user_id
+            );
+          });
+  
+          subscribersZero = subscribersZero.filter(
+            (user) =>
+              !oldRemovedHcp.some(
+                (removedUser) =>
+                  removedUser.profile_user_id === user.profile_user_id
+              )
+          );
+  
+          setReaders(pendingUsers);
+          setRemovedReaders([...subscribersZero, ...oldRemovedHcp]);
+          setReadersNewlyAdded(oldAddedHcp);
+  
           loader("hide");
         })
         .catch((err) => {
@@ -237,25 +180,23 @@ const WebinarSelectSmartListUsers = (props) => {
     } else {
       setReaders(props.getWebinarDraftData?.campaign_data?.selectedHcp);
     }
-  }, []);
+  }, [props.getWebinarSelectedSmartListData, props.getWebinarDraftData]);
+  
 
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.addedHcp) {
-        props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
-      }
+      props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
     }
     old_object.addedHcp = readersNewlyAdded;
-  },[readersNewlyAdded]);
-
+  }, [readersNewlyAdded]);
+  
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
-        props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
-      }
+      props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
     }
     old_object.removedHcp = removedReaders;
-  },[removedReaders]);
+  }, [removedReaders]);
+  
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
@@ -741,7 +682,7 @@ const WebinarSelectSmartListUsers = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
-    setValidationError({})
+    setValidationError({});
   };
 
   const setHpcList = (list) => {
@@ -889,7 +830,7 @@ const WebinarSelectSmartListUsers = (props) => {
       //   }
       // });
 
-      const status = body.data.map((data,index) => {
+      const status = body.data.map((data, index) => {
         if (
           data.first_name == "" &&
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -897,7 +838,7 @@ const WebinarSelectSmartListUsers = (props) => {
           setValidationError({
             newHcpFirstName: "Please enter the first name",
             index: index,
-        });
+          });
           return "Please enter the First name";
         } else if (
           data.last_name == "" &&
@@ -906,14 +847,14 @@ const WebinarSelectSmartListUsers = (props) => {
           setValidationError({
             newHcpLastName: "Please enter the last name",
             index: index,
-        });
+          });
           return "Please enter the Last name";
         } else if (data.email == "") {
           // setValidationError({ newHcpEmail: "Please enter the email atleast" });
           setValidationError({
             newHcpEmail: "Please enter the email atleast",
             index: index,
-        });
+          });
           return "Please enter the email atleast";
         } else if (
           data.institution_type == "" &&
@@ -922,7 +863,7 @@ const WebinarSelectSmartListUsers = (props) => {
           setValidationError({
             newHcpInstitution: "Please select Institution",
             index: index,
-        });
+          });
           return "Please select Institution";
         } else if (
           data.country == "" &&
@@ -932,31 +873,37 @@ const WebinarSelectSmartListUsers = (props) => {
           setValidationError({
             newHcpCountry: "Please select country",
             index: index,
-        });
+          });
           return "Please select country";
-        } 
-        else if (data.email != "") {
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
-            let prev_obj_new = readersNewlyAdded.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
-            if (typeof prev_obj != "undefined" || typeof prev_obj_new != "undefined") {
+            let prev_obj = readers.find(
+              (x) => x.email?.toLowerCase() === useremail?.toLowerCase()
+            );
+            let prev_obj_new = readersNewlyAdded.find(
+              (x) => x.email?.toLowerCase() === useremail?.toLowerCase()
+            );
+            if (
+              typeof prev_obj != "undefined" ||
+              typeof prev_obj_new != "undefined"
+            ) {
               setValidationError({
                 newHcpEmail: "User with same email already added in list.",
-                index: index
+                index: index,
               });
               return "User with same email already added in list.";
             } else {
               return "true";
             }
           } else {
-            setValidationError({ 
-              newHcpEmail: "Email format is not valid" ,
-              index: index
+            setValidationError({
+              newHcpEmail: "Email format is not valid",
+              index: index,
             });
             return "Email format is not valid";
           }
@@ -1017,7 +964,7 @@ const WebinarSelectSmartListUsers = (props) => {
                 setReadersNewlyAdded((oldArray) => [...oldArray, data]);
               });
               setIsOpenAdd(false);
-              setValidationError({})
+              setValidationError({});
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
@@ -1060,7 +1007,7 @@ const WebinarSelectSmartListUsers = (props) => {
       if (typeof valueA === "number" && typeof valueB === "number") {
         return order === "asc" ? valueA - valueB : valueB - valueA;
       } else {
-        return order === 'asc'
+        return order === "asc"
           ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
           : valueB?.localeCompare(valueA);
       }
@@ -1440,244 +1387,244 @@ const WebinarSelectSmartListUsers = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {sortData(removedReaders,sortBy, sortOrder)?.map((rr, i) => {
-                        return (
-                          <>
-                            <tr className="hcps-deleted">
+                      {sortData(removedReaders, sortBy, sortOrder)?.map(
+                        (reader, index) => {
+                          return (
+                            <tr
+                              className={` ${
+                                reader?.subscriber == 0
+                                  ? "hcps-unsubscriber"
+                                  : "hcps-deleted"
+                              }`}
+                              key={index}
+                            >
                               <td>
                                 <span>
-                                  {rr?.first_name
-                                    ? rr?.first_name + " " + rr?.last_name
+                                  {reader?.first_name
+                                    ? `${reader.first_name} ${
+                                        reader.last_name || ""
+                                      }`
                                     : "N/A"}
                                 </span>
                               </td>
-                              <td>{rr?.email ? rr?.email : "N/A"}</td>
-                              <td>{rr?.bounce ? rr?.bounce : "N/A"}</td>
+                              <td>{reader?.email || "N/A"}</td>
+                              <td>{reader?.bounce || "N/A"}</td>
                               <td>
-                                <span>{rr?.country ? rr?.country : "N/A"}</span>
+                                <span>{reader?.country || "N/A"}</span>
                               </td>
                               <td>
-                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                {localStorage.getItem("user_id") ==
+                                {localStorage.getItem("user_id") ===
                                 "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? rr?.irt
+                                  ? reader?.irt
                                     ? "Yes"
                                     : "No"
-                                  : rr?.ibu && rr?.ibu != 0
-                                  ? rr?.ibu
+                                  : reader?.ibu && reader?.ibu !== 0
+                                  ? reader.ibu
                                   : "N/A"}
                               </td>
-                              {localStorage.getItem("user_id") ==
+                              {localStorage.getItem("user_id") ===
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <td>
-                                  {rr?.user_type != 0 ? rr?.user_type : "N/A"}
+                                  {reader?.user_type !== 0
+                                    ? reader.user_type
+                                    : "N/A"}
                                 </td>
                               ) : (
-                                <td>
-                                  {rr?.contact_type ? rr?.contact_type : "N/A"}
-                                </td>
+                                <td>{reader?.contact_type || "N/A"}</td>
                               )}
 
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {rr?.consent ? rr?.consent : "N/A"}
-                                  </span>{" "}
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {rr?.email_received
-                                      ? rr?.email_received
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {rr?.email_opening
-                                      ? rr?.email_opening
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {rr?.registration
-                                      ? rr?.registration
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {rr?.last_email ? rr?.last_email : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
+                              {showLessInfo === false && (
+                                <>
+                                  <td>
+                                    <span>{reader?.consent || "N/A"}</span>
+                                  </td>
+                                  <td>
+                                    <span>
+                                      {reader?.email_received || "N/A"}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span>
+                                      {reader?.email_opening || "N/A"}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span>{reader?.registration || "N/A"}</span>
+                                  </td>
+                                  <td>
+                                    <span>{reader?.last_email || "N/A"}</span>
+                                  </td>
+                                </>
+                              )}
 
-                              <td className="add-new-hcp" colSpan="12">
-                                <img
-                                  src={path_image + "add-row.png"}
-                                  alt="Add Row"
-                                  onClick={() => readersAdded(rr, i)}
-                                />
-                              </td>
+                              {reader?.subscriber !== 0 && (
+                                <td className="add-new-hcp" colSpan="12">
+                                  <img
+                                    src={path_image + "add-row.png"}
+                                    alt="Add Row"
+                                    onClick={() => readersAdded(reader, index)}
+                                  />
+                                </td>
+                              )}
                             </tr>
-                          </>
-                        );
-                      })}
+                          );
+                        }
+                      )}
 
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
                       </tr>
-                      {sortData(readersNewlyAdded,sortBy, sortOrder)?.map((readers, i) => {
-                        return (
-                          <>
-                            <tr
-                              className="hcps-added"
-                              onClick={(e) =>
-                                editing(
-                                  readers.profile_id,
-                                  readers.profile_user_id,
-                                  readers.email,
-                                  readers.jobTitle,
-                                  readers.company,
-                                  readers.country,
-                                  readers.first_name + " " + readers.last_name,
-                                  readers.contact_type
-                                )
-                              }
-                            >
-                              <td
-                                id={`field_name` + readers.profile_user_id}
-                                contentEditable={
-                                  editable === 0 ? "false" : "true"
+                      {sortData(readersNewlyAdded, sortBy, sortOrder)?.map(
+                        (readers, i) => {
+                          return (
+                            <>
+                              <tr
+                                className="hcps-added"
+                                onClick={(e) =>
+                                  editing(
+                                    readers.profile_id,
+                                    readers.profile_user_id,
+                                    readers.email,
+                                    readers.jobTitle,
+                                    readers.company,
+                                    readers.country,
+                                    readers.first_name +
+                                      " " +
+                                      readers.last_name,
+                                    readers.contact_type
+                                  )
                                 }
                               >
-                                <span>
-                                  {readers?.first_name
-                                    ? readers?.first_name +
-                                      " " +
-                                      readers?.last_name
-                                    : "N/A"}
-                                </span>
-                              </td>
-                              <td>{readers?.email ? readers?.email : "N/A"}</td>
-                              <input
-                                type="hidden"
-                                id={`field_index` + readers.profile_user_id}
-                                value={i}
-                              />
-                              <td>
-                                {readers?.bounce ? readers?.bounce : "N/A"}
-                              </td>
-                              <td>
-                                {editable ? (
-                                  <EditCountry
-                                    selected_country={readers?.country}
-                                    profile_user={readers?.profile_user_id}
-                                  ></EditCountry>
-                                ) : (
+                                <td
+                                  id={`field_name` + readers.profile_user_id}
+                                  contentEditable={
+                                    editable === 0 ? "false" : "true"
+                                  }
+                                >
                                   <span>
-                                    {readers?.country
-                                      ? readers?.country
-                                      : "N/A"}
-                                  </span>
-                                )}
-                              </td>
-                              <td>
-                                {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? readers?.irt
-                                    ? "Yes"
-                                    : "No"
-                                  : readers.ibu && readers.ibu != 0
-                                  ? readers.ibu
-                                  : "N/A"}
-                              </td>
-                              <td>
-                                {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                  <span>
-                                    {readers.user_type != 0
-                                      ? readers?.user_type
-                                      : "N/A"}
-                                  </span>
-                                ) : editable ? (
-                                  <EditContactType
-                                    selected_ibu={readers?.contact_type}
-                                    profile_user={readers?.profile_user_id}
-                                  ></EditContactType>
-                                ) : (
-                                  <span>
-                                    {readers?.contact_type
-                                      ? readers?.contact_type
-                                      : "N/A"}
-                                  </span>
-                                )}
-                              </td>
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.consent
-                                      ? readers?.consent
-                                      : "N/A"}
-                                  </span>{" "}
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.email_received
-                                      ? readers?.email_received
+                                    {readers?.first_name
+                                      ? readers?.first_name +
+                                        " " +
+                                        readers?.last_name
                                       : "N/A"}
                                   </span>
                                 </td>
-                              ) : null}
-                              {showLessInfo == false ? (
                                 <td>
-                                  <span>
-                                    {readers?.email_opening
-                                      ? readers?.email_opening
-                                      : "N/A"}
-                                  </span>
+                                  {readers?.email ? readers?.email : "N/A"}
                                 </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.registration
-                                      ? readers?.registration
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              {showLessInfo == false ? (
-                                <td>
-                                  <span>
-                                    {readers?.last_email
-                                      ? readers?.last_email
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                              ) : null}
-                              <td className="delete_row" colSpan="12">
-                                <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Delete Row"
-                                  onClick={() => newlyAddedRemoved(readers, i)}
+                                <input
+                                  type="hidden"
+                                  id={`field_index` + readers.profile_user_id}
+                                  value={i}
                                 />
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
+                                <td>
+                                  {readers?.bounce ? readers?.bounce : "N/A"}
+                                </td>
+                                <td>
+                                  {editable ? (
+                                    <EditCountry
+                                      selected_country={readers?.country}
+                                      profile_user={readers?.profile_user_id}
+                                    ></EditCountry>
+                                  ) : (
+                                    <span>
+                                      {readers?.country
+                                        ? readers?.country
+                                        : "N/A"}
+                                    </span>
+                                  )}
+                                </td>
+                                <td>
+                                  {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                  {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? readers?.irt
+                                      ? "Yes"
+                                      : "No"
+                                    : readers.ibu && readers.ibu != 0
+                                    ? readers.ibu
+                                    : "N/A"}
+                                </td>
+                                <td>
+                                  {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    <span>
+                                      {readers.user_type != 0
+                                        ? readers?.user_type
+                                        : "N/A"}
+                                    </span>
+                                  ) : editable ? (
+                                    <EditContactType
+                                      selected_ibu={readers?.contact_type}
+                                      profile_user={readers?.profile_user_id}
+                                    ></EditContactType>
+                                  ) : (
+                                    <span>
+                                      {readers?.contact_type
+                                        ? readers?.contact_type
+                                        : "N/A"}
+                                    </span>
+                                  )}
+                                </td>
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.consent
+                                        ? readers?.consent
+                                        : "N/A"}
+                                    </span>{" "}
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.email_received
+                                        ? readers?.email_received
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.email_opening
+                                        ? readers?.email_opening
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.registration
+                                        ? readers?.registration
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                {showLessInfo == false ? (
+                                  <td>
+                                    <span>
+                                      {readers?.last_email
+                                        ? readers?.last_email
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                ) : null}
+                                <td className="delete_row" colSpan="12">
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                    onClick={() =>
+                                      newlyAddedRemoved(readers, i)
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        }
+                      )}
                       {sortData(readers, sortBy, sortOrder)?.map(
                         (readers, i) => {
                           return (

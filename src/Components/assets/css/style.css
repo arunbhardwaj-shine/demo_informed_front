@@ -2634,7 +2634,7 @@ form .input-group {
   line-height: 15px;
   color: var(--light-gray);
   font-weight: 300;
-  padding: 18px 10px;
+  padding: 21px 10px;
   border: 0;
   background: var(--white);
 }
@@ -2796,7 +2796,7 @@ form .input-group {
   min-height: 50vh;
 }
 
-.selected-hcp-list .table tr.hcps-deleted {
+.selected-hcp-list .table tr.hcps-deleted, .selected-hcp-list .table tr.hcps-unsubscriber {
   box-shadow: 0px 0px 10px #b91b68;
 }
 
@@ -2914,7 +2914,7 @@ form .input-group {
 }
 
 .selected-hcp-list .table tr.hcps-deleted:after,
-.selected-hcp-list .table tr.hcps-added:after {
+.selected-hcp-list .table tr.hcps-added:after, .selected-hcp-list .table tr.hcps-unsubscriber:after {
   content: "Deleted";
   font-size: 14px;
   line-height: 16px;
@@ -2926,6 +2926,11 @@ form .input-group {
   top: 54px;
 }
 
+.selected-hcp-list .table tr.hcps-unsubscriber:after {
+  content: "Unsubscribed";
+  font-size: 11px;
+      top: 60px;
+}
 .selected-hcp-list .table tr.hcps-added:after {
   content: "Added";
   color: #00d4c0;
