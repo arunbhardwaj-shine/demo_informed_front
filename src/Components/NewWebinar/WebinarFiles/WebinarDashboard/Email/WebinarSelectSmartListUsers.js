@@ -144,8 +144,8 @@ const WebinarSelectSmartListUsers = (props) => {
           const removedUsersData = [
             ...oldAddedHcp,
             ...oldRemovedHcp,
-            ...props.getWebinarDraftData?.campaign_data?.removedHcp,
-            ...props.getWebinarDraftData?.campaign_data?.addedHcp,
+            ...props.getWebinarDraftData?.campaign_data?.removedHcp||[],
+            ...props.getWebinarDraftData?.campaign_data?.addedHcp ||[],
           ];
   
           pendingUsers = pendingUsers.filter((objFromA) => {
