@@ -166,7 +166,10 @@ const WebinarVerifyHCP = (props) => {
         axios
             .post(`emailapi/get_user_details`, body)
             .then((res) => {
-                setSelectedHcp(res?.data?.response.data);
+                if(res?.data?.status_code==200){
+                    setSelectedHcp(res?.data?.response?.data);
+                }
+                
                 loader("hide");
                 // setCounter(counter + 1);
             })
@@ -1138,7 +1141,7 @@ const WebinarVerifyHCP = (props) => {
       };
     
       const sortData = (data, key, order) => {
-        return data.sort((a, b) => {
+        return data?.sort((a, b) => {
           const valueA = a[key];
           const valueB = b[key];
       
@@ -1490,7 +1493,7 @@ const WebinarVerifyHCP = (props) => {
                                                     {/* <th scope="col">Name</th> */}
                                                     <th scope="col" className="sort_option" >
                                                         <span onClick={() => handleSort('name')} >
-                                                        Name
+                                                        New Name
                                                         <button
                                                         className={`event_sort_btn ${sortBy == "name" ?
                                                         sortOrder == "asc"
@@ -1779,7 +1782,7 @@ const WebinarVerifyHCP = (props) => {
 
                                             <tbody>
                                            
-                                            {sortData(selectedHcp, sortBy, sortOrder).map((data, index) => (
+                                            {sortData(selectedHcp, sortBy, sortOrder)?.map((data, index) => (
                                                 <tr
                                                 key={`row-selected${index}`}
                                                 id={`row-selected${index}`}
