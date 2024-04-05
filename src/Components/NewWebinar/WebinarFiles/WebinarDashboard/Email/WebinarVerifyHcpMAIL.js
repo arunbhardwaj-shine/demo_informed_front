@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getWebinarEmailData } from "../../../../../actions";
-import { connect, connectAdvanced } from "react-redux";
+import { getWebinarDraftData, getWebinarEmailData } from "../../../../../actions";
+import { connect, connectAdvanced,useDispatch } from "react-redux";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -16,6 +16,7 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 const WebinarVerifyHcpMAIL = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch=useDispatch();
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
@@ -486,6 +487,7 @@ const WebinarVerifyHcpMAIL = (props) => {
             .then((res) => {
                 if (res?.data?.status_code === 200) {
                     setCampaign_id(res?.data?.response?.data?.id);
+                    dispatch(getWebinarDraftData({...props.getWebinarDraftData,status:status}))
                     if (status === 3) {
                         toast.success("Approved Draft saved");
                     } else {
