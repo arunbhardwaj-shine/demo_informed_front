@@ -5153,6 +5153,8 @@ form#add_hcp_form .row:not(:first-child) {
 
 #mail-view .mail-stats ul {
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 #mail-view .webinar-mail-stats ul {
