@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link,useLocation } from 'react-router-dom';
 import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -16,6 +16,7 @@ var draft_object;
 var old_object = {};
 const WebinarSelectHCP = (props) => {
   const navigate = useNavigate();
+  const location=useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const { eventIdContext, handleEventId } = useSidebar()
@@ -179,7 +180,7 @@ const WebinarSelectHCP = (props) => {
   
     if (selected == 1 || selected == 2) {
       navigate(url, {
-        state: { typeOfHcp: selected,flag:2 ,thisEventToggled:1},
+        state: { typeOfHcp: selected,flag:2 ,thisEventToggled:location?.state?.thisEventToggled},
       });
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
