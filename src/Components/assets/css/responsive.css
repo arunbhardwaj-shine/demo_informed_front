@@ -234,7 +234,7 @@
   }
 
   .selected-hcp-list .table tr.hcps-deleted:after,
-  .selected-hcp-list .table tr.hcps-added:after {
+  .selected-hcp-list .table tr.hcps-added:after, .selected-hcp-list .table tr.hcps-unsubscriber:after {
     transform: rotate(0deg);
     left: 8px;
     top: -19px;

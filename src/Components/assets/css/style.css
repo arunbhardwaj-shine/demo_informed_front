@@ -2914,7 +2914,7 @@ form .input-group {
 }
 
 .selected-hcp-list .table tr.hcps-deleted:after,
-.selected-hcp-list .table tr.hcps-added:after {
+.selected-hcp-list .table tr.hcps-added:after, .selected-hcp-list .table tr.hcps-unsubscriber:after {
   content: "Deleted";
   font-size: 14px;
   line-height: 16px;
@@ -2926,6 +2926,11 @@ form .input-group {
   top: 54px;
 }
 
+.selected-hcp-list .table tr.hcps-unsubscriber:after {
+  content: "Unsubscribe";
+  font-size: 11px;
+      top: 60px;
+}
 .selected-hcp-list .table tr.hcps-added:after {
   content: "Added";
   color: #00d4c0;
