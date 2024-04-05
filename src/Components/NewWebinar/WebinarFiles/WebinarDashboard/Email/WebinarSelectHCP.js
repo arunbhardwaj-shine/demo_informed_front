@@ -97,7 +97,9 @@ const WebinarSelectHCP = (props) => {
         ? old_object?.template
         : props?.getWebinarDraftData?.source_code,
       status: old_object?.status ? old_object?.status
-        : props?.getWebinarDraftData?.status,
+        : props?.getWebinarDraftData?.status
+        ? props?.getWebinarDraftData?.status
+        :2,
       auto_responder_id: old_object?.templateId
         ? old_object?.templateId
         : props?.getWebinarDraftData?.campaign_data?.template_id

@@ -317,7 +317,9 @@ const WebinarSelectSmartList = (props) => {
       campaign_id: campaign_id_st ? campaign_id_st : "",
       status: old_object?.status
         ? old_object?.status
-        : props?.getWebinarDraftData?.status,
+        : props?.getWebinarDraftData?.status
+        ?props?.getWebinarDraftData?.status
+        :2,
 
       auto_responder_id: old_object?.templateId
         ? old_object?.templateId
