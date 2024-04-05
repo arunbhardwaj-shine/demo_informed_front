@@ -91,7 +91,8 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
-
+  const inputElement = useRef();
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
@@ -102,79 +103,32 @@ const WebinarSelectSmartListUsers = (props) => {
   );
 
   useEffect(() => {
-    if (location?.state?.typeOfHcp) {
-      setTypeOfHcp(location?.state?.typeOfHcp);
-    } else {
-      setTypeOfHcp(props.getWebinarDraftData?.campaign_data?.typeOfHcp);
-    }
-    let campaign_id =
-      typeof old_object === "object" &&
-      old_object !== null &&
-      old_object?.campaign_id
-        ? old_object?.campaign_id
-        : props.getWebinarDraftData?.campaign_id
-        ? props.getWebinarDraftData?.campaign_id
-        : "";
-    setCampaign_id(campaign_id);
-    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
-    // &&(props.getWebinarDraftData?.campaign_data?.smart_list_id == props?.getWebinarSelectedSmartListData?.id)
-    // removedHcp
-    // console.log("test",props?.getWebinarDraftData)
-    if (old_object?.removedHcp) {
-      if (old_object?.removedHcp?.length > 0) {
-        setRemovedReaders(old_object?.removedHcp);
-      }
-    } else {
-      if (
-        props?.getWebinarDraftData &&
-        props.getWebinarDraftData?.campaign_data?.removedHcp
-      ) {
-        if (
-          typeof props.getWebinarDraftData?.campaign_data?.removedHcp !=
-            "undefined" &&
-          props.getWebinarDraftData?.campaign_data?.removedHcp != "" /*&&
-          location?.state?.flag != 1*/
-        ) {
-          setRemovedReaders(
-            props.getWebinarDraftData?.campaign_data?.removedHcp
-          );
-        }
-      }
-    }
+    const typeOfHcp =
+    location?.state?.typeOfHcp || props.getWebinarDraftData?.campaign_data?.typeOfHcp;
+  setTypeOfHcp(typeOfHcp);
+  
+  const campaign_id = old_object?.campaign_id || props.getWebinarDraftData?.campaign_id || "";
+  setCampaign_id(campaign_id);
+  
 
-    if (old_object?.addedHcp) {
-      if (old_object?.addedHcp?.length > 0) {
-        setReadersNewlyAdded(old_object?.addedHcp);
-      }
-    } else {
-      if (
-        props?.getWebinarDraftData &&
-        props.getWebinarDraftData?.campaign_data?.addedHcp
-      ) {
-        if (
-          typeof props.getWebinarDraftData?.campaign_data?.addedHcp !=
-            "undefined" &&
-          props.getWebinarDraftData?.campaign_data?.addedHcp != "" /*&&
-          location?.state?.flag != 1*/
-        ) {
-          setReadersNewlyAdded(
-            props.getWebinarDraftData?.campaign_data?.addedHcp
-          );
-        }
-      }
-    }
+  
   }, []);
 
-  const inputElement = useRef();
-  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
+    let oldRemovedHcp = old_object?.removedHcp || [];
+    oldRemovedHcp = oldRemovedHcp.length > 0 ? oldRemovedHcp : props.getWebinarDraftData?.campaign_data?.removedHcp || [];
+  
+    let oldAddedHcp = old_object?.addedHcp || [];
+    oldAddedHcp = oldAddedHcp.length > 0 ? oldAddedHcp : props.getWebinarDraftData?.campaign_data?.addedHcp || [];
+  
     const userId = localStorage.getItem("user_id");
     const selectedListId =
       props.getWebinarSelectedSmartListData?.id ||
       props.getWebinarDraftData?.campaign_data?.smart_list_id;
+  
     const hasSelectedSmartList = !!props.getWebinarSelectedSmartListData?.id;
-
+  
     if (hasSelectedSmartList) {
       loader("show");
       axios
@@ -186,62 +140,37 @@ const WebinarSelectSmartListUsers = (props) => {
         .then((res) => {
           let pendingUsers = res?.data?.response?.data;
           let subscribersZero = [];
-
-          if (
-            props.getWebinarSelectedSmartListData?.id &&
-            (old_object?.removedHcp || old_object?.addedHcp)
-          ) {
-            const removedUsers = [
-              ...old_object?.removedHcp,
-              ...old_object?.addedHcp,
-            ];
-            pendingUsers = pendingUsers.filter((objFromA) => {
-              if (objFromA?.subscriber === 0) {
-                subscribersZero.push(objFromA);
-                return false;
-              }
-              return !removedUsers.find(
-                (objFromB) =>
-                  objFromA?.profile_user_id === objFromB?.profile_user_id
-              );
-            });
-          } else if (
-            props.getWebinarDraftData?.campaign_data?.removedHcp ||
-            props.getWebinarDraftData?.campaign_data?.addedHcp
-          ) {
-            const removedUsers = [
-              ...props.getWebinarDraftData?.campaign_data?.removedHcp,
-              ...props.getWebinarDraftData?.campaign_data?.addedHcp,
-            ];
-            pendingUsers = pendingUsers.filter((objFromA) => {
-              if (objFromA?.subscriber === 0) {
-                subscribersZero.push(objFromA);
-                return false;
-              }
-              return !removedUsers.find(
-                (objFromB) =>
-                  objFromA?.profile_user_id === objFromB?.profile_user_id
-              );
-            });
-          } else {
-            pendingUsers = pendingUsers.filter((objFromA) => {
-              if (objFromA?.subscriber === 0) {
-                subscribersZero.push(objFromA);
-                return false;
-              }
-              return true;
-            });
-          }
+  
+          const removedUsersData = [
+            ...oldAddedHcp,
+            ...oldRemovedHcp,
+            ...props.getWebinarDraftData?.campaign_data?.removedHcp.length > 0?props.getWebinarDraftData?.campaign_data?.removedHcp:[],
+            ...props.getWebinarDraftData?.campaign_data?.addedHcp.length > 0?props.getWebinarDraftData?.campaign_data?.addedHcp:[],
+          ];
+  
+          pendingUsers = pendingUsers.filter((objFromA) => {
+            if (objFromA?.subscriber === 0) {
+              subscribersZero.push(objFromA);
+              return false;
+            }
+            return !removedUsersData.find(
+              (objFromB) =>
+                objFromA?.profile_user_id === objFromB?.profile_user_id
+            );
+          });
+  
           subscribersZero = subscribersZero.filter(
             (user) =>
-              !removedReaders.some(
+              !oldRemovedHcp.some(
                 (removedUser) =>
                   removedUser.profile_user_id === user.profile_user_id
               )
           );
-
+  
           setReaders(pendingUsers);
-          setRemovedReaders(subscribersZero);
+          setRemovedReaders([...subscribersZero, ...oldRemovedHcp]);
+          setReadersNewlyAdded(oldAddedHcp);
+  
           loader("hide");
         })
         .catch((err) => {
@@ -252,24 +181,22 @@ const WebinarSelectSmartListUsers = (props) => {
       setReaders(props.getWebinarDraftData?.campaign_data?.selectedHcp);
     }
   }, [props.getWebinarSelectedSmartListData, props.getWebinarDraftData]);
+  
 
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.addedHcp) {
-        props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
-      }
+      props.getWebinarDraftData.campaign_data.addedHcp = readersNewlyAdded;
     }
     old_object.addedHcp = readersNewlyAdded;
   }, [readersNewlyAdded]);
-
+  
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
-      if (props.getWebinarDraftData?.campaign_data?.removedHcp) {
-        props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
-      }
+      props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
     }
     old_object.removedHcp = removedReaders;
   }, [removedReaders]);
+  
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
@@ -406,7 +333,10 @@ const WebinarSelectSmartListUsers = (props) => {
       source_code: old_object?.template
         ? old_object?.template
         : props.getWebinarDraftData?.source_code,
-      status: 2,
+      status:old_object?.status
+      ? old_object?.status
+      : props.getWebinarDraftData?.status
+      ? props.getWebinarDraftData?.status:2, 
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

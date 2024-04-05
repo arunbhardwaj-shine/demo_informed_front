@@ -2927,7 +2927,7 @@ form .input-group {
 }
 
 .selected-hcp-list .table tr.hcps-unsubscriber:after {
-  content: "Unsubscribe";
+  content: "Unsubscribed";
   font-size: 11px;
       top: 60px;
 }
