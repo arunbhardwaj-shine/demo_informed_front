@@ -11,8 +11,8 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { Editor } from "@tinymce/tinymce-react";
 import { Modal } from "react-bootstrap";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
-import { connect } from "react-redux";
-import { getWebinarEmailData, getWebinarCampaignId } from '../../../../../actions'
+import { connect,useDispatch } from "react-redux";
+import { getWebinarEmailData, getWebinarCampaignId, getWebinarDraftData } from '../../../../../actions'
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { popup_alert } from '../../../../../popup_alert';
@@ -25,6 +25,7 @@ const WebinarCreateNewEmail = (props) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch =useDispatch();
     const [percent, setPercent] = useState(0);
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
@@ -119,7 +120,7 @@ const WebinarCreateNewEmail = (props) => {
             state_object?.templateId
             ? state_object?.templateId
             : props?.getWebinarDraftData
-                ? props?.getWebinarDraftData?.campaign_data.template_id
+                ? props?.getWebinarDraftData?.campaign_data?.template_id
                 : ""
     );
     const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -725,9 +726,12 @@ const WebinarCreateNewEmail = (props) => {
 
                 setCampaign_id(res?.data?.response?.data?.id);
                 if (res?.data?.status_code === 200) {
+                    dispatch(getWebinarDraftData({...props.getWebinarDraftData,status:ab}));
                     if (ab === 3) {
+                        
                         toast.success("Approved Draft saved");
                     } else {
+                        
                         toast.success("Draft saved");
                     }
                 } else {
@@ -3001,4 +3005,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     getWebinarEmailData: getWebinarEmailData,
     getWebinarCampaignId: getWebinarCampaignId,
+    
 })(WebinarCreateNewEmail);

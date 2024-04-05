@@ -74,7 +74,7 @@ const WebinarSelectSmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   // const [isToggled, setIsToggled] = useState(true); 
-  
+
   const [isToggled, setIsToggled] = useState(location?.state?.thisEventToggled != null &&
     location?.state?.thisEventToggled != "undefined" && location?.state?.thisEventToggled
     ?
@@ -84,7 +84,7 @@ const WebinarSelectSmartList = (props) => {
       : 1
   )
 
-  const [isTempToggled,setIsTempToggled]=useState(location?.state?.thisEventToggled != null &&
+  const [isTempToggled, setIsTempToggled] = useState(location?.state?.thisEventToggled != null &&
     location?.state?.thisEventToggled != "undefined" && location?.state?.thisEventToggled
     ?
     location?.state?.thisEventToggled
@@ -126,11 +126,11 @@ const WebinarSelectSmartList = (props) => {
       setTypeOfHcp(draft_object?.campaign_data?.typeOfHcp);
     }
     if (location?.state?.thisEventToggled) {
-    
+
       setIsToggled(location?.state?.thisEventToggled);
       setIsTempToggled(location?.state?.thisEventToggled)
     } else {
-     
+
       setIsToggled(
         draft_object?.campaign_data?.thisEventToggled
           ? draft_object?.campaign_data?.thisEventToggled
@@ -146,7 +146,7 @@ const WebinarSelectSmartList = (props) => {
   }, []);
 
   const getSmartListData = (page = 1) => {
-   
+
     setApiCallStatus(false);
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -260,12 +260,12 @@ const WebinarSelectSmartList = (props) => {
   };
 
   const backClicked = () => {
-   
-    navigate("/webinar/email/selectHCP",{state:{thisEventToggled:isToggled}});
+
+    navigate("/webinar/email/selectHCP", { state: { thisEventToggled: isToggled } });
   };
 
   const saveAsDraft = async (flag) => {
-    if(PdfSelected==0){
+    if (PdfSelected == 0) {
       props.getWebinarSelectedSmartListData(null);
     }
     const body = {
@@ -315,7 +315,10 @@ const WebinarSelectSmartList = (props) => {
           ? draft_object?.source_code
           : "",
       campaign_id: campaign_id_st ? campaign_id_st : "",
-      status: 2,
+      status: old_object?.status
+        ? old_object?.status
+        : props?.getWebinarDraftData?.status,
+
       auto_responder_id: old_object?.templateId
         ? old_object?.templateId
         : props?.getWebinarDraftData?.campaign_data?.template_id
@@ -657,16 +660,16 @@ const WebinarSelectSmartList = (props) => {
   const handleToggle = async (e) => {
     if (isTempToggled == 1) {
       setIsTempToggled(2);
-      if(PdfSelected==0){
+      if (PdfSelected == 0) {
         setIsToggled(2)
       }
     } else {
       setIsTempToggled(1);
-      if(PdfSelected==0){
+      if (PdfSelected == 0) {
         setIsToggled(1)
       }
     }
-    
+
 
   }
 
@@ -727,7 +730,7 @@ const WebinarSelectSmartList = (props) => {
                     >
                       Save As Draft
                     </button>
-                    
+
                     {PdfSelected === 0 ? (
                       <button
                         ref={inputElement}

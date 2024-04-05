@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getWebinarEmailData } from "../../../../../actions";
-import { connect, connectAdvanced } from "react-redux";
+import { connect, connectAdvanced,useDispatch } from "react-redux";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -8,7 +8,7 @@ import { Modal } from "react-bootstrap";
 import { compose } from "redux";
 import { loader } from "../../../../../loader";
 //import { connect } from "react-redux";
-import { getWebinarCampaignId } from "../../../../../actions";
+import { getWebinarCampaignId,getWebinarDraftData } from "../../../../../actions";
 import { popup_alert } from "../../../../../popup_alert";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
@@ -23,6 +23,7 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 const WebinarVerifyMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch=useDispatch();
   const { eventIdContext, handleEventId } = useSidebar()
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
@@ -610,6 +611,7 @@ const WebinarVerifyMAIL = (props) => {
       .post(`emailapi/save_draft`, body)
       .then((res) => {
         if (res?.data?.status_code === 200) {
+          dispatch(getWebinarDraftData({...props.getWebinarDraftData,status:status}));
           setCampaign_id(res?.data?.response?.data?.id);
           if (status === 3) {
             toast.success("Approved Draft saved");

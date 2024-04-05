@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link,useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -16,7 +16,7 @@ var draft_object;
 var old_object = {};
 const WebinarSelectHCP = (props) => {
   const navigate = useNavigate();
-  const location=useLocation();
+  const location = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const { eventIdContext, handleEventId } = useSidebar()
@@ -35,9 +35,9 @@ const WebinarSelectHCP = (props) => {
         ? props?.getWebinarDraftData?.campaign_data?.list_selection
         : 0
   );
-  const campaign_id = old_object
+  const campaign_id = old_object?.campaign_id
     ? old_object?.campaign_id
-    : props?.getWebinarDraftData
+    : props?.getWebinarDraftData?.campaign_id
       ? props?.getWebinarDraftData?.campaign_id
       : 0;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -45,15 +45,15 @@ const WebinarSelectHCP = (props) => {
     ["iSnEsKu5gB/DRlycxB6G4g==", "B7SHpAc XDXSH NXkN0rdQ==", "UbCJcnLM9fe HsRMgX8c1A==", "wW0geGtDPvig5gF 6KbJrg==", "z2TunmZQf3QwCsICFTLGGQ==", "qDgwPdToP05Kgzc g2VjIQ=="];
   const currentUserId = localStorage.getItem("user_id")
   const sendOptions = [
-    { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`,tooltipMessage:"Everyone from your CRM" },
+    { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`, tooltipMessage: "Everyone from your CRM" },
     { id: 4, navigateUrl: "/webinar/email/selectSmartListUsers", label: "US list", alt: "US List", value: "US List", imageUrl: `${path_image}us-list.svg` },
-    { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg` ,tooltipMessage:"HCPs who HAVE registered to this event" },
-    { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`,tooltipMessage:"The remaining who have NOT yet registered" },
-    { id: 2,navigateUrl:"/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg` ,tooltipMessage:"Single HCP - Find or upload a new individual HCP (or a few)"},
-    { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`,tooltipMessage:"Use an existing SmartList or create/upload a new segment of HCPs" }
+    { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg`, tooltipMessage: "HCPs who HAVE registered to this event" },
+    { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`, tooltipMessage: "The remaining who have NOT yet registered" },
+    { id: 2, navigateUrl: "/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+    { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
   ];
 
-  const [typeOfHcp,setTypeOfHcp]=useState(null)
+  const [typeOfHcp, setTypeOfHcp] = useState(null)
 
   const backClicked = () => {
     let event_Id = eventId
@@ -96,7 +96,8 @@ const WebinarSelectHCP = (props) => {
       source_code: old_object?.template
         ? old_object?.template
         : props?.getWebinarDraftData?.source_code,
-      status: 2,
+      status: old_object?.status ? old_object?.status
+        : props?.getWebinarDraftData?.status,
       auto_responder_id: old_object?.templateId
         ? old_object?.templateId
         : props?.getWebinarDraftData?.campaign_data?.template_id
@@ -125,7 +126,7 @@ const WebinarSelectHCP = (props) => {
       });
   };
 
-  const fetchDataAndNavigate = async (endpoint, body,selected) => {
+  const fetchDataAndNavigate = async (endpoint, body, selected) => {
     loader("show");
     const response = await postData(endpoint, body);
     loader("hide");
@@ -138,24 +139,24 @@ const WebinarSelectHCP = (props) => {
       }
       props.getWebinarSelectedSmartListData(data[0]);
       navigate("/webinar/email/selectSmartListUsers", {
-        state: { smartListSelected: data[0], flag: 1, typeOfHcp:selected },
+        state: { smartListSelected: data[0], flag: 1, typeOfHcp: selected },
       });
     } else {
       props.getWebinarSelectedSmartListData(null);
       toast.warning("No Data Found")
     }
   };
-  
+
   const nextClicked = async (selected) => {
     setTypeOfHcp(selected)
     props.getWebinarEmailData(old_object);
     const option = sendOptions.find((item) => item?.id == selected);
     let url = option?.navigateUrl || "";
-  
+
     props.getWebinarSelected(null);
     // props.getWebinarSelectedSmartListData(null);
-    
-    if(draft_object?.campaign_data?.typeOfHcp!=selected){
+
+    if (draft_object?.campaign_data?.typeOfHcp != selected) {
       if (old_object?.removedHcp) {
         old_object.removedHcp = [];
       }
@@ -166,21 +167,21 @@ const WebinarSelectHCP = (props) => {
         old_object.selectedHcp = [];
       }
 
-      if(draft_object?.campaign_data?.removedHcp){
+      if (draft_object?.campaign_data?.removedHcp) {
         draft_object.campaign_data.removedHcp = [];
       }
 
-      if(draft_object?.campaign_data?.addedHcp){
+      if (draft_object?.campaign_data?.addedHcp) {
         draft_object.campaign_data.addedHcp = [];
       }
-      if(draft_object?.campaign_data?.selectedHcp){
+      if (draft_object?.campaign_data?.selectedHcp) {
         draft_object.campaign_data.selectedHcp = [];
       }
     }
-  
+
     if (selected == 1 || selected == 2) {
       navigate(url, {
-        state: { typeOfHcp: selected,flag:2 ,thisEventToggled:location?.state?.thisEventToggled},
+        state: { typeOfHcp: selected, flag: 2, thisEventToggled: location?.state?.thisEventToggled },
       });
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
@@ -197,14 +198,14 @@ const WebinarSelectHCP = (props) => {
         case 6:
           endpoint = ENDPOINT.REGISTERED_USERS;
           break;
-          default:
-            break
+        default:
+          break
       }
       const body = { eventId: eventId };
-      await fetchDataAndNavigate(endpoint, body,selected);
+      await fetchDataAndNavigate(endpoint, body, selected);
     }
   };
-  
+
 
   const handleInputChange = (event, selectede) => {
     if (old_object) {
@@ -299,7 +300,7 @@ const WebinarSelectHCP = (props) => {
                   <h5>Do you want to send to</h5>
                   <ul className='send-option-new'>
                     {sendOptions?.filter((item) => {
-                      if (item.id == 1 || item.id == 2){
+                      if (item.id == 1 || item.id == 2) {
                         return false
                       }
                       return true
@@ -309,7 +310,7 @@ const WebinarSelectHCP = (props) => {
                         return null
                       } else {
                         return (<>
-<li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
+                          <li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
                             <div
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                               onClick={(e) => handleInputChange(e, option?.id)}
@@ -317,7 +318,7 @@ const WebinarSelectHCP = (props) => {
                               <input type="radio" name="select-option-hcp" value={option?.value} />
                               <img src={option?.imageUrl} alt={option.alt} />
                             </div>
-                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage}   title={option?.tooltipMessage} /></p>
+                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage} title={option?.tooltipMessage} /></p>
                           </li>
                         </>)
                       }
@@ -325,7 +326,7 @@ const WebinarSelectHCP = (props) => {
                     }
                     )}
                   </ul>
-                <ul>
+                  <ul>
 
                     {sendOptions?.filter((item) => item.id == 1 || item.id == 2)?.map(option => {
                       if (option?.id == 4 && !userIdArray?.includes(currentUserId)) {
@@ -337,10 +338,10 @@ const WebinarSelectHCP = (props) => {
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                               onClick={(e) => handleInputChange(e, option?.id)}
                             >
-                              <input type="radio" name="select-option-hcp" value={option?.value}  />
+                              <input type="radio" name="select-option-hcp" value={option?.value} />
                               <img src={option?.imageUrl} alt={option.alt} />
                             </div>
-                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage}   title={option?.tooltipMessage} /></p>
+                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage} title={option?.tooltipMessage} /></p>
                           </li>
                         </>)
                       }
