@@ -31,7 +31,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Write Your Name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -90,7 +90,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Write Your Name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -154,7 +154,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -164,12 +164,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
@@ -228,7 +228,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -238,12 +238,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
@@ -304,7 +304,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -314,12 +314,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
@@ -379,7 +379,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -389,12 +389,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",
@@ -454,7 +454,7 @@
     "namePlaceholder": {
         "title": "Name Placeholder",
         "type": "text",
-        "value": "Type your name"
+        "value": "Write your name"
     },
     "questionLabel": {
         "title": "Question Label",
@@ -464,12 +464,12 @@
     "questionPlaceholder": {
         "title": "Question Placeholder",
         "type": "text",
-        "value": "Type your question"
+        "value": "Write your question"
     },
     "buttonText": {
         "title": "Button Text",
         "type": "text",
-        "value": "SUBMIT"
+        "value": "SEND"
     },
     "buttonColor": {
         "title": "Button Color",

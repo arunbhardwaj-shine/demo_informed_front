@@ -26,6 +26,11 @@ const SurveyQuestionFormData = () => {
   const [sorting, setSorting] = useState(0);
   const [isActive, setIsActive] = useState({});
 
+  const [sortName, setSortName] = useState(0);
+  const [sortCount, setSortCount] = useState(0);
+  const [sort, setSort] = useState(0);
+  const [isActiveSort, setIsActiveSort] = useState({});
+
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [data, setData] = useState([]);
@@ -262,6 +267,7 @@ const SurveyQuestionFormData = () => {
   }, [openAccordionIndex]);
 
   const downloadSurveyUsers = (data) => {
+    console.log(data,'data')
     try {
       if (data?.length == 0) {
         toast.warning("No data found");
@@ -271,6 +277,7 @@ const SurveyQuestionFormData = () => {
         let finalData = {};
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        finalData.Region = item?.region ? item?.region.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.SurveyDate = item?.created_at
           ? item?.created_at.trim()
@@ -300,12 +307,13 @@ const SurveyQuestionFormData = () => {
       const columnWidths = [
         { wch: 20 }, // Width of column A (Name)
         { wch: 25 }, // Width of column B (Email)
-        { wch: 15 }, // Width of column C (Country)
-        { wch: 15 }, // Width of column D (SurveyDate)
-        { wch: 45 }, // Width of column E (How relevant)
-        { wch: 45 }, // Width of column F (Plan to attend)
-        { wch: 45 }, // Width of column G (Recommend)
-        { wch: 55 }, // Width of column H (Suggestion)
+        { wch: 15 }, // Width of column C (Region)
+        { wch: 15 }, // Width of column D (Country)
+        { wch: 15 }, // Width of column E (SurveyDate)
+        { wch: 45 }, // Width of column F (How relevant)
+        { wch: 45 }, // Width of column G (Plan to attend)
+        { wch: 45 }, // Width of column H (Recommend)
+        { wch: 55 }, // Width of column I (Suggestion)
       ];
 
       // Apply column widths
@@ -320,6 +328,60 @@ const SurveyQuestionFormData = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
       saveAs(blob, `Survey_Data_${eventData?.eventCode}.xlsx`);
+    } catch (error) {
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
+    }
+  };
+
+  const downloadUserData = (userData) => {
+    try {
+      if (userData?.length == 0) {
+        toast.warning("No data found");
+        return;
+      }
+      userData = userData?.map((item, index) => {
+        let downloadData = {};
+        downloadData.Name = item?.name ? item?.name.trim() : "N/A";
+        downloadData.Email = item?.email ? item?.email.trim() : "N/A";
+        downloadData.Region = item?.region ? item?.region.trim() : "N/A";
+        downloadData.Country = item?.country ? item?.country.trim() : "N/A";
+        if (quesKey !== 'future_clinical' && quesKey !== 'recommend_clinical' && quesKey !== 'suggestion') {
+          downloadData.Rating = item?.rating ? item?.rating.trim() : "N/A";
+        }
+        if (quesKey !== 'patient_case_rating' && quesKey !== 'suggestion') {
+          downloadData.Answer = item?.answer ? item?.answer.trim() : "N/A";
+        }
+        downloadData.Date = item?.created_at
+        ? item?.created_at.trim()
+        : "N/A";       
+         return downloadData;
+      });
+      const worksheet = XLSX.utils.json_to_sheet(userData);
+      // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
+      const columnWidths = [
+        { wch: 20 }, // Width of column A (Name)
+        { wch: 25 }, // Width of column B (Email)
+        { wch: 15 }, // Width of column C (Region)
+        { wch: 15 }, // Width of column D (Country)
+        { wch: 15 }, // Width of column E (Rating)
+        { wch: 15 }, // Width of column F (SurveyDate)
+      ];
+
+      // Apply column widths
+      worksheet["!cols"] = columnWidths;
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+      saveAs(blob, `Post_Survey_Data.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
@@ -371,6 +433,27 @@ const SurveyQuestionFormData = () => {
       return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
     }
   };
+
+  const dynamicSorting = (key, direction) => (a, b) => {
+    // Function to get the value of a nested key
+    const getNestedValue = (obj, keys) => {
+      for (const key of keys) {
+        obj = obj?.[key];
+      }
+      return obj;
+    };
+  
+    // If key is a string, split it into an array of keys
+    const keys = typeof key === 'string' ? key.split('.') : [key];
+    const valueA = getNestedValue(a, keys);
+    const valueB = getNestedValue(b, keys);
+  
+    if (direction === 'asc') {
+      return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+    } else {
+      return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+    }
+  };
   
   const userSort = (e, key) => {
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
@@ -383,6 +466,19 @@ const SurveyQuestionFormData = () => {
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
+
+  const userSorting = (e, key) => {
+    const direction = sortName === 0 ? 'asc' : 'dec';
+  
+    const sortedData = [...userData].sort(dynamicSorting(key, direction));
+  
+    setUserData(sortedData);
+    setSortName(sortName === 0 ? 1 : 0);
+    setIsActiveSort({ [key]: direction === 'asc' ? 'dec' : 'asc' });
+    setSort(1 - sort);
+    setSortCount(sortCount + 1);
+  };
+
   const handleParent = async () => {
     try {
       loader("show");
@@ -392,7 +488,7 @@ const SurveyQuestionFormData = () => {
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
 
       const link = document.createElement("a");
-      link.download = `${Math.random()}.png`;
+      link.download = `Post_Survey.png`;
       link.href = dataUrl;
       link.click();
 
@@ -618,7 +714,7 @@ const SurveyQuestionFormData = () => {
             </div>
             <div className="survey_data">
               <div className="survey_data_heading d-flex align-items-center justify-content-between">
-                <h4>Survey participants</h4>
+                <h4>Survey participants | <span>{data?.length}</span></h4>
                 {/* {data?.length > 0 ? ( */}
                 <div className="clear-search d-flex align-items-center">
                   {/* <a
@@ -675,7 +771,8 @@ const SurveyQuestionFormData = () => {
                       <Table className="fold-table" id="individual_completion">
                       <thead className="sticky-header">
                           <tr>
-                            <th>Name
+                            <th  className="sort_option">
+                              <span  onClick={(e) => userSort(e, "name")}>Name
                               <button
                                 className={`event_sort_btn ${isActive?.name == "dec"
                                     ? "svg_active"
@@ -704,8 +801,10 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
-                            <th>Email
+                              </button></span></th>
+
+                            <th  className="sort_option">
+                              <span onClick={(e) => userSort(e, "email")}>Email
                               <button
                                 className={`event_sort_btn ${isActive?.email == "dec"
                                     ? "svg_active"
@@ -734,10 +833,10 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
+                              </button></span></th>
 
-                              <th>
-                        Region
+                              <th  className="sort_option">
+                        <span  onClick={(e) => userSort(e, "region")}>Region
                         <button
                           className={`event_sort_btn ${
                             isActive?.region == "dec"
@@ -767,9 +866,11 @@ const SurveyQuestionFormData = () => {
                               </clipPath>
                             </defs>
                           </svg>
-                        </button>
-                      </th>
-                            <th> Country
+                        </button></span>
+                              </th>
+
+                            <th  className="sort_option"> 
+                              <span   onClick={(e) => userSort(e, "country")}>Country
                               <button
                                 className={`event_sort_btn ${isActive?.country == "dec"
                                     ? "svg_active"
@@ -798,16 +899,18 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
-                            <th> Date
+                              </button></span></th>
+
+                            <th  className="sort_option"> 
+                              <span onClick={(e) => userSort(e, "created_at")}>Date
                               <button
                                 className={`event_sort_btn ${isActive?.created_at == "dec"
                                     ? "svg_active"
                                     : isActive?.created_at == "asc"
                                       ? "svg_asc"
                                       : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "created_at")}
+                                  }`} onClick={(e) => userSort(e, "created_at")}
+                                
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -828,8 +931,10 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
-                            <th>Q1
+                              </button></span></th>
+
+                            <th  className="sort_option">
+                              <span onClick={(e) => userSort(e, "survey_data.patient_case.patient_case_rating")}>Q1
                               <button
                                 className={`event_sort_btn ${isActive?.survey_data?.patient_case
                                     ?.patient_case_rating == "dec"
@@ -860,8 +965,10 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
-                            <th>Q2
+                              </button></span></th>
+
+                            <th  className="sort_option">
+                              <span  onClick={(e) => userSort(e, "survey_data.clinical_practice.future_clinical")}>Q2
                               <button
                                 className={`event_sort_btn ${isActive?.survey_data?.clinical_practice?.future_clinical == "dec"
                                     ? "svg_active"
@@ -890,8 +997,10 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
-                            <th>Q3
+                              </button></span></th>
+
+                            <th  className="sort_option">
+                              <span  onClick={(e) => userSort(e, "survey_data.recommend.recommend_clinical")}>Q3
                               <button
                                 className={`event_sort_btn ${isActive?.survey_data?.recommend?.recommend_clinical == "dec"
                                     ? "svg_active"
@@ -920,7 +1029,8 @@ const SurveyQuestionFormData = () => {
                                     </clipPath>
                                   </defs>
                                 </svg>
-                              </button></th>
+                              </button></span></th>
+
                           </tr>
                         </thead>
                       {/* <ul>
@@ -1412,9 +1522,42 @@ const SurveyQuestionFormData = () => {
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
+                
           </Modal.Header>
           <Modal.Body>
             <>
+              <div className="d-flex justify-content-end">
+                <div className="clear-search d-flex align-items-center">
+                  {userData?.length > 0 ? (
+                    <button
+                      className="btn print"
+                      title="Download data"
+                      onClick={() => {
+                        downloadUserData(userData);
+                      }}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                          fill="#0066BE"
+                        />
+                        <path
+                          d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                          fill="#0066BE"
+                        />
+                      </svg>
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
               <div className="polls-preview">
               
                 {userData?.length > 0  ?  (
@@ -1424,19 +1567,241 @@ const SurveyQuestionFormData = () => {
                       <table>
                           <thead className="sticky-header">
                           <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Region</th>
-                            <th>Country</th>
+                            {/* <th>Name</th> */}
+                            <th  className="sort_option">
+                              <span  onClick={(e) => userSorting(e, "name")}>Name
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.name == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.name == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSorting(e, "name")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                            </button></span></th>
+
+                            {/* <th>Email</th> */}
+                            <th  className="sort_option">
+                              <span onClick={(e) => userSorting(e, "email")}>Email
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.email == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.email == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSorting(e, "email")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button></span></th>
+
+                            {/* <th>Region</th> */}
+                            <th  className="sort_option">
+                        <span  onClick={(e) => userSorting(e, "region")}>Region
+                        <button
+                          className={`event_sort_btn ${
+                            isActiveSort?.region == "dec"
+                              ? "svg_active"
+                              : isActiveSort?.region == "asc"
+                              ? "svg_asc"
+                              : ""
+                          }`}
+                          onClick={(e) => userSorting(e, "region")}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="8"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            fill="none"
+                          >
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path
+                                d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                fill="#97B6CF"
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button></span>
+                              </th>
+
+                            {/* <th>Country</th> */}
+                            <th  className="sort_option"> 
+                              <span   onClick={(e) => userSorting(e, "country")}>Country
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.country == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.country == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSorting(e, "country")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button></span></th>
                             {quesKey === 'patient_case_rating' ? (
-                                <th>Rating</th>
+                                // <th>Rating</th>
+                                <th  className="sort_option"> 
+                              <span   onClick={(e) => userSorting(e, "rating")}>Rating
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.rating == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.rating == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSorting(e, "rating")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button></span></th>
                               ) : (quesKey === 'future_clinical' || quesKey === 'recommend_clinical') ? (
-                                <th>Answer</th>
+                                // <th>Answer</th>
+                                <th  className="sort_option"> 
+                              <span   onClick={(e) => userSorting(e, "answer")}>Answer
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.answer == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.answer == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSorting(e, "answer")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button></span></th>
                               )  : (
                                 '' 
                             )}
 
-                            <th>Date</th>
+                            {/* <th>Date</th> */}
+                            <th  className="sort_option"> 
+                              <span onClick={(e) => userSorting(e, "created_at")}>Date
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.created_at == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.created_at == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                  onClick={(e) => userSorting(e, "created_at")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button></span></th>
                           </tr>
                         </thead>
                           <tbody>
