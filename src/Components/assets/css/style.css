@@ -5153,6 +5153,8 @@ form#add_hcp_form .row:not(:first-child) {
 
 #mail-view .mail-stats ul {
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 #mail-view .webinar-mail-stats ul {
@@ -6833,6 +6835,11 @@ a.color_blue:hover {
   width: 66%;
   justify-content: flex-start;
   padding: 15px 15px 15px 9%;
+}
+.email-result .email_box_block.no_found_dlt {
+  width: 100%;
+  justify-content: center;
+  padding: 15px;
 }
 
 .search-hcp .search-hcp-table-inside.not-found {
