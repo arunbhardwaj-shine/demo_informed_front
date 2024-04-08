@@ -450,10 +450,10 @@ const Routing = () => {
           path="/reader-add"
           element={<LoginLayout component={ReaderAdd} />}
         />
-        {/* <Route
+        <Route
           path="/new-readers-reviews"
           element={<LoginLayout component={NewReaderReview} />}
-        /> */}
+        />
         <Route
           path="/reader-review"
           element={<LoginLayout component={ReaderReview} />}
