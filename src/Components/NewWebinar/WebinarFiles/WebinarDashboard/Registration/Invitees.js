@@ -243,7 +243,7 @@ const Invitees = () => {
   }
 
   const userEmailClicked = (e, user) => {
-    navigate("/EmailList");
+    navigate("/webinar/email");
     // console.log("email clicked-->", user?.Email)
   }
 
