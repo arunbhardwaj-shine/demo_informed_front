@@ -188,5 +188,7 @@ export const ENDPOINT = {
   INTERNAL_HCP:"/webinarEmail/internal-hcps",
   US_LIST:"/webinarEmail/us-list",
   REGISTERED_USERS:"/webinarEmail/registered-users",
-  NO_REGISTERED_USERS:"/webinarEmail/no-registered-users"
+  NO_REGISTERED_USERS:"/webinarEmail/no-registered-users",
+  GET_DROPDOWN_DATA:"/webinarEmail/get-campaign-selection-data",
+  GET_EMAIL_COUNT:"/webinarEmail/get-campaign-email-count"
 };
