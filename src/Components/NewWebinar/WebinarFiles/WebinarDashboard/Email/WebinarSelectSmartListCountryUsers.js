@@ -81,8 +81,19 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     const [validationError, setValidationError] = useState({});
 
     const smartListSelected = location.state
-      ? location.state.smartListSelected
-      : props.getWebinarDraftData.smart_list_data;
+        ? location.state.smartListSelected
+        : props.getWebinarDraftData.smart_list_data;
+    const [typeOfHcp, setTypeOfHcp] = useState(
+        location?.state?.typeOfHcp
+            ? location?.state?.typeOfHcp
+            : props.getWebinarDraftData?.campaign_data?.typeOfHcp
+    );
+
+    const [thisEventToggled, setThisEventToggled] = useState(
+        location?.state?.thisEventToggled
+            ? location?.state?.thisEventToggled
+            : props.getWebinarDraftData?.campaign_data?.thisEventToggled
+    );
 
     useEffect(() => {
         let campaign_id =
@@ -249,7 +260,14 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     const backClicked = () => {
         setSelectedHcp([]);
         setRemovedHcp([]);
-        navigate("/webinar/email/selectSmartList");
+        // navigate("/webinar/email/selectSmartList");
+        if (typeOfHcp == 1) {
+            navigate("/webinar/email/selectSmartList", {
+                state: { typeOfHcp: typeOfHcp, thisEventToggled: thisEventToggled },
+            });
+        } else {
+            navigate("/webinar/email/selectHCP");
+        }
     };
 
     const saveAsDraft = async () => {
@@ -277,7 +295,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
         const body = {
             user_id: localStorage.getItem("user_id"),
             pdf_id: 0,
-            event_id:eventId,
+            event_id: eventId,
             description: old_object?.emailDescription
                 ? old_object?.emailDescription
                 : props.getWebinarDraftData?.description
@@ -288,11 +306,11 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 : props.getWebinarDraftData?.creator
                     ? props.getWebinarDraftData?.creator
                     : "",
-                    campaign_name: "webinar",
+            campaign_name: "webinar",
 
             subject: old_object?.emailSubject
                 ? old_object?.emailSubject
-                : props.getWebinarDraftData.subject,
+                : props.getWebinarDraftData?.subject,
             route_location: "webinar/email/selectSmartListUsers",
             tags: old_object?.tags ? old_object?.tags : props.getWebinarDraftData?.tags,
             campaign_data: {
@@ -312,18 +330,24 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                         : 0,
                 removedHcp: [...removedReaders, ...discardCountryData],
                 auto_responder_id: old_object?.templateId
-                ? old_object?.templateId
-                : props?.getWebinarDraftData?.campaign_data?.template_id
+                    ? old_object?.templateId
+                    : props?.getWebinarDraftData?.campaign_data?.template_id,
+                typeOfHcp: typeOfHcp,
+                thisEventToggled: thisEventToggled,
             },
 
             campaign_id: campaign_id_st,
             source_code: old_object?.template
                 ? old_object?.template
                 : props.getWebinarDraftData?.source_code,
-            status: 2,
+            status: old_object?.status
+                ? old_object?.status
+                : props.getWebinarDraftData?.status
+                    ? props.getWebinarDraftData?.status
+                    : 2,
             auto_responder_id: old_object?.templateId
-            ? old_object?.templateId
-            : props.getWebinarDraftData?.campaign_data?.template_id,
+                ? old_object?.templateId
+                : props.getWebinarDraftData?.campaign_data?.template_id,
         };
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -381,7 +405,10 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             // smartListName: smartListName,
             state: {
                 selectedHcp: allCountryData,
-                removedHcp: [...removedReaders, ...discardCountryData]
+                removedHcp: [...removedReaders, ...discardCountryData],
+                // addedHcp: readersNewlyAdded,
+                typeOfHcp: typeOfHcp,
+                thisEventToggled: thisEventToggled,
             },
         });
     };
@@ -440,24 +467,24 @@ const WebinarSelectSmartListCountryUsers = (props) => {
         setIsOpenAdd(false);
         // setIsOpensend(true);
         setHpc([
-          {
-            firstname: "",
-            lastname: "",
-            email: "",
-            contact_type: "",
-            country: "",
-           
-            optIrt:
-              localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg=="
-                ? "yes"
-                : "",
-            institutionType: "",
-          },
+            {
+                firstname: "",
+                lastname: "",
+                email: "",
+                contact_type: "",
+                country: "",
+
+                optIrt:
+                    localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? "yes"
+                        : "",
+                institutionType: "",
+            },
         ]);
         setActiveManual("active");
         setActiveExcel("");
-      }
+    }
 
     const closeClicked = () => {
         setSaveOpen(false);
@@ -928,7 +955,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     const isEmailInBothArrays = (email) => {
         // Check in discardCountryData
         for (const countryData of Object.values(countryWiseData.discardCountryData)) {
-            if (countryData.some((user) => user?.email?.toLowerCase() === email)) {
+            if (countryData.some((user) => user?.email?.toLowerCase() === email?.toLowerCase())) {
 
                 return true;
             }
@@ -936,11 +963,11 @@ const WebinarSelectSmartListCountryUsers = (props) => {
 
         // Check in allCountryData
         for (const countryData of Object.values(countryWiseData?.allCountryData)) {
-            if (countryData.some((user) => user?.email?.toLowerCase() === email)) {
+            if (countryData.some((user) => user?.email?.toLowerCase() === email?.toLowerCase())) {
                 return true;
             }
         }
-        if (removedReaders?.some((user) => user?.email?.toLowerCase() === email)) {
+        if (removedReaders?.some((user) => user?.email?.toLowerCase() === email?.toLowerCase())) {
             return true;
         }
         return false;
@@ -1055,7 +1082,21 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                             <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                                         </li>
                                         <li className="active">
-                                            <Link to="/webinar/email/selectSmartList">
+                                            <Link
+                                                to={
+                                                    typeOfHcp == 1
+                                                        ? "/webinar/email/selectSmartList"
+                                                        : "/webinar/email/selectHCP"
+                                                }
+                                                state={
+                                                    typeOfHcp == 1
+                                                        ? {
+                                                            typeOfHcp: typeOfHcp,
+                                                            thisEventToggled: thisEventToggled,
+                                                        }
+                                                        : null
+                                                }
+                                            >
                                                 {localStorage.getItem("user_id") == userId
                                                     ? "Select Users"
                                                     : "Select HCPs"}
@@ -1537,10 +1578,6 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-
-
-
-
                                                                     {countryWiseData?.allCountryData?.[country]?.map((readers, i) => {
                                                                         return (
                                                                             <tr
@@ -1652,297 +1689,6 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                     </div>
                 </div>
             </div>
-
-            {/* <Modal
-                id="add_hcp"
-                show={isOpenAdd}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <div
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabIndex="-1"
-                    aria-hidden="true"
-                >
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="staticBackdropLabel">
-                            {localStorage.getItem("user_id") == userId
-                                ? "Add New User +"
-                                : "Add New HCP"}
-                        </h5>
-                        <button
-                            onClick={() => {
-                                setIsOpenAdd(false);
-                                setHpc([
-                                    {
-                                        firstname: "",
-                                        lastname: "",
-                                        email: "",
-                                        contact_type: "",
-                                        country: "",
-                                        countryIndex: "",
-                                    },
-                                ]);
-                                setActiveManual("active");
-                                setActiveExcel("");
-                            }}
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                        ></button>
-                    </div>
-                    <div className="modal-body">
-                        <div className="hcp-add-box">
-                            <div className="hcp-add-form tab-content">
-                                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                                    {hpc.map((val, i) => {
-                                        const fieldName = `hpc[${i}]`;
-                                        return (
-                                            <>
-                                                <div className="add_hcp_boxes">
-                                                    <div className="form_action">
-                                                        <div className="row">
-                                                            <div className="col-12 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">
-                                                                        First name{" "}
-                                                                        {localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                                                                <span>*</span>
-                                                                            )}{" "}
-                                                                    </label>
-                                                                    <input
-                                                                        type="text"
-                                                                        className={
-                                                                            validationError?.newHcpFirstName &&
-                                                                                validationError?.index == i
-                                                                                ? "form-control error"
-                                                                                : "form-control"
-                                                                        }
-                                                                        onChange={(event) =>
-                                                                            onFirstNameChange(event, i)
-                                                                        }
-                                                                        value={val.firstname}
-                                                                    />
-                                                                    {validationError?.newHcpFirstName &&
-                                                                        validationError?.index == i ? (
-                                                                        <div className="login-validation">
-                                                                            {validationError?.newHcpFirstName}
-                                                                        </div>
-                                                                    ) : null}
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-12 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">
-                                                                        Last name{" "}
-                                                                        {localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                                                                <span>*</span>
-                                                                            )}{" "}
-                                                                    </label>
-                                                                    <input
-                                                                        type="text"
-                                                                        className={
-                                                                            validationError?.newHcpLastName &&
-                                                                                validationError?.index == i
-                                                                                ? "form-control error"
-                                                                                : "form-control"
-                                                                        }
-                                                                        onChange={(event) =>
-                                                                            onLastNameChange(event, i)
-                                                                        }
-                                                                        value={val.lastname}
-                                                                    />
-                                                                    {validationError?.newHcpLastName &&
-                                                                        validationError?.index == i ? (
-                                                                        <div className="login-validation">
-                                                                            {validationError?.newHcpLastName}
-                                                                        </div>
-                                                                    ) : null}
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-12 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">
-                                                                        Email <span>*</span>
-                                                                    </label>
-                                                                    <input
-                                                                        type="email"
-                                                                        className={
-                                                                            validationError?.newHcpEmail &&
-                                                                                validationError?.index == i
-                                                                                ? "form-control error"
-                                                                                : "form-control"
-                                                                        }
-                                                                        id="email-desc"
-                                                                        name={`${fieldName}.email`}
-                                                                        onChange={(event) =>
-                                                                            onEmailChange(event, i)
-                                                                        }
-                                                                        value={val.email}
-                                                                    />
-                                                                    {validationError?.newHcpEmail &&
-                                                                        validationError?.index == i ? (
-                                                                        <div className="login-validation">
-                                                                            {validationError?.newHcpEmail}
-                                                                        </div>
-                                                                    ) : null}
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="col-12 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">Contact type</label>
-                                                                    <DropdownButton
-                                                                        className="dropdown-basic-button split-button-dropup"
-                                                                        title={
-                                                                            hpc[i].contact_type != "" &&
-                                                                                hpc[i].contact_type != "undefined"
-                                                                                ? hpc[i].contact_type
-                                                                                : "Select Type"
-                                                                        }
-                                                                        onSelect={(event) =>
-                                                                            onContactTypeChange(event, i)
-                                                                        }
-                                                                    >
-                                                                        <Dropdown.Item
-                                                                            eventKey="HCP"
-                                                                            className={
-                                                                                hpc[i].contact_type == "HCP"
-                                                                                    ? "active"
-                                                                                    : ""
-                                                                            }
-                                                                        >
-                                                                            HCP
-                                                                        </Dropdown.Item>
-                                                                        <Dropdown.Item
-                                                                            eventKey="Staff"
-                                                                            className={
-                                                                                hpc[i].contact_type == "Staff"
-                                                                                    ? "active"
-                                                                                    : ""
-                                                                            }
-                                                                        >
-                                                                            Staff
-                                                                        </Dropdown.Item>
-                                                                        <Dropdown.Item
-                                                                            eventKey="Test Users"
-                                                                            className={
-                                                                                hpc[i].contact_type == "Test Users"
-                                                                                    ? "active"
-                                                                                    : ""
-                                                                            }
-                                                                        >
-                                                                            Test Users
-                                                                        </Dropdown.Item>
-                                                                    </DropdownButton>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div className="col-12 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">
-                                                                        Country <span>*</span>
-                                                                    </label>
-                                                                    <Select
-                                                                        options={countryall}
-                                                                        className={
-                                                                            validationError?.index == i &&
-                                                                                validationError?.newHcpCountry
-                                                                                ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                                                                : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                        }
-                                                                        onChange={(event) =>
-                                                                            onCountryChange(event, i)
-                                                                        }
-                                                                        value={
-                                                                            countryall.findIndex(
-                                                                                (el) => el.value == val?.country
-                                                                            ) == -1
-                                                                                ? ""
-                                                                                : countryall[
-                                                                                countryall.findIndex(
-                                                                                    (el) =>
-                                                                                        el.value == val?.country
-                                                                                )
-                                                                                ]
-                                                                        }
-                                                                        placeholder="Select Country"
-                                                                        isClearable
-                                                                    />
-                                                                    {validationError?.newHcpCountry &&
-                                                                        validationError?.index == i && (
-                                                                            <div className="login-validation">
-                                                                                {validationError?.newHcpCountry}
-                                                                            </div>
-                                                                        )}
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="hcp-modal-action">
-                                                        <div className="hcp-action-block">
-                                                            {activeManual == "active" ? (
-                                                                <>
-                                                                    {hpc.length > 1 && (
-                                                                        <div className="hcp-remove">
-                                                                            <button
-                                                                                type="button"
-                                                                                className="btn btn-filled"
-                                                                                onClick={() => deleteRecord(i)}
-                                                                            >
-                                                                                <img
-                                                                                    src={path_image + "delete.svg"}
-                                                                                    alt="Delete Row"
-                                                                                />
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </>
-                                                            ) : null}
-
-                                                            <ul className="nav nav-tabs" role="tablist">
-                                                                <li className="nav-item add_hcp">
-                                                                    <a
-                                                                        id="add_hcp_btn"
-                                                                        onClick={addMoreHcp}
-                                                                        className="nav-link active btn-bordered"
-                                                                        data-bs-toggle="tab"
-                                                                        href="#"
-                                                                    >
-                                                                        {localStorage.getItem("user_id") == userId
-                                                                            ? "Add User +"
-                                                                            : "Add HCP +"}
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        );
-                                    })}
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="modal-footer">
-                        <button
-                            type="button"
-                            className="btn btn-primary save btn-filled"
-                            onClick={saveClicked}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </Modal > */}
             <AddNewContactModal
                 show={isOpenAdd}
                 closeClicked={closeModalClicked}
