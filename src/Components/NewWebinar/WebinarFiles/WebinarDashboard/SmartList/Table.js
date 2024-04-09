@@ -38,6 +38,7 @@ const Table = (props, ref) => {
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
+  const [deleteUser,setDeleteUser]=useState()
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
@@ -1237,13 +1238,14 @@ const Table = (props, ref) => {
     }
   };
 
-  const deleteReader = (profile_user_id) => {
-    const filtered_list = editList.filter((data) => {
-      return data.profile_user_id != profile_user_id;
-    });
-
-    setEditList(filtered_list);
-    props.sendDataToParent(filtered_list, "existing");
+  const deleteReader = (profile_user_id,deleteUser) => {  
+      const filtered_list = editList.filter((data) => {
+        return data.profile_user_id != profile_user_id;
+      });
+  
+      setEditList(filtered_list);
+      props.sendDataToParent(filtered_list, "existing",deleteUser);
+   
     popup_alert({
       visible: "show",
       message: "The HCP record has been deleted </br>successfully !",
@@ -1269,10 +1271,12 @@ const Table = (props, ref) => {
     country,
     profile_user_id,
   }) => {
-    let temp_len = parseInt(editList.length) + parseInt(getNewReaders.length);
+    // let temp_len = parseInt(editList.length) + parseInt(getNewReaders.length);
+    let temp_len = parseInt(editList.length) ;
 
     if (temp_len > 1) {
       setIsOpen(true);
+      setDeleteUser("existingUser")
       setProfileUserId(profile_user_id);
     } else {
       popup_alert({
@@ -1748,6 +1752,7 @@ const Table = (props, ref) => {
 
     if (temp_len > 1) {
       setIsOpen(true);
+      setDeleteUser("newlyAddedUser")
       const dataUpdated = data.filter((d) => {
         return d.profile_user_id != profile_user_id;
       });
@@ -3817,7 +3822,7 @@ const Table = (props, ref) => {
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
-                deleteReader(profileUserId);
+                deleteReader(profileUserId,deleteUser);
                 setIsOpen(false);
 
                 setOpenDeleteConfirmation(true);
