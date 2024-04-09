@@ -4,6 +4,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import AnalyticsRegistration from "./AnalyticsRegistration";
 import AnalyticsOverview from "./AnalyticsOverview";
 import AnalyticsEmail from "./AnalyticsEmail";
+import AnalyticsLiveStream from "./AnalyticsLiveStream";
 
 const Analytics = () => {
   const {eventIdContext,handleEventId}=useSidebar()
@@ -53,11 +54,11 @@ const Analytics = () => {
                   </Col>
                 </Row>
               <Row>
-                <Col md={5}>
+                <Col md={5} style={{ margin: '40px 0 0' }}>
                   <AnalyticsEmail/>
                 </Col>
-                <Col md={7}>
-
+                <Col md={7} style={{ margin: '40px 0 0' }}>
+                  <AnalyticsLiveStream/>
                 </Col>
               </Row>
             </div>

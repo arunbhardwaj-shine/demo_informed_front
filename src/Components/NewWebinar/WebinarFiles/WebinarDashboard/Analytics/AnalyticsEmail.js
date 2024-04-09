@@ -9,7 +9,7 @@ const AnalyticsEmail = () => {
         <p class="rd-box-small-title">Emails</p>
         <div className='rd-analytics-box-layout'>
           <div className="rd-analytics-top align-items-center d-flex justify-content-between">
-            <h6 className="mr-auto">
+            <h6 className="mr-auto" style={{ color:'#8A4E9C'}}>
               Emails
             </h6>
             <div className="d-flex">
@@ -24,24 +24,24 @@ const AnalyticsEmail = () => {
                     <th>Subject</th>
                     <th>Type</th>
                     <th>List</th>
-                    <th>Send</th>
-                    <th>Opened</th>
+                    <th className='email-options'>Send</th>
+                    <th className='email-options'>Opened</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Lorem ipsum dolor sit amet consectetr. Libero a sit lectus blandit. Orci facilisi vitae leo odio viverra quam  blandit. Orci facilisi vitae<br /><span>March 5.2023 | 05:15 pm</span></td>
-                    <td>Invitation</td>
-                    <td>Internal</td>
-                    <td className='email-options'><img src={path_image + "mail-sent.svg"} alt="" /><br /><span>140</span></td>
-                    <td className='email-options'><img src={path_image + "email-open.svg"} alt="" /><br /><span>70 (50%)</span></td>
+                  <tr valign='middle'>
+                    <td valign='middle'>Lorem ipsum dolor sit amet consectetr. Libero a sit lectus blandit. Orci facilisi vitae leo odio viverra quam  blandit. Orci facilisi vitae<span>March 5.2023 | 05:15 pm</span></td>
+                    <td valign='middle'>Invitation</td>
+                    <td valign='middle'>Internal</td>
+                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "mail-sent.svg"} alt="" /><br /><span>140</span></div></td>
+                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "email-open.svg"} alt="" /><br /><span>70 (50%)</span></div></td>
                   </tr>
                   <tr>
-                    <td>Lorem ipsum dolor sit amet consectetr. Libero a sit lectus blandit. Orci facilisi vitae leo odio viverra quam  blandit. Orci facilisi vitae<br /><span>March 5.2023 | 05:15 pm</span></td>
-                    <td>Invitation</td>
-                    <td>Internal</td>
-                    <td className='email-options'><img src={path_image + "mail-sent.svg"} alt="" /><br /><span>140</span></td>
-                    <td className='email-options'><img src={path_image + "email-open.svg"} alt="" /><br /><span>70 (50%)</span></td>
+                    <td valign='middle'>Lorem ipsum dolor sit amet consectetr. Libero a sit lectus blandit. Orci facilisi vitae leo odio viverra quam  blandit. Orci facilisi vitae<span>March 5.2023 | 05:15 pm</span></td>
+                    <td valign='middle'>Invitation</td>
+                    <td valign='middle'>Internal</td>
+                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "mail-sent.svg"} alt="" /><span>140</span></div></td>
+                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "email-open.svg"} alt="" /><span>70 (50%)</span></div></td>
                   </tr>
                 </tbody>
               </Table>

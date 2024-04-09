@@ -2675,13 +2675,17 @@ form .input-group {
 .search-hcp-table tbody tr,
 .selected-hcp-list tbody tr,
 .result-hcp-table .table tbody tr,
-.survey_data_accordion_heading table tbody tr {
+.survey_data_accordion_heading table tbody tr, .graph-data table tbody tr{
   background: transparent;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
   border-radius: 13px;
   border-spacing: 0px 10px;
 }
-
+.graph-box .graph-data table {
+  margin: 0;
+  border-spacing: 0 12px;
+  border-collapse: initial;
+}
 .survey_data_accordion_heading table tbody tr.fold td {
   background: rgb(243 247 252);
 }
@@ -13266,4 +13270,15 @@ table.table-custom {
 .viewer-layout-main .viewer-text:focus {
   cursor: move;
   pointer-events: none;
+}
+
+.graph-box .graph-data::-webkit-scrollbar {
+  width: 4px;
+}
+.graph-box .graph-data::-webkit-scrollbar-track {
+  background: #DCE6EF;
+}
+.graph-box .graph-data::-webkit-scrollbar-thumb {
+  background: rgba(151, 182, 207, 50%);
+  border: 0;
 }

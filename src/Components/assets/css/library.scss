@@ -13984,20 +13984,23 @@ img.change-password-image {
 
     &.filled {
       background: $primary-color;
-      color:$white;
+      color: $white;
       font-weight: 500;
       font-size: 16px;
-      padding:11px 16px;
+      padding: 11px 16px;
+
       svg {
-        margin-left:8px;
+        margin-left: 8px;
         width: 16px;
         height: 16px;
+
         path {
           fill: $white;
         }
       }
-      &:hover{
-         background: $dark-blue;
+
+      &:hover {
+        background: $dark-blue;
       }
     }
   }
@@ -14066,6 +14069,87 @@ img.change-password-image {
             max-height: 255px;
           }
         }
+
+        .graph-data {
+          overflow-y: auto;
+          max-height: 250px;
+          padding: 0 6px;
+          margin: 0 -6px;
+
+          table {
+            thead {
+              &.sticky-header {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                transition: .3s linear;
+                z-index: 5;
+                line-height: 1;
+                background: $white;
+
+                &:after {
+                  display: none;
+                }
+              }
+
+              th {
+                color: $dark-blue;
+                font-size: 12px;
+                font-weight: 500;
+                padding-top: 0;
+
+                &:first-child {
+                  width: 228px;
+                }
+
+                &.email-options {
+                  text-align: center;
+                }
+              }
+            }
+
+            tbody {
+              td {
+                color: #70899E;
+                font-size: 12px;
+                vertical-align: middle;
+
+                &:first-child {
+                  span {
+                    color: #97B6CF;
+                    font-size: 10px;
+                    line-height: 18px;
+                  }
+                }
+
+                span {
+                  color: #70899E;
+                  font-size: 12px;
+                  margin-top: 4px;
+                  display: block;
+                }
+
+                &.email-options {
+                  text-align: center;
+                  position: relative;
+                  width: 87px;
+
+                  .td-bordered {
+
+                    &:before {
+                      height: calc(100% - 24px);
+                      position: absolute;
+                      content: "";
+                      left: 0;
+                      border-left: 1px dashed #97B6CF;
+                      top: 12px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
 
       .rd-analytics-top {
@@ -14086,10 +14170,72 @@ img.change-password-image {
         .count-number {
           font-size: 20px;
           font-weight: 500;
+          line-height: 1;
         }
 
         img {
           margin-left: 12px;
+          width: 20px;
+        }
+      }
+
+      .attended_hcp {
+        padding: 8px;
+        display: flex;
+
+        .avg-speed {
+          width: 32%;
+          text-align: center;
+          padding: 0 17px;
+
+          img {
+            max-height: 250px;
+            margin: 0 auto;
+            max-width: 100%;
+          }
+        }
+
+        .hcp-tracking {
+          width: 42%;
+          padding: 0 27px;
+          border-left: 1px dashed #97B6CF;
+          border-right: 1px dashed #97B6CF;
+
+          img {
+            max-height: 250px;
+            margin: 0 auto;
+            max-width: 100%;
+          }
+        }
+
+        .top-country-data {
+          width: 26%;
+          padding: 0 6px 0 24px;
+
+          h6 {
+            color: #70899E;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            padding: 8px 0 0;
+          }
+
+          table {
+            tr {
+              td {
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 32px;
+                color: #004A89;
+
+                &:last-child {
+                  color: #39CABC;
+                  font-weight: 700;
+                  text-align: center;
+                }
+              }
+            }
+          }
         }
       }
     }
