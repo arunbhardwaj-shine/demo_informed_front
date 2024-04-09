@@ -937,8 +937,9 @@ const Routing = () => {
               path="/webinar/email/smartlist/verifylist"
               element={<LoginLayout component={WebinarSmartlistVerifyList} />}
             />
+        {/* Webinar Analytics */}
       </Routes>
-
+     
       
     </Router>
   );
