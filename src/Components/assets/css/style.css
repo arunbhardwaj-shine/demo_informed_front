@@ -6836,6 +6836,11 @@ a.color_blue:hover {
   justify-content: flex-start;
   padding: 15px 15px 15px 9%;
 }
+.email-result .email_box_block.no_found_dlt {
+  width: 100%;
+  justify-content: center;
+  padding: 15px;
+}
 
 .search-hcp .search-hcp-table-inside.not-found {
   text-align: center;
