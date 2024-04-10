@@ -400,7 +400,7 @@ const Header = () => {
                     window.location.pathname == "/webinar/live-stream/contact-dm" ||
                     window.location.pathname == "/webinar/live-stream/speaker-zone" ||
                     window.location.pathname == "/webinar/live-stream/settings" ||
-                    window.location.pathname == "/webinar/live-stream/chat-link" ||
+                    window.location.pathname == "/webinar/live-stream/chat-link" || window.location.pathname == "/webinar/live-stream/survey/question-data" ||
                     window.location.pathname == "/webinar/analytics" ||
                     window.location.pathname == "/webinar/event-listing"||
                     window.location.pathname == "/webinar/email/auto-emails"||

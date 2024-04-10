@@ -1644,7 +1644,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
                 window.location.pathname == "/webinar/live-stream/polls-layout" ||
-                window.location.pathname == "/survey/question-data" ||
+                window.location.pathname == "/webinar/live-stream/survey/question-data" ||
                 window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
                 (
@@ -1843,7 +1843,7 @@ const Sidebar = () => {
                   window.location.pathname == "/webinar/email" ||
                   window.location.pathname == "/webinar/live-stream" ||
                   window.location.pathname == "/webinar/live-stream/polls-layout" ||
-                  window.location.pathname == "/survey/question-data" ||
+                  window.location.pathname == "/webinar/live-stream/survey/question-data" ||
                   window.location.pathname == "/webinar/live-stream/chat-link" ||
                   window.location.pathname == "/webinar/analytics" ?
                   (

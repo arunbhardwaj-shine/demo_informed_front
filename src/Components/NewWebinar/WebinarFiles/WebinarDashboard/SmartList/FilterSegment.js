@@ -1227,10 +1227,12 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
-  const sendDataToParent = (childData, flag) => {
+  const sendDataToParent = (childData, flag,deleteUser) => {
     if (flag == "existing") {
       setFilterData(childData);
-      setTotalLostCount(totalLostCount-1)
+      if(deleteUser=="existingUser"){
+        setTotalLostCount(totalLostCount-1)
+      }      
     } else if (flag == "new") {
       setNewAddedUser(childData);
     }
