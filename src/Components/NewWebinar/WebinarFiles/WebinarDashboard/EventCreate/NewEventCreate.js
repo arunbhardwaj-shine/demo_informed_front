@@ -64,10 +64,11 @@ const NewEventCreate = () => {
   const [sorting, setSorting] = useState(0);
   const [sortingCreateCount, setSortingCreateCount] = useState(0);
   const [sortingCreate, setSortingCreate] = useState(0);
+  const switch_account_detail=JSON.parse(localStorage.getItem("switch_account_detail"))
   useEffect(() => {
     getWebinarFilterData();
     getDataFromApi(page);
-  }, []);
+  }, [switch_account_detail?.user_id]);
   const getWebinarFilterData = async () => {
     try {
       loader("show");
@@ -106,9 +107,7 @@ const NewEventCreate = () => {
               : [{ speakerName: "N/A" }];
           }
         });
-        setSpeakerName(speakerName);
-
-     
+        setSpeakerName(speakerName);     
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
@@ -1323,7 +1322,9 @@ const getEventTime=(timeZone)=> {
                                 </div>
                                 <div className="speaker-name">
                                   <span>Owner</span>{" "}
-                                  {localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""}
+                                  {switch_account_detail &&switch_account_detail!=null&&switch_account_detail!="undefined"
+                                  ?switch_account_detail?.name
+                                  :localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""}
                                 </div>
                               </div>
                               <div className="event-details d-flex justify-content-end align-items-center">

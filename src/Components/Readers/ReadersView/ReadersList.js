@@ -3426,6 +3426,7 @@ const NewReaders = () => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
+        onCloseCross={hideConfirmationModal}
         fun={commonConfirmModelFun}
         popupMessage={popupMessage}
         path_image={path_image}

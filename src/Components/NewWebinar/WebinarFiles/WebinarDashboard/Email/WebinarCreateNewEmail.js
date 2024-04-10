@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Col } from "react-bootstrap";
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import axios from "axios";
 import { loader } from "../../../../../loader";
@@ -11,7 +11,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { Editor } from "@tinymce/tinymce-react";
 import { Modal } from "react-bootstrap";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
-import { connect,useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { getWebinarEmailData, getWebinarCampaignId, getWebinarDraftData } from '../../../../../actions'
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -25,7 +25,11 @@ const WebinarCreateNewEmail = (props) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
     const location = useLocation();
-    const dispatch =useDispatch();
+    const dispatch = useDispatch();
+    const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+    const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+    ? switch_account_detail?.user_id
+    : localStorage.getItem("user_id"))
     const [percent, setPercent] = useState(0);
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
@@ -83,7 +87,7 @@ const WebinarCreateNewEmail = (props) => {
                 : ""
     );
 
-    const [manualEmailDescription,setManualEmailDescription]=useState("")
+    const [manualEmailDescription, setManualEmailDescription] = useState("")
 
     const [emailCreator, setEmailCreator] = useState(
         state_object != null &&
@@ -104,7 +108,7 @@ const WebinarCreateNewEmail = (props) => {
                 ? props?.getWebinarDraftData?.subject
                 : ""
     );
-    const [firstTimeLoad,setFirstTimeLoad]=useState(location?.state?.flag==1?true:false)
+    const [firstTimeLoad, setFirstTimeLoad] = useState(location?.state?.flag == 1 ? true : false)
     const [firstTimeEmailSubject, setFirstTimeEmailSubject] = useState(
         state_object != null &&
             state_object != "undefined" &&
@@ -154,11 +158,11 @@ const WebinarCreateNewEmail = (props) => {
             country: "",
             countryIndex: "",
             role:
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                     ? "yes"
                     : "",
             institutionType: "",
@@ -191,6 +195,7 @@ const WebinarCreateNewEmail = (props) => {
     const [showPreogressBar, setShowProgressBar] = useState(false);
     const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
     const [mailsIncrement, setMailsIncrement] = useState(0);
+   
 
     useEffect(() => {
         if (addListOpen == true) {
@@ -206,10 +211,10 @@ const WebinarCreateNewEmail = (props) => {
     const getSmartListData = (flag) => {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
-            user_id: localStorage.getItem("user_id"),
+            user_id: localStorageUserId,
             search: getsearch,
             filter: "",
-            event_id:eventId
+            event_id: eventId
         };
         loader("show");
         axios
@@ -230,15 +235,15 @@ const WebinarCreateNewEmail = (props) => {
 
     useEffect(() => {
         loader("show");
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorageUserId== "56Ek4feL/1A8mZgIKQWEqg==") {
             axiosFun();
         }
         getalCountry();
-        
+
     }, []);
 
     useEffect(() => {
-       
+
         if (
             typeof props !== "undefined" &&
             props !== null &&
@@ -309,7 +314,7 @@ const WebinarCreateNewEmail = (props) => {
 
     useEffect(() => {
         const body = {
-            user_id: localStorage.getItem("user_id"),
+            user_id: localStorageUserId
         };
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -351,7 +356,7 @@ const WebinarCreateNewEmail = (props) => {
     };
     const getalCountry = async () => {
         const body = {
-            user_id: localStorage.getItem("user_id"),
+            user_id: localStorageUserId,
             language: "",
             ibu: "",
         };
@@ -372,7 +377,7 @@ const WebinarCreateNewEmail = (props) => {
                         });
                     });
                     setCountryall(arr);
-                    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
                         let investigator_type =
                             res?.data?.response?.data?.investigator_type;
                         let newType = [];
@@ -429,7 +434,7 @@ const WebinarCreateNewEmail = (props) => {
         }
     }
 
-    
+
 
     const showMoreInfo = (e) => {
         e.preventDefault();
@@ -473,7 +478,7 @@ const WebinarCreateNewEmail = (props) => {
         setShowLessInfo(true);
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
-            user_id: localStorage.getItem("user_id"),
+            user_id: localStorageUserId,
             list_id: smart_list_id,
             show_specific: 1,
         };
@@ -509,64 +514,64 @@ const WebinarCreateNewEmail = (props) => {
 
         // if (typeof campaign !== "undefined" && campaign !== "") {
 
-            let up_temp = template;
-            if (editorRef.current) {
-                up_temp = editorRef.current.getContent();
-            }
+        let up_temp = template;
+        if (editorRef.current) {
+            up_temp = editorRef.current.getContent();
+        }
 
-            const body = {
-                pdf_id:0,
-                user_id: localStorage.getItem("user_id"),
-                event_id: eventId,
-                description: props?.getWebinarEmailData
-                    ? emailDescription
-                    : props?.getWebinarDraftData?.description,
-                creator: props?.getWebinarEmailData ? emailCreator : props.getWebinarDraftData?.creator,
-                // campaign_name: props?.getWebinarEmailData
-                //     ? emailCampaign
-                //     : props?.getWebinarDraftData?.campaign,
-                campaign_name: "webinar",
-                subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
-                route_location: "webinar/email/create-new-email",
-                tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
-                campaign_data: {
-                    template_id: props?.getWebinarEmailData
-                        ? templateId
-                        : props?.getWebinarDraftData?.template_id,
-                },
+        const body = {
+            pdf_id: 0,
+            user_id: localStorageUserId,
+            event_id: eventId,
+            description: props?.getWebinarEmailData
+                ? emailDescription
+                : props?.getWebinarDraftData?.description,
+            creator: props?.getWebinarEmailData ? emailCreator : props.getWebinarDraftData?.creator,
+            // campaign_name: props?.getWebinarEmailData
+            //     ? emailCampaign
+            //     : props?.getWebinarDraftData?.campaign,
+            campaign_name: "webinar",
+            subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
+            route_location: "webinar/email/create-new-email",
+            tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
+            campaign_data: {
+                template_id: props?.getWebinarEmailData
+                    ? templateId
+                    : props?.getWebinarDraftData?.template_id,
+            },
 
-                campaign_id: campaign_id_st,
-                source_code: up_temp,
-                status: 2,
-                auto_responder_id:props?.getWebinarEmailData
+            campaign_id: campaign_id_st,
+            source_code: up_temp,
+            status: 2,
+            auto_responder_id: props?.getWebinarEmailData
                 ? templateId
                 : props?.getWebinarDraftData?.template_id
-            };
-            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            loader("show");
-            await axios
-                .post(`emailapi/save_draft`, body)
-                .then((res) => {
-                    if (res?.data?.status_code === 200) {
-                        setCampaign_id(res?.data?.response?.data?.id);
-                        popup_alert({
-                            visible: "show",
-                            message: "Your changes has been saved <br />successfully !",
-                            type: "success",
-                            redirect: "/webinar/email",
-                        });
-                        // toast.success("Draft saved");
-                    } else {
-                        toast.warning(res?.data?.message);
-                    }
-                    loader("hide");
-                })
-                .catch((err) => {
-                    toast.error("Something went wrong");
-                });
+        };
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+            .post(`emailapi/save_draft`, body)
+            .then((res) => {
+                if (res?.data?.status_code === 200) {
+                    setCampaign_id(res?.data?.response?.data?.id);
+                    popup_alert({
+                        visible: "show",
+                        message: "Your changes has been saved <br />successfully !",
+                        type: "success",
+                        redirect: "/webinar/email",
+                    });
+                    // toast.success("Draft saved");
+                } else {
+                    toast.warning(res?.data?.message);
+                }
+                loader("hide");
+            })
+            .catch((err) => {
+                toast.error("Something went wrong");
+            });
         // } else {
-            // event.preventDefault();
-            // toast.error("Plese select Email Campaign first");
+        // event.preventDefault();
+        // toast.error("Plese select Email Campaign first");
         // }
     };
     const nextClicked = () => {
@@ -586,7 +591,7 @@ const WebinarCreateNewEmail = (props) => {
                 templateId: templateId,
                 tags: tags,
                 template: template,
-                event_id:eventId,
+                event_id: eventId,
                 campaign_id: campaign_id_st,
             });
 
@@ -597,25 +602,25 @@ const WebinarCreateNewEmail = (props) => {
         }
     };
     const templateClicked = (template, e,) => {
-        console.log("in template clicked-->",template?.id)
+        console.log("in template clicked-->", template?.id)
         // const div = document.querySelector("img.select_mm");
 
         // if (div) {
         //     div.classList.remove("select_mm");
         // }
 
-      
-        if(firstTimeLoad){
+
+        if (firstTimeLoad) {
             const div = document.querySelector("img.select_mm");
 
-        if (div) {
-            div.classList.remove("select_mm");
-        }
+            if (div) {
+                div.classList.remove("select_mm");
+            }
             setEmailSubject(template?.subject);
-            setEmailDescription(manualEmailDescription?manualEmailDescription:template?.description)
+            setEmailDescription(manualEmailDescription ? manualEmailDescription : template?.description)
             setTemplateId(template?.id);
             templateIdRef.current = template?.id;
-    
+
             setTemplateName(template?.subject);
             setTemplate(template?.template);
             e.target.classList.toggle("select_mm");
@@ -645,7 +650,7 @@ const WebinarCreateNewEmail = (props) => {
         // tagClickedFirst.splice(index, 1);
     };
     const emailSubjectChanged = (e) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
             setemailCampaign(e?.target?.value);
             setEmailCreator("Octapharma R&D");
             setEmailDescription(e?.target?.value);
@@ -689,9 +694,9 @@ const WebinarCreateNewEmail = (props) => {
         });
 
         const body = {
-            pdf_id:0,
-            user_id: localStorage.getItem("user_id"),
-            event_id:eventId,
+            pdf_id: 0,
+            user_id: localStorageUserId,
+            event_id: eventId,
             description: props?.getWebinarEmailData
                 ? emailDescription
                 : props?.getWebinarDraftData?.description,
@@ -699,7 +704,7 @@ const WebinarCreateNewEmail = (props) => {
             // campaign_name: props?.getWebinarEmailData
             //     ? emailCampaign
             //     : props?.getWebinarDraftData?.campaign,
-            campaign_name:"webinar",
+            campaign_name: "webinar",
             subject: props?.getWebinarEmailData ? emailSubject : props?.getWebinarDraftData?.subject,
             route_location: "webinar/email/create-new-email",
             tags: props?.getWebinarEmailData ? tagss : props?.getWebinarDraftData?.tags,
@@ -712,9 +717,9 @@ const WebinarCreateNewEmail = (props) => {
             campaign_id: campaign_id_st,
             status: ab,
             approved_page: 1,
-            auto_responder_id:props?.getWebinarEmailData
-            ? templateId
-            : props?.getWebinarDraftData?.template_id
+            auto_responder_id: props?.getWebinarEmailData
+                ? templateId
+                : props?.getWebinarDraftData?.template_id
         };
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -726,12 +731,12 @@ const WebinarCreateNewEmail = (props) => {
 
                 setCampaign_id(res?.data?.response?.data?.id);
                 if (res?.data?.status_code === 200) {
-                    dispatch(getWebinarDraftData({...props.getWebinarDraftData,status:ab}));
+                    dispatch(getWebinarDraftData({ ...props.getWebinarDraftData, status: ab }));
                     if (ab === 3) {
-                        
+
                         toast.success("Approved Draft saved");
                     } else {
-                        
+
                         toast.success("Draft saved");
                     }
                 } else {
@@ -774,7 +779,7 @@ const WebinarCreateNewEmail = (props) => {
                 let newLink = url?.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
                 const baseLink =
-                "https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
+                    "https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
                 let payload = {}
                 let apiLink = ""
 
@@ -807,18 +812,18 @@ const WebinarCreateNewEmail = (props) => {
 
                         if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
                             if (!window.confirm("Are you sure you want to remove the tracking?")) {
-                              return;
-                          }
-                                          const urlParams = new URLSearchParams(newLink.value);
-                                          const redirectUrl = urlParams.get('redirect_url');
-                                          const trackingCode = urlParams.get('tracking_code');
-                                          firstToxControlWrap.value = redirectUrl;
-                                          payload = {
-                                            email_autoresponder_id: templateIdRef.current,
-                                              url_code: trackingCode,
-                                          };
-                                      }
-                                      
+                                return;
+                            }
+                            const urlParams = new URLSearchParams(newLink.value);
+                            const redirectUrl = urlParams.get('redirect_url');
+                            const trackingCode = urlParams.get('tracking_code');
+                            firstToxControlWrap.value = redirectUrl;
+                            payload = {
+                                email_autoresponder_id: templateIdRef.current,
+                                url_code: trackingCode,
+                            };
+                        }
+
                         if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
                             if (!newLink?.value) {
                                 alert("Please enter a link")
@@ -841,7 +846,7 @@ const WebinarCreateNewEmail = (props) => {
                                 url_code: `clicked_track_doc_${currentTimestamp}`,
                             };
                             linkingPayload.current = payload;
-                            let link = `https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`;                            firstToxControlWrap.value = link;
+                            let link = `https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`; firstToxControlWrap.value = link;
 
                         }
 
@@ -961,7 +966,7 @@ const WebinarCreateNewEmail = (props) => {
             toast.warning("Please enter name or email first");
         } else {
             const body = {
-                user_id: localStorage.getItem("user_id"),
+                user_id: localStorageUserId,
                 name: name,
                 email: email,
             };
@@ -997,11 +1002,11 @@ const WebinarCreateNewEmail = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
                 institutionType: "",
@@ -1065,78 +1070,78 @@ const WebinarCreateNewEmail = (props) => {
         setIsOpensend(false);
         setIsOpenAdd(false);
         if (pdf_id == 13) {
-          popup_alert({
-            visible: "show",
-            message:
-              "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
-            type: "error",
-          });
-        } else {
-          let selected_ids = selectedHcp?.map(
-            (number) => number["user_id"] || number["profile_user_id"]
-          );
-    
-          //  loader("show");
-          setShowProgressBar(true);
-          const body = {
-            user_id: localStorage?.getItem("user_id"),
-            // pdf_id: state_object?.PdfSelected
-            //   ? state_object?.PdfSelected
-            //   : props?.getDraftData?.pdf_id,
-            event_id:eventId,
-            subject: emailSubject,
-            template_id: templateId,
-            user_list: selected_ids,
-            smartlist_id: "",
-            source_code: template,
-          };
-    
-         
-          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    
-          axios
-            .post(`webinar/send_sample_email`, body)
-            .then((res) => {
-              loader("hide");
-              if (res?.data?.status_code === 200) {
-                setUploadOrDownloadCount(100);
-                setMailsIncrement(selectedHcp?.length);
-                clearInterval(timer);
-                setTimeout(() => {
-                  popup_alert({
-                    visible: "show",
-                    message: "Email sent successfully",
-                    type: "success",
-                  });
-                  setName("")
-              setEmail("")
-                  setShowProgressBar(false);
-                  setUploadOrDownloadCount(0);
-                  setMailsIncrement(0);
-                }, 1000);
-              } else {
-                clearInterval(timer);
-                setUploadOrDownloadCount(0);
-                setMailsIncrement(0);
-    
-                setShowProgressBar(false);
-                popup_alert({
-                  visible: "show",
-                  message: res?.data?.message,
-                  type: "error",
-                });
-              }
-            })
-            .catch((err) => {
-              clearInterval(timer);
-              setShowProgressBar(false);
-              loader("hide");
-              toast.error("Something went wrong");
-              console.log(err);
+            popup_alert({
+                visible: "show",
+                message:
+                    "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
+                type: "error",
             });
-    
-          setSelectedHcp([]);
-          setSearchedUsers([]);
+        } else {
+            let selected_ids = selectedHcp?.map(
+                (number) => number["user_id"] || number["profile_user_id"]
+            );
+
+            //  loader("show");
+            setShowProgressBar(true);
+            const body = {
+                user_id: localStorageUserId,
+                // pdf_id: state_object?.PdfSelected
+                //   ? state_object?.PdfSelected
+                //   : props?.getDraftData?.pdf_id,
+                event_id: eventId,
+                subject: emailSubject,
+                template_id: templateId,
+                user_list: selected_ids,
+                smartlist_id: "",
+                source_code: template,
+            };
+
+
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+            axios
+                .post(`webinar/send_sample_email`, body)
+                .then((res) => {
+                    loader("hide");
+                    if (res?.data?.status_code === 200) {
+                        setUploadOrDownloadCount(100);
+                        setMailsIncrement(selectedHcp?.length);
+                        clearInterval(timer);
+                        setTimeout(() => {
+                            popup_alert({
+                                visible: "show",
+                                message: "Email sent successfully",
+                                type: "success",
+                            });
+                            setName("")
+                            setEmail("")
+                            setShowProgressBar(false);
+                            setUploadOrDownloadCount(0);
+                            setMailsIncrement(0);
+                        }, 1000);
+                    } else {
+                        clearInterval(timer);
+                        setUploadOrDownloadCount(0);
+                        setMailsIncrement(0);
+
+                        setShowProgressBar(false);
+                        popup_alert({
+                            visible: "show",
+                            message: res?.data?.message,
+                            type: "error",
+                        });
+                    }
+                })
+                .catch((err) => {
+                    clearInterval(timer);
+                    setShowProgressBar(false);
+                    loader("hide");
+                    toast.error("Something went wrong");
+                    console.log(err);
+                });
+
+            setSelectedHcp([]);
+            setSearchedUsers([]);
         }
     };
 
@@ -1151,12 +1156,12 @@ const WebinarCreateNewEmail = (props) => {
                 contact_type: "",
                 country: "",
                 role:
-                    localStorage.getItem("user_id") ==
+                localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    localStorage.getItem("user_id") ==
+                localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
@@ -1174,7 +1179,7 @@ const WebinarCreateNewEmail = (props) => {
     const saveClicked = async () => {
         if (activeManual == "active") {
             const body_data = hpc?.map((data) => {
-                if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
                     return {
                         first_name: data?.firstname,
                         last_name: data?.lastname,
@@ -1202,7 +1207,7 @@ const WebinarCreateNewEmail = (props) => {
 
             const body = {
                 data: body_data,
-                user_id: localStorage.getItem("user_id"),
+                user_id: localStorageUserId,
                 smart_list_id: "",
             };
 
@@ -1213,11 +1218,11 @@ const WebinarCreateNewEmail = (props) => {
                     ((data?.last_name == "" ||
                         data?.first_name == "" ||
                         data?.country == "") &&
-                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
+                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==")
                 ) {
                     if (
                         data?.first_name == "" &&
-                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                     ) {
                         setValidationError({
                             newHcpFirstName: "Please enter the first name",
@@ -1227,7 +1232,7 @@ const WebinarCreateNewEmail = (props) => {
                     }
                     if (
                         data?.last_name == "" &&
-                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                     ) {
                         setValidationError({
                             newHcpLastName: "Please enter the last name",
@@ -1254,7 +1259,7 @@ const WebinarCreateNewEmail = (props) => {
 
                     if (
                         data?.country == "" &&
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
+                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==")
                     ) {
                         setValidationError({
                             newHcpCountry: "Please select the country",
@@ -1263,7 +1268,7 @@ const WebinarCreateNewEmail = (props) => {
                         return;
                     }
 
-                    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
                         if (data?.institution_type == "") {
                             setValidationError({
                                 newHcpInstitution: "Please enter the institution ",
@@ -1272,7 +1277,7 @@ const WebinarCreateNewEmail = (props) => {
                             return;
                         }
                     }
-                } else if (data?.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+                } else if (data?.country == "" && localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
                     setValidationError({
                         newHcpCountry: "Please select the country",
                         index: index,
@@ -1319,7 +1324,7 @@ const WebinarCreateNewEmail = (props) => {
                             res?.data?.response?.data?.map((data) => {
                                 setSelectedHcp((oldArray) => [...oldArray, data]);
                             });
-                           
+
                             setIsOpenAdd(false);
                             setIsOpensend(true);
                             setValidationError({})
@@ -1341,7 +1346,7 @@ const WebinarCreateNewEmail = (props) => {
             }
         } else {
             let formData = new FormData();
-            let user_id = localStorage.getItem("user_id");
+            let user_id = localStorageUserId;
             formData.append("user_id", user_id);
             formData.append("smart_list_id", "");
             formData.append("reader_file", selectedFile);
@@ -1385,7 +1390,7 @@ const WebinarCreateNewEmail = (props) => {
         setTemplatePopup(false);
     };
     const saveAsTemplateButtonClicked = async () => {
-       
+
         let template_id = props?.getWebinarEmailData
             ? templateId
             : props?.getWebinarDraftData.template_id;
@@ -1399,33 +1404,33 @@ const WebinarCreateNewEmail = (props) => {
             template_id != 0
         ) {
             const body = {
-                user_id: localStorage.getItem("user_id"),
+                user_id: localStorageUserId,
                 source_code: source,
                 template_id: templateId,
                 name: templateName,
                 status: 2,
-                event_id:eventId
+                event_id: eventId
             };
 
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
-              await axios
+            await axios
                 .post(`webinar/add_update_template`, body)
                 .then(async (res) => {
-                  if (res.data.status_code === 200) {
-                   await  getTemplateListData(1);
+                    if (res.data.status_code === 200) {
+                        await getTemplateListData(1);
 
-                    loader("hide");
-                    
-                    toast.success("Template saved successfully");
-                  } else {
-                    loader("hide");
-                    toast.warning("Template not selected.");
-                  }
+                        loader("hide");
+
+                        toast.success("Template saved successfully");
+                    } else {
+                        loader("hide");
+                        toast.warning("Template not selected.");
+                    }
                 })
                 .catch((err) => {
-                  loader("hide");
-                  toast.error("Something went wrong");
+                    loader("hide");
+                    toast.error("Something went wrong");
                 });
             setNewTemplatePopup(false);
             setTemplatePopup(false);
@@ -1444,7 +1449,7 @@ const WebinarCreateNewEmail = (props) => {
 
     const savenewtemplate = async (e) => {
         e.preventDefault();
-        
+
         let template_subject = document.getElementById("template_subject").value?.trim();
         let template_description = document.getElementById("template_description").value?.trim();
         let template_id = props?.getWebinarEmailData
@@ -1461,49 +1466,48 @@ const WebinarCreateNewEmail = (props) => {
         ) {
             if (template_description !== "" && template_description?.trim()?.length > 0 && template_subject !== "" && template_subject?.trim()?.length > 0) {
                 const body = {
-                    user_id: localStorage.getItem("user_id"),
+                    user_id: localStorageUserId,
                     source_code: source,
                     template_id: "",
                     name: template_subject,
                     subject: template_subject,
-                    description:template_description,
+                    description: template_description,
                     status: 1,
-                    event_id:eventId
+                    event_id: eventId
                 };
 
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 await axios
-                  .post(`webinar/add_update_template`, body)
-                  .then((res) => {
-                    if (res?.data?.status_code === 200) {
-                      getTemplateListData(1);
-                      setTemplateId(res?.data?.response?.data?.last_id);
-                      templateIdRef.current = res?.data?.response?.data?.last_id;
-                    } else {
-                      loader("hide");
-                      toast.warning("Template not selected.");
-                    }
-                  })
-                  .catch((err) => {
-                    loader("hide");
-                    toast.error("Something went wrong");
-                  });
+                    .post(`webinar/add_update_template`, body)
+                    .then((res) => {
+                        if (res?.data?.status_code === 200) {
+                            getTemplateListData(1);
+                            setTemplateId(res?.data?.response?.data?.last_id);
+                            templateIdRef.current = res?.data?.response?.data?.last_id;
+                        } else {
+                            loader("hide");
+                            toast.warning("Template not selected.");
+                        }
+                    })
+                    .catch((err) => {
+                        loader("hide");
+                        toast.error("Something went wrong");
+                    });
                 setNewTemplatePopup(false);
                 setTemplatePopup(false);
             } else {
-                let error={}
+                let error = {}
 
-                if(template_description == "" && template_description?.trim()?.length <= 0)
-                {
+                if (template_description == "" && template_description?.trim()?.length <= 0) {
                     toast.warning("Please enter template description.");
-                    error.newTemplateDescription="Please enter template description"
+                    error.newTemplateDescription = "Please enter template description"
 
 
                 }
-                else{
+                else {
                     toast.warning("Please enter template subject.");
-                    error.newTemplateSubject="Please enter template subject"
+                    error.newTemplateSubject = "Please enter template subject"
 
 
                 }
@@ -1569,7 +1573,7 @@ const WebinarCreateNewEmail = (props) => {
                 setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
                 const body = {
-                    user_id: localStorage.getItem("user_id"),
+                    user_id: localStorageUserId,
                     tags: newTag,
                 };
 
@@ -1577,14 +1581,14 @@ const WebinarCreateNewEmail = (props) => {
                 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 await axios
-                  .post(`emailapi/save_tags`, body)
-                  .then((res) => {
-                    loader("hide");
-                  })
-                  .catch((err) => {
-                    loader("hide");
-                    console.log(err);
-                  });
+                    .post(`emailapi/save_tags`, body)
+                    .then((res) => {
+                        loader("hide");
+                    })
+                    .catch((err) => {
+                        loader("hide");
+                        console.log(err);
+                    });
 
             } else {
                 toast.error("Tag already in list.");
@@ -1610,7 +1614,7 @@ const WebinarCreateNewEmail = (props) => {
         if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
             //   loader("show");
             const body = {
-                user_id: localStorage.getItem("user_id"),
+                user_id:localStorageUserId,
                 list_id: getSmartListId,
                 show_specific: 1,
             };
@@ -1647,15 +1651,15 @@ const WebinarCreateNewEmail = (props) => {
         setIsOpensend(true);
         setAddListOpen(false);
     };
-    const viewSmartListData = async(id) => {
+    const viewSmartListData = async (id) => {
         setAddListOpen(false);
         setSelectedListId(id);
-      }
-    
-      const closeSmartListPopup = async() => {
+    }
+
+    const closeSmartListPopup = async () => {
         setSelectedListId(0);
         setAddListOpen(true);
-      }
+    }
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -1682,9 +1686,9 @@ const WebinarCreateNewEmail = (props) => {
                                         </li>
                                         <li className="">
                                             <a href="javascript:void(0)">
-                                                {localStorage.getItem("user_id") == userId
-                                                    ? "Select Users"
-                                                    : "Select HCPs"}
+                                                {localStorageUserId == userId
+                                                        ? "Select Users"
+                                                        : "Select HCPs"}
                                             </a>
                                         </li>
                                         <li className="javascript:void(0)">
@@ -1707,12 +1711,12 @@ const WebinarCreateNewEmail = (props) => {
                                         <button
                                             className="btn btn-primary btn-filled next"
                                             onClick={nextClicked}
-                                        disabled={
-                                            typeof emailSubject == "undefined" ||
-                                            emailSubject?.trim()?.length == 0 ||
-                                            typeof templateId == "undefined" ||
-                                            templateId == ""
-                                        }
+                                            disabled={
+                                                typeof emailSubject == "undefined" ||
+                                                emailSubject?.trim()?.length == 0 ||
+                                                typeof templateId == "undefined" ||
+                                                templateId == ""
+                                            }
                                         >
                                             Next
                                         </button>
@@ -1759,7 +1763,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                     : ""
                                                             }
                                                         />
-                                                       
+
                                                         <p>{template?.subject}</p>
                                                     </div>
                                                 </>
@@ -1772,11 +1776,11 @@ const WebinarCreateNewEmail = (props) => {
 
                                     <div className="email-form padding-add">
                                         <form>
-                                            {localStorage.getItem("user_id") !=
+                                            {localStorageUserId !=
                                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                 <>
                                                     <div className="form-inline d-flex justify-content-between align-items-center">
-                                                            <div className="form-group col-12 col-md-7 d-flex align-items-center">
+                                                        <div className="form-group col-12 col-md-7 d-flex align-items-center">
                                                             <label htmlFor="exampleInputEmail1">
                                                                 Email Description <span>*</span>{" "}
                                                             </label>
@@ -1805,7 +1809,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 "required"
                                                             )}
                                                         </div>
-                                                            <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
+                                                        <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
                                                             <label htmlFor="exampleInputEmail1">
                                                                 Email Creator <span>*</span>
                                                             </label>
@@ -2291,7 +2295,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 Email | <span>{data?.email}</span>
                                                             </p>
 
-                                                            {localStorage.getItem("user_id") ===
+                                                            {localStorageUserId ===
                                                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                                 <p className="send-hcp-box-title">
                                                                     {" "}
@@ -2442,13 +2446,13 @@ const WebinarCreateNewEmail = (props) => {
                                         className="form-control"
                                         id="template_subject"
                                     />
-                                       {validationError?.newTemplateSubject ? (
-                              <div className="login-validation">
-                                {validationError?.newTemplateSubject}
-                              </div>
-                            ) : null}
+                                    {validationError?.newTemplateSubject ? (
+                                        <div className="login-validation">
+                                            {validationError?.newTemplateSubject}
+                                        </div>
+                                    ) : null}
                                 </div>
-                             
+
                                 <div className="form-group">
                                     <label>Enter template description<span>*</span></label>
                                     <input
@@ -2456,13 +2460,13 @@ const WebinarCreateNewEmail = (props) => {
                                         className="form-control"
                                         id="template_description"
                                     />
-                                     {validationError?.newTemplatedescription ? (
-                              <div className="login-validation">
-                                {validationError?.newTemplatedescription}
-                              </div>
-                            ) : null}
+                                    {validationError?.newTemplatedescription ? (
+                                        <div className="login-validation">
+                                            {validationError?.newTemplatedescription}
+                                        </div>
+                                    ) : null}
                                 </div>
-                               
+
                                 <button
                                     type="submit"
                                     className="btn btn-primary btn-filled"
@@ -2642,25 +2646,25 @@ const WebinarCreateNewEmail = (props) => {
                                             <div className="smartlist_box_block new-smartlist" key={index}>
                                                 <div className="smartlist-view email_box">
                                                     <div className="mail-box-content">
-                                                    <div className="mail-box-conten-title">
-                                                        <h5>{data.name}</h5>
-                                                        <div className="select-mail-option">
-                                                            <input
-                                                                type="radio"
-                                                                name="radio"
-                                                                onClick={(e) => handleSelect(data, e)}
-                                                                checked={
-                                                                    typeof getSmartListId !== "undefined" &&
-                                                                        getSmartListId !== 0 &&
-                                                                        getSmartListId == data?.id
-                                                                        ? "checked"
-                                                                        : ""
-                                                                }
-                                                            />
-                                                            <span className="checkmark"></span>
+                                                        <div className="mail-box-conten-title">
+                                                            <h5>{data.name}</h5>
+                                                            <div className="select-mail-option">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="radio"
+                                                                    onClick={(e) => handleSelect(data, e)}
+                                                                    checked={
+                                                                        typeof getSmartListId !== "undefined" &&
+                                                                            getSmartListId !== 0 &&
+                                                                            getSmartListId == data?.id
+                                                                            ? "checked"
+                                                                            : ""
+                                                                    }
+                                                                />
+                                                                <span className="checkmark"></span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                        <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1}/>
+                                                        <SmartListLayout data={data} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} webinarFlag={1} />
 
                                                         {/* <div className="mailbox-table">
                                                             <table>
@@ -2849,7 +2853,7 @@ const WebinarCreateNewEmail = (props) => {
                                                 <th scope="col">Bounced</th>
                                                 <th scope="col">Country</th>
 
-                                                {localStorage.getItem("user_id") ==
+                                                {localStorageUserId ==
                                                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                     <>
                                                         <th scope="col">IRT mandatory training</th>
@@ -2885,7 +2889,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                                                                 <td>{rr?.country ? rr?.country : "N/A"}</td>
                                                                 <td>
-                                                                    {localStorage.getItem("user_id") ==
+                                                                    {localStorageUserId ==
                                                                         "56Ek4feL/1A8mZgIKQWEqg=="
                                                                         ? rr.irt
                                                                             ? "Yes"
@@ -2896,7 +2900,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                     {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                                                 </td>
                                                                 <td>
-                                                                    {localStorage.getItem("user_id") ==
+                                                                    {localStorageUserId ==
                                                                         "56Ek4feL/1A8mZgIKQWEqg=="
                                                                         ? rr?.user_type != 0
                                                                             ? rr?.user_type
@@ -2989,10 +2993,10 @@ const WebinarCreateNewEmail = (props) => {
                 {/*Reader Details popup end*/}
             </div>
             {
-        selectedListId ?
-         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
-         : null
-      }
+                selectedListId ?
+                    <SmartListTableLayout id={selectedListId} closeSmartListPopup={closeSmartListPopup} />
+                    : null
+            }
         </>)
 }
 
@@ -3005,5 +3009,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     getWebinarEmailData: getWebinarEmailData,
     getWebinarCampaignId: getWebinarCampaignId,
-    
+
 })(WebinarCreateNewEmail);

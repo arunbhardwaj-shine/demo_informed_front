@@ -23,6 +23,10 @@ import EditContactType from "../../../../CommonComponent/EditContactType";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
@@ -111,12 +115,12 @@ const Table = (props, ref) => {
   );
   
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
     }
     const getalCountry = async () => {
       let body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
       };
       await axios
         .post(`distributes/filters_list`, body)
@@ -147,7 +151,7 @@ const Table = (props, ref) => {
 
             let arr = [];
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -186,7 +190,7 @@ const Table = (props, ref) => {
               });
             });
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -272,7 +276,7 @@ const Table = (props, ref) => {
             }
 
             setCountryall(arr);
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
@@ -320,19 +324,19 @@ const Table = (props, ref) => {
       country: "",
       countryIndex: "",
       siteIrt:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
           : "",
       siteIrtIndex:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
       userType:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ? irtRole?.[0]?.value
           : "",
       userTypeIndex:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
+      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
     },
   ]);
 
@@ -607,7 +611,7 @@ const Table = (props, ref) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
       };
       await axios
         .post(`distributes/filters_list`, body)
@@ -654,19 +658,19 @@ const Table = (props, ref) => {
         country: "",
         countryIndex: "",
         userType:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
         userTypeIndex:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? 0
             : "",
         siteIrt:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
             : "",
         siteIrtIndex:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
       },
@@ -716,7 +720,7 @@ const Table = (props, ref) => {
       setShowUploadMenu(!showUploadMenu);
 
       let formData = new FormData();
-      let user_id = localStorage.getItem("user_id");
+      let user_id = localStorageUserId;
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -821,7 +825,7 @@ const Table = (props, ref) => {
       body = {
         user_list: profile_user_id_array,
         smart_list_id: typeof getlistid !== "undefined" ? getlistid : "",
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         smart_list_name: getlistname,
         submit_type: props.upload_by_filter,
         new_users_list: new_user_id_array,
@@ -846,7 +850,7 @@ const Table = (props, ref) => {
         user_list: profile_user_id_array,
         smart_list_id:
           typeof queryParams.listId !== "undefined" ? queryParams.listId : "",
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         smart_list_name: props.smartListName,
         submit_type: props.upload_by_filter,
         new_users_list: new_user_id_array,
@@ -1031,7 +1035,7 @@ const Table = (props, ref) => {
       });
 
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         edit_list_array: editableData,
       };
 
@@ -1085,7 +1089,7 @@ const Table = (props, ref) => {
     profile_user_id,
   }) => {
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       profile_user_id: profile_user_id,
       profile_id: profile_id,
       email: email,
@@ -1143,7 +1147,7 @@ const Table = (props, ref) => {
     // console.log(hpc);
 
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
         if (
           data.email == "" ||
           data.lastname == "" ||
@@ -1156,7 +1160,7 @@ const Table = (props, ref) => {
         } else {
           return "true";
         }
-      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      } else if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
         } else {
@@ -1184,25 +1188,25 @@ const Table = (props, ref) => {
           country: "",
           countryIndex: "",
           userType:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
               ? irtRole?.[0]?.value
               : "",
           userTypeIndex:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
               ? 0
               : "",
           siteIrt:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
               ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
               : "",
           siteIrtIndex:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast.");
@@ -1258,7 +1262,7 @@ const Table = (props, ref) => {
     //     return data.profile_user_id;
     //   }),
     //   smart_list_id: getlistid,
-    //   user_id: localStorage.getItem("user_id"),
+    //   user_id: localStorageUserId,
     // };
   };
 
@@ -1329,7 +1333,7 @@ const Table = (props, ref) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1395,7 +1399,7 @@ const Table = (props, ref) => {
       // console.log(body_data);
       const body = {
         data: body_data,
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         smart_list_id: getlistid,
       };
 
@@ -1404,12 +1408,12 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (
           data.first_name == "" &&
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
         ) {
           return "Please enter the first name";
         } else if (
           data.last_name == "" &&
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
         ) {
           return "Please enter the last name";
         } else if (data.email == "") {
@@ -1488,7 +1492,7 @@ const Table = (props, ref) => {
       //setIsOpen(false);
     } else {
       let formData = new FormData();
-      let user_id = localStorage.getItem("user_id");
+      let user_id = localStorageUserId;
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -1555,7 +1559,7 @@ const Table = (props, ref) => {
 
       const body = {
         data: body_data,
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         smart_list_id: getlistid,
       };
 
@@ -1564,7 +1568,7 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        } else if (data.country == "" && localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
           return "Please enter the country";
         }
         else if (data.email != "") {
@@ -1633,7 +1637,7 @@ const Table = (props, ref) => {
       //setIsOpen(false);
     } else {
       let formData = new FormData();
-      let user_id = localStorage.getItem("user_id");
+      let user_id = localStorageUserId;
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -1813,7 +1817,7 @@ const Table = (props, ref) => {
           <div className="table-title">
             {props?.upload_by_filter == 0 ? (
               <h4>
-                {localStorage.getItem("user_id") == userId
+                {localStorageUserId == userId
                   ? "Uploaded Users for the smart list"
                   : "Uploaded HCPs for the smart list"}
                 {/* <span>| {editList?.length > 0 ? editList?.length : 0}</span> */}
@@ -1840,7 +1844,7 @@ const Table = (props, ref) => {
             )}
 
             {/* {
-              props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ? */}
+              props?.upload_by_filter == 1 && localStorageUserId != 'iSnEsKu5gB/DRlycxB6G4g==' ? */}
                 <div className="selected-hcp-table-action">
                   {editable == false ? (
                     <>
@@ -1945,7 +1949,7 @@ const Table = (props, ref) => {
           </div>
 
           {/* {
-            props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ? */}
+            props?.upload_by_filter == 1 && localStorageUserId!= 'iSnEsKu5gB/DRlycxB6G4g==' ? */}
               <div className="selected-hcp-list ">
                 <table className="table edit-smart-list" id="table-to-xls">
                   <thead className="sticky-header">
@@ -2026,7 +2030,7 @@ const Table = (props, ref) => {
                         </button>
                         </span>
                       </th>
-                      {localStorage.getItem("user_id") ==
+                      {localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <th scope="col">IRT mandatory training</th>
@@ -2144,7 +2148,7 @@ const Table = (props, ref) => {
                           </td>
                           <td>
                             {/*item.ibu*/}
-                            {localStorage.getItem("user_id") ==
+                            {localStorageUserId ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
                               ? item?.irt
                                 ? "Yes"
@@ -2154,7 +2158,7 @@ const Table = (props, ref) => {
                                 : "N/A"}
                           </td>
                           <td>
-                            {localStorage.getItem("user_id") ==
+                            {localStorageUserId ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                               <span>
                                 {item?.user_type != 0 ? item?.user_type : "N/A"}
@@ -2277,7 +2281,7 @@ const Table = (props, ref) => {
                             <td id="field_readers">NA</td>
                           ) : null*/}
                           <td id="field_business_unit">
-                            {localStorage.getItem("user_id") ==
+                            {localStorageUserId ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
                               ? item?.irt
                                 ? "Yes"
@@ -2287,7 +2291,7 @@ const Table = (props, ref) => {
                                 : "N/A"}
                           </td>
                           <td id="field_interest">
-                            {localStorage.getItem("user_id") ==
+                            {localStorageUserId ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                               <span>
                                 {item?.user_type != 0 ? item?.user_type : "N/A"}
@@ -2509,7 +2513,7 @@ const Table = (props, ref) => {
       </Modal>
 
       {/* add new hcps */}
-      {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+      {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? (
         <Modal
           id="add_hcp"
           show={isOpenAdd}
@@ -2525,7 +2529,7 @@ const Table = (props, ref) => {
           >
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {localStorage.getItem("user_id") == userId
+                {localStorageUserId == userId
                   ? "Add New User +"
                   : "Add New HCP"}
               </h5>
@@ -2541,23 +2545,23 @@ const Table = (props, ref) => {
                       country: "",
                       countryIndex: "",
                       userType:
-                        localStorage.getItem("user_id") ==
+                      localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg=="
                           ? irtRole?.[0]?.value
                           : "",
                       userTypeIndex:
-                        localStorage.getItem("user_id") ==
+                      localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg=="
                           ? 0
                           : "",
                       siteIrt:
-                        localStorage.getItem("user_id") ==
+                      localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg=="
                           ? siteIrtAll?.find((item) => item?.value == "Yes")
                             ?.value
                           : "",
                       siteIrtIndex:
-                        localStorage.getItem("user_id") ==
+                      localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg=="
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
@@ -2588,7 +2592,7 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">
                                       First name{" "}
-                                      {localStorage.getItem("user_id") ==
+                                      {localStorageUserId ==
                                         "56Ek4feL/1A8mZgIKQWEqg==" && (
                                           <span>*</span>
                                         )}
@@ -2607,7 +2611,7 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">
                                       Last name{" "}
-                                      {localStorage.getItem("user_id") ==
+                                      {localStorageUserId ==
                                         "56Ek4feL/1A8mZgIKQWEqg==" && (
                                           <span>*</span>
                                         )}
@@ -2649,7 +2653,7 @@ const Table = (props, ref) => {
                                   </div>
                                 </div>
 
-                                {localStorage.getItem("user_id") !=
+                                {localStorageUserId !=
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2704,7 +2708,7 @@ const Table = (props, ref) => {
                                   </div>
                                 ) : null}
 
-                                {localStorage.getItem("user_id") !=
+                                {localStorageUserId !=
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2756,7 +2760,7 @@ const Table = (props, ref) => {
                                   </div>
                                 ) : null}
 
-                                {localStorage.getItem("user_id") ==
+                                {localStorageUserId ==
                                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <>
                                     <hr />
@@ -2913,9 +2917,9 @@ const Table = (props, ref) => {
                                       <div className="form-group">
                                         <label for="">
                                           country{" "}
-                                          {(localStorage.getItem("user_id") ==
+                                          {(localStorageUserId ==
                                             "56Ek4feL/1A8mZgIKQWEqg==" ||
-                                            localStorage.getItem("user_id") ==
+                                            localStorageUserId ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")
                                             && (
                                               <span>*</span>
@@ -3378,7 +3382,7 @@ const Table = (props, ref) => {
                                       data-bs-toggle="tab"
                                       href="javascript:;"
                                     >
-                                      {localStorage.getItem("user_id") == userId
+                                      {localStorageUserId == userId
                                         ? "Add User +"
                                         : "Add HCP +"}
                                     </a>
@@ -3470,7 +3474,7 @@ const Table = (props, ref) => {
           >
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {localStorage.getItem("user_id") == userId
+                {localStorageUserId == userId
                   ? "Add New User +"
                   : "Add New HCP"}
               </h5>
@@ -3600,7 +3604,7 @@ const Table = (props, ref) => {
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label htmlFor="">Country
-                                      {localStorage.getItem("user_id") ==
+                                      {localStorageUserId ==
                                         "m5JI5zEDY3xHFTZBnSGQZg==" && (
                                           <span>*</span>
                                         )}
@@ -3694,7 +3698,7 @@ const Table = (props, ref) => {
                                       data-bs-toggle="tab"
                                       href="javascript:;"
                                     >
-                                      {localStorage.getItem("user_id") == userId
+                                      {localStorageUserId == userId
                                         ? "Add User +"
                                         : "Add HCP +"}
                                     </a>
