@@ -114,6 +114,7 @@ const NewReaders = () => {
 
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
+  const [submitSearch, setSubmitSearch] = useState("");
   // const [types, setTypes] = useState([
   //   { value: "0", label: "HCP" },
   //   { value: "1", label: "Staff User" },
@@ -459,7 +460,7 @@ const NewReaders = () => {
   const submitHandler = (event) => {
     setReaderDataList([]);
     setTotalCountFlag(false);
-
+  setSubmitSearch(search)
     getReaderListData(page, filterObject, search);
     event.preventDefault();
     return false;
@@ -1488,6 +1489,7 @@ const NewReaders = () => {
       setReaderDataList([]);
       getReaderListData(page, obj, search);
       setSearch("");
+      setSubmitSearch("")
     }
 
     if (originalFilterData?.role?.length) {
@@ -1724,8 +1726,9 @@ const NewReaders = () => {
                     </h4>
                   )}
 
-                  {(
-                    (Object.keys(filterObject)?.length == 2 &&
+                  {( 
+                    submitSearch.trim() === "" &&
+                    ((Object.keys(filterObject)?.length == 2 &&
                     localStorage.getItem("user_id") !=
                       "B7SHpAc XDXSH NXkN0rdQ=="&&
                       filterObject?.["status"] == "Registered" &&
@@ -1751,10 +1754,10 @@ const NewReaders = () => {
                           filterObject?.["contact Type"]?.includes("HCP")))) ||
                     (localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" &&
-                      Object.keys(filterObject)?.length <= 0)
+                      Object.keys(filterObject)?.length <= 0))
                       ? true
-                      : false
-                  ) ? (
+                      : false 
+                 ) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
@@ -1804,7 +1807,7 @@ const NewReaders = () => {
                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                       <input
                         className="form-control me-2"
-                        type="text"
+                        type="search"
                         placeholder="Search by email or name"
                         aria-label="Search"
                         id="email_search"
