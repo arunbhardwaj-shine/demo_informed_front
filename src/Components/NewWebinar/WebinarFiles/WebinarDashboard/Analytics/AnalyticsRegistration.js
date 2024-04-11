@@ -2,6 +2,9 @@ import React from 'react'
 import { Col } from 'react-bootstrap'
 
 const AnalyticsRegistration = () => {
+
+
+const [pieChartData,setPiechartData]=useState([])
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
