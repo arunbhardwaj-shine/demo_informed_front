@@ -156,10 +156,16 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a {
   padding: 6px 15px;
   font-weight: 300;
   color: var(--skyblue);
+  margin:2px 0;
 }
 
 nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   color: var(--light-blue);
+}
+nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a.selected, nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
+  color: var(--white);
+  background:var(--light-blue);
+  border-radius: 30px;
 }
 
 .navbar-expand-sm .navbar-collapse {
@@ -168,6 +174,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 
 .nav-item.user-login .dropdown .dropdown-menu {
   min-width: 205px;
+  padding:5px;
 }
 
 .sidebar-menu {
@@ -13268,4 +13275,17 @@ table.table-custom {
 .viewer-layout-main .viewer-text:focus {
   cursor: move;
   pointer-events: none;
+}
+.congress-dropdown {
+  margin-right: 24px;
+}
+
+.congress-dropdown .split-button-dropup > div:nth-child(3) {
+  padding: 4px 35px 4px 13px;
+  min-width: 180px;
+}
+
+.congress-dropdown .split-button-dropup > div:nth-child(3) > div div {
+  font-size: 13px;
+  color: var(--dark-blue);
 }

@@ -43,16 +43,13 @@ const Header = () => {
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
-  const [congressOptions, setCongressOptions] = useState([
-    { value: "I3yCIhnPAd0Ma6sNY4augA==", label: "THSNA" },
-    { value: "5EdDBhVCQm08iLJwBENCWw==", label: "WFH" },
-    { value: "Y/I8/x8K0syk/ulWyKwKhg==", label: "ISTH" },
-    { value: "MpEPwXLqTPveAfumxT/KXw==", label: "EAHAD" },
-  ]);
+  // const [congressOptions, setCongressOptions] = useState([
+  //   { value: "I3yCIhnPAd0Ma6sNY4augA==", label: "THSNA" },
+  //   { value: "5EdDBhVCQm08iLJwBENCWw==", label: "WFH" },
+  //   { value: "Y/I8/x8K0syk/ulWyKwKhg==", label: "ISTH" },
+  //   { value: "MpEPwXLqTPveAfumxT/KXw==", label: "EAHAD" },
+  // ]);
   const navigate = useNavigate();
-
-  const [newAccountDetails, setNewAccountDetails] = useState({});
-  const [confirmationpopup, setConfirmationPopup] = useState(false);
 
   const handleMenuItemClick = () => {
     const navbarCollapse = document.getElementById('collapsibleNavbar');
@@ -156,41 +153,34 @@ const Header = () => {
     }
   }
 
-  const switchToNewAccount = async (userId) => {
-    try {
-      loader("show")
-      setConfirmationPopup(false);
-      let body = {
-        token: userId
-      }
-      const res = await postData(ENDPOINT.WEBINAR_SWITCH_USER, body)
-      if (res?.data?.status == 200) {
-        // clearLocalStorageExcept();
-        // localStorage.setItem("user_id", res?.data?.data?.userToken);
-        // localStorage.setItem("group_id", res?.data?.data?.groupId);
-        // localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
-        // localStorage.setItem("name", res?.data?.data?.name);
-        // localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
-        // setUserName(res?.data?.data?.name)
-        localStorage.setItem("switch_account_detail", JSON.stringify({
-          user_id: res?.data?.data?.userToken,
-          group_id: res?.data?.data?.groupId,
-          webinar_flag: res?.data?.data?.webinar_flag,
-          name: res?.data?.data?.name,
-          decrypted_token: res?.data?.data?.jwtToken
-        }))
-        navigate("/webinar/event-listing", { state: { switchAccount: true } })
-      }
-      loader("hide")
-    } catch (err) {
-      console.log("err--", err)
-      loader("hide")
-    }
-  }
+  // const switchToNewAccount = async (userId) => {
+  //   try {
+  //     loader("show")
+  //     setConfirmationPopup(false);
+  //     let body = {
+  //       token: userId
+  //     }
+  //     const res = await postData(ENDPOINT.WEBINAR_SWITCH_USER, body)
+  //     if (res?.data?.status == 200) {
+  //       localStorage.setItem("switch_account_detail", JSON.stringify({
+  //         user_id: res?.data?.data?.userToken,
+  //         group_id: res?.data?.data?.groupId,
+  //         webinar_flag: res?.data?.data?.webinar_flag,
+  //         name: res?.data?.data?.name,
+  //         decrypted_token: res?.data?.data?.jwtToken
+  //       }))
+  //       navigate("/webinar/event-listing", { state: { switchAccount: true } })
+  //     }
+  //     loader("hide")
+  //   } catch (err) {
+  //     console.log("err--", err)
+  //     loader("hide")
+  //   }
+  // }
 
-  const handleCommonConfirmModal = () => {
-    setConfirmationPopup(false);
-  };
+  // const handleCommonConfirmModal = () => {
+  //   setConfirmationPopup(false);
+  // };
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
@@ -296,7 +286,7 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={"/library-content"}>
+                  <Link className="nav-link" to={"/library-content"} >
                     LIBRARY
                   </Link>
                 </li>
@@ -318,7 +308,7 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={"/readers-view"}>
+                  <Link className="nav-link" to={"/readers-view"} >
                     CRM
                   </Link>
                 </li>
@@ -380,6 +370,7 @@ const Header = () => {
                               ? "/LEX-210-analytics"
                               : "/content-analytics"
                     }
+                    
                   >
                     ANALYTICS
                   </Link>
@@ -409,7 +400,7 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={"/EmailList"}>
+                  <Link className="nav-link" to={"/EmailList"} > 
                     EMAIL
                   </Link>
                 </li>
@@ -438,7 +429,7 @@ const Header = () => {
                         : "nav-item"
                     } onClick={handleMenuItemClick}
                   >
-                    <Link className="nav-link" to={"/license-content"}>
+                    <Link className="nav-link" to={"/license-content"} > 
                       LICENSED
                     </Link>
                   </li>
@@ -513,7 +504,7 @@ const Header = () => {
                   ""
                 )}
 
-                {localStorage.getItem("user_id") ==
+                {/* {localStorage.getItem("user_id") ==
                   "iSnEsKu5gB/DRlycxB6G4g==" ? (
                   <li className="nav-item user-login">
                     <Dropdown>
@@ -526,14 +517,7 @@ const Header = () => {
                           return (
                             <Dropdown.Item
                             key={item?.value}
-                              onClick={(e) =>
-                              // window.open(
-                              //   "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-                              //     item?.value,
-                              //   "_blank",
-                              //   "noreferrer"
-                              // )
-                              
+                              onClick={(e) =>                              
                               {
                                 setNewAccountDetails({ userId: item?.value, accountName: item?.label });
                                 setConfirmationPopup(true);
@@ -551,7 +535,7 @@ const Header = () => {
                   </li>
                 ) : (
                   ""
-                )}
+                )} */}
               </ul>
               {/* </div> */}
 
@@ -647,7 +631,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <CommonConfirmModel
+      {/* <CommonConfirmModel
         show={confirmationpopup}
         onClose={handleCommonConfirmModal}
         onCloseCross={handleCommonConfirmModal}
@@ -659,7 +643,7 @@ const Header = () => {
           footerButton: " Yes please!",
         }}
         path_image={path}
-      />
+      /> */}
     </>
   );
 };
