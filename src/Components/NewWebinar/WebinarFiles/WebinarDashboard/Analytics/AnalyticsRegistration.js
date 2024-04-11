@@ -4,6 +4,8 @@ import { postData } from '../../../../../axios/apiHelper';
 import { loader } from '../../../../../loader';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import { useSidebar } from '../../../../CommonComponent/LoginLayout';
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 const AnalyticsRegistration = () => {
     const { eventIdContext, handleEventId } = useSidebar();
@@ -15,6 +17,65 @@ const AnalyticsRegistration = () => {
     );
 
 const [pieChartData,setPieChartData]=useState([])
+const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
+
+
+
+const [pieOptions, setPieOptions] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      //size: "80"
+      height: 250,
+    },
+    title: {
+      text: "",
+      align: "left",
+    },
+    exporting: {
+      enabled: false,
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    legend: {
+      verticalAlign: "bottom",
+      // reversed: true,
+    },
+    plotOptions: {
+      pie: {
+        size: "80%",
+        // innerSize: "65%",
+        dataLabels: {
+          enabled: true,
+          format: "{point.y}",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            fontSize: "20px",
+          },
+          distance: -40, // Adjust the distance of the data labels from the center
+        },
+
+        animation: {
+          duration: 1000,
+        },
+
+        enableMouseTracking: true,
+        showInLegend: true,
+        borderWidth: 0,
+      },
+    },
+    series: [],
+  });
 
 useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -27,13 +88,44 @@ useEffect(() => {
         };
 
         // Make API request using your custom postData function
-        const response = await postData(
+        const result = await postData(
           ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_COUNT,
           body
         );
-console.log(response);
+console.log(result);
         // Update component state with the received data
-        setPieChartData(response);
+        setPieChartData(result);
+
+        let newValue = [
+            {
+              name: "",
+              colorByPoint: true,
+              data: [
+                {
+                  name: "HCP",
+                  y: result?.data?.data?.hcpUsers
+                    ? result?.data?.data?.hcpUsers
+                    : 0,
+    
+                  color: colors[0],
+                },
+                {
+                  name: "STAFF",
+                  y: result?.data?.data?.staffUsers
+                    ? result?.data?.data?.staffUsers
+                    : 0,
+    
+                  color: '#FFBE2C',
+                },
+              ],
+            },
+          ];
+    
+          const newPieOptions = {
+            ...pieOptions,
+            series: newValue,
+          };
+          setPieOptions(newPieOptions);
 
         loader("hide"); // Hide loader after the API request is complete
       } catch (error) {
@@ -65,7 +157,11 @@ console.log(response);
                     </div>
                     <div className='graph-box'>
                         <div className='highchart-chart'>
-                            <img src={path_image + "total-registration-analytics.png"} alt="" />
+                            {/* <img src={path_image + "total-registration-analytics.png"} alt="" /> */}
+                            <HighchartsReact
+                    highcharts={Highcharts}
+                    options={pieOptions}
+                  />
                         </div>
                           <div className="rd-box-export">
                               <img
