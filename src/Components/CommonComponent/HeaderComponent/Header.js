@@ -525,6 +525,7 @@ const Header = () => {
                         {congressOptions.map((item) => {
                           return (
                             <Dropdown.Item
+                            key={item?.value}
                               onClick={(e) =>
                               // window.open(
                               //   "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
@@ -532,14 +533,16 @@ const Header = () => {
                               //   "_blank",
                               //   "noreferrer"
                               // )
+                              
                               {
-                                setNewAccountDetails({ userId: item?.value, accountName: item.label });
+                                setNewAccountDetails({ userId: item?.value, accountName: item?.label });
                                 setConfirmationPopup(true);
                               }
                               }
-                              className="dropdown-item"
+                              // className="dropdown-item"
+                              className={item?.value === newAccountDetails?.userId ? "dropdown-item selected" : "dropdown-item"}      
                             >
-                              {item.label}
+                              {item?.label}
                             </Dropdown.Item>
                           );
                         })}
