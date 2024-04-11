@@ -88,11 +88,11 @@ useEffect(() => {
         };
 
         // Make API request using your custom postData function
-        const result = await postData(
+        const response = await postData(
           ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_COUNT,
           body
         );
-console.log(result);
+        const result=response?.data?.data;
         // Update component state with the received data
         setPieChartData(result);
 
@@ -103,16 +103,16 @@ console.log(result);
               data: [
                 {
                   name: "HCP",
-                  y: result?.data?.data?.hcpUsers
-                    ? result?.data?.data?.hcpUsers
+                  y: result?.hcpUsers
+                    ? result?.hcpUsers
                     : 0,
     
                   color: colors[0],
                 },
                 {
                   name: "STAFF",
-                  y: result?.data?.data?.staffUsers
-                    ? result?.data?.data?.staffUsers
+                  y: result?.staffUsers
+                    ? result?.staffUsers
                     : 0,
     
                   color: '#FFBE2C',
@@ -150,7 +150,7 @@ console.log(result);
                         </h6>
                         <div className="d-flex">
                             <div className="count-number">
-                                102
+                                {pieChartData?.totalUsers}
                             </div>
                               <img src={path_image + "crm.svg"} alt="CRM" className="CRM" />
                         </div>
