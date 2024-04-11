@@ -213,6 +213,9 @@ import WebinarVerifyHcpMAIL from "./Components/NewWebinar/WebinarFiles/WebinarDa
 import WebinarVerifyMail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyMail";
 import AnalyticsAttendees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsAttendees";
 import EmailOpened from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/EmailOpened";
+import AnalyticsPoll from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsPoll";
+import AnalyticsQuestions from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsQuestions";
+import AnalyticsRegions from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsRegions";
 
 let platform = 0;
 let show = 0;
@@ -943,15 +946,25 @@ const Routing = () => {
           path="/webinar/analytics/analytics-attendees"
           element={<LoginLayout component={AnalyticsAttendees} />}
         />
+        <Route
+          path="/webinar/analytics/analytics-poll"
+          element={<LoginLayout component={AnalyticsPoll} />}
+        />
+        <Route
+          path="/webinar/analytics/analytics-questions"
+          element={<LoginLayout component={AnalyticsQuestions} />}
+        />
+        <Route
+          path="/webinar/analytics/analytics-regions"
+          element={<LoginLayout component={AnalyticsRegions} />}
+        />
         {/* Webinar Analytics */}
 
         <Route
               path="/webinar/email/analytics/email-opened"
               element={<LoginLayout component={EmailOpened} />}
-            />
+        />
       </Routes>
-     
-      
     </Router>
   );
 };

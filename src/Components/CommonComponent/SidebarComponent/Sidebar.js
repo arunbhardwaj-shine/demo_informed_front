@@ -1235,6 +1235,9 @@ const Sidebar = () => {
               window.location.pathname === '/webinar/email/verifyHCP' ||
               window.location.pathname === '/webinar/email/verifyHcpMAIL' ||
               window.location.pathname === '/webinar/analytics/analytics-attendees' ||
+              window.location.pathname === '/webinar/analytics/analytics-poll' ||
+              window.location.pathname === '/webinar/analytics/analytics-questions' ||
+              window.location.pathname === '/webinar/analytics/analytics-regions' ||
               window.location.pathname === '/webinar/email/selectSmartListUsers' ?
               (
                 <ul>
@@ -1596,7 +1599,7 @@ const Sidebar = () => {
                   </li>
 
                   <li className={
-                          location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees"
+                          location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions"
                               ? "active sub-links"
                               : "side_li sub-links"
                           }
@@ -1652,10 +1655,10 @@ const Sidebar = () => {
                                   </Link>
                                 </li>
 
-                                <li className={isActive ? 'active' : 'side_li'}
+                                <li className={location.pathname == "/webinar/analytics/analytics-poll" ? 'active' : 'side_li'}
                                 // className="side_li"
                                 >
-                                  <Link to="">
+                                  <Link to="/webinar/analytics/analytics-poll">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                       <g clip-path="url(#clip0_3761_88)">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1672,10 +1675,10 @@ const Sidebar = () => {
                                     <p>Polls</p>
                                   </Link>
                                 </li>
-                                <li className={isActive ? 'active' : 'side_li'}
+                                <li className={location.pathname == "/webinar/analytics/analytics-questions" ? 'active' : 'side_li'}
                                 // className="side_li"
                                 >
-                                  <Link to="">
+                                  <Link to="/webinar/analytics/analytics-questions">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
                                       <path d="M16.9219 0.453125C13.0451 0.453125 9.89062 3.60758 9.89062 7.48438C9.89062 11.3612 13.0451 14.5156 16.9219 14.5156C17.1581 14.5156 17.3867 14.4971 17.6064 14.4703C18.2629 15.3767 19.308 15.9219 20.4375 15.9219H21.8438C22.128 15.9219 22.3848 15.7509 22.4933 15.4879C22.6025 15.2249 22.542 14.9228 22.3409 14.7216C21.854 14.2341 21.5025 13.6347 21.3109 12.9686C22.974 11.6372 24 9.62122 24 7.48438C24 3.60758 20.7987 0.453125 16.9219 0.453125ZM16.9219 11C16.5336 11 16.2188 10.6852 16.2188 10.2969C16.2188 9.90847 16.5336 9.59375 16.9219 9.59375C17.3102 9.59375 17.625 9.90847 17.625 10.2969C17.625 10.6852 17.3102 11 16.9219 11ZM18.1723 7.07375C17.8296 7.32645 17.625 7.73019 17.625 8.15455C17.625 8.54319 17.3105 8.87417 16.9219 8.87417C16.5332 8.87417 16.2188 8.57619 16.2188 8.18755C16.2188 7.2853 16.6369 6.45856 17.3373 5.94223C17.5199 5.80766 17.625 5.60098 17.625 5.37505C17.625 4.98711 17.3098 4.67192 16.9219 4.67192C16.5339 4.67192 16.2188 4.98711 16.2188 5.37505C16.2188 5.76369 15.9043 6.07817 15.5156 6.07817C15.127 6.07817 14.8125 5.76369 14.8125 5.37505C14.8125 4.21189 15.7587 3.26567 16.9219 3.26567C18.085 3.26567 19.0312 4.21189 19.0312 5.37505C19.0312 6.04241 18.7099 6.67756 18.1723 7.07375Z" fill="#0066BE" fill-opacity="0.6" />
                                       <path fill-rule="evenodd" clip-rule="evenodd" d="M1.65909 20.3466C2.14594 19.8591 2.4975 19.2597 2.68908 18.5936C1.02605 17.2622 0 15.2462 0 13.1094C0 9.23258 3.20133 6.07812 7.07812 6.07812C7.59647 6.07812 8.0985 6.14286 8.58516 6.24978C8.52548 6.65389 8.48438 7.06395 8.48438 7.48438C8.48438 9.14893 8.9789 10.6937 9.81667 12H3.5C3.22386 12 3 12.2239 3 12.5C3 12.7761 3.22386 13 3.5 13H10.5C10.5206 13 10.5408 12.9988 10.5607 12.9963L10.5743 13.0134C11.4322 13.9957 12.5034 14.7869 13.7282 15.2899C12.8043 18.0958 10.1891 20.1406 7.07812 20.1406C6.84192 20.1406 6.61327 20.1221 6.39356 20.0953C5.73712 21.0017 4.69205 21.5469 3.5625 21.5469H2.15625C1.872 21.5469 1.61517 21.3759 1.50666 21.1129C1.39748 20.8499 1.45791 20.5478 1.65909 20.3466ZM3 14.5C3 14.2239 3.22386 14 3.5 14H10.5C10.7761 14 11 14.2239 11 14.5C11 14.7761 10.7761 15 10.5 15H3.5C3.22386 15 3 14.7761 3 14.5Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1704,10 +1707,10 @@ const Sidebar = () => {
                                     <p>Emails</p>
                                   </Link>
                                 </li>
-                                <li className={isActive ? 'active' : 'side_li'}
+                                <li className={location.pathname == "/webinar/analytics/analytics-regions" ? 'active' : 'side_li'}
                                 // className="side_li"
                                 >
-                                  <Link to="">
+                                  <Link to="/webinar/analytics/analytics-regions">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                       <g clip-path="url(#clip0_5323_1393)">
                                         <path d="M16.3264 12.0008C16.3264 11.2191 16.2985 10.4637 16.2461 9.73805C15.3878 9.57342 14.6928 8.94328 14.436 8.12109H7.91669C7.76125 9.31875 7.67383 10.6186 7.67383 12.0008C7.67383 12.8488 7.70692 13.6655 7.76814 14.447C8.62009 14.6157 9.30883 15.2437 9.5642 16.0614H16.0597C16.2302 14.8142 16.3264 13.4528 16.3264 12.0008Z" fill="#0066BE" fill-opacity="0.6" />
