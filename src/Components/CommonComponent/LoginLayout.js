@@ -30,6 +30,7 @@ const LoginLayout = ({ component: Component, ...rest }) => {
     }else{
       setEventIdContext(null);
       localStorage.removeItem("EventIdContext")
+      
     }
   };
   
@@ -38,6 +39,7 @@ const LoginLayout = ({ component: Component, ...rest }) => {
   if(routeName!="webinar"){
     setEventIdContext(null);
     localStorage.removeItem("EventIdContext")
+    localStorage.removeItem("switch_account_detail")
   }
  
  if(!localStorageEvent&&routeName=="webinar"){

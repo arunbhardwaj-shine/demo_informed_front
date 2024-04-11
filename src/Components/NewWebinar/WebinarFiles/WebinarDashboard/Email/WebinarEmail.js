@@ -19,6 +19,10 @@ import { saveAs } from "file-saver";
 
 const WebinarEmail = (props) => {
   const navigate = useNavigate();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -68,6 +72,7 @@ const WebinarEmail = (props) => {
   const [isActive, setIsActive] = useState({});
   const [sortBy, setSortBy] = useState('name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
+ 
 
   const [options, setOptions] = useState({
     chart: {
@@ -188,7 +193,7 @@ const WebinarEmail = (props) => {
     try {
       loader("show")
       let body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id:localStorageUserId,
         event_id: eventId,
         search: '',
         filter: filter
@@ -257,7 +262,7 @@ const WebinarEmail = (props) => {
     // });
 
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       campaign_id: campaign_id,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -526,7 +531,7 @@ const WebinarEmail = (props) => {
 
       if (item?.previous_campaign != 1) {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+          user_id: localStorageUserId,
           campaign_id: item?.id,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -702,7 +707,7 @@ const WebinarEmail = (props) => {
     hideModal();
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       campaign_id: campaignId?.id,
       event_id:eventId
     };
@@ -733,7 +738,7 @@ const WebinarEmail = (props) => {
   const sendDraftMail = async () => {
     setDraftEmailSendStatus(false);
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id:localStorageUserId,
       campaign_id: getDraftCamapignId,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -754,7 +759,7 @@ const WebinarEmail = (props) => {
           );
       
           const body = {
-            user_id: localStorage.getItem("user_id"),
+            user_id: localStorageUserId,
             route_location: draft_campaign?.route_location,
             pdf_id: 0,
             event_id: draft_campaign?.event_id,
@@ -2110,6 +2115,7 @@ const WebinarEmail = (props) => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
+        onCloseCross={hideConfirmationModal}
         fun={deleteCompaign}
         popupMessage={popupMessage}
         path_image={path_image}

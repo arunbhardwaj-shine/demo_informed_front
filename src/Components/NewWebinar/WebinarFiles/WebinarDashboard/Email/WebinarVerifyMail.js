@@ -24,6 +24,10 @@ const WebinarVerifyMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch=useDispatch();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const { eventIdContext, handleEventId } = useSidebar()
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
@@ -165,7 +169,7 @@ const WebinarVerifyMAIL = (props) => {
     ) {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         pdf_id: pdf_id,
       };
       loader("show");
@@ -201,7 +205,7 @@ const WebinarVerifyMAIL = (props) => {
 
   const saveAsDraft = async () => {
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       pdf_id: 0,
       event_id: eventId,
       description: props.getWebinarEmailData?.emailDescription
@@ -329,7 +333,7 @@ const WebinarVerifyMAIL = (props) => {
           });
 
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         route_location: "webinar/email/verifyMAIL",
         pdf_id: 0,
         // pdf_id: props.getWebinarEmailData?.PdfSelected
@@ -386,7 +390,7 @@ const WebinarVerifyMAIL = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
-      if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg==') {
+      if (localStorageUserId == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorageUserId == 'm5JI5zEDY3xHFTZBnSGQZg==') {
         await axios
           .post(`webinar/send_webinar_email_new`, body)
           .then((res) => {
@@ -507,7 +511,7 @@ const WebinarVerifyMAIL = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       list_id: smart_list_id,
       show_specific: 1,
     };
@@ -546,7 +550,7 @@ const WebinarVerifyMAIL = (props) => {
     }
     e.preventDefault();
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       pdf_id: 0,
       //   pdf_id: props.getWebinarEmailData?.PdfSelected
       //     ? props.getEmailData.PdfSelected
@@ -671,7 +675,7 @@ const WebinarVerifyMAIL = (props) => {
                       state={typeOfHcp == 1?{typeOfHcp:typeOfHcp,thisEventToggled:thisEventToggled}:null}
                       // state={{...location?.state}}
                       >
-                        {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
+                        {localStorageUserId == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                     {/*
@@ -961,7 +965,7 @@ const WebinarVerifyMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                          {getSelectedPdfId == 14 && localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">
@@ -1199,7 +1203,7 @@ const WebinarVerifyMAIL = (props) => {
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
 
-                      {localStorage.getItem("user_id") ===
+                      {localStorageUserId ===
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <th scope="col">IRT mandatory training</th>
@@ -1235,7 +1239,7 @@ const WebinarVerifyMAIL = (props) => {
                               <td>{rr?.bounce}</td>
                               <td>{rr?.country}</td>
                               <td>
-                                {localStorage.getItem("user_id") ==
+                                {localStorageUserId ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.irt
                                     ? "Yes"
@@ -1245,7 +1249,7 @@ const WebinarVerifyMAIL = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.user_type != 0 ? rr?.user_type : "N/A"
                                   : rr?.contact_type
                                 }

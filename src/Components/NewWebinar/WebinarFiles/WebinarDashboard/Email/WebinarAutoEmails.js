@@ -23,6 +23,10 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
   const { eventIdContext, handleEventId } = useSidebar();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
@@ -95,11 +99,11 @@ const WebinarAutoEmail = () => {
       contact_type: "",
       country: "",
       role:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ? irtRole?.[0]?.value
           : "",
       optIrt:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ? "yes"
           : "",
       institutionType: "",
@@ -118,6 +122,8 @@ const WebinarAutoEmail = () => {
     matchFrom: "start",
   };
 
+  
+
   useEffect(() => {
     getSmartListData(0);
   }, []);
@@ -134,12 +140,12 @@ const WebinarAutoEmail = () => {
 
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
     }
     const getalCountry = async () => {
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         language: "",
         ibu: "",
       };
@@ -165,7 +171,7 @@ const WebinarAutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -333,7 +339,7 @@ const WebinarAutoEmail = () => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         name: name,
         email: email,
       };
@@ -368,11 +374,11 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? "yes"
             : "",
         institutionType: "",
@@ -435,7 +441,7 @@ const WebinarAutoEmail = () => {
       //  loader("show");
       setShowProgressBar(true);
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id:localStorageUserId,
         // pdf_id: "3487",
         event_id: eventId,
         subject: emailSubject,
@@ -527,7 +533,7 @@ const WebinarAutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -554,12 +560,12 @@ const WebinarAutoEmail = () => {
       });
       const body = {
         data: body_data,
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         smart_list_id: "",
       };
 
       const status = body?.data?.map((data, index) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
           if (data?.first_name == "") {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -588,8 +594,8 @@ const WebinarAutoEmail = () => {
           return "Please select the institution type";
         }
         if (
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
-          localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||
+          localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="
         ) {
           if (data?.country == "") {
             setValidationError({
@@ -681,7 +687,7 @@ const WebinarAutoEmail = () => {
   const getSmartListData = (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       search: getsearch,
       filter: "",
       event_id: eventId,
@@ -709,7 +715,7 @@ const WebinarAutoEmail = () => {
   const openSmartListPopup = async (smart_list_id) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id:localStorageUserId,
       list_id: smart_list_id,
       show_specific: 1,
     };
@@ -737,7 +743,7 @@ const WebinarAutoEmail = () => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         list_id: getSmartListId,
         show_specific: 1,
       };
@@ -807,7 +813,7 @@ const WebinarAutoEmail = () => {
     ) {
       if (editorRef.current) {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+          user_id: localStorageUserId,
           subject: emailSubject,
           description: emailDescription,
           source_code: editorRef.current.getContent(),
@@ -843,7 +849,7 @@ const WebinarAutoEmail = () => {
     e.preventDefault();
 
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       pdf_id: "3487",
       description: emailDescription,
       creator: "",
@@ -1107,7 +1113,7 @@ const WebinarAutoEmail = () => {
      else {
       if (editorRef.current) {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+          user_id: localStorageUserId,
           source_code: editorRef.current.getContent(),
           template_id: "",
           name: newTemplateSubject,
@@ -1174,11 +1180,11 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? "yes"
             : "",
         institutionType: "",
@@ -1205,7 +1211,7 @@ const WebinarAutoEmail = () => {
         canvas.toBlob((blob) => {
           if (blob) {
             const formData = new FormData();
-            formData.append("user_id", localStorage.getItem("user_id"));
+            formData.append("user_id",localStorageUserId);
             formData.append("template_id", templateId);
             formData.append("image_url", blob, "image.png"); // Assuming the file name is 'image.png'
             formData.append("template_name", "");
@@ -1308,7 +1314,7 @@ const WebinarAutoEmail = () => {
                 <h2>Auto Email</h2>
               </div>
               {/* <div className="template_builder-option">
-                {localStorage.getItem("user_id") ==
+                {localStorageUserId ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
                     <div className="template_language">
                       <span>Language</span>
