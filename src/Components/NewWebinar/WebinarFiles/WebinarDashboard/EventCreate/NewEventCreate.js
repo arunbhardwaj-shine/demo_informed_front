@@ -4,7 +4,7 @@ import { loader } from "../../../../../loader";
 import CommonAddEventModel from "./CommonAddEventModel";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
-import { getData, deleteData } from "../../../../../axios/apiHelper";
+import { getData, deleteData,postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import { Spinner } from "react-activity";
@@ -12,10 +12,13 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { filter } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import Select from 'react-select'
 
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
-  const { selectedItem,eventIdContext ,handleEventId} = useSidebar();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const { selectedItem, eventIdContext, handleEventId } = useSidebar();
   let params = useParams();
   let navigate = useNavigate();
   const [isData, setIsData] = useState([]);
@@ -64,6 +67,19 @@ const NewEventCreate = () => {
   const [sorting, setSorting] = useState(0);
   const [sortingCreateCount, setSortingCreateCount] = useState(0);
   const [sortingCreate, setSortingCreate] = useState(0);
+  const [congressOptions, setCongressOptions] = useState([
+    { value: "iSnEsKu5gB/DRlycxB6G4g==", label: "OneSource" },
+    { value: "I3yCIhnPAd0Ma6sNY4augA==", label: "THSNA" },
+    { value: "5EdDBhVCQm08iLJwBENCWw==", label: "WFH" },
+    { value: "Y/I8/x8K0syk/ulWyKwKhg==", label: "ISTH" },
+    { value: "MpEPwXLqTPveAfumxT/KXw==", label: "EAHAD" },
+  ]);
+  const [newAccountDetails, setNewAccountDetails] = useState(
+    (switch_account_detail != null && switch_account_detail!="undefined")
+    ?{ userId:switch_account_detail?.user_id,accountName:switch_account_detail?.name}
+  :""
+);
+  
   useEffect(() => {
     getWebinarFilterData();
     getDataFromApi(page);
@@ -107,12 +123,10 @@ const NewEventCreate = () => {
           }
         });
         setSpeakerName(speakerName);
-
-     
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
-          let status = differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"")
+          let status = differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.country_timezone, "")
           return {
             ...item,
             eventStatus: status,
@@ -143,13 +157,13 @@ const NewEventCreate = () => {
           }
         });
 
-        setSpeakerName([...speakerName,...speaker]);
+        setSpeakerName([...speakerName, ...speaker]);
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
           return {
             ...item,
-            eventStatus: differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,""),
+            eventStatus: differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.country_timezone, ""),
           };
         });
         setIsData([...isData, ...data]);
@@ -226,9 +240,9 @@ const NewEventCreate = () => {
   };
 
   const getEventStatus = (item) => {
-    return differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"") === 0
+    return differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.country_timezone, "") === 0
       ? "Live"
-      : differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"") > 0
+      : differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.country_timezone, "") > 0
         ? "Coming soon"
         : "Has ended";
   };
@@ -244,34 +258,34 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
     navigate("/webinar/registration", {
-      state: {eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title},
+      state: { eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title },
     });
   };
-  const liveStream = (e,item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+  const liveStream = (e, item) => {
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
     navigate("/webinar/live-stream");
   };
-  const surveyQuestionFormDetail = (e,item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    navigate("/webinar/live-stream/survey/question-data" , {
+  const surveyQuestionFormDetail = (e, item) => {
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
+    navigate("/webinar/live-stream/survey/question-data", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
   }
   const webinarPollingForm = (e, item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
     // if(item?.is_chat_link_created === 0){
     //   navigate('/webinar/live-stream/chat-link')
     // }else{
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
-  // }
+    // }
   };
 
-  const webinarEmailForm = (e,item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+  const webinarEmailForm = (e, item) => {
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
     navigate("/webinar/email");
   };
 
@@ -411,7 +425,7 @@ const NewEventCreate = () => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
-    const updatedFilter = JSON.parse(JSON.stringify ({...data}) );
+    const updatedFilter = JSON.parse(JSON.stringify({ ...data }));
 
     // if (e?.target?.type === "checkbox") {
     //   if (updatedFilter[key]) {
@@ -422,28 +436,28 @@ const NewEventCreate = () => {
     //     updatedFilter[key] = [item];
     //   }
     // }
-    if (e?.target?.checked == true) { 
-         if (updatedFilter[key]) {
+    if (e?.target?.checked == true) {
+      if (updatedFilter[key]) {
 
-             updatedFilter[key] = updatedFilter[key].includes(item)
-                 ? updatedFilter[key].filter((value) => value !== item)
-                 : [...updatedFilter[key], item];
-         } else {
+        updatedFilter[key] = updatedFilter[key].includes(item)
+          ? updatedFilter[key].filter((value) => value !== item)
+          : [...updatedFilter[key], item];
+      } else {
 
-             updatedFilter[key] = [item];
-         }
-    
- } 
- else if (e?.target?.checked == false) {
-    
-         let index = updatedFilter[key]?.indexOf(item)
-         if (index > -1) {
-             updatedFilter[key]?.splice(index, 1)
-         }
-         if (updatedFilter[key]?.length == 0) {
-             delete updatedFilter[key]
-         }
-     }
+        updatedFilter[key] = [item];
+      }
+
+    }
+    else if (e?.target?.checked == false) {
+
+      let index = updatedFilter[key]?.indexOf(item)
+      if (index > -1) {
+        updatedFilter[key]?.splice(index, 1)
+      }
+      if (updatedFilter[key]?.length == 0) {
+        delete updatedFilter[key]
+      }
+    }
 
     setOtherFilter(updatedFilter);
   };
@@ -523,10 +537,10 @@ const NewEventCreate = () => {
     let updateFilter = otherFilter
     let index = updateFilter[key]?.indexOf(item)
     if (index > -1) {
-        updateFilter[key]?.splice(index, 1)
-        if (updateFilter[key]?.length == 0) {
-            delete updateFilter[key]
-        }
+      updateFilter[key]?.splice(index, 1)
+      if (updateFilter[key]?.length == 0) {
+        delete updateFilter[key]
+      }
     }
     setOtherFilter(updateFilter)
     applyFilter()
@@ -566,160 +580,207 @@ const NewEventCreate = () => {
     return formattedDate;
   };
 
-  const differenceDays = (eventStartDateTime,eventEndtDateTime,timezone,flag=0) => {
-   
-    const time=getEventTime(timezone)
-   
+  const differenceDays = (eventStartDateTime, eventEndtDateTime, timezone, flag = 0) => {
+
+    const time = getEventTime(timezone)
+
     const currentTime = new Date(time);
     const startTime = new Date(eventStartDateTime);
-    const endTime = new Date(eventEndtDateTime);    
-   
+    const endTime = new Date(eventEndtDateTime);
+
     if (currentTime < startTime) {
       const timeDifference = startTime.getTime() - currentTime.getTime(); // Get the time difference in milliseconds
-    const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
-    if(flag==1){
-      const days = Math.floor(timeDifference / (1000 * 3600 * 24));
-const remainingTimeAfterDays = timeDifference % (1000 * 3600 * 24);
-const hours = Math.floor(remainingTimeAfterDays / (1000 * 3600));
-const remainingTimeAfterHours = remainingTimeAfterDays % (1000 * 3600);
-const minutes = Math.floor(remainingTimeAfterHours / (1000 * 60));
-// return `${days} days, ${hours} hours, ${minutes} minutes`
-// return (days ? days + " days " : "") + (hours ? hours + " hours " : "") + (minutes ? minutes + " minutes" : "");
-return (days ? days + " Days " : hours ? hours + " Hr":minutes ? minutes + " Min":"") ;
-    }else {
-      return dayDifference;
-    }
-        
+      const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
+      if (flag == 1) {
+        const days = Math.floor(timeDifference / (1000 * 3600 * 24));
+        const remainingTimeAfterDays = timeDifference % (1000 * 3600 * 24);
+        const hours = Math.floor(remainingTimeAfterDays / (1000 * 3600));
+        const remainingTimeAfterHours = remainingTimeAfterDays % (1000 * 3600);
+        const minutes = Math.floor(remainingTimeAfterHours / (1000 * 60));
+        // return `${days} days, ${hours} hours, ${minutes} minutes`
+        // return (days ? days + " days " : "") + (hours ? hours + " hours " : "") + (minutes ? minutes + " minutes" : "");
+        return (days ? days + " Days " : hours ? hours + " Hr" : minutes ? minutes + " Min" : "");
+      } else {
+        return dayDifference;
+      }
+
     } else if (currentTime > endTime) {
-      return -1; 
+      return -1;
     } else {
-      return 0; 
+      return 0;
     }
   };
 
-  
-// const getEventTime=(timeZone)=> {
-//   const utcDateTime = new Date().toISOString();
-//   try {
-//     if (timeZone !== null) {
-//       const options = {
-//         timeZone: timeZone,
-//         year: 'numeric',
-//         month: '2-digit',
-//         day: '2-digit',
-//         hour: '2-digit',
-//         minute: '2-digit',
-//         second: '2-digit',
-//         hour12: false,
-//         hours24:true
-//       };
-//       const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
-//         new Date(utcDateTime)
-//       );
-//       return localDateTime.replace(/, /, ' ');
-//     }
-//   } catch (error) {
-//     console.error('Invalid time zone specified:', timeZone);
-//   }
- 
-//   const londonOptions = {
-//     timeZone: 'Europe/London',
-//     year: 'numeric',
-//     month: '2-digit',
-//     day: '2-digit',
-//     hour: '2-digit',
-//     minute: '2-digit',
-//     second: '2-digit',
-//     hour12: false,
-//     hours24:true
-//   };
- 
-//   const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
-//     new Date(utcDateTime)
-//   );
-//   return localDateTime.replace(/, /, ' ');
- 
-//   // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
-// }
 
-const getEventTime=(timeZone)=> {
-  const utcDateTime = new Date().toISOString();
-  try {
-    if (timeZone !== null) {
-      const options = {
-        timeZone: timeZone,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-      };
- 
-      const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
-        new Date(utcDateTime)
-      );
- 
-      const adjustedLocalDateTime = localDateTime.replace(
-        /(\d{2}:\d{2}:\d{2})/,
-        (_, time) => {
-          let [hours, minutes, seconds] = time.split(':');
-          hours = hours === '24' ? '00' : hours; // Replace 24 with 00
-          const adjustedHours = hours;
-          return `${adjustedHours}:${minutes}:${seconds}`;
-        }
-      );
-      return adjustedLocalDateTime.replace(/, /, ' ');
+  // const getEventTime=(timeZone)=> {
+  //   const utcDateTime = new Date().toISOString();
+  //   try {
+  //     if (timeZone !== null) {
+  //       const options = {
+  //         timeZone: timeZone,
+  //         year: 'numeric',
+  //         month: '2-digit',
+  //         day: '2-digit',
+  //         hour: '2-digit',
+  //         minute: '2-digit',
+  //         second: '2-digit',
+  //         hour12: false,
+  //         hours24:true
+  //       };
+  //       const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
+  //         new Date(utcDateTime)
+  //       );
+  //       return localDateTime.replace(/, /, ' ');
+  //     }
+  //   } catch (error) {
+  //     console.error('Invalid time zone specified:', timeZone);
+  //   }
+
+  //   const londonOptions = {
+  //     timeZone: 'Europe/London',
+  //     year: 'numeric',
+  //     month: '2-digit',
+  //     day: '2-digit',
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //     second: '2-digit',
+  //     hour12: false,
+  //     hours24:true
+  //   };
+
+  //   const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
+  //     new Date(utcDateTime)
+  //   );
+  //   return localDateTime.replace(/, /, ' ');
+
+  //   // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
+  // }
+
+  const getEventTime = (timeZone) => {
+    const utcDateTime = new Date().toISOString();
+    try {
+      if (timeZone !== null) {
+        const options = {
+          timeZone: timeZone,
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        };
+
+        const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
+          new Date(utcDateTime)
+        );
+
+        const adjustedLocalDateTime = localDateTime.replace(
+          /(\d{2}:\d{2}:\d{2})/,
+          (_, time) => {
+            let [hours, minutes, seconds] = time.split(':');
+            hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+            const adjustedHours = hours;
+            return `${adjustedHours}:${minutes}:${seconds}`;
+          }
+        );
+        return adjustedLocalDateTime.replace(/, /, ' ');
+      }
+    } catch (error) {
+      console.error('Invalid time zone specified:', timeZone);
     }
-  } catch (error) {
-    console.error('Invalid time zone specified:', timeZone);
+
+    const londonOptions = {
+      timeZone: 'Europe/London',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    };
+
+    const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
+      new Date(utcDateTime)
+    );
+
+    const adjustedLocalDateTime = localDateTime.replace(
+      /(\d{2}:\d{2}:\d{2})/,
+      (_, time) => {
+        let [hours, minutes, seconds] = time.split(':');
+        hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+        const adjustedHours = hours;
+        return `${adjustedHours}:${minutes}:${seconds}`;
+      }
+    );
+    return adjustedLocalDateTime.replace(/, /, ' ');
+
+    // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
   }
- 
-  const londonOptions = {
-    timeZone: 'Europe/London',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  };
- 
-  const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
-    new Date(utcDateTime)
-  );
- 
-  const adjustedLocalDateTime = localDateTime.replace(
-    /(\d{2}:\d{2}:\d{2})/,
-    (_, time) => {
-      let [hours, minutes, seconds] = time.split(':');
-      hours = hours === '24' ? '00' : hours; // Replace 24 with 00
-      const adjustedHours = hours;
-      return `${adjustedHours}:${minutes}:${seconds}`;
-    }
-  );
-  return adjustedLocalDateTime.replace(/, /, ' ');
- 
-  // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
-}
 
   const handleCardClick = (item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-   localStorage.setItem("EventIdContext",JSON.stringify({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title}))
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
+    localStorage.setItem("EventIdContext", JSON.stringify({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title }))
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };
 
+  const handleAccountChange = async (e) => {
+   
+    try {
+      loader("show")
+      setConfirmationPopup(false);
+      let body = {
+        token: e?.value
+      }
+      const res = await postData(ENDPOINT.WEBINAR_SWITCH_USER, body)
+      if (res?.data?.status == 200) {
+        localStorage.setItem("switch_account_detail", JSON.stringify({
+          user_id: res?.data?.data?.userToken,
+          group_id: res?.data?.data?.groupId,
+          webinar_flag: res?.data?.data?.webinar_flag,
+          name: res?.data?.data?.name,
+          decrypted_token: res?.data?.data?.jwtToken
+        }))
+        setNewAccountDetails({ userId: e?.value, accountName: e?.label });
+        getWebinarFilterData();       
+        getDataFromApi(1);
+       
+      }
+      // loader("hide")
+    } catch (err) {
+      console.log("err--", err)
+      loader("hide")
+    }
+  }
+
   return (
     <>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
             <div className="top-header sticky">
               <div className="top-right-action full evnt-listing">
+                {(localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==") ? (<>
+                  <div className="congress-dropdown">
+                    <Select
+                      options={congressOptions}
+                      value={congressOptions?.findIndex((item) => item?.value == newAccountDetails?.userId) == -1
+                        ? ""
+                        : congressOptions[congressOptions?.findIndex((item) => item?.value == newAccountDetails?.userId)]
+                      }
+                    
+                      placeholder="Congress"
+                      name="account"
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                      onChange={(e) => handleAccountChange(e)}
+                    />
+                  </div>
+                </>)
+                  : null}
                 <div className="search-bar">
                   <form
                     className="d-flex"
@@ -1144,52 +1205,52 @@ const getEventTime=(timeZone)=> {
                   </div>
                 </div> */}
 
-{Object.keys(appliedFilter)?.length > 0 ? (
-                                <div className="apply-filter">
-                                    <div className="filter-block">
-                                        <div className="filter-block-left full">
-                                            {Object.keys(appliedFilter)?.map((key, index) => {
-                                                return (<>
-                                                    {appliedFilter[key]?.length ? (
-                                                        <div className="filter-div">
-                                                            <div className="filter-div-title">
-                                                                <span>{key} |</span>
-                                                            </div>
-                                                            <div className="filter-div-list">
-                                                                {appliedFilter[key]?.map((item, index) => (
-                                                                    <div className="filter-result"
-                                                                        id={item}
-                                                                        rt={index} >
-                                                                        {item}
-                                                                        <img
-                                                                            src={
-                                                                                path_image + "filter-close.svg"
-                                                                            }
-                                                                            onClick={(event) => {
-                                                                                removeindividualfilter(key, item);
-                                                                            }}
-                                                                            alt="Close-filter"
-                                                                        />
-                                                                    </div>
-
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    ) : ""}
-                                                </>)
-                                            })}
-                                        </div>
-                                        <div className="clear-filter">
-                                            <Button
-                                                className="btn btn-outline-primary btn-bordered"
-                                                onClick={clearFilter}
-                                            >
-                                                Remove All
-                                            </Button>
-                                        </div>
-                                    </div>
+                {Object.keys(appliedFilter)?.length > 0 ? (
+                  <div className="apply-filter">
+                    <div className="filter-block">
+                      <div className="filter-block-left full">
+                        {Object.keys(appliedFilter)?.map((key, index) => {
+                          return (<>
+                            {appliedFilter[key]?.length ? (
+                              <div className="filter-div">
+                                <div className="filter-div-title">
+                                  <span>{key} |</span>
                                 </div>
+                                <div className="filter-div-list">
+                                  {appliedFilter[key]?.map((item, index) => (
+                                    <div className="filter-result"
+                                      id={item}
+                                      rt={index} >
+                                      {item}
+                                      <img
+                                        src={
+                                          path_image + "filter-close.svg"
+                                        }
+                                        onClick={(event) => {
+                                          removeindividualfilter(key, item);
+                                        }}
+                                        alt="Close-filter"
+                                      />
+                                    </div>
+
+                                  ))}
+                                </div>
+                              </div>
                             ) : ""}
+                          </>)
+                        })}
+                      </div>
+                      <div className="clear-filter">
+                        <Button
+                          className="btn btn-outline-primary btn-bordered"
+                          onClick={clearFilter}
+                        >
+                          Remove All
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : ""}
               </div>
             }
 
@@ -1214,7 +1275,7 @@ const getEventTime=(timeZone)=> {
                           <div className="email_box">
                             <div
                               className="mail-box-content"
-                              // onClick={() => handleCardClick(item)}
+                            // onClick={() => handleCardClick(item)}
                             >
                               <div
                                 className="action_btn text-end"
@@ -1259,7 +1320,7 @@ const getEventTime=(timeZone)=> {
                                     alt="Email"
                                   />
                                 </button>
-                               <button
+                                <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
@@ -1271,7 +1332,7 @@ const getEventTime=(timeZone)=> {
                                     src={path_image + "webinar-icon.svg"}
                                     alt="Registration"
                                   />
-                                </button> 
+                                </button>
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
@@ -1302,7 +1363,7 @@ const getEventTime=(timeZone)=> {
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    liveStream(e,item);
+                                    liveStream(e, item);
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1323,7 +1384,10 @@ const getEventTime=(timeZone)=> {
                                 </div>
                                 <div className="speaker-name">
                                   <span>Owner</span>{" "}
-                                  {localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""}
+                                  {/* {switch_account_detail && switch_account_detail != null && switch_account_detail != "undefined"
+                                    ? switch_account_detail?.name
+                                    : localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""} */}
+                                    {newAccountDetails?.accountName}
                                 </div>
                               </div>
                               <div className="event-details d-flex justify-content-end align-items-center">
@@ -1332,13 +1396,13 @@ const getEventTime=(timeZone)=> {
                                     // differenceDays(item?.dateStart) == 0
                                     //   ? "Event Live"
                                     //   :
-                                    differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone) > 0 ? (
+                                    differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.country_timezone) > 0 ? (
                                       // differenceDays(item?.dateStart) +
                                       <>
                                         <span className="days-left">
-                                          {differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"1")}
+                                          {differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.country_timezone, "1")}
                                         </span>
-                                         left
+                                        left
                                       </>
                                     ) : (
                                       // " Days Left"

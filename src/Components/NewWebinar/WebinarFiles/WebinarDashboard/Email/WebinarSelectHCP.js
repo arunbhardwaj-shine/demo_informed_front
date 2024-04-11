@@ -17,6 +17,10 @@ var old_object = {};
 const WebinarSelectHCP = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const { eventIdContext, handleEventId } = useSidebar()
@@ -43,14 +47,18 @@ const WebinarSelectHCP = (props) => {
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const userIdArray =
     ["iSnEsKu5gB/DRlycxB6G4g==", "B7SHpAc XDXSH NXkN0rdQ==", "UbCJcnLM9fe HsRMgX8c1A==", "wW0geGtDPvig5gF 6KbJrg==", "z2TunmZQf3QwCsICFTLGGQ==", "qDgwPdToP05Kgzc g2VjIQ=="];
-  const currentUserId = localStorage.getItem("user_id")
+  const currentUserId = localStorageUserId
   const sendOptions = [
     { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`, tooltipMessage: "Everyone from your CRM" },
     { id: 4, navigateUrl: "/webinar/email/selectSmartListUsers", label: "US list", alt: "US List", value: "US List", imageUrl: `${path_image}us-list.svg` },
     { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg`, tooltipMessage: "HCPs who HAVE registered to this event" },
     { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`, tooltipMessage: "The remaining who have NOT yet registered" },
-    { id: 2, navigateUrl: "/webinar/email/verifyHCP", label: localStorage.getItem("user_id") == userId ? "Single User" : "Single HCP", alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
-    { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: localStorage.getItem("user_id") == userId ? "Group of HCPs" : "Group of HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+    { id: 2, navigateUrl: "/webinar/email/verifyHCP", 
+    label: currentUserId == userId ? "Single User" : "Single HCP",
+     alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+    { id: 1, navigateUrl: "/webinar/email/selectSmartList", 
+    label: "Group of HCPs", 
+    alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
   ];
 
   const [typeOfHcp, setTypeOfHcp] = useState(null)
@@ -65,7 +73,7 @@ const WebinarSelectHCP = (props) => {
   const saveAsDraft = async () => {
     const body = {
       pdf_id: 0,
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       event_id: eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription

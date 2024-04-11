@@ -23,6 +23,10 @@ const CreateSmartList = () => {
   const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const [showPreogressBar, setShowProgressBar] = useState(false);
   let file_name = useRef("");
   const { creator } = location.state != null ? location.state : "";
@@ -70,7 +74,7 @@ const CreateSmartList = () => {
     if (!creatorName.trim()) {
       error.creatorName = "Please enter the creator name";
     }
-    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && !customIbu.trim()) {
+    if (localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' && !customIbu.trim()) {
       error.ibu = "Please enter the IBU";
     }
 
@@ -151,7 +155,7 @@ const CreateSmartList = () => {
       error.creatorName = "Please enter the creator name";
     }
 
-    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && !customIbu.trim()) {
+    if (localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' && !customIbu.trim()) {
       error.ibu = "Please enter the IBU";
     }
     if (Object.keys(error)?.length) {
@@ -226,7 +230,7 @@ const CreateSmartList = () => {
     }
 
     let formData = new FormData();
-    let user_id = localStorage.getItem("user_id");
+    let user_id = localStorageUserId;
     formData.append("user_id", user_id);
     formData.append("smart_list_name", smartListName);
     formData.append("reader_file", selectedFile);
@@ -283,7 +287,7 @@ const CreateSmartList = () => {
   // }, [smartListName]);
 
   const downloadFile = () => {
-    let user_id = localStorage.getItem("user_id");
+    let user_id = localStorageUserId;
     let link = document.createElement("a");
     if (
       user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
@@ -318,7 +322,7 @@ const CreateSmartList = () => {
                     </li>
                     <li className="">
                       <a href="javascript:void(0)">
-                      {localStorage.getItem("user_id") == userId?" Select & Verify Your Users":" Select & Verify Your HCPs"}
+                      {localStorageUserId == userId?" Select & Verify Your Users":" Select & Verify Your HCPs"}
                        </a>
                     </li>
                   </ul>
@@ -384,7 +388,7 @@ const CreateSmartList = () => {
                           ) : null}
                         </div>
                         {
-                          localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                          localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' ?
                           <div className="form-group col">
                             <label htmlFor="creator-name">
                               IBU <span>*</span>
@@ -485,7 +489,7 @@ const CreateSmartList = () => {
                         </div>
 
                         <p>
-                          {localStorage.getItem("user_id") == userId?"Upload new Users":"Upload new HCPs"}
+                          {localStorageUserId == userId?"Upload new Users":"Upload new HCPs"}
                             </p>
                       </li>
                     </ul>
@@ -493,7 +497,7 @@ const CreateSmartList = () => {
                 </div>
                 <div className="download-sample">
                   <p>
-                  {localStorage.getItem("user_id") == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
+                  {localStorageUserId == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
 
 
                    </p>

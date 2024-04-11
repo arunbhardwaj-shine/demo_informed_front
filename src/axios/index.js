@@ -23,8 +23,16 @@ const clearLocalStorageExcept = () => {
 requestHelper.interceptors.request.use(
   (req) => {
     req.timeout = 600000;
-    const token = localStorage.getItem("user_id");
-    const jt    = localStorage.getItem("decrypted_token");
+    const switch_account_detail=JSON.parse(localStorage.getItem("switch_account_detail"))
+    const token=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
+                ?switch_account_detail?.user_id 
+                :localStorage.getItem("user_id");
+
+    const jt=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
+              ?switch_account_detail?.decrypted_token 
+              :localStorage.getItem("decrypted_token");
+    // const token = localStorage.getItem("user_id");
+    // const jt    = localStorage.getItem("decrypted_token");
     req.headers["token"] = token;
     req.headers["auth"]  = jt;
     return req;

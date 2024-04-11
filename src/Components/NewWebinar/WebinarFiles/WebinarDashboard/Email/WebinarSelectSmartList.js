@@ -27,6 +27,10 @@ var old_object = {};
 const WebinarSelectSmartList = (props) => {
   const location = useLocation();
   const { eventIdContext, handleEventId } = useSidebar()
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
@@ -149,7 +153,7 @@ const WebinarSelectSmartList = (props) => {
 
     setApiCallStatus(false);
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id:localStorageUserId,
       search: "",
       filter: filter,
       paging: "32",
@@ -270,7 +274,7 @@ const WebinarSelectSmartList = (props) => {
     }
     const body = {
       pdf_id: 0,
-      user_id: localStorage.getItem("user_id"),
+      user_id:localStorageUserId,
       event_id: eventId,
       description: old_object?.emailDescription
         ? old_object?.emailDescription
@@ -318,8 +322,8 @@ const WebinarSelectSmartList = (props) => {
       status: old_object?.status
         ? old_object?.status
         : props?.getWebinarDraftData?.status
-        ?props?.getWebinarDraftData?.status
-        :2,
+          ? props?.getWebinarDraftData?.status
+          : 2,
 
       auto_responder_id: old_object?.templateId
         ? old_object?.templateId
@@ -376,7 +380,7 @@ const WebinarSelectSmartList = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id:localStorageUserId,
       list_id: smart_list_id,
       show_specific: 1,
     };
@@ -455,7 +459,7 @@ const WebinarSelectSmartList = (props) => {
       // return false;
     }
 
-    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && customIbu?.trim() === "") {
+    if (localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' && customIbu?.trim() === "") {
       error.ibu = "Please enter the ibu";
       // return false;
     }
@@ -470,7 +474,7 @@ const WebinarSelectSmartList = (props) => {
     }
 
     let formData = new FormData();
-    let user_id = localStorage.getItem("user_id");
+    let user_id = localStorageUserId;
     formData.append("user_id", user_id);
     formData.append("smart_list_name", getCreatedListName);
     formData.append("creator_name", creatorName);
@@ -549,7 +553,7 @@ const WebinarSelectSmartList = (props) => {
     // link.click();
     // document.body.removeChild(link);
 
-    let user_id = localStorage.getItem("user_id");
+    let user_id = localStorageUserId;
     let link = document.createElement("a");
     if (
       user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
@@ -705,9 +709,9 @@ const WebinarSelectSmartList = (props) => {
                     </li>
                     <li className="active active-main">
                       <Link to="/webinar/email/selectSmartList">
-                        {localStorage.getItem("user_id") == userId
-                          ? "Select Users"
-                          : "Select HCPs"}{" "}
+                        {localStorageUserId == userId
+                            ? "Select Users"
+                            : "Select HCPs"}{" "}
                       </Link>
                     </li>
                     {/*
@@ -765,10 +769,10 @@ const WebinarSelectSmartList = (props) => {
 
                   <div className="create-smart-list">
                     <p>
-                      {localStorage.getItem("user_id") == userId
-                        ? `If you do not have a smart list for the Users group, you
+                      {localStorageUserId == userId
+                          ? `If you do not have a smart list for the Users group, you
                       can :`
-                        : `If you do not have a smart list for the HCPs group, you
+                          : `If you do not have a smart list for the HCPs group, you
                       can `}
                     </p>
                     <button
@@ -817,171 +821,171 @@ const WebinarSelectSmartList = (props) => {
                     </div>
 
                     {
-                      localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
-                        <div className="filter_btn_div">
+                      localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                          <div className="filter_btn_div">
 
 
-                          {updateflag > 0 &&
-                            (
-                              getFilterIbu?.length > 0) && (
-                              <div className="apply-filter">
-                                <div className="filter-block">
-                                  <div className="filter-block-left full">
-                                    {getFilterIbu?.length > 0 && (
-                                      <div className="filter-div">
-                                        <div className="filter-div-title">
-                                          <span>IBU |</span>
-                                        </div>
-                                        <div className="filter-div-list">
-                                          {Object.entries(getFilterIbu)?.map(
-                                            ([index, item]) => (
-                                              <div
-                                                key={item}
-                                                className="filter-result"
-                                                onClick={(event) =>
-                                                  removeindividualfilter("ibu", item)
-                                                }
-                                              >
-                                                {item}
-                                                <img
-                                                  src={path_image + "filter-close.svg"}
-                                                  alt="Close-filter"
-                                                />
-                                              </div>
-                                            )
-                                          )}
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          <div className="filter-by nav-item dropdown">
-                            <button
-                              ref={buttonRef}
-                              className="btn btn-secondary dropdown"
-                              type="button"
-                              id="dropdownMenuButton2"
-                              onClick={() => setShowFilter((showfilter) => !showfilter)}
-                            >
-                              Filter By
-                              {showfilter ? (
-                                <svg
-                                  className="close-arrow"
-                                  width="13"
-                                  height="12"
-                                  viewBox="0 0 13 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <rect
-                                    width="2.09896"
-                                    height="15.1911"
-                                    rx="1.04948"
-                                    transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                                    fill="#0066BE"
-                                  />
-                                  <rect
-                                    width="2.09896"
-                                    height="15.1911"
-                                    rx="1.04948"
-                                    transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                                    fill="#0066BE"
-                                  />
-                                </svg>
-                              ) : (
-                                <svg
-                                  className="filter-arrow"
-                                  width="16"
-                                  height="14"
-                                  viewBox="0 0 16 14"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                                    fill="#97B6CF"
-                                  />
-                                  <path
-                                    d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                                    fill="#97B6CF"
-                                  />
-                                  <path
-                                    d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                                    fill="#97B6CF"
-                                  />
-                                </svg>
-                              )}
-                            </button>
-
-                            {showfilter && (
-                              <div
-                                ref={filterRef}
-                                className="dropdown-menu filter-options"
-                                aria-labelledby="dropdownMenuButton2"
-                              >
-                                <h4>Filter By</h4>
-                                <Accordion flush>
-
-                                  {filterdata?.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
-                                    filterdata?.ibu?.length > 0 && (
-                                      <Accordion.Item className="card" eventKey="3">
-                                        <Accordion.Header className="card-header">
-                                          IBU
-                                        </Accordion.Header>
-                                        <Accordion.Body className="card-body">
-                                          <ul>
-                                            {Object.entries(filterdata?.ibu)?.map(
+                            {updateflag > 0 &&
+                              (
+                                getFilterIbu?.length > 0) && (
+                                <div className="apply-filter">
+                                  <div className="filter-block">
+                                    <div className="filter-block-left full">
+                                      {getFilterIbu?.length > 0 && (
+                                        <div className="filter-div">
+                                          <div className="filter-div-title">
+                                            <span>IBU |</span>
+                                          </div>
+                                          <div className="filter-div-list">
+                                            {Object.entries(getFilterIbu)?.map(
                                               ([index, item]) => (
-                                                <li key={item}>
-                                                  <label className="select-multiple-option">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={`custom-checkbox-ibu-${index}`}
-                                                      name="ibu[]"
-                                                      value={item}
-                                                      checked={
-                                                        updateflag > 0 &&
-                                                        typeof getFilterIbu !==
-                                                        "undefined" &&
-                                                        getFilterIbu.indexOf(item) !==
-                                                        -1
-                                                      }
-                                                      onChange={() =>
-                                                        handleIBUFilterChange(item)
-                                                      }
-                                                    />
-                                                    {item}
-                                                    <span className="checkmark"></span>
-                                                  </label>
-                                                </li>
+                                                <div
+                                                  key={item}
+                                                  className="filter-result"
+                                                  onClick={(event) =>
+                                                    removeindividualfilter("ibu", item)
+                                                  }
+                                                >
+                                                  {item}
+                                                  <img
+                                                    src={path_image + "filter-close.svg"}
+                                                    alt="Close-filter"
+                                                  />
+                                                </div>
                                               )
                                             )}
-                                          </ul>
-                                        </Accordion.Body>
-                                      </Accordion.Item>
-                                    )}
-                                </Accordion>
-                                <div className="filter-footer">
-                                  <button
-                                    className="btn btn-primary btn-bordered"
-                                    onClick={clearFilter}
-                                  >
-                                    Clear
-                                  </button>
-                                  <button
-                                    className="btn btn-primary btn-filled"
-                                    onClick={applyFilter}
-                                  >
-                                    Apply
-                                  </button>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            <div className="filter-by nav-item dropdown">
+                              <button
+                                ref={buttonRef}
+                                className="btn btn-secondary dropdown"
+                                type="button"
+                                id="dropdownMenuButton2"
+                                onClick={() => setShowFilter((showfilter) => !showfilter)}
+                              >
+                                Filter By
+                                {showfilter ? (
+                                  <svg
+                                    className="close-arrow"
+                                    width="13"
+                                    height="12"
+                                    viewBox="0 0 13 12"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <rect
+                                      width="2.09896"
+                                      height="15.1911"
+                                      rx="1.04948"
+                                      transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                                      fill="#0066BE"
+                                    />
+                                    <rect
+                                      width="2.09896"
+                                      height="15.1911"
+                                      rx="1.04948"
+                                      transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                                      fill="#0066BE"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    className="filter-arrow"
+                                    width="16"
+                                    height="14"
+                                    viewBox="0 0 16 14"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                                      fill="#97B6CF"
+                                    />
+                                    <path
+                                      d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                                      fill="#97B6CF"
+                                    />
+                                    <path
+                                      d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </svg>
+                                )}
+                              </button>
+
+                              {showfilter && (
+                                <div
+                                  ref={filterRef}
+                                  className="dropdown-menu filter-options"
+                                  aria-labelledby="dropdownMenuButton2"
+                                >
+                                  <h4>Filter By</h4>
+                                  <Accordion flush>
+
+                                    {filterdata?.hasOwnProperty("ibu") && localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                                      filterdata?.ibu?.length > 0 && (
+                                        <Accordion.Item className="card" eventKey="3">
+                                          <Accordion.Header className="card-header">
+                                            IBU
+                                          </Accordion.Header>
+                                          <Accordion.Body className="card-body">
+                                            <ul>
+                                              {Object.entries(filterdata?.ibu)?.map(
+                                                ([index, item]) => (
+                                                  <li key={item}>
+                                                    <label className="select-multiple-option">
+                                                      <input
+                                                        type="checkbox"
+                                                        id={`custom-checkbox-ibu-${index}`}
+                                                        name="ibu[]"
+                                                        value={item}
+                                                        checked={
+                                                          updateflag > 0 &&
+                                                          typeof getFilterIbu !==
+                                                          "undefined" &&
+                                                          getFilterIbu.indexOf(item) !==
+                                                          -1
+                                                        }
+                                                        onChange={() =>
+                                                          handleIBUFilterChange(item)
+                                                        }
+                                                      />
+                                                      {item}
+                                                      <span className="checkmark"></span>
+                                                    </label>
+                                                  </li>
+                                                )
+                                              )}
+                                            </ul>
+                                          </Accordion.Body>
+                                        </Accordion.Item>
+                                      )}
+                                  </Accordion>
+                                  <div className="filter-footer">
+                                    <button
+                                      className="btn btn-primary btn-bordered"
+                                      onClick={clearFilter}
+                                    >
+                                      Clear
+                                    </button>
+                                    <button
+                                      className="btn btn-primary btn-filled"
+                                      onClick={applyFilter}
+                                    >
+                                      Apply
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                        : null
+                          : null
                     }
                   </div>
                 </div>
@@ -1241,13 +1245,13 @@ const WebinarSelectSmartList = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      {localStorage.getItem("user_id") ==
+                      {localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">IRT mandatory training</th>
                       ) : (
                         <th scope="col">Business unit</th>
                       )}
-                      {localStorage.getItem("user_id") ==
+                      {localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">IRT role</th>
                       ) : (
@@ -1278,7 +1282,7 @@ const WebinarSelectSmartList = (props) => {
                               <td>{rr?.bounce}</td>
                               <td>{rr?.country}</td>
                               <td>
-                                {localStorage.getItem("user_id") ==
+                                {localStorageUserId ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.irt
                                     ? "Yes"
@@ -1288,7 +1292,7 @@ const WebinarSelectSmartList = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") ==
+                                {localStorageUserId ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.user_type != 0
                                     ? rr?.user_type
@@ -1436,7 +1440,7 @@ const WebinarSelectSmartList = (props) => {
                       </div>
 
                       {
-                        localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                       localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' ?
                           <div className="form-group col">
                             <label htmlFor="creator-name">
                               IBU <span>*</span>

@@ -31,6 +31,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LiveStream = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const { eventIdContext, handleEventId } = useSidebar();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [questions, setQuestions] = useState([]);
   const [attendees, setAttendees] = useState([]);
@@ -667,7 +671,7 @@ const LiveStream = () => {
       let updatedUserData = attendees.filter((item) => item?.id === id);
       if (updatedUserData?.length > 0) {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+          user_id: localStorageUserId,
           eventId: eventId,
           readerId: updatedUserData?.[0]?.userId,
           type: "WEBINAR_SSI_LINK",
