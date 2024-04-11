@@ -1384,10 +1384,11 @@ const NewEventCreate = () => {
                                 </div>
                                 <div className="speaker-name">
                                   <span>Owner</span>{" "}
-                                  {/* {switch_account_detail && switch_account_detail != null && switch_account_detail != "undefined"
-                                    ? switch_account_detail?.name
-                                    : localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""} */}
-                                    {newAccountDetails?.accountName}
+                                    {newAccountDetails?.accountName
+                                    ?newAccountDetails?.accountName
+                                    :localStorage.getItem("name") != "" 
+                                    ? 
+                                    localStorage.getItem("name") : ""}
                                 </div>
                               </div>
                               <div className="event-details d-flex justify-content-end align-items-center">
