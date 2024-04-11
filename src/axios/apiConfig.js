@@ -190,5 +190,6 @@ export const ENDPOINT = {
   REGISTERED_USERS:"/webinarEmail/registered-users",
   NO_REGISTERED_USERS:"/webinarEmail/no-registered-users",
   GET_DROPDOWN_DATA:"/webinarEmail/get-campaign-selection-data",
-  GET_EMAIL_COUNT:"/webinarEmail/get-campaign-email-count"
+  GET_EMAIL_COUNT:"/webinarEmail/get-campaign-email-count",
+  GET_TOTAL_EMAIL_REGISTRATION_COUNT:"/webinarEmail/total-registration-pie-chart-data",
 };

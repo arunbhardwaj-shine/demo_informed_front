@@ -1,10 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
+import { postData } from '../../../../../axios/apiHelper';
+import { loader } from '../../../../../loader';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
+import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 
 const AnalyticsRegistration = () => {
+    const { eventIdContext, handleEventId } = useSidebar();
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+    const [eventId, setEventId] = useState(
+      eventIdContext?.eventId
+        ? eventIdContext?.eventId
+        : localStorageEvent?.eventId
+    );
 
+const [pieChartData,setPieChartData]=useState([])
 
-const [pieChartData,setPiechartData]=useState([])
+useEffect(() => {
+    const fetchAnalyticsData = async () => {
+      try {
+        loader("show"); // Show loader while the API request is in progress
+
+        // Prepare the request body
+        const body = {
+          eventId: eventId,
+        };
+
+        // Make API request using your custom postData function
+        const response = await postData(
+          ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_COUNT,
+          body
+        );
+console.log(response);
+        // Update component state with the received data
+        setPieChartData(response);
+
+        loader("hide"); // Hide loader after the API request is complete
+      } catch (error) {
+        loader("hide"); // Hide loader in case of error
+        console.error('Error fetching analytics data:', error);
+      }
+    };
+
+    // Call the fetchAnalyticsData function when the component mounts
+    fetchAnalyticsData();
+  }, []);
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
