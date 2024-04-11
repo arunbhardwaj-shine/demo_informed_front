@@ -7,11 +7,20 @@ import AnalyticsEmail from "./AnalyticsEmail";
 import AnalyticsLiveStream from "./AnalyticsLiveStream";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { ENDPOINT } from "../../../../../axios/apiConfig";
+import { postData } from "../../../../../axios/apiHelper";
+import { loader } from "../../../../../loader";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import { toast } from "react-toastify";
 
 const Analytics = (props) => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const {eventIdContext,handleEventId}=useSidebar()
   const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+  const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
+  const [usersData, setUsersData] = useState([]);
+
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [apifilterObject, setApifilterObject] = useState({});
@@ -19,6 +28,7 @@ const Analytics = (props) => {
   const [filterdata, setFilterData] = useState({});
   const [appliedFilter, setAppliedFilter] = useState({});
   const [filterObject, setFilterObject] = useState({})
+  const [eventData, setEventData] = useState({})
   const clearFilter = () => {
     setAppliedFilter({});
     setApifilterObject({});
@@ -93,6 +103,68 @@ const Analytics = (props) => {
     //   handleEventId(localStorageEvent)  
     // }
   },[])
+
+
+  const dropdownClicked = async (flag) => {
+    loader("show");
+  
+    const body = {
+      eventId: eventId,
+      type:flag
+    };
+  
+    try {
+      const response = await postData(ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_USERS, body);
+      console.log(response);
+      setUsersData(response?.data?.data || []);
+      loader("hide");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      loader("hide");
+    }
+  };
+  const downloadExcel = (data) => {
+    try {
+      if (data?.length == 0) {
+        toast.warning("No data found");
+        return;
+      }
+    
+      data = data?.map((item, index) => {
+        let finalData = {};
+  
+          finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
+        
+        finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        finalData.Region = item?.province ? item?.province.trim() : "N/A";
+        finalData.Country = item?.country ? item?.country.trim() : "N/A";
+        finalData.Registered = item?.register_time ? item?.register_time.trim() : "N/A";
+        finalData["Last Email"] = item?.last_email ? item?.last_email.trim() : "N/A";
+        finalData["User Type"] = item?.hcp_status ? item?.hcp_status.trim() : "N/A";
+    
+        return finalData;
+      });
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+      saveAs(
+        blob,
+        `usersData.xlsx`
+      );
+    } catch (error) {
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
+    }
+  };
   return (
     <>
       <Col className="right-sidebar">
@@ -100,8 +172,8 @@ const Analytics = (props) => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex flex-column align-items-start">
-                <h2>Event title facilisi vitae leo odio</h2>
-                <p>April. 22. 2024</p>
+                <h2>{eventData?.title}</h2>
+                <p>{eventData?.formattedEventStartDateTime}</p>
               </div>
               <Button title="Download Site Engagements" className="download filled">Summary (Excel) 
                 <svg
@@ -125,7 +197,7 @@ const Analytics = (props) => {
             <div className="webinar-analytics-layout rd-analytics-content">
                 <Row>
                   <Col md={9}>
-                    <AnalyticsRegistration/>
+                    <AnalyticsRegistration dropdownClicked={dropdownClicked} setEventData={setEventData}/>
                   </Col>
                   <Col md={3}>
                     <AnalyticsOverview/>
@@ -148,39 +220,10 @@ const Analytics = (props) => {
             <div className="rd-training-block">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="rd-training-block-left">
-                  <h4>Total Registrations |{" "}<span>75</span></h4>
+                  <h4>Total Registrations |{" "}<span>{usersData?.length || 0}</span></h4>
                 </div>
                 <div className="rd-training-block-right d-flex">
-                  {/* <Button
-                    // className={`sort_btn ${isActive ? "active" : ""}`}
-                    // className={`sort_btn ${isActive == "dec"
-                    //     ? "svg_active"
-                    //     : isActive == "asc"
-                    //       ? "svg_asc"
-                    //       : ""
-                    //   }`}
-                    // onClick={sortIndividualCompletion}
-                  >
-                    Sort By{" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                    >
-                      <path
-                        id="asc"
-                        d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
-                        fill="#97B6CF"
-                      />
-                      <path
-                        id="dsc"
-                        d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
-                        fill="#97B6CF"
-                      />
-                    </svg>
-                  </Button> */}
+    
                   <div className="filter-btn">
                     <button
                       ref={buttonRef}
@@ -348,7 +391,7 @@ const Analytics = (props) => {
                   </div>
                   <Button
                     title="Download stats"
-                  // onClick={() => handleExport("individual_completion")}
+                  onClick={() => downloadExcel(usersData)}
                   >
                     <svg
                       width="20"
@@ -383,44 +426,19 @@ const Analytics = (props) => {
                       
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>UserName</td>
-                      <td>User@docintel.app</td>
-                      <td>EU</td>
-                      <td>United Kingdom</td>
-                      <td className="green">12.5.2023 | 05:15 pm</td>
-                      <td>Invite email </td>
-                      <td>HCP</td>
-                    </tr>
-                    <tr class="blank">
-                      <td colSpan={7}>&nbsp;</td>
-                    </tr>
-                  <tr>
-                    <td>UserName</td>
-                    <td>User@docintel.app</td>
-                    <td>EU</td>
-                    <td>United Kingdom</td>
-                    <td className="green">12.5.2023 | 05:15 pm</td>
-                    <td>Invite email </td>
-                    <td>HCP</td>
-                  </tr>
-                  <tr class="blank">
-                    <td colSpan={7}>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>UserName</td>
-                    <td>User@docintel.app</td>
-                    <td>EU</td>
-                    <td>United Kingdom</td>
-                    <td className="green">12.5.2023 | 05:15 pm</td>
-                    <td>Invite email </td>
-                    <td>HCP</td>
-                  </tr>
-                  <tr class="blank">
-                    <td colSpan={7}>&nbsp;</td>
-                  </tr>
-                      
-                  </tbody>
+  {usersData.map((user, index) => (
+    <tr key={index}>
+      <td>{user.name}</td>
+      <td>{user.email}</td>
+      <td>{user.province}</td>
+      <td>{user.country}</td>
+      <td className="green">{user.register_time}</td>
+      <td>{user.last_email}</td>
+      <td>{user.hcp_status}</td>
+    </tr>
+  ))}
+</tbody>
+
               </Table>
             </div>
           </div>
