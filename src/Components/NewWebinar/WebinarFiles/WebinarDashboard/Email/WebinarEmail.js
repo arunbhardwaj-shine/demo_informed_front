@@ -189,7 +189,6 @@ const WebinarEmail = (props) => {
   }, []);
 
   const getWebinarCompaignList = async (filter = "",popupFlag="") => {
-    console.log("pop up-->",popupFlag)
     try {
       loader("show")
       let body = {

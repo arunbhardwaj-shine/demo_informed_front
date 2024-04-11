@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
 import { Button, Dropdown, Modal, Navbar } from "react-bootstrap";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
-import CommonConfirmModel from "../../../Model/CommonConfirmModel";
-import { postData } from "../../../axios/apiHelper";
-import { ENDPOINT } from "../../../axios/apiConfig";
-import { loader } from "../../../loader";
 
 function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = React.useState(null);
-
 
   React.useEffect(() => {
     let lastScrollY = window.pageYOffset;
@@ -153,34 +145,6 @@ const Header = () => {
     }
   }
 
-  // const switchToNewAccount = async (userId) => {
-  //   try {
-  //     loader("show")
-  //     setConfirmationPopup(false);
-  //     let body = {
-  //       token: userId
-  //     }
-  //     const res = await postData(ENDPOINT.WEBINAR_SWITCH_USER, body)
-  //     if (res?.data?.status == 200) {
-  //       localStorage.setItem("switch_account_detail", JSON.stringify({
-  //         user_id: res?.data?.data?.userToken,
-  //         group_id: res?.data?.data?.groupId,
-  //         webinar_flag: res?.data?.data?.webinar_flag,
-  //         name: res?.data?.data?.name,
-  //         decrypted_token: res?.data?.data?.jwtToken
-  //       }))
-  //       navigate("/webinar/event-listing", { state: { switchAccount: true } })
-  //     }
-  //     loader("hide")
-  //   } catch (err) {
-  //     console.log("err--", err)
-  //     loader("hide")
-  //   }
-  // }
-
-  // const handleCommonConfirmModal = () => {
-  //   setConfirmationPopup(false);
-  // };
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
@@ -631,19 +595,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* <CommonConfirmModel
-        show={confirmationpopup}
-        onClose={handleCommonConfirmModal}
-        onCloseCross={handleCommonConfirmModal}
-        fun={switchToNewAccount}
-        resetDataId={newAccountDetails?.userId}
-        popupMessage={{
-          message1: `You are about to move to ${newAccountDetails?.accountName} account.`,
-          message2: "Are you sure you want to do this?",
-          footerButton: " Yes please!",
-        }}
-        path_image={path}
-      /> */}
+      
     </>
   );
 };
