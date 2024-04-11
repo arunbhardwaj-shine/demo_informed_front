@@ -211,6 +211,7 @@ import WebinarSelectSmartListUsersLayout from "./Components/NewWebinar/WebinarFi
 import WebinarVerifyHCP from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyHCP";
 import WebinarVerifyHcpMAIL from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyHcpMAIL";
 import WebinarVerifyMail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyMail";
+import AnalyticsAttendees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsAttendees";
 
 let platform = 0;
 let show = 0;
@@ -371,7 +372,7 @@ const Routing = () => {
         <Route
           path="/analytic-trending-topics"
           element={<LoginLayout component={CanadaTrendingTopic} />}
-        />
+      />
         <Route
           path="/analytic-trending-content"
           element={<LoginLayout component={CanadaTrendingContent} />}
@@ -937,6 +938,10 @@ const Routing = () => {
               path="/webinar/email/smartlist/verifylist"
               element={<LoginLayout component={WebinarSmartlistVerifyList} />}
             />
+        <Route
+          path="/webinar/analytics/analytics-attendees"
+          element={<LoginLayout component={AnalyticsAttendees} />}
+        />
         {/* Webinar Analytics */}
       </Routes>
      

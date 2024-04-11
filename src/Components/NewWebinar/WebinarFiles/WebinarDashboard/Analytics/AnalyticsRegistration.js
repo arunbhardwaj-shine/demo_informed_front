@@ -7,7 +7,7 @@ const AnalyticsRegistration = () => {
     <>
         <div className='rd-analytics-box'>
               <p class="rd-box-small-title">Registration</p>
-              <div className='rd-analytics-box-layout d-flex justify-content-between align-items-center'>
+              <div className='rd-analytics-box-layout d-flex justify-content-between align-items-start'>
                 <Col md={3}>
                     <div className="rd-analytics-top d-flex justify-content-between align-items-center" >
                         <h6 className="regi-title">

@@ -4488,6 +4488,7 @@ form#add_hcp_form .row:not(:first-child) {
   max-height: 720px;
   display: block;
   z-index: 7;
+  border:0;
 }
 
 .qr-download .dropdown-menu.filter-options {
