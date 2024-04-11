@@ -212,6 +212,7 @@ import WebinarVerifyHCP from "./Components/NewWebinar/WebinarFiles/WebinarDashbo
 import WebinarVerifyHcpMAIL from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyHcpMAIL";
 import WebinarVerifyMail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarVerifyMail";
 import AnalyticsAttendees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsAttendees";
+import EmailOpened from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/EmailOpened";
 
 let platform = 0;
 let show = 0;
@@ -943,6 +944,11 @@ const Routing = () => {
           element={<LoginLayout component={AnalyticsAttendees} />}
         />
         {/* Webinar Analytics */}
+
+        <Route
+              path="/webinar/email/analytics/email-opened"
+              element={<LoginLayout component={EmailOpened} />}
+            />
       </Routes>
      
       
