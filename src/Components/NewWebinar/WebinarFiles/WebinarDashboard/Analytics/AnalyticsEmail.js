@@ -57,7 +57,7 @@ const AnalyticsEmail = () => {
                 <tbody>
         {emailData.map(data => (
             <tr key={data.id}>
-                <td valign='middle'>{data.subject}</td>
+                <td valign='middle'>{data.subject}<span>{data.created_at}</span></td>
                 <td valign='middle'>Invitation</td>
                 <td valign='middle'>Internal</td>
                 <td valign='middle' className='email-options'>
