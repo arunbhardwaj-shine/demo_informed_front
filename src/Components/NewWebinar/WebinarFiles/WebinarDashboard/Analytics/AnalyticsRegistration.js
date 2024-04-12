@@ -84,8 +84,8 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                         name: "",
                         colorByPoint: true,
                         data: [
-                            { name: "HCP", y: result?.totalRegistrations?.hcpUsers || 0, color: colors[0] },
-                            { name: "STAFF", y: result?.totalRegistrations?.staffUsers || 0, color: '#FFBE2C' },
+                            { name: "HCP", y: result?.totalRegistrations?.hcpUsers || 0, color: '#F58289' },
+                            { name: "STAFF", y: result?.totalRegistrations?.staffUsers || 0, color: '#FFC5C8' },
                         ],
                     },
                 ];
@@ -96,8 +96,8 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                         name: "",
                         colorByPoint: true,
                         data: [
-                            { name: "Internal List", y: result?.registeredHcpData?.internalHcps || 0, color: colors[0] },
-                            { name: "External List", y: result?.registeredHcpData?.externalHcps || 0, color: '#FFBE2C' },
+                            { name: "Internal List", y: result?.registeredHcpData?.internalHcps || 0, color: '#FAC755' },
+                            { name: "External List", y: result?.registeredHcpData?.externalHcps || 0, color: '#FFE3A4' },
                         ],
                     },
                 ];
