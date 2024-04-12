@@ -55,21 +55,26 @@ const AnalyticsEmail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr valign='middle'>
-                    <td valign='middle'>Lorem ipsum dolor sit amet consectetr. Libero a sit lectus blandit. Orci facilisi vitae leo odio viverra quam  blandit. Orci facilisi vitae<span>March 5.2023 | 05:15 pm</span></td>
-                    <td valign='middle'>Invitation</td>
-                    <td valign='middle'>Internal</td>
-                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "mail-sent.svg"} alt="" /><br /><span>140</span></div></td>
-                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "email-open.svg"} alt="" /><br /><span>70 (50%)</span></div></td>
-                  </tr>
-                  <tr>
-                    <td valign='middle'>Lorem ipsum dolor sit amet consectetr. Libero a sit lectus blandit. Orci facilisi vitae leo odio viverra quam  blandit. Orci facilisi vitae<span>March 5.2023 | 05:15 pm</span></td>
-                    <td valign='middle'>Invitation</td>
-                    <td valign='middle'>Internal</td>
-                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "mail-sent.svg"} alt="" /><span>140</span></div></td>
-                    <td valign='middle' className='email-options'><div className='td-bordered'><img src={path_image + "email-open.svg"} alt="" /><span>70 (50%)</span></div></td>
-                  </tr>
-                </tbody>
+        {emailData.map(data => (
+            <tr key={data.id}>
+                <td valign='middle'>{data.subject}</td>
+                <td valign='middle'>Invitation</td>
+                <td valign='middle'>Internal</td>
+                <td valign='middle' className='email-options'>
+                    <div className='td-bordered'>
+                        <img src={`${path_image}mail-sent.svg`} alt="" />
+                        <span>{data.email_sent}</span>
+                    </div>
+                </td>
+                <td valign='middle' className='email-options'>
+                    <div className='td-bordered'>
+                        <img src={`${path_image}email-open.svg`} alt="" />
+                        <span>{data.email_read} ({data.read_percentage})</span>
+                    </div>
+                </td>
+            </tr>
+        ))}
+    </tbody>
               </Table>
             </div>
           </div>
