@@ -413,7 +413,7 @@ const Analytics = (props) => {
                 </div>
               </div>
               <Table className="fold-table registration-view" id="individual_completion">
-                  <thead className="">
+                  <thead className="sticky">
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
