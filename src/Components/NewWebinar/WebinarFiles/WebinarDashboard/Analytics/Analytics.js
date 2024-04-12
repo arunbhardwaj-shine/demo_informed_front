@@ -426,18 +426,23 @@ const Analytics = (props) => {
                       
                   </thead>
                   <tbody>
-  {usersData.map((user, index) => (
-    <tr key={index}>
-      <td>{user.name}</td>
-      <td>{user.email}</td>
-      <td>{user.province}</td>
-      <td>{user.country}</td>
-      <td className="green">{user.register_time}</td>
-      <td>{user.last_email}</td>
-      <td>{user.hcp_status}</td>
-    </tr>
-  ))}
-</tbody>
+                    {usersData.map((user, index) => (
+                      <>
+                      <tr key={index}>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.province}</td>
+                        <td>{user.country}</td>
+                        <td className="green">{user.register_time}</td>
+                        <td>{user.last_email}</td>
+                        <td>{user.hcp_status}</td>
+                      </tr>
+                      <tr className="blank">
+                        <td colspan="7">&nbsp;</td>
+                      </tr>
+                      </>
+                    ))}
+                  </tbody>
 
               </Table>
             </div>
