@@ -193,5 +193,6 @@ export const ENDPOINT = {
   GET_EMAIL_COUNT:"/webinarEmail/get-campaign-email-count",
   GET_TOTAL_EMAIL_REGISTRATION_COUNT:"/webinarEmail/total-registration-pie-chart-data",
   GET_TOTAL_EMAIL_REGISTRATION_USERS:"/webinarEmail/total-registration-pie-chart-dropdown-data",
+  GET_EMAIL_DATA:"/webinarEmail/get-email-data",
 
 };

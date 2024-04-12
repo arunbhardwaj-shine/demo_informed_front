@@ -1,8 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
+import { useSidebar } from '../../../../CommonComponent/LoginLayout';
+import { loader } from '../../../../../loader';
+import { postData } from '../../../../../axios/apiHelper';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
 
 const AnalyticsEmail = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { eventIdContext, handleEventId } = useSidebar();
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+    const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
+    const [emailData, setEmailData] = useState([]);
+    useEffect(() => {
+      const fetchAnalyticsData = async () => {
+          try {
+              loader("show");
+              const body = { eventId };
+              const response = await postData(ENDPOINT.GET_EMAIL_DATA, body);
+              const result = response?.data?.data;
+              setEmailData(result);
+
+              loader("hide");
+          } catch (error) {
+              loader("hide");
+              console.error('Error fetching analytics data:', error);
+          }
+      };
+
+      fetchAnalyticsData();
+  }, [eventId]);
   return (
     <>
       <div className='rd-analytics-box'>
