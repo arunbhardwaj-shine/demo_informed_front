@@ -213,7 +213,7 @@ const Analytics = (props) => {
                 </Row>
             </div>
           </Row>
-          <div className="rd-full-explain">
+      { usersData?.length>0&&   <div className="rd-full-explain">
             <div className="rd-section-title">
               <h6>Registrations</h6>
             </div>
@@ -441,7 +441,7 @@ const Analytics = (props) => {
 
               </Table>
             </div>
-          </div>
+          </div>}
 
           {/* HCP registered */}
           <div className="rd-full-explain">

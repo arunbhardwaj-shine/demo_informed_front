@@ -13,7 +13,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
     const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
 
     const [pieChartData, setPieChartData] = useState([]);
-    const colors = ["#f5c64a", "#fde3a1", "#DECBE3", "#986CA5", "#004A89"];
+    const colors = ["#f5c64a", "#fde3a1", "#ed8188", "#fac5c8", "#004A89"];
 
     const commonPieOptions = {
         chart: {
@@ -84,8 +84,8 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                         name: "",
                         colorByPoint: true,
                         data: [
-                            { name: "HCP", y: result?.totalRegistrations?.hcpUsers || 0, color: colors[0] },
-                            { name: "STAFF", y: result?.totalRegistrations?.staffUsers || 0, color: '#FFBE2C' },
+                            { name: "HCP", y: result?.totalRegistrations?.hcpUsers || 0, color: colors[3] },
+                            { name: "STAFF", y: result?.totalRegistrations?.staffUsers || 0, color: colors[2] },
                         ],
                     },
                 ];
