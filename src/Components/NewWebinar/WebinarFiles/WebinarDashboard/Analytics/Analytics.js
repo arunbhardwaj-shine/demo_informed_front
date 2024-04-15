@@ -20,6 +20,7 @@ const Analytics = (props) => {
   const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
   const [usersData, setUsersData] = useState([]);
+  const [overViewData, setOverViewData] = useState([]);
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -116,7 +117,17 @@ const Analytics = (props) => {
     try {
       const response = await postData(ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_USERS, body);
       console.log(response);
-      setUsersData(response?.data?.data || []);
+      if(flag=="overView"){
+        
+        setOverViewData(response?.data?.data || []);
+        setUsersData([])
+
+      }else{
+        setUsersData(response?.data?.data || []);
+        setOverViewData([])
+
+      }
+
       loader("hide");
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -200,7 +211,7 @@ const Analytics = (props) => {
                     <AnalyticsRegistration dropdownClicked={dropdownClicked} setEventData={setEventData}/>
                   </Col>
                   <Col md={3}>
-                    <AnalyticsOverview/>
+                    <AnalyticsOverview dropdownClicked={dropdownClicked} setEventData={setEventData}/>
                   </Col>
                 </Row>
                 <Row>
@@ -571,7 +582,7 @@ const Analytics = (props) => {
           </div>
           {/* Registered & attended HCPs According to Region */}
           {/*Overview */}
-          <div className="rd-full-explain">
+     {   overViewData?.length>0 &&  <div className="rd-full-explain">
             <div className="rd-section-title">
               <h6>Overview</h6>
             </div>
@@ -783,47 +794,26 @@ const Analytics = (props) => {
                       
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>UserName</td>
-                      <td>User@docintel.app</td>
-                      <td>EU</td>
-                      <td>United Kingdom</td>
-                      <td className="green">12.5.2023 | 05:15 pm</td>
-                      <td>Yes</td>
-                      <td>No</td>
-                    </tr>
-                    <tr class="blank">
-                      <td colSpan={7}>&nbsp;</td>
-                    </tr>
-                  <tr>
-                    <td>UserName</td>
-                    <td>User@docintel.app</td>
-                    <td>EU</td>
-                    <td>United Kingdom</td>
-                    <td className="green">12.5.2023 | 05:15 pm</td>
-                    <td>Yes</td>
-                    <td>No</td>
-                  </tr>
-                  <tr class="blank">
-                    <td colSpan={7}>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>UserName</td>
-                    <td>User@docintel.app</td>
-                    <td>EU</td>
-                    <td>United Kingdom</td>
-                    <td className="green">12.5.2023 | 05:15 pm</td>
-                    <td>Yes</td>
-                    <td>No</td>
-                  </tr>
-                  <tr class="blank">
-                    <td colSpan={7}>&nbsp;</td>
-                  </tr>
-                      
+                    {overViewData.map((user, index) => (
+                      <>
+                      <tr key={index}>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.region}</td>
+                        <td>{user.country}</td>
+                        <td className="green">{user.register_time}</td>
+                        <td>{user.Attended}</td>
+                        <td>{user.postEventViews}</td>
+                      </tr>
+                      <tr className="blank">
+                        <td colspan="7">&nbsp;</td>
+                      </tr>
+                      </>
+                    ))}
                   </tbody>
               </Table>
             </div>
-          </div>
+          </div>}
           {/* Overview End */}
         </div>
       </Col>
