@@ -1,7 +1,13 @@
 import React from 'react'
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import Select from "react-select";
 
 const AnalyticsEmailView = () => {
+    const options = [
+        { value: 'Invitation email facilisi vitae leo odio 2024', label: 'Invitation email facilisi vitae leo odio 2024' },
+        { value: 'Announcement email facilisi vitae leo odio 2024', label: 'Announcement email facilisi vitae leo odio 2024' },
+        { value: 'Coming soon email facilisi vitae leo odio 2024', label: 'Coming soon email facilisi vitae leo odio 2024' }
+    ]
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     return (
         <>
@@ -13,18 +19,21 @@ const AnalyticsEmailView = () => {
                                 <h2>Emails</h2>
                             </div>
                         </div>
-                        <div className=''>
+                        <div className='webinar-emails-details'>
                             <p>Select the email to see the stats:</p>
+                            <Form>
+                                <Select
+                                    options={options}
+                                    className="dropdown-basic-button split-button-dropup mr-2 btn-bigger">
+                                </Select>
+                            </Form>
                         </div>
-                        <div className="rd-full-explain">
-                            <div className="rd-section-title">
-                                <h6>Registrations</h6>
-                            </div>
+                        <div className="rd-full-explain webinar-emails-statss">
                             <div className="rd-training-block">
-                                <div className="d-flex align-items-center justify-content-between">
+                                <div className="d-flex align-items-start justify-content-between">
                                     <div className="rd-training-block-left">
                                         <h5>Invitation Email facilisi vitae leo odio 2024 </h5>
-                                        <p>April. 22. 2024 | 8:00 am</p>
+                                        <p className="email-date">April. 22. 2024 | 8:00 am</p>
                                     </div>
                                     <div className="rd-training-block-right d-flex">
                                         <Button className='print'>
@@ -33,13 +42,13 @@ const AnalyticsEmailView = () => {
                                     </div>
                                 </div>
                                 <div className='analytics_email_stats'>
-                                    <div className='d-flex align-items-center email_stats_gap'>
-                                        <div>
+                                    <div className='d-flex align-items-center email_stats_gap flex-wrap'>
+                                        <div className='email-stats-send'>
                                             <div className='email-box'>
                                                 <p>Emails send</p>
                                                 <div className='email_stats_list d-flex align-items-end justify-content-between'>
                                                     <div className="d-flex align-items-center">
-                                                        <img src={path_image + 'mail-sent.svg'} alt='Export' /> <p>19213</p> 
+                                                        <img src={path_image + 'mailes_send.svg'} alt='Export' /> <p>19213</p> 
                                                     </div>
                                                     <div className="rd-box-export">
                                                         <img src={path_image + 'arrow-export.svg'} alt='Export' />
@@ -47,7 +56,7 @@ const AnalyticsEmailView = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div className='email-stats-send'>
                                             <div className='email-box opened'>
                                                 <p>Emails opened</p>
                                                 <div className='email_stats_list d-flex align-items-end justify-content-between'>
@@ -60,9 +69,9 @@ const AnalyticsEmailView = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div className='email-box'>
-                                                <div className='video-click'>
+                                        <div className='email-stats-details'>
+                                            <div className='email-box d-flex'>
+                                                <Col className='video-click '>
                                                     <p>Video click</p>
                                                     <div className='email_stats_list d-flex align-items-end justify-content-between'>
                                                         <div className="d-flex align-items-center">
@@ -72,8 +81,8 @@ const AnalyticsEmailView = () => {
                                                             <img src={path_image + 'arrow-export.svg'} alt='Export' />
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className='registration-banner'>
+                                                </Col>
+                                                <Col className='registration-banner'>
                                                     <p>ISTH registeration banner click</p>
                                                     <div className='email_stats_list d-flex align-items-end justify-content-between'>
                                                         <div className="d-flex align-items-center">
@@ -83,8 +92,8 @@ const AnalyticsEmailView = () => {
                                                             <img src={path_image + 'arrow-export.svg'} alt='Export' />
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className='video-banner'>
+                                                </Col>
+                                                <Col className='video-banner'>
                                                     <p>Video booth banner click</p>
                                                     <div className='email_stats_list d-flex align-items-end justify-content-between'>
                                                         <div className="d-flex align-items-center">
@@ -94,8 +103,8 @@ const AnalyticsEmailView = () => {
                                                             <img src={path_image + 'arrow-export.svg'} alt='Export' />
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className='registration'>
+                                                </Col>
+                                                <Col className='registration'>
                                                     <p>Registration</p>
                                                     <div className='email_stats_list d-flex align-items-end justify-content-between'>
                                                         <div className="d-flex align-items-center">
@@ -105,7 +114,7 @@ const AnalyticsEmailView = () => {
                                                             <img src={path_image + 'arrow-export.svg'} alt='Export' />
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </Col>
                                             </div>
 
                                         </div>

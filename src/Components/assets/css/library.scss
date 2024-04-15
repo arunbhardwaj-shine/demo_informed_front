@@ -13224,6 +13224,31 @@ img.change-password-image {
   flex-direction: column;
 }
 
+.webinar-emails-details {
+  margin: 30px 0 0;
+
+  p {
+    color: #004A89;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 15px;
+  }
+
+  form {
+    .dropdown-basic-button {
+      max-width: 774px;
+      width: 100%;
+      margin: 0 0 40px;
+
+      &>div:nth-child(3) {
+        max-width: 100%;
+        padding: 8px 50px 8px 15px;
+        background-position: 97% center;
+      }
+    }
+  }
+}
+
 .rd-full-explain {
   &.rd-listing {
     .rd-training-block {
@@ -13323,8 +13348,53 @@ img.change-password-image {
   }
 
   .analytics_email_stats {
+    .rd-box-export {
+      img {
+        cursor: pointer;
+      }
+    }
+
     .email_stats_gap {
       gap: 24px;
+
+      .email-stats-send {
+        width: 100%;
+        max-width: 232px;
+
+        .rd-box-export {
+          img {
+            margin: 0;
+          }
+        }
+      }
+
+      .email-stats-details {
+        flex: 1 1;
+
+        .email-box {
+          padding: 8px 0;
+
+          .col {
+            padding: 0 12px 0 16px;
+            border-right: 1px dashed #97B6CF;
+
+            >p {
+              margin: 0 0 9px;
+            }
+
+            &.col:last-child {
+              border: 0;
+            }
+          }
+
+          .rd-box-export {
+            img {
+              margin: 0;
+            }
+
+          }
+        }
+      }
     }
 
     .email-box {
@@ -13333,11 +13403,16 @@ img.change-password-image {
       box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.24);
       padding: 8px 12px 8px 16px;
 
+
       p {
         font-size: 14px;
         font-weight: 400;
         margin-bottom: 4px;
         color: #8A4E9C;
+      }
+
+      >p {
+        margin: 0 0 9px;
       }
 
       &.opened {
@@ -13397,6 +13472,12 @@ img.change-password-image {
     }
   }
 
+  &.webinar-emails-statss {
+    .rd-training-block {
+      padding: 24px;
+    }
+  }
+
   .rd-training-block {
     background: rgba(0, 102, 190, 0.03);
     border-radius: 20px;
@@ -13425,6 +13506,12 @@ img.change-password-image {
         line-height: 14px;
         color: $light-gray;
         margin: 0 0 9px;
+
+        &.email-date {
+          color: #70899E;
+          font-size: 16px;
+          margin: 0 0 24px;
+        }
       }
     }
 
@@ -14425,7 +14512,7 @@ img.change-password-image {
       background: #FFF;
       box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
       padding: 30px 12px;
-      margin: 16px 0;
+      margin: 24px 0;
 
       >img {
         max-width: 100%;
