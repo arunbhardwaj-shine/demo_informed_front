@@ -1238,6 +1238,7 @@ const Sidebar = () => {
               window.location.pathname === '/webinar/analytics/analytics-poll' ||
               window.location.pathname === '/webinar/analytics/analytics-questions' ||
               window.location.pathname === '/webinar/analytics/analytics-regions' ||
+              window.location.pathname === '/webinar/analytics/analytics-emails' ||
               window.location.pathname === '/webinar/email/selectSmartListUsers' ?
               (
                 <ul>
@@ -1599,7 +1600,7 @@ const Sidebar = () => {
                   </li>
 
                   <li className={
-                          location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions" || window.location.pathname == "/webinar/analytics/question-data" 
+                          location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions" || window.location.pathname == "/webinar/analytics/question-data" || window.location.pathname == "/webinar/analytics/analytics-emails" 
                               ? "active sub-links"
                               : "side_li sub-links"
                           }
@@ -1686,10 +1687,10 @@ const Sidebar = () => {
                                     <p>Questions</p>
                                   </Link>
                                 </li>
-                                <li className={isActive ? 'active' : 'side_li'}
+                                <li className={location.pathname == "/webinar/analytics/analytics-emails" ? 'active' : 'side_li'}
                                 // className="side_li"
                                 >
-                                  <Link to="">
+                                  <Link to="/webinar/analytics/analytics-emails">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                       <g clip-path="url(#clip0_5323_1389)">
                                         <path d="M23.7927 9.57792L21.2931 7.56503V0.547555C21.2931 0.243409 21.0498 9.2425e-05 20.7457 9.2425e-05H3.26559C2.96144 -0.0054375 2.71812 0.237879 2.71259 0.542025V7.56503L0.218597 9.57239H0.213067C0.0803487 9.67746 0.00292969 9.8323 0.00292969 10.0037V21.2405C0.00845962 22.7668 1.24716 24 2.77342 24H21.2268C22.7531 24 23.9918 22.7668 23.9973 21.2405V10.0037C24.0028 9.83783 23.9254 9.67746 23.7927 9.57792ZM21.2931 8.98622L22.5153 9.97055L21.2931 10.8111V8.98622ZM3.81858 1.10608H20.1872V11.5742L12.943 16.5567C12.3734 16.9438 11.6324 16.9438 11.0628 16.5567L3.81858 11.5742V1.10608ZM2.71259 8.98622V10.8111L1.49048 9.97055L2.71259 8.98622ZM22.8968 21.2405C22.8913 22.1585 22.1448 22.894 21.2323 22.894H2.77342C1.85546 22.894 1.11445 22.1585 1.10892 21.2405V11.0599L10.4324 17.4691C11.378 18.1161 12.6222 18.1161 13.5734 17.4691L22.8968 11.0599V21.2405Z" fill="#0066BE" fill-opacity="0.6" />

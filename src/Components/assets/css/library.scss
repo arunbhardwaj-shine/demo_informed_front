@@ -12348,9 +12348,6 @@ img.change-password-image {
 
 
 
-
-
-
 /***Webinar polls***/
 .poll-question {
   padding: 0 0 30px;
@@ -12364,21 +12361,7 @@ img.change-password-image {
   }
 
   .poll-question-selection {
-
-    // display: flex;
-    // flex-direction: row;
-    // position: absolute;
-    // transform: rotate(90deg) scaleX(1);
-    // transform-origin: top left;
-    // right: 52px;
-    // top: 0;
-    // justify-content: space-between;
-    // align-items: center;
-    // width: 100%;
-    // max-width: 570px;
-    // z-index: 2;
     display: flex;
-    /* flex-direction: row; */
     position: absolute;
     transform: rotate(270deg) scaleX(1);
     transform-origin: top right;
@@ -12386,8 +12369,6 @@ img.change-password-image {
     top: 0px;
     justify-content: space-between;
     align-items: center;
-    /* width: 100%; */
-    /* max-width: 18px; */
     z-index: 2;
     height: auto;
 
@@ -13341,6 +13322,71 @@ img.change-password-image {
     }
   }
 
+  .analytics_email_stats {
+    .email_stats_gap {
+      gap: 24px;
+    }
+
+    .email-box {
+      border-radius: 15px;
+      background: $white;
+      box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.24);
+      padding: 8px 12px 8px 16px;
+
+      p {
+        font-size: 14px;
+        font-weight: 400;
+        margin-bottom: 4px;
+        color: #8A4E9C;
+      }
+
+      &.opened {
+        p {
+          color: #FAC755;
+        }
+      }
+
+      .video-click {
+        p {
+          color: #39CABC;
+        }
+      }
+
+      .video-banner {
+        p {
+          color: #0066BE;
+        }
+      }
+
+      .registration-banner {
+        p {
+          color: #0E9B8E;
+        }
+      }
+
+      .registration {
+        p {
+          color: #F58289;
+        }
+      }
+
+      .email_stats_list {
+        img {
+          margin-right: 12px;
+        }
+
+        p {
+          color: #70899E;
+          font-size: 18px;
+          font-weight: 500;
+        }
+
+      }
+    }
+  }
+
+
+
   .rd-section-title {
     margin: 73px 0 20px;
 
@@ -13359,13 +13405,19 @@ img.change-password-image {
     .rd-training-block-left {
       h4 {
         font-weight: 500;
-        text-transform: capitalize;
         color: $dark-blue;
         margin: 0 0 5px;
 
         span {
           color: $dark-blue;
         }
+      }
+
+      h5 {
+        font-weight: 500;
+        color: $dark-blue;
+        margin: 0 0 12px;
+        font-size: 20px;
       }
 
       p {
@@ -13933,6 +13985,7 @@ img.change-password-image {
     .site_complete table.table thead th:nth-child(2) {
       width: 250px;
     }
+
   }
 }
 
@@ -14017,6 +14070,14 @@ img.change-password-image {
 
       [class*=col-] {
         padding: 0 16px;
+      }
+    }
+
+    .highcharts-legend-item {
+      rect.highcharts-point {
+        width: 10px;
+        height: 10px;
+        transform: translateY(2px);
       }
     }
 
@@ -14331,6 +14392,10 @@ img.change-password-image {
               path {
                 fill: $white;
               }
+
+              rect {
+                fill: $white;
+              }
             }
           }
         }
@@ -14363,7 +14428,9 @@ img.change-password-image {
       margin: 16px 0;
 
       >img {
-        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
       }
     }
 
@@ -14475,12 +14542,28 @@ img.change-password-image {
       }
     }
 
+    .table-registered {
+      overflow-y: auto;
+      max-height: 600px;
+      padding: 0 13px 0 3px;
+      margin: 27px 0 0;
+    }
 
     table {
-      margin: 27px 0 0;
 
       &.registration-view {
         thead {
+          &.sticky-header {
+            position: sticky;
+            top: 0;
+            background: #f3f7fc;
+
+            &:after {
+              background: #f3f7fc;
+              width: 12px;
+            }
+          }
+
           th {
             font-size: 13px;
             color: $dark-blue;
@@ -14510,6 +14593,7 @@ img.change-password-image {
         }
       }
     }
+
   }
 }
 
@@ -14771,6 +14855,16 @@ table {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 .question-listing-analytics {
   &.speaker_zone {

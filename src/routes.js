@@ -216,6 +216,7 @@ import EmailOpened from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/A
 import AnalyticsPoll from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsPoll";
 import AnalyticsQuestions from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsQuestions";
 import AnalyticsRegions from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsRegions";
+import AnalyticsEmailView from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsEmailView";
 
 let platform = 0;
 let show = 0;
@@ -957,6 +958,10 @@ const Routing = () => {
         <Route
           path="/webinar/analytics/analytics-regions"
           element={<LoginLayout component={AnalyticsRegions} />}
+        />
+        <Route
+          path="/webinar/analytics/analytics-emails"
+          element={<LoginLayout component={AnalyticsEmailView} />}
         />
         {/* Webinar Analytics */}
 
