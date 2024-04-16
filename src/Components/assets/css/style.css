@@ -13278,13 +13278,13 @@ table.table-custom {
   pointer-events: none;
 }
 
-.graph-box .graph-data::-webkit-scrollbar {
+.webinar-analytics-layout ::-webkit-scrollbar {
   width: 4px;
 }
-.graph-box .graph-data::-webkit-scrollbar-track {
+.webinar-analytics-layout ::-webkit-scrollbar-track {
   background: #DCE6EF;
 }
-.graph-box .graph-data::-webkit-scrollbar-thumb {
+.webinar-analytics-layout ::-webkit-scrollbar-thumb {
   background: rgba(151, 182, 207, 50%);
   border: 0;
 }
