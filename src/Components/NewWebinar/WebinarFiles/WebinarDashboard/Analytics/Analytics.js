@@ -13,7 +13,31 @@ import { loader } from "../../../../../loader";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
+import Highcharts from "highcharts";
 
+import exporting from "highcharts/modules/exporting";
+import exportData from "highcharts/modules/export-data";
+
+import HighchartsReact from "highcharts-react-official";
+import HighchartsMap from "highcharts/modules/map";
+import proj4 from "proj4";
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+
+import axios from "axios";
+import drilldown from "highcharts/modules/drilldown.js";
+
+import { Link } from "react-router-dom";
+// import customWrap from "./customWrap";
+
+HighchartsMap(Highcharts);
+
+// Load Highcharts modules
+require("highcharts/modules/map")(Highcharts);
+require("highcharts/modules/exporting")(Highcharts);
+exporting(Highcharts);
+exportData(Highcharts);
+drilldown(Highcharts);
+// customWrap(Highcharts);
 const Analytics = (props) => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const {eventIdContext,handleEventId}=useSidebar()
@@ -21,6 +45,7 @@ const Analytics = (props) => {
   const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
   const [usersData, setUsersData] = useState([]);
   const [overViewData, setOverViewData] = useState([]);
+  const [sortedCountries, setSortedCountries] = useState(null);
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -121,10 +146,22 @@ const Analytics = (props) => {
         
         setOverViewData(response?.data?.data || []);
         setUsersData([])
+        setSortedCountries(null)
 
-      }else{
+      }
+      else if(flag=="registeredHcps"){
+
+        setSortedCountries(response?.data?.data )
+        setUsersData([])
+        setOverViewData([])
+
+
+        }
+        else{
         setUsersData(response?.data?.data || []);
         setOverViewData([])
+        setSortedCountries(null)
+
 
       }
 
@@ -176,6 +213,9 @@ const Analytics = (props) => {
       );
     }
   };
+  const onHandleDisplayResultChange=()=>{
+
+  }
   return (
     <>
       <Col className="right-sidebar">
@@ -460,7 +500,7 @@ const Analytics = (props) => {
           </div>}
 
           {/* HCP registered */}
-          <div className="rd-full-explain">
+      {sortedCountries &&    <div className="rd-full-explain">
             <div className="rd-section-title">
               <h6>Registrations</h6>
             </div>
@@ -475,11 +515,13 @@ const Analytics = (props) => {
                       <input
                         type="checkbox"
                         // ={graphType == "pie" ? true : false}
-                        //onChange={onHandleDisplayResultChange}
+                        onChange={onHandleDisplayResultChange}
                       />
                       <span>
                         <span>
                           <img src={path_image + "bar-graph-img.png"} style={{transform:'rotate(90deg)'}}/>
+           
+
                         </span>
                         <span>
                           <img src={path_image + "pie-img.png"} />
@@ -496,10 +538,84 @@ const Analytics = (props) => {
                 </div>
               </div>
               <div className="graph-view">
-                <img src={path_image + "hcps-registered-for-virt.png"} alt="" />
+`                  {/* <img src={path_image + "hcps-registered-for-virt.png"} alt="" /> */}
+`   <HighchartsReact
+          highcharts={Highcharts}
+          options={{
+            chart: {
+              marginTop: 100,
+              type: "bar",
+              events: {
+                load: function () {
+                  let categoryHeight = 50;
+                  this.update({
+                    chart: {
+                      height:
+                        categoryHeight * this.pointCount +
+                        (this.chartHeight - this.plotHeight),
+                    },
+                  });
+                },
+              },
+            },
+            title: {
+              text: "Country List",
+            },
+            xAxis: {
+              categories: sortedCountries?.barChartData?.categoriesData,
+            },
+            credits: {
+              enabled: false,
+            },
+            exporting: {
+              showHighchart: true,
+              showTable: false,
+              tableCaption: "",
+            },
+            // legend: {
+            //   reversed: true,
+            //   align: "center",
+            //   verticalAlign: "top",
+            //   floating: true,
+            //   x: 0,
+            //   y: 50,
+            // },
+            yAxis: {
+              min: 0,
+              title: {
+                text: "",
+              },
+              stackLabels: {
+                enabled: true,
+                style: {
+                  fontWeight: "bold",
+                  color:
+                    (Highcharts.defaultOptions.title.style &&
+                      Highcharts.defaultOptions.title.style.color) ||
+                    "gray",
+                },
+              },
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true,
+                },
+              },
+            },
+
+            series: [
+              {
+                // name: title,
+                data: sortedCountries?.barChartData?.seriesData,
+                color: "#00D4C0",
+              },
+            ],
+          }}
+        />
               </div>
             </div>
-          </div>
+          </div>}
           {/* HCP registered */}
           {/* Registered & attended HCPs According to Region */}
           <div className="rd-full-explain">
