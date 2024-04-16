@@ -14,21 +14,69 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
 
     const [pieChartData, setPieChartData] = useState([]);
     const colors = ["#f5c64a", "#fde3a1", "#ed8188", "#fac5c8", "#004A89"];
-
     const commonPieOptions = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
             type: "pie",
-            height: 250,
+            height: 310,
         },
         title: {
-            text: "",
+            text: "Click on the double arrows to see more details",
             align: "left",
+            style: {
+                fontSize: "14px" // Decreased font size
+            }
         },
+        
         exporting: {
-            enabled: false,
+            enabled: true,
+            
+            menuItemDefinitions: {
+                downloadPNG: {
+                    text: 'Download PNG',
+                    onclick: function() {
+                        this.exportChart();
+                    }
+                },
+                downloadJPEG: {
+                    text: 'Download JPEG',
+                    onclick: function() {
+                        this.exportChart({
+                            type: 'image/jpeg'
+                        });
+                    }
+                },
+                downloadPDF: {
+                    text: 'Download PDF',
+                    onclick: function() {
+                        this.exportChart({
+                            type: 'application/pdf'
+                        });
+                    }
+                },
+                downloadSVG: {
+                    text: 'Download SVG',
+                    onclick: function() {
+                        this.exportChart({
+                            type: 'image/svg+xml'
+                        });
+                    }
+                }
+            },
+            buttons: {
+                contextButton: {
+                    symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)'
+,
+                    menuItems: [
+                        "downloadPNG",
+                        "downloadJPEG",
+                        "downloadPDF",
+                        "downloadSVG"
+                    ]
+                }
+            }
         },
         tooltip: {
             pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
@@ -65,7 +113,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
         },
         series: [],
     };
-
+    
     const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
     const [pieOptionsHcps, setPieOptionsHcps] = useState({ ...commonPieOptions });
 
@@ -154,62 +202,72 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                             </div>
                             <div className='highchart-chart right-side'>
                             <HighchartsReact 
-                                highcharts={Highcharts} 
-                                options={{
-                                    chart: {
-                                        plotBackgroundColor: null,
-                                        plotBorderWidth: null,
-                                        plotShadow: false,
-                                        type: "line",
-                                        height: 250,
-                                    },
-                                      
-                                    title: {
-                                        text: 'Registration Over Time',
-                                        style: {
-                                            fontWeight: "500",
-                                            color: "#70899E",
-                                            fontSize: "14px",
-                                        },
-                                    },
-                                    xAxis: {
-                                        categories: pieChartData?.registeredOverTime?.categoriesData,
-                                    },
-                                    yAxis: {
-                                        title: {
-                                            text: '',
-                                        },
-                                    },
-                                    plotOptions: {
-                                        series: {
-                                            dataLabels: {
-                                                enabled: true,
-                                                format: "{point.y}",
-                                            },
-                                        },
-                                    },
-                                    legend: {
-                                        reversed: true,
-                                        align: "center",
-                                        verticalAlign: "bottom",
-                                        layout: "horizontal",
-                                        x: 0,
-                                        y: 0,
-                                    },
-                                    series: [{
-                                        name: 'HCPS',
-                                        data: pieChartData?.registeredOverTime?.seriesData,
-                                        color: '#007BFF',
-                                        tooltip: {
-                                            valueSuffix: ' users',
-                                        },
-                                    }],
-                                    exporting: {
-                                        enabled: false,
-                                    },
-                                }} 
-                                    style={{width: '100%'}}
-                            />
+    highcharts={Highcharts} 
+    options={{
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: "line",
+            height: 310,
+        },
+        title: {
+            text: 'Registration Over Time',
+            style: {
+                fontWeight: "500",
+                color: "#70899E",
+                fontSize: "14px",
+            },
+        },
+        xAxis: {
+            categories: pieChartData?.registeredOverTime?.categoriesData,
+            labels: {
+                rotation: -45, // rotate labels at a slanted angle
+                style: {
+                    fontSize: "12px",
+                    color: "#555555"
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '',
+            },
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    symbol: 'square', // set marker to square
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y}",
+                },
+            },
+        },
+        legend: {
+            reversed: true,
+            align: "center",
+            verticalAlign: "bottom",
+            layout: "horizontal",
+            x: 0,
+            y: 0,
+        },
+        series: [{
+            name: 'HCPS',
+            data: pieChartData?.registeredOverTime?.seriesData,
+            color: '#874e9e',
+            tooltip: {
+                valueSuffix: ' users',
+            },
+        }],
+        exporting: {
+            enabled: false,
+        },
+    }} 
+    style={{width: '100%'}}
+/>
+
 
                             </div>
                         </div>
