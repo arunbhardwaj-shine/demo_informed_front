@@ -154,56 +154,62 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                             </div>
                             <div className='highchart-chart right-side'>
                             <HighchartsReact 
-    highcharts={Highcharts} 
-    options={{
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: "line",
-            height: 250,
-            width: 500
-        },
-        title: {
-            text: 'Registration Over Time',
-        },
-        xAxis: {
-            categories: pieChartData?.registeredOverTime?.categoriesData,
-        },
-        yAxis: {
-            title: {
-                text: '',
-            },
-        },
-        plotOptions: {
-            series: {
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.y}",
-                },
-            },
-        },
-        legend: {
-            reversed: true,
-            align: "center",
-            verticalAlign: "bottom",
-            layout: "horizontal",
-            x: 0,
-            y: 0,
-        },
-        series: [{
-            name: 'HCPS',
-            data: pieChartData?.registeredOverTime?.seriesData,
-            color: '#007BFF',
-            tooltip: {
-                valueSuffix: ' users',
-            },
-        }],
-        exporting: {
-            enabled: false,
-        },
-    }} 
-/>
+                                highcharts={Highcharts} 
+                                options={{
+                                    chart: {
+                                        plotBackgroundColor: null,
+                                        plotBorderWidth: null,
+                                        plotShadow: false,
+                                        type: "line",
+                                        height: 250,
+                                    },
+                                      
+                                    title: {
+                                        text: 'Registration Over Time',
+                                        style: {
+                                            fontWeight: "500",
+                                            color: "#70899E",
+                                            fontSize: "14px",
+                                        },
+                                    },
+                                    xAxis: {
+                                        categories: pieChartData?.registeredOverTime?.categoriesData,
+                                    },
+                                    yAxis: {
+                                        title: {
+                                            text: '',
+                                        },
+                                    },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: "{point.y}",
+                                            },
+                                        },
+                                    },
+                                    legend: {
+                                        reversed: true,
+                                        align: "center",
+                                        verticalAlign: "bottom",
+                                        layout: "horizontal",
+                                        x: 0,
+                                        y: 0,
+                                    },
+                                    series: [{
+                                        name: 'HCPS',
+                                        data: pieChartData?.registeredOverTime?.seriesData,
+                                        color: '#007BFF',
+                                        tooltip: {
+                                            valueSuffix: ' users',
+                                        },
+                                    }],
+                                    exporting: {
+                                        enabled: false,
+                                    },
+                                }} 
+                                    style={{width: '100%'}}
+                            />
 
                             </div>
                         </div>

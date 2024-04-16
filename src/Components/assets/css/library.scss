@@ -5405,7 +5405,7 @@ input.viewer-toolbar-current-page-input {
   display: none !important;
 }
 
-.highcharts-container svg text.highcharts-title {
+.analytic-charts .highcharts-container svg text.highcharts-title {
   font-size: 20px !important;
   font-weight: 500;
   color: #0b3a81 !important;
@@ -14376,7 +14376,7 @@ img.change-password-image {
             font-size: 14px;
             font-weight: 500;
             line-height: 20px;
-            padding: 8px 0 0;
+            padding: 8px 0 15px;
           }
 
           table {
