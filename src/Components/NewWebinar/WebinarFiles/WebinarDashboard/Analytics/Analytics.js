@@ -227,11 +227,11 @@ const Analytics = (props) => {
                 <div className="rd-section-title">
                   <h6>Registrations</h6>
                 </div>
-                <div className="rd-training-block">
+                {/* <div className="rd-training-block">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="rd-training-block-left">
                       <h4>Total Registrations |{" "}<span>{usersData?.length || 0}</span></h4>
-                    </div>
+                    </div> */}
                     <div className="rd-training-block">
                       <div className="d-flex align-items-center justify-content-between">
                         <div className="rd-training-block-left">
@@ -462,8 +462,8 @@ const Analytics = (props) => {
                         </Table>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  {/* </div>
+                </div> */}
               </div>}
 
               {/* HCP registered */}
@@ -594,11 +594,6 @@ const Analytics = (props) => {
             <div className="rd-section-title">
               <h6>Overview</h6>
             </div>
-            <div className="rd-training-block">
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="rd-training-block-left">
-                  <h4>Overview</h4>
-                </div>
                 <div className="rd-training-block">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="rd-training-block-left">
@@ -826,8 +821,7 @@ const Analytics = (props) => {
                       </tbody>
                   </Table>
                 </div>
-              </div>
-            </div>
+          
           </div>}
           {/* Overview End */}
           </div>
