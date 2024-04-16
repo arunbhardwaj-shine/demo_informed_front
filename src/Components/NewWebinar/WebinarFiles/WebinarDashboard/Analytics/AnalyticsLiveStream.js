@@ -88,7 +88,7 @@ const AnalyticsLiveStream = () => {
 
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
-      height: chartHeight,
+      height: 200,
       type: "spline",
     },
     title: {

@@ -56,7 +56,22 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                       beta: 25,
                       depth: 70,
                     },
+                    // events: {
+                    //   render: function () {
+                    //     const chart = this,
+                    //       group = chart.series[0].group,
+                    //       bBox = group.getBBox(),
+                    //       ratio = bBox.width / bBox.height;
+
+                    //     if (!chart.allowUpdate) {
+                    //       chart.allowUpdate = true;
+                    //       chart.setSize(null, (chart.plotSizeX + 20) / ratio, false);
+                    //       chart.allowUpdate = false;
+                    //     }
+                    //   }
+                    // }
                   },
+                  
                   title: {
                     text: "",
                   },

@@ -14189,6 +14189,7 @@ img.change-password-image {
 
       .graph-box {
         position: relative;
+        padding: 16px 16px 1px;
 
         .highchart-chart {
           &.left-side {
@@ -14204,14 +14205,14 @@ img.change-password-image {
               position: absolute;
               width: 1px;
               border-right: 1px dashed #97B6CF;
-              height: calc(100% + 30px);
+              height: calc(100% + 17px);
               right: 0;
               top: -16px;
             }
 
-            .rd-box-export {
-              bottom: -4px;
-            }
+            // .rd-box-export {
+            //   bottom: -4px;
+            // }
           }
 
           img {
@@ -14222,7 +14223,7 @@ img.change-password-image {
 
         .graph-data {
           overflow-y: auto;
-          max-height: 250px;
+          max-height: 262px;
           padding: 0 6px;
           margin: 0 -6px;
 
@@ -14331,7 +14332,7 @@ img.change-password-image {
       }
 
       .attended_hcp {
-        padding: 8px;
+        padding: 8px 8px 14px;
         display: flex;
 
         .avg-speed {
@@ -14351,6 +14352,13 @@ img.change-password-image {
           padding: 0 27px;
           border-left: 1px dashed #97B6CF;
           border-right: 1px dashed #97B6CF;
+
+          .live-hcp-tracking-img {
+            margin: 0;
+            padding: 0;
+            box-shadow: none;
+            border-radius: 0;
+          }
 
           img {
             max-height: 250px;
