@@ -161,7 +161,8 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             plotBorderWidth: null,
             plotShadow: false,
             type: "line",
-            height: 300,
+            height: 250,
+            width: 500
         },
         title: {
             text: 'Registration Over Time',
