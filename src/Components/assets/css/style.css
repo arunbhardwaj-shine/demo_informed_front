@@ -13288,3 +13288,15 @@ table.table-custom {
   background: rgba(151, 182, 207, 50%);
   border: 0;
 }
+
+
+
+.webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip image.highcharts-button-symbol {
+  transform: translate(0px,-7px) !important;
+}
+.webinar-analytics-layout .highcharts-a11y-proxy-group button.highcharts-no-tooltip {
+  top: 0px!important;
+}
+.webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip rect.highcharts-button-box {
+  transform: translate(0px, -8px);
+}
