@@ -48,103 +48,103 @@ const Analytics = (props) => {
   const [sortedCountries, setSortedCountries] = useState(null);
   const commonPieOptions = {
     chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: "pie",
-        height: 310,
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      height: 800,
     },
     title: {
-        text: "Click on the double arrows to see more details",
-        align: "left",
-        style: {
-            fontSize: "14px" // Decreased font size
-        }
+      text: "Click on the double arrows to see more details",
+      align: "left",
+      style: {
+        fontSize: "14px",
+      },
     },
-    
     exporting: {
-        enabled: true,
-        
-        menuItemDefinitions: {
-            downloadPNG: {
-                text: 'Download PNG',
-                onclick: function() {
-                    this.exportChart();
-                }
-            },
-            downloadJPEG: {
-                text: 'Download JPEG',
-                onclick: function() {
-                    this.exportChart({
-                        type: 'image/jpeg'
-                    });
-                }
-            },
-            downloadPDF: {
-                text: 'Download PDF',
-                onclick: function() {
-                    this.exportChart({
-                        type: 'application/pdf'
-                    });
-                }
-            },
-            downloadSVG: {
-                text: 'Download SVG',
-                onclick: function() {
-                    this.exportChart({
-                        type: 'image/svg+xml'
-                    });
-                }
-            }
+      enabled: true,
+      menuItemDefinitions: {
+        downloadPNG: {
+          text: "Download PNG",
+          onclick: function () {
+            this.exportChart();
+          },
         },
-        buttons: {
-            contextButton: {
-                symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)'
-,
-                menuItems: [
-                    "downloadPNG",
-                    "downloadJPEG",
-                    "downloadPDF",
-                    "downloadSVG"
-                ]
-            }
-        }
+        downloadJPEG: {
+          text: "Download JPEG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/jpeg",
+            });
+          },
+        },
+        downloadPDF: {
+          text: "Download PDF",
+          onclick: function () {
+            this.exportChart({
+              type: "application/pdf",
+            });
+          },
+        },
+        downloadSVG: {
+          text: "Download SVG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/svg+xml",
+            });
+          },
+        },
+      },
+      buttons: {
+        contextButton: {
+          symbol:
+            "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
+          menuItems: [
+            "downloadPNG",
+            "downloadJPEG",
+            "downloadPDF",
+            "downloadSVG",
+          ],
+        },
+      },
     },
     tooltip: {
-        pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
     accessibility: {
-        point: {
-            valueSuffix: "%",
-        },
+      point: {
+        valueSuffix: "%",
+      },
     },
     legend: {
-        verticalAlign: "bottom",
+      enabled: false, // Disable the default legend
     },
     plotOptions: {
-        pie: {
-            size: "80%",
-            dataLabels: {
-                enabled: true,
-                format: "{point.y}",
-                style: {
-                    fontWeight: "bold",
-                    color: "white",
-                    textOutline: "none",
-                    fontSize: "20px",
-                },
-                distance: -40,
-            },
-            animation: {
-                duration: 1000,
-            },
-            enableMouseTracking: true,
-            showInLegend: true,
-            borderWidth: 0,
+      pie: {
+        size: "80%",
+        dataLabels: {
+          enabled: true,
+          format: "{point.percentage:.1f}%",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            fontSize: "20px",
+          },
+          distance: 30, // Set distance from pie slice
+          connectorPadding: 0,
         },
+        animation: {
+          duration: 1000,
+        },
+        enableMouseTracking: true,
+        showInLegend: true,
+        borderWidth: 0,
+      },
     },
     series: [],
-};
+  };
+  
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
 
   const [whichTypeGraph, setWhichTypeGraph] = useState(0);
