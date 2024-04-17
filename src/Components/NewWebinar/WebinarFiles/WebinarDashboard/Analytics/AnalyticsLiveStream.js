@@ -43,15 +43,9 @@ const AnalyticsLiveStream = () => {
         height: 250,
     },
     title: {
-      text: "AVG spend time |",
-        align: "center",
-        style: {
-          fontWeight: "500",
-          color: "#70899E",
-          fontSize: "14px",
-        },
+        text: "",
+        align: "left",
     },
-   
     exporting: {
         enabled: false,
     },
@@ -63,9 +57,71 @@ const AnalyticsLiveStream = () => {
             valueSuffix: "%",
         },
     },
+    // legend: {
+    //     verticalAlign: "bottom",
+    // },
     legend: {
-        verticalAlign: "bottom",
+      reversed: false,
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal", // Display legends in a single line
+      x: 0,
+      y: 0,
+  },
+  exporting: {
+    enabled: true,
+    chartOptions: {
+        title: {
+            text: '' // Remove title from exported image
+        }
     },
+    filename: 'Average_Spend_Time', // Set filename for exported image
+    menuItemDefinitions: {
+        downloadPNG: {
+            text: 'Download PNG',
+            onclick: function() {
+                this.exportChart({
+                    type: 'image/png'
+                });
+            }
+        },
+        downloadJPEG: {
+            text: 'Download JPEG',
+            onclick: function() {
+                this.exportChart({
+                    type: 'image/jpeg'
+                });
+            }
+        },
+        downloadPDF: {
+            text: 'Download PDF',
+            onclick: function() {
+                this.exportChart({
+                    type: 'application/pdf'
+                });
+            }
+        },
+        downloadSVG: {
+            text: 'Download SVG',
+            onclick: function() {
+                this.exportChart({
+                    type: 'image/svg+xml'
+                });
+            }
+        }
+    },
+    buttons: {
+        contextButton: {
+            symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)',
+            menuItems: [
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG"
+            ]
+        }
+    }
+},
     plotOptions: {
         pie: {
             size: "80%",
@@ -94,12 +150,17 @@ const AnalyticsLiveStream = () => {
 
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
-      height: 200,
+      height: chartHeight,
       type: "spline",
     },
     title: {
-      text: "",
-      align: "left",
+      text: "Live HCPs Tracking",
+      align: "center",
+        style: {
+          fontWeight: "500",
+          color: "#70899E",
+          fontSize: "14px",
+        },
     },
     xAxis: {
       categories: [],
@@ -107,19 +168,27 @@ const AnalyticsLiveStream = () => {
       labels: {
         enabled: true,
       },
+      lineColor: '#70899E', // X-axis line color
+      lineWidth: 2, // X-axis line width
     },
     yAxis: {
       title: {
-        text: "online users",
+        text: "",
       },
+      lineColor: '#70899E', // Y-axis line color
+      lineWidth: 2, // Y-axis line width
       allowDecimals: false, // Ensure y-axis labels are integers
     },
+
     legend: {
-      enabled: false,
-    },
+      enabled: true,
+  },
+
     tooltip: {
-      outside: true,
-    },
+      formatter: function() {
+          return '<b>' + this.y + ' ' + this.series.name + ' | ' + this.point.category + '</b>';
+      }
+  },
     exporting: {
       enabled: false,
     },
@@ -139,7 +208,7 @@ const AnalyticsLiveStream = () => {
     },
     series: [
       {
-        name: "Active Users",
+        name: "HCPs",
         data: [],
       },
     ],
@@ -229,7 +298,7 @@ const AnalyticsLiveStream = () => {
       let data = response?.data?.data;
       // console.log(data)
       if (firstTime && data?.count > 0) {
-        getEventRegisterReaders(search, userids);
+        // getEventRegisterReaders(search, userids);
         setFirstTime(false);
       }
       if (data?.count != undefined) {
