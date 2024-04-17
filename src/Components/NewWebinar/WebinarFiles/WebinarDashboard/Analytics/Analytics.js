@@ -57,7 +57,7 @@ const Analytics = (props) => {
       height: 800,
     },
     title: {
-      text: "Click on the double arrows to see more details",
+      // text: "Click on the double arrows to see more details",
       align: "left",
       style: {
         fontSize: "14px",
@@ -732,7 +732,7 @@ const Analytics = (props) => {
                               // },
                             },
                             title: {
-                              text: "Country List",
+                              text: "",
                             },
                             xAxis: {
                               categories:
@@ -872,7 +872,7 @@ const Analytics = (props) => {
                               },
                             },
                             title: {
-                              text: "Region List",
+                              text: "",
                             },
                             xAxis: {
                               categories:
