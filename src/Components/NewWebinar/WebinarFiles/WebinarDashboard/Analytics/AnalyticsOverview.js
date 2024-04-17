@@ -42,83 +42,72 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
           </div>
           <div className="graph-box">
             <div className="highchart-chart">
-              <HighchartsReact
-                key={"overview"}
-                highcharts={Highcharts}
-                options={{
-                  chart: {
-                    type: "bar",
-                    width:316,
-                    height: 250, // Decrease the height of the chart
-                    options3d: {
-                      enabled: true,
-                      alpha: 10,
-                      beta: 25,
-                      depth: 70,
+            <HighchartsReact
+    key={"overview"}
+    highcharts={Highcharts}
+    options={{
+        chart: {
+            type: "bar",
+            width: 316,
+            height: 310, // Decrease the height of the chart
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 25,
+                depth: 70,
+            },
+        },
+        title: {
+            text: "",
+        },
+        xAxis: {
+            categories: [""], // Empty category array
+            labels: {
+                align: "center",
+                reserveSpace: true,
+                y: 20, // Adjust the vertical position of the labels
+                formatter: function () {
+                    return this.value.name; // Display the name property of the data point
+                },
+            },
+            lineColor: 'black', // X-axis line color
+            lineWidth: 2, // X-axis line width
+        },
+        yAxis: {
+            title: {
+                text: null,
+            },
+            lineColor: 'black', // Y-axis line color
+            lineWidth: 2, // Y-axis line width
+        },
+        tooltip: {},
+        plotOptions: {
+            series: {
+                pointWidth: 30, // Adjust the width of the bars
+                dataLabels: {
+                    allowOverlap: false,
+                    distance: 40,
+                    enabled: true,
+                    inside: false,
+                    overflow: "justify",
+                    crop: true,
+                    shape: "callout",
+                    size: "100%",
+                    style: {
+                        fontFamily: "Helvetica, sans-serif",
+                        fontWeight: "normal",
+                        textShadow: "none",
                     },
-                    // events: {
-                    //   render: function () {
-                    //     const chart = this,
-                    //       group = chart.series[0].group,
-                    //       bBox = group.getBBox(),
-                    //       ratio = bBox.width / bBox.height;
+                },
+            },
+        },
+        exporting: {
+            enabled: false, // Disable exporting
+        },
+        series: overviewData,
+    }}
+/>
 
-                    //     if (!chart.allowUpdate) {
-                    //       chart.allowUpdate = true;
-                    //       chart.setSize(null, (chart.plotSizeX + 20) / ratio, false);
-                    //       chart.allowUpdate = false;
-                    //     }
-                    //   }
-                    // }
-                  },
-                  
-                  title: {
-                    text: "",
-                  },
-                  xAxis: {
-                    categories: [""], // Empty category array
-                    labels: {
-                      align: "center",
-                      reserveSpace: true,
-                      y: 20, // Adjust the vertical position of the labels
-                      formatter: function () {
-                        return this.value.name; // Display the name property of the data point
-                      },
-                    },
-                  },
-                  yAxis: {
-                    title: {
-                      text: null,
-                    },
-                  },
-                  tooltip: {},
-                  plotOptions: {
-                    series: {
-                      pointWidth: 30, // Adjust the width of the bars
-                      dataLabels: {
-                        allowOverlap: false,
-                        distance: 40,
-                        enabled: true,
-                        inside: false,
-                        overflow: "justify",
-                        crop: true,
-                        shape: "callout",
-                        size: "100%",
-                        style: {
-                          fontFamily: "Helvetica, sans-serif",
-                          fontWeight: "normal",
-                          textShadow: "none",
-                        },
-                      },
-                    },
-                  },
-                  exporting: {
-                    enabled: false, // Disable exporting
-                  },
-                  series: overviewData,
-                }
-              }                
-              />
             </div>
             <div className="rd-box-export">
               <img
