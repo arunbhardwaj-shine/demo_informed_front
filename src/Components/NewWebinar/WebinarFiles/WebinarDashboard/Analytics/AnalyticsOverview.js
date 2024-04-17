@@ -58,8 +58,13 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
             },
         },
         title: {
-            text: "",
-        },
+          text: "Click on the double arrows to see more details",
+          align: "left",
+          style: {
+              fontSize: "14px" ,// Decreased font size
+              color: "#70899E",
+          }
+      },
         xAxis: {
             categories: [""], // Empty category array
             labels: {
@@ -70,14 +75,14 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                     return this.value.name; // Display the name property of the data point
                 },
             },
-            lineColor: 'black', // X-axis line color
+            lineColor: '#70899E', // X-axis line color
             lineWidth: 2, // X-axis line width
         },
         yAxis: {
             title: {
                 text: null,
             },
-            lineColor: 'black', // Y-axis line color
+            lineColor: '#70899E', // Y-axis line color
             lineWidth: 2, // Y-axis line width
         },
         tooltip: {},
@@ -102,8 +107,59 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
             },
         },
         exporting: {
-            enabled: false, // Disable exporting
-        },
+          enabled: true,
+          chartOptions: {
+              title: {
+                  text: '' // Remove title from exported image
+              }
+          },
+          filename: 'Overview', // Set filename for exported image
+          menuItemDefinitions: {
+              downloadPNG: {
+                  text: 'Download PNG',
+                  onclick: function() {
+                      this.exportChart({
+                          type: 'image/png'
+                      });
+                  }
+              },
+              downloadJPEG: {
+                  text: 'Download JPEG',
+                  onclick: function() {
+                      this.exportChart({
+                          type: 'image/jpeg'
+                      });
+                  }
+              },
+              downloadPDF: {
+                  text: 'Download PDF',
+                  onclick: function() {
+                      this.exportChart({
+                          type: 'application/pdf'
+                      });
+                  }
+              },
+              downloadSVG: {
+                  text: 'Download SVG',
+                  onclick: function() {
+                      this.exportChart({
+                          type: 'image/svg+xml'
+                      });
+                  }
+              }
+          },
+          buttons: {
+              contextButton: {
+                  symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)',
+                  menuItems: [
+                      "downloadPNG",
+                      "downloadJPEG",
+                      "downloadPDF",
+                      "downloadSVG"
+                  ]
+              }
+          }
+      },
         series: overviewData,
     }}
 />
