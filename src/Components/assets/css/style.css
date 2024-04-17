@@ -383,7 +383,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 
 .modal .mail-box-heading-block .clear-search.top-right-action .btn.print:active {
-  background: #0066be;
+  background: var(--light-blue);
 }
 
 .analytic-charts .circle_graph .col button.btn {
@@ -905,7 +905,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 
 .event_listing .action_btn .end {
   background: rgba(152, 108, 165, 0.15);
-  color: #986CA5;
+  color: var(--light-violet);
 }
 
 .event_listing .action_btn .coming {
@@ -6849,7 +6849,7 @@ a.color_blue {
 }
 
 a.color_blue:hover {
-  color: white;
+  color: var(--white);
 }
 
 .email-result .email_box_block.no_found {
@@ -9206,7 +9206,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .page-title p {
-  color: #0066BE;
+  color: var(--light-blue);
   font-size: 16px;
 }
 
@@ -9933,7 +9933,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   top: 38%;
   width: 8px;
   height: 14px;
-  border: solid white;
+  border: solid var(--white);
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg) translateY(-50%);
   -ms-transform: rotate(45deg) translateY(-50%);
@@ -12770,7 +12770,7 @@ color:var(--white);
 
 .octa-academy-template .consent-form .btn#submit_registration {
   margin: 10px 12px 20px auto;
-  background: #0066be;
+  background: var(--light-blue);
   border: 0;
   font-size: 18px;
   line-height: 24px;
