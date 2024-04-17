@@ -46,6 +46,108 @@ const Analytics = (props) => {
   const [usersData, setUsersData] = useState([]);
   const [overViewData, setOverViewData] = useState([]);
   const [sortedCountries, setSortedCountries] = useState(null);
+  const commonPieOptions = {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: "pie",
+        height: 310,
+    },
+    title: {
+        text: "Click on the double arrows to see more details",
+        align: "left",
+        style: {
+            fontSize: "14px" // Decreased font size
+        }
+    },
+    
+    exporting: {
+        enabled: true,
+        
+        menuItemDefinitions: {
+            downloadPNG: {
+                text: 'Download PNG',
+                onclick: function() {
+                    this.exportChart();
+                }
+            },
+            downloadJPEG: {
+                text: 'Download JPEG',
+                onclick: function() {
+                    this.exportChart({
+                        type: 'image/jpeg'
+                    });
+                }
+            },
+            downloadPDF: {
+                text: 'Download PDF',
+                onclick: function() {
+                    this.exportChart({
+                        type: 'application/pdf'
+                    });
+                }
+            },
+            downloadSVG: {
+                text: 'Download SVG',
+                onclick: function() {
+                    this.exportChart({
+                        type: 'image/svg+xml'
+                    });
+                }
+            }
+        },
+        buttons: {
+            contextButton: {
+                symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)'
+,
+                menuItems: [
+                    "downloadPNG",
+                    "downloadJPEG",
+                    "downloadPDF",
+                    "downloadSVG"
+                ]
+            }
+        }
+    },
+    tooltip: {
+        pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+        point: {
+            valueSuffix: "%",
+        },
+    },
+    legend: {
+        verticalAlign: "bottom",
+    },
+    plotOptions: {
+        pie: {
+            size: "80%",
+            dataLabels: {
+                enabled: true,
+                format: "{point.y}",
+                style: {
+                    fontWeight: "bold",
+                    color: "white",
+                    textOutline: "none",
+                    fontSize: "20px",
+                },
+                distance: -40,
+            },
+            animation: {
+                duration: 1000,
+            },
+            enableMouseTracking: true,
+            showInLegend: true,
+            borderWidth: 0,
+        },
+    },
+    series: [],
+};
+  const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
+
+  const [whichTypeGraph, setWhichTypeGraph] = useState(0);
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -150,7 +252,14 @@ const Analytics = (props) => {
 
       }
       else if(flag=="registeredHcps"){
-
+const newValue = [
+                    {
+                        name: "",
+                        colorByPoint: true,
+                        data: response?.data?.data?.pieChartData,
+                    },
+                ];
+                setPieOptions({ ...commonPieOptions, series: newValue });
         setSortedCountries(response?.data?.data )
         setUsersData([])
         setOverViewData([])
@@ -214,7 +323,7 @@ const Analytics = (props) => {
     }
   };
   const onHandleDisplayResultChange=()=>{
-
+    setWhichTypeGraph(!whichTypeGraph)
   }
   return (
     <>
@@ -507,7 +616,7 @@ const Analytics = (props) => {
               </div>}
 
               {/* HCP registered */}
-              {sortedCountries &&    <div className="rd-full-explain">
+              {sortedCountries  &&    <div className="rd-full-explain">
             <div className="rd-section-title">
               <h6>Registrations</h6>
             </div>
@@ -545,8 +654,7 @@ const Analytics = (props) => {
                 </div>
               </div>
               <div className="graph-view">
-`                  {/* <img src={path_image + "hcps-registered-for-virt.png"} alt="" /> */}
-`   <HighchartsReact
+{  whichTypeGraph==0?  <HighchartsReact
           highcharts={Highcharts}
           options={{
             chart: {
@@ -619,7 +727,8 @@ const Analytics = (props) => {
               },
             ],
           }}
-        />
+        />:                                <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+      }
               </div>
             </div>
           </div>}
