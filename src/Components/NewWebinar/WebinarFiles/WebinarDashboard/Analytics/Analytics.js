@@ -714,21 +714,23 @@ const Analytics = (props) => {
                             chart: {
                               marginTop: 100,
                               type: "bar",
-                              events: {
-                                load: function () {
-                                  let categoryHeight = 50;
-                                  this.update({
-                                    chart: {
-                                      height:
-                                        categoryHeight * this.pointCount +
-                                        (this.chartHeight - this.plotHeight),
-                                    },
-                                  });
-                                },
-                              },
+                              height: 1800,
+
+                              // events: {
+                              //   load: function () {
+                              //     let categoryHeight = 50;
+                              //     this.update({
+                              //       chart: {
+                              //         height:
+                              //           categoryHeight * this.pointCount +
+                              //           (this.chartHeight - this.plotHeight),
+                              //       },
+                              //     });
+                              //   },
+                              // },
                             },
                             title: {
-                              text: "Region List",
+                              text: "Country List",
                             },
                             xAxis: {
                               categories:
@@ -779,7 +781,6 @@ const Analytics = (props) => {
                               {
                                 // name: title,
                                 data: sortedCountries?.barChartData?.seriesData,
-                                color: "#00D4C0",
                               },
                             ],
                           }}
@@ -869,7 +870,7 @@ const Analytics = (props) => {
                               },
                             },
                             title: {
-                              text: "Country List",
+                              text: "Region List",
                             },
                             xAxis: {
                               categories:
