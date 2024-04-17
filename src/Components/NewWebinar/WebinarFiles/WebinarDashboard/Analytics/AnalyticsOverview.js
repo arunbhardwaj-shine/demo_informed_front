@@ -150,7 +150,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
           },
           buttons: {
               contextButton: {
-                  symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)',
+                  symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
                   menuItems: [
                       "downloadPNG",
                       "downloadJPEG",
