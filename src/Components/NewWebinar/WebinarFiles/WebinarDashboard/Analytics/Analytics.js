@@ -54,10 +54,61 @@ const Analytics = (props) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: "600",
+      height: 800,
     },
     title: {
-      text: "",
+      text: "Click on the double arrows to see more details",
+      align: "left",
+      style: {
+        fontSize: "14px",
+      },
+    },
+    exporting: {
+      enabled: true,
+      menuItemDefinitions: {
+        downloadPNG: {
+          text: "Download PNG",
+          onclick: function () {
+            this.exportChart();
+          },
+        },
+        downloadJPEG: {
+          text: "Download JPEG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/jpeg",
+            });
+          },
+        },
+        downloadPDF: {
+          text: "Download PDF",
+          onclick: function () {
+            this.exportChart({
+              type: "application/pdf",
+            });
+          },
+        },
+        downloadSVG: {
+          text: "Download SVG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/svg+xml",
+            });
+          },
+        },
+      },
+      buttons: {
+        contextButton: {
+          symbol:
+            "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
+          menuItems: [
+            "downloadPNG",
+            "downloadJPEG",
+            "downloadPDF",
+            "downloadSVG",
+          ],
+        },
+      },
     },
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
@@ -67,18 +118,35 @@ const Analytics = (props) => {
         valueSuffix: "%",
       },
     },
+    legend: {
+      enabled: false, // Disable the default legend
+    },
     plotOptions: {
       pie: {
-        allowPointSelect: true,
-        cursor: "pointer",
+        size: "80%",
         dataLabels: {
           enabled: true,
-          format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+          format: "{point.percentage:.1f}%",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            fontSize: "20px",
+          },
+          distance: 30, // Set distance from pie slice
+          connectorPadding: 0,
         },
+        animation: {
+          duration: 1000,
+        },
+        enableMouseTracking: true,
+        showInLegend: true,
+        borderWidth: 0,
       },
     },
     series: [],
   };
+  
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
 
   const [whichTypeGraph, setWhichTypeGraph] = useState(0);
