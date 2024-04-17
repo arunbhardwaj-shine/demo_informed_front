@@ -61,8 +61,8 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
           text: "Click on the double arrows to see more details",
           align: "left",
           style: {
-              fontSize: "14px" ,// Decreased font size
-              color: "#70899E",
+              fontSize: "12px" ,// Decreased font size
+              color: "#97B6CF",
           }
       },
         xAxis: {
@@ -75,14 +75,14 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                     return this.value.name; // Display the name property of the data point
                 },
             },
-            lineColor: '#70899E', // X-axis line color
+            lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
             lineWidth: 2, // X-axis line width
         },
         yAxis: {
             title: {
                 text: null,
             },
-            lineColor: '#70899E', // Y-axis line color
+            lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
             lineWidth: 2, // Y-axis line width
         },
         tooltip: {},
