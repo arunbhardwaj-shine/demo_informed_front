@@ -256,7 +256,7 @@ const newValue = [
                     {
                         name: "",
                         colorByPoint: true,
-                        data: response?.data?.data?.pieChartData,
+                        data: response?.data?.data?.barChartData.pieChartDataToggle,
                     },
                 ];
                 setPieOptions({ ...commonPieOptions, series: newValue });
