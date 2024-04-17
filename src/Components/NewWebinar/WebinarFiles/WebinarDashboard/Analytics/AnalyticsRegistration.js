@@ -273,7 +273,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                     series: [ 
                                         {
                                             name: 'New on One Source',
-                                            data:[3,56,98],
+                                            data:[],
                                             color: '#F58289',
                                             // tooltip: {
                                             //     valueSuffix: ' users',
@@ -286,7 +286,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                          {
                                         
                                         name: 'External List',
-                                        data: [1,2,23,4,5,67,8],
+                                        data: [],
                                         color: '#FAC755',
                                         // tooltip: {
                                         //     valueSuffix: ' users',
