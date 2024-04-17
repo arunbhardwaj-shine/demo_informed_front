@@ -185,13 +185,35 @@ const AnalyticsLiveStream = () => {
       allowDecimals: false, // Ensure y-axis labels are integers
     },
 
-    legend: {
-      enabled: true,
-  },
+  //   legend: {
+  //     enabled: true,
+  // },
+  legend: {
+    align: "center",
+    verticalAlign: "bottom",
+    layout: "horizontal",
+    x: 0,
+    y: 0,
+    itemStyle: {
+        fontWeight: "normal",
+        color: "#555555",
+        fontSize: "12px"
+    },
+    itemHoverStyle: {
+        color: "#000000"
+    },
+    itemHiddenStyle: {
+        color: "#C0C0C0"
+    },
+    symbolWidth: 8,
+    symbolHeight: 8,
+    itemDistance: 20,
+    lineWidth: 0, // Remove the line cutting through the marker
+},
 
     tooltip: {
       formatter: function() {
-          return '<b>' + this.y + ' ' + this.series.name + ' | ' + this.point.category + '</b>';
+          return '<b>' + this.y + ' ' + 'HCPs' + ' | ' + this.point.category + '</b>';
       }
   },
     exporting: {
@@ -200,20 +222,18 @@ const AnalyticsLiveStream = () => {
     plotOptions: {
       series: {
         marker: {
-          enabled: false,
-          fillColor: "#8a4e9c",
-          states: {
-            hover: {
-              enabled: false,
-            },
-          },
+          symbol: 'circle',
+          // // fillColor: "#8a4e9c",
+          fillColor: "#56cabc",
         },
-        color: "#0066be",
+        // color: "#0066be",
+        color: "#56cabc",
       },
     },
     series: [
       {
-        name: "HCPs",
+        name: "HCPs online",
+      
         data: [],
       },
     ],
@@ -315,7 +335,8 @@ const AnalyticsLiveStream = () => {
           let seriesData = prevOptions.series[0]?.data || [];
           let obj = {
             y: newDataLength,
-            marker: { enabled: true, radius: 5, fillColor: "#8a4e9c" },
+            // marker: { enabled: true, radius: 5, fillColor: "#8a4e9c" },
+            marker: { enabled: true, radius: 5, fillColor: "#56cabc" },
           };
           prevCategory.push("");
           let lastElement = prevValue.pop();

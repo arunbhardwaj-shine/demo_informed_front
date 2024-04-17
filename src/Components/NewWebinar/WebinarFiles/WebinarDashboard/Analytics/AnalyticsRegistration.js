@@ -256,13 +256,34 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                             },
                                         },
                                     },
+                                    // legend: {
+                                    //     align: "center",
+                                    //     verticalAlign: "bottom",
+                                    //     layout: "horizontal",
+                                    //     x: 0,
+                                    //     y: 0,
+                                    // },
                                     legend: {
-                                        reversed: true,
                                         align: "center",
                                         verticalAlign: "bottom",
                                         layout: "horizontal",
                                         x: 0,
                                         y: 0,
+                                        itemStyle: {
+                                            fontWeight: "normal",
+                                            color: "#555555",
+                                            fontSize: "12px"
+                                        },
+                                        itemHoverStyle: {
+                                            color: "#000000"
+                                        },
+                                        itemHiddenStyle: {
+                                            color: "#C0C0C0"
+                                        },
+                                        symbolWidth: 8,
+                                        symbolHeight: 8,
+                                        itemDistance: 20,
+                                        lineWidth: 0, // Remove the line cutting through the marker
                                     },
                                     tooltip: {
                                         formatter: function() {
@@ -271,42 +292,33 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                     },
                                     
                                     series: [ 
-                                        {
-                                            name: 'New on One Source',
-                                            data:[],
-                                            color: '#F58289',
-                                            // tooltip: {
-                                            //     valueSuffix: ' users',
-                                            // },
-                                            
-                                            marker: {
-                                                symbol: 'circle', // set marker to circle for this series
-                                            },
-                                        },
-                                         {
-                                        
-                                        name: 'External List',
-                                        data: [],
-                                        color: '#FAC755',
-                                        // tooltip: {
-                                        //     valueSuffix: ' users',
-                                        // },
-                                        // marker: {
-                                        //     symbol: 'url(https://www.highcharts.com/samples/graphics/snow.png)', // set marker to kite shape for this series
-                                        // },
-                                    },
-                                  
+                                      
                                     {
-                                        name: 'HCPS',
+                                        name: 'Emails',
                                         data: pieChartData?.registeredOverTime?.seriesData,
                                         color: '#874e9e',
-                                        // tooltip: {
-                                        //     valueSuffix: ' users',
-                                        // },
                                         marker: {
                                             symbol: 'square', // set marker to square for this series
                                         },
                                     },
+                                    {
+                                       
+                                        name: 'External List',
+                                        data:[],
+                                        color: '#FAC755',
+                                        marker: {
+                                            symbol: 'diamond', // set marker to circle for this series
+                                        },
+                                    },
+                                     {
+                                    
+                                    name: 'Directly One Source',
+                                    data: [],
+                                    color: '#F58289',
+                                    marker: {
+                                        symbol: 'circle', // set marker to circle for this series
+                                    },
+                                },
                                    
                                  
                                 ],
