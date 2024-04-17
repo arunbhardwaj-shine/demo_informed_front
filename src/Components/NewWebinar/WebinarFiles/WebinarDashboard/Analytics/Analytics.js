@@ -48,6 +48,7 @@ const Analytics = (props) => {
   const [usersData, setUsersData] = useState([]);
   const [overViewData, setOverViewData] = useState([]);
   const [sortedCountries, setSortedCountries] = useState(null);
+  const [attendedUsers, setAttendedUsers] = useState(null);
   const commonPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -336,6 +337,26 @@ const Analytics = (props) => {
   const onHandleDisplayResultChange = () => {
   setWhichTypeGraph(!whichTypeGraph);
   };
+
+
+  const handleAttendedUserCountryWise = async () => {
+    loader("show");
+  
+    const body = {
+      eventId: eventId,
+    };
+  
+    try {
+      const response = await postData(ENDPOINT.GET_ATTENDED_DATA, body);
+      const responseData = response?.data?.data || [];
+      setAttendedUsers(responseData)
+  
+      loader("hide");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      loader("hide");
+    }
+  };
   return (
     <>
       <Col className="right-sidebar">
@@ -389,7 +410,7 @@ const Analytics = (props) => {
                   <AnalyticsEmail />
                 </Col>
                 <Col md={7} style={{ margin: "40px 0 0" }}>
-                  <AnalyticsLiveStream />
+                  <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
                 </Col>
               </Row>
               {usersData?.length > 0 && (
@@ -940,7 +961,7 @@ const Analytics = (props) => {
               )}
               {/* HCP registered */}
               {/* Registered & attended HCPs According to Region */}
-              <div className="rd-full-explain">
+           {attendedUsers&&   <div className="rd-full-explain">
                 <div className="rd-section-title">
                   <h6>Registrations</h6>
                 </div>
@@ -979,7 +1000,84 @@ const Analytics = (props) => {
                     </div> */}
                   </div>
                   <div className="country_tabs">
-                    <Tabs defaultActiveKey="mena" className="" fill>
+                  <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            chart: {
+                              marginTop: 100,
+                              type: "bar",
+                              events: {
+                                load: function () {
+                                  let categoryHeight = 50;
+                                  this.update({
+                                    chart: {
+                                      height:
+                                        categoryHeight * this.pointCount +
+                                        (this.chartHeight - this.plotHeight),
+                                    },
+                                  });
+                                },
+                              },
+                            },
+                            title: {
+                              text: "",
+                            },
+                            xAxis: {
+                              categories:
+                              attendedUsers?.map(item => item.name)                            },
+                            credits: {
+                              enabled: false,
+                            },
+                            exporting: {
+                              showHighchart: true,
+                              showTable: false,
+                              tableCaption: "",
+                            },
+                            // legend: {
+                            //   reversed: true,
+                            //   align: "center",
+                            //   verticalAlign: "top",
+                            //   floating: true,
+                            //   x: 0,
+                            //   y: 50,
+                            // },
+                            yAxis: {
+                              min: 0,
+                              title: {
+                                text: "",
+                              },
+                              stackLabels: {
+                                enabled: true,
+                                style: {
+                                  fontWeight: "bold",
+                                  color:
+                                    (Highcharts.defaultOptions.title.style &&
+                                      Highcharts.defaultOptions.title.style
+                                        .color) ||
+                                    "gray",
+                                },
+                              },
+                            },
+                            plotOptions: {
+                              bar: {
+                                dataLabels: {
+                                  enabled: true,
+                                },
+                              },
+                            },
+
+                            series: [{
+                              name: 'Registered',
+                              data: attendedUsers.map(item => item.data[0].y), // Registered users data
+                              color: '#f5c64a'
+                            }, {
+                              name: 'Attended',
+                              data: attendedUsers.map(item => item.data[1].y), // Attended users data
+                              color: '#56cabc'
+                            }]
+                          }}
+                        />
+                    {/* <Tabs defaultActiveKey="mena" className="" fill>
                       <Tab eventKey="mena" title="MENA">
                         <img src={path_image + "attended-hcp.png"} alt="" />
                       </Tab>
@@ -1013,10 +1111,10 @@ const Analytics = (props) => {
                       <Tab eventKey="us" title="US">
                         <img src={path_image + "attended-hcp.png"} alt="" />
                       </Tab>
-                    </Tabs>
+                    </Tabs> */}
                   </div>
                 </div>
-              </div>
+              </div>}
               {/* Registered & attended HCPs According to Region */}
               {/*Overview */}
               {overViewData?.length > 0 && (
@@ -1244,7 +1342,7 @@ const Analytics = (props) => {
                           <th>Country</th>
                           <th>Registered</th>
                           <th>Attended</th>
-                          <th>Post-event views</th>
+                          {/* <th>Post-event views</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -1257,7 +1355,7 @@ const Analytics = (props) => {
                               <td>{user.country}</td>
                               <td className="green">{user.register_time}</td>
                               <td>{user.Attended}</td>
-                              <td>{user.postEventViews}</td>
+                              {/* <td>{user.postEventViews}</td> */}
                             </tr>
                             <tr className="blank">
                               <td colspan="7">&nbsp;</td>

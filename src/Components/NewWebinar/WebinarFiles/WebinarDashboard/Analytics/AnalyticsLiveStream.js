@@ -15,7 +15,7 @@ import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
-const AnalyticsLiveStream = () => {
+const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
   const [chartHeight, setChartHeight] = useState(270);
   const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
   const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
@@ -486,7 +486,7 @@ const AnalyticsLiveStream = () => {
                 ))}
               </Table>
               <div className="rd-box-export">
-                <img src={path_image + "arrow-export.svg"} alt="" />
+                <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />
               </div>
             </div>
           </div>
