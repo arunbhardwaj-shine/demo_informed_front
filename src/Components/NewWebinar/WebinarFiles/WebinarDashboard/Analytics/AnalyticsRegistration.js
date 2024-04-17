@@ -235,14 +235,14 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                                 color: "#555555"
                                             }
                                         },
-                                        lineColor: '#70899E', // X-axis line color
+                                        lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
                                         lineWidth: 2, // X-axis line width
                                     },
                                     yAxis: {
                                         title: {
                                             text: '',
                                         },
-                                        lineColor: '#70899E', // Y-axis line color
+                                        lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
                                         lineWidth: 2, // Y-axis line width
                                     },
                                     plotOptions: {
