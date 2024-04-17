@@ -330,9 +330,9 @@ const newValue = [
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header analytics_header">
               <div className="page-title d-flex flex-column align-items-start">
-                <h2>{eventData?.title}</h2>
+                <h2 title={eventData?.title}>{eventData?.title}</h2>
                 <p>{eventData?.formattedEventStartDateTime}</p>
               </div>
               <Button title="Download Site Engagements" className="download filled">Summary (Excel) 

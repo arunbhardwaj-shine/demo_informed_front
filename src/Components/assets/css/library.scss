@@ -4127,7 +4127,7 @@ input[type="number"] {
 }
 
 .wrap_div .radio_btn input[type="checkbox"]:checked~.checkmark {
-  background-color: #39cabc;
+  background-color: $secondary-green;
 }
 
 .wrap_div .radio_btn input[type="checkbox"]:checked~.checkmark:after {
@@ -4135,7 +4135,7 @@ input[type="number"] {
 }
 
 .wrap_div .radio_btn.div_checked+.timeline-block {
-  box-shadow: 0 0 8px #39cabc;
+  box-shadow: 0 0 8px $secondary-green;
 }
 
 .timeline-block-title img {
@@ -5030,7 +5030,7 @@ header.-top-24~div .tabs_content_load ul.nav-tabs {
 
 .high_charts .highcharts-data-table table thead tr th {
   font-weight: 500;
-  color: #0b3a81;
+  color: $secondary-blue;
 }
 
 .create-change-content.analytic-charts .product-unit .form-group {
@@ -5055,7 +5055,7 @@ input.viewer-toolbar-current-page-input {
 
 .high_charts .highcharts-data-table table tr th {
   font-weight: 500;
-  color: #0b3a81;
+  color: $secondary-blue;
 }
 
 .create-change-content.analytic-charts .product-unit .form-group label {
@@ -5124,14 +5124,14 @@ input.viewer-toolbar-current-page-input {
 
       .nav-link {
         width: 100%;
-        color: #0b3a81;
+        color: $secondary-blue;
         background: rgb(11 58 129 / 16%);
         font-weight: 500;
         font-size: 18px;
 
         &.active {
-          background: #0b3a81;
-          border-bottom: 1px solid #0b3a81;
+          background: $secondary-blue;
+          border-bottom: 1px solid $secondary-blue;
           color: $white;
         }
       }
@@ -5397,8 +5397,8 @@ input.viewer-toolbar-current-page-input {
 .delivery-trends .tab-content .col .highcharts-container text.highcharts-title {
   font-size: 15px !important;
   font-weight: 500;
-  color: #0b3a81 !important;
-  fill: #0b3a81 !important;
+  color: $secondary-blue !important;
+  fill: $secondary-blue !important;
 }
 
 .high_charts .highcharts-data-table+.highcharts-data-table {
@@ -5408,8 +5408,8 @@ input.viewer-toolbar-current-page-input {
 .analytic-charts .highcharts-container svg text.highcharts-title {
   font-size: 20px !important;
   font-weight: 500;
-  color: #0b3a81 !important;
-  fill: #0b3a81 !important;
+  color: $secondary-blue !important;
+  fill: $secondary-blue !important;
 }
 
 .delivery-trends .tab-content {
@@ -5447,13 +5447,13 @@ input.viewer-toolbar-current-page-input {
   padding-top: 6px;
   font-size: 17px;
   margin-bottom: 10px;
-  color: #0b3a81;
+  color: $secondary-blue;
   font-weight: 500;
 }
 
 .kpi-graph-inside .content-listed-content h5.sub_title {
   font-size: 15px;
-  color: #0b3a81;
+  color: $secondary-blue;
   font-family: "Roboto";
   font-weight: 500;
 }
@@ -5504,7 +5504,7 @@ input.viewer-toolbar-current-page-input {
 .count_display p {
   font-size: 15px;
   margin-bottom: 0.5rem;
-  color: #0b3a81;
+  color: $secondary-blue;
   font-family: "Roboto";
   font-weight: 500;
 }
@@ -6173,8 +6173,8 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 .high_charts.top ul.nav.nav-tabs li.nav-item button {
   font-size: 14px;
   padding: 5px 10px;
-  border-bottom: 1px solid #0b3a81;
-  color: #0b3a81;
+  border-bottom: 1px solid $secondary-blue;
+  color: $secondary-blue;
   background: rgb(11 58 129 / 16%);
   font-weight: 500;
   height: 100%;
@@ -6182,7 +6182,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 }
 
 .high_charts.top ul.nav.nav-tabs li.nav-item button.active {
-  background: #0b3a81;
+  background: $secondary-blue;
   color: $white;
 }
 
@@ -6486,7 +6486,7 @@ svg.pencil_icon {
 //   width: 50%;
 // }
 .delivery-trends .high_charts-leftside {
-  border-right: 1px dashed #97B6CF;
+  border-right: 1px dashed $light-gray;
 }
 
 .delivery-trends .high_charts-leftside .row {
@@ -9011,8 +9011,8 @@ svg.pencil_icon {
     flex: 0 0 16px;
 
     &:checked {
-      background-color: #39cabc;
-      border-color: #39cabc;
+      background-color: $secondary-green;
+      border-color: $secondary-green;
       background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
     }
   }
@@ -13376,7 +13376,7 @@ img.change-password-image {
 
           .col {
             padding: 0 12px 0 16px;
-            border-right: 1px dashed #97B6CF;
+            border-right: 1px dashed $light-gray;
 
             >p {
               margin: 0 0 9px;
@@ -13423,13 +13423,13 @@ img.change-password-image {
 
       .video-click {
         p {
-          color: #39CABC;
+          color: $secondary-green;
         }
       }
 
       .video-banner {
         p {
-          color: #0066BE;
+          color: $primary-color;
         }
       }
 
@@ -14184,12 +14184,12 @@ img.change-password-image {
       }
 
       .col-md-9 {
-        border-left: 1px dashed #97B6CF;
+        border-left: 1px dashed $light-gray;
       }
 
       .graph-box {
         position: relative;
-        padding: 16px 5px 1px;
+        padding: 16px 12px 1px;
 
         .highchart-chart {
           &.left-side {
@@ -14204,7 +14204,7 @@ img.change-password-image {
               content: "";
               position: absolute;
               width: 1px;
-              border-right: 1px dashed #97B6CF;
+              border-right: 1px dashed $light-gray;
               height: calc(100% + 17px);
               right: 0;
               top: -16px;
@@ -14267,7 +14267,7 @@ img.change-password-image {
 
                 &:first-child {
                   span {
-                    color: #97B6CF;
+                    color: $light-gray;
                     font-size: 10px;
                     line-height: 18px;
                   }
@@ -14292,7 +14292,7 @@ img.change-password-image {
                       position: absolute;
                       content: "";
                       left: 0;
-                      border-left: 1px dashed #97B6CF;
+                      border-left: 1px dashed $light-gray;
                       top: 12px;
                     }
                   }
@@ -14350,8 +14350,8 @@ img.change-password-image {
         .hcp-tracking {
           width: 42%;
           padding: 0 27px;
-          border-left: 1px dashed #97B6CF;
-          border-right: 1px dashed #97B6CF;
+          border-left: 1px dashed $light-gray;
+          border-right: 1px dashed $light-gray;
 
           .live-hcp-tracking-img {
             margin: 0;
@@ -14388,7 +14388,7 @@ img.change-password-image {
                 color: #004A89;
 
                 &:last-child {
-                  color: #39CABC;
+                  color: $secondary-green;
                   font-weight: 700;
                   text-align: center;
                 }
@@ -14406,7 +14406,7 @@ img.change-password-image {
     margin-bottom: 15px;
 
     h6 {
-      color: #97B6CF;
+      color: $light-gray;
       font-size: 16px;
       font-weight: 400;
     }
@@ -14517,7 +14517,7 @@ img.change-password-image {
 
     .graph-view {
       border-radius: 20px;
-      background: #FFF;
+      background: $white;
       box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
       padding: 30px 12px;
       margin: 24px 0;
@@ -14682,7 +14682,7 @@ img.change-password-image {
             padding: 16px;
 
             &.green {
-              color: #39CABC;
+              color: $secondary-green;
             }
           }
         }
@@ -14707,7 +14707,7 @@ table {
 
     tbody {
       tr {
-        background: #fff;
+        background: $white;
         border-radius: 9px;
         box-shadow: 0 1px 6px rgba(0, 102, 190, .2);
         overflow: hidden;
@@ -14735,7 +14735,7 @@ table {
             background: rgba(0, 102, 190, .03);
             padding: 0px 0;
             border-radius: 0 0 9px 9px;
-            border-top: .5px dashed #97b6cf;
+            border-top: .5px dashed $light-gray;
 
             .fold-content {
               gap: 28px;
@@ -14952,20 +14952,10 @@ table {
 }
 
 
-
-
-
-
-
-
-
-
-
 .question-listing-analytics {
   &.speaker_zone {
     padding: 0 0 20px;
   }
-
   .reader_list {
     margin-bottom: 40px;
 
@@ -14985,9 +14975,6 @@ table {
   .question-listing-analytics-left {
     padding: 8px 10px 16px 28px;
     width: 33%;
-
-
-
     .user-question {
       background: rgba(0, 102, 190, .06);
       border: .5px solid rgba(0, 102, 190, .02);
@@ -15304,6 +15291,7 @@ table {
 
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
+
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top h5 {
     font-size: 17px;
     line-height: 23px;
@@ -18415,7 +18403,7 @@ table {
         ul {
           li {
             &:after {
-              background: #39cabc;
+              background: $secondary-green;
             }
           }
         }
@@ -20104,8 +20092,8 @@ table {
         top: 3px;
 
         &:checked {
-          background-color: #39cabc;
-          border-color: #39cabc;
+          background-color: $secondary-green;
+          border-color: $secondary-green;
           background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
         }
       }
@@ -20902,7 +20890,7 @@ table {
         position: relative;
 
         &:after {
-          border-top: 1px dashed #97B6CF;
+          border-top: 1px dashed $light-gray;
           top: 0;
           content: "";
           position: absolute;
@@ -20922,7 +20910,7 @@ table {
       position: relative;
 
       // &:after {
-      //   border-bottom: 1px dashed #97B6CF;
+      //   border-bottom: 1px dashed $light-gray;
       //   bottom: 0;
       //   content: "";
       //   position: absolute;
@@ -20958,7 +20946,7 @@ table {
             top: 0;
             width: 1px;
             height: 100%;
-            background: #97B6CF;
+            background: $light-gray;
           }
 
           small {
@@ -20983,7 +20971,7 @@ table {
         &>h5 {
           display: flex;
           align-items: center;
-          color: #97B6CF;
+          color: $light-gray;
           font-size: 16px;
           font-weight: 500;
           line-height: normal;
