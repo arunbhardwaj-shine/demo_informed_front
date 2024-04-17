@@ -43,8 +43,13 @@ const AnalyticsLiveStream = () => {
         height: 250,
     },
     title: {
-        text: "",
+        text: "AVG spend time |",
         align: "left",
+        style: {
+          fontWeight: "500",
+          fontSize: "14px" ,// Decreased font size
+          color: "#70899E",
+      }
     },
     exporting: {
         enabled: false,
