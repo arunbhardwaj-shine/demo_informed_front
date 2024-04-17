@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
+import { Accordion, Button, Carousel, Col, Row, Table } from 'react-bootstrap';
 
 const AnalyticsAttendees = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -277,6 +277,7 @@ const AnalyticsAttendees = () => {
                       </div>
                     )}
                   </div>
+                  <div className="clear-search">
                   <Button
                     title="Download stats" className="download"
                   // onClick={() => handleExport("individual_completion")}
@@ -298,6 +299,7 @@ const AnalyticsAttendees = () => {
                       ></path>
                     </svg>
                   </Button>
+                  </div>
                 </div>
               </div>
               <div className="search-hcp smart-list-view">
@@ -332,19 +334,15 @@ const AnalyticsAttendees = () => {
                       <td>
                         United Kingdom
                       </td>
-
                       <td>
                         45 min
                       </td>
-
                       <td>
                         Yes
                       </td>
-
                       <td className="infocol">
                         Yes
                       </td>
-
                     </tr>
                           
                     <tr className={"fold"}>
