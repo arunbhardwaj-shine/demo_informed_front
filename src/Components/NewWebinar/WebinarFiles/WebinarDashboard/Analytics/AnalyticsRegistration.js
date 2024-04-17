@@ -26,10 +26,9 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             text: "Click on the double arrows to see more details",
             align: "left",
             style: {
-                fontSize: "14px", // Decreased font size
-                color: "#70899E",
-            },
-            // margin: 15,
+                fontSize: "12px",
+                color: "#97B6CF",
+            }
         },
         
         exporting: {
@@ -76,7 +75,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             },
             buttons: {
                 contextButton: {
-                    symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)',
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
                     menuItems: [
                         "downloadPNG",
                         "downloadJPEG",
