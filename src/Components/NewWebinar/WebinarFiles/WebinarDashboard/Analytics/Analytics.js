@@ -266,11 +266,15 @@ const Analytics = (props) => {
           {
             name: "",
             colorByPoint: true,
+           drilldown: true, // enable drilldown for this series
+
             data: response?.data?.data?.regionData?.pieChartData,
           },
         ];
         setPieOptions({ ...commonPieOptions, series: newValue });
-        setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion });
+        setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion , drilldown: {
+          series: response?.data?.data?.regionData?.drilldownData
+        },});
         setSortedCountries(response?.data?.data);
         setUsersData([]);
         setOverViewData([]);
