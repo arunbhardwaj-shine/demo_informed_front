@@ -40,16 +40,16 @@ const AnalyticsLiveStream = () => {
         plotBorderWidth: null,
         plotShadow: false,
         type: "pie",
-        height: 250,
+        height: 300, // Increased height to prevent overlapping
     },
     title: {
         text: "AVG spend time |",
         align: "left",
         style: {
-          fontWeight: "500",
-          fontSize: "14px" ,// Decreased font size
-          color: "#70899E",
-      }
+            fontWeight: "500",
+            fontSize: "14px",
+            color: "#70899E",
+        },
     },
     exporting: {
         enabled: false,
@@ -62,71 +62,29 @@ const AnalyticsLiveStream = () => {
             valueSuffix: "%",
         },
     },
-    // legend: {
-    //     verticalAlign: "bottom",
-    // },
     legend: {
-      reversed: false,
-      align: "center",
-      verticalAlign: "bottom",
-      layout: "horizontal", // Display legends in a single line
-      x: 0,
-      y: 0,
-  },
-  exporting: {
-    enabled: true,
-    chartOptions: {
-        title: {
-            text: '' // Remove title from exported image
-        }
+        reversed: false,
+        align: "center",
+        verticalAlign: "bottom",
+        layout: "horizontal",
+        x: 0,
+        y: 0,
+        itemStyle: {
+            fontSize: "12px", // Reduced font size
+            fontWeight: "normal",
+            color: "#555555",
+        },
+        itemHoverStyle: {
+            color: "#000000",
+        },
+        itemHiddenStyle: {
+            color: "#C0C0C0",
+        },
+        symbolWidth: 8,
+        symbolHeight: 8,
+        itemDistance: 20,
+        borderWidth: 0,
     },
-    filename: 'Average_Spend_Time', // Set filename for exported image
-    menuItemDefinitions: {
-        downloadPNG: {
-            text: 'Download PNG',
-            onclick: function() {
-                this.exportChart({
-                    type: 'image/png'
-                });
-            }
-        },
-        downloadJPEG: {
-            text: 'Download JPEG',
-            onclick: function() {
-                this.exportChart({
-                    type: 'image/jpeg'
-                });
-            }
-        },
-        downloadPDF: {
-            text: 'Download PDF',
-            onclick: function() {
-                this.exportChart({
-                    type: 'application/pdf'
-                });
-            }
-        },
-        downloadSVG: {
-            text: 'Download SVG',
-            onclick: function() {
-                this.exportChart({
-                    type: 'image/svg+xml'
-                });
-            }
-        }
-    },
-    buttons: {
-        contextButton: {
-            symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
-            menuItems: [
-                "downloadPNG",
-                "downloadJPEG",
-                "downloadPDF",
-                "downloadSVG"
-            ]
-        }
-    }
-},
     plotOptions: {
         pie: {
             size: "80%",
@@ -151,11 +109,12 @@ const AnalyticsLiveStream = () => {
     },
     series: [],
 };
+
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
 
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
-      height: chartHeight,
+      height: 300,
       type: "spline",
     },
     title: {
