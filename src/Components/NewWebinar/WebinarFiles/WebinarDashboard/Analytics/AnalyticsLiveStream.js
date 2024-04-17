@@ -43,15 +43,9 @@ const AnalyticsLiveStream = () => {
         height: 250,
     },
     title: {
-      text: "AVG spend time |",
-        align: "center",
-        style: {
-          fontWeight: "500",
-          color: "#70899E",
-          fontSize: "14px",
-        },
+        text: "",
+        align: "left",
     },
-   
     exporting: {
         enabled: false,
     },
@@ -94,7 +88,7 @@ const AnalyticsLiveStream = () => {
 
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
-      height: 200,
+      height: chartHeight,
       type: "spline",
     },
     title: {
@@ -229,7 +223,7 @@ const AnalyticsLiveStream = () => {
       let data = response?.data?.data;
       // console.log(data)
       if (firstTime && data?.count > 0) {
-        getEventRegisterReaders(search, userids);
+        // getEventRegisterReaders(search, userids);
         setFirstTime(false);
       }
       if (data?.count != undefined) {

@@ -126,12 +126,12 @@ const Analytics = (props) => {
         size: "80%",
         dataLabels: {
           enabled: true,
-          format: "{point.percentage:.1f}%",
+          format: "<b>{point.name}</b>: {point.percentage:.1f} %",
           style: {
             fontWeight: "bold",
-            color: "white",
+            color: "black",
             textOutline: "none",
-            fontSize: "20px",
+            fontSize: "16px",
           },
           distance: 30, // Set distance from pie slice
           connectorPadding: 0,
@@ -257,7 +257,7 @@ const Analytics = (props) => {
           {
             name: "",
             colorByPoint: true,
-            data: response?.data?.data?.pieChartData,
+            data: response?.data?.data?.barChartData?.pieChartDataToggle,
           },
         ];
         setPieOptions({ ...commonPieOptions, series: newValue });
