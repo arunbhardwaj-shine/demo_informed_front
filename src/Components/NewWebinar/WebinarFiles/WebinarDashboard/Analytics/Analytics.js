@@ -848,7 +848,7 @@ const Analytics = (props) => {
                       </div>
                     </div>
                     <div className="graph-view">
-                      {whichTypeGraph == 0 ? (
+                      {whichTypeGraphRegion == 0 ? (
                         <HighchartsReact
                           highcharts={Highcharts}
                           options={{
