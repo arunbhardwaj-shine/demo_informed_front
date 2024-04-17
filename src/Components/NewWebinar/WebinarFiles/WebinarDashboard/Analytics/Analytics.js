@@ -237,59 +237,57 @@ const Analytics = (props) => {
 
   const dropdownClicked = async (flag) => {
     loader("show");
-
+  
     const body = {
       eventId: eventId,
       type: flag,
     };
-
+  
     try {
-      const response = await postData(
-        ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_USERS,
-        body
-      );
-      console.log(response);
-      if (flag == "overView") {
-        setOverViewData(response?.data?.data || []);
-        setUsersData([]);
-        setSortedCountries(null);
-      } else if (flag == "registeredHcps") {
-        const newValue = [
-          {
+      const response = await postData(ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_USERS, body);
+      const responseData = response?.data?.data || [];
+  
+      switch (flag) {
+        case "overView":
+          setOverViewData(responseData);
+          setUsersData([]);
+          setSortedCountries(null);
+          break;
+  
+        case "registeredHcps":
+          const newValue = [{
             name: "",
             colorByPoint: true,
-            data: response?.data?.data?.barChartData?.pieChartDataToggle,
-            
-          },
-        ];
-        const newValueRegion = [
-          {
+            data: response?.data?.data?.countryWiseData?.pieChartData || [],
+          }];
+  
+          const newValueRegion = [{
             name: "",
             colorByPoint: true,
-           drilldown: true, // enable drilldown for this series
-
-            data: response?.data?.data?.regionData?.pieChartData,
-          },
-        ];
-        setPieOptions({ ...commonPieOptions, series: newValue });
-        setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion , drilldown: {
-          series: response?.data?.data?.regionData?.drilldownData
-        },});
-        setSortedCountries(response?.data?.data);
-        setUsersData([]);
-        setOverViewData([]);
-      } else {
-        setUsersData(response?.data?.data || []);
-        setOverViewData([]);
-        setSortedCountries(null);
+            data: response?.data?.data?.regionData?.pieChartData || [],
+          }];
+  
+          setPieOptions({ ...commonPieOptions, series: newValue });
+          setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion });
+          setSortedCountries(response?.data?.data);
+          setUsersData([]);
+          setOverViewData([]);
+          break;
+  
+        default:
+          setUsersData(responseData);
+          setOverViewData([]);
+          setSortedCountries(null);
+          break;
       }
-
+  
       loader("hide");
     } catch (error) {
       console.error("Error fetching data:", error);
       loader("hide");
     }
   };
+  
   const downloadExcel = (data) => {
     try {
       if (data?.length == 0) {
@@ -343,9 +341,9 @@ const Analytics = (props) => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header analytics_header">
               <div className="page-title d-flex flex-column align-items-start">
-                <h2>{eventData?.title}</h2>
+                <h2 title={eventData?.title}>{eventData?.title}</h2>
                 <p>{eventData?.formattedEventStartDateTime}</p>
               </div>
               <Button
@@ -738,7 +736,7 @@ const Analytics = (props) => {
                             },
                             xAxis: {
                               categories:
-                                sortedCountries?.barChartData?.categoriesData,
+                                sortedCountries?.countryWiseData?.categoriesData,
                             },
                             credits: {
                               enabled: false,
@@ -784,7 +782,7 @@ const Analytics = (props) => {
                             series: [
                               {
                                 // name: title,
-                                data: sortedCountries?.barChartData?.seriesData,
+                                data: sortedCountries?.countryWiseData?.seriesData,
                               },
                             ],
                           }}

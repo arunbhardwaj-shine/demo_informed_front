@@ -55,26 +55,26 @@ const AnalyticsEmail = () => {
                   </tr>
                 </thead>
                 <tbody>
-        {emailData.map(data => (
-            <tr key={data.id}>
-                <td valign='middle'>{data.subject}<span>{data.created_at}</span></td>
-                <td valign='middle'>Invitation</td>
-                <td valign='middle'>Internal</td>
-                <td valign='middle' className='email-options'>
-                    <div className='td-bordered'>
-                        <img src={`${path_image}mail-sent.svg`} alt="" />
-                        <span>{data.email_sent}</span>
-                    </div>
-                </td>
-                <td valign='middle' className='email-options'>
-                    <div className='td-bordered'>
-                        <img src={`${path_image}email-open.svg`} alt="" />
-                        <span>{data.email_read} ({data.read_percentage})</span>
-                    </div>
-                </td>
-            </tr>
-        ))}
-    </tbody>
+                  {emailData.map(data => (
+                    <tr key={data.id}>
+                      <td valign='middle'>{data.subject}<span>{data.created_at}</span></td>
+                      <td valign='middle'>Invitation</td>
+                      <td valign='middle'>Internal</td>
+                      <td valign='middle' className='email-options'>
+                        <div className='td-bordered'>
+                          <img src={`${path_image}mail-sent.svg`} alt="" />
+                          <span>{data.email_sent}</span>
+                        </div>
+                      </td>
+                      <td valign='middle' className='email-options'>
+                        <div className='td-bordered'>
+                          <img src={`${path_image}email-open.svg`} alt="" />
+                          <span>{data.email_read} ({data.read_percentage})</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </Table>
             </div>
           </div>

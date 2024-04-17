@@ -26,18 +26,26 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             text: "Click on the double arrows to see more details",
             align: "left",
             style: {
-                fontSize: "14px" // Decreased font size
+                fontSize: "12px",
+                color: "#97B6CF",
             }
         },
         
         exporting: {
             enabled: true,
-            
+            chartOptions: {
+                title: {
+                    text: '' // Remove title from exported image
+                }
+            },
+            filename: 'Total_Registration', // Set filename for exported image
             menuItemDefinitions: {
                 downloadPNG: {
                     text: 'Download PNG',
                     onclick: function() {
-                        this.exportChart();
+                        this.exportChart({
+                            type: 'image/png'
+                        });
                     }
                 },
                 downloadJPEG: {
@@ -67,8 +75,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             },
             buttons: {
                 contextButton: {
-                    symbol: 'url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)'
-,
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
                     menuItems: [
                         "downloadPNG",
                         "downloadJPEG",
@@ -202,71 +209,113 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                             </div>
                             <div className='highchart-chart right-side'>
                             <HighchartsReact 
-    highcharts={Highcharts} 
-    options={{
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: "line",
-            height: 310,
-        },
-        title: {
-            text: 'Registration Over Time',
-            style: {
-                fontWeight: "500",
-                color: "#70899E",
-                fontSize: "14px",
-            },
-        },
-        xAxis: {
-            categories: pieChartData?.registeredOverTime?.categoriesData,
-            labels: {
-                rotation: -45, // rotate labels at a slanted angle
-                style: {
-                    fontSize: "12px",
-                    color: "#555555"
-                }
-            }
-        },
-        yAxis: {
-            title: {
-                text: '',
-            },
-        },
-        plotOptions: {
-            series: {
-                marker: {
-                    symbol: 'square', // set marker to square
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.y}",
-                },
-            },
-        },
-        legend: {
-            reversed: true,
-            align: "center",
-            verticalAlign: "bottom",
-            layout: "horizontal",
-            x: 0,
-            y: 0,
-        },
-        series: [{
-            name: 'HCPS',
-            data: pieChartData?.registeredOverTime?.seriesData,
-            color: '#874e9e',
-            tooltip: {
-                valueSuffix: ' users',
-            },
-        }],
-        exporting: {
-            enabled: false,
-        },
-    }} 
-    style={{width: '100%'}}
-/>
+                                highcharts={Highcharts} 
+                                options={{
+                                    chart: {
+                                        plotBackgroundColor: null,
+                                        plotBorderWidth: null,
+                                        plotShadow: false,
+                                        type: "line",
+                                        height: 310,
+                                    },
+                                    title: {
+                                        text: 'Registration Over Time',
+                                        style: {
+                                            fontWeight: "500",
+                                            color: "#70899E",
+                                            fontSize: "14px",
+                                        },
+                                    },
+                                    xAxis: {
+                                        categories: pieChartData?.registeredOverTime?.categoriesData,
+                                        labels: {
+                                            rotation: -45, // rotate labels at a slanted angle
+                                            style: {
+                                                fontSize: "12px",
+                                                color: "#555555"
+                                            }
+                                        },
+                                        lineColor: '#70899E', // X-axis line color
+                                        lineWidth: 2, // X-axis line width
+                                    },
+                                    yAxis: {
+                                        title: {
+                                            text: '',
+                                        },
+                                        lineColor: '#70899E', // Y-axis line color
+                                        lineWidth: 2, // Y-axis line width
+                                    },
+                                    plotOptions: {
+                                        series: {
+                                            marker: {
+                                                symbol: 'square', // set marker to square
+                                            },
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: "{point.y}",
+                                            },
+                                        },
+                                    },
+                                    legend: {
+                                        reversed: true,
+                                        align: "center",
+                                        verticalAlign: "bottom",
+                                        layout: "horizontal",
+                                        x: 0,
+                                        y: 0,
+                                    },
+                                    tooltip: {
+                                        formatter: function() {
+                                            return '<b>' + this.y + ' ' + this.series.name + ' | ' + this.point.category + '</b>';
+                                        }
+                                    },
+                                    
+                                    series: [ 
+                                        {
+                                            name: 'New on One Source',
+                                            data:[3,56,98],
+                                            color: '#F58289',
+                                            // tooltip: {
+                                            //     valueSuffix: ' users',
+                                            // },
+                                            
+                                            marker: {
+                                                symbol: 'circle', // set marker to circle for this series
+                                            },
+                                        },
+                                         {
+                                        
+                                        name: 'External List',
+                                        data: [1,2,23,4,5,67,8],
+                                        color: '#FAC755',
+                                        // tooltip: {
+                                        //     valueSuffix: ' users',
+                                        // },
+                                        // marker: {
+                                        //     symbol: 'url(https://www.highcharts.com/samples/graphics/snow.png)', // set marker to kite shape for this series
+                                        // },
+                                    },
+                                  
+                                    {
+                                        name: 'HCPS',
+                                        data: pieChartData?.registeredOverTime?.seriesData,
+                                        color: '#874e9e',
+                                        // tooltip: {
+                                        //     valueSuffix: ' users',
+                                        // },
+                                        marker: {
+                                            symbol: 'square', // set marker to square for this series
+                                        },
+                                    },
+                                   
+                                 
+                                ],
+                                    exporting: {
+                                        enabled: false,
+                                    },
+                                }} 
+                                style={{width: '100%'}}
+                            />
 
 
                             </div>
