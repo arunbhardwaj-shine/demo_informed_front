@@ -173,14 +173,14 @@ const AnalyticsLiveStream = () => {
       labels: {
         enabled: true,
       },
-      lineColor: '#70899E', // X-axis line color
+      lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
       lineWidth: 2, // X-axis line width
     },
     yAxis: {
       title: {
         text: "",
       },
-      lineColor: '#70899E', // Y-axis line color
+      lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
       lineWidth: 2, // Y-axis line width
       allowDecimals: false, // Ensure y-axis labels are integers
     },
