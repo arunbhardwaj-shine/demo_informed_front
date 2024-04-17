@@ -126,12 +126,12 @@ const Analytics = (props) => {
         size: "80%",
         dataLabels: {
           enabled: true,
-          format: "{point.percentage:.1f}%",
+          format: "<b>{point.name}</b>: {point.percentage:.1f} %",
           style: {
             fontWeight: "bold",
-            color: "white",
+            color: "black",
             textOutline: "none",
-            fontSize: "20px",
+            fontSize: "16px",
           },
           distance: 30, // Set distance from pie slice
           connectorPadding: 0,
@@ -146,10 +146,11 @@ const Analytics = (props) => {
     },
     series: [],
   };
-  
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
+  const [pieOptionsRegion,setPieOptionsRegion] = useState({ ...commonPieOptions });
 
   const [whichTypeGraph, setWhichTypeGraph] = useState(0);
+  const [whichTypeGraphRegion, setWhichTypeGraphRegion] = useState(0);
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -257,10 +258,19 @@ const Analytics = (props) => {
           {
             name: "",
             colorByPoint: true,
-            data: response?.data?.data?.pieChartData,
+            data: response?.data?.data?.barChartData?.pieChartDataToggle,
+            
+          },
+        ];
+        const newValueRegion = [
+          {
+            name: "",
+            colorByPoint: true,
+            data: response?.data?.data?.regionData?.pieChartData,
           },
         ];
         setPieOptions({ ...commonPieOptions, series: newValue });
+        setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion });
         setSortedCountries(response?.data?.data);
         setUsersData([]);
         setOverViewData([]);
@@ -704,18 +714,20 @@ const Analytics = (props) => {
                             chart: {
                               marginTop: 100,
                               type: "bar",
-                              events: {
-                                load: function () {
-                                  let categoryHeight = 50;
-                                  this.update({
-                                    chart: {
-                                      height:
-                                        categoryHeight * this.pointCount +
-                                        (this.chartHeight - this.plotHeight),
-                                    },
-                                  });
-                                },
-                              },
+                              height: 1800,
+
+                              // events: {
+                              //   load: function () {
+                              //     let categoryHeight = 50;
+                              //     this.update({
+                              //       chart: {
+                              //         height:
+                              //           categoryHeight * this.pointCount +
+                              //           (this.chartHeight - this.plotHeight),
+                              //       },
+                              //     });
+                              //   },
+                              // },
                             },
                             title: {
                               text: "Country List",
@@ -769,7 +781,6 @@ const Analytics = (props) => {
                               {
                                 // name: title,
                                 data: sortedCountries?.barChartData?.seriesData,
-                                color: "#00D4C0",
                               },
                             ],
                           }}
@@ -778,6 +789,147 @@ const Analytics = (props) => {
                         <HighchartsReact
                           highcharts={Highcharts}
                           options={pieOptions}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+{sortedCountries && (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h6>Registrations</h6>
+                  </div>
+                  <div className="rd-training-block">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="rd-training-block-left">
+                        <h4>
+                          Registered HCPs According to Region | <span>75</span>
+                        </h4>
+                      </div>
+                      <div className="rd-training-block-right d-flex">
+                        <div className="switch6">
+                          <label className="switch6-light">
+                            <input
+                              type="checkbox"
+                              // ={graphType == "pie" ? true : false}
+                              onChange={()=>setWhichTypeGraphRegion(!whichTypeGraphRegion)}
+                            />
+                            <span>
+                              <span>
+                                <img
+                                  src={path_image + "bar-graph-img.png"}
+                                  style={{ transform: "rotate(90deg)" }}
+                                />
+                              </span>
+                              <span>
+                                <img src={path_image + "pie-img.png"} />
+                              </span>
+                            </span>
+                            <a className="btn"></a>
+                          </label>
+                        </div>
+                        <Button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="6"
+                            height="24"
+                            viewBox="0 0 6 24"
+                            fill="none"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                              fill="#0066BE"
+                            />
+                          </svg>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="graph-view">
+                      {whichTypeGraphRegion == 0 ? (
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            chart: {
+                              marginTop: 100,
+                              type: "bar",
+                              events: {
+                                load: function () {
+                                  let categoryHeight = 50;
+                                  this.update({
+                                    chart: {
+                                      height:
+                                        categoryHeight * this.pointCount +
+                                        (this.chartHeight - this.plotHeight),
+                                    },
+                                  });
+                                },
+                              },
+                            },
+                            title: {
+                              text: "Region List",
+                            },
+                            xAxis: {
+                              categories:
+                                sortedCountries?.regionData?.barChartCategories,
+                            },
+                            credits: {
+                              enabled: false,
+                            },
+                            exporting: {
+                              showHighchart: true,
+                              showTable: false,
+                              tableCaption: "",
+                            },
+                            // legend: {
+                            //   reversed: true,
+                            //   align: "center",
+                            //   verticalAlign: "top",
+                            //   floating: true,
+                            //   x: 0,
+                            //   y: 50,
+                            // },
+                            yAxis: {
+                              min: 0,
+                              title: {
+                                text: "",
+                              },
+                              stackLabels: {
+                                enabled: true,
+                                style: {
+                                  fontWeight: "bold",
+                                  color:
+                                    (Highcharts.defaultOptions.title.style &&
+                                      Highcharts.defaultOptions.title.style
+                                        .color) ||
+                                    "gray",
+                                },
+                              },
+                            },
+                            plotOptions: {
+                              bar: {
+                                dataLabels: {
+                                  enabled: true,
+                                },
+                              },
+                            },
+
+                            series: [
+                              {
+                                // name: title,
+                                data: sortedCountries?.regionData?.barChartSeries,
+                                color: "#00D4C0",
+                              },
+                            ],
+                          }}
+                        />
+                      ) : (
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={pieOptionsRegion}
                         />
                       )}
                     </div>
