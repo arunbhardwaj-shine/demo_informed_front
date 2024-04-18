@@ -27,6 +27,7 @@ import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
+import { registerLocale } from "react-datepicker";
 // import customWrap from "./customWrap";
 
 HighchartsMap(Highcharts);
@@ -49,6 +50,11 @@ const Analytics = (props) => {
   const [overViewData, setOverViewData] = useState([]);
   const [sortedCountries, setSortedCountries] = useState(null);
   const [attendedUsers, setAttendedUsers] = useState(null);
+  const totalRegistrationRef= useRef(null);
+  const registeredGraphRef= useRef(null);
+  const overviewTableRef= useRef(null);
+  const attendedUsersRef= useRef(null);
+  
   const commonPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -279,6 +285,7 @@ const Analytics = (props) => {
           setUsersData(responseData);
           setOverViewData([]);
           setSortedCountries(null);
+
           break;
       }
   
@@ -288,7 +295,21 @@ const Analytics = (props) => {
       loader("hide");
     }
   };
-  
+  useEffect(() => {
+    if (totalRegistrationRef?.current) {
+        totalRegistrationRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (registeredGraphRef?.current) {
+        registeredGraphRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (overviewTableRef?.current) {
+        overviewTableRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (attendedUsersRef?.current) {
+      attendedUsersRef.current.scrollIntoView({ behavior: 'smooth' });
+  }
+}, [usersData, sortedCountries, overViewData,attendedUsers]);
+
   const downloadExcel = (data) => {
     try {
       if (data?.length == 0) {
@@ -349,6 +370,9 @@ const Analytics = (props) => {
     try {
       const response = await postData(ENDPOINT.GET_ATTENDED_DATA, body);
       const responseData = response?.data?.data || [];
+      setUsersData([]);
+      setOverViewData([]);
+      setSortedCountries(null);
       setAttendedUsers(responseData)
   
       loader("hide");
@@ -414,7 +438,7 @@ const Analytics = (props) => {
                 </Col>
               </Row>
               {usersData?.length > 0 && (
-                <div className="rd-full-explain">
+                <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
                   </div>
@@ -663,7 +687,7 @@ const Analytics = (props) => {
                                 <td>{user.hcp_status}</td>
                               </tr>
                               <tr className="blank">
-                                <td colspan="7">&nbsp;</td>
+                                <td colSpan="7">&nbsp;</td>
                               </tr>
                             </>
                           ))}
@@ -678,7 +702,7 @@ const Analytics = (props) => {
 
               {/* HCP registered */}
               {sortedCountries && (
-                <div className="rd-full-explain">
+                <div className="rd-full-explain"   ref={registeredGraphRef}  >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
                   </div>
@@ -961,7 +985,7 @@ const Analytics = (props) => {
               )}
               {/* HCP registered */}
               {/* Registered & attended HCPs According to Region */}
-           {attendedUsers&&   <div className="rd-full-explain">
+           {attendedUsers&&   <div className="rd-full-explain" ref ={attendedUsersRef}>
                 <div className="rd-section-title">
                   <h6>Registrations</h6>
                 </div>
@@ -1118,7 +1142,7 @@ const Analytics = (props) => {
               {/* Registered & attended HCPs According to Region */}
               {/*Overview */}
               {overViewData?.length > 0 && (
-                <div className="rd-full-explain">
+                <div className="rd-full-explain" ref={overviewTableRef}>
                   <div className="rd-section-title">
                     <h6>Overview</h6>
                   </div>
