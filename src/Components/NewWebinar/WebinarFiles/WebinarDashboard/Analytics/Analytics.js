@@ -27,6 +27,7 @@ import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
+import { registerLocale } from "react-datepicker";
 // import customWrap from "./customWrap";
 
 HighchartsMap(Highcharts);
@@ -49,6 +50,11 @@ const Analytics = (props) => {
   const [overViewData, setOverViewData] = useState([]);
   const [sortedCountries, setSortedCountries] = useState(null);
   const [attendedUsers, setAttendedUsers] = useState(null);
+  const totalRegistrationRef= useRef(null);
+  const registeredGraphRef= useRef(null);
+  const overviewTableRef= useRef(null);
+  const attendedUsersRef= useRef(null);
+  
   const commonPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -279,6 +285,7 @@ const Analytics = (props) => {
           setUsersData(responseData);
           setOverViewData([]);
           setSortedCountries(null);
+
           break;
       }
   
@@ -288,7 +295,21 @@ const Analytics = (props) => {
       loader("hide");
     }
   };
-  
+  useEffect(() => {
+    if (totalRegistrationRef?.current) {
+        totalRegistrationRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (registeredGraphRef?.current) {
+        registeredGraphRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (overviewTableRef?.current) {
+        overviewTableRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (attendedUsersRef?.current) {
+      attendedUsersRef.current.scrollIntoView({ behavior: 'smooth' });
+  }
+}, [usersData, sortedCountries, overViewData,attendedUsers]);
+
   const downloadExcel = (data) => {
     try {
       if (data?.length == 0) {
@@ -349,6 +370,9 @@ const Analytics = (props) => {
     try {
       const response = await postData(ENDPOINT.GET_ATTENDED_DATA, body);
       const responseData = response?.data?.data || [];
+      setUsersData([]);
+      setOverViewData([]);
+      setSortedCountries(null);
       setAttendedUsers(responseData)
   
       loader("hide");
@@ -357,6 +381,83 @@ const Analytics = (props) => {
       loader("hide");
     }
   };
+  const renderTabsAndCharts = (data) => {
+    return Object.keys(data).map((region, index) => (
+      <Tab key={`tab-${index}`} eventKey={region.toLowerCase()} title={region}>
+        {/* <img src={path_image + "attended-hcp.png"} alt="" /> */}
+        <HighchartsReact
+          key={`highchart-${region}-${index}`} // Unique identifier for Highchart
+          highcharts={Highcharts}
+          options={{
+            chart: {
+              marginTop: 100,
+              type: "bar",
+              events: {
+                load: function () {
+                  let categoryHeight = 50;
+                  this.update({
+                    chart: {
+                      height:
+                        categoryHeight * this.pointCount +
+                        (this.chartHeight - this.plotHeight),
+                    },
+                  });
+                },
+              },
+            },
+            title: {
+              text: "",
+            },
+            xAxis: {
+              categories: data[region].map((item) => item.country),
+            },
+            credits: {
+              enabled: false,
+            },
+            exporting: {
+              showHighchart: true,
+              showTable: false,
+              tableCaption: "",
+            },
+            yAxis: {
+              min: 0,
+              title: {
+                text: "",
+              },
+              stackLabels: {
+                enabled: true,
+                style: {
+                  fontWeight: "bold",
+                  color: "gray",
+                },
+              },
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true,
+                },
+              },
+            },
+            series: [
+              {
+                name: 'Registered',
+                data: data[region].map((item) => item.registeredUsers + index * 10), // Differentiating data
+                color: '#f5c64a',
+              },
+              {
+                name: 'Attended',
+                data: data[region].map((item) => item.attendedUsers + index * 5), // Differentiating data
+                color: '#56cabc',
+              },
+            ],
+          }}
+        />
+      </Tab>
+    ));
+  };
+  
+  
   return (
     <>
       <Col className="right-sidebar">
@@ -414,7 +515,7 @@ const Analytics = (props) => {
                 </Col>
               </Row>
               {usersData?.length > 0 && (
-                <div className="rd-full-explain">
+                <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
                   </div>
@@ -663,7 +764,7 @@ const Analytics = (props) => {
                                 <td>{user.hcp_status}</td>
                               </tr>
                               <tr className="blank">
-                                <td colspan="7">&nbsp;</td>
+                                <td colSpan="7">&nbsp;</td>
                               </tr>
                             </>
                           ))}
@@ -678,7 +779,7 @@ const Analytics = (props) => {
 
               {/* HCP registered */}
               {sortedCountries && (
-                <div className="rd-full-explain">
+                <div className="rd-full-explain"   ref={registeredGraphRef}  >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
                   </div>
@@ -961,7 +1062,7 @@ const Analytics = (props) => {
               )}
               {/* HCP registered */}
               {/* Registered & attended HCPs According to Region */}
-           {attendedUsers&&   <div className="rd-full-explain">
+           {attendedUsers&&   <div className="rd-full-explain" ref ={attendedUsersRef}>
                 <div className="rd-section-title">
                   <h6>Registrations</h6>
                 </div>
@@ -1000,125 +1101,16 @@ const Analytics = (props) => {
                     </div> */}
                   </div>
                   <div className="country_tabs">
-                  <HighchartsReact
-                          highcharts={Highcharts}
-                          options={{
-                            chart: {
-                              marginTop: 100,
-                              type: "bar",
-                              events: {
-                                load: function () {
-                                  let categoryHeight = 50;
-                                  this.update({
-                                    chart: {
-                                      height:
-                                        categoryHeight * this.pointCount +
-                                        (this.chartHeight - this.plotHeight),
-                                    },
-                                  });
-                                },
-                              },
-                            },
-                            title: {
-                              text: "",
-                            },
-                            xAxis: {
-                              categories:
-                              attendedUsers?.map(item => item.name)                            },
-                            credits: {
-                              enabled: false,
-                            },
-                            exporting: {
-                              showHighchart: true,
-                              showTable: false,
-                              tableCaption: "",
-                            },
-                            // legend: {
-                            //   reversed: true,
-                            //   align: "center",
-                            //   verticalAlign: "top",
-                            //   floating: true,
-                            //   x: 0,
-                            //   y: 50,
-                            // },
-                            yAxis: {
-                              min: 0,
-                              title: {
-                                text: "",
-                              },
-                              stackLabels: {
-                                enabled: true,
-                                style: {
-                                  fontWeight: "bold",
-                                  color:
-                                    (Highcharts.defaultOptions.title.style &&
-                                      Highcharts.defaultOptions.title.style
-                                        .color) ||
-                                    "gray",
-                                },
-                              },
-                            },
-                            plotOptions: {
-                              bar: {
-                                dataLabels: {
-                                  enabled: true,
-                                },
-                              },
-                            },
-
-                            series: [{
-                              name: 'Registered',
-                              data: attendedUsers.map(item => item.data[0].y), // Registered users data
-                              color: '#f5c64a'
-                            }, {
-                              name: 'Attended',
-                              data: attendedUsers.map(item => item.data[1].y), // Attended users data
-                              color: '#56cabc'
-                            }]
-                          }}
-                        />
-                    {/* <Tabs defaultActiveKey="mena" className="" fill>
-                      <Tab eventKey="mena" title="MENA">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="latam" title="LATAM">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="eu" title="EU">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="brazil" title="Brazil">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="ee/cis" title="EE/CIS">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="other" title="Other">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="tinbs" title="TINBS">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="mexico" title="Mexico">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="russian" title="Russian Federation">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="zaf" title="ZAF">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="us" title="US">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                    </Tabs> */}
+                  <Tabs defaultActiveKey="mena" className="" fill>
+      {renderTabsAndCharts(attendedUsers)}
+    </Tabs>
                   </div>
                 </div>
               </div>}
               {/* Registered & attended HCPs According to Region */}
               {/*Overview */}
               {overViewData?.length > 0 && (
-                <div className="rd-full-explain">
+                <div className="rd-full-explain" ref={overviewTableRef}>
                   <div className="rd-section-title">
                     <h6>Overview</h6>
                   </div>
