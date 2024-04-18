@@ -382,80 +382,86 @@ const Analytics = (props) => {
     }
   };
   const renderTabsAndCharts = (data) => {
-    return Object.keys(data).map((region, index) => (
-      <Tab key={`tab-${index}`} eventKey={region.toLowerCase()} title={region}>
-        {/* <img src={path_image + "attended-hcp.png"} alt="" /> */}
-        <HighchartsReact
-          key={`highchart-${region}-${index}`} // Unique identifier for Highchart
-          highcharts={Highcharts}
-          options={{
-            chart: {
-              marginTop: 100,
-              type: "bar",
-              events: {
-                load: function () {
-                  let categoryHeight = 50;
-                  this.update({
-                    chart: {
-                      height:
-                        categoryHeight * this.pointCount +
-                        (this.chartHeight - this.plotHeight),
-                    },
-                  });
+    return Object.keys(data).map((region) => {
+      const regionData = data[region];
+      const countries = regionData.map((item) => item.country);
+      const registeredUsers = regionData.map((item) => item.registeredUsers);
+      const attendedUsers = regionData.map((item) => item.attendedUsers);
+  
+      return (
+        <Tab key={region} eventKey={region.toLowerCase()} title={region}>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={{
+              chart: {
+                marginTop: 100,
+                type: "bar",
+                events: {
+                  load: function () {
+                    let categoryHeight = 50;
+                    this.update({
+                      chart: {
+                        height:
+                          categoryHeight * countries.length +
+                          (this.chartHeight - this.plotHeight),
+                      },
+                    });
+                  },
                 },
               },
-            },
-            title: {
-              text: "",
-            },
-            xAxis: {
-              categories: data[region].map((item) => item.country),
-            },
-            credits: {
-              enabled: false,
-            },
-            exporting: {
-              showHighchart: true,
-              showTable: false,
-              tableCaption: "",
-            },
-            yAxis: {
-              min: 0,
               title: {
                 text: "",
               },
-              stackLabels: {
-                enabled: true,
-                style: {
-                  fontWeight: "bold",
-                  color: "gray",
-                },
+              xAxis: {
+                categories: countries,
               },
-            },
-            plotOptions: {
-              bar: {
-                dataLabels: {
+              credits: {
+                enabled: false,
+              },
+              exporting: {
+                showHighchart: true,
+                showTable: false,
+                tableCaption: "",
+              },
+              yAxis: {
+                min: 0,
+                title: {
+                  text: "",
+                },
+                stackLabels: {
                   enabled: true,
+                  style: {
+                    fontWeight: "bold",
+                    color: "gray",
+                  },
                 },
               },
-            },
-            series: [
-              {
-                name: 'Registered',
-                data: data[region].map((item) => item.registeredUsers + index * 10), // Differentiating data
-                color: '#f5c64a',
+              plotOptions: {
+                bar: {
+                  dataLabels: {
+                    enabled: true,
+                  },
+                },
               },
-              {
-                name: 'Attended',
-                data: data[region].map((item) => item.attendedUsers + index * 5), // Differentiating data
-                color: '#56cabc',
-              },
-            ],
-          }}
-        />
-      </Tab>
-    ));
+              series: [
+                {
+                  name: "Registered",
+                  data: registeredUsers,
+                  color: "#f5c64a",
+                },
+                {
+                  name: "Attended",
+                  data: attendedUsers,
+                  color: "#56cabc",
+                },
+              ],
+            }}
+          />
+        </Tab>
+      );
+    });
   };
+  
   
   
   return (
