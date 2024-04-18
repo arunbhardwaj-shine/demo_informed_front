@@ -138,15 +138,15 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     },
     plotOptions: {
         pie: {
-            size: "80%",
+            size: "100%",
             dataLabels: {
                 enabled: true,
                 format: "{point.y}",
                 style: {
-                    fontWeight: "bold",
+                    fontWeight: "400",
                     color: "white",
                     textOutline: "none",
-                    fontSize: "20px",
+                    fontSize: "16px",
                 },
                 distance: -40,
             },
@@ -201,22 +201,23 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
   legend: {
     align: "center",
     verticalAlign: "bottom",
-    layout: "horizontal",
+    layout: "vertical",
     x: 0,
     y: 0,
     itemStyle: {
         fontWeight: "normal",
-        color: "#555555",
+        color: "#70899E",
         fontSize: "12px"
     },
-    itemHoverStyle: {
-        color: "#000000"
-    },
-    itemHiddenStyle: {
-        color: "#C0C0C0"
-    },
-    symbolWidth: 8,
-    symbolHeight: 8,
+   
+    // itemHoverStyle: {
+    //     color: "#000000"
+    // },
+    // itemHiddenStyle: {
+    //     color: "#C0C0C0"
+    // },
+    symbolWidth: 9,
+    symbolHeight: 9,
     itemDistance: 20,
     lineWidth: 0, // Remove the line cutting through the marker
 },
@@ -233,10 +234,10 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       series: {
         marker: {
           symbol: 'circle',
-          // // fillColor: "#8a4e9c",
           fillColor: "#56cabc",
+          color: "#56cabc",
         },
-        // color: "#0066be",
+        fillColor: "#56cabc",
         color: "#56cabc",
       },
     },
