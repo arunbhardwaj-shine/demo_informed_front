@@ -382,10 +382,11 @@ const Analytics = (props) => {
     }
   };
   const renderTabsAndCharts = (data) => {
-    return Object.keys(data).map((region) => (
-      <Tab key={region} eventKey={region.toLowerCase()} title={region}>
-        <img src={path_image + "attended-hcp.png"} alt="" />
+    return Object.keys(data).map((region, index) => (
+      <Tab key={`tab-${index}`} eventKey={region.toLowerCase()} title={region}>
+        {/* <img src={path_image + "attended-hcp.png"} alt="" /> */}
         <HighchartsReact
+          key={`highchart-${region}-${index}`} // Unique identifier for Highchart
           highcharts={Highcharts}
           options={{
             chart: {
@@ -408,7 +409,7 @@ const Analytics = (props) => {
               text: "",
             },
             xAxis: {
-              categories: data[region].map(item => item.country),
+              categories: data[region].map((item) => item.country),
             },
             credits: {
               enabled: false,
@@ -438,20 +439,24 @@ const Analytics = (props) => {
                 },
               },
             },
-            series: [{
-              name: 'Registered',
-              data: data[region].map(item => item.registeredUsers),
-              color: '#f5c64a',
-            }, {
-              name: 'Attended',
-              data: data[region].map(item => item.attendedUsers),
-              color: '#56cabc',
-            }],
+            series: [
+              {
+                name: 'Registered',
+                data: data[region].map((item) => item.registeredUsers + index * 10), // Differentiating data
+                color: '#f5c64a',
+              },
+              {
+                name: 'Attended',
+                data: data[region].map((item) => item.attendedUsers + index * 5), // Differentiating data
+                color: '#56cabc',
+              },
+            ],
           }}
         />
       </Tab>
     ));
   };
+  
   
   return (
     <>
