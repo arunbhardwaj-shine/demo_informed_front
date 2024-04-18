@@ -43,8 +43,8 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         height: 300, // Increased height to prevent overlapping
     },
     title: {
-        text: "AVG spend time |",
-        align: "left",
+        // text: "AVG spend time |",
+        align: "center",
         style: {
             fontWeight: "500",
             fontSize: "14px",
@@ -52,8 +52,59 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         },
     },
     exporting: {
-        enabled: false,
-    },
+      enabled: true,
+      chartOptions: {
+          title: {
+              text: '' // Remove title from exported image
+          }
+      },
+      filename: 'AVG_Spend_Time', // Set filename for exported image
+      menuItemDefinitions: {
+          downloadPNG: {
+              text: 'Download PNG',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'image/png'
+                  });
+              }
+          },
+          downloadJPEG: {
+              text: 'Download JPEG',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'image/jpeg'
+                  });
+              }
+          },
+          downloadPDF: {
+              text: 'Download PDF',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'application/pdf'
+                  });
+              }
+          },
+          downloadSVG: {
+              text: 'Download SVG',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'image/svg+xml'
+                  });
+              }
+          }
+      },
+      buttons: {
+          contextButton: {
+              symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+              menuItems: [
+                  "downloadPNG",
+                  "downloadJPEG",
+                  "downloadPDF",
+                  "downloadSVG"
+              ]
+          }
+      }
+  },
     tooltip: {
         pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
@@ -381,6 +432,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       // Make API call to fetch data
       const response = await postData(ENDPOINT?.GET_LIVESTREAM_DATA, body);
       let data = response?.data?.data;
+      const averageTimeText = `AVG spend time | ${data?.averageTime?.averageTime}`;
       const newValue = [
         {
             name: "",
@@ -388,8 +440,16 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
             data: data?.averageTime?.pieChartData,
         },
     ];
-    setPieOptions({ ...commonPieOptions, series: newValue });
-      console.log(response, "responseresponse");
+    // setPieOptions({ ...commonPieOptions, series: newValue });
+    setPieOptions({
+      ...commonPieOptions,
+      title: {
+          ...commonPieOptions.title,
+          text: averageTimeText
+      },
+      series: newValue
+  });
+      console.log(pieOptions, "responseresponse");
       setTopCountries(data);
     } catch (err) {
       console.error("Error fetching data:", err);
