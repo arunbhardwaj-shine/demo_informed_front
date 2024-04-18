@@ -1239,6 +1239,7 @@ const Sidebar = () => {
               window.location.pathname === '/webinar/analytics/analytics-questions' ||
               window.location.pathname === '/webinar/analytics/analytics-regions' ||
               window.location.pathname === '/webinar/analytics/analytics-emails' ||
+              window.location.pathname === '/webinar/analytics/analytics-events' ||
               window.location.pathname === '/webinar/email/selectSmartListUsers' ?
               (
                 <ul>
@@ -1576,7 +1577,7 @@ const Sidebar = () => {
                   </li>
 
                   <li className={
-                          location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions" || window.location.pathname == "/webinar/analytics/question-data" || window.location.pathname == "/webinar/analytics/analytics-emails" 
+                          location.pathname == "/webinar/analytics-events" || location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions" || window.location.pathname == "/webinar/analytics/question-data" || window.location.pathname == "/webinar/analytics/analytics-emails" 
                               ? "active sub-links"
                               : "side_li sub-links"
                           }
