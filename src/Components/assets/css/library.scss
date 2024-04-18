@@ -14578,6 +14578,7 @@ img.change-password-image {
               font-weight: 500;
               padding: 10px 5px;
               color: rgba(0, 102, 190, 0.50);
+              height: 100%;
 
               &.active {
                 color: $primary-color;
@@ -14623,8 +14624,9 @@ img.change-password-image {
                   &:before {
                     background: $white;
                     left: 0;
-                    height: 20px;
+                    height: 40px;
                     top: 34px;
+                    width: 24px;
                   }
                 }
               }
@@ -14638,14 +14640,19 @@ img.change-password-image {
                   &:after {
                     background: $white;
                     right: 0;
-                    height: 20px;
+                    height: 40px;
                     top: 34px;
+                    width: 24px;
                   }
                 }
               }
             }
           }
         }
+      }
+
+      .tab-content {
+        margin: 0 0;
       }
     }
 
@@ -15061,8 +15068,9 @@ table {
 
 /*webinar-events*/
 .analytics-events {
-    margin-top: 34px;
+  margin-top: 34px;
 }
+
 .analytics-events-box {
   gap: 32px;
   @include vertical-list;
@@ -15077,107 +15085,127 @@ table {
     h5 {
       color: #004A89;
     }
-    .event-date{
-      gap:16px;
-      p{
-      color: #70899E;
-      font-size: 16px;
+
+    .event-date {
+      gap: 16px;
+
+      p {
+        color: #70899E;
+        font-size: 16px;
       }
-      .btn{
-        background:transparent;
-        border:0;
-        box-shadow:none;
-        min-width:initial;
-        padding:0 8px 0 0;
-        border-radius:0;
+
+      .btn {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        min-width: initial;
+        padding: 0 8px 0 0;
+        border-radius: 0;
       }
     }
-    .analytics-outer-box{
-      gap:20px;
+
+    .analytics-outer-box {
+      gap: 20px;
       justify-content: space-between;
-      .analytics-events-boxes{
+
+      .analytics-events-boxes {
         display: flex;
         flex-direction: column;
-        &>p{
+
+        &>p {
           color: #97B6CF;
           font-size: 12px;
           font-weight: 500;
-          margin:0 0 8px;
+          margin: 0 0 8px;
         }
-        .events-boxes-shadow{
+
+        .events-boxes-shadow {
           border-radius: 15px;
           background: #FFF;
           box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.24);
-          padding:8px 0px;
+          padding: 8px 0px;
           height: 100%;
-          .box{
-            padding:0 10px;
-            border-right:1px dashed #97B6CF;
-            &:last-child{
-              border-right:0;
+
+          .box {
+            padding: 0 10px;
+            border-right: 1px dashed #97B6CF;
+
+            &:last-child {
+              border-right: 0;
             }
           }
-          &.registration-list{
-            p{
+
+          &.registration-list {
+            p {
               color: #EBAC20;
             }
           }
-          &.live-streaming-box{
-            p{
+
+          &.live-streaming-box {
+            p {
               color: #0E9B8E;
             }
           }
-          &.qa-poll-box{
-            p{
+
+          &.qa-poll-box {
+            p {
               color: #F58289;
             }
           }
-          &.avg-post{
-            p{
+
+          &.avg-post {
+            p {
               color: #8A4E9C;
             }
           }
-          &.post-event-view{
-            p{
+
+          &.post-event-view {
+            p {
               color: #0066BE;
             }
           }
-          p{
+
+          p {
             font-size: 13px;
             font-weight: 400;
             margin: 0 0 7px;
           }
-          .email_stats_list{
-            img{
-              width:32px;
-              height:32px;
-              margin:0 11px 0 0;
+
+          .email_stats_list {
+            img {
+              width: 32px;
+              height: 32px;
+              margin: 0 11px 0 0;
             }
-            p{
+
+            p {
               color: #70899E;
               font-size: 16px;
               font-weight: 500;
-              margin:0;
-              img{
-                width:12px;
-                height:auto;
-                margin:0;
+              margin: 0;
+
+              img {
+                width: 12px;
+                height: auto;
+                margin: 0;
               }
-              span{
-              display:block;
-              color: #97B6CF;
-              font-size: 9px;
-              font-weight: 400;
-              b{
-                font-weight: 600;
+
+              span {
+                display: block;
+                color: #97B6CF;
+                font-size: 9px;
+                font-weight: 400;
+
+                b {
+                  font-weight: 600;
+                }
               }
             }
-            }
-            
+
           }
         }
       }
-    } 
+    }
   }
 }
 
