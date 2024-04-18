@@ -381,6 +381,78 @@ const Analytics = (props) => {
       loader("hide");
     }
   };
+  const renderTabsAndCharts = (data) => {
+    return Object.keys(data).map((region) => (
+      <Tab key={region} eventKey={region.toLowerCase()} title={region}>
+        <img src={path_image + "attended-hcp.png"} alt="" />
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={{
+            chart: {
+              marginTop: 100,
+              type: "bar",
+              events: {
+                load: function () {
+                  let categoryHeight = 50;
+                  this.update({
+                    chart: {
+                      height:
+                        categoryHeight * this.pointCount +
+                        (this.chartHeight - this.plotHeight),
+                    },
+                  });
+                },
+              },
+            },
+            title: {
+              text: "",
+            },
+            xAxis: {
+              categories: data[region].map(item => item.country),
+            },
+            credits: {
+              enabled: false,
+            },
+            exporting: {
+              showHighchart: true,
+              showTable: false,
+              tableCaption: "",
+            },
+            yAxis: {
+              min: 0,
+              title: {
+                text: "",
+              },
+              stackLabels: {
+                enabled: true,
+                style: {
+                  fontWeight: "bold",
+                  color: "gray",
+                },
+              },
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true,
+                },
+              },
+            },
+            series: [{
+              name: 'Registered',
+              data: data[region].map(item => item.registeredUsers),
+              color: '#f5c64a',
+            }, {
+              name: 'Attended',
+              data: data[region].map(item => item.attendedUsers),
+              color: '#56cabc',
+            }],
+          }}
+        />
+      </Tab>
+    ));
+  };
+  
   return (
     <>
       <Col className="right-sidebar">
@@ -1024,118 +1096,9 @@ const Analytics = (props) => {
                     </div> */}
                   </div>
                   <div className="country_tabs">
-                  <HighchartsReact
-                          highcharts={Highcharts}
-                          options={{
-                            chart: {
-                              marginTop: 100,
-                              type: "bar",
-                              events: {
-                                load: function () {
-                                  let categoryHeight = 50;
-                                  this.update({
-                                    chart: {
-                                      height:
-                                        categoryHeight * this.pointCount +
-                                        (this.chartHeight - this.plotHeight),
-                                    },
-                                  });
-                                },
-                              },
-                            },
-                            title: {
-                              text: "",
-                            },
-                            xAxis: {
-                              categories:
-                              attendedUsers?.map(item => item.name)                            },
-                            credits: {
-                              enabled: false,
-                            },
-                            exporting: {
-                              showHighchart: true,
-                              showTable: false,
-                              tableCaption: "",
-                            },
-                            // legend: {
-                            //   reversed: true,
-                            //   align: "center",
-                            //   verticalAlign: "top",
-                            //   floating: true,
-                            //   x: 0,
-                            //   y: 50,
-                            // },
-                            yAxis: {
-                              min: 0,
-                              title: {
-                                text: "",
-                              },
-                              stackLabels: {
-                                enabled: true,
-                                style: {
-                                  fontWeight: "bold",
-                                  color:
-                                    (Highcharts.defaultOptions.title.style &&
-                                      Highcharts.defaultOptions.title.style
-                                        .color) ||
-                                    "gray",
-                                },
-                              },
-                            },
-                            plotOptions: {
-                              bar: {
-                                dataLabels: {
-                                  enabled: true,
-                                },
-                              },
-                            },
-
-                            series: [{
-                              name: 'Registered',
-                              data: attendedUsers.map(item => item.data[0].y), // Registered users data
-                              color: '#f5c64a'
-                            }, {
-                              name: 'Attended',
-                              data: attendedUsers.map(item => item.data[1].y), // Attended users data
-                              color: '#56cabc'
-                            }]
-                          }}
-                        />
-                    {/* <Tabs defaultActiveKey="mena" className="" fill>
-                      <Tab eventKey="mena" title="MENA">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="latam" title="LATAM">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="eu" title="EU">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="brazil" title="Brazil">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="ee/cis" title="EE/CIS">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="other" title="Other">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="tinbs" title="TINBS">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="mexico" title="Mexico">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="russian" title="Russian Federation">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="zaf" title="ZAF">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                      <Tab eventKey="us" title="US">
-                        <img src={path_image + "attended-hcp.png"} alt="" />
-                      </Tab>
-                    </Tabs> */}
+                  <Tabs defaultActiveKey="mena" className="" fill>
+      {renderTabsAndCharts(attendedUsers)}
+    </Tabs>
                   </div>
                 </div>
               </div>}
