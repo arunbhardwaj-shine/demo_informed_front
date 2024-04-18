@@ -220,7 +220,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             marginTop: 50,
             marginBottom: 50,
             marginLeft: 50,
-            marginRight: 50,
+            marginRight: 80,
             height:300
         },
         title: {
@@ -284,7 +284,9 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             symbolHeight: 8,
             itemDistance: 20,
             lineWidth: 0,
+            itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
         },
+        
         tooltip: {
             formatter: function() {
                 return '<b>' + this.y + ' ' + this.series.name + ' | ' + this.point.category + '</b>';
@@ -298,6 +300,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                 marker: {
                     symbol: 'square',
                 },
+                
             }
     
         ],
