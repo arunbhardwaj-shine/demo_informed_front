@@ -253,7 +253,7 @@ const Analytics = (props) => {
     try {
       const response = await postData(ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_USERS, body);
       const responseData = response?.data?.data || [];
-  
+      setAttendedUsers(null)
       switch (flag) {
         case "overView":
           setOverViewData(responseData);
@@ -272,10 +272,15 @@ const Analytics = (props) => {
             name: "",
             colorByPoint: true,
             data: response?.data?.data?.regionData?.pieChartData || [],
+            drilldown: true, // enable drilldown for this series
+
           }];
   
           setPieOptions({ ...commonPieOptions, series: newValue });
-          setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion });
+          setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion ,
+            drilldown: {
+              series:response?.data?.data?.regionData?.drilldownData, // set the drilldown data
+            },});
           setSortedCountries(response?.data?.data);
           setUsersData([]);
           setOverViewData([]);
