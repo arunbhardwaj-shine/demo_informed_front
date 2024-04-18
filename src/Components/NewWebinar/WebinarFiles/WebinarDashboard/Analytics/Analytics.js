@@ -71,7 +71,7 @@ const Analytics = (props) => {
       },
     },
     exporting: {
-      enabled: true,
+      enabled: false,
       menuItemDefinitions: {
         downloadPNG: {
           text: "Download PNG",
@@ -424,6 +424,7 @@ const Analytics = (props) => {
                 enabled: false,
               },
               exporting: {
+                enabled:false,
                 showHighchart: true,
                 showTable: false,
                 tableCaption: "",
@@ -875,6 +876,8 @@ const Analytics = (props) => {
                               enabled: false,
                             },
                             exporting: {
+                              enabled:false,
+
                               showHighchart: true,
                               showTable: false,
                               tableCaption: "",
@@ -1015,6 +1018,7 @@ const Analytics = (props) => {
                               enabled: false,
                             },
                             exporting: {
+                              enabled:false,
                               showHighchart: true,
                               showTable: false,
                               tableCaption: "",
