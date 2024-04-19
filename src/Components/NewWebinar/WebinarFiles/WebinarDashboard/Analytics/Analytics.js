@@ -12,6 +12,11 @@ const Analytics = () => {
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
   );
+  const [eventTitle,setEventTitle]= useState(
+    eventIdContext?.eventTitle
+      ? eventIdContext?.eventTitle
+      : localStorageEvent?.eventTitle
+  );
 
   useEffect(()=>{
     // if(!eventIdContext){
@@ -32,7 +37,8 @@ const Analytics = () => {
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
-      link.download = `Registered_Users.xlsx`;
+      // link.download = `Registered_Users.xlsx`;
+      link.download = `${eventTitle}.xlsx`;
       link.click();
      
       // loader("hide");
