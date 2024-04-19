@@ -411,7 +411,8 @@
   }
 
   .sidebar-menu ul li {
-    margin: 15px 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 
   .sidebar-menu ul {

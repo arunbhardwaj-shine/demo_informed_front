@@ -210,106 +210,112 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                             </div>
                             <div className='highchart-chart right-side'>
                             <HighchartsReact 
-    highcharts={Highcharts} 
-    options={{
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: "line",
-            marginTop: 50,
-            marginBottom: 50,
-            marginLeft: 50,
-            marginRight: 80,
-            height:300
-        },
-        title: {
-            text: 'Registration Over Time',
-            style: {
-                fontWeight: "500",
-                color: "#70899E",
-                fontSize: "14px",
-            },
-        },
-        xAxis: {
-            categories: pieChartData?.registeredOverTime?.categoriesData,
-            labels: {
-                rotation: -45,
-                style: {
-                    fontSize: "12px",
-                    color: "#555555"
-                }
-            },
-            lineColor: 'rgba(151, 182, 207, 0.30)',
-            lineWidth: 2,
-            pointInterval: 5,
-        },
-        yAxis: {
-            title: {
-                text: '',
-            },
-            lineColor: 'rgba(151, 182, 207, 0.30)',
-            lineWidth: 2,
-            endOnTick: false, // Ensure yAxis ends at the last tick
-        },
-        plotOptions: {
-            series: {
-                marker: {
-                    symbol: 'square',
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.y}",
-                },
-            },
-        },
-        legend: {
-            align: "center",
-            verticalAlign: "bottom",
-            layout: "horizontal",
-            x: 0,
-            y: 0,
-            itemStyle: {
-                fontWeight: "normal",
-                color: "#555555",
-                fontSize: "12px"
-            },
-            itemHoverStyle: {
-                color: "#000000"
-            },
-            itemHiddenStyle: {
-                color: "#C0C0C0"
-            },
-            symbolWidth: 8,
-            symbolHeight: 8,
-            itemDistance: 20,
-            lineWidth: 0,
-            itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
-        },
-        
-        tooltip: {
-            formatter: function() {
-                return '<b>' + this.y + ' ' + this.series.name + ' | ' + this.point.category + '</b>';
-            }
-        },
-        series: [
-            {
-                name: 'Emails',
-                data: pieChartData?.registeredOverTime?.seriesData,
-                color: '#874e9e',
-                marker: {
-                    symbol: 'square',
-                },
-                
-            }
-    
-        ],
-        exporting: {
-            enabled: false,
-        },
-    }} 
-    style={{width: '100%'}}
-/>
+                                highcharts={Highcharts} 
+                                options={{
+                                    chart: {
+                                        plotBackgroundColor: null,
+                                        plotBorderWidth: null,
+                                        plotShadow: false,
+                                        type: "line",
+                                        // marginTop: 50,
+                                        // marginBottom: 50,
+                                        // marginLeft: 50,
+                                        // marginRight: 80,
+                                        // size: '100%',
+                                        // height:288,
+                                        // size: '100%',
+                                        height: 280,
+                                        // width: '100%',
+                                        maxWidth: 200,
+                                    },
+                                    
+                                    title: {
+                                        text: 'Registration Over Time',
+                                        style: {
+                                            fontWeight: "500",
+                                            color: "#70899E",
+                                            fontSize: "14px",
+                                        },
+                                    },
+                                    xAxis: {
+                                        categories: pieChartData?.registeredOverTime?.categoriesData,
+                                        labels: {
+                                            rotation: -45,
+                                            style: {
+                                                fontSize: "12px",
+                                                color: "#555555"
+                                            }
+                                        },
+                                        lineColor: 'rgba(151, 182, 207, 0.30)',
+                                        lineWidth: 2,
+                                        pointInterval: 5,
+                                    },
+                                    yAxis: {
+                                        title: {
+                                            text: '',
+                                        },
+                                        lineColor: 'rgba(151, 182, 207, 0.30)',
+                                        lineWidth: 2,
+                                        endOnTick: false, // Ensure yAxis ends at the last tick
+                                    },
+                                    plotOptions: {
+                                        series: {
+                                            marker: {
+                                                symbol: 'square',
+                                            },
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: "{point.y}",
+                                            },
+                                        },
+                                    },
+                                    legend: {
+                                        align: "center",
+                                        verticalAlign: "bottom",
+                                        layout: "horizontal",
+                                        x: 0,
+                                        y: 0,
+                                        itemStyle: {
+                                            fontWeight: "normal",
+                                            color: "#555555",
+                                            fontSize: "12px"
+                                        },
+                                        itemHoverStyle: {
+                                            color: "#000000"
+                                        },
+                                        itemHiddenStyle: {
+                                            color: "#C0C0C0"
+                                        },
+                                        symbolWidth: 8,
+                                        symbolHeight: 8,
+                                        itemDistance: 20,
+                                        lineWidth: 0,
+                                        itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
+                                    },
+                                    
+                                    tooltip: {
+                                        formatter: function() {
+                                            return '<b>' + this.y + ' ' + this.series.name + ' | ' + this.point.category + '</b>';
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Emails',
+                                            data: pieChartData?.registeredOverTime?.seriesData,
+                                            color: '#874e9e',
+                                            marker: {
+                                                symbol: 'square',
+                                            },
+                                            
+                                        }
+                                
+                                    ],
+                                    exporting: {
+                                        enabled: false,
+                                    },
+                                }} 
+                                style={{width: '100%'}}
+                            />
 
 
 

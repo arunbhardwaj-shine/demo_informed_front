@@ -1337,11 +1337,12 @@ const Analytics = (props) => {
                         </Button>
                       </div>
                     </div>
+                    <div className="table-registered">
                     <Table
                       className="fold-table registration-view"
                       id="individual_completion"
                     >
-                      <thead className="">
+                        <thead className="sticky-header">
                         <tr>
                           <th>Name</th>
                           <th>Email</th>
@@ -1371,6 +1372,7 @@ const Analytics = (props) => {
                         ))}
                       </tbody>
                     </Table>
+                    </div>
                   </div>
                 </div>
               )}

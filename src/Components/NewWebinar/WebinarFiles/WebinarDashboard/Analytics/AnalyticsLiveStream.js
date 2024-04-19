@@ -165,8 +165,8 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
 
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
-      height: 300,
       type: "spline",
+      height: 300,
     },
     title: {
       text: "Live HCPs Tracking",
@@ -433,7 +433,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       // Make API call to fetch data
       const response = await postData(ENDPOINT?.GET_LIVESTREAM_DATA, body);
       let data = response?.data?.data;
-      const averageTimeText = `AVG spend time | ${data?.averageTime?.averageTime}`;
+      const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span>`;
       const newValue = [
         {
             name: "",

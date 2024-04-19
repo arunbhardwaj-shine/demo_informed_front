@@ -13324,3 +13324,21 @@ table.table-custom {
 .webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip rect.highcharts-button-box {
   transform: translate(0px, -8px);
 }
+
+
+.highchart-chart.right-side .highcharts-container, .highchart-chart.right-side .highcharts-container svg {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0;
+}
+.live-hcp-tracking-img svg.highcharts-root .highcharts-spline-series path.highcharts-point {
+  fill: #39CABC;
+}
+.webinar-analytics-layout.rd-analytics-content .avg-speed .highcharts-legend-item rect.highcharts-point {
+  transform: translateY(-2px);
+}
+.avg-speed text.highcharts-title tspan {
+  fill: #0066BE!important;
+  font-size: 20px;
+  font-weight: 500;
+}
