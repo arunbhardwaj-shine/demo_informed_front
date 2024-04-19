@@ -13528,7 +13528,7 @@ img.change-password-image {
     }
 
     .rd-training-block-right {
-      gap: 0 12px;
+      gap: 0 16px;
 
       button {
         @include download-btn;
@@ -14227,6 +14227,10 @@ img.change-password-image {
             // }
           }
 
+          &.right-side {
+            padding: 0 15px;
+          }
+
           img {
             width: 100%;
             max-height: 255px;
@@ -14479,6 +14483,14 @@ img.change-password-image {
             input~a.btn {
               right: 4%;
             }
+          }
+        }
+      }
+
+      .dropdown {
+        button {
+          &:after {
+            display: none;
           }
         }
       }
@@ -15537,6 +15549,10 @@ table {
 
   .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(5) {
     width: 133px;
+  }
+
+  .webinar-emails-details form .dropdown-basic-button {
+    max-width: 500px;
   }
 }
 
@@ -21436,6 +21452,18 @@ table {
     width: 45%;
     padding-left: 20px;
   }
+
+  .rd-full-explain .analytics_email_stats .email_stats_gap .email-stats-send {
+    max-width: 200px;
+  }
+
+  .rd-full-explain .analytics_email_stats .email_stats_gap {
+    gap: 15px;
+  }
+
+  .rd-full-explain .analytics_email_stats .email-box .email_stats_list p {
+    font-size: 15px;
+  }
 }
 
 @media only screen and (max-width: 1500px) {
@@ -22254,6 +22282,14 @@ table {
       }
     }
   }
+
+  table.attended-table tbody tr.view td:last-child {
+    padding-right: 34px;
+  }
+
+  table.attended-table tbody tr.fold td .fold-content {
+    gap: 15px;
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -22446,6 +22482,24 @@ table {
   .feilds-section h5 {
     font-size: 16px;
     margin: 0 0 12px;
+  }
+
+  table.attended-table tbody tr.fold td .fold-content table tbody tr td {
+    font-size: 12px;
+  }
+
+  .top-header .download {
+    min-width: 35px;
+    padding: 8px;
+  }
+
+  table.attended-table tbody tr.view td {
+    padding: 15px 8px;
+  }
+
+  table.attended-table thead th,
+  table.attended-table tbody tr.view td {
+    font-size: 12px;
   }
 
   .table-responsive {

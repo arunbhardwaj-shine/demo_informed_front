@@ -40,7 +40,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         plotBorderWidth: null,
         plotShadow: false,
         type: "pie",
-        height: 300, // Increased height to prevent overlapping
+        height: 290, // Increased height to prevent overlapping
     },
     title: {
         // text: "AVG spend time |",
@@ -216,8 +216,8 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     // itemHiddenStyle: {
     //     color: "#C0C0C0"
     // },
-    symbolWidth: 9,
-    symbolHeight: 9,
+    symbolWidth: 10,
+    symbolHeight: 10,
     itemDistance: 20,
     lineWidth: 0, // Remove the line cutting through the marker
 },

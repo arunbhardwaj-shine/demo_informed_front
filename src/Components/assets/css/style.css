@@ -2729,7 +2729,7 @@ form .input-group {
 }
 
 .modal .survey_data_accordion_heading table thead.sticky-header th {
-  background: #fff;
+  background: var(--white);
 }
 
 .survey_detail_modal #tagsModal .modal-body {
@@ -13324,13 +13324,11 @@ table.table-custom {
 .webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip rect.highcharts-button-box {
   transform: translate(0px, -8px);
 }
-
-
-.highchart-chart.right-side .highcharts-container, .highchart-chart.right-side .highcharts-container svg {
-  max-width: 100% !important;
+/* .highchart-chart.right-side .highcharts-container, .highchart-chart.right-side .highcharts-container svg {
+  max-width: 500px!important;
   width: 100% !important;
   margin: 0;
-}
+} */
 .live-hcp-tracking-img svg.highcharts-root .highcharts-spline-series path.highcharts-point {
   fill: #39CABC;
 }
@@ -13341,4 +13339,7 @@ table.table-custom {
   fill: #0066BE!important;
   font-size: 20px;
   font-weight: 500;
+}
+.btn:focus-visible {
+  box-shadow: inherit !important;
 }
