@@ -315,13 +315,12 @@ const Analytics = (props) => {
   }
 }, [usersData, sortedCountries, overViewData,attendedUsers]);
 
-  const downloadExcel = (data) => {
+  const downloadExcel = (data,name) => {
     try {
       if (data?.length == 0) {
         toast.warning("No data found");
         return;
       }
-
       data = data?.map((item, index) => {
         let finalData = {};
 
@@ -333,13 +332,23 @@ const Analytics = (props) => {
         finalData.Registered = item?.register_time
           ? item?.register_time.trim()
           : "N/A";
-        finalData["Last Email"] = item?.last_email
-          ? item?.last_email.trim()
-          : "N/A";
+          if(item?.last_email!=undefined){
+            finalData["Last Email"] = item?.last_email
+            ? item?.last_email.trim()
+            : "N/A";
+          }
+          if(item?.hcp_status!=undefined){
+
         finalData["User Type"] = item?.hcp_status
           ? item?.hcp_status.trim()
           : "N/A";
+          }
+          if(item?.Attended!=undefined){
 
+            finalData["Attended"] = item?.Attended
+              ? item?.Attended.trim()
+              : "N/A";
+              }
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -352,7 +361,7 @@ const Analytics = (props) => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `usersData.xlsx`);
+      saveAs(blob, `${name}_data.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
@@ -414,6 +423,53 @@ const Analytics = (props) => {
                   },
                 },
               },
+              exporting: {
+                enabled: true,
+                menuItemDefinitions: {
+                  downloadPNG: {
+                    text: "Download PNG",
+                    onclick: function () {
+                      this.exportChart();
+                    },
+                  },
+                  downloadJPEG: {
+                    text: "Download JPEG",
+                    onclick: function () {
+                      this.exportChart({
+                        type: "image/jpeg",
+                      });
+                    },
+                  },
+                  downloadPDF: {
+                    text: "Download PDF",
+                    onclick: function () {
+                      this.exportChart({
+                        type: "application/pdf",
+                      });
+                    },
+                  },
+                  downloadSVG: {
+                    text: "Download SVG",
+                    onclick: function () {
+                      this.exportChart({
+                        type: "image/svg+xml",
+                      });
+                    },
+                  },
+                },
+                buttons: {
+                  contextButton: {
+                    symbol:
+                      "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
+                    menuItems: [
+                      "downloadPNG",
+                      "downloadJPEG",
+                      "downloadPDF",
+                      "downloadSVG",
+                    ],
+                  },
+                },
+              },
               title: {
                 text: "",
               },
@@ -423,12 +479,12 @@ const Analytics = (props) => {
               credits: {
                 enabled: false,
               },
-              exporting: {
-                enabled:false,
-                showHighchart: true,
-                showTable: false,
-                tableCaption: "",
-              },
+              // exporting: {
+              //   enabled:false,
+              //   showHighchart: true,
+              //   showTable: false,
+              //   tableCaption: "",
+              // },
               yAxis: {
                 min: 0,
                 title: {
@@ -726,7 +782,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(usersData)}
+                          onClick={() => downloadExcel(usersData,"Total Registrations")}
                         >
                           <svg
                             width="20"
@@ -1086,7 +1142,7 @@ const Analytics = (props) => {
                     <div className="rd-training-block-left">
                       <h4>
                         Registered & attended HCPs According to Region |{" "}
-                        <span>{sortedCountries?.totalRegistrationCount}</span>
+                        <span>{sortedCountries?.totalRegistrationCount||0 }</span>
                       </h4>
                     </div>
                     {/* <div className="rd-training-block-right d-flex">
@@ -1316,7 +1372,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          // onClick={() => handleExport("individual_completion")}
+                          onClick={() => downloadExcel(overViewData,"Overview")}
                         >
                           <svg
                             width="20"
