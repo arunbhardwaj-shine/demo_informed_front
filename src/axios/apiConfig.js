@@ -189,5 +189,6 @@ export const ENDPOINT = {
   US_LIST:"/webinarEmail/us-list",
   REGISTERED_USERS:"/webinarEmail/registered-users",
   NO_REGISTERED_USERS:"/webinarEmail/no-registered-users",
-  WEBINAR_SWITCH_USER:"/webinar/switch-user"
+  WEBINAR_SWITCH_USER:"/webinar/switch-user",
+  WEBINAR_EVENT_STATS:"/webinar/download-stats"
 };
