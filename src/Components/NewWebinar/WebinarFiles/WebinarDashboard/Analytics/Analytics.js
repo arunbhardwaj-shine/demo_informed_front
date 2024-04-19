@@ -397,6 +397,7 @@ const Analytics = (props) => {
   };
   const renderTabsAndCharts = (data) => {
     return Object.keys(data).map((region) => {
+      if(region=="totalRegistrationCount") return null
       const regionData = data[region];
       const countries = regionData.map((item) => item.country);
       const registeredUsers = regionData.map((item) => item.registeredUsers);
@@ -425,51 +426,58 @@ const Analytics = (props) => {
               },
               exporting: {
                 enabled: true,
+                chartOptions: {
+                    title: {
+                        text: '' // Remove title from exported image
+                    }
+                },
+                filename: 'Total_Registration', // Set filename for exported image
                 menuItemDefinitions: {
-                  downloadPNG: {
-                    text: "Download PNG",
-                    onclick: function () {
-                      this.exportChart();
+                    downloadPNG: {
+                        text: 'Download PNG',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'image/png'
+                            });
+                        }
                     },
-                  },
-                  downloadJPEG: {
-                    text: "Download JPEG",
-                    onclick: function () {
-                      this.exportChart({
-                        type: "image/jpeg",
-                      });
+                    downloadJPEG: {
+                        text: 'Download JPEG',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'image/jpeg'
+                            });
+                        }
                     },
-                  },
-                  downloadPDF: {
-                    text: "Download PDF",
-                    onclick: function () {
-                      this.exportChart({
-                        type: "application/pdf",
-                      });
+                    downloadPDF: {
+                        text: 'Download PDF',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'application/pdf'
+                            });
+                        }
                     },
-                  },
-                  downloadSVG: {
-                    text: "Download SVG",
-                    onclick: function () {
-                      this.exportChart({
-                        type: "image/svg+xml",
-                      });
-                    },
-                  },
+                    downloadSVG: {
+                        text: 'Download SVG',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'image/svg+xml'
+                            });
+                        }
+                    }
                 },
                 buttons: {
-                  contextButton: {
-                    symbol:
-                      "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
-                    menuItems: [
-                      "downloadPNG",
-                      "downloadJPEG",
-                      "downloadPDF",
-                      "downloadSVG",
-                    ],
-                  },
-                },
-              },
+                    contextButton: {
+                        symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                        menuItems: [
+                            "downloadPNG",
+                            "downloadJPEG",
+                            "downloadPDF",
+                            "downloadSVG"
+                        ]
+                    }
+                }
+            },
               title: {
                 text: "",
               },
@@ -1142,7 +1150,7 @@ const Analytics = (props) => {
                     <div className="rd-training-block-left">
                       <h4>
                         Registered & attended HCPs According to Region |{" "}
-                        <span>{sortedCountries?.totalRegistrationCount||0 }</span>
+                        <span>{attendedUsers?.totalRegistrationCount||0 }</span>
                       </h4>
                     </div>
                     {/* <div className="rd-training-block-right d-flex">
