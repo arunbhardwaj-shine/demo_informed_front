@@ -48,9 +48,10 @@ const Analytics = (props) => {
   );
   const [usersData, setUsersData] = useState([]);
   const [usersDataOriginal, setUsersDataOriginal] = useState([]);
-  const [overViewData, setOverViewData] = useState([]);
+  const [overViewData, setOverViewData] = useState([]);;
   const [sortedCountries, setSortedCountries] = useState(null);
   const [attendedUsers, setAttendedUsers] = useState(null);
+  const [activeTable, setActiveTable] = useState(null);
   const totalRegistrationRef= useRef(null);
   const registeredGraphRef= useRef(null);
   const overviewTableRef= useRef(null);
@@ -176,6 +177,14 @@ const Analytics = (props) => {
     setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
+      // console.log(filteredData);
+  if(activeTable=="totalRegistrations"){
+    setUsersData(usersDataOriginal)
+  }
+  else if(activeTable=="overView"){
+    setOverViewData(usersDataOriginal)
+
+  }
     setUsersData(usersDataOriginal)
     // setEmailListData([]);
     // setTotalEmailListData([])
@@ -184,9 +193,8 @@ const Analytics = (props) => {
   };
   const applyFilter = (e) => {
     e.preventDefault();
-    const filteredData = usersData.filter(item => {
+    const filteredData = usersDataOriginal.filter(item => {
       for (const key in appliedFilter) {
-        console.log(key);
           const filterValues = appliedFilter[key];
           console.log(filterValues);
           if (filterValues.length === 0) {
@@ -210,8 +218,17 @@ const Analytics = (props) => {
       return true; // All conditions passed
   });
   // console.log(filteredData);
-  setUsersData(filteredData)
+  if(activeTable=="totalRegistrations"){
+    setUsersData(filteredData)
+    setOverViewData(null)
 
+  }
+  else if(activeTable=="overView"){
+    setOverViewData(filteredData)
+    setUsersData(null)
+
+
+  }
     // setEmailListData([]);
     setFilterObject(appliedFilter);
     // getWebinarCompaignList(appliedFilter);
@@ -291,7 +308,7 @@ const Analytics = (props) => {
       switch (flag) {
         case "overView":
           setFilterData(responseData?.filterObject)
-
+          setUsersDataOriginal(responseData?.data);
           setOverViewData(responseData?.data);
           setUsersData([]);
           setSortedCountries(null);
@@ -331,7 +348,9 @@ const Analytics = (props) => {
 
           break;
       }
-  
+      setActiveTable(flag)
+      setAppliedFilter({})
+
       loader("hide");
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -652,7 +671,7 @@ const Analytics = (props) => {
                   <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
                 </Col>
               </Row>
-              {(usersData?.length > 0 && usersDataOriginal?.length>0) && (
+              {(activeTable =="totalRegistrations" ) && (
                 <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
@@ -667,7 +686,7 @@ const Analytics = (props) => {
                       <div className="rd-training-block-left">
                         <h4>
                           Total Registrations |{" "}
-                          <span>{usersData?.length || 0}</span>
+                          <span>{usersDataOriginal?.length || 0}</span>
                         </h4>
                       </div>
                       <div className="rd-training-block-right d-flex">
@@ -852,7 +871,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(usersData,"Total Registrations")}
+                          onClick={() => downloadExcel(usersDataOriginal,"Total Registrations")}
                         >
                           <svg
                             width="20"
@@ -874,40 +893,50 @@ const Analytics = (props) => {
                       </div>
                     </div>
                     <div className="table-registered">
-                      <Table
-                        className="fold-table registration-view"
-                        id="individual_completion"
-                      >
-                        <thead className="sticky-header">
-                          <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Region</th>
-                            <th>Country</th>
-                            <th>Registered</th>
-                            <th>Last Email</th>
-                            <th>User Type</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {usersData.map((user, index) => (
-                            <>
-                              <tr key={index}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.province}</td>
-                                <td>{user.country}</td>
-                                <td className="green">{user.register_time}</td>
-                                <td>{user.last_email}</td>
-                                <td>{user.hcp_status}</td>
-                              </tr>
-                              <tr className="blank">
-                                <td colSpan="7">&nbsp;</td>
-                              </tr>
-                            </>
-                          ))}
-                        </tbody>
-                      </Table>
+                    <Table
+          className="fold-table registration-view"
+          id="individual_completion"
+        >
+          <thead className="sticky-header">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Region</th>
+              <th>Country</th>
+              <th>Registered</th>
+              <th>Last Email</th>
+              <th>User Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usersData?.length ? (
+              usersData.map((user, index) => (
+                <>
+                  <tr key={index}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.province}</td>
+                    <td>{user.country}</td>
+                    <td className="green">{user.register_time}</td>
+                    <td>{user.last_email}</td>
+                    <td>{user.hcp_status}</td>
+                  </tr>
+                  <tr className="blank">
+                    <td colSpan="7">&nbsp;</td>
+                  </tr>
+                </>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">
+                  <div className="no_found">
+                    <p>No Data Found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
                     </div>
                   </div>
                   {/* </div>
@@ -1306,7 +1335,7 @@ ref={regionBarRef}
               </div>}
               {/* Registered & attended HCPs According to Region */}
               {/*Overview */}
-              {overViewData?.length > 0 && (
+              {activeTable=="overView"  (
                 <div className="rd-full-explain" ref={overviewTableRef}>
                   <div className="rd-section-title">
                     <h6>Overview</h6>
@@ -1498,7 +1527,7 @@ ref={regionBarRef}
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(overViewData,"Overview")}
+                          onClick={() => downloadExcel(usersDataOriginal,"Overview")}
                         >
                           <svg
                             width="20"
@@ -1520,40 +1549,48 @@ ref={regionBarRef}
                       </div>
                     </div>
                     <div className="table-registered">
-                    <Table
-                      className="fold-table registration-view"
-                      id="individual_completion"
-                    >
-                        <thead className="sticky-header">
-                        <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Region</th>
-                          <th>Country</th>
-                          <th>Registered</th>
-                          <th>Attended</th>
-                          {/* <th>Post-event views</th> */}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {overViewData.map((user, index) => (
-                          <>
-                            <tr key={index}>
-                              <td>{user.name}</td>
-                              <td>{user.email}</td>
-                              <td>{user.region}</td>
-                              <td>{user.country}</td>
-                              <td className="green">{user.register_time}</td>
-                              <td>{user.Attended}</td>
-                              {/* <td>{user.postEventViews}</td> */}
-                            </tr>
-                            <tr className="blank">
-                              <td colspan="7">&nbsp;</td>
-                            </tr>
-                          </>
-                        ))}
-                      </tbody>
-                    </Table>
+                    <Table className="fold-table registration-view" id="individual_completion">
+  <thead className="sticky-header">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Region</th>
+      <th>Country</th>
+      <th>Registered</th>
+      <th>Attended</th>
+      {/* <th>Post-event views</th> */}
+    </tr>
+  </thead>
+  <tbody>
+    {overViewData?.length ? (
+      overViewData.map((user, index) => (
+        <>
+          <tr key={index}>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.region}</td>
+            <td>{user.country}</td>
+            <td className="green">{user.register_time}</td>
+            <td>{user.Attended}</td>
+            {/* <td>{user.postEventViews}</td> */}
+          </tr>
+          <tr className="blank">
+            <td colSpan="7">&nbsp;</td>
+          </tr>
+        </>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="7">
+          <div className="no_found">
+            <p>No Data Found</p>
+          </div>
+        </td>
+      </tr>
+    )}
+  </tbody>
+</Table>
+
                     </div>
                   </div>
                 </div>
