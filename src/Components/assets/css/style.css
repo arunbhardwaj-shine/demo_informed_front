@@ -13300,15 +13300,15 @@ table.table-custom {
   pointer-events: none;
 }
 
-.webinar-analytics-layout ::-webkit-scrollbar {
+.webinar-analytics-layout ::-webkit-scrollbar, .poll-creation ::-webkit-scrollbar{
   width: 4px;
 }
 
-.webinar-analytics-layout ::-webkit-scrollbar-track {
+.webinar-analytics-layout ::-webkit-scrollbar-track, .poll-creation ::-webkit-scrollbar-track{
   background: #DCE6EF;
 }
 
-.webinar-analytics-layout ::-webkit-scrollbar-thumb {
+.webinar-analytics-layout ::-webkit-scrollbar-thumb, .poll-creation ::-webkit-scrollbar-thumb{
   background: rgba(151, 182, 207, 50%);
   border: 0;
 }

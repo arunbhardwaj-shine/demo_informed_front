@@ -873,7 +873,7 @@ const Analytics = (props) => {
                           highcharts={Highcharts}
                           options={{
                             chart: {
-                              marginTop: 100,
+                              marginTop: 10,
                               type: "bar",
                               height: 1800,
 
@@ -1042,7 +1042,7 @@ const Analytics = (props) => {
                           highcharts={Highcharts}
                           options={{
                             chart: {
-                              marginTop: 100,
+                              marginTop: 10,
                               type: "bar",
                               events: {
                                 load: function () {
