@@ -14239,7 +14239,7 @@ img.change-password-image {
 
         .graph-data {
           overflow-y: auto;
-          max-height: 262px;
+          max-height: 280px;
           padding: 0 6px;
           margin: 0 -6px;
 
@@ -14493,6 +14493,28 @@ img.change-password-image {
             display: none;
           }
         }
+
+        .dropdown-menu {
+          border: 0;
+          border-radius: 15px;
+          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+          padding: 5px 0;
+          right: 0 !important;
+          left: auto !important;
+          top: 5px !important;
+
+          a {
+            color: #97B6CF;
+            margin: 0 0 5px;
+            font-size: 14px;
+            line-height: 1.2;
+
+            &:last-child {
+              margin: 0;
+            }
+          }
+        }
+
       }
 
       .filter-btn {
