@@ -652,7 +652,7 @@ const Analytics = (props) => {
                   <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
                 </Col>
               </Row>
-              {(usersData?.length > 0 || usersDataOriginal?.length>0) && (
+              {(usersData?.length > 0 && usersDataOriginal?.length>0) && (
                 <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
