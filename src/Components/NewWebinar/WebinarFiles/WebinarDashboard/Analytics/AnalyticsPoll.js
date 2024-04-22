@@ -4,12 +4,18 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Slider from "react-slick";
 import QuestionPollsPieChart from "../LiveStream/QuestionPollsPieChart";
 import { loader } from "../../../../../loader";
+import { toast } from 'react-toastify'
+import { postData } from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
 
 const AnalyticsPoll = () => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [flag, setFlag] = useState(1);
-    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const { eventIdContext, handleEventId } = useSidebar();
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+    const [eventId, setEventId] = useState(
+      eventIdContext || localStorageEvent
+    );
     
     useEffect(() => {
         if (!eventIdContext) {
@@ -17,7 +23,7 @@ const AnalyticsPoll = () => {
         }
     }, [])
     const [question, setQuestion] = useState([]);
-    const [pieChartData, setPieChartData] = useState({});
+    const [pieChartData, setPieChartData] = useState([]);
     const slickRef = useRef("");
     const currentSnapShot = useRef(null);
     const currentQuestion = useRef();
@@ -69,33 +75,45 @@ const AnalyticsPoll = () => {
             // setApiCallStatus(false);
         }
     };
-    const handleAfterChange = async (current) => {
-        try {
-            let questionId = question[current]?.questionId;
-            currentQuestion.current = questionId;
 
-            // currentQuestion.current = questionId;
-            // let chartData = {
-            //   questionId: question[current]?.questionId,
-            //   graphType: question[current]?.graphType,
-            //   pollAnswers: question[current]?.pollAnswers,
-            // };
-            setCurrentIndex(Math.abs(current));
-            // setPieChartData(chartData);
-            let updateQuestionId = questionIdIndex;
-            if (!updateQuestionId?.includes(questionId)) {
-                updateQuestionId?.push(questionId);
-                setQuestionIdIndex(updateQuestionId);
+    useEffect(() => {
+        loader("show");
+        getEventQuestion()
+    }, [flag])
+
+    const getEventQuestion = async () => {
+        try {
+            const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
+                companyId: eventId?.companyId,
+                eventId: eventId?.eventId,
+            });
+    
+            if (result?.data?.data?.length === 0) {
+                // Handle empty data
+                throw new Error("Please create the polls first");
             }
-            setCurrentTab(currentTab + 1);
-        } catch (err) {
-            console.log("--err", err);
-        } finally {
+    
+            setQuestion(result?.data?.data);
             loader("hide");
-            setShow(true);
-            // setApiCallStatus(false);
+        } catch (err) {
+            loader("hide");
+            console.error("--err", err.message);
+            // Handle error, e.g., show a toast message
+            toast.error(err.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     };
+    
+
+
+
   return (
     <>
         <Col className="right-sidebar">
@@ -132,26 +150,12 @@ const AnalyticsPoll = () => {
                                 </div>
                             </div>
                           <div className="poll-creation">
-                              {/* <div className="outer-layout">
-                                <LivePolls eventIdContext={eventIdContext ? eventIdContext : localStorageEvent} flag={flag} />
-
-                            </div> */}
+                          
                               <div className="outer-layout">
                                   <div className="question-outer-layout">
-                                      {/* {question?.length ? (
-                                          <Button className="reset" onClick={showConfirmationPopup}>
-                                              Reset All
-                                          </Button>
-                                      ) : (
-                                          ""
-                                      )} */}
+                                
                                       <div className="question-outer-inset">
-                                          <Slider
-                                              {...settings}
-                                              ref={slickRef}
-                                              afterChange={(e) => handleAfterChange(e)}
-                                              beforeChange={(e) => handleBeforeChange(e)}
-                                          >
+                         
                                               {question?.length ? (
                                                   question?.map((item, index) => {
                                                       return (
@@ -283,37 +287,7 @@ const AnalyticsPoll = () => {
                                                                                       )}
                                                                                   </div>
                                                                               )}
-                                                                              {/* {item?.totalSubquestion &&
-                                item?.totalSubquestion?.length > 0 && (
-                                  <button
-                                    type="button"
-                                    className="btn btn-info answermodel"
-                                    onClick={(e) =>
-                                      displayPopup(item?.questionId, e)
-                                    }
-                                  >
-                                    See Comments
-                                  </button>
-                                )} */}
-                                                                              {/* {
-                                                                                  item?.userComments?.every(
-                                                                                      (obj) => obj.comments == ""
-                                                                                  ) ? (
-                                                                                      ""
-                                                                                  ) : (
-                                                                                      // item?.userComments?.length > 0 && (
-                                                                                      <button
-                                                                                          type="button"
-                                                                                          className="btn btn-info answermodel"
-                                                                                          onClick={(e) =>
-                                                                                              displayPopup(item?.questionId, e)
-                                                                                          }
-                                                                                      >
-                                                                                          See Comments
-                                                                                      </button>
-                                                                                  )
-                                                                                  // )
-                                                                              } */}
+                                                                          
 
                                                                               <div className="speaker">
                                                                                   Speaker
@@ -349,6 +323,13 @@ const AnalyticsPoll = () => {
                                                                       </div>
                                                                   </div>
                                                               </div>
+                                                              <div className="pie-chart-outer-layout">
+                                      <QuestionPollsPieChart data={{
+              questionId: item?.questionId,
+              graphType: item?.graphType,
+              pollAnswers: item?.pollAnswers,
+            }} show={show} />
+                                  </div>
                                                           </>
                                                       );
                                                   })
@@ -359,97 +340,11 @@ const AnalyticsPoll = () => {
                                                       </div>
                                                   </>
                                               )}
-                                          </Slider>
+                                          {/* </Slider> */}
                                       </div>
-                                      {question?.length ? (
-                                          <div className="question-action">
-                                              <Button
-                                                  className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
-                                                      } `}
-                                                  disabled={currentIndex == 0 ? true : false}
-                                                  onClick={() => slickRef.current.slickPrev()}
-                                              >
-                                                  <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
-                                                      <path
-                                                          d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z"
-                                                          fill="#0066BE"
-                                                      />
-                                                  </svg>
-                                              </Button>
-                                              <div className="question-listing-link-box">
-                                                  {question?.length
-                                                      ? question?.map((item, index) => (
-                                                          <div
-                                                              className="question-listing-links"
-                                                              onClick={() => {
-                                                                  if (index >= 0 && currentIndex != index) {
-                                                                      setCurrentIndex(index);
-                                                                      slickRef.current.slickGoTo(index);
-                                                                  }
-                                                              }}
-                                                          >
-                                                              <div
-                                                                  className={
-                                                                      currentIndex == index
-                                                                          ? "question-links-number active"
-                                                                          : "question-links-number"
-                                                                  }
-                                                              >
-                                                                  Q{index + 1}
-                                                              </div>
-                                                              <div className="question-links-screen">
-                                                                  {/* <img src={path_image + `${(item?.showQuestionToUser == 0 || item?.showAnswerToUser == 0) ? "screen-options.svg" : "screen-active.svg"} `} alt="" /> */}
-                                                                  <img
-                                                                      src={
-                                                                          path_image +
-                                                                          `${item?.showQuestionToUser == 1
-                                                                              ? "screen-active.svg"
-                                                                              : "screen-options.svg"
-                                                                          } `
-                                                                      }
-                                                                      alt=""
-                                                                  />
-                                                                  {/* </div> */}
-                                                              </div>
-                                                              <div className="question-links-status">
-                                                                  {item?.showQuestionToUser == 2 ||
-                                                                      item?.showQuestionToUser == 1 ? (
-                                                                      <img
-                                                                          src={path_image + "status-approved.svg"}
-                                                                          alt=""
-                                                                      />
-                                                                  ) : null}
-                                                              </div>
-                                                          </div>
-                                                      ))
-                                                      : ""}
-                                              </div>
-                                              {/* <Button
-                                                  className={`btn-bordered question-next 
-                        ${currentIndex == question?.length - 1 ? "disabled" : ""
-                                                      }
-                            `}
-                                                  disabled={currentIndex == question?.length - 1 ? true : false}
-                                                  onClick={() => {
-                                                      slickRef.current.slickNext();
-                                                  }}
-                                              >
-                                                  <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
-                                                      <path
-                                                          d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
-                                                          fill="#0066BE"
-                                                      />
-                                                  </svg>
-                                              </Button> */}
-                                          </div>
-                                      ) : (
-                                          ""
-                                      )}
                                   </div>
 
-                                  <div className="pie-chart-outer-layout">
-                                      <QuestionPollsPieChart data={pieChartData} show={show} />
-                                  </div>
+                            
                               </div>
                         </div>
 
