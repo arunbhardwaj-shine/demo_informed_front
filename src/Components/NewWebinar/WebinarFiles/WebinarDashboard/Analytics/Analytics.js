@@ -167,6 +167,10 @@ const Analytics = (props) => {
   const [appliedFilter, setAppliedFilter] = useState({});
   const [filterObject, setFilterObject] = useState({});
   const [eventData, setEventData] = useState({});
+  const countryBarRef = useRef(null);
+  const countryPieRef = useRef(null);
+  const regionBarRef = useRef(null);
+  const regionPieRef = useRef(null);
   const clearFilter = () => {
     setAppliedFilter({});
     setApifilterObject({});
@@ -315,13 +319,12 @@ const Analytics = (props) => {
   }
 }, [usersData, sortedCountries, overViewData,attendedUsers]);
 
-  const downloadExcel = (data) => {
+  const downloadExcel = (data,name) => {
     try {
       if (data?.length == 0) {
         toast.warning("No data found");
         return;
       }
-
       data = data?.map((item, index) => {
         let finalData = {};
 
@@ -333,13 +336,23 @@ const Analytics = (props) => {
         finalData.Registered = item?.register_time
           ? item?.register_time.trim()
           : "N/A";
-        finalData["Last Email"] = item?.last_email
-          ? item?.last_email.trim()
-          : "N/A";
+          if(item?.last_email!=undefined){
+            finalData["Last Email"] = item?.last_email
+            ? item?.last_email.trim()
+            : "N/A";
+          }
+          if(item?.hcp_status!=undefined){
+
         finalData["User Type"] = item?.hcp_status
           ? item?.hcp_status.trim()
           : "N/A";
+          }
+          if(item?.Attended!=undefined){
 
+            finalData["Attended"] = item?.Attended
+              ? item?.Attended.trim()
+              : "N/A";
+              }
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -352,7 +365,7 @@ const Analytics = (props) => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `usersData.xlsx`);
+      saveAs(blob, `${name}_data.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
@@ -388,6 +401,7 @@ const Analytics = (props) => {
   };
   const renderTabsAndCharts = (data) => {
     return Object.keys(data).map((region) => {
+      if(region=="totalRegistrationCount") return null
       const regionData = data[region];
       const countries = regionData.map((item) => item.country);
       const registeredUsers = regionData.map((item) => item.registeredUsers);
@@ -414,6 +428,60 @@ const Analytics = (props) => {
                   },
                 },
               },
+              exporting: {
+                enabled: true,
+                chartOptions: {
+                    title: {
+                        text: '' // Remove title from exported image
+                    }
+                },
+                filename: 'Total_Registration', // Set filename for exported image
+                menuItemDefinitions: {
+                    downloadPNG: {
+                        text: 'Download PNG',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'image/png'
+                            });
+                        }
+                    },
+                    downloadJPEG: {
+                        text: 'Download JPEG',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'image/jpeg'
+                            });
+                        }
+                    },
+                    downloadPDF: {
+                        text: 'Download PDF',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'application/pdf'
+                            });
+                        }
+                    },
+                    downloadSVG: {
+                        text: 'Download SVG',
+                        onclick: function() {
+                            this.exportChart({
+                                type: 'image/svg+xml'
+                            });
+                        }
+                    }
+                },
+                buttons: {
+                    contextButton: {
+                        symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                        menuItems: [
+                            "downloadPNG",
+                            "downloadJPEG",
+                            "downloadPDF",
+                            "downloadSVG"
+                        ]
+                    }
+                }
+            },
               title: {
                 text: "",
               },
@@ -423,12 +491,12 @@ const Analytics = (props) => {
               credits: {
                 enabled: false,
               },
-              exporting: {
-                enabled:false,
-                showHighchart: true,
-                showTable: false,
-                tableCaption: "",
-              },
+              // exporting: {
+              //   enabled:false,
+              //   showHighchart: true,
+              //   showTable: false,
+              //   tableCaption: "",
+              // },
               yAxis: {
                 min: 0,
                 title: {
@@ -467,6 +535,30 @@ const Analytics = (props) => {
       );
     });
   };
+
+    const handleDownload = (format,key) => {
+      // Accessing Highcharts chart object using document.getElementById
+      let chart = key.current && key.current.chart;
+  
+      if (chart) {
+        switch (format) {
+          case 'PNG':
+            chart.exportChart({ type: 'image/png' });
+            break;
+          case 'JPEG':
+            chart.exportChart({ type: 'image/jpeg' });
+            break;
+          case 'PDF':
+            chart.exportChart({ type: 'application/pdf' });
+            break;
+          case 'SVG':
+            chart.exportChart({ type: 'image/svg+xml' });
+            break;
+          default:
+            break;
+        }
+      }
+    }
   
   
   
@@ -726,7 +818,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(usersData)}
+                          onClick={() => downloadExcel(usersData,"Total Registrations")}
                         >
                           <svg
                             width="20"
@@ -825,30 +917,30 @@ const Analytics = (props) => {
                           </label>
                         </div>
                         <Dropdown>
-                          <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="6"
-                              height="24"
-                              viewBox="0 0 6 24"
-                              fill="none"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                                fill="#0066BE"
-                              />
-                            </svg>
-                          </Dropdown.Toggle>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="6"
+          height="24"
+          viewBox="0 0 6 24"
+          fill="none"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+            fill="#0066BE"
+          />
+        </svg>
+      </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            <Dropdown.Item>Download PNG</Dropdown.Item>
-                            <Dropdown.Item>Download JPEG</Dropdown.Item>
-                            <Dropdown.Item>Download PDF</Dropdown.Item>
-                            <Dropdown.Item>Download SVG</Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => handleDownload('PNG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PNG</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('JPEG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download JPEG</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('PDF',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PDF</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('SVG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download SVG</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
                         {/* <Button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -870,7 +962,8 @@ const Analytics = (props) => {
                     <div className="graph-view">
                       {whichTypeGraph == 0 ? (
                         <HighchartsReact
-                          highcharts={Highcharts}
+                        ref={countryBarRef}
+                        highcharts={Highcharts}
                           options={{
                             chart: {
                               marginTop: 10,
@@ -950,6 +1043,8 @@ const Analytics = (props) => {
                         />
                       ) : (
                         <HighchartsReact
+                        ref={countryPieRef}
+
                           highcharts={Highcharts}
                           options={pieOptions}
                         />
@@ -994,30 +1089,30 @@ const Analytics = (props) => {
                           </label>
                         </div>
                         <Dropdown>
-                          <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="6"
-                              height="24"
-                              viewBox="0 0 6 24"
-                              fill="none"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                                fill="#0066BE"
-                              />
-                            </svg>
-                          </Dropdown.Toggle>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="6"
+          height="24"
+          viewBox="0 0 6 24"
+          fill="none"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+            fill="#0066BE"
+          />
+        </svg>
+      </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            <Dropdown.Item>Download PNG</Dropdown.Item>
-                            <Dropdown.Item>Download JPEG</Dropdown.Item>
-                            <Dropdown.Item>Download PDF</Dropdown.Item>
-                            <Dropdown.Item>Download SVG</Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => handleDownload('PNG',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download PNG</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('JPEG',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download JPEG</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('PDF',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download PDF</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleDownload('SVG',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download SVG</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
                         {/* <Button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1039,6 +1134,7 @@ const Analytics = (props) => {
                     <div className="graph-view">
                       {whichTypeGraphRegion == 0 ? (
                         <HighchartsReact
+ref={regionBarRef}
                           highcharts={Highcharts}
                           options={{
                             chart: {
@@ -1117,6 +1213,8 @@ const Analytics = (props) => {
                         />
                       ) : (
                         <HighchartsReact
+                        ref={regionPieRef}
+
                           highcharts={Highcharts}
                           options={pieOptionsRegion}
                         />
@@ -1136,7 +1234,7 @@ const Analytics = (props) => {
                     <div className="rd-training-block-left">
                       <h4>
                         Registered & attended HCPs According to Region |{" "}
-                        <span>{sortedCountries?.totalRegistrationCount}</span>
+                        <span>{attendedUsers?.totalRegistrationCount||0 }</span>
                       </h4>
                     </div>
                     {/* <div className="rd-training-block-right d-flex">
@@ -1366,7 +1464,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          // onClick={() => handleExport("individual_completion")}
+                          onClick={() => downloadExcel(overViewData,"Overview")}
                         >
                           <svg
                             width="20"
