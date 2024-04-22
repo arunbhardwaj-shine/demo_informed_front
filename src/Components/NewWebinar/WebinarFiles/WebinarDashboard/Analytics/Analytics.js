@@ -47,6 +47,7 @@ const Analytics = (props) => {
     eventIdContext?.eventId || localStorageEvent?.eventId
   );
   const [usersData, setUsersData] = useState([]);
+  const [usersDataOriginal, setUsersDataOriginal] = useState([]);
   const [overViewData, setOverViewData] = useState([]);
   const [sortedCountries, setSortedCountries] = useState(null);
   const [attendedUsers, setAttendedUsers] = useState(null);
@@ -175,6 +176,7 @@ const Analytics = (props) => {
     setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
+    setUsersData(usersDataOriginal)
     // setEmailListData([]);
     // setTotalEmailListData([])
     // getWebinarCompaignList()
@@ -182,6 +184,34 @@ const Analytics = (props) => {
   };
   const applyFilter = (e) => {
     e.preventDefault();
+    const filteredData = usersData.filter(item => {
+      for (const key in appliedFilter) {
+        console.log(key);
+          const filterValues = appliedFilter[key];
+          console.log(filterValues);
+          if (filterValues.length === 0) {
+            continue; 
+        }
+          let isMatch = false;
+
+          if (filterValues.length > 1) {
+              // "or" condition
+              isMatch = filterValues.some(value => item[key] === value);
+          } else {
+              // "and" condition
+              isMatch = item[key] === filterValues[0];
+          }
+
+          if (!isMatch) {
+              return false; // If any condition fails, immediately return false
+          }
+      }
+
+      return true; // All conditions passed
+  });
+  // console.log(filteredData);
+  setUsersData(filteredData)
+
     // setEmailListData([]);
     setFilterObject(appliedFilter);
     // getWebinarCompaignList(appliedFilter);
@@ -260,7 +290,9 @@ const Analytics = (props) => {
       setAttendedUsers(null)
       switch (flag) {
         case "overView":
-          setOverViewData(responseData);
+          setFilterData(responseData?.filterObject)
+
+          setOverViewData(responseData?.data);
           setUsersData([]);
           setSortedCountries(null);
           break;
@@ -291,7 +323,9 @@ const Analytics = (props) => {
           break;
   
         default:
-          setUsersData(responseData);
+          setFilterData(responseData?.filterObject)
+          setUsersData(responseData?.registrationData);
+          setUsersDataOriginal(responseData?.registrationData);
           setOverViewData([]);
           setSortedCountries(null);
 
@@ -618,7 +652,7 @@ const Analytics = (props) => {
                   <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
                 </Col>
               </Row>
-              {usersData?.length > 0 && (
+              {(usersData?.length > 0 || usersDataOriginal?.length>0) && (
                 <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
