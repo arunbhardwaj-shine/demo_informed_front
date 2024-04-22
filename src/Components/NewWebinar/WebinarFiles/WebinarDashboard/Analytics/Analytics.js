@@ -1335,7 +1335,7 @@ ref={regionBarRef}
               </div>}
               {/* Registered & attended HCPs According to Region */}
               {/*Overview */}
-              {activeTable=="overView"  (
+              {activeTable === "overView" && (
                 <div className="rd-full-explain" ref={overviewTableRef}>
                   <div className="rd-section-title">
                     <h6>Overview</h6>
