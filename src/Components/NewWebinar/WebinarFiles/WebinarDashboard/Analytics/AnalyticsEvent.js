@@ -426,135 +426,146 @@ const AnalyticsEvent = () => {
                                     </div>
                                 </div>
                                 <div className="analytics-events-inset d-flex flex-column w-100">
-                                    <div className="d-flex align-items-end flex-wrap">
-                                    <div className="analytics-events-boxes">
-                                        <p>Registration</p>
-                                        <div className="d-flex events-boxes-shadow">
-                                            <div className="col">
-                                                <p>Total registered HCPs</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "registered-hcp.svg"} alt="Export" />
-                                                        <p>35246</p>
-                                                        <span>Reached by email |  <b>47894</b></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col">
-                                                <p>By Email</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "by-mail.svg"} alt="Export" />
-                                                        <p>22458</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col">
-                                                <p>By other channel</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "by-channel.svg"} alt="Export" />
-                                                        <p>1258</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h5>Event name facilisi vitae leo odio 2024</h5>
+                                        <div className="d-flex align-items-center event-date">
+                                            <p>April. 22. 2024 | 8:00 am</p>
+                                            <Button className="shortcut_btn">
+                                                <img src={path_image + "shortcut-btn.svg"} alt="" />
+                                            </Button>
                                         </div>
                                     </div>
-                                    <div className="analytics-events-boxes">
-                                        <p>Live Stream</p>
-                                            <div className="d-flex events-boxes-shadow">
-                                            <div className="col">
-                                                <p>Attendees</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "attendees.svg"} alt="Export" />
-                                                        <p>12734  (50%)</p>
+                                    <div className="d-flex align-items-end flex-wrap analytics-outer-box w-100">
+                                        <div className="analytics-events-boxes">
+                                            <p>Registration</p>
+                                            <div className="d-flex events-boxes-shadow registration-list">
+                                                <div className="box">
+                                                    <p>Total registered HCPs</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "registered-hcp.svg"} alt="Export" />
+                                                            <p>35246 <span>Reached by email |  <b>47894</b></span></p>
 
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="col">
-                                                <p>AVG HCPs online</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "avg-hcp.svg"} alt="Export" />
-                                                        <p>224</p>
+                                                <div className="box">
+                                                    <p>By Email</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "by-mail.svg"} alt="Export" />
+                                                            <p>22458</p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="col">
-                                                <p>AVG spent time</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "avg-spend.svg"} alt="Export" />
-                                                        <p>33 min</p>
-                                                        <span>Live stream <b>45:00</b> min</span>
+                                                <div className="box">
+                                                    <p>By other channel</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "by-channel.svg"} alt="Export" />
+                                                            <p>1258</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="analytics-events-boxes">
-                                        <p>Q & Poll</p>
-                                            <div className="d-flex events-boxes-shadow">
-                                            <div className="col">
-                                                <p>Poll Questions</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "poll-question.svg"} alt="Export" />
-                                                        <p>7</p>
+                                        <div className="analytics-events-boxes">
+                                            <p>Live Stream</p>
+                                            <div className="d-flex events-boxes-shadow live-streaming-box">
+                                                <div className="box">
+                                                    <p>Attendees</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "attendees.svg"} alt="Export" />
+                                                            <p>12734  (50%)</p>
 
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="col">
-                                                <p>AVG HCPs answered</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "avg-answer.svg"} alt="Export" />
-                                                        <p>70%</p>
+                                                <div className="box">
+                                                    <p>AVG HCPs online</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "avg-hcp.svg"} alt="Export" />
+                                                            <p>224</p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="col">
-                                                <p>Questions asked</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "question-asked.svg"} alt="Export" />
-                                                        <p>10</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="analytics-events-boxes">
-                                            <div className="d-flex events-boxes-shadow">
-                                            <div className="col">
-                                                <p>AVG post Survey</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "post-survey.svg"} alt="Export" />
-                                                        <p>4.45 <img src={path_image + "survey-star.svg"} alt="Export" /></p>
+                                                <div className="box">
+                                                    <p>AVG spent time</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "avg-spend.svg"} alt="Export" />
+                                                            <p>33 min <span>Live stream <b>45:00</b> min</span></p>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="analytics-events-boxes">
-                                            <div className="d-flex events-boxes-shadow">
-                                            <div className="col">
-                                                <p>Post-event views</p>
-                                                <div class="email_stats_list d-flex">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src={path_image + "post-event.svg"} alt="Export" />
-                                                        <p>548476</p>
+                                        <div className="analytics-events-boxes">
+                                            <p>Q & Poll</p>
+                                            <div className="d-flex events-boxes-shadow qa-poll-box">
+                                                <div className="box">
+                                                    <p>Poll Questions</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "poll-question.svg"} alt="Export" />
+                                                            <p>7</p>
 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="box">
+                                                    <p>AVG HCPs answered</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "avg-answer.svg"} alt="Export" />
+                                                            <p>70%</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="box">
+                                                    <p>Questions asked</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "question-asked.svg"} alt="Export" />
+                                                            <p>10</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div className="analytics-events-boxes">
+                                            <p>&nbsp;</p>
+                                            <div className="d-flex events-boxes-shadow avg-post">
+                                                <div className="box">
+                                                    <p>AVG post Survey</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "post-survey.svg"} alt="Export" />
+                                                            <p>4.45 <img src={path_image + "survey-star.svg"} alt="Export" /></p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="analytics-events-boxes">
+                                            <p>&nbsp;</p>
+                                            <div className="d-flex events-boxes-shadow post-event-view">
+                                                <div className="box">
+                                                    <p>Post-event views</p>
+                                                    <div class="email_stats_list d-flex">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src={path_image + "post-event.svg"} alt="Export" />
+                                                            <p>548476</p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
