@@ -4576,7 +4576,9 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: none;
   border: 0;
 }
-
+.dropdown-menu.filter-options .card-header .accordion-button:after {
+display:none;
+}
 .dropdown-menu.filter-options .accordion .card .collapse,
 .dropdown-menu.filter-options .accordion .card .collapsing {
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -13329,7 +13331,7 @@ table.table-custom {
   width: 100% !important;
   margin: 0;
 } */
-.live-hcp-tracking-img svg.highcharts-root .highcharts-spline-series path.highcharts-point {
+.hcp-tracking .live-hcp-tracking-img svg.highcharts-root .highcharts-spline-series path.highcharts-point {
   fill: #39CABC;
 }
 .webinar-analytics-layout.rd-analytics-content .avg-speed .highcharts-legend-item rect.highcharts-point {
