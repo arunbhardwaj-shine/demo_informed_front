@@ -226,7 +226,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                         // size: '100%',
                                         height: 280,
                                         // width: '100%',
-                                        maxWidth: 200,
+                                        width: 500,
                                     },
                                     
                                     title: {
