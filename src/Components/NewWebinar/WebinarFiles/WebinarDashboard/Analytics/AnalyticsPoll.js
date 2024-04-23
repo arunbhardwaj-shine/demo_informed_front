@@ -124,7 +124,7 @@ const AnalyticsPoll = () => {
       // Now, 'series' contains the required series data in the desired format
       console.log(series);
       console.log(categories);
-      setOverviewData(series)
+      setOverviewData({series,categories})
   
       setQuestion(result?.data?.data);
       loader("hide");
@@ -205,21 +205,26 @@ const AnalyticsPoll = () => {
             },
         },
         xAxis: {
-            categories: [""], // Empty category array
+            categories:overviewData?.categories ||[], // Update categories here
             labels: {
                 align: "center",
                 reserveSpace: true,
                 y: 20, // Adjust the vertical position of the labels
-                formatter: function () {
-                    return this.value.name; // Display the name property of the data point
-                },
             },
             lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
             lineWidth: 2, // X-axis line width
+            title: {
+                text: 'Questions' // Add title to x-axis
+            }
         },
         yAxis: {
             title: {
-                text: null,
+                text: 'Total Users' // Add title to y-axis
+            },
+            labels: {
+                formatter: function () {
+                    return 'Q' + this.value; // Display question number
+                }
             },
             lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
             lineWidth: 2, // Y-axis line width
@@ -228,26 +233,27 @@ const AnalyticsPoll = () => {
             enabled: false, // Hide legend
         },
         tooltip: {},
+ 
         plotOptions: {
             series: {
                 pointWidth: 30, // Adjust the width of the bars
                 dataLabels: {
                     allowOverlap: false,
-                    distance: 40,
                     enabled: true,
-                    inside: false,
-                    overflow: "justify",
-                    crop: true,
-                    shape: "callout",
-                    size: "100%",
+                    inside: true,  // Display the label inside the bar
+                    format: 'Q{point.y}',  // Format to display 'Q' followed by the y-value
                     style: {
                         fontFamily: "Helvetica, sans-serif",
                         fontWeight: "normal",
                         textShadow: "none",
+                        fontSize: '12px',  // Adjust font size as needed
+                        color: '#FFFFFF',  // Text color
+                        textOutline: '1px contrast' // Text outline
                     },
                 },
             },
         },
+
         exporting: {
             enabled: true,
             chartOptions: {
@@ -302,7 +308,7 @@ const AnalyticsPoll = () => {
                 }
             }
         },
-        series: overviewData,
+        series: overviewData?.series||[],
     }}
 />
 
