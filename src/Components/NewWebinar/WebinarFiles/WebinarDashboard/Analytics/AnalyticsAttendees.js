@@ -302,7 +302,7 @@ const AnalyticsAttendees = () => {
                   </div>
                 </div>
               </div>
-              <div className="search-hcp smart-list-view">
+              <div className="search-hcp smart-list-view anaytics-attended">
                 <div className="result-hcp-table">
                   <div className="table-title">
                     <h4>Total Attendees |{" "}<span>203</span></h4>

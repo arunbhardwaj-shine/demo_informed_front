@@ -10,7 +10,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            height: 400,
+            height: 300,
             type: 'pie',
              animation: {
                 duration: 0 // Set the animation duration to 0
@@ -62,7 +62,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
             },
             pie: {
                 //showInLegend: true,
-              size:"50%",
+              size:"100%",
               dataLabels: {
                 enabled: false, // Disable data labels for the pie chart
             },

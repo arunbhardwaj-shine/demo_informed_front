@@ -14767,6 +14767,9 @@ img.change-password-image {
   }
 }
 
+.anaytics-attended {
+  padding-top: 40px;
+}
 
 table {
   &.attended-table {
@@ -14777,6 +14780,7 @@ table {
         color: #004A89;
         font-size: 13px;
         font-weight: 500;
+        padding: 10px 16px;
       }
     }
 
@@ -14969,6 +14973,10 @@ table {
         margin: 36px auto 10px;
         display: flex;
         max-width: 100%;
+      }
+
+      .questions-graph-view {
+        padding: 20px 63px 0;
       }
     }
   }
@@ -25402,6 +25410,7 @@ table {
     padding-left: 25px;
     width: 100%;
   }
+
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view {
     min-height: 580px;
     justify-content: space-between;
