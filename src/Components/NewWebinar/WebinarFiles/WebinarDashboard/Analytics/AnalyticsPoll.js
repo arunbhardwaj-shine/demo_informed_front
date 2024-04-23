@@ -10,25 +10,25 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { HighchartsReact } from "highcharts-react-official";
 import Highcharts from "highcharts";
 const colors = [
-  "#39CABC",
-  "#FAC755",
-  "#F58289",
-  "#8A4E9C",
-  "#00D4C0",
-  "#BCA9F5",
-  "#D61975",
-  "#9af5b2",
-  "#0066BE",
-  "#FFBE2C",
-  "#7cb0dd",
-  "#7c00ad",
-  "#ACB5F5",
-  "#009739",
-  "#db6f2c",
-  "#F58289",
-  "#9C9CA2",
-  "#00003C",
-];
+    "#39CABC",
+    "#FAC755",
+    "#F58289",
+    "#8A4E9C",
+    "#00D4C0",
+    "#BCA9F5",
+    "#D61975",
+    "#9af5b2",
+    "#0066BE",
+    "#FFBE2C",
+    "#7cb0dd",
+    "#7c00ad",
+    "#ACB5F5",
+    "#009739",
+    "#db6f2c",
+    "#9C9CA2",
+    "#00003C",
+  ];
+  
 const AnalyticsPoll = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [flag, setFlag] = useState(1);
@@ -100,55 +100,43 @@ const AnalyticsPoll = () => {
     loader("show");
     getEventQuestion();
   }, [flag]);
-
   const getEventQuestion = async () => {
     try {
       const result = await postData(ENDPOINT.WEBINAR_POLL_ANALYTICS, {
         companyId: eventId?.companyId,
         eventId: eventId?.eventId,
       });
-
+  
       if (result?.data?.data?.length === 0) {
-        // Handle empty data
         throw new Error("Please create the polls first");
       }
+  
       const rawData = result?.data?.data;
-
-      // Initialize series array and categories array
-      let series = [];
-      let categories = [];
-
-      // Generate categories dynamically based on the questions
-      rawData.forEach((question, index) => {
-        categories.push(`Q${index + 1}`);
-
-        const color = colors[index % colors.length];
-
-        let questionData = {
-          name: question.question, // Use question text as series name
-          color: color || "#000000", // Use question color, default to black if not available
-          data: [
-            {
-              y: question?.totalUser || 0,
-              color: color || "#000000", // Use question color, default to black if not available
-            },
-          ],
-        };
-
-        series.push(questionData);
+  
+      let series = [{
+        name: rawData[0].question,
+        color: colors[0] || "#000000",
+        data: [{ y: rawData[0].totalUser || 0, color: colors[0] || "#000000" }],
+      }];
+      let categories = [`Q1`];
+  
+      rawData.slice(1).forEach((question, index) => {
+        categories.push(`Q${index + 2}`);
+  
+        const color = colors[(index + 1) % colors.length];
+  
+        series[0].data.push({
+          y: question.totalUser || 0,
+          color: color || "#000000",
+        });
       });
-
-      // Now, 'series' contains the required series data in the desired format
-      console.log(series);
-      console.log(categories);
+  
       setOverviewData({ series, categories });
-
       setQuestion(result?.data?.data);
       loader("hide");
     } catch (err) {
       loader("hide");
       console.error("--err", err.message);
-      // Handle error, e.g., show a toast message
       toast.error(err.message, {
         position: "top-right",
         autoClose: 5000,
@@ -160,6 +148,8 @@ const AnalyticsPoll = () => {
       });
     }
   };
+  
+  
 
   return (
     <>
@@ -267,7 +257,7 @@ const AnalyticsPoll = () => {
                             text: "",
                           },
                         },
-                        filename: "Overview",
+                        filename: "Polls_analytics",
                         menuItemDefinitions: {
                           downloadPNG: {
                             text: "Download PNG",

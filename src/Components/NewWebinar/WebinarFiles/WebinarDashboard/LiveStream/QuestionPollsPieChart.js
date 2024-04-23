@@ -69,7 +69,7 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                     text: ''
                 }
             },
-            filename: 'Total_Registration',
+            filename: 'Polls_Results',
             menuItemDefinitions: {
                 downloadPNG: {
                     text: 'Download PNG',
