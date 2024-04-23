@@ -3,25 +3,21 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { Spinner } from 'react-activity';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const QuestionPollsPieChart = ({ data,show }) => {
-   
-    const [pieChartOptions, setPieChartOptions] = useState({
+const QuestionPollsPieChart = ({ data,show,type }) => {
+    const baseOptions = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
             height: 300,
             type: 'pie',
-             animation: {
+            animation: {
                 duration: 0 // Set the animation duration to 0
             },
         },
         title: {
             text: "",
         },
-        // exporting: {
-        //     enabled: false,
-        //   },
         tooltip: {
             formatter: function () {
                 return this.point.name + ' : <b>' + this.point.y + '</b>';
@@ -35,19 +31,13 @@ const QuestionPollsPieChart = ({ data,show }) => {
         },
         legend: {
             verticalAlign: "bottom",
-            // labelFormat: '{name} ({percentage:.2f}%) ',
             labelFormat: '{name} ({percentage:.0f}%)',
         },
-        exporting: {
-            enabled: true,
-        },
-
         plotOptions: {
             series: {
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
-                    
                     {
                         enabled: true,
                         distance: -40,
@@ -61,81 +51,115 @@ const QuestionPollsPieChart = ({ data,show }) => {
                 ],
             },
             pie: {
-                //showInLegend: true,
-              size:"100%",
-              dataLabels: {
-                enabled: false, // Disable data labels for the pie chart
-            },
+                size: "100%",
+                dataLabels: {
+                    enabled: false,
+                },
             }
-
         },
-        series: [
-
-            // {
-            //     name: 'Questions',
-            //     colorByPoint: true,
-            //     data: []
-
-            // }
-        ],
-    }
-    );
-
-    const [barChartOptions, setBarChartOptions] = useState({
+        series: [],
+    };
+    
+    const [pieChartOptions, setPieChartOptions] = useState(type === "analytics" ? {
+        ...baseOptions,
+        exporting: {
+            enabled: true,
+            chartOptions: {
+                title: {
+                    text: ''
+                }
+            },
+            filename: 'Total_Registration',
+            menuItemDefinitions: {
+                downloadPNG: {
+                    text: 'Download PNG',
+                    onclick: function() {
+                        this.exportChart({ type: 'image/png' });
+                    }
+                },
+                downloadJPEG: {
+                    text: 'Download JPEG',
+                    onclick: function() {
+                        this.exportChart({ type: 'image/jpeg' });
+                    }
+                },
+                downloadPDF: {
+                    text: 'Download PDF',
+                    onclick: function() {
+                        this.exportChart({ type: 'application/pdf' });
+                    }
+                },
+                downloadSVG: {
+                    text: 'Download SVG',
+                    onclick: function() {
+                        this.exportChart({ type: 'image/svg+xml' });
+                    }
+                }
+            },
+            buttons: {
+                contextButton: {
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                    menuItems: [
+                        "downloadPNG",
+                        "downloadJPEG",
+                        "downloadPDF",
+                        "downloadSVG"
+                    ]
+                }
+            }
+        }
+    } : {
+        ...baseOptions,
+        exporting: {
+            enabled: true,
+        }
+    });
+    
+    const baseBarChartOptions = {
         chart: {
             type: "bar",
-            // height: 250,
         },
         title: {
             text: "Polls Results",
         },
-        
         xAxis: {
-            categories: [], // Add your options/categories here
-            visible:false
-           
+            categories: [],
+            visible: false,
         },
         yAxis: {
             min: 0,
             tickInterval: 1,
             allowDecimals: false,
             title: {
-                text: "", // Customize the y-axis label
+                text: "",
             },
             stackLabels: {
                 enabled: true,
-              },
+            },
         },
         exporting: {
             enabled: false,
-          },
-      
+        },
         legend: {
-            enabled:true,
+            enabled: true,
             verticalAlign: "bottom",
-            // labelFormat: '{name} ({percentage:.0f}%)',
-        //     x: 0,
-        // y: 0,
         },
         tooltip: {
             formatter: function() {
-              return '<b>' + this.series.name +":"+ '</b><br/>' +
-                this.point.y ;
-            }
-          },
+                return '<b>' + this.series.name + ":" + '</b><br/>' + this.point.y;
+            },
+        },
         plotOptions: {
-           
             series: {
-                // stacking: "normal",
                 pointWidth: 30,
                 allowPointSelect: true,
                 cursor: "pointer",
-                dataLabels: [                  
+                dataLabels: [
                     {
-                        enabled: true,                       
-                        formatter:function() {
+                        enabled: true,
+                        formatter: function() {
                             var pcnt = this.point.p.toFixed(0);
-                            return '<tspan >' + pcnt +"%" +'</tspan>';
+                            return '<tspan >' + pcnt + "%" + '</tspan>';
                         },
                         style: {
                             fontSize: "1.2em",
@@ -146,14 +170,64 @@ const QuestionPollsPieChart = ({ data,show }) => {
                 ],
             },
         },
-        series: [
-            // {
-            //     name: "",
-            //     colorByPoint: true,
-            //     data: [],
-            // },
-        ],
+        series: [],
+    };
+    
+    const [barChartOptions, setBarChartOptions] = useState(type === "analytics" ? {
+        ...baseBarChartOptions,
+        exporting: {
+            enabled: true,
+            chartOptions: {
+                title: {
+                    text: ''
+                }
+            },
+            filename: 'Polls_Results',
+            menuItemDefinitions: {
+                downloadPNG: {
+                    text: 'Download PNG',
+                    onclick: function() {
+                        this.exportChart({ type: 'image/png' });
+                    }
+                },
+                downloadJPEG: {
+                    text: 'Download JPEG',
+                    onclick: function() {
+                        this.exportChart({ type: 'image/jpeg' });
+                    }
+                },
+                downloadPDF: {
+                    text: 'Download PDF',
+                    onclick: function() {
+                        this.exportChart({ type: 'application/pdf' });
+                    }
+                },
+                downloadSVG: {
+                    text: 'Download SVG',
+                    onclick: function() {
+                        this.exportChart({ type: 'image/svg+xml' });
+                    }
+                }
+            },
+            buttons: {
+                contextButton: {
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                    menuItems: [
+                        "downloadPNG",
+                        "downloadJPEG",
+                        "downloadPDF",
+                        "downloadSVG"
+                    ]
+                }
+            }
+        }
+    } : {
+        ...baseBarChartOptions,
+        exporting: {
+            enabled: false,
+        }
     });
+    
 
 
     useEffect(() => {
