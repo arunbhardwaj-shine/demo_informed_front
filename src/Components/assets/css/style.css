@@ -314,6 +314,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   font-weight: 500;
   margin: 0;
 }
+
 .analytics_header .page-title h2 {
   font-size: 32px;
   max-width: 600px;
@@ -321,6 +322,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 .top-header {
   display: flex;
   align-content: center;
@@ -4576,9 +4578,11 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: none;
   border: 0;
 }
+
 .dropdown-menu.filter-options .card-header .accordion-button:after {
-display:none;
+  display: none;
 }
+
 .dropdown-menu.filter-options .accordion .card .collapse,
 .dropdown-menu.filter-options .accordion .card .collapsing {
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -10787,6 +10791,53 @@ button.event_sort_btn.svg_active svg {
   position: relative;
 }
 
+.analytics-poll .poll-creation .question-outer-inset {
+  max-width: 100%;
+  max-height: initial;
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.analytics-poll .poll-creation .question-outer-inset > .d-flex{
+  padding:5px 16px;
+  background: var(--white);
+  box-shadow: 0px -2px 7px rgba(0, 102, 190, 0.13);
+  border-radius: 20px;
+}
+.analytics-poll .poll-creation .outer-layout .question-outer-layout {
+  width: 100%;
+  background: transparent;
+  padding:0px;
+}
+.analytics-poll .poll-creation .outer-layout .pie-chart-outer-layout {
+  border-radius: 0;
+  box-shadow: none;
+  width: calc(45% - 22px);
+  margin-left:12px;
+  padding-left:10px;
+  border-left:1px dashed #97B6CF;
+}
+.analytics-poll .poll-creation {
+  min-height: initial;
+  box-shadow: none;
+  background: transparent
+}
+.analytics-poll .poll-creation .question-outer-inset .slider-space {
+  padding: 11px 0;
+  width: 55%;
+}
+.analytics-poll .poll-creation .question-outer-inset .question-boxed {
+  max-height: initial;
+  padding: 0px;
+  overflow: hidden;
+}
+.analytics-poll .question-boxed .question-listing {
+  padding: 0px;
+  border-radius: 0px;
+  background: var(--white);
+  box-shadow: none;
+  width: 100%;
+}
 .poll-creation .outer-layout .question-outer-layout button.reset {
   position: absolute;
   top: -51px;
@@ -11002,7 +11053,9 @@ button.event_sort_btn.svg_active svg {
   font-size: 14px;
   font-weight: 500;
 }
-
+.analytics-poll .question-listing .question-status .question-status-live .question-live p, .analytics-poll .question-listing .question-status .question-status-live .question-answered p {
+  font-size: 20px;
+}
 .question-listing .question-status .btn-group {
   display: flex;
   align-items: center;
@@ -13302,15 +13355,18 @@ table.table-custom {
   pointer-events: none;
 }
 
-.webinar-analytics-layout ::-webkit-scrollbar, .poll-creation ::-webkit-scrollbar{
+.webinar-analytics-layout ::-webkit-scrollbar,
+.poll-creation ::-webkit-scrollbar {
   width: 4px;
 }
 
-.webinar-analytics-layout ::-webkit-scrollbar-track, .poll-creation ::-webkit-scrollbar-track{
+.webinar-analytics-layout ::-webkit-scrollbar-track,
+.poll-creation ::-webkit-scrollbar-track {
   background: #DCE6EF;
 }
 
-.webinar-analytics-layout ::-webkit-scrollbar-thumb, .poll-creation ::-webkit-scrollbar-thumb{
+.webinar-analytics-layout ::-webkit-scrollbar-thumb,
+.poll-creation ::-webkit-scrollbar-thumb {
   background: rgba(151, 182, 207, 50%);
   border: 0;
 }
@@ -13326,6 +13382,7 @@ table.table-custom {
 .webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip rect.highcharts-button-box {
   transform: translate(0px, -8px);
 }
+
 /* .highchart-chart.right-side .highcharts-container, .highchart-chart.right-side .highcharts-container svg {
   max-width: 500px!important;
   width: 100% !important;
@@ -13334,14 +13391,23 @@ table.table-custom {
 .hcp-tracking .live-hcp-tracking-img svg.highcharts-root .highcharts-spline-series path.highcharts-point {
   fill: #39CABC;
 }
+
 .webinar-analytics-layout.rd-analytics-content .avg-speed .highcharts-legend-item rect.highcharts-point {
   transform: translateY(-2px);
 }
+
 .avg-speed text.highcharts-title tspan {
-  fill: #0066BE!important;
+  fill: #0066BE !important;
   font-size: 20px;
   font-weight: 500;
 }
+
 .btn:focus-visible {
   box-shadow: inherit !important;
+}
+
+
+.poll-creation .pie-chart-outer-layout .graph-box {
+  width: 100%;
+  max-width: 556px;
 }

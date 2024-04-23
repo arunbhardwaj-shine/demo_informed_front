@@ -9,7 +9,12 @@ import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { HighchartsReact } from "highcharts-react-official";
 import Highcharts from "highcharts";
-
+const colors = [
+    '#39CABC', '#FAC755', '#F58289', '#8A4E9C'
+,'#00D4C0', '#BCA9F5', '#D61975', '#9af5b2', '#0066BE',
+    '#FFBE2C', '#7cb0dd', '#7c00ad', '#ACB5F5', '#009739',
+    '#db6f2c', '#F58289', '#9C9CA2', '#00003C',
+  ];
 const AnalyticsPoll = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [flag, setFlag] = useState(1);
@@ -103,18 +108,14 @@ const AnalyticsPoll = () => {
       rawData.forEach((question, index) => {
         categories.push(`Q${index + 1}`);
   
-        // Calculate total answers for the question
-        let totalAnswers = question.pollAnswers.reduce((acc, answer) => {
-          return acc + answer.y;
-        }, 0);
-  
-        // Create series data for the question
+        const color = colors[index % colors.length];
+
         let questionData = {
           name: question.question,  // Use question text as series name
-          color: question.pollAnswers[0]?.color || '#000000', // Use question color, default to black if not available
+          color: color|| '#000000', // Use question color, default to black if not available
           data: [{
-            y: totalAnswers,
-            color: question.pollAnswers[0]?.color || '#000000', // Use question color, default to black if not available
+            y: question?.totalUser || 0,
+            color: color || '#000000', // Use question color, default to black if not available
           }],
         };
   
@@ -183,134 +184,123 @@ const AnalyticsPoll = () => {
                   <h4>All Questions</h4>
                   {/* <img src={path_image + "all-questions.png"} alt="" /> */}
                   <HighchartsReact
-    key={"overview"}
-    highcharts={Highcharts}
-    options={{
-        chart: {
-            type: "bar",
-            height: 1000, // Set the height dynamically here
-            options3d: {
-                enabled: true,
-                alpha: 10,
-                beta: 25,
-                depth: 70,
-            },
-        },
-        title: {
-            text: "Click on the double arrows to see more details",
-            align: "left",
-            style: {
-                fontSize: "12px", // Decreased font size
-                color: "#97B6CF",
-            },
-        },
-        xAxis: {
-            categories:overviewData?.categories ||[], // Update categories here
-            labels: {
-                align: "center",
-                reserveSpace: true,
-                y: 20, // Adjust the vertical position of the labels
-            },
-            lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
-            lineWidth: 2, // X-axis line width
-            title: {
-                text: 'Questions' // Add title to x-axis
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Total Users' // Add title to y-axis
-            },
-            labels: {
-                formatter: function () {
-                    return 'Q' + this.value; // Display question number
-                }
-            },
-            lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
-            lineWidth: 2, // Y-axis line width
-        },
-        legend: {
-            enabled: false, // Hide legend
-        },
-        tooltip: {},
- 
-        plotOptions: {
-            series: {
-                pointWidth: 30, // Adjust the width of the bars
-                dataLabels: {
-                    allowOverlap: false,
-                    enabled: true,
-                    inside: true,  // Display the label inside the bar
-                    format: 'Q{point.y}',  // Format to display 'Q' followed by the y-value
-                    style: {
-                        fontFamily: "Helvetica, sans-serif",
-                        fontWeight: "normal",
-                        textShadow: "none",
-                        fontSize: '12px',  // Adjust font size as needed
-                        color: '#FFFFFF',  // Text color
-                        textOutline: '1px contrast' // Text outline
-                    },
-                },
-            },
-        },
-
-        exporting: {
-            enabled: true,
-            chartOptions: {
-                title: {
-                    text: '' // Remove title from exported image
-                }
-            },
-            filename: 'Overview', // Set filename for exported image
-            menuItemDefinitions: {
-                downloadPNG: {
-                    text: 'Download PNG',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'image/png'
-                        });
-                    }
-                },
-                downloadJPEG: {
-                    text: 'Download JPEG',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'image/jpeg'
-                        });
-                    }
-                },
-                downloadPDF: {
-                    text: 'Download PDF',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'application/pdf'
-                        });
-                    }
-                },
-                downloadSVG: {
-                    text: 'Download SVG',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'image/svg+xml'
-                        });
-                    }
-                }
-            },
-            buttons: {
-                contextButton: {
-                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
-                    menuItems: [
-                        "downloadPNG",
-                        "downloadJPEG",
-                        "downloadPDF",
-                        "downloadSVG"
-                    ]
-                }
-            }
-        },
-        series: overviewData?.series||[],
-    }}
-/>
+                    key={"overview"}
+                    highcharts={Highcharts}
+                    options={{
+                        chart: {
+                            type: "bar",
+                            //height: 1000, // Set the height dynamically here
+                            options3d: {
+                                enabled: true,
+                                alpha: 10,
+                                beta: 25,
+                                depth: 70,
+                            },
+                        },
+                        title: {
+                            text: "",
+                        },
+                        xAxis: {
+                            categories: [""], // Empty category array
+                            labels: {
+                                align: "center",
+                                reserveSpace: true,
+                                y: 20, // Adjust the vertical position of the labels
+                                formatter: function () {
+                                    return this.value.name; // Display the name property of the data point
+                                },
+                            },
+                            lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
+                            lineWidth: 2, // X-axis line width
+                        },
+                        yAxis: {
+                            title: {
+                                text: null,
+                            },
+                            lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
+                            lineWidth: 2, // Y-axis line width
+                        },
+                        legend: {
+                            enabled: false, // Hide legend
+                        },
+                        tooltip: {},
+                        plotOptions: {
+                            series: {
+                                pointWidth: 25, // Adjust the width of the bars
+                                dataLabels: {
+                                    allowOverlap: false,
+                                    distance: 60,
+                                    enabled: true,
+                                    inside: false,
+                                    overflow: "justify",
+                                    crop: true,
+                                    shape: "callout",
+                                    size: "100%",
+                                    style: {
+                                        fontFamily: "Helvetica, sans-serif",
+                                        fontWeight: "normal",
+                                        textShadow: "none",
+                                    },
+                                },
+                            },
+                        },
+                        exporting: {
+                            enabled: true,
+                            chartOptions: {
+                                title: {
+                                    text: '' // Remove title from exported image
+                                }
+                            },
+                            filename: 'Overview', // Set filename for exported image
+                            menuItemDefinitions: {
+                                downloadPNG: {
+                                    text: 'Download PNG',
+                                    onclick: function () {
+                                        this.exportChart({
+                                            type: 'image/png'
+                                        });
+                                    }
+                                },
+                                downloadJPEG: {
+                                    text: 'Download JPEG',
+                                    onclick: function () {
+                                        this.exportChart({
+                                            type: 'image/jpeg'
+                                        });
+                                    }
+                                },
+                                downloadPDF: {
+                                    text: 'Download PDF',
+                                    onclick: function () {
+                                        this.exportChart({
+                                            type: 'application/pdf'
+                                        });
+                                    }
+                                },
+                                downloadSVG: {
+                                    text: 'Download SVG',
+                                    onclick: function () {
+                                        this.exportChart({
+                                            type: 'image/svg+xml'
+                                        });
+                                    }
+                                }
+                            },
+                              buttons: {
+                                  contextButton: {
+                                      symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                                      menuItems: [
+                                          "downloadPNG",
+                                          "downloadJPEG",
+                                          "downloadPDF",
+                                          "downloadSVG"
+                                      ]
+                                  }
+                              }
+                          },
+                          series: overviewData.series,
+                      }}
+                  />
 
                 </div>
               </div>
@@ -322,6 +312,7 @@ const AnalyticsPoll = () => {
                         question?.map((item, index) => {
                           return (
                             <>
+                            <div className="d-flex w-100">
                               <div
                                 className="slider-space"
                                 key={item?.questionId}
@@ -330,7 +321,7 @@ const AnalyticsPoll = () => {
                                   <div className="question-listing">
                                     <div className="d-flex justify-content-between question-list-number align-items-center">
                                       <h4>Q{index + 1}</h4>
-                                      <div
+                                      {/* <div
                                         className={
                                           item?.showQuestionToUser == 1 ||
                                           item?.showQuestionToUser == 2
@@ -344,7 +335,7 @@ const AnalyticsPoll = () => {
                                             ? "Done"
                                             : "Not displayed yet"}
                                         </span>
-                                      </div>
+                                      </div> */}
                                     </div>
                                     <div className="question-display">
                                       <div className="question">
@@ -502,6 +493,7 @@ const AnalyticsPoll = () => {
                                   }}
                                   show={show}
                                 />
+                              </div>
                               </div>
                             </>
                           );
