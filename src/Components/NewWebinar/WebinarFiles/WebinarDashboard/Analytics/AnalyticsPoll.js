@@ -226,6 +226,7 @@ const AnalyticsPoll = () => {
                         tooltip: {},
                         plotOptions: {
                             series: {
+                                groupPadding: 0,
                                 pointWidth: 25, // Adjust the width of the bars
                                 dataLabels: {
                                     allowOverlap: false,
@@ -427,6 +428,7 @@ const AnalyticsPoll = () => {
                                                               className="answer"
                                                               key={i}
                                                             >
+                                                              <span className="bullet-color" style={{background:'#f00'}}>&nbsp;</span>
                                                               <span>
                                                                 {String.fromCharCode(
                                                                   65 + i

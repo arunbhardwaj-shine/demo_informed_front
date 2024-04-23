@@ -10797,6 +10797,7 @@ button.event_sort_btn.svg_active svg {
   gap: 40px;
   display: flex;
   flex-direction: column;
+  margin: 0 0 30px;
 }
 .analytics-poll .poll-creation .question-outer-inset > .d-flex{
   padding:5px 16px;
@@ -10978,6 +10979,7 @@ button.event_sort_btn.svg_active svg {
   font-weight: 400;
   line-height: 183.984%;
   display: flex;
+  align-items: center;
 }
 
 .question-listing .question-display .answer-options {
@@ -11000,6 +11002,13 @@ button.event_sort_btn.svg_active svg {
   font-weight: 500;
   line-height: 183.984%;
   margin-right: 3px;
+}
+.question-listing .answer span.bullet-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  line-height: 1;
 }
 
 .question-listing .question-display .speaker {
@@ -13409,5 +13418,5 @@ table.table-custom {
 
 .poll-creation .pie-chart-outer-layout .graph-box {
   width: 100%;
-  max-width: 556px;
+  max-width: 560px;
 }

@@ -10,7 +10,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            height: 180,
+            height: 400,
             type: 'pie',
              animation: {
                 duration: 0 // Set the animation duration to 0
