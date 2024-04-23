@@ -44,57 +44,10 @@ const AnalyticsPoll = () => {
   }, []);
   const [question, setQuestion] = useState([]);
   const [pieChartData, setPieChartData] = useState([]);
-  const slickRef = useRef("");
   const currentSnapShot = useRef(null);
-  const currentQuestion = useRef();
   const [apiCallStatus, setApiCallStatus] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const settings = {
-    infinite: false,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    dots: false,
-    arrows: false,
-    centerMode: true,
-    centerPadding: "0",
-    speed: 500,
-    vertical: true,
-    verticalScrolling: true,
-    swipe: false,
-    debug: true,
-    touchMove: false,
-    responsive: [
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          dots: false,
-          arrows: false,
-          vertical: false,
-          verticalScrolling: false,
-        },
-      },
-    ],
-  };
-  const [questionIdIndex, setQuestionIdIndex] = useState([]);
-  const [currentTab, setCurrentTab] = useState(0);
+  
   const [show, setShow] = useState(false);
-  const handleBeforeChange = async (current) => {
-    try {
-      setApiCallStatus(true);
-      if (currentSnapShot.current) {
-        currentSnapShot.current();
-      }
-      setPieChartData({});
-    } catch (err) {
-      console.log("--err", err);
-    } finally {
-      loader("hide");
-      setShow(true);
-      // setApiCallStatus(false);
-    }
-  };
 
   useEffect(() => {
     loader("show");
