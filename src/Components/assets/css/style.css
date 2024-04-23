@@ -10979,7 +10979,6 @@ button.event_sort_btn.svg_active svg {
   font-weight: 400;
   line-height: 183.984%;
   display: flex;
-  align-items: center;
 }
 
 .question-listing .question-display .answer-options {
@@ -11007,8 +11006,8 @@ button.event_sort_btn.svg_active svg {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  margin-right: 8px;
-  line-height: 1;
+  margin: 8px 8px 0 0;
+  flex: 0 0 10px;
 }
 
 .question-listing .question-display .speaker {
