@@ -13433,3 +13433,11 @@ table.table-custom {
   width: 100%;
   max-width: 560px;
 }
+/* .analytics-poll .analytics-questions-graph .highcharts-axis-labels.highcharts-xaxis-labels {
+  transform: translateY(-16px);
+} */
+/* .analytics-questions-graph .highcharts-axis-labels.highcharts-xaxis-labels text{
+  color: #97B6CF;
+  font-size: 20px;
+  font-weight: 600;
+} */

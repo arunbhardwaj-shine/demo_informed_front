@@ -169,127 +169,133 @@ const AnalyticsPoll = () => {
               <div className="analytics-poll-questions">
                 <div className="analytics-questions-graph">
                   <h4>All Questions</h4>
-                  {/* <img src={path_image + "all-questions.png"} alt="" /> */}
-                  <HighchartsReact
-                    key={"overview"}
-                    highcharts={Highcharts}
-                    options={{
-                      chart: {
-                        type: "bar",
-                        //height: 1000, // Set the height dynamically here
-                        options3d: {
-                          enabled: true,
-                          alpha: 10,
-                          beta: 25,
-                          depth: 70,
-                        },
-                      },
-                      title: {
-                        text: "",
-                      },
-                      xAxis: {
-                        categories: overviewData.categories, // Use the categories from overviewData
-                        labels: {
-                          align: "center",
-                          reserveSpace: true,
-                          y: 20,
-                          formatter: function () {
-                            return this.value; // Display the category directly
-                          },
-                        },
-                        lineColor: "rgba(151, 182, 207, 0.30)",
-                        lineWidth: 2,
-                      },
-                      yAxis: {
-                        title: {
-                          text: null,
-                        },
-                        lineColor: "rgba(151, 182, 207, 0.30)",
-                        lineWidth: 2,
-                      },
-                      legend: {
-                        enabled: false,
-                      },
-                      tooltip: {},
-                      plotOptions: {
-                        series: {
-                          groupPadding: 0,
-                          pointWidth: 25,
-                          dataLabels: {
-                            allowOverlap: false,
-                            distance: 60,
+                  <div className="questions-graph-view">
+                    <HighchartsReact
+                      key={"overview"}
+                      highcharts={Highcharts}
+                      options={{
+                        chart: {
+                          type: "bar",
+                          //height: 1000, // Set the height dynamically here
+                          options3d: {
                             enabled: true,
-                            inside: false,
-                            overflow: "justify",
-                            crop: true,
-                            shape: "callout",
-                            size: "100%",
-                            style: {
-                              fontFamily: "Helvetica, sans-serif",
-                              fontWeight: "normal",
-                              textShadow: "none",
-                            },
+                            alpha: 10,
+                            beta: 25,
+                            depth: 70,
                           },
                         },
-                      },
-                      exporting: {
-                        enabled: true,
-                        chartOptions: {
+                        title: {
+                          text: "",
+                        },
+                        xAxis: {
+                          categories: overviewData.categories, // Use the categories from overviewData
+                          labels: {
+                            align: "center",
+                            reserveSpace: true,
+                            y: 7,
+                            style:{
+                              color:'#97B6CF',
+                              fontSize:'20',
+                              fontWeight:600,
+                            },
+                            formatter: function () {
+                              return this.value; // Display the category directly
+                            },
+                          },
+                          lineColor: "rgba(151, 182, 207, 0.30)",
+                          lineWidth: 2,
+                        },
+                        yAxis: {
                           title: {
-                            text: "",
+                            text: null,
                           },
+                          lineColor: "rgba(151, 182, 207, 0.30)",
+                          lineWidth: 2,
                         },
-                        filename: "Polls_analytics",
-                        menuItemDefinitions: {
-                          downloadPNG: {
-                            text: "Download PNG",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "image/png",
-                              });
-                            },
-                          },
-                          downloadJPEG: {
-                            text: "Download JPEG",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "image/jpeg",
-                              });
-                            },
-                          },
-                          downloadPDF: {
-                            text: "Download PDF",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "application/pdf",
-                              });
-                            },
-                          },
-                          downloadSVG: {
-                            text: "Download SVG",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "image/svg+xml",
-                              });
+                        legend: {
+                          enabled: false,
+                        },
+                        tooltip: {},
+                        plotOptions: {
+                          series: {
+                            groupPadding: 0,
+                            pointWidth: 25,
+                            dataLabels: {
+                              allowOverlap: false,
+                              distance: 60,
+                              enabled: true,
+                              inside: false,
+                              overflow: "justify",
+                              crop: true,
+                              shape: "callout",
+                              size: "100%",
+                              style: {
+                                fontFamily: "Helvetica, sans-serif",
+                                fontWeight: "normal",
+                                textShadow: "none",
+                              },
                             },
                           },
                         },
-                        buttons: {
-                          contextButton: {
-                            symbol:
-                              "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-                            menuItems: [
-                              "downloadPNG",
-                              "downloadJPEG",
-                              "downloadPDF",
-                              "downloadSVG",
-                            ],
+                        exporting: {
+                          enabled: true,
+                          chartOptions: {
+                            title: {
+                              text: "",
+                            },
+                          },
+                          filename: "Polls_analytics",
+                          menuItemDefinitions: {
+                            downloadPNG: {
+                              text: "Download PNG",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "image/png",
+                                });
+                              },
+                            },
+                            downloadJPEG: {
+                              text: "Download JPEG",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "image/jpeg",
+                                });
+                              },
+                            },
+                            downloadPDF: {
+                              text: "Download PDF",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "application/pdf",
+                                });
+                              },
+                            },
+                            downloadSVG: {
+                              text: "Download SVG",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "image/svg+xml",
+                                });
+                              },
+                            },
+                          },
+                          buttons: {
+                            contextButton: {
+                              symbol:
+                                "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+                              menuItems: [
+                                "downloadPNG",
+                                "downloadJPEG",
+                                "downloadPDF",
+                                "downloadSVG",
+                              ],
+                            },
                           },
                         },
-                      },
-                      series: overviewData.series || [],
-                    }}
-                  />
+                        series: overviewData.series || [],
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="poll-creation">
