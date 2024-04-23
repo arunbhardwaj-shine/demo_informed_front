@@ -10,17 +10,18 @@ const QuestionPollsPieChart = ({ data,show }) => {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
+            height: 180,
             type: 'pie',
              animation: {
                 duration: 0 // Set the animation duration to 0
             },
         },
         title: {
-            text: "Polls Results",
+            text: "",
         },
-        exporting: {
-            enabled: false,
-          },
+        // exporting: {
+        //     enabled: false,
+        //   },
         tooltip: {
             formatter: function () {
                 return this.point.name + ' : <b>' + this.point.y + '</b>';
@@ -36,6 +37,9 @@ const QuestionPollsPieChart = ({ data,show }) => {
             verticalAlign: "bottom",
             // labelFormat: '{name} ({percentage:.2f}%) ',
             labelFormat: '{name} ({percentage:.0f}%)',
+        },
+        exporting: {
+            enabled: true,
         },
 
         plotOptions: {
@@ -57,8 +61,8 @@ const QuestionPollsPieChart = ({ data,show }) => {
                 ],
             },
             pie: {
-                showInLegend: true,
-              size:"60%",
+                //showInLegend: true,
+              size:"50%",
               dataLabels: {
                 enabled: false, // Disable data labels for the pie chart
             },

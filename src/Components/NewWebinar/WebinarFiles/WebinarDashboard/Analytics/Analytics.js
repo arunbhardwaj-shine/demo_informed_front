@@ -466,7 +466,7 @@ const Analytics = (props) => {
             highcharts={Highcharts}
             options={{
               chart: {
-                marginTop: 100,
+                marginTop: 50,
                 type: "bar",
                 events: {
                   load: function () {
@@ -1327,9 +1327,9 @@ ref={regionBarRef}
                     </div> */}
                   </div>
                   <div className="country_tabs">
-                  <Tabs defaultActiveKey="mena" className="" fill>
-      {renderTabsAndCharts(attendedUsers)}
-    </Tabs>
+                    <Tabs defaultActiveKey="mena" className="" fill>
+                      {renderTabsAndCharts(attendedUsers)}
+                    </Tabs>
                   </div>
                 </div>
               </div>}
