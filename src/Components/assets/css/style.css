@@ -11002,6 +11002,16 @@ button.event_sort_btn.svg_active svg {
   line-height: 183.984%;
   margin-right: 3px;
 }
+
+.analytics-poll .question-listing .answer span {
+  color: var(--dark-gray);
+  font-weight: 400;
+}
+.analytics-poll .question-listing .answer div > span {
+  margin-right: 0px;
+  color:var(--dark-blue);
+  font-weight: 500;
+}
 .question-listing .answer span.bullet-color {
   width: 10px;
   height: 10px;
@@ -13379,18 +13389,22 @@ table.table-custom {
   border: 0;
 }
 
+.webinar-analytics-layout .highcharts-a11y-proxy-group button.highcharts-no-tooltip, .analytics-poll .highcharts-a11y-proxy-group button.highcharts-no-tooltip {
+  top: 0px !important;
+}
 .webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip image.highcharts-button-symbol {
   transform: translate(0px, -7px) !important;
 }
-
-.webinar-analytics-layout .highcharts-a11y-proxy-group button.highcharts-no-tooltip {
-  top: 0px !important;
+.analytics-poll .highcharts-exporting-group .highcharts-no-tooltip image.highcharts-button-symbol {
+  transform: translate(0px, -10px) !important;
 }
 
 .webinar-analytics-layout .highcharts-exporting-group .highcharts-no-tooltip rect.highcharts-button-box {
   transform: translate(0px, -8px);
 }
-
+.analytics-poll .highcharts-exporting-group .highcharts-no-tooltip rect.highcharts-button-box {
+  transform: translate(0px, -11px);
+}
 /* .highchart-chart.right-side .highcharts-container, .highchart-chart.right-side .highcharts-container svg {
   max-width: 500px!important;
   width: 100% !important;
