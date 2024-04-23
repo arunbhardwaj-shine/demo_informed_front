@@ -230,7 +230,6 @@ const AnalyticsPoll = () => {
                               shape: "callout",
                               size: "100%",
                               style: {
-                                fontFamily: "Helvetica, sans-serif",
                                 fontWeight: "normal",
                                 textShadow: "none",
                               },
@@ -248,41 +247,30 @@ const AnalyticsPoll = () => {
                           menuItemDefinitions: {
                             downloadPNG: {
                               text: "Download PNG",
-                              onclick: function () {
-                                this.exportChart({
-                                  type: "image/png",
-                                });
-                              },
+                              onclick: function () { this.exportChart({ type: "image/png", }); },
                             },
                             downloadJPEG: {
                               text: "Download JPEG",
                               onclick: function () {
-                                this.exportChart({
-                                  type: "image/jpeg",
-                                });
+                                this.exportChart({type: "image/jpeg",});
                               },
                             },
                             downloadPDF: {
                               text: "Download PDF",
                               onclick: function () {
-                                this.exportChart({
-                                  type: "application/pdf",
-                                });
+                                this.exportChart({ type: "application/pdf", });
                               },
                             },
                             downloadSVG: {
                               text: "Download SVG",
                               onclick: function () {
-                                this.exportChart({
-                                  type: "image/svg+xml",
-                                });
+                                this.exportChart({ type: "image/svg+xml", });
                               },
                             },
                           },
                           buttons: {
                             contextButton: {
-                              symbol:
-                                "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+                              symbol:"url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
                               menuItems: [
                                 "downloadPNG",
                                 "downloadJPEG",
