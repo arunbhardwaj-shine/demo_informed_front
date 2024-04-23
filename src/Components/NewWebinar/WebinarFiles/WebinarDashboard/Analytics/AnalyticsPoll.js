@@ -10,11 +10,25 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { HighchartsReact } from "highcharts-react-official";
 import Highcharts from "highcharts";
 const colors = [
-    '#39CABC', '#FAC755', '#F58289', '#8A4E9C'
-,'#00D4C0', '#BCA9F5', '#D61975', '#9af5b2', '#0066BE',
-    '#FFBE2C', '#7cb0dd', '#7c00ad', '#ACB5F5', '#009739',
-    '#db6f2c', '#F58289', '#9C9CA2', '#00003C',
-  ];
+  "#39CABC",
+  "#FAC755",
+  "#F58289",
+  "#8A4E9C",
+  "#00D4C0",
+  "#BCA9F5",
+  "#D61975",
+  "#9af5b2",
+  "#0066BE",
+  "#FFBE2C",
+  "#7cb0dd",
+  "#7c00ad",
+  "#ACB5F5",
+  "#009739",
+  "#db6f2c",
+  "#F58289",
+  "#9C9CA2",
+  "#00003C",
+];
 const AnalyticsPoll = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [flag, setFlag] = useState(1);
@@ -93,40 +107,42 @@ const AnalyticsPoll = () => {
         companyId: eventId?.companyId,
         eventId: eventId?.eventId,
       });
-  
+
       if (result?.data?.data?.length === 0) {
         // Handle empty data
         throw new Error("Please create the polls first");
       }
       const rawData = result?.data?.data;
-  
+
       // Initialize series array and categories array
       let series = [];
       let categories = [];
-  
+
       // Generate categories dynamically based on the questions
       rawData.forEach((question, index) => {
         categories.push(`Q${index + 1}`);
-  
+
         const color = colors[index % colors.length];
 
         let questionData = {
-          name: question.question,  // Use question text as series name
-          color: color|| '#000000', // Use question color, default to black if not available
-          data: [{
-            y: question?.totalUser || 0,
-            color: color || '#000000', // Use question color, default to black if not available
-          }],
+          name: question.question, // Use question text as series name
+          color: color || "#000000", // Use question color, default to black if not available
+          data: [
+            {
+              y: question?.totalUser || 0,
+              color: color || "#000000", // Use question color, default to black if not available
+            },
+          ],
         };
-  
+
         series.push(questionData);
       });
-  
+
       // Now, 'series' contains the required series data in the desired format
       console.log(series);
       console.log(categories);
-      setOverviewData({series,categories})
-  
+      setOverviewData({ series, categories });
+
       setQuestion(result?.data?.data);
       loader("hide");
     } catch (err) {
@@ -144,7 +160,6 @@ const AnalyticsPoll = () => {
       });
     }
   };
-  
 
   return (
     <>
@@ -184,126 +199,125 @@ const AnalyticsPoll = () => {
                   <h4>All Questions</h4>
                   {/* <img src={path_image + "all-questions.png"} alt="" /> */}
                   <HighchartsReact
-    key={"overview"}
-    highcharts={Highcharts}
-    options={{
-        chart: {
-            type: "bar",
-            //height: 1000, // Set the height dynamically here
-            options3d: {
-                enabled: true,
-                alpha: 10,
-                beta: 25,
-                depth: 70,
-            },
-        },
-        title: {
-            text: "",
-        },
-        xAxis: {
-            categories: overviewData.categories, // Use the categories from overviewData
-            labels: {
-                align: "center",
-                reserveSpace: true,
-                y: 20,
-                formatter: function () {
-                    return this.value; // Display the category directly
-                },
-            },
-            lineColor: 'rgba(151, 182, 207, 0.30)',
-            lineWidth: 2,
-        },
-        yAxis: {
-            title: {
-                text: null,
-            },
-            lineColor: 'rgba(151, 182, 207, 0.30)',
-            lineWidth: 2,
-        },
-        legend: {
-            enabled: false,
-        },
-        tooltip: {},
-        plotOptions: {
-            series: {
-                groupPadding: 0,
-                pointWidth: 25,
-                dataLabels: {
-                    allowOverlap: false,
-                    distance: 60,
-                    enabled: true,
-                    inside: false,
-                    overflow: "justify",
-                    crop: true,
-                    shape: "callout",
-                    size: "100%",
-                    style: {
-                        fontFamily: "Helvetica, sans-serif",
-                        fontWeight: "normal",
-                        textShadow: "none",
-                    },
-                },
-            },
-        },
-        exporting: {
-            enabled: true,
-            chartOptions: {
-                title: {
-                    text: ''
-                }
-            },
-            filename: 'Overview',
-            menuItemDefinitions: {
-                downloadPNG: {
-                    text: 'Download PNG',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'image/png'
-                        });
-                    }
-                },
-                downloadJPEG: {
-                    text: 'Download JPEG',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'image/jpeg'
-                        });
-                    }
-                },
-                downloadPDF: {
-                    text: 'Download PDF',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'application/pdf'
-                        });
-                    }
-                },
-                downloadSVG: {
-                    text: 'Download SVG',
-                    onclick: function () {
-                        this.exportChart({
-                            type: 'image/svg+xml'
-                        });
-                    }
-                }
-            },
-            buttons: {
-                contextButton: {
-                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
-                    menuItems: [
-                        "downloadPNG",
-                        "downloadJPEG",
-                        "downloadPDF",
-                        "downloadSVG"
-                    ]
-                }
-            }
-        },
-        series: overviewData.series || [],
-    }}
-/>
-
-
+                    key={"overview"}
+                    highcharts={Highcharts}
+                    options={{
+                      chart: {
+                        type: "bar",
+                        //height: 1000, // Set the height dynamically here
+                        options3d: {
+                          enabled: true,
+                          alpha: 10,
+                          beta: 25,
+                          depth: 70,
+                        },
+                      },
+                      title: {
+                        text: "",
+                      },
+                      xAxis: {
+                        categories: overviewData.categories, // Use the categories from overviewData
+                        labels: {
+                          align: "center",
+                          reserveSpace: true,
+                          y: 20,
+                          formatter: function () {
+                            return this.value; // Display the category directly
+                          },
+                        },
+                        lineColor: "rgba(151, 182, 207, 0.30)",
+                        lineWidth: 2,
+                      },
+                      yAxis: {
+                        title: {
+                          text: null,
+                        },
+                        lineColor: "rgba(151, 182, 207, 0.30)",
+                        lineWidth: 2,
+                      },
+                      legend: {
+                        enabled: false,
+                      },
+                      tooltip: {},
+                      plotOptions: {
+                        series: {
+                          groupPadding: 0,
+                          pointWidth: 25,
+                          dataLabels: {
+                            allowOverlap: false,
+                            distance: 60,
+                            enabled: true,
+                            inside: false,
+                            overflow: "justify",
+                            crop: true,
+                            shape: "callout",
+                            size: "100%",
+                            style: {
+                              fontFamily: "Helvetica, sans-serif",
+                              fontWeight: "normal",
+                              textShadow: "none",
+                            },
+                          },
+                        },
+                      },
+                      exporting: {
+                        enabled: true,
+                        chartOptions: {
+                          title: {
+                            text: "",
+                          },
+                        },
+                        filename: "Overview",
+                        menuItemDefinitions: {
+                          downloadPNG: {
+                            text: "Download PNG",
+                            onclick: function () {
+                              this.exportChart({
+                                type: "image/png",
+                              });
+                            },
+                          },
+                          downloadJPEG: {
+                            text: "Download JPEG",
+                            onclick: function () {
+                              this.exportChart({
+                                type: "image/jpeg",
+                              });
+                            },
+                          },
+                          downloadPDF: {
+                            text: "Download PDF",
+                            onclick: function () {
+                              this.exportChart({
+                                type: "application/pdf",
+                              });
+                            },
+                          },
+                          downloadSVG: {
+                            text: "Download SVG",
+                            onclick: function () {
+                              this.exportChart({
+                                type: "image/svg+xml",
+                              });
+                            },
+                          },
+                        },
+                        buttons: {
+                          contextButton: {
+                            symbol:
+                              "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+                            menuItems: [
+                              "downloadPNG",
+                              "downloadJPEG",
+                              "downloadPDF",
+                              "downloadSVG",
+                            ],
+                          },
+                        },
+                      },
+                      series: overviewData.series || [],
+                    }}
+                  />
                 </div>
               </div>
               <div className="poll-creation">
@@ -314,16 +328,16 @@ const AnalyticsPoll = () => {
                         question?.map((item, index) => {
                           return (
                             <>
-                            <div className="d-flex w-100">
-                              <div
-                                className="slider-space"
-                                key={item?.questionId}
-                              >
-                                <div className="question-boxed">
-                                  <div className="question-listing">
-                                    <div className="d-flex justify-content-between question-list-number align-items-center">
-                                      <h4>Q{index + 1}</h4>
-                                      {/* <div
+                              <div className="d-flex w-100">
+                                <div
+                                  className="slider-space"
+                                  key={item?.questionId}
+                                >
+                                  <div className="question-boxed">
+                                    <div className="question-listing">
+                                      <div className="d-flex justify-content-between question-list-number align-items-center">
+                                        <h4>Q{index + 1}</h4>
+                                        {/* <div
                                         className={
                                           item?.showQuestionToUser == 1 ||
                                           item?.showQuestionToUser == 2
@@ -338,75 +352,24 @@ const AnalyticsPoll = () => {
                                             : "Not displayed yet"}
                                         </span>
                                       </div> */}
-                                    </div>
-                                    <div className="question-display">
-                                      <div className="question">
-                                        {item?.totalSubquestion &&
-                                        item?.totalSubquestion?.length > 0
-                                          ? "Heading"
-                                          : "Question"}
-                                        <p
-                                          dangerouslySetInnerHTML={{
-                                            __html: item?.question,
-                                          }}
-                                        ></p>
                                       </div>
-
-                                      {item?.totalSubquestion &&
-                                      item?.totalSubquestion?.length > 0 ? (
-                                        <div className="answer-options">
-                                          Questions
-                                          <>
-                                            {
-                                              // item?.pollAnswers?.length ?
-                                              //     item?.pollAnswers?.map((answer, i) => {
-                                              //         return (<>
-                                              //             <div className='answer' key={i}>
-                                              //                 <span>{String.fromCharCode(65 + i)}.</span>
-                                              //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
-
-                                              //             </div>
-                                              //         </>)
-                                              //     })
-                                              // :
-                                              item?.totalSubquestion?.map(
-                                                (answer, i) => {
-                                                  return (
-                                                    <>
-                                                      <div
-                                                        className="answer sub-question"
-                                                        key={i}
-                                                      >
-                                                        <span>
-                                                          {String.fromCharCode(
-                                                            65 + i
-                                                          )}
-                                                          .
-                                                        </span>
-                                                        <div
-                                                          dangerouslySetInnerHTML={{
-                                                            __html:
-                                                              answer
-                                                                ?.pollquestion
-                                                                ?.question,
-                                                          }}
-                                                        ></div>
-                                                      </div>
-                                                    </>
-                                                  );
-                                                }
-                                              )
-                                            }
-                                          </>
+                                      <div className="question-display">
+                                        <div className="question">
+                                          {item?.totalSubquestion &&
+                                          item?.totalSubquestion?.length > 0
+                                            ? "Heading"
+                                            : "Question"}
+                                          <p
+                                            dangerouslySetInnerHTML={{
+                                              __html: item?.question,
+                                            }}
+                                          ></p>
                                         </div>
-                                      ) : (
-                                        <div className="answer-options">
-                                          Answers
-                                          {item?.canCustomAnswer == 1 ? (
-                                            <div>
-                                              Not have any possible answers
-                                            </div>
-                                          ) : (
+
+                                        {item?.totalSubquestion &&
+                                        item?.totalSubquestion?.length > 0 ? (
+                                          <div className="answer-options">
+                                            Questions
                                             <>
                                               {
                                                 // item?.pollAnswers?.length ?
@@ -420,83 +383,146 @@ const AnalyticsPoll = () => {
                                                 //         </>)
                                                 //     })
                                                 // :
-                                                item?.allUserAnswers?.length
-                                                  ? item?.allUserAnswers?.map(
-                                                      (answer, i) => {
-                                                        return (
-                                                          <>
-                                                            <div
-                                                              className="answer"
-                                                              key={i}
-                                                            >
-                                                              <span className="bullet-color" style={{background:item?.pollAnswers[i]?.color}}>&nbsp;</span>
-                                                              <span>
-                                                                {String.fromCharCode(
-                                                                  65 + i
-                                                                )}
-                                                                .
-                                                              </span>
-                                                              <div
-                                                              dangerouslySetInnerHTML={{
-                                                                  __html: `${answer} (<span>${(item?.pollAnswers[i]?.percentage)}%</span>)`
-                                                              }}
-                                                            />
-
-                                                            </div>
-                                                          </>
-                                                        );
-                                                      }
-                                                    )
-                                                  : null
+                                                item?.totalSubquestion?.map(
+                                                  (answer, i) => {
+                                                    return (
+                                                      <>
+                                                        <div
+                                                          className="answer sub-question"
+                                                          key={i}
+                                                        >
+                                                          <span>
+                                                            {String.fromCharCode(
+                                                              65 + i
+                                                            )}
+                                                            .
+                                                          </span>
+                                                          <div
+                                                            dangerouslySetInnerHTML={{
+                                                              __html:
+                                                                answer
+                                                                  ?.pollquestion
+                                                                  ?.question,
+                                                            }}
+                                                          ></div>
+                                                        </div>
+                                                      </>
+                                                    );
+                                                  }
+                                                )
                                               }
                                             </>
-                                          )}
-                                        </div>
-                                      )}
+                                          </div>
+                                        ) : (
+                                          <div className="answer-options">
+                                            Answers
+                                            {item?.canCustomAnswer == 1 ? (
+                                              <div>
+                                                Not have any possible answers
+                                              </div>
+                                            ) : (
+                                              <>
+                                                {
+                                                  // item?.pollAnswers?.length ?
+                                                  //     item?.pollAnswers?.map((answer, i) => {
+                                                  //         return (<>
+                                                  //             <div className='answer' key={i}>
+                                                  //                 <span>{String.fromCharCode(65 + i)}.</span>
+                                                  //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
 
-                                      <div className="speaker">
-                                        Speaker
-                                        <h6
-                                          dangerouslySetInnerHTML={{
-                                            __html: item?.speakerName,
-                                          }}
-                                        />
+                                                  //             </div>
+                                                  //         </>)
+                                                  //     })
+                                                  // :
+                                                  item?.allUserAnswers?.length
+                                                    ? item?.allUserAnswers?.map(
+                                                        (answer, i) => {
+                                                          return (
+                                                            <>
+                                                              <div
+                                                                className="answer"
+                                                                key={i}
+                                                              >
+                                                                <span
+                                                                  className="bullet-color"
+                                                                  style={{
+                                                                    background:
+                                                                      item
+                                                                        ?.pollAnswers[
+                                                                        i
+                                                                      ]?.color,
+                                                                  }}
+                                                                >
+                                                                  &nbsp;
+                                                                </span>
+                                                                <span>
+                                                                  {String.fromCharCode(
+                                                                    65 + i
+                                                                  )}
+                                                                  .
+                                                                </span>
+                                                                <div
+                                                                  dangerouslySetInnerHTML={{
+                                                                    __html: `${answer} (<span>${item?.pollAnswers[i]?.percentage}%</span>)`,
+                                                                  }}
+                                                                />
+                                                              </div>
+                                                            </>
+                                                          );
+                                                        }
+                                                      )
+                                                    : null
+                                                }
+                                              </>
+                                            )}
+                                          </div>
+                                        )}
+
+                                        <div className="speaker">
+                                          Speaker
+                                          <h6
+                                            dangerouslySetInnerHTML={{
+                                              __html: item?.speakerName,
+                                            }}
+                                          />
+                                        </div>
                                       </div>
-                                    </div>
 
-                                    <div className="question-status d-flex justify-content-between">
-                                      <div className="question-status-live">
-                                        <div className="question-live">
-                                          <label>Total (Live)</label>
-                                          <p
-                                            dangerouslySetInnerHTML={{
-                                              __html: item?.totalUser,
-                                            }}
-                                          ></p>
-                                        </div>
-                                        <div className="question-answered">
-                                          <label>Answered</label>
-                                          <p
-                                            dangerouslySetInnerHTML={{
-                                              __html: item?.totalUser,
-                                            }}
-                                          ></p>
+                                      <div className="question-status d-flex justify-content-between">
+                                        <div className="question-status-live">
+                                          <div className="question-live">
+                                            <label>Total (Live)</label>
+                                            <p
+                                              dangerouslySetInnerHTML={{
+                                                __html: item?.totalUser,
+                                              }}
+                                            ></p>
+                                          </div>
+                                          <div className="question-answered">
+                                            <label>Answered</label>
+                                            <p
+                                              dangerouslySetInnerHTML={{
+                                                __html: item?.totalUser,
+                                              }}
+                                            ></p>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div className="pie-chart-outer-layout">
-                                <QuestionPollsPieChart
-                                  data={{
-                                    questionId: item?.questionId,
-                                    graphType: item?.graphType,
-                                    pollAnswers: item?.pollAnswers,
-                                  }}
-                                  show={show}
-                                />
-                              </div>
+                                <div className="pie-chart-outer-layout">
+                                  <QuestionPollsPieChart
+                                    data={{
+                                      questionId: item?.questionId,
+                                      graphType: item?.graphType,
+                                      pollAnswers: item?.pollAnswers,
+                                    }}
+                                    type="analytics"
+
+                                    show={show}
+                                  />
+                                </div>
                               </div>
                             </>
                           );
