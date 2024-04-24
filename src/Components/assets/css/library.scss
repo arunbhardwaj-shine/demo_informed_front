@@ -14162,12 +14162,13 @@ img.change-password-image {
 
 .analytics-region {
   .graph-view {
-    .highcharts-legend-item{ rect.highcharts-point {
-      width: 10px;
-      height: 10px;
-      transform: translateY(0px);
+    .highcharts-legend-item {
+      rect.highcharts-point {
+        width: 10px;
+        height: 10px;
+        transform: translateY(0px);
+      }
     }
-  }
   }
 }
 
@@ -15131,11 +15132,8 @@ table {
       display: flex;
       justify-content: center;
       padding: 50px 12px;
-
-      img {
-        max-width: 336px;
-        width: 100%;
-      }
+      flex-direction: column;
+      gap: 30px;
     }
   }
 }

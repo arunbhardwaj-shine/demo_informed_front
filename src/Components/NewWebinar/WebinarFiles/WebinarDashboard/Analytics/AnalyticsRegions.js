@@ -176,12 +176,13 @@ const AnalyticsRegions = () => {
         chart: {
           marginTop: 50,
           type: "bar",
+          // width:"100%",
           events: {
             load: function () {
               let categoryHeight = 50;
               this.update({
                 chart: {
-                  width:'800',
+                  // width:'800',
                   height:
                     categoryHeight * countries.length +
                     (this.chartHeight - this.plotHeight),
@@ -242,6 +243,26 @@ const AnalyticsRegions = () => {
             },
           },
         },
+        plotOptions: {
+          series: {
+            groupPadding: 0.1,
+            pointWidth: 18, // Adjust the width of the bars
+            dataLabels: {
+              allowOverlap: false,
+              distance: 90,
+              enabled: true,
+              inside: false,
+              // overflow: "justify",
+              // crop: true,
+              // shape: "callout",
+              size: "100%",
+              style: {
+                fontWeight: "normal",
+                textShadow: "none",
+              },
+            },
+          },
+        },
         title: {
           text: "",
         },
@@ -270,15 +291,31 @@ const AnalyticsRegions = () => {
               color: "gray",
             },
           },
+
         },
-        plotOptions: {
-          bar: {
-            pointWidth: 30, // Adjust the width of the bars
-            dataLabels: {
-              enabled: true,
-            },
+        legend: {
+          align: "center",
+          verticalAlign: "bottom",
+          layout: "horizontal",
+          x: 0,
+          y: 0,
+          itemStyle: {
+            fontWeight: "500",
+            color: "#70899E",
+            fontSize: "12px"
           },
+          symbolWidth: 10,
+          symbolHeight: 10,
         },
+
+        // plotOptions: {
+        //   bar: {
+        //     pointWidth: 30, // Adjust the width of the bars
+        //     dataLabels: {
+        //       enabled: true,
+        //     },
+        //   },
+        // },
         series: [
           {
             name: "Registered",
@@ -442,7 +479,18 @@ const AnalyticsRegions = () => {
                                             .drilldownData,
                                       },
                                       legend: {
+                                        align: "center",
                                         verticalAlign: "bottom",
+                                        layout: "horizontal",
+                                        x: 0,
+                                        y: 0,
+                                        itemStyle: {
+                                          fontWeight: "500",
+                                          color: "#70899E",
+                                          fontSize: "12px"
+                                        },
+                                        symbolWidth: 10,
+                                        symbolHeight: 10,
                                       },
                                       plotOptions: {
                                         pie: {
@@ -487,7 +535,7 @@ const AnalyticsRegions = () => {
                                             },
                                         },
                                         title: {
-                                          text: "Click on the double arrows to see more details",
+                                          text: "",
                                           align: "left",
                                           style: {
                                               fontSize: "12px" ,// Decreased font size
@@ -517,10 +565,11 @@ const AnalyticsRegions = () => {
                                         tooltip: {},
                                         plotOptions: {
                                             series: {
+                                                groupPadding: 0,
                                                 pointWidth: 30, // Adjust the width of the bars
                                                 dataLabels: {
                                                     allowOverlap: false,
-                                                    distance: 40,
+                                                    distance: 20,
                                                     enabled: true,
                                                     inside: false,
                                                     overflow: "justify",
@@ -528,7 +577,6 @@ const AnalyticsRegions = () => {
                                                     shape: "callout",
                                                     size: "100%",
                                                     style: {
-                                                        fontFamily: "Helvetica, sans-serif",
                                                         fontWeight: "normal",
                                                         textShadow: "none",
                                                     },
