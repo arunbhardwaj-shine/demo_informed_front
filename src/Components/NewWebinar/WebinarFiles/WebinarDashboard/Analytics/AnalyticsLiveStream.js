@@ -56,7 +56,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       chartOptions: {
           title: {
               text: '' // Remove title from exported image
-          }
+          },
       },
       filename: 'AVG_Spend_Time', // Set filename for exported image
       menuItemDefinitions: {
