@@ -278,10 +278,30 @@ const AnalyticsRegions = () => {
               },
             },
           },
+          // plotOptions: {
+          //   bar: {
+          //     dataLabels: {
+          //       enabled: true,
+          //     },
+          //   },
+          // },
           plotOptions: {
-            bar: {
+            series: {
+              groupPadding: 0,
+              pointWidth: 18, // Adjust the width of the bars
               dataLabels: {
+                allowOverlap: false,
+                distance: 40,
                 enabled: true,
+                // inside: false,
+                // overflow: "justify",
+                // crop: true,
+                // shape: "callout",
+                size: "100%",
+                style: {
+                  fontWeight: "normal",
+                  textShadow: "none",
+                },
               },
             },
           },
