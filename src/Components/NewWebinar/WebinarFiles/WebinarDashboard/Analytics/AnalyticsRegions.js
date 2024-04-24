@@ -33,12 +33,8 @@ const AnalyticsRegions = () => {
       type: "pie",
       height: 450,
     },
-    title: {
-      align: "left",
-      style: {
-        fontSize: "14px",
-      },
-    },
+    title: null, // Set title to null to hide it
+
     exporting: {
       enabled: false,
       menuItemDefinitions: {
@@ -175,129 +171,129 @@ const AnalyticsRegions = () => {
       // <Tab key={region} eventKey={region.toLowerCase()} title={region}>
       <HighchartsReact
       key={`bar-${activeRegion}`}
-
-        highcharts={Highcharts}
-        options={{
-          chart: {
-            marginTop: 50,
-            type: "bar",
-            events: {
-              load: function () {
-                let categoryHeight = 50;
-                this.update({
-                  chart: {
-                    height:
-                      categoryHeight * countries.length +
-                      (this.chartHeight - this.plotHeight),
-                  },
+      highcharts={Highcharts}
+      options={{
+        chart: {
+          marginTop: 50,
+          type: "bar",
+          height: countries.length * 50 + 100, // Adjust the height based on the number of countries
+          events: {
+            load: function () {
+              let categoryHeight = 50;
+              this.update({
+                chart: {
+                  height: categoryHeight * countries.length + (this.chartHeight - this.plotHeight),
+                },
+              });
+            },
+          },
+        },
+        exporting: {
+          enabled: false,
+          chartOptions: {
+            title: {
+              text: "", // Remove title from exported image
+            },
+          },
+          filename: "Total_Registration", // Set filename for exported image
+          menuItemDefinitions: {
+            downloadPNG: {
+              text: "Download PNG",
+              onclick: function () {
+                this.exportChart({
+                  type: "image/png",
+                });
+              },
+            },
+            downloadJPEG: {
+              text: "Download JPEG",
+              onclick: function () {
+                this.exportChart({
+                  type: "image/jpeg",
+                });
+              },
+            },
+            downloadPDF: {
+              text: "Download PDF",
+              onclick: function () {
+                this.exportChart({
+                  type: "application/pdf",
+                });
+              },
+            },
+            downloadSVG: {
+              text: "Download SVG",
+              onclick: function () {
+                this.exportChart({
+                  type: "image/svg+xml",
                 });
               },
             },
           },
-          exporting: {
-            enabled: false,
-            chartOptions: {
-              title: {
-                text: "", // Remove title from exported image
-              },
-            },
-            filename: "Total_Registration", // Set filename for exported image
-            menuItemDefinitions: {
-              downloadPNG: {
-                text: "Download PNG",
-                onclick: function () {
-                  this.exportChart({
-                    type: "image/png",
-                  });
-                },
-              },
-              downloadJPEG: {
-                text: "Download JPEG",
-                onclick: function () {
-                  this.exportChart({
-                    type: "image/jpeg",
-                  });
-                },
-              },
-              downloadPDF: {
-                text: "Download PDF",
-                onclick: function () {
-                  this.exportChart({
-                    type: "application/pdf",
-                  });
-                },
-              },
-              downloadSVG: {
-                text: "Download SVG",
-                onclick: function () {
-                  this.exportChart({
-                    type: "image/svg+xml",
-                  });
-                },
-              },
-            },
-            buttons: {
-              contextButton: {
-                symbol:
-                  "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-                menuItems: [
-                  "downloadPNG",
-                  "downloadJPEG",
-                  "downloadPDF",
-                  "downloadSVG",
-                ],
-              },
+          buttons: {
+            contextButton: {
+              symbol: "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+              menuItems: [
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+              ],
             },
           },
+        },
+        title: {
+          text: "",
+        },
+        xAxis: {
+          categories: countries,
+          labels: {
+            rotation: 0,
+            style: {
+              fontSize: '12px',
+              fontFamily: 'Arial, sans-serif'
+            }
+          },
+        },
+        credits: {
+          enabled: false,
+        },
+        yAxis: {
+          min: 0,
           title: {
             text: "",
           },
-          xAxis: {
-            categories: countries,
-          },
-          credits: {
-            enabled: false,
-          },
-          // exporting: {
-          //   enabled:false,
-          //   showHighchart: true,
-          //   showTable: false,
-          //   tableCaption: "",
-          // },
-          yAxis: {
-            min: 0,
-            title: {
-              text: "",
+          stackLabels: {
+            enabled: true,
+            style: {
+              fontWeight: "bold",
+              color: "gray",
             },
-            stackLabels: {
+          },
+        },
+        plotOptions: {
+          bar: {
+            pointWidth: 30, // Adjust the width of the bars
+            dataLabels: {
               enabled: true,
-              style: {
-                fontWeight: "bold",
-                color: "gray",
-              },
             },
           },
-          plotOptions: {
-            bar: {
-              dataLabels: {
-                enabled: true,
-              },
-            },
+        },
+        series: [
+          {
+            name: "Registered",
+            data: registeredUsers,
+            color: "#f5c64a",
           },
-          series: [
-            {
-              name: "Registered",
-              data: registeredUsers,
-              color: "#f5c64a",
-            },
-            {
-              name: "Attended",
-              data: attendedUsers,
-              color: "#56cabc",
-            },
-          ],
-        }}
-      />
+          {
+            name: "Attended",
+            data: attendedUsers,
+            color: "#56cabc",
+          },
+        ],
+      }}
+    />
+    
       // </Tab>
     );
     // });
