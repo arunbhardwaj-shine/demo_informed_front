@@ -176,18 +176,18 @@ const AnalyticsRegions = () => {
         chart: {
           marginTop: 50,
           type: "bar",
-          height: countries.length * 50 + 100, // Adjust the height based on the number of countries
           events: {
             load: function () {
               let categoryHeight = 50;
               this.update({
                 chart: {
-                  height: categoryHeight * countries.length + (this.chartHeight - this.plotHeight),
+                  width:'800',
+                  height:
+                    categoryHeight * countries.length +
+                    (this.chartHeight - this.plotHeight),
                 },
               });
-            },
-          },
-        },
+         } }},
         exporting: {
           enabled: false,
           chartOptions: {
@@ -356,14 +356,14 @@ const AnalyticsRegions = () => {
                                     checked={!isPieChart} // Invert the checked value to show the current state
                                   />
                                   <span>
-                                    <span>
-                                      <img src={path_image + "pie-img.png"} />
-                                    </span>
-                                    <span>
+                                   <span>
                                       <img
                                         src={path_image + "bar-graph-img.png"}
                                         style={{ transform: "rotate(90deg)" }}
                                       />
+                                    </span>
+                                    <span>
+                                      <img src={path_image + "pie-img.png"} />
                                     </span>
                                   </span>
                                   <a className="btn"></a>
@@ -429,14 +429,44 @@ const AnalyticsRegions = () => {
                                           name: "",
                                           colorByPoint: true,
                                           data: regionData[activeRegion]
-                                            .seriesData,
+                                          .seriesData,
                                         },
                                       ],
+                                      
+                                        title: {
+                                          text: '' // Remove title from exported image
+                                      },
                                       drilldown: {
                                         series:
                                           regionData[activeRegion]
                                             .drilldownData,
                                       },
+                                      legend: {
+                                        verticalAlign: "bottom",
+                                      },
+                                      plotOptions: {
+                                        pie: {
+                                          size: "100%",
+                                          dataLabels: {
+                                            enabled: true,
+                                            format: "{point.y}",
+                                            style: {
+                                              fontWeight: "500",
+                                              color: "white",
+                                              textOutline: "none",
+                                              fontSize: "30px",
+                                            },
+                                            distance: -70,
+                                          },
+                                          animation: {
+                                            duration: 1000,
+                                          },
+                                          enableMouseTracking: true,
+                                          showInLegend: true,
+                                          borderWidth: 0,
+                                        },
+                                      },
+                                      
                                     }}
                                   />
                                 ) : (

@@ -14162,11 +14162,12 @@ img.change-password-image {
 
 .analytics-region {
   .graph-view {
-    rect.highcharts-point {
+    .highcharts-legend-item{ rect.highcharts-point {
       width: 10px;
       height: 10px;
       transform: translateY(0px);
     }
+  }
   }
 }
 
