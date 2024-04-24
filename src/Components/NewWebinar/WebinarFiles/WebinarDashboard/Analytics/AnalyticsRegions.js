@@ -33,7 +33,7 @@ const AnalyticsRegions = () => {
       type: "pie",
       height: 450,
     },
-    title: null, // Set title to null to hide it
+    title: null, 
 
     exporting: {
       enabled: false,
@@ -103,7 +103,7 @@ const AnalyticsRegions = () => {
             fontWeight: "bold",
             color: "black",
             textOutline: "none",
-            fontSize: "16px",
+            fontSize: "14px", 
           },
           distance: 30,
           connectorPadding: 0,
@@ -116,6 +116,7 @@ const AnalyticsRegions = () => {
         borderWidth: 0,
       },
     },
+    
     series: [],
   };
 
@@ -189,60 +190,7 @@ const AnalyticsRegions = () => {
                 },
               });
          } }},
-        exporting: {
-          enabled: false,
-          chartOptions: {
-            title: {
-              text: "", // Remove title from exported image
-            },
-          },
-          filename: "Total_Registration", // Set filename for exported image
-          menuItemDefinitions: {
-            downloadPNG: {
-              text: "Download PNG",
-              onclick: function () {
-                this.exportChart({
-                  type: "image/png",
-                });
-              },
-            },
-            downloadJPEG: {
-              text: "Download JPEG",
-              onclick: function () {
-                this.exportChart({
-                  type: "image/jpeg",
-                });
-              },
-            },
-            downloadPDF: {
-              text: "Download PDF",
-              onclick: function () {
-                this.exportChart({
-                  type: "application/pdf",
-                });
-              },
-            },
-            downloadSVG: {
-              text: "Download SVG",
-              onclick: function () {
-                this.exportChart({
-                  type: "image/svg+xml",
-                });
-              },
-            },
-          },
-          buttons: {
-            contextButton: {
-              symbol: "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-              menuItems: [
-                "downloadPNG",
-                "downloadJPEG",
-                "downloadPDF",
-                "downloadSVG",
-              ],
-            },
-          },
-        },
+      
         plotOptions: {
           series: {
             groupPadding: 0.1,
@@ -451,6 +399,7 @@ const AnalyticsRegions = () => {
                                 </Dropdown.Menu>
                               </Dropdown>
                             </div>
+                            
                           </div>
                           <div className="graph-view">
                             {activeRegion && (
@@ -471,13 +420,13 @@ const AnalyticsRegions = () => {
                                       ],
                                       
                                         title: {
-                                          text: '' // Remove title from exported image
+                                          text: ''
                                       },
                                       drilldown: {
-                                        series:
-                                          regionData[activeRegion]
-                                            .drilldownData,
+                                        series: regionData[activeRegion].drilldownData,
+                                        colors: regionData[activeRegion].colors,
                                       },
+                                      
                                       legend: {
                                         align: "center",
                                         verticalAlign: "bottom",
@@ -501,8 +450,8 @@ const AnalyticsRegions = () => {
                                             style: {
                                               fontWeight: "500",
                                               color: "white",
-                                              textOutline: "none",
-                                              fontSize: "30px",
+                                              textOutline: "none", // Removed underline
+                                              fontSize: "20px",
                                             },
                                             distance: -70,
                                           },
@@ -514,6 +463,7 @@ const AnalyticsRegions = () => {
                                           borderWidth: 0,
                                         },
                                       },
+                                      
                                       
                                     }}
                                   />
@@ -536,114 +486,79 @@ const AnalyticsRegions = () => {
                                         },
                                         title: {
                                           text: "",
-                                          align: "left",
-                                          style: {
-                                              fontSize: "12px" ,// Decreased font size
-                                              color: "#97B6CF",
-                                          }
-                                      },
+                                        },
                                         xAxis: {
-                                            categories: [""], // Empty category array
-                                            labels: {
-                                                align: "center",
-                                                reserveSpace: true,
-                                                y: 20, // Adjust the vertical position of the labels
-                                                formatter: function () {
-                                                    return this.value.name; // Display the name property of the data point
-                                                },
-                                            },
-                                            lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
-                                            lineWidth: 2, // X-axis line width
+                                        categories: regionData[activeRegion].seriesData.map(data => data.name), // Extracting name as categories
+                                          labels: {
+                                            rotation: 0,
+                                            style: {
+                                              fontSize: '12px',
+                                              fontFamily: 'Arial, sans-serif'
+                                            }
+                                          },
+                                        },
+                                        credits: {
+                                          enabled: false,
                                         },
                                         yAxis: {
-                                            title: {
-                                                text: null,
+                                          min: 0,
+                                          title: {
+                                            text: "",
+                                          },
+                                          stackLabels: {
+                                            enabled: true,
+                                            style: {
+                                              fontWeight: "bold",
+                                              color: "gray",
                                             },
-                                            lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
-                                            lineWidth: 2, // Y-axis line width
+                                          },
+                                
+                                        },
+                                        legend: {
+                                          align: "center",
+                                          verticalAlign: "bottom",
+                                          layout: "horizontal",
+                                          x: 0,
+                                          y: 0,
+                                          itemStyle: {
+                                            fontWeight: "500",
+                                            color: "#70899E",
+                                            fontSize: "12px"
+                                          },
+                                          symbolWidth: 10,
+                                          symbolHeight: 10,
                                         },
                                         tooltip: {},
                                         plotOptions: {
-                                            series: {
-                                                groupPadding: 0,
-                                                pointWidth: 30, // Adjust the width of the bars
-                                                dataLabels: {
-                                                    allowOverlap: false,
-                                                    distance: 20,
-                                                    enabled: true,
-                                                    inside: false,
-                                                    overflow: "justify",
-                                                    crop: true,
-                                                    shape: "callout",
-                                                    size: "100%",
-                                                    style: {
-                                                        fontWeight: "normal",
-                                                        textShadow: "none",
-                                                    },
-                                                },
+                                          series: {
+                                            groupPadding: 0.1,
+                                            pointWidth: 18, // Adjust the width of the bars
+                                            dataLabels: {
+                                              allowOverlap: false,
+                                              distance: 90,
+                                              enabled: true,
+                                              inside: false,
+                                              // overflow: "justify",
+                                              // crop: true,
+                                              // shape: "callout",
+                                              size: "100%",
+                                              style: {
+                                                fontWeight: "normal",
+                                                textShadow: "none",
+                                              },
                                             },
+                                          },
                                         },
-                                        exporting: {
-                                          enabled: true,
-                                          chartOptions: {
-                                              title: {
-                                                  text: '' // Remove title from exported image
-                                              }
-                                          },
-                                          filename: 'Overview', // Set filename for exported image
-                                          menuItemDefinitions: {
-                                              downloadPNG: {
-                                                  text: 'Download PNG',
-                                                  onclick: function() {
-                                                      this.exportChart({
-                                                          type: 'image/png'
-                                                      });
-                                                  }
-                                              },
-                                              downloadJPEG: {
-                                                  text: 'Download JPEG',
-                                                  onclick: function() {
-                                                      this.exportChart({
-                                                          type: 'image/jpeg'
-                                                      });
-                                                  }
-                                              },
-                                              downloadPDF: {
-                                                  text: 'Download PDF',
-                                                  onclick: function() {
-                                                      this.exportChart({
-                                                          type: 'application/pdf'
-                                                      });
-                                                  }
-                                              },
-                                              downloadSVG: {
-                                                  text: 'Download SVG',
-                                                  onclick: function() {
-                                                      this.exportChart({
-                                                          type: 'image/svg+xml'
-                                                      });
-                                                  }
-                                              }
-                                          },
-                                          buttons: {
-                                              contextButton: {
-                                                  symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
-                                                  menuItems: [
-                                                      "downloadPNG",
-                                                      "downloadJPEG",
-                                                      "downloadPDF",
-                                                      "downloadSVG"
-                                                  ]
-                                              }
-                                          }
-                                      },
+                                      
                                       series: [
                                         {
                                           name: "",
                                           colorByPoint: true,
-                                          data: regionData[activeRegion]
-                                          .seriesData,
-                                        },
+                                          data: regionData[activeRegion].seriesData.map((data,index) => ({
+                                            name: data.name,
+                                            y: data.y,
+                                            color: index==0?"#fbd632":"#54edd9", // Replace 'color' with the correct property name from your data
+                                        })),                                        },
                                       ]
                                     }}
                                 />
