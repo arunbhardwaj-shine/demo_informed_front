@@ -14160,6 +14160,16 @@ img.change-password-image {
   }
 }
 
+.analytics-region {
+  .graph-view {
+    rect.highcharts-point {
+      width: 10px;
+      height: 10px;
+      transform: translateY(0px);
+    }
+  }
+}
+
 .webinar-analytics-layout {
   &.rd-analytics-content {
     margin: 14px 0 25px;
