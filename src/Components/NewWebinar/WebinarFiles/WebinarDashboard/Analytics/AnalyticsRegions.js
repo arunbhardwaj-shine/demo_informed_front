@@ -353,7 +353,7 @@ const AnalyticsRegions = () => {
                                   <input
                                     type="checkbox"
                                     onChange={toggleChartType}
-                                    checked={!isPieChart} // Invert the checked value to show the current state
+                                    checked={isPieChart} // Invert the checked value to show the current state
                                   />
                                   <span>
                                    <span>
