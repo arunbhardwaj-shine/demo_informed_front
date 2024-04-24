@@ -1117,7 +1117,7 @@ const Analytics = (props) => {
                 </div>
               )}
 
-{sortedCountries && (
+                {sortedCountries && (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
@@ -1197,7 +1197,7 @@ const Analytics = (props) => {
                     <div className="graph-view">
                       {whichTypeGraphRegion == 0 ? (
                         <HighchartsReact
-ref={regionBarRef}
+                          ref={regionBarRef}
                           highcharts={Highcharts}
                           options={{
                             chart: {
@@ -1597,19 +1597,6 @@ ref={regionBarRef}
               )}
               {/* Overview End */}
             </div>
-            <Modal centered show={showModal} onHide={handleCloseModal}>
-              <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>Modal body text</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
           </Row>
         </div>
       </Col>

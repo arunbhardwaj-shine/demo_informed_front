@@ -136,28 +136,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         itemDistance: 20,
         borderWidth: 0,
     },
-    plotOptions: {
-        pie: {
-            size: "100%",
-            dataLabels: {
-                enabled: true,
-                format: "{point.y}",
-                style: {
-                    fontWeight: "400",
-                    color: "white",
-                    textOutline: "none",
-                    fontSize: "16px",
-                },
-                distance: -40,
-            },
-            animation: {
-                duration: 1000,
-            },
-            enableMouseTracking: true,
-            showInLegend: true,
-            borderWidth: 0,
-        },
-    },
+   
     series: [],
 };
 

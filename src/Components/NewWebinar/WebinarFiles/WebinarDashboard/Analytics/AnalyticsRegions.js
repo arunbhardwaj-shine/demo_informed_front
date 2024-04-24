@@ -29,7 +29,7 @@ const AnalyticsRegions = () => {
           plotBorderWidth: null,
           plotShadow: false,
           type: "pie",
-          height: 800,
+          height: 450,
         },
         title: {
           // text: "Click on the double arrows to see more details",
@@ -96,17 +96,18 @@ const AnalyticsRegions = () => {
           legend: {
             enabled: false,
           },
+          title: {text:''},
           plotOptions: {
             pie: {
-              size: "80%",
+              size: "100%",
               dataLabels: {
                 enabled: true,
                 format: "<b>{point.name}</b>: {point.y}",
                 style: {
-                  fontWeight: "bold",
-                  color: "black",
+                  fontWeight: "500",
+                  color: "white",
                   textOutline: "none",
-                  fontSize: "16px",
+                  fontSize: "30px",
                 },
                 distance: 30,
                 connectorPadding: 0,
@@ -158,8 +159,8 @@ const AnalyticsRegions = () => {
   };
 
 const renderTabContent = (regionName, seriesData, drilldownData) => {
-    const registered = seriesData.find(item => item.name === 'registered')?.y || 0;
-    const attended = seriesData.find(item => item.name === 'attended')?.y || 0;
+  const registered = seriesData.find(item => item.name === 'Registered HCPs')?.y || 0;
+  const attended = seriesData.find(item => item.name === 'Attended HCPs')?.y || 0;
 
     // Generate a unique key
     const uniqueKey = `${regionName}-highcharts-${Date.now()}`;
@@ -176,8 +177,51 @@ const renderTabContent = (regionName, seriesData, drilldownData) => {
             data: seriesData,
             
           }],
+          title: { text: "" },
           drilldown: {
             series: drilldownData,
+          },
+          legend: {
+            verticalAlign: "bottom",
+          },
+          plotOptions: {
+            pie: {
+              size: "100%",
+              dataLabels: {
+                enabled: true,
+                format: "{point.y}",
+                style: {
+                  fontWeight: "500",
+                  color: "white",
+                  textOutline: "none",
+                  fontSize: "30px",
+                },
+                distance: -70,
+              },
+              animation: {
+                duration: 1000,
+              },
+              enableMouseTracking: true,
+              showInLegend: true,
+              borderWidth: 0,
+            },
+          },
+          legend: {
+            reversed: false,
+            align: "center",
+            verticalAlign: "bottom",
+            layout: "horizontal",
+            x: 0,
+            y: 0,
+            itemStyle: {
+              fontSize: "12px", // Reduced font size
+              fontWeight: "normal",
+              color: "#555555",
+            },
+            symbolWidth: 10,
+            symbolHeight: 10,
+            itemDistance: 20,
+            borderWidth: 0,
           },
         }}
       />
@@ -285,13 +329,13 @@ const renderTabContent = (regionName, seriesData, drilldownData) => {
                                               </div>
                                                     <div className="graph-view">
 
-                                                  {renderTabContent(regionName, regionData[regionName].seriesData, regionData[regionName].drilldownData)}
-                                                  </div>
-                                                  </div>
+          {renderTabContent(regionName, regionData[regionName].seriesData, regionData[regionName].drilldownData)}
+          </div>
+          </div>
 
-                                                </Tab>
-                                              ))}
-                                            {/* </Tabs> */}
+        </Tab>
+      ))}
+    {/* </Tabs> */}
                                 </Tabs>
                                 
                                                    
