@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
@@ -24,6 +24,8 @@ const AnalyticsRegions = () => {
   const [activeRegion, setActiveRegion] = useState(null);
   const [isPieChart, setIsPieChart] = useState(true);
   const [flag, setFlag] = useState(1);
+  const pieRef= useRef(null);
+  const barRef= useRef(null);
 
   const commonPieOptions = {
     chart: {
@@ -171,6 +173,8 @@ const AnalyticsRegions = () => {
     return (
       // <Tab key={region} eventKey={region.toLowerCase()} title={region}>
       <HighchartsReact
+      ref={barRef}
+
       key={`bar-${activeRegion}`}
       highcharts={Highcharts}
       options={{
@@ -190,7 +194,9 @@ const AnalyticsRegions = () => {
                 },
               });
          } }},
-      
+         exporting: {
+          enabled: false,
+        },
         plotOptions: {
           series: {
             groupPadding: 0.1,
@@ -283,29 +289,31 @@ const AnalyticsRegions = () => {
     );
     // });
   };
-  const handleDownload = (format, key) => {
-    // Accessing Highcharts chart object using document.getElementById
-    let chart = key.current && key.current.chart;
-
+  const handleDownload = (format, ref) => {
+    // Accessing Highcharts chart object using ref
+    let chart = ref.current && ref.current.chart;
+    let defaultName="region_stats"
+  
     if (chart) {
       switch (format) {
         case "PNG":
-          chart.exportChart({ type: "image/png" });
+          chart.exportChart({ type: "image/png", filename: defaultName + ".png" });
           break;
         case "JPEG":
-          chart.exportChart({ type: "image/jpeg" });
+          chart.exportChart({ type: "image/jpeg", filename: defaultName + ".jpeg" });
           break;
         case "PDF":
-          chart.exportChart({ type: "application/pdf" });
+          chart.exportChart({ type: "application/pdf", filename: defaultName + ".pdf" });
           break;
         case "SVG":
-          chart.exportChart({ type: "image/svg+xml" });
+          chart.exportChart({ type: "image/svg+xml", filename: defaultName + ".svg" });
           break;
         default:
           break;
       }
     }
   };
+  
   return (
     <Col className="right-sidebar">
       <div className="custom-container">
@@ -377,22 +385,22 @@ const AnalyticsRegions = () => {
 
                                 <Dropdown.Menu>
                                   <Dropdown.Item
-                                    onClick={() => handleDownload("PNG")}
+                                    onClick={() => handleDownload("PNG",isPieChart?pieRef:barRef)}
                                   >
                                     Download PNG
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    onClick={() => handleDownload("JPEG")}
+                                    onClick={() => handleDownload("JPEG",isPieChart?pieRef:barRef)}
                                   >
                                     Download JPEG
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    onClick={() => handleDownload("PDF")}
+                                    onClick={() => handleDownload("PDF",isPieChart?pieRef:barRef)}
                                   >
                                     Download PDF
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    onClick={() => handleDownload("SVG")}
+                                    onClick={() => handleDownload("SVG",isPieChart?pieRef:barRef)}
                                   >
                                     Download SVG
                                   </Dropdown.Item>
@@ -407,6 +415,7 @@ const AnalyticsRegions = () => {
                                 {isPieChart ? (
                                   <HighchartsReact
                                   key={`pie-${activeRegion}`}
+                                  ref={pieRef}
                                     highcharts={Highcharts}
                                     options={{
                                       ...commonPieOptions,
@@ -486,6 +495,9 @@ const AnalyticsRegions = () => {
                                         },
                                         title: {
                                           text: "",
+                                        },
+                                        exporting: {
+                                          enabled: false,
                                         },
                                         xAxis: {
                                         categories: regionData[activeRegion].seriesData.map(data => data.name), // Extracting name as categories

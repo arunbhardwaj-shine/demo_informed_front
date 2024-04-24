@@ -588,30 +588,30 @@ const Analytics = (props) => {
       );
     });
   };
-
-    const handleDownload = (format,key) => {
-      // Accessing Highcharts chart object using document.getElementById
-      let chart = key.current && key.current.chart;
+  const handleDownload = (format, ref) => {
+    // Accessing Highcharts chart object using ref
+    let chart = ref.current && ref.current.chart;
+    let defaultName="registered_attended_stats"
   
-      if (chart) {
-        switch (format) {
-          case 'PNG':
-            chart.exportChart({ type: 'image/png' });
-            break;
-          case 'JPEG':
-            chart.exportChart({ type: 'image/jpeg' });
-            break;
-          case 'PDF':
-            chart.exportChart({ type: 'application/pdf' });
-            break;
-          case 'SVG':
-            chart.exportChart({ type: 'image/svg+xml' });
-            break;
-          default:
-            break;
-        }
+    if (chart) {
+      switch (format) {
+        case "PNG":
+          chart.exportChart({ type: "image/png", filename: defaultName + ".png" });
+          break;
+        case "JPEG":
+          chart.exportChart({ type: "image/jpeg", filename: defaultName + ".jpeg" });
+          break;
+        case "PDF":
+          chart.exportChart({ type: "application/pdf", filename: defaultName + ".pdf" });
+          break;
+        case "SVG":
+          chart.exportChart({ type: "image/svg+xml", filename: defaultName + ".svg" });
+          break;
+        default:
+          break;
       }
     }
+  };
   
   
   
