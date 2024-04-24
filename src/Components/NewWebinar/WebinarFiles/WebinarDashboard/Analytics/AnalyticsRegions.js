@@ -27,11 +27,11 @@ const AnalyticsRegions = () => {
 
     const commonPieOptions = {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: "pie",
-            height: 800,
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: "pie",
+          height: 450,
         },
         title: {
             align: "left",
@@ -249,6 +249,8 @@ const AnalyticsRegions = () => {
                                             </Tab>
                                         ))}
                                 </Tabs>
+                                
+                                                   
                             </div>
                         </div>
                     </div>
