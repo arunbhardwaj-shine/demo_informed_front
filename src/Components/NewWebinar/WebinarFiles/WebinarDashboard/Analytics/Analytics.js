@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Accordion, Button, Col, Container, Dropdown, Row, Table } from "react-bootstrap";
+import { Accordion, Button, Col, Container, Dropdown, Modal, Row, Table } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import AnalyticsRegistration from "./AnalyticsRegistration";
 import AnalyticsOverview from "./AnalyticsOverview";
@@ -980,30 +980,30 @@ const Analytics = (props) => {
                           </label>
                         </div>
                         <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="6"
-          height="24"
-          viewBox="0 0 6 24"
-          fill="none"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-            fill="#0066BE"
-          />
-        </svg>
-      </Dropdown.Toggle>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="6"
+                            height="24"
+                            viewBox="0 0 6 24"
+                            fill="none"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                              fill="#0066BE"
+                            />
+                          </svg>
+                        </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleDownload('PNG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PNG</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleDownload('JPEG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download JPEG</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleDownload('PDF',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PDF</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleDownload('SVG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download SVG</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+                        <Dropdown.Menu>
+                          <Dropdown.Item onClick={() => handleDownload('PNG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PNG</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleDownload('JPEG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download JPEG</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleDownload('PDF',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PDF</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleDownload('SVG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download SVG</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                         {/* <Button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1597,6 +1597,19 @@ ref={regionBarRef}
               )}
               {/* Overview End */}
             </div>
+            <Modal centered show={showModal} onHide={handleCloseModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p>Modal body text</p>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseModal}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </Row>
         </div>
       </Col>
