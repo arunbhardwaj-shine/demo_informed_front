@@ -33,12 +33,8 @@ const AnalyticsRegions = () => {
       type: "pie",
       height: 450,
     },
-    title: {
-      align: "left",
-      style: {
-        fontSize: "14px",
-      },
-    },
+    title: null, // Set title to null to hide it
+
     exporting: {
       enabled: false,
       menuItemDefinitions: {
@@ -175,150 +171,129 @@ const AnalyticsRegions = () => {
       // <Tab key={region} eventKey={region.toLowerCase()} title={region}>
       <HighchartsReact
       key={`bar-${activeRegion}`}
-
-        highcharts={Highcharts}
-        options={{
-          chart: {
-            marginTop: 50,
-            type: "bar",
-            events: {
-              load: function () {
-                let categoryHeight = 50;
-                this.update({
-                  chart: {
-                    width:'800',
-                    height:
-                      categoryHeight * countries.length +
-                      (this.chartHeight - this.plotHeight),
-                  },
+      highcharts={Highcharts}
+      options={{
+        chart: {
+          marginTop: 50,
+          type: "bar",
+          events: {
+            load: function () {
+              let categoryHeight = 50;
+              this.update({
+                chart: {
+                  width:'800',
+                  height:
+                    categoryHeight * countries.length +
+                    (this.chartHeight - this.plotHeight),
+                },
+              });
+         } }},
+        exporting: {
+          enabled: false,
+          chartOptions: {
+            title: {
+              text: "", // Remove title from exported image
+            },
+          },
+          filename: "Total_Registration", // Set filename for exported image
+          menuItemDefinitions: {
+            downloadPNG: {
+              text: "Download PNG",
+              onclick: function () {
+                this.exportChart({
+                  type: "image/png",
+                });
+              },
+            },
+            downloadJPEG: {
+              text: "Download JPEG",
+              onclick: function () {
+                this.exportChart({
+                  type: "image/jpeg",
+                });
+              },
+            },
+            downloadPDF: {
+              text: "Download PDF",
+              onclick: function () {
+                this.exportChart({
+                  type: "application/pdf",
+                });
+              },
+            },
+            downloadSVG: {
+              text: "Download SVG",
+              onclick: function () {
+                this.exportChart({
+                  type: "image/svg+xml",
                 });
               },
             },
           },
-          exporting: {
-            enabled: false,
-            chartOptions: {
-              title: {
-                text: "", // Remove title from exported image
-              },
-            },
-            filename: "Total_Registration", // Set filename for exported image
-            menuItemDefinitions: {
-              downloadPNG: {
-                text: "Download PNG",
-                onclick: function () {
-                  this.exportChart({
-                    type: "image/png",
-                  });
-                },
-              },
-              downloadJPEG: {
-                text: "Download JPEG",
-                onclick: function () {
-                  this.exportChart({
-                    type: "image/jpeg",
-                  });
-                },
-              },
-              downloadPDF: {
-                text: "Download PDF",
-                onclick: function () {
-                  this.exportChart({
-                    type: "application/pdf",
-                  });
-                },
-              },
-              downloadSVG: {
-                text: "Download SVG",
-                onclick: function () {
-                  this.exportChart({
-                    type: "image/svg+xml",
-                  });
-                },
-              },
-            },
-            buttons: {
-              contextButton: {
-                symbol:
-                  "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-                menuItems: [
-                  "downloadPNG",
-                  "downloadJPEG",
-                  "downloadPDF",
-                  "downloadSVG",
-                ],
-              },
+          buttons: {
+            contextButton: {
+              symbol: "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+              menuItems: [
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+              ],
             },
           },
+        },
+        title: {
+          text: "",
+        },
+        xAxis: {
+          categories: countries,
+          labels: {
+            rotation: 0,
+            style: {
+              fontSize: '12px',
+              fontFamily: 'Arial, sans-serif'
+            }
+          },
+        },
+        credits: {
+          enabled: false,
+        },
+        yAxis: {
+          min: 0,
           title: {
             text: "",
           },
-          xAxis: {
-            categories: countries,
-          },
-          credits: {
-            enabled: false,
-          },
-          // exporting: {
-          //   enabled:false,
-          //   showHighchart: true,
-          //   showTable: false,
-          //   tableCaption: "",
-          // },
-          yAxis: {
-            min: 0,
-            title: {
-              text: "",
+          stackLabels: {
+            enabled: true,
+            style: {
+              fontWeight: "bold",
+              color: "gray",
             },
-            stackLabels: {
+          },
+        },
+        plotOptions: {
+          bar: {
+            pointWidth: 30, // Adjust the width of the bars
+            dataLabels: {
               enabled: true,
-              style: {
-                fontWeight: "bold",
-                color: "gray",
-              },
             },
           },
-          // plotOptions: {
-          //   bar: {
-          //     dataLabels: {
-          //       enabled: true,
-          //     },
-          //   },
-          // },
-          plotOptions: {
-            series: {
-              groupPadding: 0,
-              pointWidth: 18, // Adjust the width of the bars
-              dataLabels: {
-                allowOverlap: false,
-                distance: 40,
-                enabled: true,
-                // inside: false,
-                // overflow: "justify",
-                // crop: true,
-                // shape: "callout",
-                size: "100%",
-                style: {
-                  fontWeight: "normal",
-                  textShadow: "none",
-                },
-              },
-            },
+        },
+        series: [
+          {
+            name: "Registered",
+            data: registeredUsers,
+            color: "#f5c64a",
           },
-          series: [
-            {
-              name: "Registered HCPs",
-              data: registeredUsers,
-              color: "#FAC755",
-            },
-            {
-              name: "Attended DCPs",
-              data: attendedUsers,
-              color: "#39CABC",
-            },
-          ],
-        }}
-      />
+          {
+            name: "Attended",
+            data: attendedUsers,
+            color: "#56cabc",
+          },
+        ],
+      }}
+    />
+    
       // </Tab>
     );
     // });
@@ -495,10 +470,140 @@ const AnalyticsRegions = () => {
                                     }}
                                   />
                                 ) : (
-                                  renderTabsAndCharts(
+<>
+                                    <HighchartsReact
+                                  key={`pie-region-${activeRegion}`}
+                                  highcharts={Highcharts}
+                                    options={{
+                                        chart: {
+                                            type: "bar",
+                                            // width: 316,
+                                            height: 310, // Decrease the height of the chart
+                                            options3d: {
+                                                enabled: true,
+                                                alpha: 10,
+                                                beta: 25,
+                                                depth: 70,
+                                            },
+                                        },
+                                        title: {
+                                          text: "Click on the double arrows to see more details",
+                                          align: "left",
+                                          style: {
+                                              fontSize: "12px" ,// Decreased font size
+                                              color: "#97B6CF",
+                                          }
+                                      },
+                                        xAxis: {
+                                            categories: [""], // Empty category array
+                                            labels: {
+                                                align: "center",
+                                                reserveSpace: true,
+                                                y: 20, // Adjust the vertical position of the labels
+                                                formatter: function () {
+                                                    return this.value.name; // Display the name property of the data point
+                                                },
+                                            },
+                                            lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
+                                            lineWidth: 2, // X-axis line width
+                                        },
+                                        yAxis: {
+                                            title: {
+                                                text: null,
+                                            },
+                                            lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
+                                            lineWidth: 2, // Y-axis line width
+                                        },
+                                        tooltip: {},
+                                        plotOptions: {
+                                            series: {
+                                                pointWidth: 30, // Adjust the width of the bars
+                                                dataLabels: {
+                                                    allowOverlap: false,
+                                                    distance: 40,
+                                                    enabled: true,
+                                                    inside: false,
+                                                    overflow: "justify",
+                                                    crop: true,
+                                                    shape: "callout",
+                                                    size: "100%",
+                                                    style: {
+                                                        fontFamily: "Helvetica, sans-serif",
+                                                        fontWeight: "normal",
+                                                        textShadow: "none",
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        exporting: {
+                                          enabled: true,
+                                          chartOptions: {
+                                              title: {
+                                                  text: '' // Remove title from exported image
+                                              }
+                                          },
+                                          filename: 'Overview', // Set filename for exported image
+                                          menuItemDefinitions: {
+                                              downloadPNG: {
+                                                  text: 'Download PNG',
+                                                  onclick: function() {
+                                                      this.exportChart({
+                                                          type: 'image/png'
+                                                      });
+                                                  }
+                                              },
+                                              downloadJPEG: {
+                                                  text: 'Download JPEG',
+                                                  onclick: function() {
+                                                      this.exportChart({
+                                                          type: 'image/jpeg'
+                                                      });
+                                                  }
+                                              },
+                                              downloadPDF: {
+                                                  text: 'Download PDF',
+                                                  onclick: function() {
+                                                      this.exportChart({
+                                                          type: 'application/pdf'
+                                                      });
+                                                  }
+                                              },
+                                              downloadSVG: {
+                                                  text: 'Download SVG',
+                                                  onclick: function() {
+                                                      this.exportChart({
+                                                          type: 'image/svg+xml'
+                                                      });
+                                                  }
+                                              }
+                                          },
+                                          buttons: {
+                                              contextButton: {
+                                                  symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                                                  menuItems: [
+                                                      "downloadPNG",
+                                                      "downloadJPEG",
+                                                      "downloadPDF",
+                                                      "downloadSVG"
+                                                  ]
+                                              }
+                                          }
+                                      },
+                                      series: [
+                                        {
+                                          name: "",
+                                          colorByPoint: true,
+                                          data: regionData[activeRegion]
+                                          .seriesData,
+                                        },
+                                      ]
+                                    }}
+                                />
+                                 { renderTabsAndCharts(
                                     activeRegion,
                                     regionData[activeRegion].barChartData
-                                  )
+                                  )}
+                                  </>
                                 )}
                               </>
                             )}
