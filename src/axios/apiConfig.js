@@ -198,6 +198,7 @@ export const ENDPOINT = {
   GET_LIVESTREAM_DATA:"/webinarEmail/get-livestream-data",
   GET_ATTENDED_DATA:"/webinarEmail/get-attended-users-by-country",
   WEBINAR_POLL_ANALYTICS: "/webinarEmail/webinar-all-question",
+  GET_REGION_STATS: "/webinarEmail/get-region-stats",
 
 
 };
