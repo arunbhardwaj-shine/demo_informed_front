@@ -6,61 +6,65 @@ import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 
 const AnalyticsQuestions = () => {
-    const { eventIdContext } = useSidebar();
-    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-    
-    const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);
-    const [questions, setQuestions] = useState({});
-    const [flag, setFlag] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
-  
-    useEffect(() => {
-      fetchData();
-    }, [flag]);
-  
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        let body = {
-          eventId: eventId?.eventId,
-        };
-        const endpoint = eventIdContext ? ENDPOINT.WEBINAR_EVENT_QUESTION_ANSWER : ENDPOINT.QUESTION_ANSWER;
-        const response = await postData(endpoint, body);
-        setQuestions(response?.data?.data || {});
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    const getSpeakerQuestion = async() =>{
-        try{
-           loader("show")
-          const result = await postData(ENDPOINT.QUESTION_ANSWER,{
-                "companyId":eventId?.companyId,
-                "eventId":eventId?.eventId
-             })
-             setQuestions(result?.data?.data)
-            //  loader("hide")
-        }catch(err){
-            // loader("hide")
-            console.log("-er",err)
-        }
-        finally{
-                    loader("hide")
-    
-        }
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { eventIdContext, handleEventId } = useSidebar();
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);
+  const [questions, setQuestions] = useState(
+  {}
+  );
+  const [flag, setFlag] = useState(1);
+
+  useEffect(() => {
+    getQuestions();
+  }, [flag]);
+
+  const getQuestions = async () => {
+    loader("show");
+
+    try {
+      let body = {
+        eventId: eventId?.eventId,
+      };
+      const response = await postData(
+        ENDPOINT.WEBINAR_EVENT_QUESTION_ANSWER,
+        body
+      );
+      setQuestions(response?.data?.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loader("hide");
     }
-    
-    const handleTabClick = async (key) => {
-      setIsLoading(true);
-      setQuestions({}); // Reset questions to empty object
-  
-      if (key === "questions") {
-        await fetchData();
-      } else {
-        await getSpeakerQuestion()      }
-    };
+  };
+
+  const getSpeakerQuestion = async() =>{
+    try{
+       loader("show")
+      const result = await postData(ENDPOINT.QUESTION_ANSWER,{
+            "companyId":eventId?.companyId,
+            "eventId":eventId?.eventId
+         })
+         setQuestions(result?.data?.data)
+        //  loader("hide")
+    }catch(err){
+        // loader("hide")
+        console.log("-er",err)
+    }
+    finally{
+                loader("hide")
+
+    }
+}
+
+  const handleTabClick = async (key) => {
+    setQuestions({})
+if(key=="questions"){
+   await  getQuestions()
+}else{
+    await getSpeakerQuestion()
+}
+};
   return (
     <>
       <Col className="right-sidebar">
@@ -184,25 +188,7 @@ const AnalyticsQuestions = () => {
                         <div className="speaker-zone-listed">
                         {questions?.ignore?.map((question, index) => (
                           <QuestionItem key={index} question={question} />
-                        ))}  <div className="reader_list">
-                            <div className="detail-box">
-                              <div className="d-flex justify-content-between align-items-center">
-                                <p className="user_name">Octapharma</p>
-                                <div className="question-post-time">
-                                  <small>07:53 AM</small>
-                                </div>
-                              </div>
-                              <div className="user-question">
-                                <p>
-                                  User messages masuismod phartra donec faucibus
-                                  quisque nuneque mote condi ment zcsum nudolor
-                                  nibhcudolmasa euismod phartra donec mas
-                                  faucibus quisque nuneque ipsum
-                                  quamodio............................{" "}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                        ))} 
                         </div>
                       </div>
                     </div>
