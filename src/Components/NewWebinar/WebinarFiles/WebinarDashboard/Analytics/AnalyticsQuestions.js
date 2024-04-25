@@ -4,6 +4,9 @@ import { loader } from "../../../../../loader";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import { toast } from "react-toastify";
 
 const AnalyticsQuestions = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -63,6 +66,63 @@ if(key=="questions"){
     await getSpeakerQuestion()
 }
 };
+
+const downloadExcel = (data) => {
+    try {
+      if (!data) {
+        toast.warning("No data found");
+        return;
+      }
+
+      const sheets = ["new","question", "sent", "ignore"];
+      const workbook = XLSX.utils.book_new();
+if(!workbook) return null
+      sheets.forEach((sheetName) => {
+        let sheetData = data[sheetName];
+
+        if (sheetData?.length) {
+          sheetData = sheetData.map((item) => {
+            let finalData = {};
+            finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
+            finalData.Email = item?.email ? item?.email.trim() : "N/A";
+            finalData.Country = item?.country ? item?.country.trim() : "N/A";
+            finalData.Message = item?.question ? item?.question.trim() : "N/A";
+            finalData.Reply = item?.reply ? item?.reply.trim() : "N/A";
+            finalData.Date = item?.question_date ? item?.question_date : "N/A";
+            return finalData;
+          });
+
+          const worksheet = XLSX.utils.json_to_sheet(sheetData);
+          XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+        }
+      });
+
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+
+      saveAs(
+        blob,
+        `question_stats_Data.xlsx`
+      );
+
+      
+    } catch (error) {
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
+      
+    }
+};
+
+
+
   return (
     <>
       <Col className="right-sidebar">
@@ -77,7 +137,7 @@ if(key=="questions"){
                 >
                   <div className="question-download">
                     <div className="clear-search">
-                      <button className="btn print" title="Download stats">
+                      <button className="btn print" title="Download stats" onClick={()=>downloadExcel(questions)}>
                         <svg
                           width="20"
                           height="20"
@@ -155,7 +215,7 @@ if(key=="questions"){
                 >
                   <div className="speaker-download">
                     <div className="clear-search">
-                      <button className="btn print" title="Download stats">
+                      <button className="btn print" title="Download stats" onClick={()=>downloadExcel(questions)}>
                         <svg
                           width="20"
                           height="20"

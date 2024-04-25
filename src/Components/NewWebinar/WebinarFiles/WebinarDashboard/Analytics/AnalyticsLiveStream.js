@@ -40,7 +40,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         plotBorderWidth: null,
         plotShadow: false,
         type: "pie",
-        height: 290, // Increased height to prevent overlapping
+        height: 300, // Increased height to prevent overlapping
     },
     title: {
         // text: "AVG spend time |",
