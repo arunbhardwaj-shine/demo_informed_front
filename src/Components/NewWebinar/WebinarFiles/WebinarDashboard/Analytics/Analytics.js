@@ -205,7 +205,7 @@ const Analytics = () => {
           '>'
           // <span style="font-weight: bold">'
           +
-          this.x +
+          // this.x +
           " <strong >" + ":" +
           Highcharts.numberFormat(this.y, 0) +
           "</strong></div></span>"
@@ -213,6 +213,9 @@ const Analytics = () => {
       },
     },
     plotOptions: {
+      bar:{
+        pointWidth:20,
+      },
       series: {
         dataLabels: {
           allowOverlap: false,
@@ -223,24 +226,17 @@ const Analytics = () => {
           crop: true,
           shape: "callout",
           size: "100%",
-          // backgroundColor: "rgba(255,255,255)",
-          // borderColor: "rgba(0,0,0,0.9)",
-          // borderColor:this.point.color,
-          // color: "rgba(0,0,0)",
-          // borderWidth: 0.5,
-          // borderRadius: 5,
           style: {
             fontFamily: "Helvetica, sans-serif",
-            // fontSize: "13px",
             fontWeight: "normal",
             textShadow: "none",
           },
           formatter: function () {
             return (
               "<span ><div className=" +
-              this.series.name +
-              // '><span style="font-weight: 400">' +  
-              this.x
+              this.series.name
+              //  +
+              // this.x
               + " <strong >" +
               Highcharts.numberFormat(this.y, 0) +
               "</strong></div></span>"
@@ -386,6 +382,20 @@ const Analytics = () => {
 
     // Add the online users chart image to the zip file
     zip.file('Online_Users_Chart.png', splineChartImageBlob);
+
+    for(let i=0;i<emailListData.length;i++){
+
+      const campaignChart = document.getElementById(`analytics_campaign_${i+1}`);
+      const campaignChartImageDataUrl = await domtoimage.toPng(campaignChart, { cacheBust: true });
+  
+      // Convert the image data URL to a Blob
+      const campaignChartImageBlob = await fetch(campaignChartImageDataUrl).then(res => res.blob());
+      console.log("i+",i)
+  
+      // Add the online users chart image to the zip file
+      zip.file(`${emailListData?.[i]?.subject.replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}.png`, campaignChartImageBlob);
+  
+     }
     
       // Generate the zip file asynchronously
       zip.generateAsync({ type: "blob" })
@@ -578,7 +588,7 @@ const Analytics = () => {
               </div>                           
               {emailListData?.map((data,index)=>{                
                 return(<>
-                  <div className="analytics_campaign" id={`analytics_campaign_${index}`}>
+                  <div className="analytics_campaign" id={`analytics_campaign_${index+1}`}>
                   <WebinarAnalyticCommonModal data={data} id={index} options={newOptions[index]}/>
                 </div>
                 </>)
