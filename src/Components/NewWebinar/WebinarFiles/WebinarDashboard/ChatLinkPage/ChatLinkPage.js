@@ -9,6 +9,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { toast } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
+import QRCode from 'qrcode';
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -565,6 +566,35 @@ const ChatLinkPage = () => {
       setActiveIndex(index);
     }
   };
+
+  const generateQRUrl = () => {
+    // Generate the QR code URL based on your logic
+    const url =  eventData?.eventId > 402
+    ? `https://events.docintel.app/event?evnt=${eventData?.eventCode}`
+    : `${window.location.host}/event?evnt=${eventData?.eventCode}`; 
+    return url;
+  };
+
+  const handleDownload = async () => {
+    if (!isDataSaved) {
+      return;
+    }
+    const qrUrl = generateQRUrl();
+
+    try {
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pngUrl;
+      downloadLink.download = 'Chat-Qr-code.png'; // Set the filename
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -577,6 +607,18 @@ const ChatLinkPage = () => {
               </div>
            { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
+                <div className={`dropdown qr-download ${
+                      !isDataSaved ? "disabled" : ""
+                    }`}>
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={handleDownload}
+                    >
+                      Download QR
+
+                    </button>
+                    </div>
                   {/* <div className="dropdown qr-download">
                     <button
                       className="btn btn-primary dropdown"
