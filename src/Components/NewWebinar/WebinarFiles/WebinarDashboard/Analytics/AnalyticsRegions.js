@@ -478,102 +478,94 @@ const AnalyticsRegions = () => {
                                   />
                                 ) : (
 <>
-                                <HighchartsReact
-                                  key={`pie-region-${activeRegion}`}
-                                  highcharts={Highcharts}
-                                    options={{
-                                        chart: {
-                                            type: "bar",
-                                            // width: 316,
-                                            height: 310, // Decrease the height of the chart
-                                            options3d: {
-                                                enabled: true,
-                                                alpha: 10,
-                                                beta: 25,
-                                                depth: 70,
-                                            },
-                                        },
-                                        title: {
-                                          text: "",
-                                        },
-                                        exporting: {
-                                          enabled: false,
-                                        },
-                                        xAxis: {
-                                        categories: regionData[activeRegion].seriesData.map(data => data.name), // Extracting name as categories
-                                          labels: {
-                                            rotation: 0,
-                                            style: {
-                                              fontSize: '12px',
-                                              fontFamily: 'Arial, sans-serif'
-                                            }
-                                          },
-                                        },
-                                        credits: {
-                                          enabled: false,
-                                        },
-                                        yAxis: {
-                                          min: 0,
-                                          title: {
-                                            text: "",
-                                          },
-                                          stackLabels: {
-                                            enabled: true,
-                                            style: {
-                                              fontWeight: "bold",
-                                              color: "gray",
-                                            },
-                                          },
-                                
-                                        },
-                                        legend: {
-                                          align: "center",
-                                          verticalAlign: "bottom",
-                                          layout: "horizontal",
-                                          x: 0,
-                                          y: 0,
-                                          itemStyle: {
-                                            fontWeight: "500",
-                                            color: "#70899E",
-                                            fontSize: "12px"
-                                          },
-                                          symbolWidth: 10,
-                                          symbolHeight: 10,
-                                        },
-                                        tooltip: {},
-                                        plotOptions: {
-                                          series: {
-                                            groupPadding: 0.1,
-                                            pointWidth: 35, // Adjust the width of the bars
-                                            dataLabels: {
-                                              allowOverlap: false,
-                                              distance: 90,
-                                              enabled: true,
-                                              inside: false,
-                                              // overflow: "justify",
-                                              // crop: true,
-                                              // shape: "callout",
-                                              size: "100%",
-                                              style: {
-                                                fontWeight: "normal",
-                                                textShadow: "none",
-                                              },
-                                            },
-                                          },
-                                        },
-                                      
-                                      series: [
-                                        {
-                                          name: "",
-                                          colorByPoint: true,
-                                          data: regionData[activeRegion].seriesData.map((data,index) => ({
-                                            name: data.name,
-                                            y: data.y,
-                                            color: index==0?"#fbd632":"#54edd9", // Replace 'color' with the correct property name from your data
-                                        })),                                        },
-                                      ]
-                                    }}
-                                />
+<HighchartsReact
+    key={`pie-region-${activeRegion}`}
+    highcharts={Highcharts}
+    options={{
+        chart: {
+            type: "bar",
+            height: 310,
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 25,
+                depth: 70,
+            },
+        },
+        title: {
+            text: "",
+        },
+        exporting: {
+            enabled: false,
+        },
+        xAxis: {
+            categories: regionData[activeRegion]?.seriesData?.map(data => data.name) || [],
+            labels: {
+                rotation: 0,
+                style: {
+                    fontSize: '12px',
+                    fontFamily: 'Arial, sans-serif'
+                }
+            },
+        },
+        credits: {
+            enabled: false,
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: "",
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: "bold",
+                    color: "gray",
+                },
+            },
+        },
+        legend: {
+            align: "center",
+            verticalAlign: "bottom",
+            layout: "horizontal",
+            x: 0,
+            y: 0,
+            itemStyle: {
+                fontWeight: "500",
+                color: "#70899E",
+                fontSize: "12px"
+            },
+            symbolWidth: 10,
+            symbolHeight: 10,
+        },
+        tooltip: {},
+        plotOptions: {
+            series: {
+                groupPadding: 0.1,
+                pointWidth: 35,
+                dataLabels: {
+                    allowOverlap: false,
+                    distance: 90,
+                    enabled: true,
+                    inside: false,
+                    size: "100%",
+                    style: {
+                        fontWeight: "normal",
+                        textShadow: "none",
+                    },
+                },
+            },
+        },
+        series: 
+                regionData[activeRegion]?.seriesData?.map((data, index) => ({
+                    name: data.name,
+                    y: data.y,
+                    color: index === 0 ? "#fbd632" : "#54edd9",
+                })) || [],
+          
+    }}
+/>
+
                                  { renderTabsAndCharts(
                                     activeRegion,
                                     regionData[activeRegion].barChartData
