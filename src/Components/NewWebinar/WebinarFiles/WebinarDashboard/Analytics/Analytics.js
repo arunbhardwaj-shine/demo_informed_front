@@ -385,7 +385,7 @@ const Analytics = () => {
 
     for(let i=0;i<emailListData.length;i++){
 
-      const campaignChart = document.getElementById(`analytics_campaign_${i+1}`);
+      const campaignChart = document.getElementById(`analytics_campaign_${i}`);
       const campaignChartImageDataUrl = await domtoimage.toPng(campaignChart, { cacheBust: true });
   
       // Convert the image data URL to a Blob
@@ -393,7 +393,7 @@ const Analytics = () => {
       console.log("i+",i)
   
       // Add the online users chart image to the zip file
-      zip.file(`${emailListData?.[i]?.subject.replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}.png`, campaignChartImageBlob);
+      zip.file(`${i}_${emailListData?.[i]?.subject.replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}.png`, campaignChartImageBlob);
   
      }
     
@@ -588,7 +588,7 @@ const Analytics = () => {
               </div>                           
               {emailListData?.map((data,index)=>{                
                 return(<>
-                  <div className="analytics_campaign" id={`analytics_campaign_${index+1}`}>
+                  <div className="analytics_campaign" id={`analytics_campaign_${index}`}>
                   <WebinarAnalyticCommonModal data={data} id={index} options={newOptions[index]}/>
                 </div>
                 </>)
