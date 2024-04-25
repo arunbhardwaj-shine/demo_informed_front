@@ -46,9 +46,7 @@ const AnalyticsQuestions = () => {
             "eventId":eventId?.eventId
          })
          setQuestions(result?.data?.data)
-        //  loader("hide")
     }catch(err){
-        // loader("hide")
         console.log("-er",err)
     }
     finally{
