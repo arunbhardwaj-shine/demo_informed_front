@@ -500,7 +500,7 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || template?.templateId == 8
+          template?.templateId == 7 || template?.templateId == 8 ||  template?.templateId == 9
         ) {
           setSecondHeaderImage(
             apiData?.headerImage ? apiData?.headerImage : ""
@@ -548,7 +548,7 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || template?.templateId == 8
+          template?.templateId == 7 || template?.templateId == 8 ||  template?.templateId == 9
         ) {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
@@ -879,8 +879,8 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                {/* (Recommended size 750 x 180) */}
-                                { formData?.templateId === 8 ?  '(Recommended size 300 x 140)' :'(Recommended size 750 x 180)'}
+                                (Recommended size 750 x 180)
+                                {/* { formData?.templateId === 8 ?  '(Recommended size 300 x 140)' :'(Recommended size 750 x 180)'} */}
                               </span>
                             </>
                           ) : value.type === "file" &&
@@ -946,7 +946,8 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                              { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'}
+                              (Recommended size 750 x 180)
+                              {/* { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'} */}
                               </span>
                             </>
                           ) : value.type === "file" &&
@@ -1096,7 +1097,7 @@ const ChatLinkPage = () => {
                             ) : formData?.templateId == 4 ||
                               formData?.templateId == 5 ||
                               formData?.templateId == 6 ||
-                              formData?.templateId === 7  ? (
+                              formData?.templateId === 7 ||  formData?.templateId === 8 ||  formData?.templateId === 9  ? (
                               <>
                                 <div
                                   className="head-sec template2"
@@ -1117,31 +1118,33 @@ const ChatLinkPage = () => {
                                   />
                                 </div>
                               </>
-                            ):  formData?.templateId === 8 ? (
-                              <>
-                                <div
-                                  className="head-sec template2 isth"
-                                > <img
-                                src={
-                                  formData?.headerImage
-                                    ? formData?.headerImage
-                                    : ""
-                                }
+                            )
+                            // :  formData?.templateId === 8 ? (
+                            //   <>
+                            //     <div
+                            //       className="head-sec template2 isth"
+                            //     > <img
+                            //     src={
+                            //       formData?.headerImage
+                            //         ? formData?.headerImage
+                            //         : ""
+                            //     }
                              
-                              /></div>
-                                <div className="event_title">
-                                  <h2
-                                    className="top-title"
-                                    style={{ color: formData?.textColor }}
-                                    dangerouslySetInnerHTML={{
-                                      __html: formData?.formHeading
-                                        ? formData?.formHeading
-                                        : "Type your question here!",
-                                    }}
-                                  />
-                                </div>
-                              </>
-                            ): (
+                            //   /></div>
+                            //     <div className="event_title">
+                            //       <h2
+                            //         className="top-title"
+                            //         style={{ color: formData?.textColor }}
+                            //         dangerouslySetInnerHTML={{
+                            //           __html: formData?.formHeading
+                            //             ? formData?.formHeading
+                            //             : "Type your question here!",
+                            //         }}
+                            //       />
+                            //     </div>
+                            //   </>
+                            // )
+                            : (
                               <div
                                 className="head-sec"
                                 style={{
@@ -1256,7 +1259,7 @@ const ChatLinkPage = () => {
                           {formData?.templateId === 4 ||
                           formData?.templateId === 5 ||
                           formData?.templateId === 6 ||
-                          formData?.templateId === 7  ? (
+                          formData?.templateId === 7 || formData?.templateId === 8 || formData?.templateId === 9  ? (
                             <>
                               <div className="eahad-footer">
                                 <img
@@ -1287,29 +1290,31 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                             </>
-                          ) :
-                          formData?.templateId === 8 ? (
-                          <>
-                          <div className="copy-right-bottom-text">
-                         <p
-                           style={{ color: formData?.textColor }}
-                           dangerouslySetInnerHTML={{
-                             __html: formData?.footerTextOne,
-                           }}
-                         />
-                       </div>
-                       <div className="copy-right-bottom-text">
-                                <p
-                                  style={{ color: formData?.textColor }}
-                                  dangerouslySetInnerHTML={{
-                                    __html: formData?.footerText,
-                                  }}
-                                />
-                              </div>
+                          ) 
+                    //       :
+                    //       formData?.templateId === 8 ? (
+                    //       <>
+                    //       <div className="copy-right-bottom-text">
+                    //      <p
+                    //        style={{ color: formData?.textColor }}
+                    //        dangerouslySetInnerHTML={{
+                    //          __html: formData?.footerTextOne,
+                    //        }}
+                    //      />
+                    //    </div>
+                    //    <div className="copy-right-bottom-text">
+                    //             <p
+                    //               style={{ color: formData?.textColor }}
+                    //               dangerouslySetInnerHTML={{
+                    //                 __html: formData?.footerText,
+                    //               }}
+                    //             />
+                    //           </div>
 
-                       </>
+                    //    </>
                        
-                     ):
+                    //  )
+                     :
                           
                           (
                             <div className="copy-right-bottom-text">
