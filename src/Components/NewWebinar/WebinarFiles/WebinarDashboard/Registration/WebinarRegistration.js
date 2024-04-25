@@ -26,6 +26,7 @@ import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
 import moment from "moment";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import QRCode from 'qrcode';
 let currentDate = new Date(
   moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
 );
@@ -1335,6 +1336,34 @@ const WebinarRegistration = () => {
     setShowModalPreview(false);
   };
 
+  const generateQRUrl = () => {
+    // Generate the QR code URL based on your logic
+    const url = eventData?.event_id > 402 ?
+      `https://events.docintel.app/event-registration?event=${event_code}&amp;urtyhjd=qdhjjkr` :
+      `${window.location.host}/event-registration?event=${event_code}&amp;urtyhjd=qdhjjkr`;
+    return url;
+  };
+
+  const handleDownload = async () => {
+    if (!isDataSaved) {
+      return;
+    }
+    const qrUrl = generateQRUrl();
+
+    try {
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pngUrl;
+      downloadLink.download = 'Registration-Qr-code.png'; // Set the filename
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1350,16 +1379,18 @@ const WebinarRegistration = () => {
               </div>
               <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
-                  {/* <div className="dropdown qr-download">
+                  <div className={`dropdown qr-download ${
+                      !isDataSaved ? "disabled" : ""
+                    }`}>
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
-                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                      onClick={handleDownload}
                     >
                       Download QR
 
                     </button>
-                    {downloadqr && (
+                    {/* {downloadqr && (
                       <div
                         className="dropdown-menu filter-options"
                         aria-labelledby="dropdownMenuButton2"
@@ -1392,8 +1423,8 @@ const WebinarRegistration = () => {
                           </button>
                         </div>
                       </div>
-                    )}
-                  </div> */}
+                    )} */}
+                  </div>
                     <a
                       className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
