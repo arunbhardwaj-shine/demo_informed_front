@@ -15127,13 +15127,15 @@ table {
     }
 
     .graph-view {
-      max-width: 1420px;
-      margin: 16px auto 10px;
-      display: flex;
-      justify-content: center;
-      padding: 50px 12px;
-      flex-direction: column;
-      gap: 30px;
+      .graph-view-smaller {
+        display: flex;
+        justify-content: center;
+        padding: 50px 12px;
+        flex-direction: column;
+        gap: 30px;
+        max-width: 1180px;
+        margin: 16px auto 10px;
+      }
     }
   }
 }

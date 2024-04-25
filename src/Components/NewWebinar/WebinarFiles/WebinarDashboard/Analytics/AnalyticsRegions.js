@@ -97,15 +97,15 @@ const AnalyticsRegions = () => {
     },
     plotOptions: {
       pie: {
-        size: "80%",
+        size: "90%",
         dataLabels: {
           enabled: true,
           format: "<b>{point.name}</b>: {point.y}",
           style: {
             fontWeight: "bold",
-            color: "black",
+            color: "white",
             textOutline: "none",
-            fontSize: "14px", 
+            fontSize: "30px", 
           },
           distance: 30,
           connectorPadding: 0,
@@ -226,7 +226,6 @@ const AnalyticsRegions = () => {
             rotation: 0,
             style: {
               fontSize: '12px',
-              fontFamily: 'Arial, sans-serif'
             }
           },
         },
@@ -410,6 +409,7 @@ const AnalyticsRegions = () => {
                             
                           </div>
                           <div className="graph-view">
+                            <div className="graph-view-smaller">
                             {activeRegion && (
                               <>
                                 {isPieChart ? (
@@ -428,7 +428,7 @@ const AnalyticsRegions = () => {
                                         },
                                       ],
                                       
-                                        title: {
+                                      title: {
                                           text: ''
                                       },
                                       drilldown: {
@@ -460,7 +460,7 @@ const AnalyticsRegions = () => {
                                               fontWeight: "500",
                                               color: "white",
                                               textOutline: "none", // Removed underline
-                                              fontSize: "20px",
+                                              fontSize: "30px",
                                             },
                                             distance: -70,
                                           },
@@ -478,7 +478,7 @@ const AnalyticsRegions = () => {
                                   />
                                 ) : (
 <>
-                                    <HighchartsReact
+                                <HighchartsReact
                                   key={`pie-region-${activeRegion}`}
                                   highcharts={Highcharts}
                                     options={{
@@ -544,7 +544,7 @@ const AnalyticsRegions = () => {
                                         plotOptions: {
                                           series: {
                                             groupPadding: 0.1,
-                                            pointWidth: 18, // Adjust the width of the bars
+                                            pointWidth: 35, // Adjust the width of the bars
                                             dataLabels: {
                                               allowOverlap: false,
                                               distance: 90,
@@ -582,6 +582,7 @@ const AnalyticsRegions = () => {
                                 )}
                               </>
                             )}
+                            </div>
                           </div>
                         </div>
                       </Tab>
