@@ -205,7 +205,7 @@ const QuestionItem = ({ question }) => (
   <div className="reader_list">
     <div className="detail-box">
       <div className="d-flex justify-content-between align-items-center">
-        <p className="user_name">{question?.username}</p>
+        <p className="user_name">{question?.username || question?.name ||"Anonymous"}</p>
         <div className="question-post-time">
           <small>{question?.question_date}</small>
         </div>
