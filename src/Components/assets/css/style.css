@@ -2875,19 +2875,19 @@ form .input-group {
 
 .survey_data_accordion_heading table tbody tr.fold td {
   border-radius: 0 0 9px 9px;
-  border-top: 0.5px dashed #97B6CF;
+  border-top: 0.5px dashed var(--skyblue);
   padding-right: 16px;
 }
 
 .survey_data_accordion_heading table tbody tr.fold td .survey-data h6 {
-  color: #004A89;
+  color: var(--dark-blue);
   font-size: 13px;
   font-weight: 500;
   margin: 0 0 6px;
 }
 
 .survey_data_accordion_heading table tbody tr.fold td .survey-data p {
-  color: #70899E;
+  color: var(--dark-gray);
   font-size: 13px;
   font-weight: 400;
 }
@@ -7288,7 +7288,7 @@ table thead.sticky-header:after {
   right: -11px;
   top: 0;
 }
-
+s
 .selected-hcp-list tbody tr.table_no_data_found {
   box-shadow: none;
 }
@@ -10203,7 +10203,7 @@ button.event_sort_btn.svg_active svg {
 }
 
 .invitee table td.invites-td {
-  border-left: 1px dashed #97B6CF;
+  border-left: 1px dashed var(--skyblue);
 }
 
 .invitee table td>div {
@@ -10229,7 +10229,7 @@ button.event_sort_btn.svg_active svg {
 .invitee table td:last-child .invitess-tbl {
   display: flex;
   align-items: center;
-  /* border: 1px dashed #97B6CF; */
+  /* border: 1px dashed var(--skyblue); */
 }
 
 .invitee table {
@@ -10816,7 +10816,7 @@ button.event_sort_btn.svg_active svg {
   width: calc(45% - 22px);
   margin-left:12px;
   padding-left:10px;
-  border-left:1px dashed #97B6CF;
+  border-left:1px dashed var(--skyblue);
 }
 .analytics-poll .poll-creation {
   min-height: initial;
@@ -10989,7 +10989,7 @@ button.event_sort_btn.svg_active svg {
   font-size: 12px;
   margin: -10px 0 10px;
   padding: 4px 10px;
-  background: #8a4e9c;
+  background: var(--violet);
   border: 0;
   color: var(--white);
   font-weight: 400;
@@ -11948,7 +11948,7 @@ button.event_sort_btn.svg_active svg {
 
 .speaker_zone .speaker_zone_left_div .user-question .speaker_reply,
 .speaker_zone .reader_list .user-question .speaker_reply p {
-  color: #000;
+  color: var(--black);
 }
 
 .speaker_zone .ignored .reader_list .user-question {
@@ -12274,7 +12274,7 @@ button.event_sort_btn.svg_active svg {
 .poll-question-create .question-color:after {
   position: absolute;
   content: "";
-  border-bottom: 1px dashed #97B6CF;
+  border-bottom: 1px dashed var(--skyblue);
   bottom: 0;
   width: calc(100% + 80px);
   left: -40px;
@@ -13063,7 +13063,7 @@ table thead th.sort_option span button {
 }
 
 .clear-search button[type="submit"]:hover svg path {
-  fill: #97b6cf;
+  fill: var(--skyblue);
 }
 
 .custom-change .select-mail-template .alice-carousel .alice-carousel__prev-btn,
@@ -13156,7 +13156,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input[type=radio] {
   margin: 0;
-  border: 1px solid #97B6CF;
+  border: 1px solid var(--skyblue);
   width: 16px;
   height: 16px;
   padding: 1px;
@@ -13175,8 +13175,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input[type=radio]:checked {
-  background-color: #39cabc;
-  border-color: #39cabc;
+  background-color: var(--green);
+  border-color: var(--green);
   background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
 }
 
@@ -13411,7 +13411,7 @@ table.table-custom {
   margin: 0;
 } */
 .hcp-tracking .live-hcp-tracking-img svg.highcharts-root .highcharts-spline-series path.highcharts-point {
-  fill: #39CABC;
+  fill: var(--green);
 }
 
 .webinar-analytics-layout.rd-analytics-content .avg-speed .highcharts-legend-item rect.highcharts-point {
@@ -13419,7 +13419,7 @@ table.table-custom {
 }
 
 .avg-speed text.highcharts-title tspan {
-  fill: #0066BE !important;
+  fill:var(--light-blue) !important;
   font-size: 20px;
   font-weight: 500;
 }
@@ -13437,7 +13437,7 @@ table.table-custom {
   transform: translateY(-16px);
 } */
 /* .analytics-questions-graph .highcharts-axis-labels.highcharts-xaxis-labels text{
-  color: #97B6CF;
+  color: var(--skyblue);
   font-size: 20px;
   font-weight: 600;
 } */
