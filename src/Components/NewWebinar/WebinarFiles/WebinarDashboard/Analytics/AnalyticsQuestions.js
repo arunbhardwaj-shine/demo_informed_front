@@ -61,7 +61,6 @@ const AnalyticsQuestions = () => {
       } else {
         await getSpeakerQuestion()      }
     };
-};
   return (
     <>
       <Col className="right-sidebar">
