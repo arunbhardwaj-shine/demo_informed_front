@@ -172,6 +172,7 @@ const Analytics = () => {
   const [options, setOptions] = useState({
     chart: {
       type: "bar",
+      width:1000,
       options3d: {
         enabled: true,
         alpha: 10,
@@ -577,7 +578,9 @@ const Analytics = () => {
               </div>                           
               {emailListData?.map((data,index)=>{                
                 return(<>
-                <WebinarAnalyticCommonModal data={data} id={index} options={newOptions[index]}/>
+                  <div className="analytics_campaign" id={`analytics_campaign_${index}`}>
+                  <WebinarAnalyticCommonModal data={data} id={index} options={newOptions[index]}/>
+                </div>
                 </>)
               })}
               

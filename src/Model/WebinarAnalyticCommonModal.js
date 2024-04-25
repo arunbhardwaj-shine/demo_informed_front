@@ -12,7 +12,7 @@ const WebinarAnalyticCommonModal=({data,id,options})=>{
 
     return(<>          
             {typeof data !== "undefined" && (
-              <div className="modal-body-view">
+        <div className="modal-body-view" id="mail-view">
                 <div className="mail-box-wrap" id="chart-description">
                 <div className="mail-box-content">
                   <div className="mail-box-heading-block">
