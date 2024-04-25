@@ -479,7 +479,7 @@ const AnalyticsRegions = () => {
                                 ) : (
 <>
 <HighchartsReact
-    key={`pie-region-${activeRegion}`}
+    key={`bar-region-${activeRegion}`}
     highcharts={Highcharts}
     options={{
         chart: {
@@ -556,12 +556,14 @@ const AnalyticsRegions = () => {
                 },
             },
         },
-        series: 
-                regionData[activeRegion]?.seriesData?.map((data, index) => ({
-                    name: data.name,
-                    y: data.y,
-                    color: index === 0 ? "#fbd632" : "#54edd9",
-                })) || [],
+        series: regionData[activeRegion]?.seriesData?.map((data, index) => {
+          console.log(data); // Log each data item to check its structure
+          return {
+              name: data.name,
+              data: [data.y],
+              color: index === 0 ? "#fbd632" : "#54edd9",
+          };
+      }) || [],
           
     }}
 />
