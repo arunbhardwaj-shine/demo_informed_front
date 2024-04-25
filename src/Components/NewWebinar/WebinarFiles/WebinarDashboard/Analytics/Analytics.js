@@ -390,10 +390,9 @@ const Analytics = () => {
   
       // Convert the image data URL to a Blob
       const campaignChartImageBlob = await fetch(campaignChartImageDataUrl).then(res => res.blob());
-      console.log("i+",i)
   
       // Add the online users chart image to the zip file
-      zip.file(`${i}_${emailListData?.[i]?.subject.replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}.png`, campaignChartImageBlob);
+      zip.file(`${emailListData?.[i]?.subject?.trim().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}_${i}.png`, campaignChartImageBlob);
   
      }
     
