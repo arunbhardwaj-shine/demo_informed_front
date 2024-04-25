@@ -15127,10 +15127,11 @@ table {
     }
 
     .graph-view {
+      margin:24px 0 0;
       .graph-view-smaller {
         display: flex;
         justify-content: center;
-        padding: 50px 12px;
+        padding: 50px 12px 10px;
         flex-direction: column;
         gap: 30px;
         max-width: 1180px;
