@@ -1,14 +1,96 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import Select from "react-select";
+import { postData } from '../../../../../axios/apiHelper';
+import { loader } from '../../../../../loader';
+import { useSidebar } from '../../../../CommonComponent/LoginLayout';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
 
 const AnalyticsEmailView = () => {
-    const options = [
-        { value: 'Invitation email facilisi vitae leo odio 2024', label: 'Invitation email facilisi vitae leo odio 2024' },
-        { value: 'Announcement email facilisi vitae leo odio 2024', label: 'Announcement email facilisi vitae leo odio 2024' },
-        { value: 'Coming soon email facilisi vitae leo odio 2024', label: 'Coming soon email facilisi vitae leo odio 2024' }
-    ]
+ 
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const [viewEmailData, setviewEmailData] = useState({});
+    const { eventIdContext, handleEventId } = useSidebar();
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+    const [campaignId, setCampaignId] = useState("");
+    const [ctrName, setCTRName] = useState("");
+    const [options, setOptions] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(null);
+  
+    const [eventId, setEventId] = useState(
+      eventIdContext?.eventId
+        ? eventIdContext?.eventId
+        : localStorageEvent?.eventId
+    );
+  
+    useEffect(() => {
+      const getDropdownData = async () => {
+        const body = {
+          eventId: eventId,
+        };
+        const response = await postData(ENDPOINT.GET_DROPDOWN_DATA, body);
+        setOptions(response?.data?.data);
+      };
+      getDropdownData();
+    }, []);
+  
+    const getReaderData = async (
+      type = "",
+      dynamic_name = "",
+      popup_name = "",
+      loadAll = 1
+    ) => {
+      try {
+        loader("show");
+        const body = {
+          eventId: eventId,
+          autoId: campaignId?.auto_id,
+          campaign_id: campaignId?.id || 0,
+          type: type,
+          name: dynamic_name,
+          loadAll: loadAll,
+        };
+        const response = await postData(
+          ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST,
+          body
+        );
+        //   setviewEmailModal(false);
+        //   setFunctionParameter({
+        //     type, dynamic_name, popup_name, loadAll
+        //   })
+        //   let temporaryUsers = [...readerDetailsData, ...response?.data?.data];
+        //   setReaderDetailsData(temporaryUsers);
+        //   setDetailPopupName(popup_name)
+        //   setReaderDetailsPopupStatus(true);
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log("--err", err);
+      }
+    };
+  
+    
+     const handleSelectChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    if (selectedOption) {
+      getEmailCount(selectedOption.id, selectedOption.status);
+    }
+  };
+
+  const getEmailCount = async (id, status) => {
+    try {
+        const body = {
+            eventId: eventId,
+            id,
+            status,
+
+          };
+          const response = await postData(ENDPOINT.GET_EMAIL_COUNT, body);
+      console.log("Email count:", response);
+    } catch (error) {
+      console.error("Error fetching email count:", error);
+    }
+  };
     return (
         <>
             <Col className="right-sidebar">
@@ -22,10 +104,12 @@ const AnalyticsEmailView = () => {
                         <div className='webinar-emails-details'>
                             <p>Select the email to see the stats:</p>
                             <Form>
-                                <Select
-                                    options={options}
-                                    className="dropdown-basic-button split-button-dropup mr-2 btn-bigger">
-                                </Select>
+                            <Select
+      options={options}
+      className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+      onChange={handleSelectChange}
+      value={selectedOption}
+    />
                             </Form>
                         </div>
                         <div className="rd-full-explain webinar-emails-statss">

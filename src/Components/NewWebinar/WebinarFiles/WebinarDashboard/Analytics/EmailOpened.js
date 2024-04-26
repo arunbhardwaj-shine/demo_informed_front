@@ -34,6 +34,7 @@ export default function EmailOpened() {
       const response = await postData(ENDPOINT.GET_DROPDOWN_DATA, body);
       setDropdownData(response?.data?.data);
     };
+    console.log("hfjfjfjf");
     getDropdownData();
   }, []);
 
