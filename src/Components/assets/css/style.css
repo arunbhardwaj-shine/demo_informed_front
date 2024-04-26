@@ -11895,7 +11895,7 @@ button.event_sort_btn.svg_active svg {
 }
 
 .speaker_zone .reader_list p.user_name {
-  padding: 0 10px 7px;
+  padding: 0 8px 7px;
   color: var(--light-blue);
   font-size: 15px;
   font-weight: 500;

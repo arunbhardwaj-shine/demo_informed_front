@@ -225,11 +225,7 @@ const downloadExcel = (data) => {
                   </div>
                 </Tab>
 
-                <Tab
-                  eventKey="speaker-zone"
-                  title="Speaker Zone"
-                  className="flex-column justify-content-between"
-                >
+                <Tab eventKey="speaker-zone" title="Speaker Zone" className="flex-column justify-content-between">
                   <div className="speaker-download">
                     <div className="clear-search">
                       <button className="btn print" title="Download stats" onClick={()=>downloadExcel(questions)}>
