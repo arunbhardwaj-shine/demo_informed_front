@@ -376,11 +376,13 @@ const AnalyticsEmailView = () => {
                 </div>
 
                 <div className="graph-view">
-                  <HighchartsReact
-                    key={campaignId?.auto_id}
-                    highcharts={Highcharts}
-                    options={optionsHighchart}
-                  />{" "}
+                  <div className="graph-view-smaller">
+                    <HighchartsReact
+                      key={campaignId?.auto_id}
+                      highcharts={Highcharts}
+                      options={optionsHighchart}
+                    />{" "}
+                  </div>
                 </div>
               </div>
             </div>
