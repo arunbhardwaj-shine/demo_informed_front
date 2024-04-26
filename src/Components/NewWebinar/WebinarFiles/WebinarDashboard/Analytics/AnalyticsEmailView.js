@@ -29,7 +29,7 @@ const AnalyticsEmailView = () => {
       },
     },
     title: {
-      text: "Mail campaign stats",
+      text: "",
     },
     xAxis: {
       categories: [],
@@ -62,7 +62,7 @@ const AnalyticsEmailView = () => {
         dataLabels: {
           allowOverlap: false,
           distance: 40,
-          enabled: true,
+          enabled: false,
           inside: false,
           overflow: "justify",
           crop: true,
@@ -75,7 +75,6 @@ const AnalyticsEmailView = () => {
           // borderWidth: 0.5,
           // borderRadius: 5,
           style: {
-            fontFamily: "Helvetica, sans-serif",
             // fontSize: "13px",
             fontWeight: "normal",
             textShadow: "none",
@@ -94,12 +93,12 @@ const AnalyticsEmailView = () => {
         },
       },
     },
-    series: [
-      {
-        name: "Email campaign",
-        data: [],
-      },
-    ],
+    // series: [
+    //   {
+    //     name: "Email campaign",
+    //     data: [],
+    //   },
+    // ],
   });
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [viewEmailData, setviewEmailData] = useState(null);
@@ -289,7 +288,7 @@ const AnalyticsEmailView = () => {
                   </div>
                 </div>
              {   viewEmailData && (<><div className="analytics_email_stats">
-                  <div className="d-flex align-items-center email_stats_gap flex-wrap">
+                  <div className="d-flex align-items-start email_stats_gap flex-wrap">
                     <div className="email-stats-send">
                       <div className="email-box">
                         <p>Emails send</p>
@@ -335,7 +334,7 @@ const AnalyticsEmailView = () => {
                     <div className="email-stats-details">
                       <div className="email-box d-flex">
                       {Object.keys(ctrName)?.length > 0 ? (
-    Object.keys(ctrName)?.map((item, index) => (
+                        Object.keys(ctrName)?.map((item, index) => (
                         <Col className="video-click ">
                           <p>{viewEmailData?.labels[item]}</p>
                           <div className="email_stats_list d-flex align-items-end justify-content-between">
@@ -384,11 +383,13 @@ const AnalyticsEmailView = () => {
                 </div>
 
                 <div className="graph-view">
+                    <div className="graph-view-smaller">
                   <HighchartsReact
                     key={campaignId?.auto_id}
                     highcharts={Highcharts}
                     options={optionsHighchart}
                   />{" "}
+                  </div>
                 </div> </>)}
               </div>
             </div>
