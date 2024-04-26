@@ -76,7 +76,7 @@ const downloadExcel = (data) => {
         return;
       }
 
-      const sheets = ["new", "question", "sent", "ignore"];
+      const sheets = ["new", "question","answer", "sent", "ignore"];
       const sheetNames = {
         "new": "Questions",
         "question": "Questions",
