@@ -7,6 +7,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import domtoimage from "dom-to-image";
 
 const AnalyticsEmailView = () => {
   const colorArray = [
@@ -219,6 +220,33 @@ const AnalyticsEmailView = () => {
     loader("hide")
 
   };
+  const handleParent = async () => {
+    try {
+      const buttonsContainer = document.querySelector('.rd-training-block-right');
+      buttonsContainer.classList.add('hide');
+  
+      loader("show");
+      const element = document.getElementById("chart-description");
+  
+      const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
+      let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject).replaceAll(" ","_")
+      const link = document.createElement("a");
+      // link.download = `${Math.random()}.png`;
+      link.download = `${fileName}.png`;
+      link.href = dataUrl;
+      link.click();
+      
+      setTimeout(() => {
+        buttonsContainer.classList.remove('hide');
+      }, 100);
+  
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -240,15 +268,18 @@ const AnalyticsEmailView = () => {
                 />
               </Form>
             </div>
-            {   viewEmailData && (<>   <div className="rd-full-explain webinar-emails-statss">
-              <div className="rd-training-block">
+            {   viewEmailData && (<>   <div className="rd-full-explain webinar-emails-statss"  id="chart-description">
+              <div className="rd-training-block" >
                 <div className="d-flex align-items-start justify-content-between">
                   <div className="rd-training-block-left">
                     <h5>{viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject} </h5>
                     <p className="email-date">{viewEmailData?.created_at}</p>
                   </div>
-                  <div className="rd-training-block-right d-flex">
-                    <Button className="print">
+                  <div className="rd-training-block-right d-flex clear-search.top-right-action">
+                    
+                    <Button className="print"  title="Print Stats"
+                        onClick={handleParent}
+                        >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
