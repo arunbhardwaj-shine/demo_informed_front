@@ -13,6 +13,7 @@ const AnalyticsQuestions = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);
+  const [activeTab, setActiveTab] = useState(eventIdContext || localStorageEvent);
   const [questions, setQuestions] = useState(
   {}
   );
@@ -60,6 +61,7 @@ const AnalyticsQuestions = () => {
 
   const handleTabClick = async (key) => {
     setQuestions({})
+    setActiveTab(key)
 if(key=="questions"){
    await  getQuestions()
 }else{
@@ -74,26 +76,48 @@ const downloadExcel = (data) => {
         return;
       }
 
-      const sheets = ["new","question", "sent", "ignore"];
+      const sheets = ["new", "question", "sent", "ignore"];
+      const sheetNames = {
+        "new": "Questions",
+        "question": "Questions",
+        "answer": "Answered",
+        "sent": "Send to Speaker",
+        "ignore": "Ignored"
+      };
+
+      const columnWidths = {
+        "Name": 15,
+        "Email": 20,
+        "Country": 15,
+        "Message": 30,
+        "Reply": 20,
+        "Date": 15,
+      };
+
       const workbook = XLSX.utils.book_new();
-if(!workbook) return null
       sheets.forEach((sheetName) => {
         let sheetData = data[sheetName];
+        if (!sheetData) return null;
 
-        if (sheetData?.length) {
-          sheetData = sheetData.map((item) => {
-            let finalData = {};
-            finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
-            finalData.Email = item?.email ? item?.email.trim() : "N/A";
-            finalData.Country = item?.country ? item?.country.trim() : "N/A";
-            finalData.Message = item?.question ? item?.question.trim() : "N/A";
-            finalData.Reply = item?.reply ? item?.reply.trim() : "N/A";
-            finalData.Date = item?.question_date ? item?.question_date : "N/A";
-            return finalData;
-          });
+        if (sheetData.length) {
+          sheetData = sheetData.map((item) => ({
+            "Name": item?.name ? item.name.trim() : "Anonymous",
+            "Email": item?.email ? item.email.trim() : "N/A",
+            "Country": item?.country ? item.country.trim() : "N/A",
+            "Message": item?.question ? item.question.trim() : "N/A",
+            "Reply": item?.reply ? item.reply.trim() : "N/A",
+            "Date": item?.question_date ? item.question_date : "N/A"
+          }));
 
           const worksheet = XLSX.utils.json_to_sheet(sheetData);
-          XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+          
+          // Set dynamic width for each column
+          Object.keys(columnWidths).forEach((key, index) => {
+            worksheet["!cols"] = worksheet["!cols"] || [];
+            worksheet["!cols"][index] = { wch: columnWidths[key] + 2 };
+          });
+
+          XLSX.utils.book_append_sheet(workbook, worksheet, sheetNames[sheetName]);
         }
       });
 
@@ -106,20 +130,13 @@ if(!workbook) return null
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
 
-      saveAs(
-        blob,
-        `question_stats_Data.xlsx`
-      );
+      saveAs(blob, `${activeTab}_stats.xlsx`);
 
-      
     } catch (error) {
-      console.error(
-        "An error occurred while downloading the Excel file:",
-        error
-      );
-      
+      console.error("An error occurred while downloading the Excel file:", error);
     }
 };
+
 
 
 
