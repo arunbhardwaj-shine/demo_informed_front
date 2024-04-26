@@ -13488,6 +13488,10 @@ img.change-password-image {
   &.webinar-emails-statss {
     .rd-training-block {
       padding: 24px;
+
+      &>.d-flex {
+        margin: 0 0 24px;
+      }
     }
   }
 
@@ -13523,7 +13527,7 @@ img.change-password-image {
         &.email-date {
           color: #70899E;
           font-size: 16px;
-          margin: 0 0 24px;
+
         }
       }
     }
@@ -15128,20 +15132,20 @@ table {
         padding: 16px;
       }
     }
+  }
+}
 
-    .graph-view {
-      margin: 24px 0 0;
+.graph-view {
+  margin: 24px 0 0;
 
-      .graph-view-smaller {
-        display: flex;
-        justify-content: center;
-        padding: 50px 12px 10px;
-        flex-direction: column;
-        gap: 30px;
-        max-width: 1180px;
-        margin: 16px auto 10px;
-      }
-    }
+  .graph-view-smaller {
+    display: flex;
+    justify-content: center;
+    padding: 50px 12px 10px;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1180px;
+    margin: 16px auto 10px;
   }
 }
 
