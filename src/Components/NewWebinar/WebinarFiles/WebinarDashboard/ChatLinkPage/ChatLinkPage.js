@@ -584,9 +584,10 @@ const ChatLinkPage = () => {
     try {
       const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
       const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      let fileName= (eventData?.eventTitle).replaceAll(" ","_")
       const downloadLink = document.createElement('a');
       downloadLink.href = pngUrl;
-      downloadLink.download = 'Chat-Qr-code.png'; // Set the filename
+      downloadLink.download = `${fileName}_ChatLink.png`; // Set the filename
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
