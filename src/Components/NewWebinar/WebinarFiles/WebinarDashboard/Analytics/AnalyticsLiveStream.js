@@ -412,7 +412,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       // Make API call to fetch data
       const response = await postData(ENDPOINT?.GET_LIVESTREAM_DATA, body);
       let data = response?.data?.data;
-      const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span>`;
+      const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span>min`;
       const newValue = [
         {
             name: "",

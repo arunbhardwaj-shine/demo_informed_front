@@ -313,6 +313,60 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                     exporting: {
                                         enabled: false,
                                     },
+                                    exporting: {
+                                        enabled: true,
+                                        chartOptions: {
+                                            title: {
+                                                text: '' // Remove title from exported image
+                                            },
+                                        },
+                                        filename: 'AVG_Spend_Time', // Set filename for exported image
+                                        menuItemDefinitions: {
+                                            downloadPNG: {
+                                                text: 'Download PNG',
+                                                onclick: function () {
+                                                    this.exportChart({
+                                                        type: 'image/png'
+                                                    });
+                                                }
+                                            },
+                                            downloadJPEG: {
+                                                text: 'Download JPEG',
+                                                onclick: function () {
+                                                    this.exportChart({
+                                                        type: 'image/jpeg'
+                                                    });
+                                                }
+                                            },
+                                            downloadPDF: {
+                                                text: 'Download PDF',
+                                                onclick: function () {
+                                                    this.exportChart({
+                                                        type: 'application/pdf'
+                                                    });
+                                                }
+                                            },
+                                            downloadSVG: {
+                                                text: 'Download SVG',
+                                                onclick: function () {
+                                                    this.exportChart({
+                                                        type: 'image/svg+xml'
+                                                    });
+                                                }
+                                            }
+                                        },
+                                        buttons: {
+                                            contextButton: {
+                                                symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                                                menuItems: [
+                                                    "downloadPNG",
+                                                    "downloadJPEG",
+                                                    "downloadPDF",
+                                                    "downloadSVG"
+                                                ]
+                                            }
+                                        }
+                                    },
                                 }} 
                                 style={{width: '100%'}}
                             />

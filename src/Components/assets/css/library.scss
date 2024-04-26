@@ -1759,6 +1759,7 @@ ul.tab-mail-list.data span.total-left small {
   margin: 15px auto 30px;
   display: block;
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+  font-size: 14px;
 }
 
 .login-confirm .forgot-details {
@@ -14474,7 +14475,8 @@ img.change-password-image {
               }
 
               &:last-child {
-                left: 52%;
+                left: 50%;
+                margin-left: 32px;
               }
             }
           }
@@ -14767,6 +14769,7 @@ img.change-password-image {
             font-size: 13px;
             font-weight: 400;
             padding: 16px;
+            vertical-align: middle;
 
             &.green {
               color: $secondary-green;
@@ -15937,6 +15940,9 @@ table {
 }
 
 @media (min-width: $layout-breakpoint-medium) and (max-width: $layout-breakpoint-large) {
+  .modal.login-confirm .modal-dialog {
+    max-width: 520px;
+  }
 
   .rd-analytics-content .col-lg-9,
   .rd-analytics-content .col-lg-3 {
@@ -22035,6 +22041,19 @@ table {
     padding-right: 10px;
   }
 
+  .rd-full-explain .rd-training-block .rd-training-block-right .dropdown button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rd-full-explain .rd-training-block .rd-training-block-left h4 {
+    margin: 0 0 0px;
+  }
+
+  .rd-full-explain.analytics-region .graph-view .graph-view-smaller {
+    padding: 10px 12px 10px;
+  }
+
   /**webinar question**/
 }
 
@@ -22388,7 +22407,17 @@ table {
     gap: 15px;
   }
 
+  .rd-full-explain .rd-training-block .country_tabs .nav-tabs li.nav-item button {
+    font-size: 12px;
+  }
 
+  .rd-full-explain.analytics-region .rd-training-block .country_tabs .tab-content {
+    padding: 27px 16px 16px;
+  }
+
+  .rd-full-explain.analytics-region .graph-view {
+    margin: 17px 0 0;
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -22982,6 +23011,10 @@ table {
     padding: 0 5px 10px;
     line-height: 1;
   }
+
+  .rd-full-explain .rd-training-block table.registration-view tbody td {
+    padding: 10px;
+  }
 }
 
 
@@ -23327,6 +23360,22 @@ table {
     top: -46px;
     right: 53%;
   }
+
+  .speaker-download .clear-search {
+    top: -46px;
+    right: 0%;
+  }
+
+  .poll-creation .nav-tabs .nav-item:first-child button.active:before,
+  .poll-creation .nav-tabs .nav-item:last-child button.active:after,
+  .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+  .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+    top: 24px;
+  }
+
+  .rd-full-explain .rd-training-block .country_tabs .nav-tabs li.nav-item button {
+    font-size: 10px;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -23487,6 +23536,7 @@ table {
 
   .question-listing-analytics .question-listing-analytics-right {
     padding: 8px 10px;
+    margin-left: 0px;
   }
 
   .user-question p {

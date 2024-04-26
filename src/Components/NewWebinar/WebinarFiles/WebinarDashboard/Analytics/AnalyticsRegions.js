@@ -105,7 +105,7 @@ const AnalyticsRegions = () => {
             fontWeight: "bold",
             color: "white",
             textOutline: "none",
-            fontSize: "30px",
+            fontSize: "24px",
           },
           distance: 30,
           connectorPadding: 0,
@@ -494,7 +494,7 @@ const AnalyticsRegions = () => {
                                                 fontWeight: "500",
                                                 color: "white",
                                                 textOutline: "none", // Removed underline
-                                                fontSize: "30px",
+                                                fontSize: "22px",
                                               },
                                               distance: -70,
                                             },
