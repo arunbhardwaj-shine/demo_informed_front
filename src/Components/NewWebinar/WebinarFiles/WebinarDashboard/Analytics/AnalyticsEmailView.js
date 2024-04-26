@@ -240,7 +240,7 @@ const AnalyticsEmailView = () => {
                 />
               </Form>
             </div>
-            <div className="rd-full-explain webinar-emails-statss">
+            {   viewEmailData && (<>   <div className="rd-full-explain webinar-emails-statss">
               <div className="rd-training-block">
                 <div className="d-flex align-items-start justify-content-between">
                   <div className="rd-training-block-left">
@@ -288,7 +288,7 @@ const AnalyticsEmailView = () => {
                     </Button>
                   </div>
                 </div>
-             {   viewEmailData && (<><div className="analytics_email_stats">
+            <div className="analytics_email_stats">
                   <div className="d-flex align-items-center email_stats_gap flex-wrap">
                     <div className="email-stats-send">
                       <div className="email-box">
@@ -389,9 +389,10 @@ const AnalyticsEmailView = () => {
                     highcharts={Highcharts}
                     options={optionsHighchart}
                   />{" "}
-                </div> </>)}
+                </div> 
               </div>
             </div>
+            </>)}
           </Row>
         </div>
       </Col>
