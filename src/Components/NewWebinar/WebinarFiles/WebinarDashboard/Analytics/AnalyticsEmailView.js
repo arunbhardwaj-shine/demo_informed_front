@@ -7,6 +7,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+
 const AnalyticsEmailView = () => {
   const colorArray = [
     "#0E9B8E",
@@ -101,7 +102,7 @@ const AnalyticsEmailView = () => {
     ],
   });
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [viewEmailData, setviewEmailData] = useState({});
+  const [viewEmailData, setviewEmailData] = useState(null);
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [campaignId, setCampaignId] = useState("");
@@ -117,11 +118,14 @@ const AnalyticsEmailView = () => {
 
   useEffect(() => {
     const getDropdownData = async () => {
-      const body = {
+        loader("show")
+        const body = {
         eventId: eventId,
       };
       const response = await postData(ENDPOINT.GET_DROPDOWN_DATA, body);
       setOptions(response?.data?.data);
+      handleSelectChange(response?.data?.data[0])
+
     };
     getDropdownData();
   }, []);
@@ -162,6 +166,7 @@ const AnalyticsEmailView = () => {
   };
 
   const handleSelectChange = (selectedOption) => {
+    setviewEmailData(null)
     setSelectedOption(selectedOption);
     if (selectedOption) {
       getEmailCount(selectedOption.id, selectedOption.status);
@@ -169,6 +174,8 @@ const AnalyticsEmailView = () => {
   };
 
   const getEmailCount = async (id, status) => {
+    loader("show")
+
     try {
       const body = {
         eventId: eventId,
@@ -176,7 +183,6 @@ const AnalyticsEmailView = () => {
         status,
       };
       const response = await postData(ENDPOINT.GET_EMAIL_COUNT, body);
-      console.log("Email count:", response);
 
       await showViewEmailModal(response?.data?.data[0]);
     } catch (error) {
@@ -185,7 +191,6 @@ const AnalyticsEmailView = () => {
   };
 
   const showViewEmailModal = async (data) => {
-    console.log(data);
     let id = data?.auto_id;
     if (typeof data !== "undefined") {
       // let valueupdate =JSON.parse(JSON.stringify(options)) ;
@@ -195,6 +200,7 @@ const AnalyticsEmailView = () => {
         { y: data?.email_sent, color: "#8a4e9c" },
         { y: data?.email_read, color: "#ffbe2c" },
       ];
+
       Object.keys(data?.labels_value)?.map((item, index) => {
         valueupdate?.xAxis?.categories?.push(data?.labels[item]);
 
@@ -210,6 +216,8 @@ const AnalyticsEmailView = () => {
       setviewEmailData(data);
     }
     setCampaignId(data);
+    loader("hide")
+
   };
   return (
     <>
@@ -280,7 +288,7 @@ const AnalyticsEmailView = () => {
                     </Button>
                   </div>
                 </div>
-                <div className="analytics_email_stats">
+             {   viewEmailData && (<><div className="analytics_email_stats">
                   <div className="d-flex align-items-center email_stats_gap flex-wrap">
                     <div className="email-stats-send">
                       <div className="email-box">
@@ -381,7 +389,7 @@ const AnalyticsEmailView = () => {
                     highcharts={Highcharts}
                     options={optionsHighchart}
                   />{" "}
-                </div>
+                </div> </>)}
               </div>
             </div>
           </Row>
