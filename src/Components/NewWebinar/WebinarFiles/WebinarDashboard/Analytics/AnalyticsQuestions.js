@@ -13,7 +13,7 @@ const AnalyticsQuestions = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);
-  const [activeTab, setActiveTab] = useState(eventIdContext || localStorageEvent);
+  const [activeTab, setActiveTab] = useState("question");
   const [questions, setQuestions] = useState(
   {}
   );
