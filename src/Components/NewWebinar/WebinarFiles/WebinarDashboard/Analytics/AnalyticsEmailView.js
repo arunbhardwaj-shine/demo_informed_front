@@ -21,6 +21,8 @@ const AnalyticsEmailView = () => {
   ];
   const commonPieOptions = {
     chart: {
+      marginTop: 50,
+      marginBottom: 50,
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
