@@ -586,7 +586,7 @@ const Analytics = () => {
                     highcharts={Highcharts}
                     options={splineChartData}
                   />
-                  : <div className="no_data">No Online User Data Found</div>}
+                  : <div className="no_found"><p>No Online User Data Found</p></div>}
 
               </div>
               <div className="high_charts" id="pieChart">
@@ -595,7 +595,7 @@ const Analytics = () => {
                     highcharts={Highcharts}
                     options={pieChartData}
                   />
-                  : <div className="no_data">No Region Data Found</div>}
+                  : <div className="no_found"><p>No Region Data Found</p></div>}
               </div>
 
               {emailListData?.map((data, index) => {
