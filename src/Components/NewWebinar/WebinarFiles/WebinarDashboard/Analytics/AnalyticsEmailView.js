@@ -412,7 +412,6 @@ const AnalyticsEmailView = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="graph-view">
                     <div className="graph-view-smaller">
                       <HighchartsReact
@@ -421,9 +420,9 @@ const AnalyticsEmailView = () => {
                         options={optionsHighchart}
                       />{" "}
                     </div> 
-                    </div>
+                </div>
               </div>
-            </div>
+            </div>``
             </>)}
           </Row>
           
