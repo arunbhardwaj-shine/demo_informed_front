@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Accordion, Button, Carousel, Col, Row, Table } from 'react-bootstrap';
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { loader } from "../../../../../loader";
+import { postData } from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
 
 const AnalyticsAttendees = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -16,6 +20,29 @@ const AnalyticsAttendees = () => {
   const [filterObject, setFilterObject] = useState({})
   const [emailListData, setEmailListData] = useState([])
   const [totalEmailListData, setTotalEmailListData] = useState([])
+
+  const { eventIdContext, handleEventId } = useSidebar();
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
+  const [emailData, setEmailData] = useState([]);
+  useEffect(() => {
+    const fetchAnalyticsData = async () => {
+        try {
+            loader("show");
+            const body = { eventId };
+            const response = await postData(ENDPOINT.ANALYTIC_ATTENDEES_DATA, body);
+            const result = response?.data?.data;
+            setEmailData(result);
+
+            loader("hide");
+        } catch (error) {
+            loader("hide");
+            console.error('Error fetching analytics data:', error);
+        }
+    };
+
+    fetchAnalyticsData();
+}, [eventId]);
   const clearFilter = () => {
     setAppliedFilter({});
     setApifilterObject({});
