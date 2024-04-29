@@ -130,6 +130,20 @@ const AnalyticsEmailView = () => {
     title: {
       text: "",
     },
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
+      x: 0,
+      y: 0,
+      itemStyle: {
+        fontWeight: "500",
+        color: "#70899E",
+        fontSize: "12px",
+      },
+      symbolWidth: 10,
+      symbolHeight: 10,
+    },
     xAxis: {
       categories: [],
     },
@@ -243,6 +257,7 @@ const AnalyticsEmailView = () => {
         },
       },
     },
+
     series: [
       {
         name: "Email campaign",
