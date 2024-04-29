@@ -58,6 +58,7 @@ export default function EmailOpened() {
         ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST,
         body
       );
+      console.log(response?.data?.data);
       //   setviewEmailModal(false);
       //   setFunctionParameter({
       //     type, dynamic_name, popup_name, loadAll
