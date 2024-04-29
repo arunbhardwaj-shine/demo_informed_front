@@ -13374,6 +13374,13 @@ img.change-password-image {
         width: 100%;
         max-width: 232px;
 
+        .email-box {
+          flex-direction: column;
+          justify-content: space-between;
+          display: flex;
+          height: 100%;
+        }
+
         .rd-box-export {
           img {
             margin: 0;
@@ -13390,6 +13397,9 @@ img.change-password-image {
           .col {
             padding: 0 12px 0 16px;
             border-right: 1px dashed $light-gray;
+            @include flex-center;
+            flex-direction: column;
+            align-items: stretch;
 
             >p {
               margin: 0 0 9px;
@@ -13545,6 +13555,16 @@ img.change-password-image {
 
         &:hover {
           color: $primary-color;
+        }
+      }
+
+      .filter-btn {
+        .filter-options {
+          .card {
+            ul {
+              max-height: 140px;
+            }
+          }
         }
       }
     }

@@ -25,7 +25,7 @@ const AnalyticsEmailView = () => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 450,
+      height: 400,
     },
     title: null,
     exporting: {
@@ -93,10 +93,10 @@ const AnalyticsEmailView = () => {
           enabled: true,
           format: "<b>{point.name}</b>: {point.y}",
           style: {
-            fontWeight: "bold",
-            color: "white",
+            fontWeight: "400",
+            color: "black",
             textOutline: "none",
-            fontSize: "24px",
+            fontSize: "15px",
           },
           distance: 30,
           connectorPadding: 0,
@@ -402,9 +402,7 @@ const AnalyticsEmailView = () => {
               <>
                 {" "}
                 <div
-                  className="rd-full-explain webinar-emails-statss"
-                  id="chart-description"
-                >
+                  className="rd-full-explain webinar-emails-statss">
                   <div className="rd-training-block">
                     <div className="d-flex align-items-start justify-content-between">
                       <div className="rd-training-block-left">
@@ -463,7 +461,7 @@ const AnalyticsEmailView = () => {
                       </div>
                     </div>
                     <div className="analytics_email_stats">
-                      <div className="d-flex align-items-center email_stats_gap flex-wrap">
+                      <div className="d-flex align-items-start email_stats_gap flex-wrap">
                         <div className="email-stats-send">
                           <div className="email-box">
                             <p>Emails send</p>
@@ -660,7 +658,6 @@ const AnalyticsEmailView = () => {
                   rotation: 0,
                   style: {
                     fontSize: "12px",
-                    fontFamily: "Arial, sans-serif",
                   },
                 },
               },
@@ -697,11 +694,11 @@ const AnalyticsEmailView = () => {
               tooltip: {},
               plotOptions: {
                 series: {
-                  groupPadding: 0.1,
-                  pointWidth: 35,
+                  groupPadding: 0,
+                  // pointWidth: 20,
                   dataLabels: {
                     allowOverlap: false,
-                    distance: 90,
+                    distance: 80,
                     enabled: true,
                     inside: false,
                     size: "100%",
