@@ -114,29 +114,76 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         },
     },
     legend: {
-        reversed: false,
-        align: "center",
-        verticalAlign: "bottom",
-        layout: "horizontal",
-        x: 0,
-        y: 0,
-        itemStyle: {
-            fontSize: "12px", // Reduced font size
-            fontWeight: "normal",
-            color: "#555555",
-        },
-        itemHoverStyle: {
-            color: "#000000",
-        },
-        itemHiddenStyle: {
-            color: "#C0C0C0",
-        },
-        symbolWidth: 8,
-        symbolHeight: 8,
-        itemDistance: 20,
-        borderWidth: 0,
+      verticalAlign: "bottom",
     },
-   
+    // legend: {
+    //     reversed: false,
+    //     align: "center",
+    //     verticalAlign: "bottom",
+    //     layout: "horizontal",
+    //     x: 0,
+    //     y: 0,
+    //     itemStyle: {
+    //         fontSize: "12px", // Reduced font size
+    //         fontWeight: "normal",
+    //         color: "#555555",
+    //     },
+    //     itemHoverStyle: {
+    //         color: "#000000",
+    //     },
+    //     itemHiddenStyle: {
+    //         color: "#C0C0C0",
+    //     },
+    //     symbolWidth: 8,
+    //     symbolHeight: 8,
+    //     itemDistance: 20,
+    //     borderWidth: 0,
+    // },
+    plotOptions: {
+      pie: {
+        size: "100%",
+        dataLabels: {
+          enabled: true,
+          format: "{point.y}",
+          style: {
+            fontWeight: "bold",
+            color: "white",
+            textOutline: "none",
+            fontSize: "18px",
+          },
+          distance: -40,
+        },
+        animation: {
+          duration: 1000,
+        },
+        enableMouseTracking: true,
+        showInLegend: true,
+        borderWidth: 0,
+      },
+    },
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "horizontal",
+      x: 0,
+      y: 0,
+      itemStyle: {
+        fontWeight: "normal",
+        color: "#70899E",
+        fontSize: "12px"
+      },
+      itemHoverStyle: {
+        color: "#000000"
+      },
+      itemHiddenStyle: {
+        color: "#C0C0C0"
+      },
+      symbolWidth: 10,
+      symbolHeight: 10,
+      itemDistance: 20,
+      lineWidth: 0,
+      itemMarginBottom: -2, // Add itemMarginBottom to provide space between legend items
+    },
     series: [],
 };
 

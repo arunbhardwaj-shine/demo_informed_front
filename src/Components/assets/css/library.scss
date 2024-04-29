@@ -14570,6 +14570,7 @@ img.change-password-image {
             svg {
               path {
                 fill: $white;
+                pointer-events: none;
               }
 
               rect {
