@@ -18,6 +18,7 @@ import { Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { options } from "@amcharts/amcharts4/core";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import CommonPageLinkNotFound from "../../../../CommonComponent/CommonPageLinkNotFound";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -130,6 +131,7 @@ const RegistrationPage = ({ prevData,type }) => {
       }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [apiCallStatus,setApiCallStatus]=useState(false)
 
 
   useEffect(() => {
@@ -141,11 +143,10 @@ const RegistrationPage = ({ prevData,type }) => {
   const EventDataFun = async () => {
     try {
       loader("show");
-
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode ? prevData?.eventCode : event_code
         }`
-      );
+      );      
       let hadData = {};
       if (!prevData?.content) {
         if (response?.data?.data?.content) {
@@ -184,7 +185,10 @@ const RegistrationPage = ({ prevData,type }) => {
           raw_description: raw,
         };
       }
+      
       setFormData(hadData);
+      setApiCallStatus(true)
+      
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         typedTextColor: hadData?.content?.typedTextColor,
@@ -790,6 +794,8 @@ const RegistrationPage = ({ prevData,type }) => {
         draggable
         pauseOnHover
       />}
+     
+      {Object.keys(formData)?.length?(<>
 
       {formData?.content?.templateId === 1 && (
         <TemplateOne formData={formData}>{myContent1}</TemplateOne>
@@ -815,6 +821,13 @@ const RegistrationPage = ({ prevData,type }) => {
       {formData?.content?.templateId === 4 && (
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
       )}
+
+</>)
+
+:apiCallStatus?
+<CommonPageLinkNotFound/>
+:""
+}
 
       <Modal
         className="modal send-confirm registration-popup"

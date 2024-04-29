@@ -17,6 +17,7 @@ import axios from "axios";
 import { db } from "../../config/firebaseConfig";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import CommonPageLinkNotFound from "../CommonComponent/CommonPageLinkNotFound";
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () => {
@@ -33,7 +34,7 @@ const Event = () => {
   const q = query(
     collection(db, "chat"),
     where("triggered", "!=", 0),
-    where("event_id", "==", eventId?.id)
+    where("event_id", "==", eventId?.id?eventId?.id:0)
   );
   const [data, setData] = useState(0);
   const [user, setUser] = useState({});
@@ -91,6 +92,7 @@ const Event = () => {
       const result = await postData(ENDPOINT.EVENT_ID, {
         eventCode: queryParams.get("evnt"),
       });
+     
       setEvent(result.data.data);
       loader("hide");
     } catch (err) {
@@ -149,6 +151,7 @@ const Event = () => {
   };
 
   onSnapshot(q, (querySnapshot) => {
+   
     let newData = {};
     querySnapshot.forEach((doc) => {
       if (doc.data()) {
@@ -329,6 +332,7 @@ const Event = () => {
       expirationDate.setFullYear(expirationDate.getFullYear() + 1);
       Cookies.set("events", `${unique_id}`, { expires: expirationDate });
     }
+    console.log("data in use effect->",data)
     if (data) {
       handleEvent();
     }
@@ -341,13 +345,16 @@ const Event = () => {
   return (
     <>
       <div className="webinar-popup">
+        
         <div className="loader" id="custom_loader">
           <div className="loader_show">
             <span className="loader-view"> </span>
           </div>
         </div>
+        {Object.keys(formData)?.length>0?(<>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {isDataLoaded &&(parms && parms.includes("eahad_2024") || parms.includes("THSNA2024") || parms && parms.includes("GTH2024") || parms.includes("WFH2024")) ? (
+       
+        {isDataLoaded&&(parms && parms.includes("eahad_2024") || parms.includes("THSNA2024") || parms && parms.includes("GTH2024") || parms.includes("WFH2024")) ? (
           <div
             // className={`octa_events ${
             //   shouldAddClass ? "eahad_2024" : ""
@@ -1105,12 +1112,13 @@ eventId={eventId}
               />
             )}
           </div>
-        ):isDataLoaded &&
+        ):isDataLoaded&&
        ( <div
         className={`octa_events ${shouldAddClass ? "eahad_2024" : ""} ${
           addClass ? "gth-2024" : ""
         }`}
       >
+        
         {formData?.templateId === 1 && (
           <div className="container">
             <div className="question-block">
@@ -1426,196 +1434,7 @@ eventId={eventId}
               </div>
             </div>
           </div>
-        )}
-
-        {/* {formData?.templateId === 3 && (
-          <div className="container">
-            <div className="question-block">
-              <div className="header-logo">
-                <div>
-                  <img
-                    src={
-                      formData?.logoImageUrl
-                        ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
-                    }
-                    alt="OneSource logo"
-                  />
-                </div>
-              </div>
-              <div className="question-block-form">
-                <div className="log-inner">
-                  <div 
-                 
-                  className="head-sec template2">
-                    <img
-                      src={
-                        formData?.headerImage
-                          ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
-                      }
-                      alt="OneSource logo"
-                    />
-                  </div>
-                </div>
-                <div className="event_title">
-                <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
-                          __html: formData?.formHeading
-                            ? formData?.formHeading
-                            : "Type your question here!",
-                        }}/>
-              </div>
-
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="hidden"
-                    className="form-control"
-                    id="guest_id"
-                    name="guest_id"
-                    value="lji3sjpsdc21tux2st"
-                  />
-
-                  <div className="row">
-                    <div className="col-md-12">
-                      <label
-                        htmlFor="fname"
-                        className="form-label"
-                        style={{ color: formData?.textColor }}
-                        dangerouslySetInnerHTML={{
-                          __html: formData?.nameLabel
-                            ? formData?.nameLabel
-                            : "Name",
-                        }}
-                      />
-
-                      <input
-                        type="text"
-                        id="name"
-                        onChange={handleChange}
-                        className="form-control "
-                        placeholder={
-                          formData?.namePlaceholder
-                            ? formData?.namePlaceholder
-                            : "Write your name"
-                        }
-                        name="name"
-                        value={user?.name}
-                        style={{
-                          borderColor: formData?.textColor,
-                        }}
-                      />
-                      <input
-                        type="hidden"
-                        className="form-control"
-                        value="Question submitted successfully"
-                        name="succ_message"
-                      />
-                      <input
-                        type="hidden"
-                        className="form-control"
-                        value="Please enter message"
-                        name="err_message"
-                      />
-                      <input
-                        type="hidden"
-                        className="form-control"
-                        value="index.php?evnt=octa-academy-2023"
-                        name="page"
-                      />
-                    </div>
-                    <div className="col-md-12">
-                      <label
-                        htmlFor="fname"
-                        className="form-label"
-                        style={{ color: formData?.textColor }}
-                        dangerouslySetInnerHTML={{
-                          __html: formData?.questionLabel
-                            ? formData?.questionLabel
-                            : "Your question",
-                        }}
-                      />
-
-                      <textarea
-                        name="question"
-                        id="question"
-                        onChange={handleChange}
-                        className="form-control"
-                        placeholder={
-                          formData?.questionPlaceholder
-                            ? formData?.questionPlaceholder
-                            : "Write your question"
-                        }
-                        cols="40"
-                        rows="4"
-                        value={user?.question}
-                        style={{
-                          borderColor: formData?.textColor,
-                        }}
-                      ></textarea>
-
-                      {error?.question && (
-                        <span className="event-validation">
-                          {error?.question}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="col-md-12">
-                      <Button
-                        type="submit"
-                        className="btn btn-success"
-                        style={{
-                          background: formData?.buttonColor,
-                          borderColor: formData?.buttonColor,
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: formData?.buttonText
-                            ? formData?.buttonText
-                            : "SEND",
-                        }}
-                      ></Button>
-                    </div>
-                  </div>
-                </form>
-
-                <div className="eahad-footer">
-                    <img
-                      
-                       src={
-                         formData?.footerImage
-                           ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
-                       }
-                      alt=""
-                    />
-                    <div className="footer-msg">
-                    <p
-                    style={{ color: formData?.textColor }}
-                    dangerouslySetInnerHTML={{
-                      __html: formData?.footerTextOne
-                        ? formData?.footerTextOne
-                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
-                    }}
-                  />
-                    </div>
-                  </div>
-
-                <div className="copy-right-bottom-text">
-                  <p
-                    style={{ color: formData?.textColor }}
-                    dangerouslySetInnerHTML={{
-                      __html: formData?.footerText
-                        ? formData?.footerText
-                        : "Preparation date: xx xxx 2024",
-                    }}
-                  />
-                </div>
-
-                
-              </div>
-            </div>
-          </div>
-        )} */}
+        )}      
 
         {formData?.templateId === 4 && (
           <div className="container">
@@ -2750,187 +2569,10 @@ eventId={eventId}
             </div>
           </div>
         )}
-
-
-        {/* {formData?.templateId === 8 && (
-          <div className="container">
-            <div className="question-block">
-              <div className="header-logo">
-                <div>
-                  <img
-                    src={
-                      formData?.logoImageUrl
-                        ? formData?.logoImageUrl
-                        : ""
-                    }
-                    alt="OneSource logo"
-                  />
-                </div>
-              </div>
-              <div className="question-block-form isth_template">
-                <div className="log-inner">
-                  <div 
-                  // className="head-sec "
-                  className="head-sec template2 isth" >
-                    <img
-                      src={
-                      formData?.headerImage
-                      ? formData?.headerImage
-                       : ""
-                       }
-                      alt="OneSource logo"
-                      />
-                  </div>
-                </div>
-                <div className="event_title">
-                <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
-                          __html: formData?.formHeading
-                            ? formData?.formHeading
-                            : "",
-                        }}/>
-              </div>
-
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="hidden"
-                    className="form-control"
-                    id="guest_id"
-                    name="guest_id"
-                    value="lji3sjpsdc21tux2st"
-                  />
-
-                  <div className="row">
-                    <div className="col-md-12">
-                      <label
-                        htmlFor="fname"
-                        className="form-label"
-                        style={{ color: formData?.textColor }}
-                        dangerouslySetInnerHTML={{
-                          __html: formData?.nameLabel
-                            ? formData?.nameLabel
-                            : "",
-                        }}
-                      />
-
-                      <input
-                        type="text"
-                        id="name"
-                        onChange={handleChange}
-                        className="form-control "
-                        placeholder={
-                          formData?.namePlaceholder
-                            ? formData?.namePlaceholder
-                            : ""
-                        }
-                        name="name"
-                        value={user?.name}
-                        style={{
-                          borderColor: formData?.textColor,
-                        }}
-                      />
-                      <input
-                        type="hidden"
-                        className="form-control"
-                        value="Question submitted successfully"
-                        name="succ_message"
-                      />
-                      <input
-                        type="hidden"
-                        className="form-control"
-                        value="Please enter message"
-                        name="err_message"
-                      />
-                      <input
-                        type="hidden"
-                        className="form-control"
-                        value="index.php?evnt=octa-academy-2023"
-                        name="page"
-                      />
-                    </div>
-                    <div className="col-md-12">
-                      <label
-                        htmlFor="fname"
-                        className="form-label"
-                        style={{ color: formData?.textColor }}
-                        dangerouslySetInnerHTML={{
-                          __html: formData?.questionLabel
-                            ? formData?.questionLabel
-                            : "",
-                        }}
-                      />
-
-                      <textarea
-                        name="question"
-                        id="question"
-                        onChange={handleChange}
-                        className="form-control"
-                        placeholder={
-                          formData?.questionPlaceholder
-                            ? formData?.questionPlaceholder
-                            : ""
-                        }
-                        cols="40"
-                        rows="4"
-                        value={user?.question}
-                        style={{
-                          borderColor: formData?.textColor,
-                        }}
-                      ></textarea>
-
-                      {error?.question && (
-                        <span className="event-validation">
-                          {error?.question}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="col-md-12">
-                      <Button
-                        type="submit"
-                        className="btn btn-success"
-                        style={{
-                          background: formData?.buttonColor,
-                          borderColor: formData?.buttonColor,
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: formData?.buttonText
-                            ? formData?.buttonText
-                            : "",
-                        }}
-                      ></Button>
-                    </div>
-                  </div>
-                </form>
-
-                <div className="eahad-footer">
-                    <div className="footer-msg">
-                    <p
-                    style={{ color: formData?.textColor }}
-                    dangerouslySetInnerHTML={{
-                      __html: formData?.footerTextOne
-                        // ? formData?.footerTextOne
-                        // : "This symposium is for healthcare professionals attending the ISTH congress only and is organised and sponsored by Octapharma. It has been approved in line with UK regulations for an international audience. Prescribing information may vary depending on local approval in each country. Before prescribing any product, always refer to local materials such as the prescribing information and/or the summary of product characteristics. This is a promotional symposium and products will be discussed.",
-                    }}
-                  />
-                    </div>
-                  </div>
-
-                <div className="copy-right-bottom-text">
-                  <p
-                    style={{ color: formData?.textColor }}
-                    dangerouslySetInnerHTML={{
-                      __html: formData?.footerText
-                        // ? formData?.footerText
-                        // : "Preparation date: xx xxx 2024",
-                    }}
-                  />
-                </div>
-
-                
-              </div>
-            </div>
-          </div>
-        )} */}
+        </div>)
+        }
+      
+       
 
         {/* Modal for Poll */}
         <div className="modal fade" id="pollModel" role="dialog">
@@ -3023,8 +2665,13 @@ eventId={eventId}
             onClose={() => setAnswerPopup(false)}
           />
         )}
-      </div>)
-        }
+         </>):
+        isDataLoaded?(<>
+      <CommonPageLinkNotFound/>
+      </>)
+    :""}
+      
+        
       </div>
     </>
   );
