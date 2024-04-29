@@ -871,7 +871,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(usersDataOriginal,"Total Registrations")}
+                          onClick={() => downloadExcel(usersData,"Total Registrations")}
                         >
                           <svg
                             width="20"
@@ -1527,7 +1527,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(usersDataOriginal,"Overview")}
+                          onClick={() => downloadExcel(overViewData,"Overview")}
                         >
                           <svg
                             width="20"
