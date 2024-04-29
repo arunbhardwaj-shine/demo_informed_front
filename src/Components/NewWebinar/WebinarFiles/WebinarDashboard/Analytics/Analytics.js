@@ -313,6 +313,7 @@ const Analytics = (props) => {
           setUsersData([]);
           setSortedCountries(null);
           break;
+          
   
         case "registeredHcps":
           const newValue = [{
