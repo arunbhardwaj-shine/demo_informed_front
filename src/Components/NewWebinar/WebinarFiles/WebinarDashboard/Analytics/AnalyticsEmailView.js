@@ -143,6 +143,7 @@ const AnalyticsEmailView = () => {
       },
       symbolWidth: 10,
       symbolHeight: 10,
+      enabled: false,
     },
     xAxis: {
       categories: [],
@@ -226,20 +227,13 @@ const AnalyticsEmailView = () => {
         dataLabels: {
           allowOverlap: false,
           distance: 40,
-          enabled: false,
+          enabled: true,
           inside: false,
           overflow: "justify",
           crop: true,
           shape: "callout",
           size: "100%",
-          // backgroundColor: "rgba(255,255,255)",
-          // borderColor: "rgba(0,0,0,0.9)",
-          // borderColor:this.point.color,
-          // color: "rgba(0,0,0)",
-          // borderWidth: 0.5,
-          // borderRadius: 5,
           style: {
-            // fontSize: "13px",
             fontWeight: "normal",
             textShadow: "none",
           },
@@ -527,7 +521,7 @@ const AnalyticsEmailView = () => {
                       </div>
                     </div>
                     <div className="analytics_email_stats">
-                      <div className="d-flex align-items-start email_stats_gap flex-wrap">
+                      <div className="d-flex email_stats_gap flex-wrap">
                         <div className="email-stats-send">
                           <div className="email-box">
                             <p>Emails send</p>
