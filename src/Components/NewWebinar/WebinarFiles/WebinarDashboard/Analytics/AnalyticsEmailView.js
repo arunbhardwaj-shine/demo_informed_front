@@ -192,12 +192,12 @@ const AnalyticsEmailView = () => {
         },
       },
     },
-    // series: [
-    //   {
-    //     name: "Email campaign",
-    //     data: [],
-    //   },
-    // ],
+    series: [
+      {
+        name: "Email campaign",
+        data: [],
+      },
+    ],
   });
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [viewEmailData, setviewEmailData] = useState(null);
