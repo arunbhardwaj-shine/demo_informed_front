@@ -466,7 +466,7 @@ const Analytics = (props) => {
             highcharts={Highcharts}
             options={{
               chart: {
-                marginTop: 50,
+                marginTop: 40,
                 type: "bar",
                 events: {
                   load: function () {
@@ -534,7 +534,7 @@ const Analytics = (props) => {
                         ]
                     }
                 }
-            },
+              },
               title: {
                 text: "",
               },
@@ -570,6 +570,7 @@ const Analytics = (props) => {
                   },
                 },
               },
+              
               series: [
                 {
                   name: "Registered",
@@ -1029,7 +1030,8 @@ const Analytics = (props) => {
                         highcharts={Highcharts}
                           options={{
                             chart: {
-                              marginTop: 10,
+                              marginTop: 50,
+                              marginBottom: 50,
                               type: "bar",
                               height: 1800,
 
@@ -1095,7 +1097,9 @@ const Analytics = (props) => {
                                 },
                               },
                             },
-
+                            legend: {
+                              enabled: false,
+                            },
                             series: [
                               {
                                 // name: title,
@@ -1195,6 +1199,7 @@ const Analytics = (props) => {
                       </div>
                     </div>
                     <div className="graph-view">
+                      <div className="graph-view-smaller">
                       {whichTypeGraphRegion == 0 ? (
                         <HighchartsReact
                           ref={regionBarRef}
@@ -1264,7 +1269,9 @@ const Analytics = (props) => {
                                 },
                               },
                             },
-
+                            legend:{
+                              enabled: false,
+                            },
                             series: [
                               {
                                 // name: title,
@@ -1282,6 +1289,7 @@ const Analytics = (props) => {
                           options={pieOptionsRegion}
                         />
                       )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1550,46 +1558,46 @@ const Analytics = (props) => {
                     </div>
                     <div className="table-registered">
                     <Table className="fold-table registration-view" id="individual_completion">
-  <thead className="sticky-header">
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Region</th>
-      <th>Country</th>
-      <th>Registered</th>
-      <th>Attended</th>
-      {/* <th>Post-event views</th> */}
-    </tr>
-  </thead>
-  <tbody>
-    {overViewData?.length ? (
-      overViewData.map((user, index) => (
-        <>
-          <tr key={index}>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.region}</td>
-            <td>{user.country}</td>
-            <td className="green">{user.register_time}</td>
-            <td>{user.Attended}</td>
-            {/* <td>{user.postEventViews}</td> */}
-          </tr>
-          <tr className="blank">
-            <td colSpan="7">&nbsp;</td>
-          </tr>
-        </>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="7">
-          <div className="no_found">
-            <p>No Data Found</p>
-          </div>
-        </td>
-      </tr>
-    )}
-  </tbody>
-</Table>
+                      <thead className="sticky-header">
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Region</th>
+                          <th>Country</th>
+                          <th>Registered</th>
+                          <th>Attended</th>
+                          {/* <th>Post-event views</th> */}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {overViewData?.length ? (
+                          overViewData.map((user, index) => (
+                            <>
+                              <tr key={index}>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.region}</td>
+                                <td>{user.country}</td>
+                                <td className="green">{user.register_time}</td>
+                                <td>{user.Attended}</td>
+                                {/* <td>{user.postEventViews}</td> */}
+                              </tr>
+                              <tr className="blank">
+                                <td colSpan="7">&nbsp;</td>
+                              </tr>
+                            </>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="7">
+                              <div className="no_found">
+                                <p>No Data Found</p>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
 
                     </div>
                   </div>
