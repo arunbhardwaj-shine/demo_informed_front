@@ -128,7 +128,7 @@ const AnalyticsEmailView = () => {
       },
     },
     title: {
-      text: "Mail campaign stats",
+      text: "",
     },
     xAxis: {
       categories: [],
@@ -161,7 +161,7 @@ const AnalyticsEmailView = () => {
         dataLabels: {
           allowOverlap: false,
           distance: 40,
-          enabled: true,
+          enabled: false,
           inside: false,
           overflow: "justify",
           crop: true,
@@ -174,7 +174,6 @@ const AnalyticsEmailView = () => {
           // borderWidth: 0.5,
           // borderRadius: 5,
           style: {
-            fontFamily: "Helvetica, sans-serif",
             // fontSize: "13px",
             fontWeight: "normal",
             textShadow: "none",
@@ -193,12 +192,12 @@ const AnalyticsEmailView = () => {
         },
       },
     },
-    series: [
-      {
-        name: "Email campaign",
-        data: [],
-      },
-    ],
+    // series: [
+    //   {
+    //     name: "Email campaign",
+    //     data: [],
+    //   },
+    // ],
   });
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [viewEmailData, setviewEmailData] = useState(null);
@@ -733,6 +732,7 @@ const AnalyticsEmailView = () => {
               </>
             )}
           </Row>
+          
         </div>
       </Col>
     </>
