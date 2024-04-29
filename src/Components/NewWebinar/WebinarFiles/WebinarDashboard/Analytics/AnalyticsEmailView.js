@@ -140,7 +140,58 @@ const AnalyticsEmailView = () => {
     },
     exporting: {
       enabled: true,
-    },
+      chartOptions: {
+          title: {
+              text: '' // Remove title from exported image
+          }
+      },
+      filename: 'Total_Registration', // Set filename for exported image
+      menuItemDefinitions: {
+          downloadPNG: {
+              text: 'Download PNG',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'image/png'
+                  });
+              }
+          },
+          downloadJPEG: {
+              text: 'Download JPEG',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'image/jpeg'
+                  });
+              }
+          },
+          downloadPDF: {
+              text: 'Download PDF',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'application/pdf'
+                  });
+              }
+          },
+          downloadSVG: {
+              text: 'Download SVG',
+              onclick: function() {
+                  this.exportChart({
+                      type: 'image/svg+xml'
+                  });
+              }
+          }
+      },
+      buttons: {
+          contextButton: {
+              symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+              menuItems: [
+                  "downloadPNG",
+                  "downloadJPEG",
+                  "downloadPDF",
+                  "downloadSVG"
+              ]
+          }
+      }
+  },
     tooltip: {
       formatter: function () {
         return (
@@ -632,92 +683,92 @@ const AnalyticsEmailView = () => {
         />
       ) : (
         <>
-          <HighchartsReact
-            key={`bar-region`}
-            highcharts={Highcharts}
-            options={{
-              chart: {
-                type: "bar",
-                height: 310,
-                options3d: {
+         <HighchartsReact
+    key={`bar-region`}
+    highcharts={Highcharts}
+    options={{
+      chart: {
+          type: 'bar',
+          height: () => {
+              const dataLength = dropdownData?.regionBarData?.length || 0;
+              const baseHeight = 310;
+              const additionalHeightPerPoint = 20;
+              const calculatedHeight = baseHeight + (additionalHeightPerPoint * dataLength);
+              return calculatedHeight;
+          },
+          options3d: {
+              enabled: true,
+              alpha: 10,
+              beta: 25,
+              depth: 70,
+          },
+      },
+      title: {
+          align: 'left',
+          text: ''
+      },
+      accessibility: {
+          announceNewData: {
+              enabled: true
+          }
+      },
+      xAxis: {
+          type: 'category'
+      },
+      yAxis: {
+          title: {
+              text: 'Total Count'
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      plotOptions: {
+          series: {
+              borderWidth: 0,
+              dataLabels: {
                   enabled: true,
-                  alpha: 10,
-                  beta: 25,
-                  depth: 70,
-                },
-              },
-              title: {
-                text: "",
-              },
-              exporting: {
-                enabled: false,
-              },
-              xAxis: {
-                categories: dropdownData?.regionBarData?.map((data) => data.name) || [],
-                labels: {
-                  rotation: 0,
-                  style: {
-                    fontSize: "12px",
-                  },
-                },
-              },
-              credits: {
-                enabled: false,
-              },
-              yAxis: {
-                min: 0,
-                title: {
-                  text: "",
-                },
-                stackLabels: {
-                  enabled: true,
-                  style: {
-                    fontWeight: "bold",
-                    color: "gray",
-                  },
-                },
-              },
-              legend: {
-                align: "center",
-                verticalAlign: "bottom",
-                layout: "horizontal",
-                x: 0,
-                y: 0,
-                itemStyle: {
-                  fontWeight: "500",
-                  color: "#70899E",
-                  fontSize: "12px",
-                },
-                symbolWidth: 10,
-                symbolHeight: 10,
-              },
-              tooltip: {},
-              plotOptions: {
-                series: {
-                  groupPadding: 0,
-                  // pointWidth: 20,
-                  dataLabels: {
-                    allowOverlap: false,
-                    distance: 80,
-                    enabled: true,
-                    inside: false,
-                    size: "100%",
-                    style: {
-                      fontWeight: "normal",
-                      textShadow: "none",
-                    },
-                  },
-                },
-              },
-              series: dropdownData?.regionBarData?.map((data, index) => {
-                return {
-                  name: data.name,
-                  data: [data.y],
-                  color: data.color
-                };
-              }) || [],
-            }}
-          />
+                  format: '{point.y}'
+              }
+          },
+          bar: {
+              colorByPoint: true, // Ensure each bar has a unique color
+          }
+      },
+      tooltip: {
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          pointFormat: '<span style="color:{point.color}">{point.name}</span>: ' +
+              '<b>{point.y}</b> total<br/>'
+      },
+      exporting: {
+          enabled: false // Disable exporting
+      },
+      series: [
+        {
+            name: '',
+            colorByPoint: true,
+            data: dropdownData?.regionBarData?.map(data => ({
+                y: data.y,
+                color: data.color,
+                drilldown: data?.name,
+                name: data?.name
+            })) || []
+        }
+    ],
+    drilldown: {
+        series: dropdownData?.drilldownData?.map(drilldownItem => ({
+            id: drilldownItem.id,
+            data: drilldownItem.data.map(item => ({
+                name: item[0], // Country name
+                y: item[1] // Count
+            }))
+        })) || []
+    }
+  }}
+  
+    
+/>
+
         </>
       )}
     </div>
