@@ -39,6 +39,7 @@ const ContentAnalytics = () => {
   const [isLinkAccordianOpen, setisLinkAccordianOpen] = useState(false);
   const [sublinkOptions, setSublinkOptions] = useState([]);
   const [activeKey, setActiveKey] = useState(null);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -308,6 +309,25 @@ const ContentAnalytics = () => {
   const handleAccordionToggle = (index) => {
     setActiveKey(activeKey === index ? null : index);
   };
+
+  //eBook case
+  const refresh = async() => {
+    try{
+      setRefreshFlag(true);
+      // setSectionLoader(true);
+      // setIsReaderAccordionOpen(false);
+      const response = await postData(ENDPOINT.RTRREFRESH_EBOOK, {
+        pdfId: selectedPdf,
+      });
+      const hadData = response?.data?.data || [];
+      setReaderData(hadData);
+      setRefreshFlag(false);
+      // setSectionLoader(false);
+      // setIsReaderAccordionOpen(true);
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -648,9 +668,20 @@ const ContentAnalytics = () => {
                               ) : null}
                               {isReaderAccordionOpen ? (
                                 readerData?.length ? (
-                                  <ReadersPerPageLayout data={readerData} />
+                                  <ReadersPerPageLayout data={readerData} refreshFun={refresh} flag={refreshFlag} />
                                 ) : (
                                   <>
+                                  <div className="refresh-button d-flex justify-content-end w-100">
+                                    <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"
+                                    onClick={refresh}
+                                    >
+                                      <svg fill="#fff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+                                      C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+                                      L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+                                      c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+                                      c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
+                                    </button>
+                                  </div>
                                     <div className="no_found">
                                       <p align="center">No Data Available</p>
                                     </div>
@@ -728,75 +759,152 @@ const ContentAnalytics = () => {
 };
 export default ContentAnalytics;
 
-const ReadersPerPageLayout = ({ data }) => {
-  return (
-    <>
-      {/* <Row>
-        <Col>Readers Per Page</Col>
+const ReadersPerPageLayout = ({ data, refreshFun, flag }) => {
 
+  const refreshEbookRTR = async() => {
+    refreshFun();
+  }
+  if(data?.[0]?.chapter){
+    
+    return (
+      <>
+          <div className="refresh-button d-flex justify-content-end w-100">
+            <button className={flag ? "refresh-rotate" : "refresh"} title="Refresh"
+            onClick={refreshEbookRTR}
+            >
+              <svg fill="#fff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+              C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+              L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+              c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+              c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
+            </button>
+          </div>
+        {
+          
+          data?.map((element, index) => {
+            return(
+              <>
+                <div className="section-detail-box d-flex">
+                  <div className="detail_section_heading">{element?.chapter}</div>
+                  <div className="detail_section_pages">Total : {element?.data?.length} Pages</div>
+                </div>
 
-        <Col>Total : {data?.length} Pages</Col>
-      </Row>
-
-      </Row>
-      <Row>
-        <Col>Total : data?.length Pages</Col>
-      </Row> */}
-      <div className="section-detail-box d-flex">
-        <div className="detail_section_heading">Readers Per Page</div>
-        <div className="detail_section_pages">Total : {data?.length} Pages</div>
-      </div>
-      {data?.map((element, index) => {
-        return (
-          <React.Fragment key={index}>
-            <div className="analytics-detail-view-box">
-              <div className="analytics-detil-image">
-                <div>Page {element?.page}</div>
+                {element?.data?.map((subelement, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      <div className="analytics-detail-view-box">
+                        <div className="analytics-detil-image">
+                          <div>Page {subelement?.page}</div>
+                        </div>
+                        <div className="analytics-reader-detail">
+                          <div className="analytics-reader-detail-box">
+                            <div className="analytics-reader-title">Ignored:</div>
+                            <div className="analytics-reader-progress ignored">
+                              <ProgressBar now={100} label={`${subelement?.ignored}`} />
+                            </div>
+                          </div>
+                          <div className="analytics-reader-detail-box">
+                            <div className="analytics-reader-title">
+                              <span>Browsed: </span>
+                            </div>
+                            <div className="analytics-reader-progress browsed">
+                              <ProgressBar now={100} label={`${subelement?.browsed}`} />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="analytics-reader-detail">
+                          <div className="analytics-reader-detail-box">
+                            <div className="analytics-reader-title">Read:</div>
+                            <div className="analytics-reader-progress read">
+                              <ProgressBar now={100} label={`${subelement?.read}`} />
+                            </div>
+                          </div>
+                          <div className="analytics-reader-detail-box">
+                            <div className="analytics-reader-title">Reader</div>
+                            <div className="analytics-reader-progress reader">
+                              <ProgressBar now={100} label={`${subelement?.readers}`} />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="analytics-time-detail">
+                          <div className="time-needed">
+                            Time Needed: <span>{subelement?.avgsecond} Seconds</span>
+                          </div>
+                          <div className="time-spent">
+                            Time Spent: <span> {subelement?.timeSpent} Seconds</span>
+                          </div>
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  );
+                })}
+              </>
+            )
+          })
+        }
+      </>
+    )
+  }else{
+    //pdf case
+    return (
+      <>
+        <div className="section-detail-box d-flex">
+          <div className="detail_section_heading">Readers Per Page</div>
+          <div className="detail_section_pages">Total : {data?.length} Pages</div>
+        </div>
+        {data?.map((element, index) => {
+          return (
+            <React.Fragment key={index}>
+              <div className="analytics-detail-view-box">
+                <div className="analytics-detil-image">
+                  <div>Page {element?.page}</div>
+                </div>
+                <div className="analytics-reader-detail">
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Ignored:</div>
+                    <div className="analytics-reader-progress ignored">
+                      <ProgressBar now={100} label={`${element?.ignored}`} />
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">
+                      <span>Browsed: </span>
+                    </div>
+                    <div className="analytics-reader-progress browsed">
+                      <ProgressBar now={100} label={`${element?.browsed}`} />
+                    </div>
+                  </div>
+                </div>
+                <div className="analytics-reader-detail">
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Read:</div>
+                    <div className="analytics-reader-progress read">
+                      <ProgressBar now={100} label={`${element?.read}`} />
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Reader</div>
+                    <div className="analytics-reader-progress reader">
+                      <ProgressBar now={100} label={`${element?.readers}`} />
+                    </div>
+                  </div>
+                </div>
+                <div className="analytics-time-detail">
+                  <div className="time-needed">
+                    Time Needed: <span>{element?.avgsecond} Seconds</span>
+                  </div>
+                  <div className="time-spent">
+                    Time Spent: <span> {element?.timeSpent} Seconds</span>
+                  </div>
+                </div>
               </div>
-              <div className="analytics-reader-detail">
-                <div className="analytics-reader-detail-box">
-                  <div className="analytics-reader-title">Ignored:</div>
-                  <div className="analytics-reader-progress ignored">
-                    <ProgressBar now={100} label={`${element?.ignored}`} />
-                  </div>
-                </div>
-                <div className="analytics-reader-detail-box">
-                  <div className="analytics-reader-title">
-                    <span>Browsed: </span>
-                  </div>
-                  <div className="analytics-reader-progress browsed">
-                    <ProgressBar now={100} label={`${element?.browsed}`} />
-                  </div>
-                </div>
-              </div>
-              <div className="analytics-reader-detail">
-                <div className="analytics-reader-detail-box">
-                  <div className="analytics-reader-title">Read:</div>
-                  <div className="analytics-reader-progress read">
-                    <ProgressBar now={100} label={`${element?.read}`} />
-                  </div>
-                </div>
-                <div className="analytics-reader-detail-box">
-                  <div className="analytics-reader-title">Reader</div>
-                  <div className="analytics-reader-progress reader">
-                    <ProgressBar now={100} label={`${element?.readers}`} />
-                  </div>
-                </div>
-              </div>
-              <div className="analytics-time-detail">
-                <div className="time-needed">
-                  Time Needed: <span>{element?.avgsecond} Seconds</span>
-                </div>
-                <div className="time-spent">
-                  Time Spent: <span> {element?.timeSpent} Seconds</span>
-                </div>
-              </div>
-            </div>
-          </React.Fragment>
-        );
-      })}
-    </>
-  );
+            </React.Fragment>
+          );
+        })}
+      </>
+    );
+  }
+  
 };
 
 const BarComponent = ({ data }) => {

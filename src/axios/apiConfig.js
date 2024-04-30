@@ -191,5 +191,6 @@ export const ENDPOINT = {
   NO_REGISTERED_USERS:"/webinarEmail/no-registered-users",
   WEBINAR_SWITCH_USER:"/webinar/switch-user",
   WEBINAR_EVENT_STATS:"/webinar/download-stats",
-  WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats"
+  WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats",
+  RTRREFRESH_EBOOK:"/analytics/refresh_ebook_rtr"
 };
