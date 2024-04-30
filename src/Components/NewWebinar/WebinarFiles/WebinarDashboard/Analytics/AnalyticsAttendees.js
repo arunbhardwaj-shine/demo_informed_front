@@ -24,7 +24,7 @@ const AnalyticsAttendees = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
-  const [emailData, setEmailData] = useState([]);
+  const [attendeesData, setAttendeesData] = useState([]);
   useEffect(() => {
     const fetchAnalyticsData = async () => {
         try {
@@ -32,7 +32,7 @@ const AnalyticsAttendees = () => {
             const body = { eventId };
             const response = await postData(ENDPOINT.ANALYTIC_ATTENDEES_DATA, body);
             const result = response?.data?.data;
-            setEmailData(result);
+            setAttendeesData(result?.attendeesData);
 
             loader("hide");
         } catch (error) {
@@ -348,31 +348,20 @@ const AnalyticsAttendees = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className={"view"}>
-                      <td>
-                        UserName
-                      </td>
-                      <td>
-                        User@docintel.app
-                      </td>
-                      <td>
-                        EU
-                      </td>
-                      <td>
-                        United Kingdom
-                      </td>
-                      <td>
-                        45 min
-                      </td>
-                      <td>
-                        Yes
-                      </td>
-                      <td className="infocol">
-                        Yes
-                      </td>
-                    </tr>
-                          
-                    <tr className={"fold"}>
+
+                  {attendeesData?.length ? (
+              attendeesData.map((user, index) => (
+                <>
+                  <tr key={index} className={"view"}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.region}</td>
+                    <td>{user.country}</td>
+                    <td>{user.liveSpendTime} min</td>
+                    <td>{user.askedQuestion}</td>
+                    <td>{user.pollParticipate}</td>
+                  </tr>
+                  <tr className={"fold"}>
                       <td colspan="8">
                         <div className="fold-content d-flex justify-content-between">
                           <Col className="fold-content-left">
@@ -425,46 +414,22 @@ const AnalyticsAttendees = () => {
                           </Col>
                         </div>
                       </td>
-                    </tr>   
-                    <tr className="blank">
-                      <td colspan="7">
-                        &nbsp;
-                      </td>
-                    </tr>
-                    <tr className={"view"}>
-                      <td>
-                        UserName
-                      </td>
-                      <td>
-                        User@docintel.app
-                      </td>
-                      <td>
-                        EU
-                      </td>
-                      <td>
-                        United Kingdom
-                      </td>
-
-                      <td>
-                        45 min
-                      </td>
-
-                      <td>
-                        Yes
-                      </td>
-
-                      <td className="infocol">
-                        Yes
-                      </td>
-                    </tr>
-
-                    <tr className={"fold"}>
-                      <td colspan="7">
-                        <div className="fold-content">
-                          
-                        </div>
-                      </td>
-                    </tr>
+                    </tr>  
+                  <tr className="blank">
+                    <td colSpan="7">&nbsp;</td>
+                  </tr>
+                </>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">
+                  <div className="no_found">
+                    <p>No Data Found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+  
                     <tr className="blank">
                       <td colspan="7">
                         &nbsp;
