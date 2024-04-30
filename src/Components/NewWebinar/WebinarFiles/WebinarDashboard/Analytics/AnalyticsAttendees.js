@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Accordion, Button, Carousel, Col, Row, Table } from 'react-bootstrap';
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { loader } from "../../../../../loader";
+import { postData } from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
 
 const AnalyticsAttendees = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -16,6 +20,29 @@ const AnalyticsAttendees = () => {
   const [filterObject, setFilterObject] = useState({})
   const [emailListData, setEmailListData] = useState([])
   const [totalEmailListData, setTotalEmailListData] = useState([])
+
+  const { eventIdContext, handleEventId } = useSidebar();
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
+  const [attendeesData, setAttendeesData] = useState([]);
+  useEffect(() => {
+    const fetchAnalyticsData = async () => {
+        try {
+            loader("show");
+            const body = { eventId };
+            const response = await postData(ENDPOINT.ANALYTIC_ATTENDEES_DATA, body);
+            const result = response?.data?.data;
+            setAttendeesData(result?.attendeesData);
+
+            loader("hide");
+        } catch (error) {
+            loader("hide");
+            console.error('Error fetching analytics data:', error);
+        }
+    };
+
+    fetchAnalyticsData();
+}, [eventId]);
   const clearFilter = () => {
     setAppliedFilter({});
     setApifilterObject({});
@@ -343,9 +370,22 @@ const AnalyticsAttendees = () => {
                       <td className="infocol">
                         Yes
                       </td>
-                    </tr>
-                          
+                    </tr>      
                     <tr className={"fold"}>
+
+                  {attendeesData?.length ? (
+                attendeesData.map((user, index) => (
+                <>
+                  <tr key={index} className={"view"}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.region}</td>
+                    <td>{user.country}</td>
+                    <td>{user.liveSpendTime} min</td>
+                    <td>{user.askedQuestion}</td>
+                    <td>{user.pollParticipate}</td>
+                  </tr>
+                  <tr className={"fold"}>
                       <td colspan="8">
                         <div className="fold-content d-flex justify-content-between">
                           <Col className="fold-content-left">
@@ -437,7 +477,22 @@ const AnalyticsAttendees = () => {
                           
                         </div>
                       </td>
+                    </tr> 
+                    <tr className="blank">
+                      <td colSpan="7">&nbsp;</td>
                     </tr>
+                </>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">
+                  <div className="no_found">
+                    <p>No Data Found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+            </tr>
                     <tr className="blank">
                       <td colspan="7">
                         &nbsp;

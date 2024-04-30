@@ -14873,32 +14873,34 @@ table {
                   thead {
                     tr {
                       th {
-                        &:first-child{
-                          width:452px;
+                        &:first-child {
+                          width: 452px;
                         }
                       }
                     }
                   }
                 }
               }
+
               .fold-content-right {
                 table {
                   thead {
                     tr {
                       th {
-                        &:first-child{
-                          width:390px;
+                        &:first-child {
+                          width: 390px;
                         }
                       }
                     }
                   }
+
                   tbody {
                     tr {
                       td {
-                        &:last-child{
-                          &:first-letter{
-                            color:$dark-blue;
-                            font-weight:600;
+                        &:last-child {
+                          &:first-letter {
+                            color: $dark-blue;
+                            font-weight: 600;
                           }
                         }
                       }
@@ -14948,9 +14950,7 @@ table {
                 }
               }
             }
-            :nth-last-child(2){
-              color:red;
-            }
+
           }
         }
 
@@ -14971,6 +14971,10 @@ table {
               border-radius: 0 9px 9px 0;
               padding-right: 44px;
 
+            }
+
+            &:nth-last-child(2) {
+              color: red;
             }
           }
 
