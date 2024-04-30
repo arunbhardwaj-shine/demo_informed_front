@@ -52,7 +52,7 @@ const WebinarRegistration = () => {
 
 
 const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6],"rjiGlqA9DXJVH7bDDTX0Lg==":[2,4,5,6,7,8,9]}
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6]}
 const userId = localStorage.getItem("user_id");
 const defaultTemplateIds = [7]; 
  
