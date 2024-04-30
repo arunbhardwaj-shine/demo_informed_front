@@ -54,6 +54,7 @@ const WebinarQuestion = () => {
         eventCode: queryParams.get("evnt"),
       });
       setEvent(result.data.data);
+     
     } catch (err) {
       console.log("-err", err);
     }
@@ -239,8 +240,8 @@ const WebinarQuestion = () => {
     try {
 
       const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
-        companyId: eventId?.companyId,
-        eventId: eventId?.id,
+        companyId: eventId?.companyId?eventId?.companyId:0,
+        eventId: eventId?.id?eventId?.id:0,
       });
 
       let newData = [];
@@ -250,6 +251,7 @@ const WebinarQuestion = () => {
       loader("hide");
       setData(newData);
       setAllData(result?.data?.data);
+     
     } catch (err) {
       loader("hide");
       console.log("-err", err);
@@ -269,7 +271,7 @@ const WebinarQuestion = () => {
   const registerSnapshot=()=>{
        const q = query(
         collection(db, "chat"),
-        where("event_id", "==", eventId?.id),
+        where("event_id", "==", eventId?.id?eventId?.id:0),
         orderBy("date", "desc"),
         limit(1)
       );
@@ -342,7 +344,9 @@ const getQuestionData=async()=>{
       <div className="webinar-questions webinar-question-box">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Container>
+        {data?.length?(<>
           <div className="webinar-question-results">
+           
             {data?.map((item, index) => {
               return (
                 <>
@@ -399,7 +403,9 @@ const getQuestionData=async()=>{
                 </>
               );
             })}
+           
           </div>
+          </>):<div className="no_found"><p>No Data Found</p></div>}
         </Container>
       </div>
 
