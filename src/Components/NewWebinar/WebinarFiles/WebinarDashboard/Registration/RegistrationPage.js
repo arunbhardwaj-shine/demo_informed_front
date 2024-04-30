@@ -215,12 +215,20 @@ const RegistrationPage = ({ prevData,type }) => {
       loader("show");
       try {
         let raw = formData?.raw_description;
+        let eventId = formData?.event_id;
+        if (formFieldData?.isth_consent && formFieldData.isth_consent == "Wilate") {
+          eventId = 455;
+        }
+        if (formFieldData?.isth_consent && formFieldData.isth_consent == "Nuwiq") {
+          eventId = 454;
+        }
         const response = await axios.post(
           "https://webinar.docintel.app/flow/apis/register",
           {
             ...formFieldData,
             companyId: formData?.company_id,
-            eventId: formData?.event_id,
+            // eventId: formData?.event_id,
+            eventId: eventId,
             speaker: raw?.speaker_name,
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
