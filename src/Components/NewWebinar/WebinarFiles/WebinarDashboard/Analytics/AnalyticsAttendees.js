@@ -40,6 +40,7 @@ const AnalyticsAttendees = () => {
         setFilterData(result?.filterObject);
 
         setAttendeesData(result?.attendeesData);
+        setAttendeesDataOrginal(result?.attendeesData);
 
         loader("hide");
       } catch (error) {
@@ -83,6 +84,7 @@ const AnalyticsAttendees = () => {
 
       return true; // All conditions passed
     });
+    console.log(appliedFilter,attendeesDataOriginal);
     // console.log(filteredData
     // setEmailListData([]);
     setAttendeesData(filteredData);
