@@ -4,6 +4,9 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import { toast } from "react-toastify";
 
 const AnalyticsAttendees = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -84,7 +87,6 @@ const AnalyticsAttendees = () => {
 
       return true; // All conditions passed
     });
-    console.log(appliedFilter,attendeesDataOriginal);
     // console.log(filteredData
     // setEmailListData([]);
     setAttendeesData(filteredData);
@@ -127,17 +129,22 @@ const AnalyticsAttendees = () => {
     setSearch(e?.target?.value);
 
     if (e?.target?.value === "") {
-      setEmailListData(totalEmailListData);
+      setAttendeesData(attendeesDataOriginal);
     }
   };
 
   const submitSearchHandler = (event) => {
     event.preventDefault();
-    let searchData = totalEmailListData?.filter((item) =>
-      item?.subject?.includes(search)
+    let searchData = attendeesDataOriginal?.filter((item) =>
+      item?.name?.toLowerCase().includes(search.toLowerCase()) || 
+      item?.email?.toLowerCase().includes(search.toLowerCase()) || 
+      item?.country?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.region?.toLowerCase().includes(search.toLowerCase()) 
     );
-    setEmailListData(searchData);
+  
+    setAttendeesData(searchData);
   };
+  
   const handleDropdown = async (userId, index) => {
     loader("show");
     if (currentIndex != index) {
@@ -157,6 +164,64 @@ const AnalyticsAttendees = () => {
     // setAttendeesData(result?.attendeesData);
 
     loader("hide");
+  };
+
+  const downloadExcel = (data,name) => {
+    try {
+      if (data?.length == 0) {
+        toast.warning("No data found");
+        return;
+      }
+      data = data?.map((item, index) => {
+        let finalData = {};
+
+        finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
+
+        finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        finalData.Region = item?.region ? item?.region.trim() : "N/A";
+        finalData.Country = item?.country ? item?.country.trim() : "N/A";
+        // finalData.Registered = item?.register_time
+        //   ? item?.register_time.trim()
+        //   : "N/A";
+      
+          if(item?.liveSpendTime!=undefined){
+
+        finalData["Live Spend Time"] = item?.liveSpendTime
+          ? item?.liveSpendTime
+          : "N/A";
+          }
+          if(item?.askedQuestion!=undefined){
+
+            finalData["Asked Question"] = item?.askedQuestion
+              ? item?.askedQuestion.trim()
+              : "N/A";
+              }
+              if(item?.pollParticipate!=undefined){
+
+                finalData["Poll Participate"] = item?.pollParticipate
+                  ? item?.pollParticipate.trim()
+                  : "N/A";
+                  }
+                  
+        return finalData;
+      });
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+      saveAs(blob, `${name}_data.xlsx`);
+    } catch (error) {
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
+    }
   };
   return (
     <>
@@ -363,8 +428,8 @@ const AnalyticsAttendees = () => {
                   <Button
                     title="Download stats"
                     className="download"
-                    // onClick={() => handleExport("individual_completion")}
-                  >
+                    onClick={() => downloadExcel(attendeesData,"Attendees data")}
+                    >
                     <svg
                       width="20"
                       height="20"

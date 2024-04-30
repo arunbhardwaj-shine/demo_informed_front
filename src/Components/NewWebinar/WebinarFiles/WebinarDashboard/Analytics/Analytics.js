@@ -385,7 +385,7 @@ const Analytics = (props) => {
         finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
 
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
-        finalData.Region = item?.province ? item?.province.trim() : "N/A";
+        finalData.Region = item?.region ? item?.region.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.Registered = item?.register_time
           ? item?.register_time.trim()
