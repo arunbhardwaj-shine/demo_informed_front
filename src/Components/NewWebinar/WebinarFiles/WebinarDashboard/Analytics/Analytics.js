@@ -1860,7 +1860,7 @@ const Analytics = (props) => {
         </Modal.Body>
       </Modal> */}
 
-      <Modal
+     {/* <Modal
         show={downloadPopup}
         dialogClassName="modal-90w"
         onHide={() => setDownloadPopup(false)}
@@ -1880,12 +1880,12 @@ const Analytics = (props) => {
           <div class="modal-height">
             <div className="d-flex align-items-center flex-column">
             <div className="high_charts" id="splineChart">
-                {/* {splineChartData?.series?.[0]?.data?.length? */}
+               
                 <HighchartsReact
                   highcharts={Highcharts}
                   options={splineChartData}
                 />
-                {/* :<div className="no_data">No Data Found</div>} */}
+               
               </div>
                 <div className="high_charts" id="pieChart">                  
                   <HighchartsReact
@@ -1905,7 +1905,7 @@ const Analytics = (props) => {
           </div>
         </Modal.Body>
 
-      </Modal>
+      </Modal>  */}
     </>
   );
 };
