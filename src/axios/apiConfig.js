@@ -201,6 +201,7 @@ export const ENDPOINT = {
   GET_REGION_STATS: "/webinarEmail/get-region-stats",
   ANALYTIC_EMAIL_LIST_DROPDOWN:"/webinarEmail/get-email-list-dropdown_data",
   ANALYTIC_ATTENDEES_DATA:"/webinarEmail/get-attendees-data",
+  ANALYTIC_ATTENDEES_DROPDOWN_DATA:"/webinarEmail/get-attendees-dropdown-data",
 
 
 

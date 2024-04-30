@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, Button, Carousel, Col, Row, Table } from 'react-bootstrap';
+import { Accordion, Button, Carousel, Col, Row, Table } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
@@ -10,21 +10,26 @@ const AnalyticsAttendees = () => {
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
   const [individualCompletionShow, setIndividualCompletionShow] = useState();
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [apifilterObject, setApifilterObject] = useState({});
   const [showFilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState({});
   const [appliedFilter, setAppliedFilter] = useState({});
-  const [filterObject, setFilterObject] = useState({})
-  const [emailListData, setEmailListData] = useState([])
-  const [totalEmailListData, setTotalEmailListData] = useState([])
+  const [filterObject, setFilterObject] = useState({});
+  const [emailListData, setEmailListData] = useState([]);
+  const [totalEmailListData, setTotalEmailListData] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(-1);
 
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
+  const [eventId, setEventId] = useState(
+    eventIdContext?.eventId || localStorageEvent?.eventId
+  );
   const [attendeesData, setAttendeesData] = useState([]);
+  const [attendeesDataDropdown, setAttendeesDataDropdown] = useState(null);
+  const [attendeesDataOriginal, setAttendeesDataOrginal] = useState([]);
   useEffect(() => {
     const fetchAnalyticsData = async () => {
       try {
@@ -32,12 +37,14 @@ const AnalyticsAttendees = () => {
         const body = { eventId };
         const response = await postData(ENDPOINT.ANALYTIC_ATTENDEES_DATA, body);
         const result = response?.data?.data;
+        setFilterData(result?.filterObject);
+
         setAttendeesData(result?.attendeesData);
 
         loader("hide");
       } catch (error) {
         loader("hide");
-        console.error('Error fetching analytics data:', error);
+        console.error("Error fetching analytics data:", error);
       }
     };
 
@@ -47,14 +54,38 @@ const AnalyticsAttendees = () => {
     setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
-    // setEmailListData([]);
-    // setTotalEmailListData([])
+    setAttendeesData(attendeesDataOriginal);
     // getWebinarCompaignList()
     setShowFilter(false);
   };
   const applyFilter = (e) => {
     e.preventDefault();
+    const filteredData = attendeesDataOriginal.filter((item) => {
+      for (const key in appliedFilter) {
+        const filterValues = appliedFilter[key];
+        if (filterValues.length === 0) {
+          continue;
+        }
+        let isMatch = false;
+
+        if (filterValues.length > 1) {
+          // "or" condition
+          isMatch = filterValues.some((value) => item[key] === value);
+        } else {
+          // "and" condition
+          isMatch = item[key] === filterValues[0];
+        }
+
+        if (!isMatch) {
+          return false; // If any condition fails, immediately return false
+        }
+      }
+
+      return true; // All conditions passed
+    });
+    // console.log(filteredData
     // setEmailListData([]);
+    setAttendeesData(filteredData);
     setFilterObject(appliedFilter);
     // getWebinarCompaignList(appliedFilter);
     setShowFilter(false);
@@ -89,19 +120,41 @@ const AnalyticsAttendees = () => {
     }
     setAppliedFilter(newObj);
     setApifilterObject(apifilterObject);
-  }
+  };
   const searchChange = (e) => {
     setSearch(e?.target?.value);
 
     if (e?.target?.value === "") {
-      setEmailListData(totalEmailListData)
+      setEmailListData(totalEmailListData);
     }
   };
 
   const submitSearchHandler = (event) => {
     event.preventDefault();
-    let searchData = totalEmailListData?.filter((item) => item?.subject?.includes(search))
-    setEmailListData(searchData)
+    let searchData = totalEmailListData?.filter((item) =>
+      item?.subject?.includes(search)
+    );
+    setEmailListData(searchData);
+  };
+  const handleDropdown = async (userId, index) => {
+    loader("show");
+    if (currentIndex != index) {
+      const body = { eventId, userId };
+      const response = await postData(
+        ENDPOINT.ANALYTIC_ATTENDEES_DROPDOWN_DATA,
+        body
+      );
+      const result = response?.data?.data;
+      setAttendeesDataDropdown(result);
+      setCurrentIndex(index);
+    } else {
+      setAttendeesDataDropdown(null);
+      setCurrentIndex(-1);
+    }
+
+    // setAttendeesData(result?.attendeesData);
+
+    loader("hide");
   };
   return (
     <>
@@ -306,8 +359,9 @@ const AnalyticsAttendees = () => {
                 </div>
                 <div className="clear-search">
                   <Button
-                    title="Download stats" className="download"
-                  // onClick={() => handleExport("individual_completion")}
+                    title="Download stats"
+                    className="download"
+                    // onClick={() => handleExport("individual_completion")}
                   >
                     <svg
                       width="20"
@@ -338,119 +392,26 @@ const AnalyticsAttendees = () => {
               <Table className="attended-table" id="individual_completion">
                 <thead>
                   <tr>
-                    <th>Name <button
-                      className={`event_sort_btn `}
-                    //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
-                    <th>Email <button
-                      className={`event_sort_btn `}
-                    //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
-                    <th>Region <button
-                      className={`event_sort_btn `}
-                      //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
-                    <th>Country <button
-                      className={`event_sort_btn `}
-                    //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
-                    <th>Live spend time <button
-                      className={`event_sort_btn `}
-                    //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
-                    <th>Asked question <button
-                      className={`event_sort_btn `}
-                    //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
-                    <th>Poll participate <button
-                      className={`event_sort_btn `}
-                      //onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Region</th>
+                    <th>Country</th>
+                    <th>Live spend time</th>
+                    <th>Asked question</th>
+                    <th>Poll participate</th>
                   </tr>
                 </thead>
                 <tbody>
-
                   {attendeesData?.length ? (
                     attendeesData.map((user, index) => (
                       <>
-                        <tr key={index} className={"view"}>
+                        <tr
+                          key={index}
+                          className={
+                            "view " + (currentIndex === index ? "show" : "")
+                          }
+                          onClick={() => handleDropdown(user?.user_id, index)}
+                        >
                           <td>{user.name}</td>
                           <td>{user.email}</td>
                           <td>{user.region}</td>
@@ -459,7 +420,11 @@ const AnalyticsAttendees = () => {
                           <td>{user.askedQuestion}</td>
                           <td>{user.pollParticipate}</td>
                         </tr>
-                        <tr className={"fold"}>
+                        <tr
+                          className={
+                            "fold " + (currentIndex === index ? "show" : "")
+                          }
+                        >
                           <td colspan="8">
                             <div className="fold-content d-flex justify-content-between">
                               <Col className="fold-content-left">
@@ -469,20 +434,29 @@ const AnalyticsAttendees = () => {
                                       <th>
                                         Questions asked through the live stream
                                       </th>
-                                      <th>
-                                        Time
-                                      </th>
+                                      <th>Time</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <td>User question dolor sit amet consect ltrices vitae in eu cursus placuis lacus id faucibus nec quam?</td>
-                                      <td>00:15:20</td>
-                                    </tr>
-                                    <tr>
-                                      <td>User question vitae in eu cursus placuis lacus id faucibus?</td>
-                                      <td>00:44:35</td>
-                                    </tr>
+                                    {attendeesDataDropdown?.livestreamQuestion
+                                      ?.length ? (
+                                      attendeesDataDropdown?.livestreamQuestion?.map(
+                                        (question, index) => (
+                                          <tr key={index}>
+                                            <td>{question?.question}</td>
+                                            <td>{question?.time}</td>
+                                          </tr>
+                                        )
+                                      )
+                                    ) : (
+                                      <tr>
+                                        <td colSpan="2">
+                                          <div className="no_found">
+                                            <p>No Question Asked</p>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    )}
                                   </tbody>
                                 </Table>
                               </Col>
@@ -490,23 +464,30 @@ const AnalyticsAttendees = () => {
                                 <Table>
                                   <thead>
                                     <tr>
-                                      <th>
-                                        Answered poll question
-                                      </th>
-                                      <th>
-                                        Chosen answer
-                                      </th>
+                                      <th>Answered poll question</th>
+                                      <th>Chosen answer</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <td>User question dolor sit amet consect ltrices vitae in eu cursus placuis lacus id faucibus nec quam?</td>
-                                      <td>B. Semper et lectus pellentesque tincidunt. Purus purus amet facilisi tincidunt vitae luctus. Egestas sed nibh mattis convallis fames.</td>
-                                    </tr>
-                                    <tr>
-                                      <td>User question dolor sit amet consect ltrices vitae in eu cursus placuis lacus id faucibus nec quam?</td>
-                                      <td>D. Purus purus amet facilisi tincidunt vitae luctus. Egestased nibh mattis convallis fames.</td>
-                                    </tr>
+                                    {attendeesDataDropdown?.pollQuestions
+                                      ?.length ? (
+                                      attendeesDataDropdown?.pollQuestions?.map(
+                                        (question, index) => (
+                                          <tr key={index}>
+                                            <td>{question?.question}</td>
+                                            <td>{question?.answer}</td>
+                                          </tr>
+                                        )
+                                      )
+                                    ) : (
+                                      <tr>
+                                        <td colSpan="2">
+                                          <div className="no_found">
+                                            <p>No Poll Submitted</p>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    )}
                                   </tbody>
                                 </Table>
                               </Col>
@@ -529,20 +510,16 @@ const AnalyticsAttendees = () => {
                   )}
 
                   <tr className="blank">
-                    <td colspan="7">
-                      &nbsp;
-                    </td>
+                    <td colspan="7">&nbsp;</td>
                   </tr>
-
                 </tbody>
               </Table>
             </div>
           </Row>
         </div>
       </Col>
-
     </>
-  )
-}
+  );
+};
 
-export default AnalyticsAttendees
+export default AnalyticsAttendees;
