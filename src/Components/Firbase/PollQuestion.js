@@ -28,7 +28,7 @@ const PollQuestion = () => {
   });
   const q = query(
     collection(db, "chat"),
-    where("event_id", "==", eventId?.id),
+    where("event_id", "==", eventId?.id? eventId?.id:0),
     orderBy("date", "desc"),
     limit(1)
   );
