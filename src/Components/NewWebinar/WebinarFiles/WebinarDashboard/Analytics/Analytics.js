@@ -477,11 +477,11 @@ const Analytics = () => {
             <div className="top-header regi-web sticky">
               <div className="page-title">
                 <h2>Coming Soon</h2>
-                <Button
+                {/* <Button
                   onClick={(e) => downloadPopupFun(e)}
                 >Import File
 
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
