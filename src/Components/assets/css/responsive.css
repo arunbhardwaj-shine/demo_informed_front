@@ -952,7 +952,9 @@
   .clear-search {
     margin-left: 15px;
   }
-
+  .congress-dropdown{
+    margin-right: 15px;
+  }
   .email-block-add img,
   .smartlist-add.smartlist-view img {
     max-width: 60px;
@@ -2117,7 +2119,11 @@
     padding: 5px;
     width: 68px;
   }
-
+  .congress-dropdown .split-button-dropup > div:nth-child(3) {
+    padding: 2px 35px 2px 5px;
+    min-width: 180px;
+    min-height: 36px;
+}
   .auto_mail_trigger {
     margin-top: 19px;
   }

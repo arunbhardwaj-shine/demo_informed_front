@@ -15,6 +15,10 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
 
 const SmartList = (props) => {
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
@@ -62,7 +66,7 @@ const SmartList = (props) => {
   const filterRef = useRef(null);
 
   const body = {
-    user_id: localStorage.getItem("user_id"),
+    user_id: localStorageUserId,
     // user_id: "56Ek4feL/1A8mZgIKQWEqg==",
     search: search,
     filter: filter,
@@ -94,7 +98,7 @@ const SmartList = (props) => {
     try{
       loader('show');
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         event_id:eventId
       };
       await axios
@@ -191,7 +195,7 @@ const SmartList = (props) => {
   const deleteEmail = () => {
     hideConfirmationModal();
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       smart_list_id: deletecardid,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -337,7 +341,7 @@ const SmartList = (props) => {
     try{
       loader("show")
       const result =  await axios.post(`distributes/update_smart_list_name`,{
-        "user_id":localStorage.getItem('user_id'),
+        "user_id":localStorageUserId,
         "smart_list_id":userObj?.id,
          "name":userObj?.name
       } )
@@ -547,7 +551,7 @@ const SmartList = (props) => {
                             </Accordion.Item>
                           )}
 
-                        {filterdata?.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                        {filterdata?.hasOwnProperty("ibu") && localStorageUserId == 'B7SHpAc XDXSH NXkN0rdQ==' &&
                           filterdata.ibu.length > 0 && (
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">

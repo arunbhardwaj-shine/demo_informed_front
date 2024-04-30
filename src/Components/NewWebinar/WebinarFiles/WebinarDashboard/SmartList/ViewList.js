@@ -10,6 +10,10 @@ import { popup_alert } from "../../../../../popup_alert";
 import { Spinner } from "react-activity";
 
 const EditList = () => {
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const [smartListName, setSmartListName] = useState("");
   const [editList, setEditListData] = useState([]);
@@ -27,7 +31,7 @@ const EditList = () => {
   const [data, setData] = useState([]);
 
   const body = {
-    user_id: localStorage.getItem("user_id"),
+    user_id: localStorageUserId,
     list_id: queryParams.listId,
     page:pageNo
   };
@@ -70,7 +74,7 @@ const EditList = () => {
     try{
       setIsLoading(1)
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         list_id: queryParams.listId,
         page:pageNo+1
       };

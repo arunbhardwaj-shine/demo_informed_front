@@ -9,6 +9,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { toast } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
+import QRCode from 'qrcode';
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -499,7 +500,7 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || template?.templateId == 8
+          template?.templateId == 7 || template?.templateId == 8 ||  template?.templateId == 9
         ) {
           setSecondHeaderImage(
             apiData?.headerImage ? apiData?.headerImage : ""
@@ -547,7 +548,7 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || template?.templateId == 8
+          template?.templateId == 7 || template?.templateId == 8 ||  template?.templateId == 9
         ) {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
@@ -565,6 +566,35 @@ const ChatLinkPage = () => {
       setActiveIndex(index);
     }
   };
+
+  const generateQRUrl = () => {
+    // Generate the QR code URL based on your logic
+    const url =  eventData?.eventId > 402
+    ? `https://events.docintel.app/event?evnt=${eventData?.eventCode}`
+    : `${window.location.host}/event?evnt=${eventData?.eventCode}`; 
+    return url;
+  };
+
+  const handleDownload = async () => {
+    if (!isDataSaved) {
+      return;
+    }
+    const qrUrl = generateQRUrl();
+
+    try {
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pngUrl;
+      downloadLink.download = 'Chat-Qr-code.png'; // Set the filename
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -577,6 +607,18 @@ const ChatLinkPage = () => {
               </div>
            { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
+                <div className={`dropdown qr-download ${
+                      !isDataSaved ? "disabled" : ""
+                    }`}>
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={handleDownload}
+                    >
+                      Download QR
+
+                    </button>
+                    </div>
                   {/* <div className="dropdown qr-download">
                     <button
                       className="btn btn-primary dropdown"
@@ -837,8 +879,8 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                {/* (Recommended size 750 x 180) */}
-                                { formData?.templateId === 8 ?  '(Recommended size 300 x 140)' :'(Recommended size 750 x 180)'}
+                                (Recommended size 750 x 180)
+                                {/* { formData?.templateId === 8 ?  '(Recommended size 300 x 140)' :'(Recommended size 750 x 180)'} */}
                               </span>
                             </>
                           ) : value.type === "file" &&
@@ -904,7 +946,8 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                              { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'}
+                              (Recommended size 750 x 180)
+                              {/* { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'} */}
                               </span>
                             </>
                           ) : value.type === "file" &&
@@ -1054,7 +1097,7 @@ const ChatLinkPage = () => {
                             ) : formData?.templateId == 4 ||
                               formData?.templateId == 5 ||
                               formData?.templateId == 6 ||
-                              formData?.templateId === 7  ? (
+                              formData?.templateId === 7 ||  formData?.templateId === 8 ||  formData?.templateId === 9  ? (
                               <>
                                 <div
                                   className="head-sec template2"
@@ -1075,31 +1118,33 @@ const ChatLinkPage = () => {
                                   />
                                 </div>
                               </>
-                            ):  formData?.templateId === 8 ? (
-                              <>
-                                <div
-                                  className="head-sec template2 isth"
-                                > <img
-                                src={
-                                  formData?.headerImage
-                                    ? formData?.headerImage
-                                    : ""
-                                }
+                            )
+                            // :  formData?.templateId === 8 ? (
+                            //   <>
+                            //     <div
+                            //       className="head-sec template2 isth"
+                            //     > <img
+                            //     src={
+                            //       formData?.headerImage
+                            //         ? formData?.headerImage
+                            //         : ""
+                            //     }
                              
-                              /></div>
-                                <div className="event_title">
-                                  <h2
-                                    className="top-title"
-                                    style={{ color: formData?.textColor }}
-                                    dangerouslySetInnerHTML={{
-                                      __html: formData?.formHeading
-                                        ? formData?.formHeading
-                                        : "Type your question here!",
-                                    }}
-                                  />
-                                </div>
-                              </>
-                            ): (
+                            //   /></div>
+                            //     <div className="event_title">
+                            //       <h2
+                            //         className="top-title"
+                            //         style={{ color: formData?.textColor }}
+                            //         dangerouslySetInnerHTML={{
+                            //           __html: formData?.formHeading
+                            //             ? formData?.formHeading
+                            //             : "Type your question here!",
+                            //         }}
+                            //       />
+                            //     </div>
+                            //   </>
+                            // )
+                            : (
                               <div
                                 className="head-sec"
                                 style={{
@@ -1214,7 +1259,7 @@ const ChatLinkPage = () => {
                           {formData?.templateId === 4 ||
                           formData?.templateId === 5 ||
                           formData?.templateId === 6 ||
-                          formData?.templateId === 7  ? (
+                          formData?.templateId === 7 || formData?.templateId === 8 || formData?.templateId === 9  ? (
                             <>
                               <div className="eahad-footer">
                                 <img
@@ -1245,29 +1290,31 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                             </>
-                          ) :
-                          formData?.templateId === 8 ? (
-                          <>
-                          <div className="copy-right-bottom-text">
-                         <p
-                           style={{ color: formData?.textColor }}
-                           dangerouslySetInnerHTML={{
-                             __html: formData?.footerTextOne,
-                           }}
-                         />
-                       </div>
-                       <div className="copy-right-bottom-text">
-                                <p
-                                  style={{ color: formData?.textColor }}
-                                  dangerouslySetInnerHTML={{
-                                    __html: formData?.footerText,
-                                  }}
-                                />
-                              </div>
+                          ) 
+                    //       :
+                    //       formData?.templateId === 8 ? (
+                    //       <>
+                    //       <div className="copy-right-bottom-text">
+                    //      <p
+                    //        style={{ color: formData?.textColor }}
+                    //        dangerouslySetInnerHTML={{
+                    //          __html: formData?.footerTextOne,
+                    //        }}
+                    //      />
+                    //    </div>
+                    //    <div className="copy-right-bottom-text">
+                    //             <p
+                    //               style={{ color: formData?.textColor }}
+                    //               dangerouslySetInnerHTML={{
+                    //                 __html: formData?.footerText,
+                    //               }}
+                    //             />
+                    //           </div>
 
-                       </>
+                    //    </>
                        
-                     ):
+                    //  )
+                     :
                           
                           (
                             <div className="copy-right-bottom-text">

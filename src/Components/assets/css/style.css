@@ -156,10 +156,16 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a {
   padding: 6px 15px;
   font-weight: 300;
   color: var(--skyblue);
+  margin:2px 0;
 }
 
 nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   color: var(--light-blue);
+}
+nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a.selected, nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
+  color: var(--white);
+  background:var(--light-blue);
+  border-radius: 30px;
 }
 
 .navbar-expand-sm .navbar-collapse {
@@ -168,6 +174,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 
 .nav-item.user-login .dropdown .dropdown-menu {
   min-width: 205px;
+  padding:5px;
 }
 
 .sidebar-menu {
@@ -13442,3 +13449,77 @@ table.table-custom {
   font-weight: 600;
 } */
 
+.congress-dropdown {
+  margin-right: 24px;
+}
+
+.congress-dropdown .split-button-dropup > div:nth-child(3) {
+  padding: 4px 35px 4px 13px;
+  min-width: 180px;
+}
+
+.congress-dropdown .split-button-dropup > div:nth-child(3) > div div {
+  font-size: 13px;
+  color: var(--dark-blue);
+}
+/**download event stats modal**/
+.event-stats-download .modal-header {
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 58px;
+  margin: 0;
+  gap: 15px;
+}
+.event-stats-download .modal-header .print {
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  padding: 7px 9px;
+}
+.event-stats-download .modal-header .print:hover {
+      background: var(--light-blue);
+}
+.event-stats-download .modal-header .print:hover svg path{
+  fill: var(--white);
+}
+.event-stats-download .modal-header .btn-close {
+  right: 16px;
+}
+.event-stats-download .modal-height {
+  margin: 0 0 5px;
+  overflow-y: auto;
+  max-height: 63vh;
+}
+.event-stats-download .modal-height h4{
+  color: #70899E;
+  font-size: 24px;
+  line-height: 144.7%;
+  margin:5px 0 20px;
+}
+.event-stats-download .modal-height .d-flex{
+gap:30px;
+}
+.event-stats-download .modal-dialog {
+  max-width: 1300px;
+  width:95%;
+}
+.event-stats-download .high_charts,
+.event-stats-download .analytics_campaign {
+  max-width: 1100px;
+  width: 100%;
+}
+.event-stats-download .modal-height #mail-view ul {
+  margin: 0 0 20px;
+}
+.event-stats-download #mail-view .mail-time {
+  margin: 0;
+}
+.event-stats-download #mail-view .mail-stats {
+  width: 100%;
+  margin: 0px 0 8px;
+}
+.event-stats-download .modal-height .high_charts {
+  box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
+  border-radius: 15px;
+  padding: 15px 49px 25px 25px;
+  margin-top: 8px;
+}
+/**download event stats modal**/
