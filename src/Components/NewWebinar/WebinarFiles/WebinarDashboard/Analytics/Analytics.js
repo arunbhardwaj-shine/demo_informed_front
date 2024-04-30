@@ -407,6 +407,8 @@ const Analytics = (props) => {
       },
     ],
   });
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   const clearFilter = () => {
     setAppliedFilter({});
@@ -500,6 +502,7 @@ const Analytics = (props) => {
     setAppliedFilter(newObj);
     setApifilterObject(apifilterObject);
   };
+
   useEffect(() => {
     // props.getWebinarEmailData(null);
     // props.getWebinarDraftData(null);
@@ -1047,6 +1050,29 @@ const Analytics = (props) => {
     }
   };
 
+  const handleSort = (key) => {
+    console.log("handle sort-->",key)
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    console.log("sortData-->",key)
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
+      }
+    });
+  };
+
 
 
   return (
@@ -1335,8 +1361,14 @@ const Analytics = (props) => {
                         <thead className="sticky-header">
                           <tr>
                             <th>Name  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                              // className={`event_sort_btn `}
+                              className={`event_sort_btn ${sortBy == "name" ?
+                                sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                                : "" 
+                                }`}
+                            onClick={() => handleSort('name')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -1443,7 +1475,8 @@ const Analytics = (props) => {
                         </thead>
                         <tbody>
                           {usersData?.length ? (
-                            usersData.map((user, index) => (
+                            // usersData.map((user, index) => (
+                              sortData(usersData, sortBy, sortOrder).map((user, index) => (
                               <>
                                 <tr key={index}>
                                   <td>{user.name}</td>
@@ -2094,9 +2127,11 @@ const Analytics = (props) => {
                       <Table className="fold-table registration-view" id="individual_completion">
                         <thead className="sticky-header">
                           <tr>
-                            <th>Name  <button
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('name')} >
+                              Name  <button
                               className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            onClick={() => handleSort('name')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -2108,7 +2143,9 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
+                            </button>
+                            </span>
+                            </th>
                             <th>Email  <button
                               className={`event_sort_btn `}
                             //onClick={() => handleSort('name')}
@@ -2189,7 +2226,8 @@ const Analytics = (props) => {
                         </thead>
                         <tbody>
                           {overViewData?.length ? (
-                            overViewData.map((user, index) => (
+                            // overViewData.map((user, index) => (
+                              sortData(overViewData, sortBy, sortOrder).map((user, index) => (
                               <>
                                 <tr key={index}>
                                   <td>{user.name}</td>
