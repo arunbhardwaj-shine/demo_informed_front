@@ -19,6 +19,8 @@ import { saveAs } from "file-saver";
 exporting(Highcharts);
 exportData(Highcharts);
 
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
 const ContentAnalytics = () => {
   const { state } = useLocation();
   const [isDataFound, setIsDataFound] = useState(false);
@@ -28,6 +30,8 @@ const ContentAnalytics = () => {
   const [pdfOptions, setPdfOptions] = useState([]);
   const [urlOptions, setUrlOptions] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(0);
+  const [getArticlesData, setArticlesData] = useState(0);
+  const [selectedPdfType, setSelectedPdfType] = useState('pdf');
   const [selectedSublink, setSelectedSublink] = useState("");
   const [isPdfData, setIsPdfData] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
@@ -50,12 +54,12 @@ const ContentAnalytics = () => {
     try {
       loader("show");
       const requestBody = {
-        selectValue: JSON.stringify(["id", "title", "code"]),
+        selectValue: JSON.stringify(["id", "title", "code","file_type"]),
         type: "rest",
       };
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
       const hadData = response?.data?.data?.library || [];
-
+      setArticlesData(hadData);
       const pdfObj = hadData
         .map((item) => ({
           label: item.title.trim(),
@@ -218,6 +222,9 @@ const ContentAnalytics = () => {
             });
             const hadData = response?.data?.data || [];
             setReaderData(hadData);
+            const objectWithId3 = getArticlesData?.find(obj => obj.id === selectedPdf);
+            const typeOfId3 = objectWithId3 ? objectWithId3.file_type : null;
+            setSelectedPdfType(typeOfId3);
           }
         }
         setIsReaderAccordionOpen(true);
@@ -668,20 +675,24 @@ const ContentAnalytics = () => {
                               ) : null}
                               {isReaderAccordionOpen ? (
                                 readerData?.length ? (
-                                  <ReadersPerPageLayout data={readerData} refreshFun={refresh} flag={refreshFlag} />
+                                  <ReadersPerPageLayout data={readerData} refreshFun={refresh} flag={refreshFlag} fileType={selectedPdfType}/>
                                 ) : (
                                   <>
-                                  <div className="refresh-button d-flex justify-content-end w-100">
-                                    <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"
-                                    onClick={refresh}
-                                    >
-                                      <svg fill="#fff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
-                                      C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
-                                      L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
-                                      c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
-                                      c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
-                                    </button>
-                                  </div>
+                                  {
+                                    selectedPdfType == 'ebook' ? 
+                                    <div className="refresh-button d-flex justify-content-end w-100">
+                                      <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"
+                                      onClick={refresh}
+                                      >
+                                        <svg fill="#fff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+                                        C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+                                        L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+                                        c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+                                        c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
+                                      </button>
+                                    </div>
+                                    : null
+                                  }
                                     <div className="no_found">
                                       <p align="center">No Data Available</p>
                                     </div>
@@ -759,12 +770,11 @@ const ContentAnalytics = () => {
 };
 export default ContentAnalytics;
 
-const ReadersPerPageLayout = ({ data, refreshFun, flag }) => {
-
+const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
   const refreshEbookRTR = async() => {
     refreshFun();
   }
-  if(data?.[0]?.chapter){
+  if(fileType == 'ebook'){
     
     return (
       <>
@@ -844,6 +854,71 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag }) => {
         }
       </>
     )
+  }else if(fileType == 'video'){
+    return (
+      <>
+        <div className="section-detail-box d-flex">
+          <div className="detail_section_heading">Readers Per Page</div>
+          {/* <div className="detail_section_pages">Total : {data?.length} Pages</div> */}
+        </div>
+        {data?.map((element, index) => {
+          return (
+            <React.Fragment key={index}>
+              <div className="analytics-detail-view-box">
+                <div className="analytics-detil-image">
+                  <div>
+                  <img
+                    src={
+                      path_image + "video-img.png"
+                    }
+                    alt=""
+                  />
+                  </div>
+                </div>
+                <div className="analytics-reader-detail">
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Ignored:</div>
+                    <div className="analytics-reader-progress ignored">
+                      <ProgressBar now={100} label={`${element?.ignored}`} />
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">
+                      <span>Browsed: </span>
+                    </div>
+                    <div className="analytics-reader-progress browsed">
+                      <ProgressBar now={100} label={`${element?.browsed}`} />
+                    </div>
+                  </div>
+                </div>
+                <div className="analytics-reader-detail">
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Read:</div>
+                    <div className="analytics-reader-progress read">
+                      <ProgressBar now={100} label={`${element?.read}`} />
+                    </div>
+                  </div>
+                  <div className="analytics-reader-detail-box">
+                    <div className="analytics-reader-title">Reader</div>
+                    <div className="analytics-reader-progress reader">
+                      <ProgressBar now={100} label={`${element?.readers}`} />
+                    </div>
+                  </div>
+                </div>
+                <div className="analytics-time-detail">
+                  <div className="time-needed">
+                    Time Needed: <span>{element?.avgsecond} Seconds</span>
+                  </div>
+                  <div className="time-spent">
+                    Time Spent: <span> {element?.timeSpent} Seconds</span>
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </>
+    );
   }else{
     //pdf case
     return (
