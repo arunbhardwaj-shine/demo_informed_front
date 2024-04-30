@@ -332,7 +332,7 @@ const AnalyticsAttendees = () => {
               <div className="search-hcp smart-list-view anaytics-attended">
                 <div className="result-hcp-table">
                   <div className="table-title">
-                    <h4>Total Attendees |{" "}<span>203</span></h4>
+                    <h4>Total Attendees |{" "}<span>{attendeesData?.length ||0}</span></h4>
                   </div>
                 </div>
                 <Table className="attended-table" id="individual_completion">
