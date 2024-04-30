@@ -39,15 +39,40 @@ const template = {
   3:['logo','header','footer'],
   4:[],
   5:['header'],
-  6:['logo','templateOne','templateTwo']
+  6:['logo','templateOne','templateTwo'],
+  7:['logo','header','footer']
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
-  const [templateList, setTemplateList] = useState(templateData);
+  // const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
+
+
+const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6],
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6]}
+const userId = localStorage.getItem("user_id");
+const defaultTemplateIds = [7]; 
+ 
+const [templateList, setTemplateList] = useState(() => {
+
+  return templateData.filter(template => {
+    if (templateUserIDs[userId]?.includes(template.templateId)) {
+      return true;
+    }
+
+    else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
+      return true;
+    } 
+   
+    else {
+      return false;
+    }
+  });
+});
+
 
   const responsive = {
     0: { items: 1 },
@@ -1353,9 +1378,10 @@ const WebinarRegistration = () => {
     try {
       const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
       const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      let fileName= (localStorageEvent?.eventTitle).replaceAll(" ","_")
       const downloadLink = document.createElement('a');
       downloadLink.href = pngUrl;
-      downloadLink.download = 'Registration-Qr-code.png'; // Set the filename
+      downloadLink.download = `${fileName}_Registration.png`; // Set the filename
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -1470,10 +1496,12 @@ const WebinarRegistration = () => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.map((template, index) => {
+                    {templateList.filter(template => template).map((template, index) => {
+                      console.log(templateList,'templateList')
                       return (
                         <>
                           <div
+                          key={index}
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
                           >
@@ -1495,6 +1523,7 @@ const WebinarRegistration = () => {
                       );
                     })}
                   </AliceCarousel>
+
                 </Row>{" "}
               </div>{" "}
             </section>
