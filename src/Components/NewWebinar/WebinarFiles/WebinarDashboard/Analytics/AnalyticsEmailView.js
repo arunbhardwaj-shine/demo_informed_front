@@ -90,7 +90,7 @@ const AnalyticsEmailView = () => {
     },
     plotOptions: {
       pie: {
-        size: "90%",
+        size: "100%",
         dataLabels: {
           enabled: true,
           format: "<b>{point.name}</b>: {point.y}",
@@ -98,7 +98,7 @@ const AnalyticsEmailView = () => {
             fontWeight: "400",
             color: "black",
             textOutline: "none",
-            fontSize: "15px",
+            fontSize: "16px",
           },
           distance: 30,
           connectorPadding: 0,
@@ -226,6 +226,8 @@ const AnalyticsEmailView = () => {
     },
     plotOptions: {
       series: {
+        groupPadding: 0.1,
+        pointWidth: 30,
         dataLabels: {
           allowOverlap: false,
           distance: 40,
@@ -736,11 +738,24 @@ const AnalyticsEmailView = () => {
       },
       plotOptions: {
           series: {
-              borderWidth: 0,
+              // pointWidth: 30,
+              groupPadding: 0.1,
+              pointWidth: 22,
+              borderWidth: 2,
               dataLabels: {
                   enabled: true,
-                  format: '{point.y}'
-              }
+                  format: '{point.y}',
+                //   style: {
+                //   fontWeight: "600",
+                //   textShadow: "none",
+                //   fontSize: "14px",
+                //   color: "#000000",
+                //   TextDecoder:"none",
+                // },
+              },
+              borderRadius: {
+                radius: 10
+              },
           },
           bar: {
               colorByPoint: true, // Ensure each bar has a unique color
@@ -771,8 +786,10 @@ const AnalyticsEmailView = () => {
             id: drilldownItem.id,
             data: drilldownItem.data.map(item => ({
                 name: item[0], // Country name
-                y: item[1] // Count
+                y: item[1], // Count
+                // pointWidth: 30,
             }))
+            
         })) || []
     }
   }}

@@ -50,11 +50,13 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                     },
                 ],
             },
+           
             pie: {
                 size: "100%",
                 dataLabels: {
                     enabled: false,
                 },
+                borderWidth: 0,
             }
         },
         series: [],

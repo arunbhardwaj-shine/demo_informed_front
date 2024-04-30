@@ -164,6 +164,7 @@ const AnalyticsPoll = () => {
                           },
                           lineColor: "rgba(151, 182, 207, 0.30)",
                           lineWidth: 2,
+                          
                         },
                         legend: {
                           enabled: false,
@@ -171,7 +172,7 @@ const AnalyticsPoll = () => {
                         tooltip: {},
                         plotOptions: {
                           series: {
-                            groupPadding: 0,
+                            groupPadding: 0.1,
                             pointWidth: 25,
                             dataLabels: {
                               allowOverlap: false,
@@ -183,8 +184,10 @@ const AnalyticsPoll = () => {
                               shape: "callout",
                               size: "100%",
                               style: {
-                                fontWeight: "normal",
+                                fontWeight: "600",
                                 textShadow: "none",
+                                fontSize: "16px",
+                                color:"#004A89"
                               },
                             },
                           },

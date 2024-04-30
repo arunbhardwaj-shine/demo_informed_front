@@ -49,7 +49,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
         chart: {
             type: "bar",
             // width: 316,
-            height: 310, // Decrease the height of the chart
+            height: 315, // Decrease the height of the chart
             options3d: {
                 enabled: true,
                 alpha: 10,

@@ -167,10 +167,7 @@ const AnalyticsAttendees = () => {
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                  <form
-                    className="d-flex"
-                    onSubmit={(e) => submitSearchHandler(e)}
-                  >
+                  <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="search"
@@ -281,54 +278,58 @@ const AnalyticsAttendees = () => {
                                     <ul>
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
-                                            (item, index) => (
-                                              <li key={index}>
-                                                {item != "" ? (
-                                                  <label className="select-multiple-option">
-                                                    <input
-                                                      type={"checkbox"}
-                                                      id={`custom-checkbox-tags-${index}`}
-                                                      value={
-                                                        typeof item == "object"
-                                                          ? item?.title
-                                                          : item
-                                                      }
-                                                      name={key}
-                                                      checked={
-                                                        typeof item == "object"
-                                                          ? appliedFilter[
-                                                              key
-                                                            ]?.includes(item.id)
-                                                            ? true
-                                                            : false
-                                                          : appliedFilter[
-                                                              key
-                                                            ]?.includes(item)
+                                          (item, index) => (
+                                            <li key={index}>
+                                              {item != "" ? (
+                                                <label className="select-multiple-option">
+                                                  <input
+                                                    type={"checkbox"}
+                                                    id={`custom-checkbox-tags-${index}`}
+                                                    value={
+                                                      typeof item ==
+                                                        "object"
+                                                        ? item?.title
+                                                        : item
+                                                    }
+                                                    name={key}
+                                                    checked={
+                                                      typeof item ==
+                                                        "object"
+                                                        ? appliedFilter[
+                                                          key
+                                                        ]?.includes(
+                                                          item.id
+                                                        )
                                                           ? true
                                                           : false
-                                                      }
-                                                      onChange={(e) =>
-                                                        handleOnFilterChange(
-                                                          e,
-                                                          typeof item ==
-                                                            "object"
-                                                            ? item.id
-                                                            : item,
-                                                          index,
-                                                          key,
-                                                          [...filterdata[key]]
-                                                        )
-                                                      }
-                                                    />
-                                                    {typeof item == "object"
-                                                      ? item?.title
-                                                      : item}
-                                                    <span className="checkmark"></span>
-                                                  </label>
-                                                ) : null}
-                                              </li>
-                                            )
+                                                        : appliedFilter[
+                                                          key
+                                                        ]?.includes(item)
+                                                          ? true
+                                                          : false
+                                                    }
+                                                    onChange={(e) =>
+                                                      handleOnFilterChange(
+                                                        e,
+                                                        typeof item ==
+                                                          "object"
+                                                          ? item.id
+                                                          : item,
+                                                        index,
+                                                        key,
+                                                        [...filterdata[key]]
+                                                      )
+                                                    }
+                                                  />
+                                                  {typeof item == "object"
+                                                    ? item?.title
+                                                    : item}
+                                                  <span className="checkmark"></span>
+                                                </label>
+                                              ) : null}
+                                            </li>
                                           )
+                                        )
                                         : null}
                                     </ul>
                                   </Accordion.Body>
@@ -385,9 +386,7 @@ const AnalyticsAttendees = () => {
             <div className="search-hcp smart-list-view anaytics-attended">
               <div className="result-hcp-table">
                 <div className="table-title">
-                  <h4>
-                    Total Attendees | <span>{attendeesData?.length || 0}</span>
-                  </h4>
+                  <h4>Total Attendees |{" "}<span>{attendeesData?.length || 0}</span></h4>
                 </div>
               </div>
               <Table className="attended-table" id="individual_completion">
@@ -484,7 +483,7 @@ const AnalyticsAttendees = () => {
                                       <tr>
                                         <td colSpan="2">
                                           <div className="no_found">
-                                            <p>No Question Asked</p>
+                                            <p>No Poll Submitted</p>
                                           </div>
                                         </td>
                                       </tr>
