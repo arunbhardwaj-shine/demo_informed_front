@@ -63,7 +63,7 @@ const Analytics = (props) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 800,
+      height: 600,
     },
     title: {
       // text: "Click on the double arrows to see more details",
@@ -132,7 +132,7 @@ const Analytics = (props) => {
     },
     plotOptions: {
       pie: {
-        size: "80%",
+        size: "90%",
         dataLabels: {
           enabled: true,
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
@@ -140,7 +140,7 @@ const Analytics = (props) => {
             fontWeight: "bold",
             color: "black",
             textOutline: "none",
-            fontSize: "16px",
+            fontSize: "14px",
           },
           distance: 30, // Set distance from pie slice
           connectorPadding: 0,
@@ -1207,7 +1207,8 @@ const Analytics = (props) => {
                           highcharts={Highcharts}
                           options={{
                             chart: {
-                              marginTop: 10,
+                              marginTop: 0,
+                              marginBottom: 0,
                               type: "bar",
                               events: {
                                 load: function () {
@@ -1305,8 +1306,9 @@ const Analytics = (props) => {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="rd-training-block-left">
                       <h4>
-                        Registered & attended HCPs According to Region |{" "}
-                        <span>{attendedUsers?.totalRegistrationCount||0 }</span>
+                        Registered & attended HCPs According to Region
+                         {/* |{" "}
+                        <span>{attendedUsers?.totalRegistrationCount||0 }</span> */}
                       </h4>
                     </div>
                     {/* <div className="rd-training-block-right d-flex">

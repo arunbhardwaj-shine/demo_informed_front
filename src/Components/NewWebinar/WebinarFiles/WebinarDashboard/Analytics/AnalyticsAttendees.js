@@ -334,7 +334,7 @@ const AnalyticsAttendees = () => {
                       <td>
                         United Kingdom
                       </td>
-                      <td>
+                      <td style={{color:"#0066be"}}>
                         45 min
                       </td>
                       <td>
@@ -418,7 +418,7 @@ const AnalyticsAttendees = () => {
                         United Kingdom
                       </td>
 
-                      <td>
+                      <td style={{color:"#0066be"}}>
                         45 min
                       </td>
 

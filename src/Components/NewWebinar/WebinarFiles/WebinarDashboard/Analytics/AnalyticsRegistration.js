@@ -21,7 +21,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             plotBorderWidth: null,
             plotShadow: false,
             type: "pie",
-            height: 310,
+            height: 315,
         },
         title: {
             text: "Click on the double arrows to see more details",
@@ -99,7 +99,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
         },
         plotOptions: {
             pie: {
-                size: "80%",
+                size: "90%",
                 dataLabels: {
                     enabled: true,
                     format: "{point.y}",
@@ -224,7 +224,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                         // size: '100%',
                                         // height:288,
                                         // size: '100%',
-                                        height: 280,
+                                        height: 292,
                                         // width: '100%',
                                         width: 500,
                                     },

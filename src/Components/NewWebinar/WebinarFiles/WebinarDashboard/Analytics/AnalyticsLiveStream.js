@@ -40,7 +40,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         plotBorderWidth: null,
         plotShadow: false,
         type: "pie",
-        height: 300, // Increased height to prevent overlapping
+        height: 280, // Increased height to prevent overlapping
     },
     title: {
         // text: "AVG spend time |",
@@ -192,7 +192,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
       type: "spline",
-      height: 300,
+      height: 280,
     },
     title: {
       text: "Live HCPs Tracking",

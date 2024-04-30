@@ -13208,7 +13208,7 @@ img.change-password-image {
 
       .rd-box-export {
         position: absolute;
-        bottom: 10px;
+        bottom: 15px;
         right: 15px;
 
         img {
@@ -14266,7 +14266,8 @@ img.change-password-image {
           }
 
           &.right-side {
-            padding: 0 15px;
+            padding: 0 5px;
+            margin: 0 auto;
           }
 
           img {
@@ -14867,6 +14868,45 @@ table {
                 width: calc(50% - 14px);
               }
 
+              .fold-content-left {
+                table {
+                  thead {
+                    tr {
+                      th {
+                        &:first-child{
+                          width:452px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              .fold-content-right {
+                table {
+                  thead {
+                    tr {
+                      th {
+                        &:first-child{
+                          width:390px;
+                        }
+                      }
+                    }
+                  }
+                  tbody {
+                    tr {
+                      td {
+                        &:last-child{
+                          &:first-letter{
+                            color:$dark-blue;
+                            font-weight:600;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
               table {
                 margin: 0;
 
@@ -14881,6 +14921,9 @@ table {
                       font-size: 13px;
                       font-weight: 500;
                       padding: 16px 16px 10px;
+                      // &:first-child{
+                      //   width:200px;
+                      // }
                     }
                   }
                 }
@@ -14904,6 +14947,9 @@ table {
                   }
                 }
               }
+            }
+            :nth-last-child(2){
+              color:red;
             }
           }
         }
