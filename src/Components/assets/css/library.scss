@@ -14823,7 +14823,8 @@ table {
         font-size: 13px;
         font-weight: 500;
         padding: 10px 16px;
-        button{
+
+        button {
           background: transparent;
         }
       }
@@ -14976,9 +14977,9 @@ table {
 
             }
 
-            &:nth-last-child(2) {
-              color: red;
-            }
+            // &:nth-last-child(2) {
+            //   color: red;
+            // }
           }
 
           &.show {
@@ -15614,6 +15615,9 @@ table {
   margin: 10px 0 0 auto;
 }
 
+.nav-item .dropdown-menu.filter-options .accordion .card ul {
+  max-height: 140px;
+}
 
 
 /*Responsive for R&D Analytics*/
