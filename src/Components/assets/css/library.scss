@@ -14268,6 +14268,9 @@ img.change-password-image {
           &.right-side {
             padding: 0 5px;
             margin: 0 auto;
+            max-width: 520px;
+            width: 100%;
+            flex: 1 1;
           }
 
           img {
@@ -14278,7 +14281,7 @@ img.change-password-image {
 
         .graph-data {
           overflow-y: auto;
-          max-height: 280px;
+          max-height: 275px;
           padding: 0 6px;
           margin: 0 -6px;
 
@@ -15669,6 +15672,7 @@ table {
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box {
     padding: 14px 11px 12px;
+    width: 100%;
   }
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box p {
@@ -15798,15 +15802,15 @@ table {
   }
 
   .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-3] {
-    width: 30%;
+    width: 28%;
   }
 
   .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-9] {
-    width: 70%;
+    width: 72%;
   }
 
   .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.left-side {
-    width: 245px;
+    width: 215px;
   }
 
   .webinar-emails-details form .dropdown-basic-button {
@@ -15949,6 +15953,37 @@ table {
   .rd-full-explain.rd-listing .rd-training-block table tbody td:last-child {
     padding-right: 45px;
   }
+
+  .webinar-analytics-layout.rd-analytics-content .row>[class*=col-md-7],
+  .webinar-analytics-layout.rd-analytics-content .row>[class*=col-md-9] {
+    width: 100%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .row>[class*=col-md-5],
+  .webinar-analytics-layout.rd-analytics-content .row>[class*=col-md-3] {
+    width: 50%;
+    margin-top: 40px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-3] {
+    width: 25%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-9] {
+    width: 75%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.left-side {
+    width: 33%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .attended_hcp .avg-speed {
+    width: 30%;
+  }
+
+  .graph-view .graph-view-smaller {
+    padding: 10px 12px 10px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
@@ -16010,6 +16045,10 @@ table {
 
   .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(5) {
     width: 90px;
+  }
+
+  .survey-rating .question-rating .question-list span {
+    margin-right: 4px;
   }
 }
 

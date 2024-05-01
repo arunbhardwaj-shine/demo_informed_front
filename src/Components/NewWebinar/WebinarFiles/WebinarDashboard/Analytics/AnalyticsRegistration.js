@@ -217,16 +217,9 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                         plotBorderWidth: null,
                                         plotShadow: false,
                                         type: "line",
-                                        // marginTop: 50,
-                                        // marginBottom: 50,
-                                        // marginLeft: 50,
-                                        // marginRight: 80,
-                                        // size: '100%',
-                                        // height:288,
-                                        // size: '100%',
+                                        //maxWidth: 500,
+                                        //size: '100%',
                                         height: 292,
-                                        // width: '100%',
-                                        width: 500,
                                     },
                                     
                                     title: {

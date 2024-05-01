@@ -51,6 +51,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
             color: "#70899E",
         },
     },
+
     exporting: {
       enabled: true,
       chartOptions: {
@@ -185,6 +186,18 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       itemMarginBottom: -2, // Add itemMarginBottom to provide space between legend items
     },
     series: [],
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 1500
+        },
+        title: {
+          style: {
+            fontSize: "10px",
+          },
+        }
+      }]
+    },
 };
 
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });

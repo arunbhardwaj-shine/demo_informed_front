@@ -1123,8 +1123,6 @@ const Analytics = (props) => {
                     setEventData={setEventData}
                   />
                 </Col>
-              </Row>
-              <Row>
                 <Col md={5} style={{ margin: "40px 0 0" }}>
                   <AnalyticsEmail />
                 </Col>
@@ -1132,6 +1130,14 @@ const Analytics = (props) => {
                   <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
                 </Col>
               </Row>
+              {/* <Row>
+                <Col md={5} style={{ margin: "40px 0 0" }}>
+                  <AnalyticsEmail />
+                </Col>
+                <Col md={7} style={{ margin: "40px 0 0" }}>
+                  <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
+                </Col>
+              </Row> */}
               {(activeTable == "totalRegistrations") && (
                 <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
