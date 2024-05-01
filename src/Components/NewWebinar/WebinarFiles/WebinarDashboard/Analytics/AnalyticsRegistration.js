@@ -31,7 +31,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                 color: "#97B6CF",
             }
         },
-        
+       
         exporting: {
             enabled: true,
             chartOptions: {
@@ -120,6 +120,26 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             },
         },
         series: [],
+        // responsive: {
+        //     rules: [{
+        //         condition: {
+        //             maxWidth: 1400
+        //         },
+        //         chartOptions: {
+        //             legend: {
+        //                 itemStyle: {
+        //                     fontSize: "8px"
+        //                 },
+        //             },
+        //         },
+        //         title: {
+        //             style:{
+        //                 fontSize: '10px'
+        //             }
+        //         },
+        //     }],
+        // },
+
     };
     
     const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
