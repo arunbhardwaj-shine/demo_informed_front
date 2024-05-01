@@ -53,6 +53,8 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     },
 
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: true,
       chartOptions: {
           title: {
@@ -267,6 +269,8 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       }
   },
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: false,
     },
     plotOptions: {

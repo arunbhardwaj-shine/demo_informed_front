@@ -84,6 +84,9 @@ const Analytics = (props) => {
     },
     exporting: {
       enabled: false,
+      sourceWidth: 1600,
+      sourceHeight: 1200,
+      scale: 1 ,
       menuItemDefinitions: {
         downloadPNG: {
           text: "Download PNG",
@@ -196,6 +199,8 @@ const Analytics = (props) => {
       type: 'pie',
     },
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: false
     },
     credits: {
@@ -245,6 +250,8 @@ const Analytics = (props) => {
       margin: 50
     },
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: false
     },
     xAxis: {
@@ -349,6 +356,8 @@ const Analytics = (props) => {
       },
     },
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: false,
     },
     tooltip: {
@@ -919,6 +928,8 @@ const Analytics = (props) => {
               },
               exporting: {
                 enabled: true,
+                sourceWidth: 1600,
+                sourceHeight: 1200,
                 chartOptions: {
                   title: {
                     text: '' // Remove title from exported image
@@ -1594,7 +1605,8 @@ const Analytics = (props) => {
                             },
                             exporting: {
                               enabled: false,
-
+                              sourceWidth: 1600,
+                              sourceHeight: 1200,
                               showHighchart: true,
                               showTable: false,
                               tableCaption: "",
@@ -1768,6 +1780,8 @@ const Analytics = (props) => {
                                 enabled: false,
                               },
                               exporting: {
+                                sourceWidth: 1600,
+                                sourceHeight: 1200,
                                 enabled: false,
                                 showHighchart: true,
                                 showTable: false,

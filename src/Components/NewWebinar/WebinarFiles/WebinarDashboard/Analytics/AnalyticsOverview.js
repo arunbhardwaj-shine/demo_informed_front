@@ -106,6 +106,8 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
             },
         },
         exporting: {
+            sourceWidth: 1600,
+            sourceHeight: 1200,
           enabled: true,
           chartOptions: {
               title: {

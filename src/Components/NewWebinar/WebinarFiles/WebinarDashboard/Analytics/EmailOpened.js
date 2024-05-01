@@ -401,6 +401,8 @@ export default function EmailOpened() {
                                   },
                                 },
                                 exporting: {
+                                  sourceWidth: 1600,
+                                  sourceHeight: 1200,
                                   enabled: true,
                                 },
                                 tooltip: {},
