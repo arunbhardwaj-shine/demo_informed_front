@@ -791,11 +791,11 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
           </div>
         {
           
-          data?.map((element, index) => {
+          data?.map((element, sindex) => {
             return(
               <>
                 <div className="section-detail-box d-flex">
-                  <div className="detail_section_heading">{element?.chapter}</div>
+                  <div className="detail_section_heading">{element?.chapter ? element?.chapter : "Chapter "+ (parseInt(sindex) + 1)}</div>
                   <div className="detail_section_pages">Total : {element?.data?.length} Pages</div>
                 </div>
 
