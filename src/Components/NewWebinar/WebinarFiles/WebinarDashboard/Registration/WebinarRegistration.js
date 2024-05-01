@@ -52,7 +52,9 @@ const WebinarRegistration = () => {
 
 
 const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6]}
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6],
+"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6]
+,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6]}
 const userId = localStorage.getItem("user_id");
 const defaultTemplateIds = [7]; 
  
@@ -468,7 +470,7 @@ const [templateList, setTemplateList] = useState(() => {
   };
 
   const handleSelectChange = async (event) => {
-    console.log(event);
+    // console.log(event);
     setIsDataSaved(false);
     await getWebinarData(event.code);
     setEventCode(event.code);
@@ -1497,7 +1499,7 @@ const [templateList, setTemplateList] = useState(() => {
                     onSlideChanged={syncActiveIndex}
                   >
                     {templateList.filter(template => template).map((template, index) => {
-                      console.log(templateList,'templateList')
+                      // console.log(templateList,'templateList')
                       return (
                         <>
                           <div
