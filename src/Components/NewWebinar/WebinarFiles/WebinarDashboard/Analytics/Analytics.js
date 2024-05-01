@@ -7,12 +7,15 @@ import AnalyticsEmail from "./AnalyticsEmail";
 import AnalyticsLiveStream from "./AnalyticsLiveStream";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import JSZip from 'jszip';
+import domtoimage from "dom-to-image";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-import { postData } from "../../../../../axios/apiHelper";
+import { postData,postFormData } from "../../../../../axios/apiHelper";
 import { loader } from "../../../../../loader";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
+import WebinarAnalyticCommonModal from "../../../../../Model/WebinarAnalyticCommonModal";
 import Highcharts from "highcharts";
 
 import exporting from "highcharts/modules/exporting";
@@ -39,6 +42,7 @@ exporting(Highcharts);
 exportData(Highcharts);
 drilldown(Highcharts);
 // customWrap(Highcharts);
+
 const Analytics = (props) => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { eventIdContext, handleEventId } = useSidebar();
@@ -46,17 +50,23 @@ const Analytics = (props) => {
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId || localStorageEvent?.eventId
   );
+  const [eventTitle, setEventTitle] = useState(
+    eventIdContext?.eventTitle
+      ? eventIdContext?.eventTitle
+      : localStorageEvent?.eventTitle
+  );
+  const [downloadPopup, setDownloadPopup] = useState(false)
   const [usersData, setUsersData] = useState([]);
   const [usersDataOriginal, setUsersDataOriginal] = useState([]);
   const [overViewData, setOverViewData] = useState([]);;
   const [sortedCountries, setSortedCountries] = useState(null);
   const [attendedUsers, setAttendedUsers] = useState(null);
   const [activeTable, setActiveTable] = useState(null);
-  const totalRegistrationRef= useRef(null);
-  const registeredGraphRef= useRef(null);
-  const overviewTableRef= useRef(null);
-  const attendedUsersRef= useRef(null);
-  
+  const totalRegistrationRef = useRef(null);
+  const registeredGraphRef = useRef(null);
+  const overviewTableRef = useRef(null);
+  const attendedUsersRef = useRef(null);
+
   const commonPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -156,7 +166,7 @@ const Analytics = (props) => {
     series: [],
   };
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
-  const [pieOptionsRegion,setPieOptionsRegion] = useState({ ...commonPieOptions });
+  const [pieOptionsRegion, setPieOptionsRegion] = useState({ ...commonPieOptions });
 
   const [whichTypeGraph, setWhichTypeGraph] = useState(0);
   const [whichTypeGraphRegion, setWhichTypeGraphRegion] = useState(0);
@@ -173,18 +183,245 @@ const Analytics = (props) => {
   const countryPieRef = useRef(null);
   const regionBarRef = useRef(null);
   const regionPieRef = useRef(null);
+
+  const [emailListData, setEmailListData] = useState([])
+  const [localStorageUserId, setLocalStorageUserId] = useState(localStorage.getItem("user_id"))
+  const [newOptions, setNewOptions] = useState([])
+  const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
+  const [pieChartData, setPieChartData] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie',
+    },
+    exporting: {
+      enabled: false
+    },
+    credits: {
+      enabled: false
+    },
+    title: {
+      text: '',
+      align: 'center',
+      margin: 50
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+      enabled: false
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%'
+      }
+    },
+    plotOptions: {
+      pie: {
+        size: '100%',
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<span style="font-size: 1.2em"><b>{point.name} {point.percentage:.1f} %</b></span>',
+        }
+      }
+    },
+    series: [{
+      name: 'Share',
+      data: []
+    }]
+  })
+  const [splineChartData, setSplineChartData] = useState({
+    chart: {
+      type: 'spline',
+      width: "1000"
+    },
+    credits: {
+      enabled: false
+    },
+    title: {
+      text: '',
+      align: 'center',
+      margin: 50
+    },
+    exporting: {
+      enabled: false
+    },
+    xAxis: {
+      categories: [],
+      tickInterval: 1,
+      labels: {
+        enabled: true
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Online Users'
+      },
+      allowDecimals: false,
+    },
+    legend: {
+      enabled: false,
+    },
+    tooltip: {
+      enabled: false
+    },
+
+    plotOptions: {
+      series: {
+        color: "#0066be",
+        marker: {
+          enabled: true
+        }
+      },
+
+      spline: {
+        marker: {
+          enable: true
+        },
+
+        dataLabels: {
+
+          allowOverlap: true,
+          inside: false,
+          overflow: "justify",
+          crop: true,
+          shape: "callout",
+          backgroundColor: "rgba(255,255,255)",
+          borderColor: "rgba(0,0,0,0.9)",
+          color: "rgba(0,0,0)",
+          borderWidth: 0.5,
+          enabled: true,
+          borderRadius: 5,
+          borderWidth: 1,
+          y: -10,
+          marker: {
+            enabled: true,
+          },
+          style: {
+            fontSize: "11px",
+            fontWeight: "normal",
+            textShadow: "none",
+          },
+          formatter: function () {
+            return (
+              "<span ><div className=" +
+              this.series.name + '><span style="font-weight: bold;">' +
+              "Users" +
+              "</span><br/><strong>" +
+              Highcharts.numberFormat(this.y, 0) +
+              "</strong></div></span>"
+            );
+          },
+        },
+
+        enableMouseTracking: false
+      }
+    },
+    series: [{
+      name: '',
+      data: [],
+    }]
+  })
+
+  const [options, setOptions] = useState({
+    chart: {
+      type: "bar",
+      width: 1000,
+      options3d: {
+        enabled: true,
+        alpha: 10,
+        beta: 25,
+        depth: 70,
+      },
+
+    },
+    title: {
+      text: "Mail campaign stats",
+    },
+    xAxis: {
+      categories: [],
+
+    },
+    yAxis: {
+      title: {
+        text: null,
+      },
+    },
+    exporting: {
+      enabled: false,
+    },
+    tooltip: {
+
+      formatter: function () {
+        return (
+          "<span ><div className=" +
+          this.series.name +
+          '>'
+          // <span style="font-weight: bold">'
+          +
+          // this.x +
+          " <strong >" + ":" +
+          Highcharts.numberFormat(this.y, 0) +
+          "</strong></div></span>"
+        );
+      },
+    },
+    plotOptions: {
+      bar: {
+        pointWidth: 20,
+      },
+      series: {
+        dataLabels: {
+          allowOverlap: false,
+          distance: 40,
+          enabled: true,
+          inside: false,
+          overflow: "justify",
+          crop: true,
+          shape: "callout",
+          size: "100%",
+          style: {
+            fontFamily: "Helvetica, sans-serif",
+            fontWeight: "normal",
+            textShadow: "none",
+          },
+          formatter: function () {
+            return (
+              "<span ><div className=" +
+              this.series.name
+              //  +
+              // this.x
+              + " <strong >" +
+              Highcharts.numberFormat(this.y, 0) +
+              "</strong></div></span>"
+            );
+          },
+        },
+      },
+    },
+    series: [
+      {
+        name: "Email campaign",
+        data: [],
+      },
+    ],
+  });
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState('asc');
+
   const clearFilter = () => {
     setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
-      // console.log(filteredData);
-  if(activeTable=="totalRegistrations"){
-    setUsersData(usersDataOriginal)
-  }
-  else if(activeTable=="overView"){
-    setOverViewData(usersDataOriginal)
+    // console.log(filteredData);
+    if (activeTable == "totalRegistrations") {
+      setUsersData(usersDataOriginal)
+    }
+    else if (activeTable == "overView") {
+      setOverViewData(usersDataOriginal)
 
-  }
+    }
     setUsersData(usersDataOriginal)
     // setEmailListData([]);
     // setTotalEmailListData([])
@@ -195,40 +432,40 @@ const Analytics = (props) => {
     e.preventDefault();
     const filteredData = usersDataOriginal.filter(item => {
       for (const key in appliedFilter) {
-          const filterValues = appliedFilter[key];
-          console.log(filterValues);
-          if (filterValues.length === 0) {
-            continue; 
+        const filterValues = appliedFilter[key];
+        console.log(filterValues);
+        if (filterValues.length === 0) {
+          continue;
         }
-          let isMatch = false;
+        let isMatch = false;
 
-          if (filterValues.length > 1) {
-              // "or" condition
-              isMatch = filterValues.some(value => item[key] === value);
-          } else {
-              // "and" condition
-              isMatch = item[key] === filterValues[0];
-          }
+        if (filterValues.length > 1) {
+          // "or" condition
+          isMatch = filterValues.some(value => item[key] === value);
+        } else {
+          // "and" condition
+          isMatch = item[key] === filterValues[0];
+        }
 
-          if (!isMatch) {
-              return false; // If any condition fails, immediately return false
-          }
+        if (!isMatch) {
+          return false; // If any condition fails, immediately return false
+        }
       }
 
       return true; // All conditions passed
-  });
-  // console.log(filteredData);
-  if(activeTable=="totalRegistrations"){
-    setUsersData(filteredData)
-    setOverViewData(null)
+    });
+    // console.log(filteredData);
+    if (activeTable == "totalRegistrations") {
+      setUsersData(filteredData)
+      setOverViewData(null)
 
-  }
-  else if(activeTable=="overView"){
-    setOverViewData(filteredData)
-    setUsersData(null)
+    }
+    else if (activeTable == "overView") {
+      setOverViewData(filteredData)
+      setUsersData(null)
 
 
-  }
+    }
     // setEmailListData([]);
     setFilterObject(appliedFilter);
     // getWebinarCompaignList(appliedFilter);
@@ -265,6 +502,7 @@ const Analytics = (props) => {
     setAppliedFilter(newObj);
     setApifilterObject(apifilterObject);
   };
+
   useEffect(() => {
     // props.getWebinarEmailData(null);
     // props.getWebinarDraftData(null);
@@ -293,14 +531,209 @@ const Analytics = (props) => {
     // }
   }, []);
 
+  useEffect(() => {
+    getRegionPieChartStats();
+    getOnlineReadersGraph();
+    getWebinarCompaignList();
+  }, [])
+
+  const getRegionPieChartStats = async (e) => {
+    console.log("in getRegionPieChartStats")
+    try {
+      let payload = {
+        'eventId': eventId
+      }
+      const res = await postData(`${ENDPOINT.WEBINAR_EVENT_REGION_PIECHART_STATS}`, payload)
+      let data = res?.data?.data
+      const regionCounts = {};
+
+      // Iterate over the data and accumulate counts for each region
+      data.forEach(entry => {
+        if (regionCounts[entry.region]) {
+          regionCounts[entry.region] += entry.count;
+        } else {
+          regionCounts[entry.region] = entry.count;
+        }
+      });
+
+      // Convert the object into an array of objects
+      const resultArray = Object.keys(regionCounts).map(region => ({
+        name: region,
+        y: regionCounts[region]
+      }));
+
+      setPieChartData({
+        ...pieChartData,
+        series: [{
+          ...pieChartData.series[0],
+          data: resultArray
+        }]
+      })
+    } catch (err) {
+      console.log("-err", err);
+    }
+  }
+
+  const getOnlineReadersGraph = async () => {
+    console.log("in getOnlineReadersGraph")
+
+    try {
+      let body = {
+        eventId: eventId,
+      };
+      const response = await postData(ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA, body);
+      let data = response?.data?.data;
+      setSplineChartData({
+        ...splineChartData,
+        xAxis: {
+          ...splineChartData.xAxis,
+          categories: data?.timeSlots
+        },
+        series: [{
+          ...splineChartData.series[0], // Keep other properties of the series unchanged
+          data: data?.slotCount
+
+        }]
+      })
+    } catch (err) {
+      console.log("--err", err)
+
+    }
+  }
+
+  const getWebinarCompaignList = async (filter = "") => {
+    console.log("in getWebinarCompaignList")
+    try {
+      loader("show")
+      let body = {
+        user_id: localStorageUserId,
+        event_id: eventId,
+        search: '',
+        filter: filter
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      let response = []
+      await axios
+        .post(`/webinar/get_webinar_campaign`, body)
+        .then((res) => {
+          response = res?.data
+        })
+        .catch((err) => {
+          loader("hide");
+          console.log(err);
+        });
+      // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
+
+      setEmailListData(response?.response?.data)
+
+      let updateNewOptions = []
+      response?.response?.data?.map((data, index) => {
+        let valueupdate = JSON.parse(JSON.stringify(options));
+        valueupdate.xAxis.categories = ["Emails sent", "Emails opened"]
+        valueupdate.series[0].data = [
+          { y: data?.email_sent, color: "#8a4e9c" },
+          { y: data?.email_read, color: "#ffbe2c" },
+        ];
+        Object.keys(data?.labels_value)?.map((item, index) => {
+          valueupdate?.xAxis?.categories?.push(data?.labels[item]);
+
+          let obj = {
+            y: data?.labels_value[item],
+            color: colorArray?.[index]
+          }
+          valueupdate.series[0].data.push(obj);
+        })
+        updateNewOptions?.push(valueupdate)
+
+      })
+
+      setNewOptions(updateNewOptions)
+      loader("hide")
+
+    } catch (err) {
+      loader("hide")
+      console.log("--err", err)
+    }
+  }
+
+  const downloadStats = async (e) => {
+    try {
+      loader("show")
+      // Create a new instance of JSZip
+      const zip = new JSZip();
+
+      // Make your API request to get the Excel file
+      let payload = {
+        'eventId': eventId
+      }
+      const res = await postFormData(`${ENDPOINT.WEBINAR_EVENT_STATS}`, payload, {
+        responseType: "blob",
+      });
+      let excelSheetFileName = eventTitle.replace(/[\s:]+/g, '_');
+
+      // Add the Excel file to the zip file
+      zip.file(`${excelSheetFileName}.xlsx`, res.data)
+      // Convert the pie chart element to PNG image
+      const pieChart = document.getElementById("pieChart");
+      const pieChartImageDataUrl = await domtoimage.toPng(pieChart, { cacheBust: true });
+
+      // Convert the image data URL to a Blob
+      const pieChartImageBlob = await fetch(pieChartImageDataUrl).then(res => res.blob());
+
+      // Add the pie chart image to the zip file
+      zip.file('Region_Chart.png', pieChartImageBlob);
+
+      // Convert the online users chart element to PNG image
+      const splineChart = document.getElementById("splineChart");
+      const splineChartImageDataUrl = await domtoimage.toPng(splineChart, { cacheBust: true });
+
+      // Convert the image data URL to a Blob
+      const splineChartImageBlob = await fetch(splineChartImageDataUrl).then(res => res.blob());
+
+      // Add the online users chart image to the zip file
+      zip.file('Online_Users_Chart.png', splineChartImageBlob);
+      if(emailListData?.length){
+
+      for (let i = 0; i < emailListData?.length; i++) {
+
+        const campaignChart = document.getElementById(`analytics_campaign_${i}`);
+        const campaignChartImageDataUrl = await domtoimage.toPng(campaignChart, { cacheBust: true });
+
+        // Convert the image data URL to a Blob
+        const campaignChartImageBlob = await fetch(campaignChartImageDataUrl).then(res => res.blob());
+
+        // Add the online users chart image to the zip file
+        zip.file(`${emailListData?.[i]?.subject?.trim().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}_${i}.png`, campaignChartImageBlob);
+
+      }
+    }
+
+      // Generate the zip file asynchronously
+      zip.generateAsync({ type: "blob" })
+        .then(content => {
+          // Save the generated zip file using FileSaver.js
+          saveAs(content, `${eventTitle.replace(/[\s:]+/g, '_')}.zip`);
+        });
+      loader("hide")
+
+    } catch (err) {
+      console.error("Error downloading stats:", err);
+      loader("hide")
+    }
+  }
+
+  const downloadPopupFun = (e) => {
+    setDownloadPopup(true)
+  }
+
   const dropdownClicked = async (flag) => {
     loader("show");
-  
+
     const body = {
       eventId: eventId,
       type: flag,
     };
-  
+
     try {
       const response = await postData(ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_USERS, body);
       const responseData = response?.data?.data || [];
@@ -313,15 +746,15 @@ const Analytics = (props) => {
           setUsersData([]);
           setSortedCountries(null);
           break;
-          
-  
+
+
         case "registeredHcps":
           const newValue = [{
             name: "",
             colorByPoint: true,
             data: response?.data?.data?.countryWiseData?.pieChartData || [],
           }];
-  
+
           const newValueRegion = [{
             name: "",
             colorByPoint: true,
@@ -329,17 +762,19 @@ const Analytics = (props) => {
             drilldown: true, // enable drilldown for this series
 
           }];
-  
+
           setPieOptions({ ...commonPieOptions, series: newValue });
-          setPieOptionsRegion({ ...commonPieOptions, series: newValueRegion ,
+          setPieOptionsRegion({
+            ...commonPieOptions, series: newValueRegion,
             drilldown: {
-              series:response?.data?.data?.regionData?.drilldownData, // set the drilldown data
-            },});
+              series: response?.data?.data?.regionData?.drilldownData, // set the drilldown data
+            },
+          });
           setSortedCountries(response?.data?.data);
           setUsersData([]);
           setOverViewData([]);
           break;
-  
+
         default:
           setFilterData(responseData?.filterObject)
           setUsersData(responseData?.registrationData);
@@ -360,20 +795,20 @@ const Analytics = (props) => {
   };
   useEffect(() => {
     if (totalRegistrationRef?.current) {
-        totalRegistrationRef.current.scrollIntoView({ behavior: 'smooth' });
+      totalRegistrationRef.current.scrollIntoView({ behavior: 'smooth' });
     }
     if (registeredGraphRef?.current) {
-        registeredGraphRef.current.scrollIntoView({ behavior: 'smooth' });
+      registeredGraphRef.current.scrollIntoView({ behavior: 'smooth' });
     }
     if (overviewTableRef?.current) {
-        overviewTableRef.current.scrollIntoView({ behavior: 'smooth' });
+      overviewTableRef.current.scrollIntoView({ behavior: 'smooth' });
     }
     if (attendedUsersRef?.current) {
       attendedUsersRef.current.scrollIntoView({ behavior: 'smooth' });
-  }
-}, [usersData, sortedCountries, overViewData,attendedUsers]);
+    }
+  }, [usersData, sortedCountries, overViewData, attendedUsers]);
 
-  const downloadExcel = (data,name) => {
+  const downloadExcel = (data, name) => {
     try {
       if (data?.length == 0) {
         toast.warning("No data found");
@@ -390,23 +825,23 @@ const Analytics = (props) => {
         finalData.Registered = item?.register_time
           ? item?.register_time.trim()
           : "N/A";
-          if(item?.last_email!=undefined){
-            finalData["Last Email"] = item?.last_email
+        if (item?.last_email != undefined) {
+          finalData["Last Email"] = item?.last_email
             ? item?.last_email.trim()
             : "N/A";
-          }
-          if(item?.hcp_status!=undefined){
+        }
+        if (item?.hcp_status != undefined) {
 
-        finalData["User Type"] = item?.hcp_status
-          ? item?.hcp_status.trim()
-          : "N/A";
-          }
-          if(item?.Attended!=undefined){
+          finalData["User Type"] = item?.hcp_status
+            ? item?.hcp_status.trim()
+            : "N/A";
+        }
+        if (item?.Attended != undefined) {
 
-            finalData["Attended"] = item?.Attended
-              ? item?.Attended.trim()
-              : "N/A";
-              }
+          finalData["Attended"] = item?.Attended
+            ? item?.Attended.trim()
+            : "N/A";
+        }
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -428,17 +863,17 @@ const Analytics = (props) => {
     }
   };
   const onHandleDisplayResultChange = () => {
-  setWhichTypeGraph(!whichTypeGraph);
+    setWhichTypeGraph(!whichTypeGraph);
   };
 
 
   const handleAttendedUserCountryWise = async () => {
     loader("show");
-  
+
     const body = {
       eventId: eventId,
     };
-  
+
     try {
       const response = await postData(ENDPOINT.GET_ATTENDED_DATA, body);
       const responseData = response?.data?.data || [];
@@ -446,7 +881,7 @@ const Analytics = (props) => {
       setOverViewData([]);
       setSortedCountries(null);
       setAttendedUsers(responseData)
-  
+
       loader("hide");
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -455,12 +890,12 @@ const Analytics = (props) => {
   };
   const renderTabsAndCharts = (data) => {
     return Object.keys(data).map((region) => {
-      if(region=="totalRegistrationCount") return null
+      if (region == "totalRegistrationCount") return null
       const regionData = data[region];
       const countries = regionData.map((item) => item.country);
       const registeredUsers = regionData.map((item) => item.registeredUsers);
       const attendedUsers = regionData.map((item) => item.attendedUsers);
-  
+
       return (
         <Tab key={region} eventKey={region.toLowerCase()} title={region}>
           <HighchartsReact
@@ -485,55 +920,55 @@ const Analytics = (props) => {
               exporting: {
                 enabled: true,
                 chartOptions: {
-                    title: {
-                        text: '' // Remove title from exported image
-                    }
+                  title: {
+                    text: '' // Remove title from exported image
+                  }
                 },
                 filename: 'Total_Registration', // Set filename for exported image
                 menuItemDefinitions: {
-                    downloadPNG: {
-                        text: 'Download PNG',
-                        onclick: function() {
-                            this.exportChart({
-                                type: 'image/png'
-                            });
-                        }
-                    },
-                    downloadJPEG: {
-                        text: 'Download JPEG',
-                        onclick: function() {
-                            this.exportChart({
-                                type: 'image/jpeg'
-                            });
-                        }
-                    },
-                    downloadPDF: {
-                        text: 'Download PDF',
-                        onclick: function() {
-                            this.exportChart({
-                                type: 'application/pdf'
-                            });
-                        }
-                    },
-                    downloadSVG: {
-                        text: 'Download SVG',
-                        onclick: function() {
-                            this.exportChart({
-                                type: 'image/svg+xml'
-                            });
-                        }
+                  downloadPNG: {
+                    text: 'Download PNG',
+                    onclick: function () {
+                      this.exportChart({
+                        type: 'image/png'
+                      });
                     }
+                  },
+                  downloadJPEG: {
+                    text: 'Download JPEG',
+                    onclick: function () {
+                      this.exportChart({
+                        type: 'image/jpeg'
+                      });
+                    }
+                  },
+                  downloadPDF: {
+                    text: 'Download PDF',
+                    onclick: function () {
+                      this.exportChart({
+                        type: 'application/pdf'
+                      });
+                    }
+                  },
+                  downloadSVG: {
+                    text: 'Download SVG',
+                    onclick: function () {
+                      this.exportChart({
+                        type: 'image/svg+xml'
+                      });
+                    }
+                  }
                 },
                 buttons: {
-                    contextButton: {
-                        symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
-                        menuItems: [
-                            "downloadPNG",
-                            "downloadJPEG",
-                            "downloadPDF",
-                            "downloadSVG"
-                        ]
-                    }
+                  contextButton: {
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                    menuItems: [
+                      "downloadPNG",
+                      "downloadJPEG",
+                      "downloadPDF",
+                      "downloadSVG"
+                    ]
+                  }
                 }
               },
               title: {
@@ -571,7 +1006,7 @@ const Analytics = (props) => {
                   },
                 },
               },
-              
+
               series: [
                 {
                   name: "Registered",
@@ -593,8 +1028,8 @@ const Analytics = (props) => {
   const handleDownload = (format, ref) => {
     // Accessing Highcharts chart object using ref
     let chart = ref.current && ref.current.chart;
-    let defaultName="registered_attended_stats"
-  
+    let defaultName = "registered_attended_stats"
+
     if (chart) {
       switch (format) {
         case "PNG":
@@ -614,9 +1049,32 @@ const Analytics = (props) => {
       }
     }
   };
+
+  const handleSort = (key) => {
+    console.log("handle sort-->",key)
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+
+  const sortData = (data, key, order) => {
+    console.log("sortData-->",key)
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
   
-  
-  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
+      }
+    });
+  };
+
+
+
   return (
     <>
       <Col className="right-sidebar">
@@ -630,6 +1088,7 @@ const Analytics = (props) => {
               <Button
                 title="Download Site Engagements"
                 className="download filled"
+                onClick={(e) => downloadPopupFun(e)}
               >
                 Summary (Excel)
                 <svg
@@ -673,7 +1132,7 @@ const Analytics = (props) => {
                   <AnalyticsLiveStream handleAttendedUserCountryWise={handleAttendedUserCountryWise} />
                 </Col>
               </Row>
-              {(activeTable =="totalRegistrations" ) && (
+              {(activeTable == "totalRegistrations") && (
                 <div className="rd-full-explain" ref={totalRegistrationRef} >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
@@ -785,65 +1244,65 @@ const Analytics = (props) => {
                                             <ul>
                                               {filterdata[key]?.length
                                                 ? filterdata[key]?.map(
-                                                    (item, index) => (
-                                                      <li key={index}>
-                                                        {item != "" ? (
-                                                          <label className="select-multiple-option">
-                                                            <input
-                                                              type={"checkbox"}
-                                                              id={`custom-checkbox-tags-${index}`}
-                                                              value={
-                                                                typeof item ==
+                                                  (item, index) => (
+                                                    <li key={index}>
+                                                      {item != "" ? (
+                                                        <label className="select-multiple-option">
+                                                          <input
+                                                            type={"checkbox"}
+                                                            id={`custom-checkbox-tags-${index}`}
+                                                            value={
+                                                              typeof item ==
                                                                 "object"
-                                                                  ? item?.title
-                                                                  : item
-                                                              }
-                                                              name={key}
-                                                              checked={
-                                                                typeof item ==
+                                                                ? item?.title
+                                                                : item
+                                                            }
+                                                            name={key}
+                                                            checked={
+                                                              typeof item ==
                                                                 "object"
-                                                                  ? appliedFilter[
-                                                                      key
-                                                                    ]?.includes(
-                                                                      item.id
-                                                                    )
-                                                                    ? true
-                                                                    : false
-                                                                  : appliedFilter[
-                                                                      key
-                                                                    ]?.includes(
-                                                                      item
-                                                                    )
+                                                                ? appliedFilter[
+                                                                  key
+                                                                ]?.includes(
+                                                                  item.id
+                                                                )
                                                                   ? true
                                                                   : false
-                                                              }
-                                                              onChange={(e) =>
-                                                                handleOnFilterChange(
-                                                                  e,
-                                                                  typeof item ==
-                                                                    "object"
-                                                                    ? item.id
-                                                                    : item,
-                                                                  index,
-                                                                  key,
-                                                                  [
-                                                                    ...filterdata[
-                                                                      key
-                                                                    ],
-                                                                  ]
+                                                                : appliedFilter[
+                                                                  key
+                                                                ]?.includes(
+                                                                  item
                                                                 )
-                                                              }
-                                                            />
-                                                            {typeof item ==
+                                                                  ? true
+                                                                  : false
+                                                            }
+                                                            onChange={(e) =>
+                                                              handleOnFilterChange(
+                                                                e,
+                                                                typeof item ==
+                                                                  "object"
+                                                                  ? item.id
+                                                                  : item,
+                                                                index,
+                                                                key,
+                                                                [
+                                                                  ...filterdata[
+                                                                  key
+                                                                  ],
+                                                                ]
+                                                              )
+                                                            }
+                                                          />
+                                                          {typeof item ==
                                                             "object"
-                                                              ? item?.title
-                                                              : item}
-                                                            <span className="checkmark"></span>
-                                                          </label>
-                                                        ) : null}
-                                                      </li>
-                                                    )
+                                                            ? item?.title
+                                                            : item}
+                                                          <span className="checkmark"></span>
+                                                        </label>
+                                                      ) : null}
+                                                    </li>
                                                   )
+                                                )
                                                 : null}
                                             </ul>
                                           </Accordion.Body>
@@ -873,7 +1332,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(usersData,"Total Registrations")}
+                          onClick={() => downloadExcel(usersData, "Total Registrations")}
                         >
                           <svg
                             width="20"
@@ -895,15 +1354,21 @@ const Analytics = (props) => {
                       </div>
                     </div>
                     <div className="table-registered">
-                    <Table
-                      className="fold-table registration-view"
-                      id="individual_completion"
-                    >
-                      <thead className="sticky-header">
-                        <tr>
+                      <Table
+                        className="fold-table registration-view"
+                        id="individual_completion"
+                      >
+                        <thead className="sticky-header">
+                          <tr>
                             <th>Name  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                              // className={`event_sort_btn `}
+                              className={`event_sort_btn ${sortBy == "name" ?
+                                sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                                : "" 
+                                }`}
+                            onClick={() => handleSort('name')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -1006,37 +1471,38 @@ const Analytics = (props) => {
                                 </defs>
                               </svg>
                             </button></th>
-                        </tr>
-                      </thead>
-          <tbody>
-            {usersData?.length ? (
-              usersData.map((user, index) => (
-                <>
-                  <tr key={index}>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.province}</td>
-                    <td>{user.country}</td>
-                    <td className="green">{user.register_time}</td>
-                    <td>{user.last_email}</td>
-                    <td>{user.hcp_status}</td>
-                  </tr>
-                  <tr className="blank">
-                    <td colSpan="7">&nbsp;</td>
-                  </tr>
-                </>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">
-                  <div className="no_found">
-                    <p>No Data Found</p>
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {usersData?.length ? (
+                            // usersData.map((user, index) => (
+                              sortData(usersData, sortBy, sortOrder).map((user, index) => (
+                              <>
+                                <tr key={index}>
+                                  <td>{user.name}</td>
+                                  <td>{user.email}</td>
+                                  <td>{user.province}</td>
+                                  <td>{user.country}</td>
+                                  <td className="green">{user.register_time}</td>
+                                  <td>{user.last_email}</td>
+                                  <td>{user.hcp_status}</td>
+                                </tr>
+                                <tr className="blank">
+                                  <td colSpan="7">&nbsp;</td>
+                                </tr>
+                              </>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="7">
+                                <div className="no_found">
+                                  <p>No Data Found</p>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
                     </div>
                   </div>
                   {/* </div>
@@ -1046,7 +1512,7 @@ const Analytics = (props) => {
 
               {/* HCP registered */}
               {sortedCountries && (
-                <div className="rd-full-explain"   ref={registeredGraphRef}  >
+                <div className="rd-full-explain" ref={registeredGraphRef}  >
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
                   </div>
@@ -1080,30 +1546,30 @@ const Analytics = (props) => {
                           </label>
                         </div>
                         <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="6"
-                            height="24"
-                            viewBox="0 0 6 24"
-                            fill="none"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        </Dropdown.Toggle>
+                          <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="6"
+                              height="24"
+                              viewBox="0 0 6 24"
+                              fill="none"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                                fill="#0066BE"
+                              />
+                            </svg>
+                          </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                          <Dropdown.Item onClick={() => handleDownload('PNG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PNG</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleDownload('JPEG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download JPEG</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleDownload('PDF',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download PDF</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleDownload('SVG',whichTypeGraph==0?countryBarRef:countryPieRef)}>Download SVG</Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
+                          <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => handleDownload('PNG', whichTypeGraph == 0 ? countryBarRef : countryPieRef)}>Download PNG</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDownload('JPEG', whichTypeGraph == 0 ? countryBarRef : countryPieRef)}>Download JPEG</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDownload('PDF', whichTypeGraph == 0 ? countryBarRef : countryPieRef)}>Download PDF</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDownload('SVG', whichTypeGraph == 0 ? countryBarRef : countryPieRef)}>Download SVG</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
                         {/* <Button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1125,8 +1591,8 @@ const Analytics = (props) => {
                     <div className="graph-view">
                       {whichTypeGraph == 0 ? (
                         <HighchartsReact
-                        ref={countryBarRef}
-                        highcharts={Highcharts}
+                          ref={countryBarRef}
+                          highcharts={Highcharts}
                           options={{
                             chart: {
                               marginTop: 50,
@@ -1158,7 +1624,7 @@ const Analytics = (props) => {
                               enabled: false,
                             },
                             exporting: {
-                              enabled:false,
+                              enabled: false,
 
                               showHighchart: true,
                               showTable: false,
@@ -1209,7 +1675,7 @@ const Analytics = (props) => {
                         />
                       ) : (
                         <HighchartsReact
-                        ref={countryPieRef}
+                          ref={countryPieRef}
 
                           highcharts={Highcharts}
                           options={pieOptions}
@@ -1220,7 +1686,7 @@ const Analytics = (props) => {
                 </div>
               )}
 
-                {sortedCountries && (
+              {sortedCountries && (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
                     <h6>Registrations</h6>
@@ -1238,7 +1704,7 @@ const Analytics = (props) => {
                             <input
                               type="checkbox"
                               // ={graphType == "pie" ? true : false}
-                              onChange={()=>setWhichTypeGraphRegion(!whichTypeGraphRegion)}
+                              onChange={() => setWhichTypeGraphRegion(!whichTypeGraphRegion)}
                             />
                             <span>
                               <span>
@@ -1255,30 +1721,30 @@ const Analytics = (props) => {
                           </label>
                         </div>
                         <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="6"
-          height="24"
-          viewBox="0 0 6 24"
-          fill="none"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-            fill="#0066BE"
-          />
-        </svg>
-      </Dropdown.Toggle>
+                          <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="6"
+                              height="24"
+                              viewBox="0 0 6 24"
+                              fill="none"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                                fill="#0066BE"
+                              />
+                            </svg>
+                          </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleDownload('PNG',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download PNG</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleDownload('JPEG',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download JPEG</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleDownload('PDF',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download PDF</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleDownload('SVG',whichTypeGraphRegion==0?regionBarRef:regionPieRef)}>Download SVG</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+                          <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => handleDownload('PNG', whichTypeGraphRegion == 0 ? regionBarRef : regionPieRef)}>Download PNG</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDownload('JPEG', whichTypeGraphRegion == 0 ? regionBarRef : regionPieRef)}>Download JPEG</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDownload('PDF', whichTypeGraphRegion == 0 ? regionBarRef : regionPieRef)}>Download PDF</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDownload('SVG', whichTypeGraphRegion == 0 ? regionBarRef : regionPieRef)}>Download SVG</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
                         {/* <Button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1299,96 +1765,96 @@ const Analytics = (props) => {
                     </div>
                     <div className="graph-view">
                       <div className="graph-view-smaller">
-                      {whichTypeGraphRegion == 0 ? (
-                        <HighchartsReact
-                          ref={regionBarRef}
-                          highcharts={Highcharts}
-                          options={{
-                            chart: {
-                              marginTop: 0,
-                              marginBottom: 0,
-                              type: "bar",
-                              events: {
-                                load: function () {
-                                  let categoryHeight = 50;
-                                  this.update({
-                                    chart: {
-                                      height:
-                                        categoryHeight * this.pointCount +
-                                        (this.chartHeight - this.plotHeight),
-                                    },
-                                  });
+                        {whichTypeGraphRegion == 0 ? (
+                          <HighchartsReact
+                            ref={regionBarRef}
+                            highcharts={Highcharts}
+                            options={{
+                              chart: {
+                                marginTop: 0,
+                                marginBottom: 0,
+                                type: "bar",
+                                events: {
+                                  load: function () {
+                                    let categoryHeight = 50;
+                                    this.update({
+                                      chart: {
+                                        height:
+                                          categoryHeight * this.pointCount +
+                                          (this.chartHeight - this.plotHeight),
+                                      },
+                                    });
+                                  },
                                 },
                               },
-                            },
-                            title: {
-                              text: "",
-                            },
-                            xAxis: {
-                              categories:
-                                sortedCountries?.regionData?.barChartCategories,
-                            },
-                            credits: {
-                              enabled: false,
-                            },
-                            exporting: {
-                              enabled:false,
-                              showHighchart: true,
-                              showTable: false,
-                              tableCaption: "",
-                            },
-                            // legend: {
-                            //   reversed: true,
-                            //   align: "center",
-                            //   verticalAlign: "top",
-                            //   floating: true,
-                            //   x: 0,
-                            //   y: 50,
-                            // },
-                            yAxis: {
-                              min: 0,
                               title: {
                                 text: "",
                               },
-                              stackLabels: {
-                                enabled: true,
-                                style: {
-                                  fontWeight: "bold",
-                                  color:
-                                    (Highcharts.defaultOptions.title.style &&
-                                      Highcharts.defaultOptions.title.style
-                                        .color) ||
-                                    "gray",
-                                },
+                              xAxis: {
+                                categories:
+                                  sortedCountries?.regionData?.barChartCategories,
                               },
-                            },
-                            plotOptions: {
-                              bar: {
-                                dataLabels: {
+                              credits: {
+                                enabled: false,
+                              },
+                              exporting: {
+                                enabled: false,
+                                showHighchart: true,
+                                showTable: false,
+                                tableCaption: "",
+                              },
+                              // legend: {
+                              //   reversed: true,
+                              //   align: "center",
+                              //   verticalAlign: "top",
+                              //   floating: true,
+                              //   x: 0,
+                              //   y: 50,
+                              // },
+                              yAxis: {
+                                min: 0,
+                                title: {
+                                  text: "",
+                                },
+                                stackLabels: {
                                   enabled: true,
+                                  style: {
+                                    fontWeight: "bold",
+                                    color:
+                                      (Highcharts.defaultOptions.title.style &&
+                                        Highcharts.defaultOptions.title.style
+                                          .color) ||
+                                      "gray",
+                                  },
                                 },
                               },
-                            },
-                            legend:{
-                              enabled: false,
-                            },
-                            series: [
-                              {
-                                // name: title,
-                                data: sortedCountries?.regionData?.barChartSeries,
-                                color: "#00D4C0",
+                              plotOptions: {
+                                bar: {
+                                  dataLabels: {
+                                    enabled: true,
+                                  },
+                                },
                               },
-                            ],
-                          }}
-                        />
-                      ) : (
-                        <HighchartsReact
-                        ref={regionPieRef}
+                              legend: {
+                                enabled: false,
+                              },
+                              series: [
+                                {
+                                  // name: title,
+                                  data: sortedCountries?.regionData?.barChartSeries,
+                                  color: "#00D4C0",
+                                },
+                              ],
+                            }}
+                          />
+                        ) : (
+                          <HighchartsReact
+                            ref={regionPieRef}
 
-                          highcharts={Highcharts}
-                          options={pieOptionsRegion}
-                        />
-                      )}
+                            highcharts={Highcharts}
+                            options={pieOptionsRegion}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1396,7 +1862,7 @@ const Analytics = (props) => {
               )}
               {/* HCP registered */}
               {/* Registered & attended HCPs According to Region */}
-           {attendedUsers&&   <div className="rd-full-explain" ref ={attendedUsersRef}>
+              {attendedUsers && <div className="rd-full-explain" ref={attendedUsersRef}>
                 <div className="rd-section-title">
                   <h6>Registrations</h6>
                 </div>
@@ -1405,7 +1871,7 @@ const Analytics = (props) => {
                     <div className="rd-training-block-left">
                       <h4>
                         Registered & attended HCPs According to Region
-                         {/* |{" "}
+                        {/* |{" "}
                         <span>{attendedUsers?.totalRegistrationCount||0 }</span> */}
                       </h4>
                     </div>
@@ -1548,65 +2014,65 @@ const Analytics = (props) => {
                                             <ul>
                                               {filterdata[key]?.length
                                                 ? filterdata[key]?.map(
-                                                    (item, index) => (
-                                                      <li key={index}>
-                                                        {item != "" ? (
-                                                          <label className="select-multiple-option">
-                                                            <input
-                                                              type={"checkbox"}
-                                                              id={`custom-checkbox-tags-${index}`}
-                                                              value={
-                                                                typeof item ==
+                                                  (item, index) => (
+                                                    <li key={index}>
+                                                      {item != "" ? (
+                                                        <label className="select-multiple-option">
+                                                          <input
+                                                            type={"checkbox"}
+                                                            id={`custom-checkbox-tags-${index}`}
+                                                            value={
+                                                              typeof item ==
                                                                 "object"
-                                                                  ? item?.title
-                                                                  : item
-                                                              }
-                                                              name={key}
-                                                              checked={
-                                                                typeof item ==
+                                                                ? item?.title
+                                                                : item
+                                                            }
+                                                            name={key}
+                                                            checked={
+                                                              typeof item ==
                                                                 "object"
-                                                                  ? appliedFilter[
-                                                                      key
-                                                                    ]?.includes(
-                                                                      item.id
-                                                                    )
-                                                                    ? true
-                                                                    : false
-                                                                  : appliedFilter[
-                                                                      key
-                                                                    ]?.includes(
-                                                                      item
-                                                                    )
+                                                                ? appliedFilter[
+                                                                  key
+                                                                ]?.includes(
+                                                                  item.id
+                                                                )
                                                                   ? true
                                                                   : false
-                                                              }
-                                                              onChange={(e) =>
-                                                                handleOnFilterChange(
-                                                                  e,
-                                                                  typeof item ==
-                                                                    "object"
-                                                                    ? item.id
-                                                                    : item,
-                                                                  index,
-                                                                  key,
-                                                                  [
-                                                                    ...filterdata[
-                                                                      key
-                                                                    ],
-                                                                  ]
+                                                                : appliedFilter[
+                                                                  key
+                                                                ]?.includes(
+                                                                  item
                                                                 )
-                                                              }
-                                                            />
-                                                            {typeof item ==
+                                                                  ? true
+                                                                  : false
+                                                            }
+                                                            onChange={(e) =>
+                                                              handleOnFilterChange(
+                                                                e,
+                                                                typeof item ==
+                                                                  "object"
+                                                                  ? item.id
+                                                                  : item,
+                                                                index,
+                                                                key,
+                                                                [
+                                                                  ...filterdata[
+                                                                  key
+                                                                  ],
+                                                                ]
+                                                              )
+                                                            }
+                                                          />
+                                                          {typeof item ==
                                                             "object"
-                                                              ? item?.title
-                                                              : item}
-                                                            <span className="checkmark"></span>
-                                                          </label>
-                                                        ) : null}
-                                                      </li>
-                                                    )
+                                                            ? item?.title
+                                                            : item}
+                                                          <span className="checkmark"></span>
+                                                        </label>
+                                                      ) : null}
+                                                    </li>
                                                   )
+                                                )
                                                 : null}
                                             </ul>
                                           </Accordion.Body>
@@ -1636,7 +2102,7 @@ const Analytics = (props) => {
                         </div>
                         <Button
                           title="Download stats"
-                          onClick={() => downloadExcel(overViewData,"Overview")}
+                          onClick={() => downloadExcel(overViewData, "Overview")}
                         >
                           <svg
                             width="20"
@@ -1658,12 +2124,14 @@ const Analytics = (props) => {
                       </div>
                     </div>
                     <div className="table-registered">
-                    <Table className="fold-table registration-view" id="individual_completion">
-                      <thead className="sticky-header">
-                        <tr>
-                            <th>Name  <button
+                      <Table className="fold-table registration-view" id="individual_completion">
+                        <thead className="sticky-header">
+                          <tr>
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('name')} >
+                              Name  <button
                               className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            onClick={() => handleSort('name')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -1675,7 +2143,9 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
+                            </button>
+                            </span>
+                            </th>
                             <th>Email  <button
                               className={`event_sort_btn `}
                             //onClick={() => handleSort('name')}
@@ -1751,38 +2221,39 @@ const Analytics = (props) => {
                                 </defs>
                               </svg>
                             </button></th>
-                          {/* <th>Post-event views</th> */}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {overViewData?.length ? (
-                          overViewData.map((user, index) => (
-                            <>
-                              <tr key={index}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.region}</td>
-                                <td>{user.country}</td>
-                                <td className="green">{user.register_time}</td>
-                                <td>{user.Attended}</td>
-                                {/* <td>{user.postEventViews}</td> */}
-                              </tr>
-                              <tr className="blank">
-                                <td colSpan="7">&nbsp;</td>
-                              </tr>
-                            </>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="7">
-                              <div className="no_found">
-                                <p>No Data Found</p>
-                              </div>
-                            </td>
+                            {/* <th>Post-event views</th> */}
                           </tr>
-                        )}
-                      </tbody>
-                    </Table>
+                        </thead>
+                        <tbody>
+                          {overViewData?.length ? (
+                            // overViewData.map((user, index) => (
+                              sortData(overViewData, sortBy, sortOrder).map((user, index) => (
+                              <>
+                                <tr key={index}>
+                                  <td>{user.name}</td>
+                                  <td>{user.email}</td>
+                                  <td>{user.region}</td>
+                                  <td>{user.country}</td>
+                                  <td className="green">{user.register_time}</td>
+                                  <td>{user.Attended}</td>
+                                  {/* <td>{user.postEventViews}</td> */}
+                                </tr>
+                                <tr className="blank">
+                                  <td colSpan="7">&nbsp;</td>
+                                </tr>
+                              </>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="7">
+                                <div className="no_found">
+                                  <p>No Data Found</p>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
 
                     </div>
                   </div>
@@ -1860,7 +2331,7 @@ const Analytics = (props) => {
         </Modal.Body>
       </Modal> */}
 
-     {/* <Modal
+      <Modal
         show={downloadPopup}
         dialogClassName="modal-90w"
         onHide={() => setDownloadPopup(false)}
@@ -1905,7 +2376,7 @@ const Analytics = (props) => {
           </div>
         </Modal.Body>
 
-      </Modal>  */}
+      </Modal> 
     </>
   );
 };
