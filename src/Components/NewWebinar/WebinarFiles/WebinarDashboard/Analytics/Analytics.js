@@ -1531,7 +1531,8 @@ const Analytics = (props) => {
                             <input
                               type="checkbox"
                               // ={graphType == "pie" ? true : false}
-                              onChange={onHandleDisplayResultChange}
+                              // onChange={onHandleDisplayResultChange}
+                              onChange={() => setWhichTypeGraph(!whichTypeGraph)}
                             />
                             <span>
                               <span>
@@ -1593,6 +1594,7 @@ const Analytics = (props) => {
                     <div className="graph-view">
                       {whichTypeGraph == 0 ? (
                         <HighchartsReact
+                        key={"bar"}
                           ref={countryBarRef}
                           highcharts={Highcharts}
                           options={{
@@ -1602,18 +1604,18 @@ const Analytics = (props) => {
                               type: "bar",
                               height: 1800,
 
-                              // events: {
-                              //   load: function () {
-                              //     let categoryHeight = 50;
-                              //     this.update({
-                              //       chart: {
-                              //         height:
-                              //           categoryHeight * this.pointCount +
-                              //           (this.chartHeight - this.plotHeight),
-                              //       },
-                              //     });
-                              //   },
-                              // },
+                            //   events: {
+                            //     load: function () {
+                            //       let categoryHeight = 50;
+                            //       this.update({
+                            //         chart: {
+                            //           height:
+                            //             categoryHeight * this.pointCount +
+                            //             (this.chartHeight - this.plotHeight),
+                            //         },
+                            //       });
+                            //     },
+                            //   },
                             },
                             title: {
                               text: "",
@@ -1677,8 +1679,8 @@ const Analytics = (props) => {
                         />
                       ) : (
                         <HighchartsReact
+                        key={"pie"}
                           ref={countryPieRef}
-
                           highcharts={Highcharts}
                           options={pieOptions}
                         />
@@ -1769,6 +1771,7 @@ const Analytics = (props) => {
                       <div className="graph-view-smaller">
                         {whichTypeGraphRegion == 0 ? (
                           <HighchartsReact
+                          key={"bar"}
                             ref={regionBarRef}
                             highcharts={Highcharts}
                             options={{
@@ -1851,6 +1854,7 @@ const Analytics = (props) => {
                           />
                         ) : (
                           <HighchartsReact
+                          key={"pie"}
                             ref={regionPieRef}
 
                             highcharts={Highcharts}
