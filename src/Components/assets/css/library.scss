@@ -14870,6 +14870,7 @@ table {
                 border-radius: 0px 0px 0px 9px;
                 background: rgba(0, 102, 190, 0.03);
                 width: calc(50% - 14px);
+                padding: 0 0 6px;
               }
 
               .fold-content-left {
@@ -14949,6 +14950,10 @@ table {
                       box-shadow: none;
                       border-radius: 0;
                       background: transparent;
+
+                      .no_found {
+                        min-height: 250px;
+                      }
                     }
                   }
                 }
@@ -15651,11 +15656,15 @@ table {
   }
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
-    font-size: 25px;
+    font-size: 21px;
   }
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top img {
-    margin-left: 10px;
+    margin-left: 5px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .rd-analytics-top h6 {
+    font-size: 15px;
   }
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box {
@@ -15704,6 +15713,26 @@ table {
 
   .webinar-emails-details form .dropdown-basic-button {
     max-width: 500px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.left-side {
+    width: 215px;
+  }
+
+  .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .left-side .rd-box-export {
+    bottom: 4px;
+  }
+
+  .analytics_header .page-title h2 {
+    font-size: 28px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .attended_hcp .top-country-data table tr td {
+    font-size: 12px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .attended_hcp .top-country-data {
+    padding: 0 6px 0 10px;
   }
 }
 
@@ -15766,6 +15795,26 @@ table {
 
   .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(5) {
     width: 120px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-3] {
+    width: 30%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-9] {
+    width: 70%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.left-side {
+    width: 245px;
+  }
+
+  .webinar-emails-details form .dropdown-basic-button {
+    margin: 0 0 25px;
+  }
+
+  .webinar-emails-details {
+    margin: 20px 0 0;
   }
 }
 

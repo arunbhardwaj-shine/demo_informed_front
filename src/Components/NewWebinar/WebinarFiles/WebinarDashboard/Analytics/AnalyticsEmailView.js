@@ -702,13 +702,16 @@ const AnalyticsEmailView = () => {
     options={{
       chart: {
           type: 'bar',
-          height: () => {
-              const dataLength = dropdownData?.regionBarData?.length || 0;
-              const baseHeight = 310;
-              const additionalHeightPerPoint = 20;
-              const calculatedHeight = baseHeight + (additionalHeightPerPoint * dataLength);
-              return calculatedHeight;
-          },
+          borderWidth:'0',
+          // height: () => {
+          //     const dataLength = dropdownData?.regionBarData?.length || 0;
+          //     const baseHeight = 810;
+          //     const additionalHeightPerPoint = 18;
+          //     const calculatedHeight = baseHeight + (additionalHeightPerPoint * dataLength);
+          //     return calculatedHeight;
+             
+          // },
+          height:800, 
           options3d: {
               enabled: true,
               alpha: 10,
@@ -740,8 +743,8 @@ const AnalyticsEmailView = () => {
           series: {
               // pointWidth: 30,
               groupPadding: 0.1,
-              pointWidth: 22,
-              borderWidth: 2,
+              borderWidth: '0',
+              pointWidth: 18,
               dataLabels: {
                   enabled: true,
                   format: '{point.y}',
