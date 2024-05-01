@@ -730,6 +730,7 @@ p#totalCountText {
   font-size: 12px;
   line-height: 18px;
   color: #6E7288;
+  cursor:pointer
 }
 
 .isth .consent-form-list.attend-sec li .checkmark {

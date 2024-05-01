@@ -26,13 +26,13 @@ const SpeakerZone = () => {
     });
     const queryParams = new URLSearchParams(location.search);  
     const [eventId,setEvent] = useState({
-        id:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId,
-        companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId,
+        id:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId?localStorageEvent?.eventId:0,
+        companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId?localStorageEvent?.companyId:0,
         eventCode:eventIdContext?.eventCode?eventIdContext?.eventCode:localStorageEvent?.eventCode
     })
     const [count,setCount] = useState(0)
 
-    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),where("company_id","==",eventId?.companyId),where("webinar","!=",0))
+    const q = query(collection(db, "chat"),where("event_id","==",eventId?.id?eventId?.id:0),where("company_id","==",eventId?.companyId?eventId?.companyId:0),where("webinar","!=",0))
     const [data,setData] = useState({
         question:[],
         answer:[],
