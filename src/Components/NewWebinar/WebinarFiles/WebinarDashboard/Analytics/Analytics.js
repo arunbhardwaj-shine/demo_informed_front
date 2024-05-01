@@ -1051,19 +1051,23 @@ const Analytics = (props) => {
   };
 
   const handleSort = (key) => {
-    console.log("handle sort-->",key)
     setSortBy(key);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
   };
 
   const sortData = (data, key, order) => {
-    console.log("sortData-->",key)
     return data.sort((a, b) => {
-      const valueA = a[key];
-      const valueB = b[key];
-  
+      let valueA = a[key];
+      let valueB = b[key];
+      if(key=="register_time"){
+        valueA =new Date(a[key]);;
+       valueB = new Date(b[key]);
+       return order === 'asc' ? valueA - valueB : valueB - valueA;
+      }
+      
       // Handle different data types (numbers, strings)
       if (typeof valueA === 'number' && typeof valueB === 'number') {
+        
         return order === 'asc' ? valueA - valueB : valueB - valueA;
       } else {
         return order === 'asc'
@@ -1072,8 +1076,6 @@ const Analytics = (props) => {
       }
     });
   };
-
-
 
   return (
     <>
@@ -2129,8 +2131,14 @@ const Analytics = (props) => {
                           <tr>
                             <th scope="col" className="sort_option">
                             <span onClick={() => handleSort('name')} >
+                              
                               Name  <button
-                              className={`event_sort_btn `}
+                               className={`event_sort_btn ${sortBy == "name" ?
+                               sortOrder == "asc"
+                               ? "svg_asc"
+                               : "svg_active"
+                               : "" 
+                               }`}
                             onClick={() => handleSort('name')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -2146,9 +2154,16 @@ const Analytics = (props) => {
                             </button>
                             </span>
                             </th>
-                            <th>Email  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('email')} >
+                              Email  <button
+                               className={`event_sort_btn ${sortBy == "email" ?
+                               sortOrder == "asc"
+                               ? "svg_asc"
+                               : "svg_active"
+                               : "" 
+                               }`}
+                            onClick={() => handleSort('email')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -2160,10 +2175,20 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
-                            <th>Region  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            </button>
+                            </span>
+                            </th>
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('region')} >
+                              Region  
+                              <button
+                               className={`event_sort_btn ${sortBy == "region" ?
+                               sortOrder == "asc"
+                               ? "svg_asc"
+                               : "svg_active"
+                               : "" 
+                               }`}
+                            onClick={() => handleSort('region')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -2175,10 +2200,19 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
-                            <th>Country  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            </button>
+                            </span>
+                            </th>
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('country')} >
+                              Country  <button
+                               className={`event_sort_btn ${sortBy == "country" ?
+                               sortOrder == "asc"
+                               ? "svg_asc"
+                               : "svg_active"
+                               : "" 
+                               }`}
+                            onClick={() => handleSort('country')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -2190,10 +2224,19 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
-                            <th>Registered  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            </button>
+                            </span>
+                            </th>
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('register_time')} >
+                              Registered  <button
+                              className={`event_sort_btn ${sortBy == "register_time" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                            onClick={() => handleSort('register_time')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -2205,10 +2248,20 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
-                            <th>Attended  <button
-                              className={`event_sort_btn `}
-                            //onClick={() => handleSort('name')}
+                            </button>
+                            </span>
+                            </th>
+                            <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort('Attended')} >
+                              Attended  
+                              <button
+                              className={`event_sort_btn ${sortBy == "Attended" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                            onClick={() => handleSort('Attended')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
@@ -2220,7 +2273,9 @@ const Analytics = (props) => {
                                   </clipPath>
                                 </defs>
                               </svg>
-                            </button></th>
+                            </button>
+                            </span>
+                            </th>
                             {/* <th>Post-event views</th> */}
                           </tr>
                         </thead>
