@@ -79,6 +79,7 @@ const NewEventCreate = () => {
     ?{ userId:switch_account_detail?.user_id,accountName:switch_account_detail?.name}
   :""
 );
+const [apiCallStatus,setApiCallStatus]=useState(false)
   
   useEffect(() => {
     getWebinarFilterData();
@@ -174,11 +175,13 @@ const NewEventCreate = () => {
         //   setIsLoaded(false);
         // }
       }
+     
       loader("hide");
     } catch (err) {
       console.log("--err", err);
     } finally {
       setPageAll(false);
+      setApiCallStatus(true)
       setApiStatus(true);
       loader("hide");
     }
@@ -730,6 +733,7 @@ const NewEventCreate = () => {
    
     try {
       loader("show")
+      setApiCallStatus(false)
       setConfirmationPopup(false);
       let body = {
         token: e?.value
@@ -743,10 +747,10 @@ const NewEventCreate = () => {
           name: res?.data?.data?.name,
           decrypted_token: res?.data?.data?.jwtToken
         }))
-        setNewAccountDetails({ userId: e?.value, accountName: e?.label });
+        
         getWebinarFilterData();       
         getDataFromApi(1);
-       
+        setNewAccountDetails({ userId: e?.value, accountName: e?.label });
       }
       // loader("hide")
     } catch (err) {
@@ -1254,7 +1258,7 @@ const NewEventCreate = () => {
               </div>
             }
 
-
+{apiCallStatus?
             <section className="search-hcp smart-list-view event_listing">
               <div className="col email-result-block">
                 <div className="email_box_block add-webinar">
@@ -1641,6 +1645,7 @@ const NewEventCreate = () => {
                 </div>
               ) : null}
             </section>
+            :""}
           </Row>
         </div>
       </Col>
