@@ -13054,7 +13054,9 @@ table thead th.sort_option span {
 table thead th.sort_option span button {
   margin: 0 0 0 3px;
 }
-
+table thead th button {
+  background: transparent;
+}
 .consent-form .container {
   padding: 0;
 }
