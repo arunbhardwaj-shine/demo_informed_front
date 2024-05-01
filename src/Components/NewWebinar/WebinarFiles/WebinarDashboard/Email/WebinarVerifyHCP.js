@@ -654,86 +654,155 @@ const WebinarVerifyHCP = (props) => {
                 user_id: localStorageUserId,
                 smart_list_id: "",
             };
-
-            const status = body?.data?.map((data,index) => {
+            const status = body?.data?.map((data, index) => {
+                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+                  if (data?.first_name == "") {
+                    setValidationError({
+                      newHcpFirstName: "Please enter the first name",
+                      index: index,
+                    });
+                    return "Please enter the first name";
+                  } else if (data?.last_name == "") {
+                    setValidationError({
+                      newHcpLastName: "Please enter the last name",
+                      index: index,
+                    });
+                    return "Please enter the last name";
+                  }
+                }
+                if (data?.email == "") {
+                  setValidationError({
+                    newHcpEmail: "Please enter the email atleast",
+                    index: index,
+                  });
+                  return "Please enter the email atleast";
+                } else if (data?.institution_type == "") {
+                  setValidationError({
+                    newHcpInstitution: "Please select Institution",
+                    index: index,
+                  });
+                  return "Please select the institution type";
+                }
                 if (
-                    data?.email == "" ||
-                    data?.institution_type == "" ||
-                    data?.first_name == "" ||
-                    data?.last_name == "" ||
-                    data?.country == ""
+                  localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||
+                  localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="
                 ) {
-                    if (
-                        data?.first_name == "" &&
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ) {
-                        setValidationError({
-                            newHcpFirstName: "Please enter the first name",
-                            index: index,
-                        });
-                        return "Please enter the first name";
-                    } else if (
-                        data?.last_name == "" &&
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ) {
-                        setValidationError({
-                            newHcpLastName: "Please enter the last name",
-                            index: index,
-                        });
-                        return "Please enter the last name";
-                    } 
-                    else if (data?.email == "") {
-
-                        setValidationError({
-                            newHcpEmail: "Please enter the email atleast",
-                            index: index,
-                        });
-                        return "Please enter the email atleast";
-                    }  
-                    else if (data?.email != "") {
-                        let email = data?.email;
-                        let useremail = email?.trim();
-                        var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                        if (regex.test(String(useremail).toLowerCase())) {
-                            let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
-                            if (typeof prev_obj != "undefined") {
-                                setValidationError({
-                                    newHcpEmail: "User with same email already added in list.",
-                                    index: index,
-                                });
-                                return "User with same email already added in list.";
-                            }
-                        } else {
-                            setValidationError({
-                                newHcpEmail: "Email format is not valid",
-                                index: index,
-                            });
-                            return "Email format is not valid";
-                        }
-                        // return "true";
+                  if (data?.country == "") {
+                    setValidationError({
+                      newHcpCountry: "Please select country",
+                      index: index,
+                    });
+                    return "Please select country";
+                  }
+                }
+                if (data?.email != "") {
+                  let email = data?.email;
+                  let useremail = email?.trim();
+                  var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                  if (regex.test(String(useremail).toLowerCase())) {
+                    let prev_obj = selectedHcp.find(
+                      (x) => x?.email?.toLowerCase() === useremail?.toLowerCase()
+                    );
+                    if (typeof prev_obj != "undefined") {
+                      setValidationError({
+                        newHcpEmail: "User with same email already added in list.",
+                        index: index,
+                      });
+                      return "User with same email already added in list.";
+                    } else {
+                      return "true";
                     }
+                  } else {
+                    setValidationError({
+                      newHcpEmail: "Email format is not valid",
+                      index: index,
+                    });
+                    return "Email format is not valid";
+                  }
+                }
+                return "true";
+              });
 
-                    else if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
-                        if (data?.institution_type == "") {
-                            setValidationError({
-                                newHcpInstitution: "Please Select the institution ",
-                                index: index,
-                            });
-                            return "Please Select the institution ";
-                        }
-                        if (data?.country == "") {
+            // const status = body?.data?.map((data,index) => {
+            //     if (
+            //         data?.email == "" ||
+            //         data?.institution_type == "" ||
+            //         data?.first_name == "" ||
+            //         data?.last_name == "" ||
+            //         data?.country == ""
+            //     ) {
+            //         if (
+            //             data?.first_name == "" &&
+            //             localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+            //         ) {
+            //             setValidationError({
+            //                 newHcpFirstName: "Please enter the first name",
+            //                 index: index,
+            //             });
+            //             return "Please enter the first name";
+            //         } else if (
+            //             data?.last_name == "" &&
+            //             localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+            //         ) {
+            //             setValidationError({
+            //                 newHcpLastName: "Please enter the last name",
+            //                 index: index,
+            //             });
+            //             return "Please enter the last name";
+            //         } 
+            //         else if (data?.email == "") {
 
-                            setValidationError({
-                                newHcpCountry: "Please select the country",
-                                index: index,
-                            });
-                            return "Please select the country";
-                        }
-                    }
-                    return "true";
-                } 
+            //             setValidationError({
+            //                 newHcpEmail: "Please enter the email atleast",
+            //                 index: index,
+            //             });
+            //             return "Please enter the email atleast";
+            //         }  
+            //         else if (data?.email != "") {
+            //             let email = data?.email;
+            //             let useremail = email?.trim();
+            //             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            //             if (regex.test(String(useremail).toLowerCase())) {
+            //                 let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
+            //                 if (typeof prev_obj != "undefined") {
+            //                     setValidationError({
+            //                         newHcpEmail: "User with same email already added in list.",
+            //                         index: index,
+            //                     });
+            //                     return "User with same email already added in list.";
+            //                 }
+            //             } else {
+            //                 setValidationError({
+            //                     newHcpEmail: "Email format is not valid",
+            //                     index: index,
+            //                 });
+            //                 return "Email format is not valid";
+            //             }
+            //             // return "true";
+            //         }
+
+            //         else if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            //             if (data?.institution_type == "") {
+            //                 setValidationError({
+            //                     newHcpInstitution: "Please Select the institution ",
+            //                     index: index,
+            //                 });
+            //                 return "Please Select the institution ";
+            //             }
+            //             if (data?.country == "") {
+
+            //                 setValidationError({
+            //                     newHcpCountry: "Please select the country",
+            //                     index: index,
+            //                 });
+            //                 return "Please select the country";
+            //             }
+            //         }
+            //         return "true";
+            //     } 
                 
-            });
+            // });
+            console.log("status-->",status)
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
