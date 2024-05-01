@@ -128,10 +128,10 @@ const AnalyticsPoll = () => {
   }
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header regi-web sticky">
               <div className="page-title d-flex flex-column align-items-start">
                 <h2>Polls</h2>
               </div>

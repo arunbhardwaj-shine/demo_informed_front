@@ -28,6 +28,7 @@ const AnalyticsEmailView = () => {
       plotShadow: false,
       type: "pie",
       height: 400,
+      paddingBottom:10,
     },
     title: null,
     exporting: {
@@ -90,6 +91,7 @@ const AnalyticsEmailView = () => {
     },
     plotOptions: {
       pie: {
+        borderWidth: 0,
         size: "100%",
         dataLabels: {
           enabled: true,
