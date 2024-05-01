@@ -5,6 +5,7 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { loader } from "../../../../../loader";
 import { Button, Col, Row } from "react-bootstrap";
 import dynamicEventData from "./events.json";
+import dynamicEventDataJson from "./events.json";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { toast } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
@@ -19,6 +20,30 @@ const ChatLinkPage = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const [activeIndex, setActiveIndex] = useState(0);
   const aliceCarouselRef = useRef(null);
+
+  const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[2,4,5,6,7,8,9],"B7SHpAc XDXSH NXkN0rdQ==":[2,4,5,6,7,8,9], "wW0geGtDPvig5gF 6KbJrg==":[2,4,5,6,7,8,9],
+  "UbCJcnLM9fe HsRMgX8c1A==":[2,4,5,6,7,8,9],"z2TunmZQf3QwCsICFTLGGQ==":[2,4,5,6,7,8,9],"qDgwPdToP05Kgzc g2VjIQ==":[2,4,5,6,7,8,9] ,"rjiGlqA9DXJVH7bDDTX0Lg==":[2,4,5,6,7,8,9]}
+
+  const userId=localStorage.getItem("user_id") 
+
+  const defaultTemplateIds = [1];
+
+  // const  dynamicEventData=dynamicEventDataJson.map(template => {
+  //     if (templateUserIDs[userId]?.includes(template.templateId) ) {
+  //       return template;
+  //     } else {
+  //     }
+  //   }).filter(Boolean); 
+
+    const dynamicEventData = dynamicEventDataJson.filter(template => {
+      if (templateUserIDs[userId]?.includes(template.templateId)) {
+        return true; 
+      } else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
 
   const responsive = {
     0: { items: 1 },
