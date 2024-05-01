@@ -201,6 +201,8 @@ const RegistrationPage = ({ prevData,type }) => {
         optionColor: hadData?.content?.optionColor,
       });
       loader("hide");
+      const isInEventRegistration = window.location.pathname.includes('event-registration');
+      document.title = isInEventRegistration ? hadData?.raw_description?.title : '';
     } catch (err) {
       loader("hide");
       console.error("-err", err);

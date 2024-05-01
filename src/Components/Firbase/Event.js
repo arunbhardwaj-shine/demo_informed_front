@@ -95,6 +95,8 @@ const Event = () => {
      
       setEvent(result.data.data);
       loader("hide");
+      const isInEventRegistration = window.location.pathname.includes('event');
+      document.title = isInEventRegistration ? result?.data?.data?.title : '';
     } catch (err) {
       loader("hide");
       console.log("-err", err);
