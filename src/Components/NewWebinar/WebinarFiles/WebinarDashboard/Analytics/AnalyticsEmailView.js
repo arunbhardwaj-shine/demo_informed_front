@@ -32,6 +32,8 @@ const AnalyticsEmailView = () => {
     },
     title: null,
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: false,
       menuItemDefinitions: {
         downloadPNG: {
@@ -158,6 +160,8 @@ const AnalyticsEmailView = () => {
       },
     },
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: true,
       chartOptions: {
           title: {
@@ -772,6 +776,8 @@ const AnalyticsEmailView = () => {
               '<b>{point.y}</b> total<br/>'
       },
       exporting: {
+        sourceWidth: 1600,
+        sourceHeight: 1200,
           enabled: false // Disable exporting
       },
       series: [

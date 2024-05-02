@@ -38,6 +38,8 @@ const AnalyticsRegions = () => {
     title: null,
 
     exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
       enabled: false,
       menuItemDefinitions: {
         downloadPNG: {
@@ -196,6 +198,8 @@ const AnalyticsRegions = () => {
             },
           },
           exporting: {
+            sourceWidth: 1600,
+            sourceHeight: 1200,
             enabled: false,
           },
           plotOptions: {
@@ -528,6 +532,8 @@ const AnalyticsRegions = () => {
                                             text: "",
                                           },
                                           exporting: {
+                                            sourceWidth: 1600,
+                                            sourceHeight: 1200,
                                             enabled: false,
                                           },
                                           xAxis: {
