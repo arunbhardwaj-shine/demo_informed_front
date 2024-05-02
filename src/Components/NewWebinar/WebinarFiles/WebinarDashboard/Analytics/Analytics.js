@@ -77,6 +77,7 @@ const Analytics = (props) => {
     },
     title: {
       // text: "Click on the double arrows to see more details",
+      text:'',
       align: "left",
       style: {
         fontSize: "14px",
@@ -987,6 +988,13 @@ const Analytics = (props) => {
               },
               xAxis: {
                 categories: countries,
+                labels: {
+                  style: {
+                    color: '#70899E',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  },
+                },
               },
               credits: {
                 enabled: false,
@@ -1002,6 +1010,12 @@ const Analytics = (props) => {
                 title: {
                   text: "",
                 },
+                labels: {
+                  style: {
+                    color: '#70899E',
+                    fontSize: '13px',
+                  },
+                },
                 stackLabels: {
                   enabled: true,
                   style: {
@@ -1015,6 +1029,14 @@ const Analytics = (props) => {
                   dataLabels: {
                     enabled: true,
                   },
+                },
+              },
+
+              legend: {
+                enabled: true,
+                itemStyle: {
+                  color: '#97B6CF',  // Color for legend items
+                  fontSize: '15px',  // Font size for legend items
                 },
               },
 
