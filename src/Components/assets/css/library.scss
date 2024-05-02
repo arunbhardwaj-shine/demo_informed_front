@@ -14269,6 +14269,7 @@ img.change-password-image {
             padding: 0 5px;
             margin: 0 auto;
             max-width: 520px;
+            max-width: 63%;
             width: 100%;
             flex: 1 1;
           }
@@ -14590,6 +14591,8 @@ img.change-password-image {
             padding: 7px;
             min-width: 81px;
             font-weight: 500;
+            color: $primary-color;
+            border: 1px solid $primary-color;
 
             &.btn-filled {
               background: $primary-color;
@@ -16015,6 +16018,10 @@ table {
   table.attended-table thead th {
     padding: 10px 10px;
   }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .graph-data {
+    max-height: 310px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
@@ -16090,6 +16097,9 @@ table {
     padding-top: 20px;
   }
 
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.right-side {
+    max-width: 420px;
+  }
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -16147,6 +16157,57 @@ table {
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
     font-size: 20px;
+  }
+
+  .analytics_header .page-title h2 {
+    font-size: 22px;
+  }
+
+  .page-title p {
+    font-size: 14px;
+  }
+
+  .top-header .download.filled {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-3] {
+    width: 30%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout [class*=col-md-9] {
+    width: 70%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.left-side {
+    width: 40%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .highchart-chart.right-side {
+    max-width: 59%;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .graph-data table tbody td,
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .graph-data table thead th {
+    font-size: 10px;
+  }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .graph-data table tbody td span {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+
+  // .webinar-analytics-layout.rd-analytics-content .row [class*=col-] {
+  //   padding: 0 10px;
+  // }
+
+  // .webinar-analytics-layout.rd-analytics-content .row {
+  //   margin: 0 -10px;
+  // }
+
+  .graph-box .graph-data table {
+    border-spacing: 0 6px;
   }
 }
 

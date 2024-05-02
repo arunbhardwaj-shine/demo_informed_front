@@ -49,17 +49,21 @@ a {
   color: var(--white) !important;
 }
 
-.filter-by button.filter_applied,
+.filter-by button.filter_applied,.filter-btn button.filter_applied,
 .table-title .selected-hcp-table-action .filter-by button.filter_applied {
   background: var(--light-blue);
   color: var(--white) !important;
 }
-
+.filter-btn button.filter_applied {
+  background: var(--light-blue)!important;
+}
 .filter-by button.filter_applied svg,
-.table-title .selected-hcp-table-action .filter-by button.filter_applied svg {
+.table-title .selected-hcp-table-action .filter-by button.filter_applied svg, .filter-btn button.filter_applied svg {
   fill-opacity: 1;
 }
-
+.filter-btn button.filter_applied svg rect{
+  fill: #ffffff;
+}
 .container-fluid>.row {
   justify-content: flex-start;
 }

@@ -987,6 +987,12 @@ const Analytics = (props) => {
               },
               xAxis: {
                 categories: countries,
+                labels: {
+                  style: { fontSize:'13px',
+                    color: '#70899E',
+                    fontWeight:'500',
+                }
+                }
               },
               credits: {
                 enabled: false,
@@ -1002,13 +1008,23 @@ const Analytics = (props) => {
                 title: {
                   text: "",
                 },
+                labels: {
+                  style: {
+                    fontSize: '15px',
+                    color: '#70899E',
+                    fontWeight: '400',
+                  }
+                },
                 stackLabels: {
                   enabled: true,
                   style: {
                     fontWeight: "bold",
-                    color: "gray",
+                    color: "#70899E",
+                    fontSize: '13px',
                   },
                 },
+                
+                
               },
               plotOptions: {
                 bar: {
@@ -1093,7 +1109,7 @@ const Analytics = (props) => {
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-header analytics_header sticky regi-web">
+            <div className="top-header analytics_header sticky">
               <div className="page-title d-flex flex-column align-items-start">
                 <h2 title={eventData?.title}>{eventData?.title}</h2>
                 <p>{eventData?.formattedEventStartDateTime}</p>

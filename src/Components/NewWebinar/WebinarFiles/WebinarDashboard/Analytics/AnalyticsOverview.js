@@ -99,8 +99,10 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                     shape: "callout",
                     size: "100%",
                     style: {
-                        fontWeight: "normal",
+                        fontWeight: "600",
                         textShadow: "none",
+                        fontSize:"15px",
+                        color: '#0066BE'
                     },
                 },
             },
