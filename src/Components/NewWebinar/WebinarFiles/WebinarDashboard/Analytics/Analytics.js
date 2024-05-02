@@ -77,6 +77,7 @@ const Analytics = (props) => {
     },
     title: {
       // text: "Click on the double arrows to see more details",
+      text:'',
       align: "left",
       style: {
         fontSize: "14px",
@@ -442,7 +443,6 @@ const Analytics = (props) => {
     const filteredData = usersDataOriginal.filter(item => {
       for (const key in appliedFilter) {
         const filterValues = appliedFilter[key];
-        console.log(filterValues);
         if (filterValues.length === 0) {
           continue;
         }
@@ -547,7 +547,6 @@ const Analytics = (props) => {
   }, [])
 
   const getRegionPieChartStats = async (e) => {
-    console.log("in getRegionPieChartStats")
     try {
       let payload = {
         'eventId': eventId
@@ -584,7 +583,6 @@ const Analytics = (props) => {
   }
 
   const getOnlineReadersGraph = async () => {
-    console.log("in getOnlineReadersGraph")
 
     try {
       let body = {
@@ -611,7 +609,6 @@ const Analytics = (props) => {
   }
 
   const getWebinarCompaignList = async (filter = "") => {
-    console.log("in getWebinarCompaignList")
     try {
       loader("show")
       let body = {
@@ -890,6 +887,7 @@ const Analytics = (props) => {
       setOverViewData([]);
       setSortedCountries(null);
       setAttendedUsers(responseData)
+      setActiveTable(null)
 
       loader("hide");
     } catch (error) {
@@ -988,11 +986,12 @@ const Analytics = (props) => {
               xAxis: {
                 categories: countries,
                 labels: {
-                  style: { fontSize:'13px',
+                  style: {
                     color: '#70899E',
-                    fontWeight:'500',
-                }
-                }
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  },
+                },
               },
               credits: {
                 enabled: false,
@@ -1010,10 +1009,9 @@ const Analytics = (props) => {
                 },
                 labels: {
                   style: {
-                    fontSize: '15px',
                     color: '#70899E',
-                    fontWeight: '400',
-                  }
+                    fontSize: '13px',
+                  },
                 },
                 stackLabels: {
                   enabled: true,
@@ -1031,6 +1029,14 @@ const Analytics = (props) => {
                   dataLabels: {
                     enabled: true,
                   },
+                },
+              },
+
+              legend: {
+                enabled: true,
+                itemStyle: {
+                  color: '#97B6CF',  // Color for legend items
+                  fontSize: '15px',  // Font size for legend items
                 },
               },
 
