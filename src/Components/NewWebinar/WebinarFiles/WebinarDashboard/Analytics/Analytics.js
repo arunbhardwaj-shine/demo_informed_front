@@ -443,7 +443,6 @@ const Analytics = (props) => {
     const filteredData = usersDataOriginal.filter(item => {
       for (const key in appliedFilter) {
         const filterValues = appliedFilter[key];
-        console.log(filterValues);
         if (filterValues.length === 0) {
           continue;
         }
@@ -548,7 +547,6 @@ const Analytics = (props) => {
   }, [])
 
   const getRegionPieChartStats = async (e) => {
-    console.log("in getRegionPieChartStats")
     try {
       let payload = {
         'eventId': eventId
@@ -585,7 +583,6 @@ const Analytics = (props) => {
   }
 
   const getOnlineReadersGraph = async () => {
-    console.log("in getOnlineReadersGraph")
 
     try {
       let body = {
@@ -612,7 +609,6 @@ const Analytics = (props) => {
   }
 
   const getWebinarCompaignList = async (filter = "") => {
-    console.log("in getWebinarCompaignList")
     try {
       loader("show")
       let body = {
@@ -891,6 +887,7 @@ const Analytics = (props) => {
       setOverViewData([]);
       setSortedCountries(null);
       setAttendedUsers(responseData)
+      setActiveTable(null)
 
       loader("hide");
     } catch (error) {
