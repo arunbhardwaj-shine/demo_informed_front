@@ -13529,3 +13529,6 @@ gap:30px;
   margin-top: 8px;
 }
 /**download event stats modal**/
+ .attended_hcp .no_found p {
+  font-size: 16px;
+}
