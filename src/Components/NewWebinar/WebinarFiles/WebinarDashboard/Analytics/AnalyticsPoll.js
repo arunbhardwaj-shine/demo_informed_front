@@ -406,7 +406,7 @@ const AnalyticsPoll = () => {
                                                                 </span>
                                                                 <div
                                                                   dangerouslySetInnerHTML={{
-                                                                    __html: `${answer} (<span>${item?.pollAnswers[i]?.percentage}%</span>)`,
+                                                                    __html: `${answer} (<span>${item?.pollAnswers[i]?.percentage ?? 0}%</span>)`,
                                                                   }}
                                                                 />
                                                               </div>
