@@ -988,9 +988,10 @@ const Analytics = (props) => {
                 labels: {
                   style: {
                     color: '#70899E',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: '500',
                   },
+                  
                 },
               },
               credits: {

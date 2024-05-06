@@ -16209,6 +16209,10 @@ table {
   .graph-box .graph-data table {
     border-spacing: 0 6px;
   }
+
+  .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .attended_hcp .avg-speed {
+    padding: 0 2px 0 0;
+  }
 }
 
 @media (min-width: $layout-breakpoint-medium) and (max-width: $layout-breakpoint-large) {
