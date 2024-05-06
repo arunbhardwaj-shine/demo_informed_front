@@ -200,10 +200,16 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                 <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>dropdownClicked("totalRegistrations")} />
                             </div>
                             </> 
-                                 : <div className="no_found">
-                                 <img src={path_image + "default-bar-chart.png"} alt="" />
+                                 : 
+                            //      <div className="no_found">
+                            //      <img src={path_image + "default-bar-chart.png"} alt="" />
                                  
-                             </div>}
+                            //  </div>
+                            <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>   
+                             
+                             }
                         </div>
                     </Col>
                     <Col md={9}>
@@ -222,10 +228,15 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                     <img src={path_image + "arrow-export.svg"} alt=""  onClick={()=>dropdownClicked("registeredHcps")} />
                                 </div>
                                 </> 
-                                 : <div className="no_found">
-                                 <img src={path_image + "default-bar-chart.png"} alt="" />
+                                 : 
+                            //      <div className="no_found">
+                            //      <img src={path_image + "default-bar-chart.png"} alt="" />
                                  
-                             </div>}
+                            //  </div>
+                            <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>   
+                             }
                             </div>
                             <div className='highchart-chart right-side'>
                     {data?.registeredOverTime?.seriesData?.length ?     <HighchartsReact 
