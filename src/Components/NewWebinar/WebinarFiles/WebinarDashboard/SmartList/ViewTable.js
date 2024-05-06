@@ -1515,8 +1515,8 @@ const ViewTable = (props) => {
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email === useremail);
-            let prev_obj_new = newData.find((x) => x.email === useremail);
+            let prev_obj = editList.find((x) => x?.email?.toLowerCase() === useremail);
+            let prev_obj_new = newData.find((x) => x?.email?.toLowerCase() === useremail);
             if (typeof prev_obj != "undefined" || typeof prev_obj_new != "undefined") {
               // setValidationError({
               //   newHcpEmail: "User with same email already added in list.",

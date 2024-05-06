@@ -180,7 +180,6 @@
   .page-top-nav .tabnav-link li {
     padding: 0 30px;
   }
-
   /* .doc-content-header .clear-search .search-bar form.d-flex input {
   max-width: 175px;
 } */
@@ -234,7 +233,8 @@
   }
 
   .selected-hcp-list .table tr.hcps-deleted:after,
-  .selected-hcp-list .table tr.hcps-added:after, .selected-hcp-list .table tr.hcps-unsubscriber:after {
+  .selected-hcp-list .table tr.hcps-added:after,
+  .selected-hcp-list .table tr.hcps-unsubscriber:after {
     transform: rotate(0deg);
     left: 8px;
     top: -19px;
@@ -407,6 +407,15 @@
     font-size: 13px;
     padding: 9px;
     min-width: 85px;
+  }
+
+  .sidebar-menu ul li {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .sidebar-menu ul {
+    margin: 27px 0 0;
   }
 
   .survey_data_accordion_heading table thead tr th:first-child,

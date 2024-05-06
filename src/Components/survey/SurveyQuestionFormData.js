@@ -501,7 +501,7 @@ const SurveyQuestionFormData = () => {
   
   return (
     <Col className="right-sidebar custom-change">
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      {/* <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
       <div className="custom-container">
         {/* <Row>
           <Col></Col>
@@ -509,7 +509,7 @@ const SurveyQuestionFormData = () => {
 
         <Row>
           {/* <Col> */}
-          <div className="top-header regi-web">
+          <div className="top-header regi-web sticky">
             <div className="page-title">
               <h2>Post Survey</h2>
             </div>

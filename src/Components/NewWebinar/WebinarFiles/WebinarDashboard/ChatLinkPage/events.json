@@ -6,7 +6,7 @@
     "logoImageUrl":{
         "title": "Logo",
         "type": "file",
-        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+        "value": "https://albert.docintel.app/images/docintel-logo.svg"
     },
     "textColor": {
         "title": "Text Color",

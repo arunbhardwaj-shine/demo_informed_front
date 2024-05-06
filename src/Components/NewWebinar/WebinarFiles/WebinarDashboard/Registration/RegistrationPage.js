@@ -201,6 +201,8 @@ const RegistrationPage = ({ prevData,type }) => {
         optionColor: hadData?.content?.optionColor,
       });
       loader("hide");
+      // const isInEventRegistration = window.location.pathname.includes('event-registration');
+      // document.title = isInEventRegistration ? hadData?.raw_description?.title : '';
     } catch (err) {
       loader("hide");
       console.error("-err", err);
@@ -2115,7 +2117,7 @@ const FormField5 = ({
   level,
   templateId,
 }) => {
-  { console.log(form, 'form') }
+  // { console.log(form, 'form') }
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");

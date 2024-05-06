@@ -189,8 +189,25 @@ export const ENDPOINT = {
   US_LIST:"/webinarEmail/us-list",
   REGISTERED_USERS:"/webinarEmail/registered-users",
   NO_REGISTERED_USERS:"/webinarEmail/no-registered-users",
+  GET_DROPDOWN_DATA:"/webinarEmail/get-campaign-selection-data",
+  GET_EMAIL_COUNT:"/webinarEmail/get-campaign-email-count",
+  GET_TOTAL_EMAIL_REGISTRATION_COUNT:"/webinarEmail/total-registration-pie-chart-data",
+  GET_TOTAL_EMAIL_REGISTRATION_USERS:"/webinarEmail/total-registration-pie-chart-dropdown-data",
+  GET_EMAIL_DATA:"/webinarEmail/get-email-data",
+  GET_OVERVIEW_DATA:"/webinarEmail/get-overview-data",
+  GET_LIVESTREAM_DATA:"/webinarEmail/get-livestream-data",
+  GET_ATTENDED_DATA:"/webinarEmail/get-attended-users-by-country",
+  WEBINAR_POLL_ANALYTICS: "/webinarEmail/webinar-all-question",
+  GET_REGION_STATS: "/webinarEmail/get-region-stats",
+  ANALYTIC_EMAIL_LIST_DROPDOWN:"/webinarEmail/get-email-list-dropdown_data",
+  ANALYTIC_ATTENDEES_DATA:"/webinarEmail/get-attendees-data",
+  ANALYTIC_ATTENDEES_DROPDOWN_DATA:"/webinarEmail/get-attendees-dropdown-data",
+
+
+
   WEBINAR_SWITCH_USER:"/webinar/switch-user",
   WEBINAR_EVENT_STATS:"/webinar/download-stats",
   WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats",
-  RTRREFRESH_EBOOK:"/analytics/refresh_ebook_rtr"
+  RTRREFRESH_EBOOK:"/analytics/refresh_ebook_rtr",
+  WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats"
 };
