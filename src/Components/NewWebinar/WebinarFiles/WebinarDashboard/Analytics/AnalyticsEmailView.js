@@ -102,7 +102,7 @@ const AnalyticsEmailView = () => {
             fontWeight: "400",
             color: "black",
             textOutline: "none",
-            fontSize: "16px",
+            fontSize: "14px",
           },
           distance: 30,
           connectorPadding: 0,

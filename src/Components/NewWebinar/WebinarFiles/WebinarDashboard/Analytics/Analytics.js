@@ -1650,6 +1650,8 @@ const Analytics = (props) => {
                       </div>
                     </div>
                     <div className="graph-view">
+                    <div className="graph-view-smaller">
+
                       {whichTypeGraph == 0 ? (
                         <HighchartsReact
                         key={"bar"}
@@ -1660,20 +1662,18 @@ const Analytics = (props) => {
                               marginTop: 50,
                               marginBottom: 50,
                               type: "bar",
-                              height: 1800,
-
-                            //   events: {
-                            //     load: function () {
-                            //       let categoryHeight = 50;
-                            //       this.update({
-                            //         chart: {
-                            //           height:
-                            //             categoryHeight * this.pointCount +
-                            //             (this.chartHeight - this.plotHeight),
-                            //         },
-                            //       });
-                            //     },
-                            //   },
+                              events: {
+                                load: function () {
+                                  let categoryHeight = 50;
+                                  this.update({
+                                    chart: {
+                                      height:
+                                        categoryHeight * this.pointCount +
+                                        (this.chartHeight - this.plotHeight),
+                                    },
+                                  });
+                                },
+                              },
                             },
                             title: {
                               text: "",
@@ -1681,6 +1681,8 @@ const Analytics = (props) => {
                             xAxis: {
                               categories:
                                 sortedCountries?.countryWiseData?.categoriesData,
+                                allowDecimals: false
+
                             },
                             credits: {
                               enabled: false,
@@ -1717,12 +1719,17 @@ const Analytics = (props) => {
                                     "gray",
                                 },
                               },
+                              allowDecimals: false
+
                             },
                             plotOptions: {
                               bar: {
                                 dataLabels: {
                                   enabled: true,
                                 },
+                                series: {
+                                  pointWidth: 30
+                              }
                               },
                             },
                             legend: {
@@ -1744,6 +1751,7 @@ const Analytics = (props) => {
                           options={pieOptions}
                         />
                       )}
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -1835,8 +1843,8 @@ const Analytics = (props) => {
                             highcharts={Highcharts}
                             options={{
                               chart: {
-                                marginTop: 0,
-                                marginBottom: 0,
+                                marginTop: 50,
+                                marginBottom: 50,
                                 type: "bar",
                                 events: {
                                   load: function () {
@@ -1855,8 +1863,11 @@ const Analytics = (props) => {
                                 text: "",
                               },
                               xAxis: {
+                                
                                 categories:
                                   sortedCountries?.regionData?.barChartCategories,
+                                  allowDecimals: false
+
                               },
                               credits: {
                                 enabled: false,
@@ -1893,6 +1904,8 @@ const Analytics = (props) => {
                                       "gray",
                                   },
                                 },
+                                allowDecimals: false
+
                               },
                               plotOptions: {
                                 bar: {

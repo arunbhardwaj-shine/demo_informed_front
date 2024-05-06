@@ -14,6 +14,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
     const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
 
     const [pieChartData, setPieChartData] = useState([]);
+    const [data, setData] = useState([]);
     const colors = ["#f5c64a", "#fde3a1", "#ed8188", "#fac5c8", "#004A89"];
     const commonPieOptions = {
         chart: {
@@ -122,25 +123,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
             },
         },
         series: [],
-        // responsive: {
-        //     rules: [{
-        //         condition: {
-        //             maxWidth: 1400
-        //         },
-        //         chartOptions: {
-        //             legend: {
-        //                 itemStyle: {
-        //                     fontSize: "8px"
-        //                 },
-        //             },
-        //         },
-        //         title: {
-        //             style:{
-        //                 fontSize: '10px'
-        //             }
-        //         },
-        //     }],
-        // },
+
 
     };
     
@@ -154,6 +137,7 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                 const body = { eventId };
                 const response = await postData(ENDPOINT.GET_TOTAL_EMAIL_REGISTRATION_COUNT, body);
                 const result = response?.data?.data;
+                setData(result)
                 setPieChartData(result);
                 setEventData(result?.eventData);
 
@@ -207,12 +191,19 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                             </div>
                         </div>
                         <div className='graph-box'>
-                            <div className='highchart-chart'>
-                                <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+                        {data?.totalRegistrations?.hcpUsers || data?.totalRegistrations?.staffUsers ? <><div className='highchart-chart'>
+                          <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+
+                          
                             </div>
                             <div className="rd-box-export">
                                 <img src={path_image + "arrow-export.svg"} alt="" onClick={()=>dropdownClicked("totalRegistrations")} />
                             </div>
+                            </> 
+                                 : <div className="no_found">
+                                 <img src={path_image + "default-bar-chart.png"} alt="" />
+                                 
+                             </div>}
                         </div>
                     </Col>
                     <Col md={9}>
@@ -225,13 +216,19 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                         </div>
                         <div className='graph-box d-flex justify-content-between'>
                             <div className='highchart-chart left-side'>
-                                <HighchartsReact highcharts={Highcharts} options={pieOptionsHcps} />
+                            {data?.registeredHcpData?.internalHcps || data?.registeredHcpData?.externalHcps ? <> 
+                             <HighchartsReact highcharts={Highcharts} options={pieOptionsHcps} />
                                 <div className="rd-box-export">
                                     <img src={path_image + "arrow-export.svg"} alt=""  onClick={()=>dropdownClicked("registeredHcps")} />
                                 </div>
+                                </> 
+                                 : <div className="no_found">
+                                 <img src={path_image + "default-bar-chart.png"} alt="" />
+                                 
+                             </div>}
                             </div>
                             <div className='highchart-chart right-side'>
-                            <HighchartsReact 
+                    {data?.registeredOverTime?.seriesData?.length ?     <HighchartsReact 
                                 highcharts={Highcharts} 
                                 options={{
                                     chart: {
@@ -384,8 +381,11 @@ const AnalyticsRegistration = ({dropdownClicked,setEventData}) => {
                                     },
                                 }} 
                                 style={{width: '100%'}}
-                            />
-
+                            />:
+                            <div className="no_found">
+                                  <p>No Data Found</p>
+                                </div>   
+}
 
 
                             </div>
