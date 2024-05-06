@@ -203,6 +203,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
 };
 
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
+  const [data, setData] = useState([]);
 
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
@@ -476,6 +477,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       // Make API call to fetch data
       const response = await postData(ENDPOINT?.GET_LIVESTREAM_DATA, body);
       let data = response?.data?.data;
+      setData(data)
       const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span>min`;
       const newValue = [
         {
@@ -566,7 +568,9 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
           </div>
           <div className="attended_hcp">
             <div className="avg-speed">
-            <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+{data?.averageTime?.totalUsers ?     <HighchartsReact highcharts={Highcharts} options={pieOptions} />   :<div className="no_found">
+                                  <p>No Data Found</p>
+                                </div>}
             </div>
             <div className="hcp-tracking">
               <div className="live-hcp-tracking-img">
@@ -582,12 +586,22 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
             <div className="top-country-data">
               <h6>The Top 5 Countries</h6>
               <Table>
-                {topCountries?.topCounties?.map((item, index) => (
+                {topCountries?.topCounties?.length?topCountries?.topCounties?.map((item, index) => (
                   <tr key={index}>
                     <td>{`${index + 1}. ${item.country}`}</td>
                     <td>{item.user_count}</td>
                   </tr>
-                ))}
+                ))
+                
+                : (
+                  <tr>
+                    <td colSpan="2">
+                      <div className="no_found">
+                        <p>No Data Found</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </Table>
               <div className="rd-box-export">
                 <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />
