@@ -878,7 +878,7 @@ const Routing = () => {
           element={<LoginLayout component={AutoLogout} />}
         />
         <Route
-          path="/survey/check8"
+          path="/survey/8check"
           element={<Check8 />}
         />
         <Route

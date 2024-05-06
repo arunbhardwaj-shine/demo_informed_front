@@ -270,10 +270,10 @@ const SurveyData = () => {
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
                 <div className='clear-search d-flex align-items-center'>
-                  <a
+                  {/* <a
                     className={`copy_link btn-voilet`}
                     // href={`${window.location.protocol}//${window.location.host}/survey/check8`}
-                    href={`https://events.docintel.app/survey/check8`}
+                    href={`https://events.docintel.app/survey/8check`}
                     onClick={(e) => {
                       e.preventDefault();
                       
@@ -283,7 +283,7 @@ const SurveyData = () => {
                     }}
                   >
                     Copy Survey Link
-                  </a>
+                  </a> */}
                   {data?.length > 0 ?
                     <div className="clear-search d-flex align-items-center">
                       <button
