@@ -179,6 +179,7 @@ export const ENDPOINT = {
   WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA: "/webinar/get-online-readers",
   STORE_SURVEY_DATA:"auth/store-survey-data",
   GET_SURVEY_DATA:"auth/get-survey-data",
+  GET_INFORMED_SURVEY_DATA:"auth/get-informed-survey-data",
   WEBINAR_EMAIL_COMPAIGN_LIST:"/webinarEmail/get-campaign-list",
   WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list",
   WEBINAR_EMAIL_GET_FILTER_LIST:"/webinarEmail/get-filter-list",
