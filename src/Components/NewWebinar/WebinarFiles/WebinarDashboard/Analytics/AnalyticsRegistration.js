@@ -7,7 +7,8 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { height } from "@amcharts/amcharts4/.internal/core/utils/Utils";
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
@@ -205,48 +206,119 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
       <div className="rd-analytics-box">
         <p className="rd-box-small-title">Registration</p>
         <div className="rd-analytics-box-layout d-flex justify-content-between align-items-start">
+          {!apiStatus ? (
           <Col md={3}>
-            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-              <h6 className="regi-title">Total Registrations</h6>
-              <div className="d-flex">
-                <div className="count-number">
-                  {pieChartData?.totalRegistrations?.totalUsers}
-                </div>
-                <img src={path_image + "crm.svg"} alt="CRM" className="CRM" />
+          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+            <h6 className="regi-title">
+              <Skeleton width={150} height={20} />
+            </h6>
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="count-number">
+                <Skeleton width={30} height={25} />
               </div>
+              <Skeleton circle={true} height={30} width={30} />
             </div>
-            <div className="graph-box">
-              {data?.totalRegistrations?.hcpUsers ||
-              data?.totalRegistrations?.staffUsers ? (
-                <>
-                  <div className="highchart-chart">
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={pieOptions}
-                    />
+          </div>
+          <div className="graph-box">
+            <div className="d-flex align-items-center mb-2 justify-content-between">
+              <Skeleton width={150} height={20} />
+              <Skeleton width={30} height={30} />
+            </div>
+            <div className="highchart-chart">
+              <Skeleton circle={true} height={200} width={200} />
+            </div>
+            <div className="rd-box-export d-flex align-items-center justify-content-between">
+              <Skeleton width={80} height={20} /> 
+              <Skeleton width={80} height={20} /> 
+              <Skeleton width={30} height={30} />
+            </div>
+          </div>
+        </Col>
+        
+          ) : (
+            <Col md={3}>
+              <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+                <h6 className="regi-title">Total Registrations</h6>
+                <div className="d-flex">
+                  <div className="count-number">
+                    {pieChartData?.totalRegistrations?.totalUsers}
                   </div>
-                  <div className="rd-box-export">
-                    <img
-                      src={path_image + "arrow-export.svg"}
-                      alt=""
-                      onClick={() => dropdownClicked("totalRegistrations")}
-                    />
-                  </div>
-                </>
-              ) : (
-                //      <div className="no_found">
-                //      <img src={path_image + "default-bar-chart.png"} alt="" />
+                  <img src={path_image + "crm.svg"} alt="CRM" className="CRM" />
+                </div>
+              </div>
+              <div className="graph-box">
+                {data?.totalRegistrations?.hcpUsers ||
+                data?.totalRegistrations?.staffUsers ? (
+                  <>
+                    <div className="highchart-chart">
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={pieOptions}
+                      />
+                    </div>
+                    <div className="rd-box-export">
+                      <img
+                        src={path_image + "arrow-export.svg"}
+                        alt=""
+                        onClick={() => dropdownClicked("totalRegistrations")}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  //      <div className="no_found">
+                  //      <img src={path_image + "default-bar-chart.png"} alt="" />
 
-                //  </div>
-                apiStatus && (
-                  <div className="no_found">
-                    <p>No Data Found</p>
-                  </div>
-                )
-              )}
+                  //  </div>
+                //   apiStatus && (
+                    <div className="no_found">
+                      <p>No Data Found</p>
+                    </div>
+                //   )
+                )}
+              </div>
+            </Col>
+          )}
+
+         {!apiStatus?<>
+            <Col md={9}>
+            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+
+            <h6 className="regi-hcp">
+              <Skeleton width={150} height={20} />
+            </h6>
+            <div className="d-flex ">
+              <div className="count-number">
+                <Skeleton width={30} height={25} />
+              </div>
+              <Skeleton circle={true} height={30} width={30} />
             </div>
-          </Col>
-          <Col md={9}>
+          </div>
+          <div className="d-flex align-items-center mb-2 justify-content-between">
+              <Skeleton width={150} height={20} />
+              <Skeleton width={30} height={30} />
+            </div>
+          <div className="graph-box d-flex justify-content-between">
+         
+            <div className="highchart-chart left-side">
+              <Skeleton circle={true} height={200} width={200} />
+              <div className="rd-box-export d-flex align-items-center justify-content-between">
+              <Skeleton width={80} height={20} /> 
+              <Skeleton width={80} height={20} /> 
+              <Skeleton width={30} height={30} />
+            </div>
+            </div>
+
+
+
+            <div className="highchart-chart right-side">
+      <Skeleton width="100%" height={190} />
+    </div>
+          </div>
+
+         
+            </Col>
+         
+         </>: <Col md={9}>
             <div className="rd-analytics-top d-flex justify-content-between align-items-center">
               <h6 className="regi-hcp">Registered HCPs</h6>
               <div className="d-flex">
@@ -277,12 +349,11 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                   //      <div className="no_found">
                   //      <img src={path_image + "default-bar-chart.png"} alt="" />
 
-                  //  </div>
-                  apiStatus && (
+           
                     <div className="no_found">
                       <p>No Data Found</p>
                     </div>
-                  )
+                
                 )}
               </div>
               <div className="highchart-chart right-side">
@@ -458,7 +529,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                 )}
               </div>
             </div>
-          </Col>
+          </Col>}
         </div>
       </div>
     </>

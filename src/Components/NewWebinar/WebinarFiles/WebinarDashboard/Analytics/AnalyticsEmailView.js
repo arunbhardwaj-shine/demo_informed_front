@@ -453,7 +453,11 @@ const AnalyticsEmailView = () => {
   };
 
   const toggleChartType = () => {
-    setIsPieChart(!isPieChart);
+    loader("show");
+    setTimeout(() => {
+      setIsPieChart(!isPieChart);
+      loader("hide");
+    }, 500);
   };
   return (
     <>
