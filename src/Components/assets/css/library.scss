@@ -4887,6 +4887,7 @@ section.verify_email.content_details {
   min-height: 260px;
 }
 
+
 .send-confirm .modal-body .modal-buttons {
   justify-content: space-evenly;
 }
@@ -21235,6 +21236,12 @@ table {
   }
 
   .survey_data_details {
+    padding:0 5px;
+    .survey_data_accordion_heading{
+      ul{
+        padding:2px 20px 15px;
+      }
+    }
     height: 100%;
     overflow-y: auto;
     // padding: 4px;
