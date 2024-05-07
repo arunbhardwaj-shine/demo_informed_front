@@ -1994,7 +1994,7 @@ let listData=response?.response?.data?.filter((item)=>!item?.subject?.includes("
                     </div> */}
                   </div>
                   <div className="country_tabs">
-                    <Tabs defaultActiveKey="mena" className="" fill>
+                    <Tabs defaultActiveKey="african group 1" className="" fill>
                       {renderTabsAndCharts(attendedUsers)}
                     </Tabs>
                   </div>

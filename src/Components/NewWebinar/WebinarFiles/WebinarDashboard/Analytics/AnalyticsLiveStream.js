@@ -27,6 +27,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
   const [activeTab, setActiveTab] = useState("new");
   const [tempSlotsCategory, setTempSlotsCategory] = useState([]);
   const [topCountries, setTopCountries] = useState([]);
+  const [apiStatus, setApiStatus] = useState(false);
 
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(
@@ -500,6 +501,9 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     } catch (err) {
       console.error("Error fetching data:", err);
     }
+    finally{
+      setApiStatus(true)
+    }
   };
 
   // Assuming postData and ENDPOINT are defined elsewhere in your code
@@ -568,7 +572,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
           </div>
           <div className="attended_hcp">
             <div className="avg-speed">
-{data?.averageTime?.totalUsers ?     <HighchartsReact highcharts={Highcharts} options={pieOptions} />   :<div className="no_found">
+{data?.averageTime?.totalUsers ?     <HighchartsReact highcharts={Highcharts} options={pieOptions} />   : apiStatus &&<div className="no_found">
                                   <p>No Data Found</p>
                                 </div>}
             </div>
@@ -593,7 +597,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
                   </tr>
                 ))
                 
-                : (
+                : apiStatus && (
                   <tr>
                     <td colSpan="2">
                       <div className="no_found">
