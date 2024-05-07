@@ -1983,7 +1983,7 @@ const Analytics = (props) => {
                     </div> */}
                   </div>
                   <div className="country_tabs">
-                    <Tabs defaultActiveKey="mena" className="" fill>
+                    <Tabs defaultActiveKey="african group 1" className="" fill>
                       {renderTabsAndCharts(attendedUsers)}
                     </Tabs>
                   </div>
