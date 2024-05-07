@@ -2503,7 +2503,7 @@ let listData=response?.response?.data?.filter((item)=>!item?.subject?.includes("
                     highcharts={Highcharts}
                     options={splineChartData}
                   />
-                  : <div className="no_found">No Data Found</div>
+                  : <div className="no_found"><p>No Data Found</p></div>
 
                 }
 
@@ -2514,7 +2514,7 @@ let listData=response?.response?.data?.filter((item)=>!item?.subject?.includes("
                     highcharts={Highcharts}
                     options={pieChartData}
                   />
-                  : <div className="no_found">No Data Found</div>
+                  : <div className="no_found"><p>No Data Found</p></div>
 
                 }
               </div>
