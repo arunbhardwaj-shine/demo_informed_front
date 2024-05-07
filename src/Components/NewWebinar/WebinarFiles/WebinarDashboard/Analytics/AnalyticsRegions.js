@@ -21,7 +21,7 @@ const AnalyticsRegions = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);
   const [regionData, setRegionData] = useState(null);
-  const [activeRegion, setActiveRegion] = useState(null);
+  const [activeRegion, setActiveRegion] = useState("African Group 1");
   const [isPieChart, setIsPieChart] = useState(true);
   const [flag, setFlag] = useState(1);
   const pieRef = useRef(null);
@@ -141,6 +141,7 @@ const AnalyticsRegions = () => {
       }
 
       setRegionData(result?.data?.data);
+   
       setActiveRegion(Object.keys(result?.data?.data)[0]);
       loader("hide");
     } catch (err) {
@@ -338,7 +339,7 @@ const AnalyticsRegions = () => {
               <div className="d-flex align-items-center justify-content-between"></div>
               <div className="country_tabs">
                 <Tabs
-                  defaultActiveKey="Other"
+                  defaultActiveKey={activeRegion}
                   className=""
                   fill
                   onSelect={handleTabChange}

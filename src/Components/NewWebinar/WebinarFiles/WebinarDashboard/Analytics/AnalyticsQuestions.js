@@ -14,10 +14,9 @@ const AnalyticsQuestions = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);
   const [activeTab, setActiveTab] = useState("question");
-  const [questions, setQuestions] = useState(
-  {}
-  );
+  const [questions, setQuestions] = useState({});
   const [flag, setFlag] = useState(1);
+  const [apiStatus, setApiStatus] = useState(false);
 
   useEffect(() => {
     getQuestions();
@@ -39,59 +38,61 @@ const AnalyticsQuestions = () => {
       console.log(err);
     } finally {
       loader("hide");
+      setApiStatus(true)
     }
   };
 
-  const getSpeakerQuestion = async() =>{
-    try{
-       loader("show")
-      const result = await postData(ENDPOINT.QUESTION_ANSWER,{
-            "companyId":eventId?.companyId,
-            "eventId":eventId?.eventId
-         })
-         setQuestions(result?.data?.data)
-    }catch(err){
-        console.log("-er",err)
-    }
-    finally{
-                loader("hide")
+  const getSpeakerQuestion = async () => {
+    try {
+      loader("show");
+      const result = await postData(ENDPOINT.QUESTION_ANSWER, {
+        companyId: eventId?.companyId,
+        eventId: eventId?.eventId,
+      });
+      setQuestions(result?.data?.data);
+    } catch (err) {
+      console.log("-er", err);
+    } finally {
+      loader("hide");
+      setApiStatus(true)
 
     }
-}
+  };
 
   const handleTabClick = async (key) => {
-    setQuestions({})
-    setActiveTab(key)
-if(key=="questions"){
-   await  getQuestions()
-}else{
-    await getSpeakerQuestion()
-}
-};
+    setApiStatus(false)
+    setQuestions({});
+    setActiveTab(key);
+    if (key == "questions") {
+      await getQuestions();
+    } else {
+      await getSpeakerQuestion();
+    }
+  };
 
-const downloadExcel = (data) => {
+  const downloadExcel = (data) => {
     try {
       if (!data) {
         toast.warning("No data found");
         return;
       }
 
-      const sheets = ["new", "question","answer", "sent", "ignore"];
+      const sheets = ["new", "question", "answer", "sent", "ignore"];
       const sheetNames = {
-        "new": "Questions",
-        "question": "Questions",
-        "answer": "Answered",
-        "sent": "Send to Speaker",
-        "ignore": "Ignored"
+        new: "Questions",
+        question: "Questions",
+        answer: "Answered",
+        sent: "Send to Speaker",
+        ignore: "Ignored",
       };
 
       const columnWidths = {
-        "Name": 15,
-        "Email": 20,
-        "Country": 15,
-        "Message": 30,
-        "Reply": 20,
-        "Date": 15,
+        Name: 15,
+        Email: 20,
+        Country: 15,
+        Message: 30,
+        Reply: 20,
+        Date: 15,
       };
 
       const workbook = XLSX.utils.book_new();
@@ -101,23 +102,27 @@ const downloadExcel = (data) => {
 
         if (sheetData.length) {
           sheetData = sheetData.map((item) => ({
-            "Name": item?.name ? item.name.trim() : "Anonymous",
-            "Email": item?.email ? item.email.trim() : "N/A",
-            "Country": item?.country ? item.country.trim() : "N/A",
-            "Message": item?.question ? item.question.trim() : "N/A",
-            "Reply": item?.reply ? item.reply.trim() : "N/A",
-            "Date": item?.question_date ? item.question_date : "N/A"
+            Name: item?.name ? item.name.trim() : "Anonymous",
+            Email: item?.email ? item.email.trim() : "N/A",
+            Country: item?.country ? item.country.trim() : "N/A",
+            Message: item?.question ? item.question.trim() : "N/A",
+            Reply: item?.reply ? item.reply.trim() : "N/A",
+            Date: item?.question_date ? item.question_date : "N/A",
           }));
 
           const worksheet = XLSX.utils.json_to_sheet(sheetData);
-          
+
           // Set dynamic width for each column
           Object.keys(columnWidths).forEach((key, index) => {
             worksheet["!cols"] = worksheet["!cols"] || [];
             worksheet["!cols"][index] = { wch: columnWidths[key] + 2 };
           });
 
-          XLSX.utils.book_append_sheet(workbook, worksheet, sheetNames[sheetName]);
+          XLSX.utils.book_append_sheet(
+            workbook,
+            worksheet,
+            sheetNames[sheetName]
+          );
         }
       });
 
@@ -131,14 +136,13 @@ const downloadExcel = (data) => {
       });
 
       saveAs(blob, `${activeTab}_stats.xlsx`);
-
     } catch (error) {
-      console.error("An error occurred while downloading the Excel file:", error);
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
     }
-};
-
-
-
+  };
 
   return (
     <>
@@ -154,7 +158,11 @@ const downloadExcel = (data) => {
                 >
                   <div className="question-download">
                     <div className="clear-search">
-                      <button className="btn print" title="Download stats" onClick={()=>downloadExcel(questions)}>
+                      <button
+                        className="btn print"
+                        title="Download stats"
+                        onClick={() => downloadExcel(questions)}
+                      >
                         <svg
                           width="20"
                           height="20"
@@ -174,7 +182,8 @@ const downloadExcel = (data) => {
                       </button>
                     </div>
                   </div>
-                  <div className="question-listing-analytics speaker_zone">
+        {        apiStatus && 
+          <div className="question-listing-analytics speaker_zone">
                     <div className="question-listing-analytics-left">
                       <div className="webinar-top-sec d-flex justify-content-between align-center">
                         <div className="top-heading">
@@ -184,11 +193,16 @@ const downloadExcel = (data) => {
                           </h4>
                         </div>
                       </div>
+                      {questions?.new?.length >0?   
                       <div className="speaker-zone-listed">
                         {questions?.new?.map((question, index) => (
                           <QuestionItem key={index} question={question} />
                         ))}
-                      </div>
+                      </div>: (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        )}
                     </div>
                     <div className="question-listing-analytics-right">
                       <div className="answered">
@@ -200,11 +214,16 @@ const downloadExcel = (data) => {
                             </h4>
                           </div>
                         </div>
+                        {questions?.sent?.length >0?   
                         <div className="speaker-zone-listed">
                           {questions?.sent?.map((question, index) => (
                             <QuestionItem key={index} question={question} />
                           ))}
-                        </div>
+                        </div>: (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        )}
                       </div>
                       <div className="ignored">
                         <div className="webinar-top-sec d-flex justify-content-between align-center">
@@ -215,20 +234,34 @@ const downloadExcel = (data) => {
                             </h4>
                           </div>
                         </div>
-                        <div className="speaker-zone-listed">
-                          {questions?.ignore?.map((question, index) => (
-                            <QuestionItem key={index} question={question} />
-                          ))}
-                        </div>
+                        {questions?.ignore?.length > 0 ? (
+                          <div className="speaker-zone-listed">
+                            {questions?.ignore?.map((question, index) => (
+                              <QuestionItem key={index} question={question} />
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
+                  </div>}
                 </Tab>
 
-                <Tab eventKey="speaker-zone" title="Speaker Zone" className="flex-column justify-content-between">
+                <Tab
+                  eventKey="speaker-zone"
+                  title="Speaker Zone"
+                  className="flex-column justify-content-between"
+                >
                   <div className="speaker-download">
                     <div className="clear-search">
-                      <button className="btn print" title="Download stats" onClick={()=>downloadExcel(questions)}>
+                      <button
+                        className="btn print"
+                        title="Download stats"
+                        onClick={() => downloadExcel(questions)}
+                      >
                         <svg
                           width="20"
                           height="20"
@@ -248,52 +281,72 @@ const downloadExcel = (data) => {
                       </button>
                     </div>
                   </div>
-                  <div className="question-listing-analytics speaker_zone">
+                { apiStatus && <div className="question-listing-analytics speaker_zone">
                     <div className="question-listing-analytics-left">
                       <div className="webinar-top-sec d-flex justify-content-between align-center">
                         <div className="top-heading">
                           <h4>
-                          Questions | <span>{questions?.question?.length || 0}</span>{" "}
+                            Questions |{" "}
+                            <span>{questions?.question?.length || 0}</span>{" "}
                           </h4>
                         </div>
                       </div>
-                      <div className="speaker-zone-listed">
-                      {questions?.question?.map((question, index) => (
-                          <QuestionItem key={index} question={question} />
-                        ))}
-                      </div>
+                      {questions?.question?.length > 0 ? (
+                        <div className="speaker-zone-listed">
+                          {questions?.question?.map((question, index) => (
+                            <QuestionItem key={index} question={question} />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      )}
                     </div>
                     <div className="question-listing-analytics-right">
                       <div className="answered">
                         <div className="webinar-top-sec d-flex justify-content-between align-center">
                           <div className="top-heading">
                             <h4>
-                              Answered |  <span>{questions?.answer?.length || 0}</span>{" "}
+                              Answered |{" "}
+                              <span>{questions?.answer?.length || 0}</span>{" "}
                             </h4>
                           </div>
                         </div>
-                        <div className="speaker-zone-listed">
-                        {questions?.answer?.map((question, index) => (
-                          <QuestionItem key={index} question={question} />
-                        ))}
-                        </div>
+                        {questions?.answer?.length > 0 ? (
+                          <div className="speaker-zone-listed">
+                            {questions?.answer?.map((question, index) => (
+                              <QuestionItem key={index} question={question} />
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        )}
                       </div>
                       <div className="ignored">
                         <div className="webinar-top-sec d-flex justify-content-between align-center">
                           <div className="top-heading">
                             <h4>
-                              Ignored |  <span>{questions?.ignore?.length || 0}</span>{" "}
+                              Ignored |{" "}
+                              <span>{questions?.ignore?.length || 0}</span>{" "}
                             </h4>
                           </div>
                         </div>
-                        <div className="speaker-zone-listed">
-                        {questions?.ignore?.map((question, index) => (
-                          <QuestionItem key={index} question={question} />
-                        ))} 
+                        {questions?.ignore?.length >0?   <div className="speaker-zone-listed">
+                          {questions?.ignore?.map((question, index) => (
+                            <QuestionItem key={index} question={question} />
+                          ))}
                         </div>
+                        : (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
+                  </div>}
                 </Tab>
               </Tabs>
             </div>
@@ -308,7 +361,9 @@ const QuestionItem = ({ question }) => (
   <div className="reader_list">
     <div className="detail-box">
       <div className="d-flex justify-content-between align-items-center">
-        <p className="user_name">{question?.username || question?.name ||"Anonymous"}</p>
+        <p className="user_name">
+          {question?.username || question?.name || "Anonymous"}
+        </p>
         <div className="question-post-time">
           <small>{question?.question_date}</small>
         </div>
