@@ -33,7 +33,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
         console.error("Error fetching analytics data:", error);
       }
       finally {
-        setApiStatus(true)
+        // setApiStatus(true)
       }
     };
 
@@ -47,16 +47,16 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex">
               <h6 className="mr-auto">
-                <Skeleton width={100} height={20} />
+                <Skeleton width={100} height={25} />
               </h6>
             </div>
             <div className="graph-box">
             <div className="d-flex align-items-center mb-2 justify-content-between">
               <Skeleton width={150} height={30} />
-              <Skeleton width={30} height={35} />
+              <Skeleton width={30} height={30} />
             </div>
               <div className="highchart-chart">
-                <Skeleton width="100%" height={210} />
+                <Skeleton width="100%" height={180} />
               </div>
         
             </div>

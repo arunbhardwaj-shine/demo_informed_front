@@ -192,7 +192,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
         loader("hide");
         console.error("Error fetching analytics data:", error);
       } finally {
-        setApiStatus(true);
+        // setApiStatus(true);
       }
     };
 
@@ -207,34 +207,33 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
         <p className="rd-box-small-title">Registration</p>
         <div className="rd-analytics-box-layout d-flex justify-content-between align-items-start">
           {!apiStatus ? (
-          <Col md={3}>
-          <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-            <h6 className="regi-title">
-              <Skeleton width={150} height={20} />
-            </h6>
-            <div className="d-flex align-items-center justify-content-between">
-              <div className="count-number">
-                <Skeleton width={30} height={25} />
+            <Col md={3}>
+              <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+                <h6 className="regi-title">
+                  <Skeleton width={150} height={20} />
+                </h6>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="count-number">
+                    <Skeleton width={30} height={25} />
+                  </div>
+                  <Skeleton circle={true} height={30} width={30} />
+                </div>
               </div>
-              <Skeleton circle={true} height={30} width={30} />
-            </div>
-          </div>
-          <div className="graph-box">
-            <div className="d-flex align-items-center mb-2 justify-content-between">
-              <Skeleton width={150} height={20} />
-              <Skeleton width={30} height={30} />
-            </div>
-            <div className="highchart-chart">
-              <Skeleton circle={true} height={200} width={200} />
-            </div>
-            <div className="rd-box-export d-flex align-items-center justify-content-between">
-              <Skeleton width={80} height={20} /> 
-              <Skeleton width={80} height={20} /> 
-              <Skeleton width={30} height={30} />
-            </div>
-          </div>
-        </Col>
-        
+              <div className="graph-box">
+                <div className="d-flex align-items-center mb-2 justify-content-between">
+                  <Skeleton width={150} height={20} />
+                  <Skeleton width={30} height={30} />
+                </div>
+                <div className="highchart-chart">
+                  <Skeleton circle={true} height={200} width={200} />
+                </div>
+                <div className="rd-box-export d-flex align-items-center justify-content-between">
+                  <Skeleton width={80} height={20} />
+                  <Skeleton width={80} height={20} />
+                  <Skeleton width={30} height={30} />
+                </div>
+              </div>
+            </Col>
           ) : (
             <Col md={3}>
               <div className="rd-analytics-top d-flex justify-content-between align-items-center">
@@ -269,267 +268,269 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                   //      <img src={path_image + "default-bar-chart.png"} alt="" />
 
                   //  </div>
-                //   apiStatus && (
-                    <div className="no_found">
-                      <p>No Data Found</p>
-                    </div>
-                //   )
+                  //   apiStatus && (
+                  <div className="no_found">
+                    <p>No Data Found</p>
+                  </div>
+                  //   )
                 )}
               </div>
             </Col>
           )}
 
-         {!apiStatus?<>
-            <Col md={9}>
-            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-
-            <h6 className="regi-hcp">
-              <Skeleton width={150} height={20} />
-            </h6>
-            <div className="d-flex ">
-              <div className="count-number">
-                <Skeleton width={30} height={25} />
-              </div>
-              <Skeleton circle={true} height={30} width={30} />
-            </div>
-          </div>
-          <div className="d-flex align-items-center mb-2 justify-content-between">
-              <Skeleton width={150} height={20} />
-              <Skeleton width={30} height={30} />
-            </div>
-          <div className="graph-box d-flex justify-content-between">
-         
-            <div className="highchart-chart left-side">
-              <Skeleton circle={true} height={200} width={200} />
-              <div className="rd-box-export d-flex align-items-center justify-content-between">
-              <Skeleton width={80} height={20} /> 
-              <Skeleton width={80} height={20} /> 
-              <Skeleton width={30} height={30} />
-            </div>
-            </div>
-
-
-
-            <div className="highchart-chart right-side">
-      <Skeleton width="100%" height={190} />
-    </div>
-          </div>
-
-         
-            </Col>
-         
-         </>: <Col md={9}>
-            <div className="rd-analytics-top d-flex justify-content-between align-items-center">
-              <h6 className="regi-hcp">Registered HCPs</h6>
-              <div className="d-flex">
-                <div className="count-number">
-                  {pieChartData?.totalRegistrations?.totalUsers}
+          {!apiStatus ? (
+            <>
+              <Col md={9}>
+                <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+                  <h6 className="regi-hcp">
+                    <Skeleton width={150} height={20} />
+                  </h6>
+                  <div className="d-flex ">
+                    <div className="count-number">
+                      <Skeleton width={30} height={25} />
+                    </div>
+                    <Skeleton circle={true} height={30} width={30} />
+                  </div>
                 </div>
-                <img src={path_image + "irt.svg"} alt="" className="doctor" />
+                <div className="d-flex align-items-center mb-2 justify-content-between">
+                  <Skeleton width={150} height={20} />
+                </div>
+                <div className="graph-box d-flex justify-content-between">
+                  <div className="highchart-chart left-side">
+                    <Skeleton circle={true} height={200} width={200} />
+                    <div className="rd-box-export d-flex align-items-center justify-content-between">
+                      <Skeleton width={80} height={20} />
+                      <Skeleton width={80} height={20} />
+                      <Skeleton width={30} height={30} />
+                    </div>
+                  </div>
+
+                  <div className="highchart-chart right-side">
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      
+                      <Skeleton width={150} height={30} />
+                      <Skeleton width={30} height={30} />
+
+                    </div>
+                  
+
+                    <Skeleton width="100%" height={180} />
+                  </div>
+                </div>
+              </Col>
+            </>
+          ) : (
+            <Col md={9}>
+              <div className="rd-analytics-top d-flex justify-content-between align-items-center">
+                <h6 className="regi-hcp">Registered HCPs</h6>
+                <div className="d-flex">
+                  <div className="count-number">
+                    {pieChartData?.totalRegistrations?.totalUsers}
+                  </div>
+                  <img src={path_image + "irt.svg"} alt="" className="doctor" />
+                </div>
               </div>
-            </div>
-            <div className="graph-box d-flex justify-content-between">
-              <div className="highchart-chart left-side">
-                {data?.registeredHcpData?.internalHcps ||
-                data?.registeredHcpData?.externalHcps ? (
-                  <>
+              <div className="graph-box d-flex justify-content-between">
+                <div className="highchart-chart left-side">
+                  {data?.registeredHcpData?.internalHcps ||
+                  data?.registeredHcpData?.externalHcps ? (
+                    <>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={pieOptionsHcps}
+                      />
+                      <div className="rd-box-export">
+                        <img
+                          src={path_image + "arrow-export.svg"}
+                          alt=""
+                          onClick={() => dropdownClicked("registeredHcps")}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    //      <div className="no_found">
+                    //      <img src={path_image + "default-bar-chart.png"} alt="" />
+
+                    <div className="no_found">
+                      <p>No Data Found</p>
+                    </div>
+                  )}
+                </div>
+                <div className="highchart-chart right-side">
+                  {data?.registeredOverTime?.seriesData?.length ? (
                     <HighchartsReact
                       highcharts={Highcharts}
-                      options={pieOptionsHcps}
-                    />
-                    <div className="rd-box-export">
-                      <img
-                        src={path_image + "arrow-export.svg"}
-                        alt=""
-                        onClick={() => dropdownClicked("registeredHcps")}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  //      <div className="no_found">
-                  //      <img src={path_image + "default-bar-chart.png"} alt="" />
-
-           
-                    <div className="no_found">
-                      <p>No Data Found</p>
-                    </div>
-                
-                )}
-              </div>
-              <div className="highchart-chart right-side">
-                {data?.registeredOverTime?.seriesData?.length ? (
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={{
-                      chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: "line",
-                        //maxWidth: 500,
-                        //size: '100%',
-                        height: 292,
-                      },
-
-                      title: {
-                        text: "Registration Over Time",
-                        style: {
-                          fontWeight: "500",
-                          color: "#70899E",
-                          fontSize: "14px",
+                      options={{
+                        chart: {
+                          plotBackgroundColor: null,
+                          plotBorderWidth: null,
+                          plotShadow: false,
+                          type: "line",
+                          //maxWidth: 500,
+                          //size: '100%',
+                          height: 292,
                         },
-                      },
-                      xAxis: {
-                        categories:
-                          pieChartData?.registeredOverTime?.categoriesData,
-                        labels: {
-                          rotation: -45,
-                          style: {
-                            fontSize: "12px",
-                            color: "#555555",
-                          },
-                        },
-                        lineColor: "rgba(151, 182, 207, 0.30)",
-                        lineWidth: 2,
-                        pointInterval: 5,
-                      },
-                      yAxis: {
+
                         title: {
-                          text: "",
-                        },
-                        lineColor: "rgba(151, 182, 207, 0.30)",
-                        lineWidth: 2,
-                        endOnTick: false, // Ensure yAxis ends at the last tick
-                      },
-                      plotOptions: {
-                        series: {
-                          marker: {
-                            symbol: "square",
-                          },
-                          dataLabels: {
-                            enabled: true,
-                            format: "{point.y}",
+                          text: "Registration Over Time",
+                          style: {
+                            fontWeight: "500",
+                            color: "#70899E",
+                            fontSize: "14px",
                           },
                         },
-                      },
-                      legend: {
-                        align: "center",
-                        verticalAlign: "bottom",
-                        layout: "horizontal",
-                        x: 0,
-                        y: 0,
-                        itemStyle: {
-                          fontWeight: "normal",
-                          color: "#555555",
-                          fontSize: "12px",
-                        },
-                        itemHoverStyle: {
-                          color: "#000000",
-                        },
-                        itemHiddenStyle: {
-                          color: "#C0C0C0",
-                        },
-                        symbolWidth: 8,
-                        symbolHeight: 8,
-                        itemDistance: 20,
-                        lineWidth: 0,
-                        itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
-                      },
-
-                      tooltip: {
-                        formatter: function () {
-                          return (
-                            "<b>" +
-                            this.y +
-                            " " +
-                            this.series.name +
-                            " | " +
-                            this.point.category +
-                            "</b>"
-                          );
-                        },
-                      },
-                      series: [
-                        {
-                          name: "Emails",
-                          data: pieChartData?.registeredOverTime?.seriesData,
-                          color: "#874e9e",
-                          marker: {
-                            symbol: "square",
+                        xAxis: {
+                          categories:
+                            pieChartData?.registeredOverTime?.categoriesData,
+                          labels: {
+                            rotation: -45,
+                            style: {
+                              fontSize: "12px",
+                              color: "#555555",
+                            },
                           },
+                          lineColor: "rgba(151, 182, 207, 0.30)",
+                          lineWidth: 2,
+                          pointInterval: 5,
                         },
-                      ],
-
-                      exporting: {
-                        sourceWidth: 1600,
-                        sourceHeight: 1200,
-                        enabled: true,
-                        chartOptions: {
+                        yAxis: {
                           title: {
-                            text: "", // Remove title from exported image
+                            text: "",
                           },
+                          lineColor: "rgba(151, 182, 207, 0.30)",
+                          lineWidth: 2,
+                          endOnTick: false, // Ensure yAxis ends at the last tick
                         },
-                        filename: "AVG_Spend_Time", // Set filename for exported image
-                        menuItemDefinitions: {
-                          downloadPNG: {
-                            text: "Download PNG",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "image/png",
-                              });
+                        plotOptions: {
+                          series: {
+                            marker: {
+                              symbol: "square",
                             },
-                          },
-                          downloadJPEG: {
-                            text: "Download JPEG",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "image/jpeg",
-                              });
-                            },
-                          },
-                          downloadPDF: {
-                            text: "Download PDF",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "application/pdf",
-                              });
-                            },
-                          },
-                          downloadSVG: {
-                            text: "Download SVG",
-                            onclick: function () {
-                              this.exportChart({
-                                type: "image/svg+xml",
-                              });
+                            dataLabels: {
+                              enabled: true,
+                              format: "{point.y}",
                             },
                           },
                         },
-                        buttons: {
-                          contextButton: {
-                            symbol:
-                              "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-                            menuItems: [
-                              "downloadPNG",
-                              "downloadJPEG",
-                              "downloadPDF",
-                              "downloadSVG",
-                            ],
+                        legend: {
+                          align: "center",
+                          verticalAlign: "bottom",
+                          layout: "horizontal",
+                          x: 0,
+                          y: 0,
+                          itemStyle: {
+                            fontWeight: "normal",
+                            color: "#555555",
+                            fontSize: "12px",
+                          },
+                          itemHoverStyle: {
+                            color: "#000000",
+                          },
+                          itemHiddenStyle: {
+                            color: "#C0C0C0",
+                          },
+                          symbolWidth: 8,
+                          symbolHeight: 8,
+                          itemDistance: 20,
+                          lineWidth: 0,
+                          itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
+                        },
+
+                        tooltip: {
+                          formatter: function () {
+                            return (
+                              "<b>" +
+                              this.y +
+                              " " +
+                              this.series.name +
+                              " | " +
+                              this.point.category +
+                              "</b>"
+                            );
                           },
                         },
-                      },
-                    }}
-                    style={{ width: "100%" }}
-                  />
-                ) : (
-                  apiStatus && (
-                    <div className="no_found">
-                      <p>No Data Found</p>
-                    </div>
-                  )
-                )}
+                        series: [
+                          {
+                            name: "Emails",
+                            data: pieChartData?.registeredOverTime?.seriesData,
+                            color: "#874e9e",
+                            marker: {
+                              symbol: "square",
+                            },
+                          },
+                        ],
+
+                        exporting: {
+                          sourceWidth: 1600,
+                          sourceHeight: 1200,
+                          enabled: true,
+                          chartOptions: {
+                            title: {
+                              text: "", // Remove title from exported image
+                            },
+                          },
+                          filename: "AVG_Spend_Time", // Set filename for exported image
+                          menuItemDefinitions: {
+                            downloadPNG: {
+                              text: "Download PNG",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "image/png",
+                                });
+                              },
+                            },
+                            downloadJPEG: {
+                              text: "Download JPEG",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "image/jpeg",
+                                });
+                              },
+                            },
+                            downloadPDF: {
+                              text: "Download PDF",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "application/pdf",
+                                });
+                              },
+                            },
+                            downloadSVG: {
+                              text: "Download SVG",
+                              onclick: function () {
+                                this.exportChart({
+                                  type: "image/svg+xml",
+                                });
+                              },
+                            },
+                          },
+                          buttons: {
+                            contextButton: {
+                              symbol:
+                                "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+                              menuItems: [
+                                "downloadPNG",
+                                "downloadJPEG",
+                                "downloadPDF",
+                                "downloadSVG",
+                              ],
+                            },
+                          },
+                        },
+                      }}
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    apiStatus && (
+                      <div className="no_found">
+                        <p>No Data Found</p>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
-            </div>
-          </Col>}
+            </Col>
+          )}
         </div>
       </div>
     </>
