@@ -32,7 +32,7 @@ const AnalyticsQuestions = () => {
       const response = await postData(
         ENDPOINT.WEBINAR_EVENT_QUESTION_ANSWER,
         body
-      );
+      );      
       setQuestions(response?.data?.data);
     } catch (err) {
       console.log(err);
@@ -72,7 +72,9 @@ const AnalyticsQuestions = () => {
 
   const downloadExcel = (data) => {
     try {
-      if (!data) {
+      let hasData = Object.values(data).some(array => array.length > 0);
+      if (!hasData) {
+       
         toast.warning("No data found");
         return;
       }
