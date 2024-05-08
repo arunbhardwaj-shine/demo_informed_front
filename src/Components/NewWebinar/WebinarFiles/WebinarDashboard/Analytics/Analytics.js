@@ -1606,7 +1606,17 @@ let listData=response?.response?.data?.filter((item)=>!item?.subject?.includes("
                               type="checkbox"
                               // ={graphType == "pie" ? true : false}
                               // onChange={onHandleDisplayResultChange}
-                              onChange={() => setWhichTypeGraph(!whichTypeGraph)}
+                              onChange={() => {
+                                  loader("show");
+                              
+                                  setTimeout(() => {
+                                    setWhichTypeGraph(!whichTypeGraph)
+                                    loader("hide")
+                                  }, 500);
+                              
+}
+                              
+                              }
                             />
                             <span>
                               <span>
@@ -1791,7 +1801,19 @@ let listData=response?.response?.data?.filter((item)=>!item?.subject?.includes("
                             <input
                               type="checkbox"
                               // ={graphType == "pie" ? true : false}
-                              onChange={() => setWhichTypeGraphRegion(!whichTypeGraphRegion)}
+                              onChange={() => 
+                                {
+                                  loader("show");
+                              
+                                  setTimeout(() => {
+                                   setWhichTypeGraphRegion(!whichTypeGraphRegion)
+                                    loader("hide")
+                                  }, 500);
+                              
+}
+                  
+                              
+                              }
                             />
                             <span>
                               <span>

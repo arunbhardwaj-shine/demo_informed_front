@@ -4,13 +4,16 @@ import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 import { loader } from '../../../../../loader';
 import { postData } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const AnalyticsEmail = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { eventIdContext, handleEventId } = useSidebar();
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
     const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
     const [emailData, setEmailData] = useState([]);
+    const [apiStatus, setApiStatus] = useState(false);
+
     useEffect(() => {
       const fetchAnalyticsData = async () => {
           try {
@@ -25,13 +28,91 @@ const AnalyticsEmail = () => {
               loader("hide");
               console.error('Error fetching analytics data:', error);
           }
+          finally{
+            setApiStatus(true)
+          }
       };
 
       fetchAnalyticsData();
   }, [eventId]);
   return (
     <>
-      <div className='rd-analytics-box'>
+  { !apiStatus?<div className='rd-analytics-box'>
+  <p class="rd-box-small-title">
+  Emails
+  </p>
+  <div className='rd-analytics-box-layout'>
+    <div className="rd-analytics-top align-items-center d-flex justify-content-between">
+      <h6 className="mr-auto" style={{ color:'#8A4E9C'}}>
+      Emails
+      </h6>
+      <div className="d-flex">
+        <Skeleton width={30} height={30} />
+      </div>
+    </div>
+    <div className='graph-box'>
+      <div className='graph-data'>
+        <Table className="fold-table" id="individual_completion">
+          <thead className='sticky-header'>
+            <tr>
+              <th>
+                <Skeleton width={80} height={20} />
+              </th>
+              <th>
+                <Skeleton width={60} height={20} />
+              </th>
+              <th>
+                <Skeleton width={60} height={20} />
+              </th>
+              <th className='email-options'>
+                <Skeleton width={60} height={20} />
+              </th>
+              <th className='email-options'>
+                <Skeleton width={60} height={20} />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(3)].map((_, index) => (
+              <tr key={index}>
+                <td valign='middle'>
+                  <Skeleton width={80} height={14} />
+                  <span>
+                    <Skeleton width={60} height={10} />
+                  </span>
+                </td>
+                <td valign='middle'>
+                  <Skeleton width={60} height={14} />
+                </td>
+                <td valign='middle'>
+                  <Skeleton width={60} height={14} />
+                </td>
+                <td valign='middle' className='email-options'>
+                  <div className='td-bordered'>
+                    <Skeleton width={30} height={17} />
+                    <span>
+                      <Skeleton width={50} height={14} />
+                    </span>
+                  </div>
+                </td>
+                <td valign='middle' className='email-options'>
+                  <div className='td-bordered'>
+                    <Skeleton width={30} height={20} />
+                    <span>
+                      <Skeleton width={80} height={16} />
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            {/* End loop */}
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  </div>
+</div>
+:   <div className='rd-analytics-box'>
         <p class="rd-box-small-title">Emails</p>
         <div className='rd-analytics-box-layout'>
           <div className="rd-analytics-top align-items-center d-flex justify-content-between">
@@ -79,7 +160,7 @@ const AnalyticsEmail = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
     </>
   )
 }

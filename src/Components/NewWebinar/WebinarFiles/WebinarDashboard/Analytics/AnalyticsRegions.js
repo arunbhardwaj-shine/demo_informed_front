@@ -10,7 +10,8 @@ import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import HighchartsReact from "highcharts-react-official";
 import drilldown from "highcharts/modules/drilldown.js";
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 exporting(Highcharts);
 exportData(Highcharts);
 drilldown(Highcharts);
@@ -141,7 +142,7 @@ const AnalyticsRegions = () => {
       }
 
       setRegionData(result?.data?.data);
-   
+
       setActiveRegion(Object.keys(result?.data?.data)[0]);
       loader("hide");
     } catch (err) {
@@ -166,7 +167,12 @@ const AnalyticsRegions = () => {
   };
 
   const toggleChartType = () => {
-    setIsPieChart(!isPieChart);
+    loader("show");
+
+    setTimeout(() => {
+      setIsPieChart(!isPieChart);
+      loader("hide");
+    }, 500);
   };
   const renderTabsAndCharts = (region, regionData) => {
     const countries = regionData.map((item) => item.country);
@@ -611,7 +617,7 @@ const AnalyticsRegions = () => {
                                                 return {
                                                   name: data.name,
                                                   data: [data.y],
-                                                  color:data.color
+                                                  color: data.color,
                                                 };
                                               }
                                             ) || [],

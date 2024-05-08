@@ -218,6 +218,7 @@ import AnalyticsQuestions from "./Components/NewWebinar/WebinarFiles/WebinarDash
 import AnalyticsRegions from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsRegions";
 import AnalyticsEmailView from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsEmailView";
 import AnalyticsEvent from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsEvent";
+import InformedSurveyData from "./Components/survey/InformedSurveyData";
 
 let platform = 0;
 let show = 0;
@@ -884,6 +885,11 @@ const Routing = () => {
         <Route
           path="/survey/survey-data"
           element={<SurveyData/>}
+        />
+
+          <Route
+          path="/survey/informed-survey-data"
+          element={<InformedSurveyData/>}
         />
 
         <Route
