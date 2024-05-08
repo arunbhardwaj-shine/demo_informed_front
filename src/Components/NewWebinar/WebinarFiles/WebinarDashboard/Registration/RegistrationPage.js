@@ -996,7 +996,7 @@ const RegistrationPage = ({ prevData,type }) => {
         pauseOnHover
       />}
 
-      {eventStatus!=-1?(<>
+      {/* {eventStatus!=-1?(<> */}
       {Object.keys(formData)?.length?(<>
 
       {formData?.content?.templateId === 1 && (
@@ -1034,7 +1034,7 @@ const RegistrationPage = ({ prevData,type }) => {
 :""
 }
 
-</>):<CommonPageLinkNotFound/>}
+{/* </>):<CommonPageLinkNotFound/>} */}
 
 
       <Modal
