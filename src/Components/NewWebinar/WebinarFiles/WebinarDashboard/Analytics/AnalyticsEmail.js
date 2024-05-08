@@ -126,6 +126,7 @@ const AnalyticsEmail = () => {
           <div className='graph-box'>
             <div className='graph-data'>
               <Table className="fold-table" id="individual_completion">
+                {emailData?.length>0?(<>
                 <thead className='sticky-header'>
                   <tr>
                     <th>Subject</th>
@@ -156,6 +157,7 @@ const AnalyticsEmail = () => {
                     </tr>
                   ))}
                 </tbody>
+                </>):<div className='no_found'><p>No Data Found</p></div>}
               </Table>
             </div>
           </div>
