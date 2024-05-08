@@ -192,7 +192,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
         loader("hide");
         console.error("Error fetching analytics data:", error);
       } finally {
-        // setApiStatus(true);
+        setApiStatus(true);
       }
     };
 

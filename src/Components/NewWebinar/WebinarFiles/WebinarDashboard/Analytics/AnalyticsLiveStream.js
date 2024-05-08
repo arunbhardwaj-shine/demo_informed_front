@@ -364,7 +364,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
 
   const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
     try {
-      console.log(insertFlag, "insertFlag");
+     
       let body = {
         eventId: eventId,
         type: "graph",
@@ -501,12 +501,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
         },
         series: newValue,
       });
-      console.log(pieOptions, "responseresponse");
       setTopCountries(data);
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
-      // setApiStatus(true);
+      setApiStatus(true);
     }
   };
 

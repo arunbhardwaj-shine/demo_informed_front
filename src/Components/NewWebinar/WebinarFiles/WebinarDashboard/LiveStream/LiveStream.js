@@ -233,7 +233,7 @@ const LiveStream = () => {
 
   const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
     try {
-      console.log(insertFlag,"insertFlag");
+ 
       let body = {
         eventId: eventId,
         type: "graph",

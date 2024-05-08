@@ -33,7 +33,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
         console.error("Error fetching analytics data:", error);
       }
       finally {
-        // setApiStatus(true)
+        setApiStatus(true)
       }
     };
 
