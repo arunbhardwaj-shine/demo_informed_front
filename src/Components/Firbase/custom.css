@@ -621,6 +621,26 @@ p#totalCountText {
   width: 100%;
 }
 
+.isth-template {
+    background: #183B4C;
+    padding: 15px;
+}
+.isth .login-wrapper-header {
+  background: linear-gradient(90deg, #9CD0CB 0%, #99CCC9 15.39%, #92C2C4 27.67%, #86B1BC 42.29%, #7499B0 53.31%, #5E7AA1 65.56%, #43558E 76.2%, #29317D 97.49%);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.44);
+}
+.isth .login-wrapper-logo:before {
+  background: #ffffff;
+}
+.isth .login-wrapper-mid-sec {
+  background: rgba(252, 252, 252, 0.02) url(../../../public/componentAssets/images/isth-bg.png) no-repeat;
+  background-position: bottom right;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.44);
+  background-size: 189px;
+}
+.isth .login-wrapper-mid-left .head-sec p:before {
+  background: linear-gradient(90deg, #F3942D 0%, #E94362 100.01%);
+}
 .wrapper.isth {
   max-width: 1240px;
   margin: 0px auto;
@@ -634,7 +654,8 @@ p#totalCountText {
 
 .isth .boxes-col-center img {
   max-width: 157px;
-  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.44);
+  border-radius: 4px;
 }
 
 .login-wrapper-mid-left .head-sec {
@@ -697,7 +718,15 @@ p#totalCountText {
   padding: 16px;
   border-right: 1px dashed rgba(0, 20, 137, 0.29);
 }
-
+.isth .login-wrapper-mid-left {
+  border-right: 1px dashed rgba(255, 255, 255, 0.29);
+}
+.center-sided-inside .col-sm-6.consent-form-list.attend-sec {
+  margin-bottom: 22px !important;
+}
+.isth .footer-sec {
+  margin: 0px 0 0 0;
+}
 .register-popup-view .login-wrapper-mid-left {
   max-width: 100%;
   flex: 0 0 100%;
@@ -729,22 +758,31 @@ p#totalCountText {
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
-  color: #6E7288;
+  color: rgba(255, 255, 255, 0.40);
   cursor:pointer
 }
 
 .isth .consent-form-list.attend-sec li .checkmark {
-  border: 2px solid #6E7288;
-  height: 20px;
-  width: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.40);
+  height: 16px;
+  width: 16px;
+      top: 4px;
 }
-
 .isth .consent-form-list.attend-sec li .checkmark::after {
-  background: #6E7288;
-  width: 10px;
-  height: 10px;
+      left: 4px;
+        top: 1px;
+        width: 5px;
+        height: 9px;
+        border: solid var(--white);
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        background: none;
+        border-radius: 0;
 }
-
+.isth .consent-form-list.attend-sec li input:checked~.checkmark {
+  background: #9AD2CD;
+  border-color:#9AD2CD;
+}
 .isth .consent-form-inner .attend-sec>label {
   margin: 0 0 6px 0;
   font-family: 'Poppins';
@@ -760,11 +798,10 @@ p#totalCountText {
 
 .isth .col-md-12.consent-form-list label {
   padding-left: 0;
+  margin: 0;
 }
 
 .isth .consent-form .btn#submit_registration {
-  background: #00A993;
-  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
   border-radius: 30px;
   border: 0;
   font-family: 'Poppins';
@@ -775,14 +812,20 @@ p#totalCountText {
   padding: 8px 15px;
   width: auto;
   min-width: 147px;
+  border-radius: 30px;
+  background: linear-gradient(94deg, #9CD0CB -17.53%, #99CCC9 -2.07%, #92C2C4 24.31%, #86B1BC 39.88%, #7499B0 57.78%, #5E7AA1 74.52%, #43558E 88.47%, #29317D 101.02%);
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  margin: 30px 12px 0px auto;
 }
-
 .isth .footer-message {
   padding: 16px 0 0 0;
 }
-
+.isth .col-md-12.consent-form-list>label {
+  margin: 0 0 9px;
+}
 .isth .consent-form-list.attend-sec li {
-  margin-bottom: 6px;
+  margin-bottom: 13px;
+  padding-left: 23px;
 }
 
 .isth .footer-message p {
@@ -795,7 +838,8 @@ p#totalCountText {
 }
 
 .isth .footer-message p a {
-  text-decoration: underline;
+  color: #9AD2CD;
+  font-weight: 600;
 }
 
 .isth .footer-text {
@@ -816,14 +860,29 @@ p#totalCountText {
 
 .isth .consent-form-inner .form-control {
   border-radius: 20px;
-  padding: 6px 20px;
+  padding: 8px 20px;
   font-size: 14px;
   line-height: 25px;
   width: 100%;
   border: 0;
-  box-shadow: 0px 0px 10px -3px rgba(0, 20, 137, 0.32);
+  background: rgba(252, 252, 252, 0.04);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.20);
+}
+.isth .consent-form-inner .form-control::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.40)!important;
 }
 
+.isth .consent-form-inner .form-control::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.40)!important;
+}
+
+.isth .consent-form-inner .form-control:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.40)!important;
+}
+
+.isth .consent-form-inner .form-control:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.40)!important;
+}
 .isth .split-button-dropup>div:nth-child(3):hover,
 .isth .split-button-dropup>div:nth-child(3) {
   box-shadow: 0px 0px 10px -3px rgba(0, 20, 137, 0.32);
@@ -839,9 +898,18 @@ p#totalCountText {
 
 .isth .consent-form .split-button-dropup>div:nth-child(3),
 .register-popup-view .isth .consent-form .split-button-dropup>div:nth-child(3) {
-  padding: 3px 10px;
+  padding: 4px 10px;
 }
-
+.isth .consent-form .split-button-dropup>div:nth-child(3) {
+  background: rgba(252, 252, 252, 0.04);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.20);
+}
+.isth .consent-form .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+  color: rgba(255, 255, 255, 0.40) !important;
+}
+.isth .consent-form .split-button-dropup div:nth-child(3)>div div {
+  font-size: 14px;
+}
 .register-popup-view .octa-academy_inner .consent-form .split-button-dropup div:nth-child(3)>div div,
 .octa-academy_inner .consent-form .split-button-dropup div:nth-child(3)>div div {
   color: #fff;

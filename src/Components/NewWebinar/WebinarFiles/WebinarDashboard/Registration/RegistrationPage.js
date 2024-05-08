@@ -2919,7 +2919,7 @@ const FormField6 = ({
         }}
       >
         {form.label}
-        {isRequired ? "*" : ""}
+        <span>{isRequired ? "*" : ""}</span>
       </label>
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
