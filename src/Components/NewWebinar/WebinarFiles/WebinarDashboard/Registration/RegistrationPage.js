@@ -308,10 +308,14 @@ const RegistrationPage = ({ prevData,type }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = ValidateFormData();
-
     if (isValid) {
       loader("show");
       try {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const qrCodeParam = urlParams.get('urtyhjd');
+        const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+
         let raw = formData?.raw_description;
         let eventId = formData?.event_id;
         if (formFieldData?.isth_consent && formFieldData.isth_consent == "Wilate") {
@@ -332,6 +336,7 @@ const RegistrationPage = ({ prevData,type }) => {
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
             consent: formFieldData.consent ? formFieldData.consent.join("~") : formFieldData.onesource_consent ? formFieldData.onesource_consent.join("~") : "",
+            mode: mode,
           }
         );
         if (response?.data?.status === 1) {
