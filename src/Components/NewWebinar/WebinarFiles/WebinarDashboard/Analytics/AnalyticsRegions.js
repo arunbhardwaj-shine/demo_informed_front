@@ -454,6 +454,7 @@ const AnalyticsRegions = () => {
                             <div className="graph-view-smaller">
                               {activeRegion && (
                                 <>
+                                {regionData[activeRegion].seriesData?.some(item=>item.y!=0)?(<>
                                   {isPieChart ? (
                                     <HighchartsReact
                                       key={`pie-${activeRegion}`}
@@ -629,9 +630,10 @@ const AnalyticsRegions = () => {
                                         regionData[activeRegion].barChartData
                                       )}
                                     </>
-                                  )}
+                                  )}</>):<div className="no_found"><p>No Data Found</p></div>}
                                 </>
                               )}
+                              
                             </div>
                           </div>
                         </div>
