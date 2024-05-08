@@ -2861,13 +2861,25 @@ const FormField6 = ({
                   }
                 }}
               />
-              <label
+              {/* <label
                 style={{
                   color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
                 {item.optionLabel}
+              </label> */}
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: item.optionLabel,
+                  }}
+                />
               </label>
               <span className="checkmark" />
             </li>
