@@ -1109,36 +1109,6 @@
         "pageTitle": "To register please fill in all your details below.",
         "bodyText": "",
         "eventDetails": {
-            "heading": {
-                "title": "Main Header",
-                "type": "text",
-                "value": "Registration",
-                "color": "#ffffff"
-            },
-            "SubHeadingOne": {
-                "title": "Sub Heading One",
-                "type": "text",
-                "value": " Åland Islands meetings",
-                "color": "#004b95"
-            },
-            "SubHeadingOneDate": {
-                "title": "Sub Heading Date",
-                "type": "text",
-                "value": "26-28 September 2024",
-                "color": "#04b39a"
-            },
-            "speakerName": {
-                "title": "Speaker Name",
-                "type": "text",
-                "value": "",
-                "color": "#04b39a"
-            },
-            "location": {
-                "title": "Location",
-                "type": "textArea",
-                "value": "MARIEHAMN, ÅLAND",
-                "color": "#004b95"
-            },
             "pageTitle": {
                 "title": "Registration Title",
                 "type": "textArea",
@@ -1153,13 +1123,68 @@
             }
             
         },
-        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/LL12zKfcAhn5V4EwolMnklwluDPfsKXqk63ZTSb7.png",
-        "headerImageUrl": "",
+        "logoOneImageUrl": "",
+        "headerImageUrl": "https://docintel.app/img/octa/e-templates/motivate/aland-registration-banner.png",
         "footerImageUrl": "",
         "labelColor": "#04b39a",
         "optionColor": "",
         "backgroundColor": "#faf5f5",
         "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Airport location / city",
+                "name": "location",
+                "inputType": "text",
+                "placeholder": "Enter your location",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of arrival flight (in Stockholm, SE)",
+                "name": "arrivalDate",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of departure flight (from Stockholm, SE)",
+                "name": "departure_time",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
             {
                 "label": "Dietary restrictions or allergies:",
                 "inputType": "text",
@@ -1188,61 +1213,6 @@
                 "required": "",
                 "extension": "",
                 "name": "consent"
-            },
-            {
-                "label": "Country",
-                "inputType": "selection",
-                "placeholder": "",
-                "option": [
-                    {
-                        "optionLabel": "  ",
-                        "extension": [],
-                        "checked": ""
-                    }
-                ],
-                "required": "yes",
-                "extension": "",
-                "name": "country"
-            },
-            {
-                "label": "Name",
-                "name": "userName",
-                "inputType": "text",
-                "placeholder": "Please enter name",
-                "option": [],
-                "required": "yes"
-            },
-            {
-                "label": "Email",
-                "name": "userEmail",
-                "inputType": "email",
-                "placeholder": "Please enter email",
-                "option": [],
-                "required": "yes"
-            },
-            {
-                "label": "Airport location / city",
-                "name": "location",
-                "inputType": "text",
-                "placeholder": "Enter your location",
-                "option": [],
-                "required": "yes"
-            },
-            {
-                "label": "Date of arrival flight (in Stockholm, SE)",
-                "name": "arrivalDate",
-                "inputType": "date",
-                "placeholder": "",
-                "option": [],
-                "required": "yes"
-            },
-            {
-                "label": "Date of departure flight (from Stockholm, SE)",
-                "name": "departure_time",
-                "inputType": "date",
-                "placeholder": "",
-                "option": [],
-                "required": "yes"
             }
         ]
     }

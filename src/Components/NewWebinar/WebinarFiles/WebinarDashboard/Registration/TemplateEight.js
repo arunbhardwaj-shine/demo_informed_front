@@ -34,23 +34,22 @@ export default function TemplateEight({children,formData}) {
     <div className="motivate_outer island_registration">
       <div className="motivate_inner" style={{ background: `${formData?.content?.backgroundColor}` }}>
         <div className="top_header"  >
-          <h2 style={{
+          {/* <h2 style={{
                     color:eventData?.heading?.color
         }}
         dangerouslySetInnerHTML={{
           __html: eventData?.heading?.value?eventData?.heading?.value:"Registration"
         }}
         >
-          {/* {`${eventData?.heading?.value?eventData?.heading?.value:"Registration"}`} */}
-        </h2>
+        </h2> */}
+        <img src={`${formData?.content?.headerImageUrl ? formData?.content?.headerImageUrl : ""}`} alt="" />
         </div>
         <div className="motivation-body">
           <div className="logo-part">
             <div className="row">
               <div className="col-12">
-                <div className="invertor-metting">
+                {/* <div className="invertor-metting">
                     <div className="meeting-logo">
-                      {/* <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" /> */}
                       <img src={`${formData?.content?.logoOneImageUrl ? formData?.content?.logoOneImageUrl : ""}`} alt="" />
                     </div>
                   <div className="logo-top" >
@@ -66,7 +65,7 @@ export default function TemplateEight({children,formData}) {
                     color:eventData?.SubHeadingOneDate?.color
                   }} >{eventData?.SubHeadingOneDate?.value ? eventData?.SubHeadingOneDate?.value : ""}</p>
                   </div>
-                </div>
+                </div> */}
                
                 {/* <div className="invertor-metting">
                   <div className="meeting-logo">
@@ -112,7 +111,7 @@ export default function TemplateEight({children,formData}) {
               </div>
             </div>
           </div>
-          <div className="motivate-mid-sec text-center">
+          {/* <div className="motivate-mid-sec text-center">
             <h2 style={{
                     color:eventData?.speakerName?.color
                   }}
@@ -127,9 +126,8 @@ export default function TemplateEight({children,formData}) {
                     __html: eventData?.location?.value
                   }}
                   />
-                    {/* {eventData?.speakerName?.value}</h2> */}
             <p> These meetings are for healthcare professionals only.</p>
-          </div>
+          </div> */}
           {children}
         </div>
       </div>

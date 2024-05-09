@@ -4418,6 +4418,9 @@ l .vwd .factor-season-left h2 {
 .island_registration .top_header h2 {
   background-image: linear-gradient(180deg, #e64362, #ea5759, #ed764b, #ee7c48);
 }
+.island_registration .top_header img {
+ width:100%;
+}
 .island_registration .motivate-mid-sec {
   border-image-source: linear-gradient(90deg, #e64362, #ea5759, #ed764b, #ee7c48);
 }
