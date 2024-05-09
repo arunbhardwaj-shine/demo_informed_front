@@ -2823,7 +2823,30 @@ const [templateList, setTemplateList] = useState(() => {
                                                             disabled
                                                           />
                                                         </div>
-                                                      ) : (
+                                                      ) :
+                                                      
+                                                      data?.inputType ==
+                                                       "date" ? (
+                                                       <div
+                                                         className="slt-opt"
+                                                         key={index}
+                                                       >
+                                                         <DatePicker
+                                                           name={`${
+                                                           data?.name
+                                                           ? data?.name
+                                                           : "dynamic_" +
+                                                           dynamicFieldNo
+                                                           }`}
+                                                           dateFormat="dd/MM/yyyy"
+                                                           className="form-control disabled"
+                                                           placeholderText="Select date"
+                                                           // minDate={currentDate}
+                                                           />                
+                                                       </div>
+                                                     ) :
+                                                      
+                                                      (
                                                         <input
                                                           name={`${
                                                             data?.name
