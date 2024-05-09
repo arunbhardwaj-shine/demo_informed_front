@@ -49,7 +49,10 @@ export default function TemplateEight({children,formData}) {
             <div className="row">
               <div className="col-12">
                 <div className="invertor-metting">
-                  <div className="meeting-logo"></div>
+                    <div className="meeting-logo">
+                      {/* <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" /> */}
+                      <img src={`${formData?.content?.logoOneImageUrl ? formData?.content?.logoOneImageUrl : ""}`} alt="" />
+                    </div>
                   <div className="logo-top" >
                     <h5 style={{
                     color:eventData?.SubHeadingOne?.color
@@ -65,9 +68,9 @@ export default function TemplateEight({children,formData}) {
                   </div>
                 </div>
                
-                <div className="invertor-metting">
+                {/* <div className="invertor-metting">
                   <div className="meeting-logo">
-                    {/* <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" /> */}
+                    <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" />
                     <img  src={`${formData?.content?.logoOneImageUrl?formData?.content?.logoOneImageUrl:""}`}alt="" />
                   </div>
                   <div className="logo-top">
@@ -78,7 +81,7 @@ export default function TemplateEight({children,formData}) {
                     __html: eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:""
                   }}
                   >
-                    {/* {`${eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"}`}  */}
+                     {`${eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"}`} 
                     </h5>
                     <p style={{
                     color:eventData?.SubHeadingThreeDate?.color
@@ -87,7 +90,7 @@ export default function TemplateEight({children,formData}) {
                 </div>
                 <div className="invertor-metting">
                   <div className="meeting-logo">
-                    {/* <img src="images/im-workshop.png" alt=""> */}
+                     <img src="images/im-workshop.png" alt="">
                     <img  src={`${formData?.content?.logoTwoImageUrl?formData?.content?.logoTwoImageUrl:""}`}alt="" />
                   </div>
                   <div className="logo-top">
@@ -98,14 +101,14 @@ export default function TemplateEight({children,formData}) {
                     __html: eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:""
                   }}
                    >
-                    {/* {`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`} */}
+                    {`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`}
                     
                     </h5>
                     <p style={{
                     color:eventData?.SubHeadingTwoDate?.color
                   }}>{eventData?.SubHeadingTwoDate?.value ? eventData?.SubHeadingTwoDate?.value : ""}</p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

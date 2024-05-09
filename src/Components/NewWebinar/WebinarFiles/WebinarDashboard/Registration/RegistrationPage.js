@@ -50,6 +50,7 @@ const userData = {
 let icons = {
   Email: "form-mail",
   Name: "form-user",
+  'Airport location / city': "form-location"
 };
 const stateOptions = [
   { label: "Alabama", value: "Alabama" },
