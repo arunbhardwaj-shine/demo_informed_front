@@ -26,6 +26,7 @@ import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
 import moment from "moment";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import QRCode from 'qrcode';
 let currentDate = new Date(
   moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
 );
@@ -38,15 +39,43 @@ const template = {
   3:['logo','header','footer'],
   4:[],
   5:['header'],
-  6:['logo','templateOne','templateTwo']
+  6:['logo','templateOne','templateTwo'],
+  7:['logo','header','footer'],
+  8:['logoOne'],
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
-  const [templateList, setTemplateList] = useState(templateData);
+  // const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
+
+
+const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,8],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,8], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,8],
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,8],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,8],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,8],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,8],
+"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,8],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,8],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,8],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,8]
+,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,8]}
+const userId = localStorage.getItem("user_id");
+const defaultTemplateIds = [7]; 
+ 
+const [templateList, setTemplateList] = useState(() => {
+
+  return templateData.filter(template => {
+    if (templateUserIDs[userId]?.includes(template.templateId)) {
+      return true;
+    }
+
+    else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
+      return true;
+    } 
+   
+    else {
+      return false;
+    }
+  });
+});
+
 
   const responsive = {
     0: { items: 1 },
@@ -442,7 +471,7 @@ const WebinarRegistration = () => {
   };
 
   const handleSelectChange = async (event) => {
-    console.log(event);
+    // console.log(event);
     setIsDataSaved(false);
     await getWebinarData(event.code);
     setEventCode(event.code);
@@ -1335,6 +1364,35 @@ const WebinarRegistration = () => {
     setShowModalPreview(false);
   };
 
+  const generateQRUrl = () => {
+    // Generate the QR code URL based on your logic
+    const url = eventData?.event_id > 402 ?
+      `https://events.docintel.app/event-registration?event=${event_code}&amp;urtyhjd=qdhjjkr` :
+      `${window.location.host}/event-registration?event=${event_code}&amp;urtyhjd=qdhjjkr`;
+    return url;
+  };
+
+  const handleDownload = async () => {
+    if (!isDataSaved) {
+      return;
+    }
+    const qrUrl = generateQRUrl();
+
+    try {
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      let fileName= (localStorageEvent?.eventTitle).replaceAll(" ","_")
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pngUrl;
+      downloadLink.download = `${fileName}_Registration.png`; // Set the filename
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1350,16 +1408,18 @@ const WebinarRegistration = () => {
               </div>
               <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
-                  {/* <div className="dropdown qr-download">
+                  <div className={`dropdown qr-download ${
+                      !isDataSaved ? "disabled" : ""
+                    }`}>
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
-                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                      onClick={handleDownload}
                     >
                       Download QR
 
                     </button>
-                    {downloadqr && (
+                    {/* {downloadqr && (
                       <div
                         className="dropdown-menu filter-options"
                         aria-labelledby="dropdownMenuButton2"
@@ -1392,8 +1452,8 @@ const WebinarRegistration = () => {
                           </button>
                         </div>
                       </div>
-                    )}
-                  </div> */}
+                    )} */}
+                  </div>
                     <a
                       className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
@@ -1439,10 +1499,12 @@ const WebinarRegistration = () => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.map((template, index) => {
+                    {templateList.filter(template => template).map((template, index) => {
+                      // console.log(templateList,'templateList')
                       return (
                         <>
                           <div
+                          key={index}
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
                           >
@@ -1464,6 +1526,7 @@ const WebinarRegistration = () => {
                       );
                     })}
                   </AliceCarousel>
+
                 </Row>{" "}
               </div>{" "}
             </section>
@@ -2761,7 +2824,30 @@ const WebinarRegistration = () => {
                                                             disabled
                                                           />
                                                         </div>
-                                                      ) : (
+                                                      ) :
+                                                      
+                                                      data?.inputType ==
+                                                       "date" ? (
+                                                       <div
+                                                         className="slt-opt"
+                                                         key={index}
+                                                       >
+                                                         <DatePicker
+                                                           name={`${
+                                                           data?.name
+                                                           ? data?.name
+                                                           : "dynamic_" +
+                                                           dynamicFieldNo
+                                                           }`}
+                                                           dateFormat="dd/MM/yyyy"
+                                                           className="form-control disabled"
+                                                           placeholderText="Select date"
+                                                           // minDate={currentDate}
+                                                           />                
+                                                       </div>
+                                                     ) :
+                                                      
+                                                      (
                                                         <input
                                                           name={`${
                                                             data?.name

@@ -921,8 +921,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                     />
                     <div className="email-form">
                       <Form>
-                        <div className="form-inline row justify-content-between align-items-center"></div>
-                        <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-inline d-flex justify-content-end align-items-center">
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {templateName != "" && (
                               <>

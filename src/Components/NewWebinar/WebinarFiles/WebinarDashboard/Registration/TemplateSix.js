@@ -80,16 +80,16 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
             </div>
             <div className="head-sec-boxes">
               <div className="boxes-col-center">
-                <a href="https://docintel.app/Haematology_Octapharma/UGZRqkYq" target="_blank">
+                {/* <a href="https://docintel.app/Haematology_Octapharma/UGZRqkYq" target="_blank"> */}
                   {/* <img src={path_image + "under-spotlight-wil.jpg"} alt=""/> */}
                   <img  src={`${formData?.content?.templateOneImageUrl?formData?.content?.templateOneImageUrl:""}`}alt="" />
-                </a>
+                {/* </a> */}
               </div>
               <div className="boxes-col-center">
-                <a href="https://docintel.app/Haematology_Octapharma/VleTOjJC" target="_blank">
+                {/* <a href="https://docintel.app/Haematology_Octapharma/VleTOjJC" target="_blank"> */}
                   {/* <img src={path_image + "under-spotlight-together.jpg"} alt=""/> */}
                   <img  src={`${formData?.content?.templateTwoImageUrl?formData?.content?.templateTwoImageUrl:""}`}alt="" />
-                </a>
+                {/* </a> */}
               </div>
             </div>
             <div className="head-sec">

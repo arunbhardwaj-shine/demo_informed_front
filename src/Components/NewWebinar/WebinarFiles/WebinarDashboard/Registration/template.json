@@ -887,15 +887,300 @@
                     {
                         "optionLabel": "Both symposia",
                         "extension": [],
-                        "checked": ""
+                        "checked": "",
+                        "key": "Both"
                     },
                     {
                         "optionLabel": "Final Results of the WIL-31 Study - A New Treatment Standard for von Willebrand Disease Patients with Severe Bleeding?",
                         "extension": [],
-                        "checked": ""
+                        "checked": "",
+                        "key": "Wilate"
                     },
                     {
                         "optionLabel": "Bringing Together Two Worlds - Scientific and Clinical Insights For All-Round Bleed Protection in haemophilia A",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Nuwiq"
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "isth_consent"
+            }
+        ]
+    },
+
+    {
+        "templateId": 7,
+        "templateName": "Default Template",
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/cbbh7JIHvRjyRrEM9a5RJLhNElNL39lkYEd8OCi3.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#263474",
+        "placeholderTextColor":"#263474",
+        "typedTextColor":"#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "textArea",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color":  "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "factor_viii_choice"
+            },
+            {
+                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "factor_viii_dinner_restrictions_allergies",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "factor_viii_dinner_attendance_with_details"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "templateId": 8,
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
+        "templateName": "Aland Island Template",
+        "title": "Registration",
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "Registration",
+                "color": "#ffffff"
+            },
+            "SubHeadingOne": {
+                "title": "Sub Heading One",
+                "type": "text",
+                "value": " Åland Islands meetings",
+                "color": "#004b95"
+            },
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "text",
+                "value": "26-28 September 2024",
+                "color": "#04b39a"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#04b39a"
+            },
+            "location": {
+                "title": "Location",
+                "type": "textArea",
+                "value": "MARIEHAMN, ÅLAND",
+                "color": "#004b95"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#04b39a"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/LL12zKfcAhn5V4EwolMnklwluDPfsKXqk63ZTSb7.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#04b39a",
+        "optionColor": "",
+        "backgroundColor": "#faf5f5",
+        "body": [
+            {
+                "label": "Dietary restrictions or allergies:",
+                "inputType": "text",
+                "placeholder": "Please write here if you have dietary restrictions",
+                "option": [],
+                "required": "",
+                "extension": "",
+                "name": "restrictions"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Receive future materials from MOTIVATE",
                         "extension": [],
                         "checked": ""
                     }
@@ -903,6 +1188,61 @@
                 "required": "",
                 "extension": "",
                 "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Airport location / city",
+                "name": "location",
+                "inputType": "text",
+                "placeholder": "Enter your location",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of arrival flight (in Stockholm, SE)",
+                "name": "arrivalDate",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of departure flight (from Stockholm, SE)",
+                "name": "departure_time",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
             }
         ]
     }

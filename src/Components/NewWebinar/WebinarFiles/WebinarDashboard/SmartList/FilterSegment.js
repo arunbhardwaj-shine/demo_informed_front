@@ -14,6 +14,10 @@ import { Spinner } from "react-activity";
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
   const Navigate = useNavigate();
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const [filters, setFilters] = useState(props.filters);
   const [listname, setListName] = useState(props.listname);
   const [selectedcountry, setSelectedCountry] = useState([]);
@@ -910,7 +914,7 @@ const FilterSegment = (props) => {
     setDataFromComp('filter');
     let flag_to_check_data = false;
     const payload = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: localStorageUserId,
       page:pageno,
     };
 
@@ -1227,10 +1231,12 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
-  const sendDataToParent = (childData, flag) => {
+  const sendDataToParent = (childData, flag,deleteUser) => {
     if (flag == "existing") {
       setFilterData(childData);
-      setTotalLostCount(totalLostCount-1)
+      if(deleteUser=="existingUser"){
+        setTotalLostCount(totalLostCount-1)
+      }      
     } else if (flag == "new") {
       setNewAddedUser(childData);
     }
@@ -1322,7 +1328,7 @@ const FilterSegment = (props) => {
   const handleLoadMore = async() => {
     try{
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: localStorageUserId,
         list_id: props?.listId,
         page:2
       };
@@ -1400,7 +1406,7 @@ const FilterSegment = (props) => {
                 </li>
                 <li className="active active-main">
                   <a href="javascript:void(0)">
-                    {localStorage.getItem("user_id") == userId?"Select & Verify your Users":"Select & Verify your HCPs"}
+                    {localStorageUserId == userId?"Select & Verify your Users":"Select & Verify your HCPs"}
                     </a>
                 </li>
               </ul>
@@ -1455,7 +1461,7 @@ const FilterSegment = (props) => {
                     </div>
                     <Accordion.Body>
                       <div className="card-body">
-                        {localStorage.getItem("user_id") !=
+                        {localStorageUserId !=
                         "56Ek4feL/1A8mZgIKQWEqg=="
                           ? "contact_type" in filters &&
                             Object.keys(filters.contact_type).length > 0 && (
@@ -1727,7 +1733,7 @@ const FilterSegment = (props) => {
                             </>
                           )*/}
 
-                        {localStorage.getItem("user_id") ==
+                        {localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && (
                           <>
                             <div className="col block-smart-name">
@@ -2353,7 +2359,7 @@ const FilterSegment = (props) => {
                         )}
 
                         <div className="col block-smart-name registered">
-                          {localStorage.getItem("user_id") ==
+                          {localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
                             <h6>Registered ?</h6>
                           ) : (
@@ -2413,7 +2419,7 @@ const FilterSegment = (props) => {
                               No
                             </li>
                           </ul>
-                          {localStorage.getItem("user_id") !=
+                          {localStorageUserId !=
                             "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <h6>Bounced</h6>
@@ -2462,7 +2468,7 @@ const FilterSegment = (props) => {
                           showhidearticle == 1 && (
                             <>
                               <div className="col block-smart-name">
-                                {localStorage.getItem("user_id") ==
+                                {localStorageUserId ==
                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <>
                                     <h6>Library</h6>
@@ -2581,7 +2587,7 @@ const FilterSegment = (props) => {
                                 )}
 
                         {showhidearticle == 1 &&
-                        localStorage.getItem("user_id") ==
+                        localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <div className="col block-smart-name">
                             <h6>Reading/Viewing completed</h6>
@@ -2632,7 +2638,7 @@ const FilterSegment = (props) => {
                           </div>
                         ) : null}
 
-                        {localStorage.getItem("user_id") ==
+                        {localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && (
                           <>
                             <div className="col block-smart-name 21">
@@ -2683,7 +2689,7 @@ const FilterSegment = (props) => {
 
                         {/*
                           <div className="col block-smart-name">
-                          {localStorage.getItem("user_id") ==
+                          {localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && selectedIrt == "Training" &&(
                             <>
                               <h6>Training Completed</h6>
@@ -3014,7 +3020,7 @@ const FilterSegment = (props) => {
                 selectedarticles.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      {localStorage.getItem("user_id") ==
+                      {localStorageUserId ==
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <span>Library |</span>
@@ -3305,7 +3311,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 updateflag > 0 ? (
                   selectedArticleCompleted != "" && showhidearticle == 1 ? (
                     <div className="filter-div">
@@ -3466,7 +3472,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 updateflag > 0 ? (
                   selectedIrt ? (
                     <div className="filter-div">
@@ -3490,7 +3496,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 updateflag > 0 ? (
                   selectedTrialRegister ? (
                     <div className="filter-div">

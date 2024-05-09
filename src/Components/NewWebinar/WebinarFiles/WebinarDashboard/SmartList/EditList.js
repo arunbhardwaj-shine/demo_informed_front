@@ -5,7 +5,10 @@ import axios from "axios";
 import { loader } from "../../../../../loader";
 
 const EditList = () => {
-
+  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
+  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+  ? switch_account_detail?.user_id
+  : localStorage.getItem("user_id"))
   const [filterList, setFilterList] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -17,7 +20,7 @@ const EditList = () => {
   const queryParams = queryString.parse(window.location.search);
 
   const body = {
-    user_id: localStorage.getItem("user_id"),
+    user_id: localStorageUserId,
     list_id: queryParams.listId,
     page:pageNo
   };
@@ -45,7 +48,7 @@ const EditList = () => {
   };
 
   const filterdatapayload = {
-    user_id: localStorage.getItem("user_id"),
+    user_id: localStorageUserId,
   };
   const getfilterlist = async () => {
     await axios

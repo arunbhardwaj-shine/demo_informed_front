@@ -59,6 +59,19 @@ const RenderPdf = ({
     setNumPages(e.doc.numPages);
     setModalMessage("");
     setModalBtn("");
+
+    if (total_pages == 1) {
+      const mainDiv = document.getElementsByClassName("viewer-layout-main")[0];
+      const viewerInnerPage = mainDiv.querySelector(".viewer-inner-page");
+
+      if (viewerInnerPage) {
+        const viewerInnerPageHeight = viewerInnerPage.clientHeight;
+        const scrollPdfHeight = document.querySelector('.scroll_pdf').clientHeight;
+        if (viewerInnerPageHeight < scrollPdfHeight) {
+          optimizeSinglePagePdf();
+        }
+      }
+    }
   };
 
   const handlePageChange = (e: PageChangeEvent) => {
