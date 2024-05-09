@@ -4470,6 +4470,7 @@ l .vwd .factor-season-left h2 {
 }
 .motivate_outer .consent-form .btn#submit_registration {
   background: linear-gradient(90deg, #e64362, #ea5759, #ed764b, #ee7c48);
+  margin-top: 10px;
 }
 .motivate_outer .consent-form .btn#submit_registration:hover {
   background: linear-gradient(270deg, #e64362, #ea5759, #ed764b, #ee7c48);
