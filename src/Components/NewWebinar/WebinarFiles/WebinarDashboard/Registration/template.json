@@ -1098,5 +1098,152 @@
                 ]
             }
         ]
+    },
+
+    {
+        "templateId": 8,
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
+        "templateName": "Aland Island Template",
+        "title": "Registration",
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "Registration",
+                "color": "#ffffff"
+            },
+            "SubHeadingOne": {
+                "title": "Sub Heading One",
+                "type": "text",
+                "value": "Welcome dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "text",
+                "value": "Wednesday, 24 May 2023",
+                "color": "#04b39a"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#04b39a"
+            },
+            "location": {
+                "title": "Location",
+                "type": "textArea",
+                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Mallorca Spain",
+                "color": "#004b95"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#04b39a"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/v3pXr7w6XsrReRo6hTA8IPfcXBUw1SDaB5vEXP61.png ",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#04b39a",
+        "optionColor": "",
+        "backgroundColor": "#faf5f5",
+        "body": [
+            {
+                "label": "Dietary restrictions or allergies:",
+                "inputType": "text",
+                "placeholder": "Please write here if you have dietary restrictions",
+                "option": [],
+                "required": "",
+                "extension": "",
+                "name": "restrictions"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Receive future materials from MOTIVATE",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Airport location / city",
+                "name": "location",
+                "inputType": "text",
+                "placeholder": "Enter your location",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of arrival flight (in Stockholm, SE)",
+                "name": "arrivalDate",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of departure flight (from Stockholm, SE)",
+                "name": "departure_time",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            }
+        ]
     }
 ]
