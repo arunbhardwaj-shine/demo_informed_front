@@ -22,6 +22,7 @@ const CommonAddQuestionModal = ({
     { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
+    { label: "Date", value: "date" },
   ]);
   const [addSpaceOptions, setAddSpaceOptions] = useState([
     { label: 10, value: 10 },
