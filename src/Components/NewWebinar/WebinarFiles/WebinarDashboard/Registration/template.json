@@ -1118,13 +1118,13 @@
             "SubHeadingOne": {
                 "title": "Sub Heading One",
                 "type": "text",
-                "value": "Welcome dinner",
+                "value": " Åland Islands meetings",
                 "color": "#004b95"
             },
             "SubHeadingOneDate": {
                 "title": "Sub Heading Date",
                 "type": "text",
-                "value": "Wednesday, 24 May 2023",
+                "value": "26-28 September 2024",
                 "color": "#04b39a"
             },
             "speakerName": {
@@ -1136,7 +1136,7 @@
             "location": {
                 "title": "Location",
                 "type": "textArea",
-                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Mallorca Spain",
+                "value": "MARIEHAMN, ÅLAND",
                 "color": "#004b95"
             },
             "pageTitle": {
@@ -1153,7 +1153,7 @@
             }
             
         },
-        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/v3pXr7w6XsrReRo6hTA8IPfcXBUw1SDaB5vEXP61.png ",
+        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/LL12zKfcAhn5V4EwolMnklwluDPfsKXqk63ZTSb7.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#04b39a",
