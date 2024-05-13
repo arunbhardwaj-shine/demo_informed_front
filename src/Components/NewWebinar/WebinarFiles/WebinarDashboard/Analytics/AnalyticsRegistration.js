@@ -210,27 +210,27 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
             <Col md={3}>
               <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                 <h6 className="regi-title">
-                  <Skeleton width={150} height={20} />
+                  <Skeleton width={130} height={20} />
                 </h6>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="count-number">
-                    <Skeleton width={30} height={25} />
+                    <Skeleton width={20} height={20} />
                   </div>
-                  <Skeleton circle={true} height={30} width={30} />
+                  <Skeleton height={20} width={20} />
                 </div>
               </div>
               <div className="graph-box">
                 <div className="d-flex align-items-center mb-2 justify-content-between">
-                  <Skeleton width={150} height={20} />
-                  <Skeleton width={30} height={30} />
+                  <Skeleton width={130} height={20} />
+                  <Skeleton width={25} height={20} />
                 </div>
                 <div className="highchart-chart">
                   <Skeleton circle={true} height={200} width={200} />
                 </div>
                 <div className="rd-box-export d-flex align-items-center justify-content-between">
-                  <Skeleton width={80} height={20} />
-                  <Skeleton width={80} height={20} />
-                  <Skeleton width={30} height={30} />
+                  {/* <Skeleton width={80} height={20} />
+                  <Skeleton width={80} height={20} /> */}
+                  <Skeleton width={20} height={20} />
                 </div>
               </div>
             </Col>
@@ -283,38 +283,44 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
               <Col md={9}>
                 <div className="rd-analytics-top d-flex justify-content-between align-items-center">
                   <h6 className="regi-hcp">
-                    <Skeleton width={150} height={20} />
+                    <Skeleton width={130} height={20} />
                   </h6>
-                  <div className="d-flex ">
+                  <div className="d-flex align-items-center">
                     <div className="count-number">
-                      <Skeleton width={30} height={25} />
+                      <Skeleton width={20} height={20} />
                     </div>
-                    <Skeleton circle={true} height={30} width={30} />
+                    <Skeleton  height={20} width={20} />
                   </div>
                 </div>
-                <div className="d-flex align-items-center mb-2 justify-content-between">
-                  <Skeleton width={150} height={20} />
+                <div className="d-flex align-items-center mb-0 justify-content-between">
+                 
                 </div>
                 <div className="graph-box d-flex justify-content-between">
+                  
                   <div className="highchart-chart left-side">
+                    <div className="d-flex align-items-center mb-2 justify-content-between" style={{ paddingRight: '10px' }}>
+                      <Skeleton width={130} height={20} />
+                      <Skeleton width={25} height={20} />
+                    </div>
+                    {/* <Skeleton width={130} height={20} /> */}
                     <Skeleton circle={true} height={200} width={200} />
                     <div className="rd-box-export d-flex align-items-center justify-content-between">
-                      <Skeleton width={80} height={20} />
-                      <Skeleton width={80} height={20} />
-                      <Skeleton width={30} height={30} />
+                      {/* <Skeleton width={80} height={20} />
+                      <Skeleton width={80} height={20} /> */}
+                      <Skeleton width={20} height={20} />
                     </div>
                   </div>
 
                   <div className="highchart-chart right-side">
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                       
-                      <Skeleton width={150} height={30} />
-                      <Skeleton width={30} height={30} />
+                      <Skeleton width={130} height={20} />
+                      <Skeleton width={20} height={20} />
 
                     </div>
                   
 
-                    <Skeleton width="100%" height={180} />
+                    <Skeleton width="100%" height={200} />
                   </div>
                 </div>
               </Col>

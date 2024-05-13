@@ -44,10 +44,10 @@ const AnalyticsEmail = () => {
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex justify-content-between">
               <h6 className="mr-auto" style={{ color: "#8A4E9C" }}>
-                {!apiStatus ? <Skeleton width={130} height={30} /> : "Emails"}
+                {!apiStatus ? <Skeleton width={130} height={20} /> : "Emails"}
               </h6>
               <div className="d-flex">
-                <Skeleton width={30} height={30} />
+                <Skeleton width={20} height={20} />
               </div>
             </div>
             <div className="graph-box">
@@ -150,7 +150,7 @@ const AnalyticsEmail = () => {
                               <span>{data.created_at}</span>
                             </td>
                             <td valign="middle">{data.invitationType}</td>
-                            <td valign="middle">Internal</td>
+                            <td valign="middle">{data.listType ||"Internal"}</td>
                             <td valign="middle" className="email-options">
                               <div className="td-bordered">
                                 <img
