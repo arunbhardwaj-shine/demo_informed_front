@@ -12,7 +12,7 @@ import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { loader } from "../../../../../loader";
-import { getData, postData } from "../../../../../axios/apiHelper";
+import { getData, postData,postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { Link, useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
@@ -250,6 +250,7 @@ const [templateList, setTemplateList] = useState(() => {
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
   const textAreaRefs = useRef(null);
+  const [downloadType,setDownloadType]=useState()
 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
@@ -1036,6 +1037,7 @@ const [templateList, setTemplateList] = useState(() => {
       // setLogo("");
       setSave((save)=>save+1);
       setIsDataSaved(true);
+     
     } catch (err) {
       console.error("--err", err);
     } finally {
@@ -1378,15 +1380,41 @@ const [templateList, setTemplateList] = useState(() => {
     const qrUrl = generateQRUrl();
 
     try {
-      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
-      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
       let fileName= (localStorageEvent?.eventTitle).replaceAll(" ","_")
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+      if(downloadType=="png"){
+        console.log("in png")
+        
+        const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+       
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = `${fileName}_Registration.png`; // Set the filename
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+      else if(downloadType=="eps"){        
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/png");
+        const res = await postFormData(ENDPOINT.DOWNLOAD_EPS_FILE, { "svgCode": pngUrl },
+        {
+          responseType: "blob",
+        }
+      );
+      const url = URL.createObjectURL(res?.data);    
       const downloadLink = document.createElement('a');
-      downloadLink.href = pngUrl;
-      downloadLink.download = `${fileName}_Registration.png`; // Set the filename
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
+      downloadLink.href = url;
+      downloadLink.download = `${fileName}_Registration.eps`;     
+      // downloadLink.style.display = 'none';    
+      document.body.appendChild(downloadLink);      
+      downloadLink.click();     
+      URL.revokeObjectURL(url);
       document.body.removeChild(downloadLink);
+
+      }
+     
     } catch (error) {
       console.error('Error generating QR code:', error);
     }
@@ -1410,15 +1438,23 @@ const [templateList, setTemplateList] = useState(() => {
                   <div className={`dropdown qr-download ${
                       !isDataSaved ? "disabled" : ""
                     }`}>
-                    <button
+                    {/* <button
                       className="btn btn-primary dropdown"
                       type="button"
                       onClick={handleDownload}
                     >
                       Download QR
 
+                    </button> */}
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                    >
+                      Download QR
+                     
                     </button>
-                    {/* {downloadqr && (
+                   {downloadqr && (
                       <div
                         className="dropdown-menu filter-options"
                         aria-labelledby="dropdownMenuButton2"
@@ -1427,8 +1463,10 @@ const [templateList, setTemplateList] = useState(() => {
                           <li>
                             <label className="select-multiple-option">
                               <input
-                                type="checkbox"
+                                type="radio"
+                                name="qr-code"
                                 id="qr-code"
+                                onChange={()=>setDownloadType('png')}
                               />Download PNG
                               <span className="checkmark"></span>
                             </label>
@@ -1436,8 +1474,10 @@ const [templateList, setTemplateList] = useState(() => {
                           <li>
                             <label className="select-multiple-option">
                               <input
-                                type="checkbox"
+                                type="radio"
                                 id="qr-code1"
+                                name="qr-code"
+                                onChange={()=>setDownloadType('eps')}
                               />Download EPS
                               <span className="checkmark"></span>
                             </label>
@@ -1446,12 +1486,13 @@ const [templateList, setTemplateList] = useState(() => {
                         <div className="filter-footer justify-content-end">
                           <button
                             className="btn btn-primary btn-filled"
+                            onClick={handleDownload}
                           >
                             Download
                           </button>
                         </div>
                       </div>
-                    )} */}
+                    )} 
                   </div>
                     <a
                       className={`copy_link btn-bordered ${
