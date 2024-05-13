@@ -40,8 +40,8 @@ const template = {
   4:[],
   5:['header'],
   6:['logo','templateOne','templateTwo'],
-  7:['logo','header','footer'],
-  8:['header'],
+  7:['header'],
+  8:['logo','header','footer'],
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -52,12 +52,12 @@ const WebinarRegistration = () => {
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
 
-const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,8],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,8], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,8],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,8],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,8],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,8],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,8],
-"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,8],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,8],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,8],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,8]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,8]}
+const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,7],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,7], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,7],
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,7],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,7],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,7],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,7,8],
+"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,7],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,7],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,7],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,7]
+,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,7]}
 const userId = localStorage.getItem("user_id");
-const defaultTemplateIds = [7]; 
+const defaultTemplateIds = [8]; 
  
 const [templateList, setTemplateList] = useState(() => {
 
