@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { postData, getData } from "../../../../../axios/apiHelper";
+import { postData, getData,postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { loader } from "../../../../../loader";
 import { Button, Col, Row } from "react-bootstrap";
@@ -21,14 +21,14 @@ const ChatLinkPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const aliceCarouselRef = useRef(null);
 
-  const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[2,4,5,6,7,8,9],"B7SHpAc XDXSH NXkN0rdQ==":[2,4,5,6,7,8,9], "wW0geGtDPvig5gF 6KbJrg==":[2,4,5,6,7,8,9],
-  "UbCJcnLM9fe HsRMgX8c1A==":[2,4,5,6,7,8,9],"z2TunmZQf3QwCsICFTLGGQ==":[2,4,5,6,7,8,9],"qDgwPdToP05Kgzc g2VjIQ==":[2,4,5,6,7,8,9] ,"rjiGlqA9DXJVH7bDDTX0Lg==":[2,4,5,6,7,8,9],
-"MpEPwXLqTPveAfumxT/KXw==":[2,4,5,6,7,8,9],"5EdDBhVCQm08iLJwBENCWw==":[2,4,5,6,7,8,9],"I3yCIhnPAd0Ma6sNY4augA==":[2,4,5,6,7,8,9],"Y/I8/x8K0syk/ulWyKwKhg==":[2,4,5,6,7,8,9]
-,"bWmUjqX7J011   WUTYn9g==":[2,4,5,6,7,8,9]}
+  const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,4,5,6,7,8,9],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,4,5,6,7,8,9], "wW0geGtDPvig5gF 6KbJrg==":[1,2,4,5,6,7,8,9],
+  "UbCJcnLM9fe HsRMgX8c1A==":[1,2,4,5,6,7,8,9],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,4,5,6,7,8,9],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,4,5,6,7,8,9] ,"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,4,5,6,7,8,9,10],
+"MpEPwXLqTPveAfumxT/KXw==":[1,2,4,5,6,7,8,9],"5EdDBhVCQm08iLJwBENCWw==":[1,2,4,5,6,7,8,9],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,4,5,6,7,8,9],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,4,5,6,7,8,9]
+,"bWmUjqX7J011   WUTYn9g==":[1,2,4,5,6,7,8,9]}
 
   const userId=localStorage.getItem("user_id") 
 
-  const defaultTemplateIds = [1];
+  const defaultTemplateIds = [10];
 
   // const  dynamicEventData=dynamicEventDataJson.map(template => {
   //     if (templateUserIDs[userId]?.includes(template.templateId) ) {
@@ -102,6 +102,7 @@ const ChatLinkPage = () => {
     });
     return initialState;
   });
+  const [downloadType,setDownloadType]=useState()
 
   useEffect(() => {
     fetchApiData();
@@ -609,15 +610,39 @@ const ChatLinkPage = () => {
     const qrUrl = generateQRUrl();
 
     try {
-      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
-      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
       let fileName= (eventData?.eventTitle).replaceAll(" ","_")
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+ if(downloadType=="png"){  
+      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      
       const downloadLink = document.createElement('a');
       downloadLink.href = pngUrl;
       downloadLink.download = `${fileName}_ChatLink.png`; // Set the filename
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
+      }
+
+      else if(downloadType=="eps"){        
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/png");
+        const res = await postFormData(ENDPOINT.DOWNLOAD_EPS_FILE, { "svgCode": pngUrl },
+        {
+          responseType: "blob",
+        }
+      );
+      const url = URL.createObjectURL(res?.data);    
+      const downloadLink = document.createElement('a');
+      downloadLink.href = url;
+      downloadLink.download = `${fileName}_ChatLink.eps`;;     
+      // downloadLink.style.display = 'none';    
+      document.body.appendChild(downloadLink);      
+      downloadLink.click();     
+      URL.revokeObjectURL(url);
+      document.body.removeChild(downloadLink);
+
+      }
     } catch (error) {
       console.error('Error generating QR code:', error);
     }
@@ -635,7 +660,7 @@ const ChatLinkPage = () => {
               </div>
            { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
-                <div className={`dropdown qr-download ${
+                {/* <div className={`dropdown qr-download ${
                       !isDataSaved ? "disabled" : ""
                     }`}>
                     <button
@@ -646,8 +671,8 @@ const ChatLinkPage = () => {
                       Download QR
 
                     </button>
-                    </div>
-                  {/* <div className="dropdown qr-download">
+                    </div> */}
+                  <div className="dropdown qr-download">
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
@@ -665,8 +690,10 @@ const ChatLinkPage = () => {
                           <li>
                             <label className="select-multiple-option">
                             <input
-                              type="checkbox"
+                              type="radio"
                               id="qr-code"
+                              name="qr-code"
+                              onChange={()=>setDownloadType('png')}
                             />Download PNG
                             <span className="checkmark"></span>
                             </label>
@@ -674,8 +701,11 @@ const ChatLinkPage = () => {
                           <li>
                             <label className="select-multiple-option">
                             <input
-                              type="checkbox"
+                              type="radio"
                               id="qr-code1"
+                              name="qr-code"
+                              onChange={()=>setDownloadType('eps')}
+                              
                             />Download EPS
                             <span className="checkmark"></span>
                             </label>
@@ -684,13 +714,14 @@ const ChatLinkPage = () => {
                         <div className="filter-footer justify-content-end">
                           <button
                             className="btn btn-primary btn-filled"
+                            onClick={handleDownload}
                           >
                             Download
                           </button>
                         </div>
                       </div>
                     )}
-                  </div> */}
+                  </div> 
                   <a
                     className={`copy_link btn-voilet ${
                       !isDataSaved ? "disabled" : ""
