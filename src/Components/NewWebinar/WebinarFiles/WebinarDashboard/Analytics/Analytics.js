@@ -1095,6 +1095,7 @@ const Analytics = (props) => {
                   type: "bar",
                   events: {
                     load: function () {
+
                       let categoryHeight = 50;
                       this.update({
                         chart: {
@@ -2508,7 +2509,7 @@ const Analytics = (props) => {
                               chart: {
                                 type: "bar",
                                 borderWidth: "0",
-                                height: 800,
+                                height: 1050,
                                 options3d: {
                                   enabled: true,
                                   alpha: 10,
