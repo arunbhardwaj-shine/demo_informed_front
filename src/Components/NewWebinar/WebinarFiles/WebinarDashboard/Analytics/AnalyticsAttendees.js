@@ -32,9 +32,11 @@ const AnalyticsAttendees = () => {
   );
   const [attendeesData, setAttendeesData] = useState([]);
   const [attendeesDataDropdown, setAttendeesDataDropdown] = useState(null);
-  const [attendeesDataOriginal, setAttendeesDataOrginal] = useState([]);
+  const [attendeesDataOriginal, setAttendeesDataOriginal] = useState([]);
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [apiStatus, setApiStatus] = useState(false);
+
   useEffect(() => {
     const fetchAnalyticsData = async () => {
       try {
@@ -45,27 +47,42 @@ const AnalyticsAttendees = () => {
         setFilterData(result?.filterObject);
 
         setAttendeesData(result?.attendeesData);
-        setAttendeesDataOrginal(result?.attendeesData);
+        setAttendeesDataOriginal(result?.attendeesData);
 
-        loader("hide");
       } catch (error) {
-        loader("hide");
         console.error("Error fetching analytics data:", error);
+      }finally{
+        setApiStatus(true)
+        loader("hide");
+
       }
     };
 
     fetchAnalyticsData();
   }, [eventId]);
+  const customLoader = (functionName,e=null) => {
+    if(e!=null){
+      e.preventDefault()
+    }
+    loader("show");
+    setTimeout(() => {
+      functionName(e);
+      loader("hide");
+    }, 300);
+  };
+  
   const clearFilter = () => {
-    setAppliedFilter({});
+  setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
     setAttendeesData(attendeesDataOriginal);
     // getWebinarCompaignList()
     setShowFilter(false);
+   
+  
   };
-  const applyFilter = (e) => {
-    e.preventDefault();
+  const applyFilter = () => {
+    
     const filteredData = attendeesDataOriginal.filter((item) => {
       for (const key in appliedFilter) {
         const filterValues = appliedFilter[key];
@@ -76,10 +93,11 @@ const AnalyticsAttendees = () => {
 
         if (filterValues.length > 1) {
           // "or" condition
-          isMatch = filterValues.some((value) => item[key] === value);
+          isMatch = filterValues.some(value =>{ if(value=="All")return true 
+          return item[key] === value});
         } else {
           // "and" condition
-          isMatch = item[key] === filterValues[0];
+          isMatch = filterValues[0]=="All"?true:item[key] === filterValues[0];
         }
 
         if (!isMatch) {
@@ -95,38 +113,54 @@ const AnalyticsAttendees = () => {
     setFilterObject(appliedFilter);
     // getWebinarCompaignList(appliedFilter);
     setShowFilter(false);
+
   };
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (!newObj[key]) {
-      newObj[key] = [];
-    }
-    if (!apifilterObject[key]) {
-      apifilterObject[key] = [];
-    }
-
-    if (e?.target?.checked == true) {
-      newObj[key]?.push(item);
-      apifilterObject[key]?.push(e?.target?.value);
-    } else {
-      const index = newObj[key]?.indexOf(item);
-      if (index > -1) {
-        newObj[key]?.splice(index, 1);
-        if (newObj[key]?.length == 0) {
-          delete newObj[key];
+   
+    let newObj = { ...appliedFilter };
+    let newApiFilterObject = { ...apifilterObject };
+  const radioKeys=["Attended", "Registered", "Poll Participate", "Asked Question"]    // Initialize arrays if they don't exist
+    newObj[key] = newObj[key] || [];
+    newApiFilterObject[key] = newApiFilterObject[key] || [];
+  
+    // Check if checkbox is checked
+    if (e?.target?.checked) {
+      // Special handling for certain keys
+      if (radioKeys.includes(key)) {
+        newObj[key] = [item];
+        newApiFilterObject[key] = e?.target?.value;
+      } else {
+        newObj[key]?.push(item);
+        newApiFilterObject[key]?.push(e?.target?.value);
+      }
+    } else { // Checkbox is unchecked
+      // Special handling for certain keys
+      if (radioKeys.includes(key)) {
+        newObj[key] = [];
+        newApiFilterObject[key] = [];
+      } else {
+        const itemIndex = newObj[key]?.indexOf(item);
+        if (itemIndex > -1) {
+          newObj[key]?.splice(itemIndex, 1);
+          if (newObj[key]?.length === 0) {
+            delete newObj[key];
+          }
+        }
+        const valueIndex = newApiFilterObject[key]?.indexOf(e.target.value);
+        if (valueIndex > -1) {
+          newApiFilterObject[key]?.splice(valueIndex, 1);
+          if (newApiFilterObject[key]?.length === 0) {
+            delete newApiFilterObject[key];
+          }
         }
       }
-      const index2 = apifilterObject[key]?.indexOf(e.target.value);
-      if (index2 > -1) {
-        apifilterObject[key]?.splice(index2, 1);
-        if (apifilterObject[key]?.length == 0) {
-          delete apifilterObject[key];
-        }
-      }
     }
+  
+    // Update state
     setAppliedFilter(newObj);
-    setApifilterObject(apifilterObject);
+    setApifilterObject(newApiFilterObject);
   };
+  
   const searchChange = (e) => {
     setSearch(e?.target?.value);
 
@@ -169,7 +203,9 @@ const AnalyticsAttendees = () => {
   };
 
   const downloadExcel = (data,name) => {
-    try {
+    loader("show")
+  
+    setTimeout(()=>{ try {
       if (data?.length == 0) {
         toast.warning("No data found");
         return;
@@ -223,7 +259,9 @@ const AnalyticsAttendees = () => {
         "An error occurred while downloading the Excel file:",
         error
       );
-    }
+    }  loader("hide")
+  
+  }  ,500)
   };
   const handleSort = (key) => {
     setSortBy(key);
@@ -255,14 +293,14 @@ const AnalyticsAttendees = () => {
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
-          <Row>
+        {apiStatus &&  <Row>
             <div className="top-header regi-web sticky">
               <div className="page-title d-flex flex-column align-items-start">
                 <h2>Attendees</h2>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
+                <form className="d-flex" onSubmit={(e) => customLoader(submitSearchHandler,e)}>
                     <input
                       className="form-control me-2"
                       type="search"
@@ -438,13 +476,13 @@ const AnalyticsAttendees = () => {
                       <div className="filter-footer">
                         <Button
                           className="btn btn-primary btn-bordered"
-                          onClick={clearFilter}
+                          onClick={()=>customLoader(clearFilter)}
                         >
                           Clear
                         </Button>
                         <Button
                           className="btn btn-primary btn-filled"
-                          onClick={applyFilter}
+                          onClick={(e)=>customLoader(applyFilter)}
                         >
                           Apply
                         </Button>
@@ -778,7 +816,7 @@ const AnalyticsAttendees = () => {
                 </tbody>
               </Table>
             </div>
-          </Row>
+          </Row>}
         </div>
       </Col>
     </>

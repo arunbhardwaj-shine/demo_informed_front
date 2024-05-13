@@ -4887,6 +4887,7 @@ section.verify_email.content_details {
   min-height: 260px;
 }
 
+
 .send-confirm .modal-body .modal-buttons {
   justify-content: space-evenly;
 }
@@ -14369,6 +14370,10 @@ img.change-password-image {
           color: #001489;
         }
 
+        .align-items-center {
+          gap: 4px;
+        }
+
         .regi-title {
           color: #F58289;
         }
@@ -21235,6 +21240,14 @@ table {
   }
 
   .survey_data_details {
+    padding: 0 5px;
+
+    .survey_data_accordion_heading {
+      ul {
+        padding: 2px 20px 15px;
+      }
+    }
+
     height: 100%;
     overflow-y: auto;
     // padding: 4px;
@@ -21541,6 +21554,11 @@ table {
       }
     }
   }
+}
+
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box span.react-loading-skeleton {
+  display: flex;
+  margin: 0 auto;
 }
 
 /**Survey rating end**/

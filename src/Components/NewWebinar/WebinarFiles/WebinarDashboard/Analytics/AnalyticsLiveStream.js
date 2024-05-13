@@ -14,8 +14,9 @@ import { database } from "../../../../../config/firebaseConfigOnesource";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
+const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const [chartHeight, setChartHeight] = useState(270);
   const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
   const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
@@ -28,7 +29,6 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
   const [tempSlotsCategory, setTempSlotsCategory] = useState([]);
   const [topCountries, setTopCountries] = useState([]);
   const [apiStatus, setApiStatus] = useState(false);
-
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
@@ -37,20 +37,20 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
   );
   const commonPieOptions = {
     chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: "pie",
-        height: 280, // Increased height to prevent overlapping
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      height: 280, // Increased height to prevent overlapping
     },
     title: {
-        // text: "AVG spend time |",
-        align: "center",
-        style: {
-            fontWeight: "500",
-            fontSize: "14px",
-            color: "#70899E",
-        },
+      // text: "AVG spend time |",
+      align: "center",
+      style: {
+        fontWeight: "500",
+        fontSize: "14px",
+        color: "#70899E",
+      },
     },
 
     exporting: {
@@ -58,64 +58,65 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       sourceHeight: 1200,
       enabled: true,
       chartOptions: {
-          title: {
-              text: '' // Remove title from exported image
-          },
+        title: {
+          text: "", // Remove title from exported image
+        },
       },
-      filename: 'AVG_Spend_Time', // Set filename for exported image
+      filename: "AVG_Spend_Time", // Set filename for exported image
       menuItemDefinitions: {
-          downloadPNG: {
-              text: 'Download PNG',
-              onclick: function() {
-                  this.exportChart({
-                      type: 'image/png'
-                  });
-              }
+        downloadPNG: {
+          text: "Download PNG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/png",
+            });
           },
-          downloadJPEG: {
-              text: 'Download JPEG',
-              onclick: function() {
-                  this.exportChart({
-                      type: 'image/jpeg'
-                  });
-              }
+        },
+        downloadJPEG: {
+          text: "Download JPEG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/jpeg",
+            });
           },
-          downloadPDF: {
-              text: 'Download PDF',
-              onclick: function() {
-                  this.exportChart({
-                      type: 'application/pdf'
-                  });
-              }
+        },
+        downloadPDF: {
+          text: "Download PDF",
+          onclick: function () {
+            this.exportChart({
+              type: "application/pdf",
+            });
           },
-          downloadSVG: {
-              text: 'Download SVG',
-              onclick: function() {
-                  this.exportChart({
-                      type: 'image/svg+xml'
-                  });
-              }
-          }
+        },
+        downloadSVG: {
+          text: "Download SVG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/svg+xml",
+            });
+          },
+        },
       },
       buttons: {
-          contextButton: {
-              symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
-              menuItems: [
-                  "downloadPNG",
-                  "downloadJPEG",
-                  "downloadPDF",
-                  "downloadSVG"
-              ]
-          }
-      }
-  },
+        contextButton: {
+          symbol:
+            "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+          menuItems: [
+            "downloadPNG",
+            "downloadJPEG",
+            "downloadPDF",
+            "downloadSVG",
+          ],
+        },
+      },
+    },
     tooltip: {
-        pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
     accessibility: {
-        point: {
-            valueSuffix: "%",
-        },
+      point: {
+        valueSuffix: "%",
+      },
     },
     legend: {
       verticalAlign: "bottom",
@@ -174,13 +175,13 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       itemStyle: {
         fontWeight: "normal",
         color: "#70899E",
-        fontSize: "12px"
+        fontSize: "12px",
       },
       itemHoverStyle: {
-        color: "#000000"
+        color: "#000000",
       },
       itemHiddenStyle: {
-        color: "#C0C0C0"
+        color: "#C0C0C0",
       },
       symbolWidth: 10,
       symbolHeight: 10,
@@ -190,18 +191,20 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     },
     series: [],
     responsive: {
-      rules: [{
-        condition: {
-          maxWidth: 1500
-        },
-        title: {
-          style: {
-            fontSize: "10px",
+      rules: [
+        {
+          condition: {
+            maxWidth: 1500,
           },
-        }
-      }]
+          title: {
+            style: {
+              fontSize: "10px",
+            },
+          },
+        },
+      ],
     },
-};
+  };
 
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
   const [data, setData] = useState([]);
@@ -214,11 +217,11 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     title: {
       text: "Live HCPs Tracking",
       align: "center",
-        style: {
-          fontWeight: "500",
-          color: "#70899E",
-          fontSize: "14px",
-        },
+      style: {
+        fontWeight: "500",
+        color: "#70899E",
+        fontSize: "14px",
+      },
     },
     xAxis: {
       categories: [],
@@ -226,50 +229,52 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       labels: {
         enabled: true,
       },
-      lineColor: 'rgba(151, 182, 207, 0.30)', // X-axis line color
+      lineColor: "rgba(151, 182, 207, 0.30)", // X-axis line color
       lineWidth: 2, // X-axis line width
     },
     yAxis: {
       title: {
         text: "",
       },
-      lineColor: 'rgba(151, 182, 207, 0.30)', // Y-axis line color
+      lineColor: "rgba(151, 182, 207, 0.30)", // Y-axis line color
       lineWidth: 2, // Y-axis line width
       allowDecimals: false, // Ensure y-axis labels are integers
     },
 
-  //   legend: {
-  //     enabled: true,
-  // },
-  legend: {
-    align: "center",
-    verticalAlign: "bottom",
-    layout: "vertical",
-    x: 0,
-    y: 0,
-    itemStyle: {
+    //   legend: {
+    //     enabled: true,
+    // },
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
+      layout: "vertical",
+      x: 0,
+      y: 0,
+      itemStyle: {
         fontWeight: "normal",
         color: "#70899E",
-        fontSize: "12px"
+        fontSize: "12px",
+      },
+
+      // itemHoverStyle: {
+      //     color: "#000000"
+      // },
+      // itemHiddenStyle: {
+      //     color: "#C0C0C0"
+      // },
+      symbolWidth: 10,
+      symbolHeight: 10,
+      itemDistance: 20,
+      lineWidth: 0, // Remove the line cutting through the marker
     },
-   
-    // itemHoverStyle: {
-    //     color: "#000000"
-    // },
-    // itemHiddenStyle: {
-    //     color: "#C0C0C0"
-    // },
-    symbolWidth: 10,
-    symbolHeight: 10,
-    itemDistance: 20,
-    lineWidth: 0, // Remove the line cutting through the marker
-},
 
     tooltip: {
-      formatter: function() {
-          return '<b>' + this.y + ' ' + 'HCPs' + ' | ' + this.point.category + '</b>';
-      }
-  },
+      formatter: function () {
+        return (
+          "<b>" + this.y + " " + "HCPs" + " | " + this.point.category + "</b>"
+        );
+      },
+    },
     exporting: {
       sourceWidth: 1600,
       sourceHeight: 1200,
@@ -278,7 +283,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     plotOptions: {
       series: {
         marker: {
-          symbol: 'circle',
+          symbol: "circle",
           fillColor: "#56cabc",
           color: "#56cabc",
         },
@@ -289,7 +294,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
     series: [
       {
         name: "HCPs online",
-      
+
         data: [],
       },
     ],
@@ -359,7 +364,7 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
 
   const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
     try {
-      console.log(insertFlag, "insertFlag");
+     
       let body = {
         eventId: eventId,
         type: "graph",
@@ -478,31 +483,29 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
       // Make API call to fetch data
       const response = await postData(ENDPOINT?.GET_LIVESTREAM_DATA, body);
       let data = response?.data?.data;
-      setData(data)
+      setData(data);
       const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span>min`;
       const newValue = [
         {
-            name: "",
-            colorByPoint: true,
-            data: data?.averageTime?.pieChartData,
+          name: "",
+          colorByPoint: true,
+          data: data?.averageTime?.pieChartData,
         },
-    ];
-    // setPieOptions({ ...commonPieOptions, series: newValue });
-    setPieOptions({
-      ...commonPieOptions,
-      title: {
+      ];
+      // setPieOptions({ ...commonPieOptions, series: newValue });
+      setPieOptions({
+        ...commonPieOptions,
+        title: {
           ...commonPieOptions.title,
-          text: averageTimeText
-      },
-      series: newValue
-  });
-      console.log(pieOptions, "responseresponse");
+          text: averageTimeText,
+        },
+        series: newValue,
+      });
       setTopCountries(data);
     } catch (err) {
       console.error("Error fetching data:", err);
-    }
-    finally{
-      setApiStatus(true)
+    } finally {
+      setApiStatus(true);
     }
   };
 
@@ -555,62 +558,148 @@ const AnalyticsLiveStream = ({handleAttendedUserCountryWise}) => {
         <p class="rd-box-small-title">Live stream</p>
         <div className="rd-analytics-box-layout">
           <div className="rd-analytics-top align-items-center d-flex justify-content-between">
-            <h6 className="mr-auto" style={{ color: "#39CABC" }}>
-              Attended HCPs
-            </h6>
-            <div className="d-flex">
-              <div className="count-number" style={{ color: "#39CABC" }}>
-                {topCountries?.averageTime?.totalUsers || 0}
-              </div>
-              <img
-                src={path_image + "doctor-svg.svg"}
-                alt="CRM"
-                className="CRM"
-              />
-
-            </div>
+            {!apiStatus ? (
+              <>
+                <h6 className="mr-auto" style={{ color: "#39CABC" }}>
+                  <Skeleton width={130} height={20} />
+                </h6>
+                <div className="d-flex">
+                  <div className="count-number" style={{ color: "#39CABC" }}>
+                    <Skeleton width={20} height={20} />
+                  </div>
+                  <Skeleton circle={true} width={20} height={20} />
+                </div>
+              </>
+            ) : (
+              <>
+                <h6 className="mr-auto" style={{ color: "#39CABC" }}>
+                  Attended HCPs
+                </h6>
+                <div className="d-flex">
+                  <div className="count-number" style={{ color: "#39CABC" }}>
+                    {topCountries?.averageTime?.totalUsers || 0}
+                  </div>
+                  <img
+                    src={path_image + "doctor-svg.svg"}
+                    alt="CRM"
+                    className="CRM"
+                  />
+                </div>
+              </>
+            )}
           </div>
+
           <div className="attended_hcp">
             <div className="avg-speed">
-{data?.averageTime?.totalUsers ?     <HighchartsReact highcharts={Highcharts} options={pieOptions} />   : apiStatus &&<div className="no_found">
-                                  <p>No Data Found</p>
-                                </div>}
+              {!apiStatus ? (
+                <>
+                  <div className="graph-box">
+                    <div className="d-flex align-items-center mb-2 justify-content-between">
+                      <Skeleton width={130} height={20} />
+                      <Skeleton width={20} height={20} />
+                    </div>
+                    <div className="highchart-chart">
+                      <Skeleton circle={true} height={200} width={200} />
+                    </div>
+                    <div className="rd-box-export d-flex align-items-center justify-content-between">
+                      {/* <Skeleton width={80} height={20} />
+                      <Skeleton width={80} height={20} /> */}
+                      <Skeleton width={20} height={20} />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {data?.averageTime?.totalUsers ? (
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={pieOptions}
+                    />
+                  ) : (
+                    <div className="no_found">
+                      <p>No Data Found</p>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-            <div className="hcp-tracking">
-              <div className="live-hcp-tracking-img">
-                {/* <Image src={path_image + "live-hcp-tracking.png"} alt="" /> */}
-                <HighchartsReact
-                  key={"line_bar"}
-                  highcharts={Highcharts}
-                  options={lineChartOptions}
-                />
-                <div id="hcp_tracking"></div>
-              </div>{" "}
-            </div>
-            <div className="top-country-data">
-              <h6>The Top 5 Countries</h6>
-              <Table>
-                {topCountries?.topCounties?.length?topCountries?.topCounties?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{`${index + 1}. ${item.country}`}</td>
-                    <td>{item.user_count}</td>
-                  </tr>
-                ))
-                
-                : apiStatus && (
-                  <tr>
-                    <td colSpan="2">
-                      <div className="no_found">
-                        <p>No Data Found</p>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </Table>
-              <div className="rd-box-export">
-                <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />
+            {!apiStatus ? (
+              <div className="hcp-tracking">
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Skeleton width={130} height={20} />
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Skeleton width={30} height={20} />
+                </div>
+
+                <Skeleton width="100%" height={190} />
               </div>
-            </div>
+            ) : (
+              <div className="hcp-tracking">
+                <div className="live-hcp-tracking-img">
+                  {/* <Image src={path_image + "live-hcp-tracking.png"} alt="" /> */}
+                  <HighchartsReact
+                    key={"line_bar"}
+                    highcharts={Highcharts}
+                    options={lineChartOptions}
+                  />
+                  <div id="hcp_tracking"></div>
+                </div>{" "}
+              </div>
+            )}
+            {!apiStatus ? (
+              <div className="top-country-data">
+                <h6>
+                  <Skeleton width={130} height={20} />
+                </h6>
+                <Table>
+                  {/* Skeleton for table content */}
+                  {[...Array(5)].map((_, index) => (
+                    <tr key={index}>
+                      <td>
+                        <Skeleton width={100} height={20} />
+                      </td>
+                      <td>
+                        <Skeleton width={50} height={20} />
+                      </td>
+                    </tr>
+                  ))}
+                  {/* End of skeleton for table content */}
+                </Table>
+                <div className="rd-box-export">
+                  <Skeleton width={20} height={20} />
+                </div>
+              </div>
+            ) : (
+              <div className="top-country-data">
+                <h6>The Top 5 Countries</h6>
+                <Table>
+                  {topCountries?.topCounties?.length
+                    ? topCountries?.topCounties?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{`${index + 1}. ${item.country}`}</td>
+                          <td>{item.user_count}</td>
+                        </tr>
+                      ))
+                    : apiStatus && (
+                        <tr>
+                          <td colSpan="2">
+                            <div className="no_found">
+                              <p>No Data Found</p>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                </Table>
+                <div className="rd-box-export">
+                  <img
+                    src={path_image + "arrow-export.svg"}
+                    alt=""
+                    onClick={handleAttendedUserCountryWise}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

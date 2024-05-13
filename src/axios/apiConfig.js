@@ -179,6 +179,7 @@ export const ENDPOINT = {
   WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA: "/webinar/get-online-readers",
   STORE_SURVEY_DATA:"auth/store-survey-data",
   GET_SURVEY_DATA:"auth/get-survey-data",
+  GET_INFORMED_SURVEY_DATA:"auth/get-informed-survey-data",
   WEBINAR_EMAIL_COMPAIGN_LIST:"/webinarEmail/get-campaign-list",
   WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list",
   WEBINAR_EMAIL_GET_FILTER_LIST:"/webinarEmail/get-filter-list",
@@ -202,6 +203,7 @@ export const ENDPOINT = {
   ANALYTIC_EMAIL_LIST_DROPDOWN:"/webinarEmail/get-email-list-dropdown_data",
   ANALYTIC_ATTENDEES_DATA:"/webinarEmail/get-attendees-data",
   ANALYTIC_ATTENDEES_DROPDOWN_DATA:"/webinarEmail/get-attendees-dropdown-data",
+  ANALYTIC_EVENT_LISTING:"/webinarEmail/get-attendees-dropdown-data",
 
 
 
@@ -209,5 +211,6 @@ export const ENDPOINT = {
   WEBINAR_EVENT_STATS:"/webinar/download-stats",
   WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats",
   RTRREFRESH_EBOOK:"/analytics/refresh_ebook_rtr",
-  WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats"
+  WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats",
+  DOWNLOAD_EPS_FILE:"webinar/download-eps"
 };

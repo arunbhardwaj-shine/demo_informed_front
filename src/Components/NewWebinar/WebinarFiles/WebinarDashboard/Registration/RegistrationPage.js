@@ -135,7 +135,7 @@ const RegistrationPage = ({ prevData,type }) => {
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [apiCallStatus,setApiCallStatus]=useState(false)
-
+  const [eventStatus,setEventStatus]=useState()
 
   useEffect(() => {
     EventDataFun();
@@ -188,6 +188,8 @@ const RegistrationPage = ({ prevData,type }) => {
           raw_description: raw,
         };
       }
+      let status = differenceDays(hadData?.eventStartDateTime, hadData?.eventEndtDateTime, hadData?.country_timezone, "")
+      setEventStatus(status)
       
       setFormData(hadData);
       setApiCallStatus(true)
@@ -211,13 +213,111 @@ const RegistrationPage = ({ prevData,type }) => {
     }
   };
 
+  const differenceDays = (eventStartDateTime, eventEndtDateTime, timezone, flag = 0) => {
+
+    const time = getEventTime(timezone)
+
+    const currentTime = new Date(time);
+    const startTime = new Date(eventStartDateTime);
+    const endTime = new Date(eventEndtDateTime);
+
+    if (currentTime < startTime) {
+      const timeDifference = startTime.getTime() - currentTime.getTime(); // Get the time difference in milliseconds
+      const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
+      if (flag == 1) {
+        const days = Math.floor(timeDifference / (1000 * 3600 * 24));
+        const remainingTimeAfterDays = timeDifference % (1000 * 3600 * 24);
+        const hours = Math.floor(remainingTimeAfterDays / (1000 * 3600));
+        const remainingTimeAfterHours = remainingTimeAfterDays % (1000 * 3600);
+        const minutes = Math.floor(remainingTimeAfterHours / (1000 * 60));
+        // return `${days} days, ${hours} hours, ${minutes} minutes`
+        // return (days ? days + " days " : "") + (hours ? hours + " hours " : "") + (minutes ? minutes + " minutes" : "");
+        return (days ? days + " Days " : hours ? hours + " Hr" : minutes ? minutes + " Min" : "");
+      } else {
+        return dayDifference;
+      }
+
+    } else if (currentTime > endTime) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  const getEventTime = (timeZone) => {
+    const utcDateTime = new Date().toISOString();
+    try {
+      if (timeZone !== null) {
+        const options = {
+          timeZone: timeZone,
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        };
+
+        const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
+          new Date(utcDateTime)
+        );
+
+        const adjustedLocalDateTime = localDateTime.replace(
+          /(\d{2}:\d{2}:\d{2})/,
+          (_, time) => {
+            let [hours, minutes, seconds] = time.split(':');
+            hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+            const adjustedHours = hours;
+            return `${adjustedHours}:${minutes}:${seconds}`;
+          }
+        );
+        return adjustedLocalDateTime.replace(/, /, ' ');
+      }
+    } catch (error) {
+      console.error('Invalid time zone specified:', timeZone);
+    }
+
+    const londonOptions = {
+      timeZone: 'Europe/London',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    };
+
+    const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
+      new Date(utcDateTime)
+    );
+
+    const adjustedLocalDateTime = localDateTime.replace(
+      /(\d{2}:\d{2}:\d{2})/,
+      (_, time) => {
+        let [hours, minutes, seconds] = time.split(':');
+        hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+        const adjustedHours = hours;
+        return `${adjustedHours}:${minutes}:${seconds}`;
+      }
+    );
+    return adjustedLocalDateTime.replace(/, /, ' ');
+
+    // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = ValidateFormData();
-
     if (isValid) {
       loader("show");
       try {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const qrCodeParam = urlParams.get('urtyhjd');
+        const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+
         let raw = formData?.raw_description;
         let eventId = formData?.event_id;
         if (formFieldData?.isth_consent && formFieldData.isth_consent == "Wilate") {
@@ -238,6 +338,7 @@ const RegistrationPage = ({ prevData,type }) => {
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
             consent: formFieldData.consent ? formFieldData.consent.join("~") : formFieldData.onesource_consent ? formFieldData.onesource_consent.join("~") : "",
+            mode: mode,
           }
         );
         if (response?.data?.status === 1) {
@@ -988,7 +1089,8 @@ const RegistrationPage = ({ prevData,type }) => {
         draggable
         pauseOnHover
       />}
-     
+
+      {/* {eventStatus!=-1?(<> */}
       {Object.keys(formData)?.length?(<>
 
       {formData?.content?.templateId === 1 && (
@@ -1029,6 +1131,9 @@ const RegistrationPage = ({ prevData,type }) => {
 <CommonPageLinkNotFound/>
 :""
 }
+
+{/* </>):<CommonPageLinkNotFound/>} */}
+
 
       <Modal
         className="modal send-confirm registration-popup"
@@ -2854,13 +2959,25 @@ const FormField6 = ({
                   }
                 }}
               />
-              <label
+              {/* <label
                 style={{
                   color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
                 {item.optionLabel}
+              </label> */}
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: item.optionLabel,
+                  }}
+                />
               </label>
               <span className="checkmark" />
             </li>
@@ -2912,7 +3029,7 @@ const FormField6 = ({
         }}
       >
         {form.label}
-        {isRequired ? "*" : ""}
+        <span>{isRequired ? "*" : ""}</span>
       </label>
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>

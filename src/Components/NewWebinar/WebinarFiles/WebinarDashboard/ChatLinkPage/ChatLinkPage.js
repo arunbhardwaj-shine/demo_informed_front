@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { postData, getData } from "../../../../../axios/apiHelper";
+import { postData, getData,postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { loader } from "../../../../../loader";
 import { Button, Col, Row } from "react-bootstrap";
@@ -102,6 +102,7 @@ const ChatLinkPage = () => {
     });
     return initialState;
   });
+  const [downloadType,setDownloadType]=useState()
 
   useEffect(() => {
     fetchApiData();
@@ -609,15 +610,39 @@ const ChatLinkPage = () => {
     const qrUrl = generateQRUrl();
 
     try {
-      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
-      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
       let fileName= (eventData?.eventTitle).replaceAll(" ","_")
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+ if(downloadType=="png"){  
+      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      
       const downloadLink = document.createElement('a');
       downloadLink.href = pngUrl;
       downloadLink.download = `${fileName}_ChatLink.png`; // Set the filename
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
+      }
+
+      else if(downloadType=="eps"){        
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/png");
+        const res = await postFormData(ENDPOINT.DOWNLOAD_EPS_FILE, { "svgCode": pngUrl },
+        {
+          responseType: "blob",
+        }
+      );
+      const url = URL.createObjectURL(res?.data);    
+      const downloadLink = document.createElement('a');
+      downloadLink.href = url;
+      downloadLink.download = `${fileName}_ChatLink.eps`;;     
+      // downloadLink.style.display = 'none';    
+      document.body.appendChild(downloadLink);      
+      downloadLink.click();     
+      URL.revokeObjectURL(url);
+      document.body.removeChild(downloadLink);
+
+      }
     } catch (error) {
       console.error('Error generating QR code:', error);
     }
@@ -635,7 +660,7 @@ const ChatLinkPage = () => {
               </div>
            { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
-                <div className={`dropdown qr-download ${
+                {/* <div className={`dropdown qr-download ${
                       !isDataSaved ? "disabled" : ""
                     }`}>
                     <button
@@ -646,8 +671,8 @@ const ChatLinkPage = () => {
                       Download QR
 
                     </button>
-                    </div>
-                  {/* <div className="dropdown qr-download">
+                    </div> */}
+                  <div className="dropdown qr-download">
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
@@ -665,8 +690,10 @@ const ChatLinkPage = () => {
                           <li>
                             <label className="select-multiple-option">
                             <input
-                              type="checkbox"
+                              type="radio"
                               id="qr-code"
+                              name="qr-code"
+                              onChange={()=>setDownloadType('png')}
                             />Download PNG
                             <span className="checkmark"></span>
                             </label>
@@ -674,8 +701,11 @@ const ChatLinkPage = () => {
                           <li>
                             <label className="select-multiple-option">
                             <input
-                              type="checkbox"
+                              type="radio"
                               id="qr-code1"
+                              name="qr-code"
+                              onChange={()=>setDownloadType('eps')}
+                              
                             />Download EPS
                             <span className="checkmark"></span>
                             </label>
@@ -684,13 +714,14 @@ const ChatLinkPage = () => {
                         <div className="filter-footer justify-content-end">
                           <button
                             className="btn btn-primary btn-filled"
+                            onClick={handleDownload}
                           >
                             Download
                           </button>
                         </div>
                       </div>
                     )}
-                  </div> */}
+                  </div> 
                   <a
                     className={`copy_link btn-voilet ${
                       !isDataSaved ? "disabled" : ""
