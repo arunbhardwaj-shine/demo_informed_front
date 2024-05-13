@@ -150,7 +150,7 @@ const AnalyticsEmail = () => {
                               <span>{data.created_at}</span>
                             </td>
                             <td valign="middle">{data.invitationType}</td>
-                            <td valign="middle">Internal</td>
+                            <td valign="middle">{data.listType ||"Internal"}</td>
                             <td valign="middle" className="email-options">
                               <div className="td-bordered">
                                 <img
