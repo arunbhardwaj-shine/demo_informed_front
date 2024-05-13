@@ -36,6 +36,7 @@ import HighchartsMap from "highcharts/modules/map";
 
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
+import { useNavigate } from "react-router-dom";
 
 HighchartsMap(Highcharts);
 
@@ -112,6 +113,14 @@ const Analytics = (props) => {
       ? eventIdContext?.eventTitle
       : localStorageEvent?.eventTitle
   );
+  const navigate=useNavigate()
+  if(!eventTitle){
+  
+      toast.warning("Please Select Event First!");
+   
+    navigate("/webinar/event-listing")
+
+  }
   const [downloadPopup, setDownloadPopup] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const [usersDataOriginal, setUsersDataOriginal] = useState([]);
@@ -601,9 +610,9 @@ const Analytics = (props) => {
   }, []);
 
   useEffect(() => {
-    getRegionPieChartStats();
+  if(eventId){  getRegionPieChartStats();
     getOnlineReadersGraph();
-    getWebinarCompaignList();
+    getWebinarCompaignList();}
   }, []);
 
   const getRegionPieChartStats = async (e) => {
@@ -1264,7 +1273,7 @@ const Analytics = (props) => {
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
+    { eventId && <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
             <div className="top-header analytics_header sticky">
@@ -3176,7 +3185,7 @@ const Analytics = (props) => {
             </div>
           </Row>
         </div>
-      </Col>
+      </Col>}
       {/* <Modal
         className="modal send-confirm"
         id="delete-confirm"
