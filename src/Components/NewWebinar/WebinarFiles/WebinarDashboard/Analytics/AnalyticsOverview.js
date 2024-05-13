@@ -47,13 +47,13 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex">
               <h6 className="mr-auto">
-                <Skeleton width={100} height={25} />
+                <Skeleton width={80} height={20} />
               </h6>
             </div>
             <div className="graph-box">
             <div className="d-flex align-items-center mb-2 justify-content-between">
-              <Skeleton width={150} height={30} />
-              <Skeleton width={30} height={30} />
+              <Skeleton width={130} height={20} />
+              <Skeleton width={20} height={20} />
             </div>
               <div className="highchart-chart">
                 <Skeleton width="100%" height={180} />
@@ -61,7 +61,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
         
             </div>
             <div className="rd-box-export">
-                <Skeleton width={30} height={30} />
+                <Skeleton width={20} height={20} />
               </div>
           </div>
         </div>

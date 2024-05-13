@@ -561,13 +561,13 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
             {!apiStatus ? (
               <>
                 <h6 className="mr-auto" style={{ color: "#39CABC" }}>
-                  <Skeleton width={130} height={30} />
+                  <Skeleton width={130} height={20} />
                 </h6>
                 <div className="d-flex">
                   <div className="count-number" style={{ color: "#39CABC" }}>
-                    <Skeleton width={30} height={30} />
+                    <Skeleton width={20} height={20} />
                   </div>
-                  <Skeleton circle={true} width={30} height={30} />
+                  <Skeleton circle={true} width={20} height={20} />
                 </div>
               </>
             ) : (
@@ -595,16 +595,16 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                 <>
                   <div className="graph-box">
                     <div className="d-flex align-items-center mb-2 justify-content-between">
-                      <Skeleton width={150} height={20} />
-                      <Skeleton width={30} height={30} />
+                      <Skeleton width={130} height={20} />
+                      <Skeleton width={20} height={20} />
                     </div>
                     <div className="highchart-chart">
                       <Skeleton circle={true} height={200} width={200} />
                     </div>
                     <div className="rd-box-export d-flex align-items-center justify-content-between">
-                      <Skeleton width={80} height={20} />
-                      <Skeleton width={80} height={20} />
-                      <Skeleton width={30} height={30} />
+                      {/* <Skeleton width={80} height={20} />
+                      <Skeleton width={80} height={20} /> */}
+                      <Skeleton width={20} height={20} />
                     </div>
                   </div>
                 </>
@@ -626,10 +626,10 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
             {!apiStatus ? (
               <div className="hcp-tracking">
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <Skeleton width={150} height={20} />
+                  <Skeleton width={130} height={20} />
                 </div>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Skeleton width={30} height={30} />
+                  <Skeleton width={30} height={20} />
                 </div>
 
                 <Skeleton width="100%" height={190} />
@@ -650,7 +650,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
             {!apiStatus ? (
               <div className="top-country-data">
                 <h6>
-                  <Skeleton width={150} height={20} />
+                  <Skeleton width={130} height={20} />
                 </h6>
                 <Table>
                   {/* Skeleton for table content */}
@@ -667,7 +667,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                   {/* End of skeleton for table content */}
                 </Table>
                 <div className="rd-box-export">
-                  <Skeleton width={30} height={30} />
+                  <Skeleton width={20} height={20} />
                 </div>
               </div>
             ) : (

@@ -44,10 +44,10 @@ const AnalyticsEmail = () => {
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex justify-content-between">
               <h6 className="mr-auto" style={{ color: "#8A4E9C" }}>
-                {!apiStatus ? <Skeleton width={130} height={30} /> : "Emails"}
+                {!apiStatus ? <Skeleton width={130} height={20} /> : "Emails"}
               </h6>
               <div className="d-flex">
-                <Skeleton width={30} height={30} />
+                <Skeleton width={20} height={20} />
               </div>
             </div>
             <div className="graph-box">
