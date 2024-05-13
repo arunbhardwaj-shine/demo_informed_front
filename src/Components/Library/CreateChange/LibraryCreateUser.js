@@ -2139,13 +2139,13 @@ const LibraryCreateUser = () => {
                         <div className="box">
                           <input
                             type="file"
-                            name="file-5[]"
-                            id="file-5"
+                            name="file-cover[]"
+                            id="file-cover"
                             className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
                             onChange={(e) => handleChange(e, "coverPhoto")}
                           />
-                          <label htmlFor="file-5">
+                          <label htmlFor="file-cover">
                             <span>Choose Your File</span>
                           </label>
                           {userInputs?.coverPhoto?.[0]?.name ? (
