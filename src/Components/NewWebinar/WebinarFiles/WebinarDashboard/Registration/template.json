@@ -923,7 +923,7 @@
                 "title": "Registration Title",
                 "type": "textArea",
                 "value": "To register please select and fill in all your details below.",
-                "color": "#04b39a"
+                "color": "#e64362"
             },
             "Message": {
                 "title": "Thanks Message",
@@ -936,7 +936,7 @@
         "logoOneImageUrl": "",
         "headerImageUrl": "https://docintel.app/img/octa/e-templates/motivate/aland-registration-banner.png",
         "footerImageUrl": "",
-        "labelColor": "#04b39a",
+        "labelColor": "#e64362",
         "optionColor": "",
         "backgroundColor": "#faf5f5",
         "body": [
