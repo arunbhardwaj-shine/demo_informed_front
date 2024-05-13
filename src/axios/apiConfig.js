@@ -203,6 +203,7 @@ export const ENDPOINT = {
   ANALYTIC_EMAIL_LIST_DROPDOWN:"/webinarEmail/get-email-list-dropdown_data",
   ANALYTIC_ATTENDEES_DATA:"/webinarEmail/get-attendees-data",
   ANALYTIC_ATTENDEES_DROPDOWN_DATA:"/webinarEmail/get-attendees-dropdown-data",
+  ANALYTIC_EVENT_LISTING:"/webinarEmail/get-attendees-dropdown-data",
 
 
 
@@ -210,5 +211,5 @@ export const ENDPOINT = {
   WEBINAR_EVENT_STATS:"/webinar/download-stats",
   WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats",
   RTRREFRESH_EBOOK:"/analytics/refresh_ebook_rtr",
-  WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats"
+  WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats",
 };

@@ -40,7 +40,8 @@ const template = {
   4:[],
   5:['header'],
   6:['logo','templateOne','templateTwo'],
-  7:['logo','header','footer']
+  7:['logo','header','footer'],
+  8:['header'],
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -51,10 +52,10 @@ const WebinarRegistration = () => {
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
 
-const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6],
-"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6]}
+const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,8],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,8], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,8],
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,8],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,8],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,8],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,8],
+"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,8],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,8],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,8],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,8]
+,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,8]}
 const userId = localStorage.getItem("user_id");
 const defaultTemplateIds = [7]; 
  
@@ -2823,7 +2824,30 @@ const [templateList, setTemplateList] = useState(() => {
                                                             disabled
                                                           />
                                                         </div>
-                                                      ) : (
+                                                      ) :
+                                                      
+                                                      data?.inputType ==
+                                                       "date" ? (
+                                                       <div
+                                                         className="slt-opt"
+                                                         key={index}
+                                                       >
+                                                         <DatePicker
+                                                           name={`${
+                                                           data?.name
+                                                           ? data?.name
+                                                           : "dynamic_" +
+                                                           dynamicFieldNo
+                                                           }`}
+                                                           dateFormat="dd/MM/yyyy"
+                                                           className="form-control disabled"
+                                                           placeholderText="Select date"
+                                                           // minDate={currentDate}
+                                                           />                
+                                                       </div>
+                                                     ) :
+                                                      
+                                                      (
                                                         <input
                                                           name={`${
                                                             data?.name

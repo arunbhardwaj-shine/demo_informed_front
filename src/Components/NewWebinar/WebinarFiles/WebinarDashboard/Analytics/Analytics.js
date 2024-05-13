@@ -32,15 +32,10 @@ import exportData from "highcharts/modules/export-data";
 
 import HighchartsReact from "highcharts-react-official";
 import HighchartsMap from "highcharts/modules/map";
-import proj4 from "proj4";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+
 
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
-
-import { Link } from "react-router-dom";
-import { registerLocale } from "react-datepicker";
-// import customWrap from "./customWrap";
 
 HighchartsMap(Highcharts);
 
@@ -63,6 +58,50 @@ const customLoader = (functionName, e = null) => {
 };
 const Analytics = (props) => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let   menuItemDefinitions  ={ menuItemDefinitions: {
+    downloadPNG: {
+      text: "Download PNG",
+      onclick: function () {
+        this.exportChart();
+      },
+    },
+    downloadJPEG: {
+      text: "Download JPEG",
+      onclick: function () {
+        this.exportChart({
+          type: "image/jpeg",
+        });
+      },
+    },
+    downloadPDF: {
+      text: "Download PDF",
+      onclick: function () {
+        this.exportChart({
+          type: "application/pdf",
+        });
+      },
+    },
+    downloadSVG: {
+      text: "Download SVG",
+      onclick: function () {
+        this.exportChart({
+          type: "image/svg+xml",
+        });
+      },
+    },
+  },
+  buttons: {
+    contextButton: {
+      symbol:
+        "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
+      menuItems: [
+        "downloadPNG",
+        "downloadJPEG",
+        "downloadPDF",
+        "downloadSVG",
+      ],
+    },
+  }}
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(
@@ -109,50 +148,7 @@ const Analytics = (props) => {
       sourceWidth: 1600,
       sourceHeight: 1200,
       scale: 1,
-      menuItemDefinitions: {
-        downloadPNG: {
-          text: "Download PNG",
-          onclick: function () {
-            this.exportChart();
-          },
-        },
-        downloadJPEG: {
-          text: "Download JPEG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/jpeg",
-            });
-          },
-        },
-        downloadPDF: {
-          text: "Download PDF",
-          onclick: function () {
-            this.exportChart({
-              type: "application/pdf",
-            });
-          },
-        },
-        downloadSVG: {
-          text: "Download SVG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/svg+xml",
-            });
-          },
-        },
-      },
-      buttons: {
-        contextButton: {
-          symbol:
-            "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
-          menuItems: [
-            "downloadPNG",
-            "downloadJPEG",
-            "downloadPDF",
-            "downloadSVG",
-          ],
-        },
-      },
+     ...menuItemDefinitions,
     },
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
@@ -194,9 +190,13 @@ const Analytics = (props) => {
   const [pieOptionsRegion, setPieOptionsRegion] = useState({
     ...commonPieOptions,
   });
+  const [pieOptionsByEmail, setPieOptionsByEmail] = useState({
+    ...commonPieOptions,
+  });
 
   const [whichTypeGraph, setWhichTypeGraph] = useState(0);
   const [whichTypeGraphRegion, setWhichTypeGraphRegion] = useState(0);
+  const [whichTypeGraphByEmail, setWhichTypeGraphRegionByEmail] = useState(0);
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -209,7 +209,9 @@ const Analytics = (props) => {
   const countryBarRef = useRef(null);
   const countryPieRef = useRef(null);
   const regionBarRef = useRef(null);
-  const regionPieRef = useRef(null);
+  const regionPieRef = useRef(null);  
+  const regionBarEmailRef = useRef(null);
+  const regionPieEmailRef = useRef(null);
 
   const [emailListData, setEmailListData] = useState([]);
   const [localStorageUserId, setLocalStorageUserId] = useState(
@@ -871,6 +873,16 @@ const Analytics = (props) => {
             },
           ];
 
+
+          const newValueRegionEmail = [
+            {
+              name: "",
+              colorByPoint: true,
+              data: response?.data?.data?.totalRegistrationsByEmailAndOtherChannels?.pieChartData || [],
+              drilldown: true, // enable drilldown for this series
+            },
+          ];
+
           setPieOptions({ ...commonPieOptions, series: newValue });
           setPieOptionsRegion({
             ...commonPieOptions,
@@ -879,6 +891,71 @@ const Analytics = (props) => {
               series: response?.data?.data?.regionData?.drilldownData, // set the drilldown data
             },
           });
+          setPieOptionsByEmail(
+            {
+              chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: "pie",
+                height: 600,
+              },
+              title: {
+                // text: "Click on the double arrows to see more details",
+                text: "",
+                align: "left",
+                style: {
+                  fontSize: "14px",
+                },
+              },
+              exporting: {
+                enabled: false,
+                sourceWidth: 1600,
+                sourceHeight: 1200,
+                scale: 1,
+               ...menuItemDefinitions,
+              },
+              tooltip: {
+                pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+              },
+              accessibility: {
+                point: {
+                  valueSuffix: "%",
+                },
+              },
+              legend: {
+                enabled: false, // Disable the default legend
+              },
+              plotOptions: {
+                pie: {
+                  size: "90%",
+                  dataLabels: {
+                    enabled: true,
+                    format: "<b>{point.name}</b>: {point.y} ",
+                    style: {
+                      fontWeight: "bold",
+                      color: "black",
+                      textOutline: "none",
+                      fontSize: "14px",
+                    },
+                    distance: 30, // Set distance from pie slice
+                    connectorPadding: 0,
+                  },
+                  animation: {
+                    duration: 1000,
+                  },
+                  enableMouseTracking: true,
+                  showInLegend: true,
+                  borderWidth: 0,
+                },
+              },
+            
+        
+            series: newValueRegionEmail,
+            drilldown: {
+              series: response?.data?.data?.totalRegistrationsByEmailAndOtherChannels?.drillDownData, // set the drilldown data
+            },
+      });
           setSortedCountries(response?.data?.data);
           setUsersData([]);
           setOverViewData([]);
@@ -1039,52 +1116,7 @@ const Analytics = (props) => {
                     },
                   },
                   filename: "Total_Registration", // Set filename for exported image
-                  menuItemDefinitions: {
-                    downloadPNG: {
-                      text: "Download PNG",
-                      onclick: function () {
-                        this.exportChart({
-                          type: "image/png",
-                        });
-                      },
-                    },
-                    downloadJPEG: {
-                      text: "Download JPEG",
-                      onclick: function () {
-                        this.exportChart({
-                          type: "image/jpeg",
-                        });
-                      },
-                    },
-                    downloadPDF: {
-                      text: "Download PDF",
-                      onclick: function () {
-                        this.exportChart({
-                          type: "application/pdf",
-                        });
-                      },
-                    },
-                    downloadSVG: {
-                      text: "Download SVG",
-                      onclick: function () {
-                        this.exportChart({
-                          type: "image/svg+xml",
-                        });
-                      },
-                    },
-                  },
-                  buttons: {
-                    contextButton: {
-                      symbol:
-                        "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-                      menuItems: [
-                        "downloadPNG",
-                        "downloadJPEG",
-                        "downloadPDF",
-                        "downloadSVG",
-                      ],
-                    },
-                  },
+                ...menuItemDefinitions,
                 },
                 title: {
                   text: "",
@@ -1167,10 +1199,9 @@ const Analytics = (props) => {
       );
     });
   };
-  const handleDownload = (format, ref) => {
+  const handleDownload = (format, ref,defaultName = "registered_attended_stats") => {
     // Accessing Highcharts chart object using ref
     let chart = ref.current && ref.current.chart;
-    let defaultName = "registered_attended_stats";
 
     if (chart) {
       switch (format) {
@@ -2322,6 +2353,264 @@ const Analytics = (props) => {
                             ref={regionPieRef}
                             highcharts={Highcharts}
                             options={pieOptionsRegion}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+
+{sortedCountries && (
+                <div className="rd-full-explain">
+                  <div className="rd-section-title">
+                    <h6>Registrations</h6>
+                  </div>
+                  <div className="rd-training-block">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="rd-training-block-left">
+                      <h4>
+                        Total Registered HCP By Email And Other Channels{" "}
+                          {/* <span>{sortedCountries?.totalRegistrationCount}</span> */}
+                        </h4>
+                      </div>
+                      <div className="rd-training-block-right d-flex">
+                        <div className="switch6">
+                          <label className="switch6-light">
+                            <input
+                              type="checkbox"
+                              // ={graphType == "pie" ? true : false}
+                              onChange={() => {
+                                loader("show");
+
+                                setTimeout(() => {
+                                  setWhichTypeGraphRegionByEmail(
+                                    !whichTypeGraphByEmail
+                                  );
+                                  loader("hide");
+                                }, 500);
+                              }}
+                            />
+                            <span>
+                              <span>
+                                <img
+                                  src={path_image + "bar-graph-img.png"}
+                                  style={{ transform: "rotate(90deg)" }}
+                                />
+                              </span>
+                              <span>
+                                <img src={path_image + "pie-img.png"} />
+                              </span>
+                            </span>
+                            <a className="btn"></a>
+                          </label>
+                        </div>
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            variant="success"
+                            id="dropdown-basic"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="6"
+                              height="24"
+                              viewBox="0 0 6 24"
+                              fill="none"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                                fill="#0066BE"
+                              />
+                            </svg>
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item
+                              onClick={() =>
+                                handleDownload(
+                                  "PNG",
+                                  whichTypeGraphByEmail == 0
+                                    ? regionBarEmailRef
+                                    : regionPieEmailRef,"Total_Registered_HCP_By_Email_And_Other_Channels "
+                                )
+                              }
+                            >
+                              Download PNG
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() =>
+                                handleDownload(
+                                  "JPEG",
+                                  whichTypeGraphByEmail == 0
+                                  ? regionBarEmailRef
+                                  : regionPieEmailRef,"Total_Registered_HCP_By_Email_And_Other_Channels "
+                                )
+                              }
+                            >
+                              Download JPEG
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() =>
+                                handleDownload(
+                                  "PDF",
+                                  whichTypeGraphByEmail == 0
+                                  ? regionBarEmailRef
+                                  : regionPieEmailRef,"Total_Registered_HCP_By_Email_And_Other_Channels "
+                                )
+                              }
+                            >
+                              Download PDF
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() =>
+                                handleDownload(
+                                  "SVG",
+                                  whichTypeGraphByEmail == 0
+                                  ? regionBarEmailRef
+                                  : regionPieEmailRef,"Total_Registered_HCP_By_Email_And_Other_Channels "
+                                )
+                              }
+                            >
+                              Download SVG
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                        {/* <Button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="6"
+                            height="24"
+                            viewBox="0 0 6 24"
+                            fill="none"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                              fill="#0066BE"
+                            />
+                          </svg>
+                        </Button> */}
+                      </div>
+                    </div>
+                    <div className="graph-view">
+                     
+                      <div className="graph-view-smaller">
+                        {whichTypeGraphByEmail == 0 ? (
+                          <HighchartsReact
+                            key={"bar-by-email"}
+                            ref={regionBarEmailRef}
+                            highcharts={Highcharts}
+                            options={{
+                              chart: {
+                                type: "bar",
+                                borderWidth: "0",
+                                height: 800,
+                                options3d: {
+                                  enabled: true,
+                                  alpha: 10,
+                                  beta: 25,
+                                  depth: 70,
+                                },
+                              },
+                              title: {
+                                align: "left",
+                                text: "",
+                              },
+                              accessibility: {
+                                announceNewData: {
+                                  enabled: true,
+                                },
+                              },
+                              xAxis: {
+                                type: "category",
+                              },
+                              yAxis: {
+                                title: {
+                                  text: "Total Registered HCP By Email And Other Channels",
+                                },
+                              },
+                              legend: {
+                                enabled: false,
+                              },
+                              plotOptions: {
+                                series: {
+                                  // pointWidth: 30,
+                                  groupPadding: 0.1,
+                                  borderWidth: "0",
+                                  pointWidth: 18,
+                                  dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y}",
+                                    //   style: {
+                                    //   fontWeight: "600",
+                                    //   textShadow: "none",
+                                    //   fontSize: "14px",
+                                    //   color: "#000000",
+                                    //   TextDecoder:"none",
+                                    // },
+                                  },
+                                  borderRadius: {
+                                    radius: 10,
+                                  },
+                                },
+                                bar: {
+                                  colorByPoint: true, // Ensure each bar has a unique color
+                                },
+                              },
+                              tooltip: {
+                                headerFormat:
+                                  '<span style="font-size:11px">{series.name}</span><br>',
+                                pointFormat:
+                                  '<span style="color:{point.color}">{point.name}</span>: ' +
+                                  "<b>{point.y}</b> total<br/>",
+                              },
+                              exporting: {
+                                sourceWidth: 1600,
+                                sourceHeight: 1200,
+                                enabled: false, // Disable exporting
+                              },
+                              series: [
+                                {
+                                  name: "",
+                                  colorByPoint: true,
+                                  data:sortedCountries?.totalRegistrationsByEmailAndOtherChannels
+                                  ?.pieChartData?.map(
+                                      (data) => ({
+                                        y: data.y,
+                                        color: data.color,
+                                        drilldown: data?.drilldown,
+                                        name: data?.name,
+                                      })
+                                    ) || [],
+                                },
+                              ],
+                              drilldown: {
+                                series: sortedCountries?.totalRegistrationsByEmailAndOtherChannels
+                                    ?.drillDownData?.map(
+                                    (drilldownItem) => ({
+                                      id: drilldownItem.id,
+                                      name: drilldownItem.id,
+                                      data: drilldownItem.data.map(
+                                        (item) => ({
+                                          name: item[0], // Country name
+                                          y: item[1], // Count
+                                        })
+                                      ),
+                                    })
+                                  ) || [],
+                              },
+                            }}
+                          />
+                        ) : (
+                          <HighchartsReact
+                            key={"pie-by-email"}
+                            ref={regionPieEmailRef}
+                            highcharts={Highcharts}
+                            options={pieOptionsByEmail}
                           />
                         )}
                       </div>
