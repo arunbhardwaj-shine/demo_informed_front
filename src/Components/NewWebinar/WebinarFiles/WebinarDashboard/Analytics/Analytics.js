@@ -2077,8 +2077,7 @@ const Analytics = (props) => {
                                 enabled: false,
                               },
                               exporting: {
-                                sourceWidth: 1100,
-                                // sourceHeight: 1200,
+                           
                                 enabled: false,
                                 showHighchart: true,
                                 showTable: false,
@@ -2320,7 +2319,7 @@ const Analytics = (props) => {
                               exporting: {
                                 // sourceWidth: 1600,
                                 // sourceHeight: 1200,
-                                sourceWidth: 1100,
+                                // sourceWidth: 1100,
                                 enabled: false,
                                 showHighchart: true,
                                 showTable: false,
@@ -2595,7 +2594,7 @@ const Analytics = (props) => {
                               },
                               exporting: {
                                 // sourceWidth: 1600,
-                                sourceHeight: 1100,
+                                // sourceHeight: 1100,
                                 enabled: false,
                                 showHighchart: true,
                                 showTable: false,
