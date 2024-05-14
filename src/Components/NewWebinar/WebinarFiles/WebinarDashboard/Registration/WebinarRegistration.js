@@ -251,7 +251,7 @@ const [templateList, setTemplateList] = useState(() => {
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
   const textAreaRefs = useRef(null);
-  const [downloadType,setDownloadType]=useState()
+  const [downloadType,setDownloadType]=useState("png")
 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
@@ -1439,15 +1439,15 @@ const [templateList, setTemplateList] = useState(() => {
                   <div className={`dropdown qr-download ${
                       !isDataSaved ? "disabled" : ""
                     }`}>
-                    {/* <button
+                    <button
                       className="btn btn-primary dropdown"
                       type="button"
                       onClick={handleDownload}
                     >
                       Download QR
 
-                    </button> */}
-                    <button
+                    </button>
+                    {/* <button
                       className="btn btn-primary dropdown"
                       type="button"
                       onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
@@ -1493,7 +1493,7 @@ const [templateList, setTemplateList] = useState(() => {
                           </button>
                         </div>
                       </div>
-                    )} 
+                    )}  */}
                   </div>
                     <a
                       className={`copy_link btn-bordered ${
