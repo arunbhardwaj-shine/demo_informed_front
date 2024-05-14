@@ -158,7 +158,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                 color: "#F58289",
               },
               {
-                name: "STAFF",
+                name: "Staff",
                 y: result?.totalRegistrations?.staffUsers || 0,
                 color: "#FFC5C8",
               },
