@@ -10696,7 +10696,7 @@ button.event_sort_btn.svg_active svg {
 .left-sidebar .sidebar_txt button.toggle_btn {
   width: 18px;
   height: 18px;
-  margin: 0px 12px 0 12px;
+  margin: 0px 12px 0 24px;
   display: flex;
   align-items: center;
   justify-content: center;
