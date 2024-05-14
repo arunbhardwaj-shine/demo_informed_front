@@ -331,7 +331,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                 <h6 className="regi-hcp">Registered HCPs</h6>
                 <div className="d-flex">
                   <div className="count-number">
-                    {pieChartData?.totalRegistrations?.totalUsers}
+                    {data?.registeredHcpData?.totalHcps }
                   </div>
                   <img src={path_image + "irt.svg"} alt="" className="doctor" />
                 </div>
