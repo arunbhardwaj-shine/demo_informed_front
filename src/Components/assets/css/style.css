@@ -13532,13 +13532,18 @@ gap:30px;
  .attended_hcp .no_found p {
   font-size: 16px;
 }
-.rd-full-explain .analytics_email_stats .email_stats_gap .email-stats-details .email-box::-webkit-scrollbar-thumb{
-            width: 10px;
-            border: 1px solid #dce6ef;
-        }
-        .rd-full-explain .analytics_email_stats .email_stats_gap .email-stats-details .email-box::-webkit-scrollbar-track{
-          padding: 0 3px;
-      }
-      .rd-full-explain .analytics_email_stats .email_stats_gap .email-stats-details .email-box::-webkit-scrollbar {
-        width: 5px!important;
-    }
+
+.email-box::-webkit-scrollbar {
+  height: 8px;
+}
+
+.email-box::-webkit-scrollbar-thumb {
+  width: 8px;
+  border: 1px solid #dce6ef;
+}
+
+
+
+/* .email_stats_gap .email-stats-details ::-webkit-scrollbar {
+  height: 4px;
+} */
