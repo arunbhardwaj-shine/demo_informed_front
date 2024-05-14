@@ -484,7 +484,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       const response = await postData(ENDPOINT?.GET_LIVESTREAM_DATA, body);
       let data = response?.data?.data;
       setData(data);
-      const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span>min`;
+      const averageTimeText = `AVG spend time | <span>${data?.averageTime?.averageTime}</span> min`;
       const newValue = [
         {
           name: "",
@@ -576,7 +576,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                   Attended HCPs
                 </h6>
                 <div className="d-flex">
-                  <div className="count-number" style={{ color: "#39CABC" }}>
+                  <div className="count-number">
                     {topCountries?.averageTime?.totalUsers || 0}
                   </div>
                   <img

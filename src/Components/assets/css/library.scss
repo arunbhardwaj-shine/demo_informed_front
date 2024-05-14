@@ -13394,6 +13394,8 @@ img.change-password-image {
 
         .email-box {
           padding: 8px 0;
+          gap: 12px 0;
+          overflow-x: auto;
 
           .col {
             padding: 0 12px 0 16px;
@@ -13401,6 +13403,7 @@ img.change-password-image {
             @include flex-center;
             flex-direction: column;
             align-items: stretch;
+            min-width: 25%;
 
             >p {
               margin: 0 0 9px;
@@ -13417,6 +13420,7 @@ img.change-password-image {
             }
 
           }
+
         }
       }
     }
@@ -13473,14 +13477,16 @@ img.change-password-image {
         img {
           margin-right: 12px;
         }
-        svg{margin-right: 12px;}
+
+        svg {
+          margin-right: 12px;
+        }
 
         p {
           color: #70899E;
           font-size: 18px;
           font-weight: 500;
         }
-
       }
     }
   }
@@ -14286,7 +14292,7 @@ img.change-password-image {
           overflow-y: auto;
           max-height: 275px;
           padding: 0 6px;
-          margin: 0 -6px;
+          margin: -9px -6px 0;
 
           table {
             thead {
@@ -14312,6 +14318,10 @@ img.change-password-image {
 
                 &:first-child {
                   width: 228px;
+                }
+
+                &:nth-child(2) {
+                  width: 80px;
                 }
 
                 &.email-options {
@@ -14344,7 +14354,7 @@ img.change-password-image {
                 &.email-options {
                   text-align: center;
                   position: relative;
-                  width: 87px;
+                  min-width: 67px;
 
                   .td-bordered {
 
@@ -14368,7 +14378,7 @@ img.change-password-image {
         min-height: 55px;
 
         h6 {
-          color: #001489;
+          color: #004A89;
         }
 
         .align-items-center {
@@ -21557,7 +21567,7 @@ table {
   }
 }
 
-.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box span.react-loading-skeleton {
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout.align-items-start .graph-box span.react-loading-skeleton {
   display: flex;
   margin: 0 auto;
 }

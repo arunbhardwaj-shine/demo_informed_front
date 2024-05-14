@@ -227,7 +227,19 @@ const Analytics = (props) => {
     localStorage.getItem("user_id")
   );
   const [newOptions, setNewOptions] = useState([]);
+  // const colorArray = [
+  //   "#0E9B8E",
+  //   "#00003C",
+  //   "#FFBE2C",
+  //   "#FFBE2C",
+  //   "#F58289",
+  //   "#D61975",
+  //   "#0066BE",
+  // ];
   const colorArray = [
+    "#349b8e",
+    "#4184cc",
+    "#ed8188",
     "#0E9B8E",
     "#00003C",
     "#FFBE2C",
@@ -252,7 +264,7 @@ const Analytics = (props) => {
       enabled: false,
     },
     title: {
-      text: "",
+      text: "Region Chart",
       align: "center",
       margin: 50,
     },
@@ -293,7 +305,7 @@ const Analytics = (props) => {
       enabled: false,
     },
     title: {
-      text: "",
+      text:  "Online Users Graph",
       align: "center",
       margin: 50,
     },
@@ -545,7 +557,7 @@ const Analytics = (props) => {
     // Handle checkbox checked
     if (e?.target?.checked) {
       // Special handling for "Attended" and "Registered"
-      if (key === "Attended" || key === "Registered") {
+      if (key === "Attended" || key === "Registered" || key === "Post-event views") {
         newObj[key] = [item];
         newApiFilterObject[key] = e?.target?.value;
       } else {
@@ -555,7 +567,7 @@ const Analytics = (props) => {
     } else {
       // Handle checkbox unchecked
       // Special handling for "Attended" and "Registered"
-      if (key === "Attended" || key === "Registered") {
+      if (key === "Attended" || key === "Post-event views") {
         newObj[key] = [];
         newApiFilterObject[key] = [];
       } else {
@@ -3140,7 +3152,7 @@ const Analytics = (props) => {
                                 </button>
                               </span>
                             </th>
-                            {/* <th>Post-event views</th> */}
+                            <th>Post-event views</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -3158,7 +3170,7 @@ const Analytics = (props) => {
                                       {user.register_time}
                                     </td>
                                     <td>{user.Attended}</td>
-                                    {/* <td>{user.postEventViews}</td> */}
+                                    <td>{user.postEventViews}</td>
                                   </tr>
                                   <tr className="blank">
                                     <td colSpan="7">&nbsp;</td>

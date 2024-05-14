@@ -120,7 +120,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                     tooltip: {},
                     plotOptions: {
                       series: {
-                        pointWidth: 30, // Adjust the width of the bars
+                        pointWidth: 25, // Adjust the width of the bars
                         dataLabels: {
                           allowOverlap: false,
                           distance: 40,
