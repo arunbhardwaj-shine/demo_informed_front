@@ -487,7 +487,7 @@ const Analytics = (props) => {
     }, 500);
   };
   const applyFilter = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
     loader("show");
 
@@ -2866,7 +2866,7 @@ const Analytics = (props) => {
                                 </Button>
                                 <Button
                                   className="btn btn-primary btn-filled"
-                                  onClick={() => customLoader(applyFilter)}
+                                  onClick={(e) => customLoader(applyFilter,e)}
                                 >
                                   Apply
                                 </Button>
