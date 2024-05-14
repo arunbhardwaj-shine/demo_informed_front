@@ -13394,7 +13394,7 @@ img.change-password-image {
 
         .email-box {
           padding: 8px 0;
-          gap:12px 0;
+          gap: 12px 0;
           overflow-x: auto;
 
           .col {
@@ -13420,7 +13420,7 @@ img.change-password-image {
             }
 
           }
-         
+
         }
       }
     }
@@ -13477,7 +13477,10 @@ img.change-password-image {
         img {
           margin-right: 12px;
         }
-        svg{margin-right: 12px;}
+
+        svg {
+          margin-right: 12px;
+        }
 
         p {
           color: #70899E;
@@ -14317,6 +14320,10 @@ img.change-password-image {
                   width: 228px;
                 }
 
+                &:nth-child(2) {
+                  width: 80px;
+                }
+
                 &.email-options {
                   text-align: center;
                 }
@@ -14347,7 +14354,7 @@ img.change-password-image {
                 &.email-options {
                   text-align: center;
                   position: relative;
-                  width: 87px;
+                  min-width: 67px;
 
                   .td-bordered {
 
@@ -21560,7 +21567,7 @@ table {
   }
 }
 
-.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box span.react-loading-skeleton {
+.rd-analytics-content .rd-analytics-box .rd-analytics-box-layout.align-items-start .graph-box span.react-loading-skeleton {
   display: flex;
   margin: 0 auto;
 }
