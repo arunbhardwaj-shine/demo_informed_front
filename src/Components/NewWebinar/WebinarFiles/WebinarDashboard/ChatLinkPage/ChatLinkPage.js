@@ -102,7 +102,7 @@ const ChatLinkPage = () => {
     });
     return initialState;
   });
-  const [downloadType,setDownloadType]=useState()
+  const [downloadType,setDownloadType]=useState("png")
 
   useEffect(() => {
     fetchApiData();
@@ -660,7 +660,7 @@ const ChatLinkPage = () => {
               </div>
            { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
-                {/* <div className={`dropdown qr-download ${
+                <div className={`dropdown qr-download ${
                       !isDataSaved ? "disabled" : ""
                     }`}>
                     <button
@@ -671,8 +671,8 @@ const ChatLinkPage = () => {
                       Download QR
 
                     </button>
-                    </div> */}
-                  <div className="dropdown qr-download">
+                    </div>
+                  {/* <div className="dropdown qr-download">
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
@@ -721,7 +721,7 @@ const ChatLinkPage = () => {
                         </div>
                       </div>
                     )}
-                  </div> 
+                  </div>  */}
                   <a
                     className={`copy_link btn-voilet ${
                       !isDataSaved ? "disabled" : ""
