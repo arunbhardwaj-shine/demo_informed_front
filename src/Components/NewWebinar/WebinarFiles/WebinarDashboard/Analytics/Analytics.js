@@ -557,7 +557,7 @@ const Analytics = (props) => {
     // Handle checkbox checked
     if (e?.target?.checked) {
       // Special handling for "Attended" and "Registered"
-      if (key === "Attended" || key === "Registered") {
+      if (key === "Attended" || key === "Registered" || key === "Post-event views") {
         newObj[key] = [item];
         newApiFilterObject[key] = e?.target?.value;
       } else {
@@ -567,7 +567,7 @@ const Analytics = (props) => {
     } else {
       // Handle checkbox unchecked
       // Special handling for "Attended" and "Registered"
-      if (key === "Attended" || key === "Registered") {
+      if (key === "Attended" || key === "Post-event views") {
         newObj[key] = [];
         newApiFilterObject[key] = [];
       } else {
@@ -3152,7 +3152,7 @@ const Analytics = (props) => {
                                 </button>
                               </span>
                             </th>
-                            {/* <th>Post-event views</th> */}
+                            <th>Post-event views</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -3170,7 +3170,7 @@ const Analytics = (props) => {
                                       {user.register_time}
                                     </td>
                                     <td>{user.Attended}</td>
-                                    {/* <td>{user.postEventViews}</td> */}
+                                    <td>{user.postEventViews}</td>
                                   </tr>
                                   <tr className="blank">
                                     <td colSpan="7">&nbsp;</td>
