@@ -141,11 +141,29 @@ const RegistrationPage = ({ prevData,type }) => {
     EventDataFun();
   }, [prevData?.isDataSaved]);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const urtyhjd = urlParams.get('urtyhjd');
+
+    if (urtyhjd) {
+      urlParams.delete('urtyhjd');
+      navigate({
+        pathname: location.pathname,
+        search: urlParams.toString()
+      }, { replace: true });
+    }
+  }, [location, navigate]);
 
 
   const EventDataFun = async () => {
     try {
       loader("show");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const qrCodeParam = urlParams.get('urtyhjd');
+      const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+      localStorage.setItem('mode', mode);
+      
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode ? prevData?.eventCode : event_code
         }`
@@ -314,9 +332,11 @@ const RegistrationPage = ({ prevData,type }) => {
       loader("show");
       try {
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const qrCodeParam = urlParams.get('urtyhjd');
-        const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const qrCodeParam = urlParams.get('urtyhjd');
+        // const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+
+        const mode = localStorage.getItem('mode');
 
         let raw = formData?.raw_description;
         let eventId = formData?.event_id;
