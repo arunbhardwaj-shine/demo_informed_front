@@ -227,7 +227,19 @@ const Analytics = (props) => {
     localStorage.getItem("user_id")
   );
   const [newOptions, setNewOptions] = useState([]);
+  // const colorArray = [
+  //   "#0E9B8E",
+  //   "#00003C",
+  //   "#FFBE2C",
+  //   "#FFBE2C",
+  //   "#F58289",
+  //   "#D61975",
+  //   "#0066BE",
+  // ];
   const colorArray = [
+    "#349b8e",
+    "#4184cc",
+    "#ed8188",
     "#0E9B8E",
     "#00003C",
     "#FFBE2C",
@@ -252,7 +264,7 @@ const Analytics = (props) => {
       enabled: false,
     },
     title: {
-      text: "",
+      text: "Region Chart",
       align: "center",
       margin: 50,
     },
@@ -293,7 +305,7 @@ const Analytics = (props) => {
       enabled: false,
     },
     title: {
-      text: "",
+      text:  "Online Users Graph",
       align: "center",
       margin: 50,
     },
