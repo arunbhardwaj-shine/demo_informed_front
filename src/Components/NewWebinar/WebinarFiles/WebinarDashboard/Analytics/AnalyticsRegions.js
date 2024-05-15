@@ -256,6 +256,8 @@ const AnalyticsRegions = () => {
                 color: "gray",
               },
             },
+            allowDecimals: false,
+
           },
           legend: {
             align: "center",
@@ -575,6 +577,8 @@ const AnalyticsRegions = () => {
                                                 color: "gray",
                                               },
                                             },
+                                            allowDecimals: false,
+
                                           },
                                           legend: {
                                             // This section defines legends
