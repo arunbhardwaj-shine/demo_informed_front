@@ -424,10 +424,12 @@ const AnalyticsEmailView = () => {
   };
   const handleParent = async () => {
     try {
-      const buttonsContainer = document.querySelector(
-        ".rd-training-block-right"
-      );
-      buttonsContainer.classList.add("hide");
+      // const buttonsContainer = document.querySelector(
+      //   ".rd-training-block-right"
+      // );  
+      
+      const buttonsContainer = document.getElementById("print");
+      buttonsContainer.style.display="none";
 
       loader("show");
       const element = document.getElementById("chart-description");
@@ -445,7 +447,9 @@ const AnalyticsEmailView = () => {
       link.click();
 
       setTimeout(() => {
-        buttonsContainer.classList.remove("hide");
+        // buttonsContainer.classList.remove("hide");
+        buttonsContainer.style.display="block";
+
       }, 100);
 
       loader("hide");
@@ -489,7 +493,7 @@ const AnalyticsEmailView = () => {
                 {viewEmailData && (
                   <>
                     {" "}
-                    <div className="rd-full-explain webinar-emails-statss">
+                    <div className="rd-full-explain webinar-emails-statss" id="chart-description">
                       <div className="rd-training-block">
                         <div className="d-flex align-items-start justify-content-between">
                           <div className="rd-training-block-left">
@@ -505,6 +509,7 @@ const AnalyticsEmailView = () => {
                           <div className="rd-training-block-right d-flex clear-search.top-right-action">
                             <Button
                               className="print"
+                              id="print"
                               title="Print Stats"
                               onClick={handleParent}
                             >
@@ -586,9 +591,9 @@ const AnalyticsEmailView = () => {
                                     <p>
                                       {viewEmailData?.read_percentage &&
                                       viewEmailData?.read_percentage != "0.00%"
-                                        ? viewEmailData?.read_percentage+" "
+                                        ? viewEmailData?.read_percentage + " "
                                         : "0% "}
-                                        ({viewEmailData?.email_read || 0})
+                                      ({viewEmailData?.email_read || 0})
                                     </p>
                                   </div>
                                   <div
@@ -610,9 +615,16 @@ const AnalyticsEmailView = () => {
                                 {Object.keys(ctrName)?.length > 0 ? (
                                   Object.keys(ctrName)?.map((item, index) => (
                                     <Col className="video-click">
-                                      <p style={{
-                                        color:colorArray?.[(index)%colorArray.length],
-                                      }}>{viewEmailData?.labels[item]}</p>
+                                      <p
+                                        style={{
+                                          color:
+                                            colorArray?.[
+                                              index % colorArray.length
+                                            ],
+                                        }}
+                                      >
+                                        {viewEmailData?.labels[item]}
+                                      </p>
                                       <div className="email_stats_list d-flex align-items-end justify-content-between">
                                         <div className="d-flex align-items-center">
                                           {/* <img
@@ -623,24 +635,55 @@ const AnalyticsEmailView = () => {
                                             alt="Export"
                                           />{" "} */}
 
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="16" cy="16" r="14.5" stroke={colorArray?.[(index)%colorArray.length]} stroke-width="3" stroke-linejoin="round"/>
-<path d="M11.9634 13.3063C11.8537 12.9347 11.7483 12.5624 11.6691 12.2058C11.1485 11.8977 10.7943 11.3372 10.7943 10.6893C10.7943 9.71473 11.5868 8.92284 12.5608 8.92284C13.5347 8.92284 14.3273 9.71535 14.3273 10.6893C14.3273 10.8234 14.3092 10.9525 14.2811 11.0778C14.4501 11.45 14.5866 11.8691 14.7064 12.2949C15.0431 11.846 15.2501 11.2942 15.2501 10.6893C15.2501 9.20343 14.0467 8 12.5608 8C11.0749 8 9.87207 9.20343 9.87207 10.6893C9.87207 11.9688 10.7668 13.0345 11.9634 13.3063Z" 
-fill={colorArray?.[(index)%colorArray.length]}/>
-<path d="M10.1062 19.673C10.769 18.9566 11.5129 19.2372 12.5087 19.3887C13.3641 19.5203 14.2066 19.2802 14.1504 18.8182C14.0619 18.0705 13.9372 17.7363 13.6535 16.768C13.4271 15.9979 12.9975 14.6099 12.6065 13.283C12.0828 11.5078 11.9313 10.6835 12.6284 10.4777C13.3797 10.2588 13.8106 11.3263 14.2009 12.8066C14.6455 14.4914 14.8793 15.2353 15.0103 15.196C15.241 15.1299 14.9255 14.4091 15.5291 14.2314C16.2836 14.0119 16.4295 14.6018 16.6408 14.5426C16.8522 14.479 16.7805 13.8816 17.3822 13.7058C17.9871 13.5312 18.2907 14.2757 18.5401 14.2015C18.7871 14.1285 18.7815 13.8598 19.1543 13.7532C19.5278 13.6422 20.9333 14.2713 21.7376 17.0193C22.7472 20.4743 21.6098 21.1165 21.9546 22.2863L17.4483 23.9998C17.0836 23.1224 15.9537 23.0576 14.9542 22.4983C13.9472 21.9315 13.2631 20.8272 10.6387 20.8808C9.6516 20.9008 9.69837 20.1139 10.1062 19.673Z" fill={colorArray?.[(index)%colorArray.length]}/>
-</svg>
+                                          <svg
+                                            width="32"
+                                            height="32"
+                                            viewBox="0 0 32 32"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <circle
+                                              cx="16"
+                                              cy="16"
+                                              r="14.5"
+                                              stroke={
+                                                colorArray?.[
+                                                  index % colorArray.length
+                                                ]
+                                              }
+                                              stroke-width="3"
+                                              stroke-linejoin="round"
+                                            />
+                                            <path
+                                              d="M11.9634 13.3063C11.8537 12.9347 11.7483 12.5624 11.6691 12.2058C11.1485 11.8977 10.7943 11.3372 10.7943 10.6893C10.7943 9.71473 11.5868 8.92284 12.5608 8.92284C13.5347 8.92284 14.3273 9.71535 14.3273 10.6893C14.3273 10.8234 14.3092 10.9525 14.2811 11.0778C14.4501 11.45 14.5866 11.8691 14.7064 12.2949C15.0431 11.846 15.2501 11.2942 15.2501 10.6893C15.2501 9.20343 14.0467 8 12.5608 8C11.0749 8 9.87207 9.20343 9.87207 10.6893C9.87207 11.9688 10.7668 13.0345 11.9634 13.3063Z"
+                                              fill={
+                                                colorArray?.[
+                                                  index % colorArray.length
+                                                ]
+                                              }
+                                            />
+                                            <path
+                                              d="M10.1062 19.673C10.769 18.9566 11.5129 19.2372 12.5087 19.3887C13.3641 19.5203 14.2066 19.2802 14.1504 18.8182C14.0619 18.0705 13.9372 17.7363 13.6535 16.768C13.4271 15.9979 12.9975 14.6099 12.6065 13.283C12.0828 11.5078 11.9313 10.6835 12.6284 10.4777C13.3797 10.2588 13.8106 11.3263 14.2009 12.8066C14.6455 14.4914 14.8793 15.2353 15.0103 15.196C15.241 15.1299 14.9255 14.4091 15.5291 14.2314C16.2836 14.0119 16.4295 14.6018 16.6408 14.5426C16.8522 14.479 16.7805 13.8816 17.3822 13.7058C17.9871 13.5312 18.2907 14.2757 18.5401 14.2015C18.7871 14.1285 18.7815 13.8598 19.1543 13.7532C19.5278 13.6422 20.9333 14.2713 21.7376 17.0193C22.7472 20.4743 21.6098 21.1165 21.9546 22.2863L17.4483 23.9998C17.0836 23.1224 15.9537 23.0576 14.9542 22.4983C13.9472 21.9315 13.2631 20.8272 10.6387 20.8808C9.6516 20.9008 9.69837 20.1139 10.1062 19.673Z"
+                                              fill={
+                                                colorArray?.[
+                                                  index % colorArray.length
+                                                ]
+                                              }
+                                            />
+                                          </svg>
                                           <p>
                                             {
-                                            // (
-                                            //   (ctrName[item] /
-                                            //     viewEmailData?.email_sent) *
-                                            //   100
-                                            // )
-                                            (
-                                              (ctrName[item] *100 /
-                                              viewEmailData?.email_read) 
-                                            )
-                                            ?.toFixed(0) + `% (${ctrName[item] ||0})`}
+                                              // (
+                                              //   (ctrName[item] /
+                                              //     viewEmailData?.email_sent) *
+                                              //   100
+                                              // )
+                                              (
+                                                (ctrName[item] * 100) /
+                                                viewEmailData?.email_read
+                                              )?.toFixed(0) +
+                                                `% (${ctrName[item] || 0})`
+                                            }
                                           </p>
                                         </div>
                                         <div
