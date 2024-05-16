@@ -177,7 +177,7 @@ const AnalyticsEmail = () => {
                     </>
                   ) : (
                     <div className="no_found">
-                      <p>No Emails had been sent.</p>
+                      <p>No emails had been sent.</p>
                     </div>
                   )}
                 </Table>

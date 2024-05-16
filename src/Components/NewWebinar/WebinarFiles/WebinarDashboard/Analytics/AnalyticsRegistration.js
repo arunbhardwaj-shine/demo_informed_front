@@ -112,7 +112,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
           enabled: true,
           format: "{point.y}",
           style: {
-            fontWeight: "bold",
+            fontWeight: "500",
             color: "white",
             textOutline: "none",
             fontSize: "20px",

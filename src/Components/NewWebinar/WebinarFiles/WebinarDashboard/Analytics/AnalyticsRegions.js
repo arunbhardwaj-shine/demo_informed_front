@@ -225,6 +225,8 @@ const AnalyticsRegions = () => {
                 style: {
                   fontWeight: "normal",
                   textShadow: "none",
+                  color: "#0066BE",
+                  fontWeight:"500",
                 },
               },
             },
@@ -252,7 +254,7 @@ const AnalyticsRegions = () => {
             stackLabels: {
               enabled: true,
               style: {
-                fontWeight: "bold",
+                fontWeight: "500",
                 color: "gray",
               },
             },
@@ -266,7 +268,7 @@ const AnalyticsRegions = () => {
             x: 0,
             y: 0,
             itemStyle: {
-              fontWeight: "500",
+              fontWeight: "400",
               color: "#70899E",
               fontSize: "12px",
             },
@@ -609,6 +611,8 @@ const AnalyticsRegions = () => {
                                                 style: {
                                                   fontWeight: "normal",
                                                   textShadow: "none",
+                                                  color: "#0066BE",
+                                                  fontWeight: "500",
                                                 },
                                               },
                                             },

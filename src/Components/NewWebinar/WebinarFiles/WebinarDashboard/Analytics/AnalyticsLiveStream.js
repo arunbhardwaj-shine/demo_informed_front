@@ -566,7 +566,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                   <div className="count-number" style={{ color: "#39CABC" }}>
                     <Skeleton width={20} height={20} />
                   </div>
-                  <Skeleton circle={true} width={20} height={20} />
+                  {/* <Skeleton width={20} height={20} /> */}
                 </div>
               </>
             ) : (

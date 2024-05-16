@@ -14573,7 +14573,9 @@ img.change-password-image {
             &:last-child {
               margin: 0;
             }
-            &:active{color:$white;
+
+            &:active {
+              color: $white;
             }
           }
         }
@@ -14914,6 +14916,8 @@ table {
               }
 
               .fold-content-right {
+                border-radius: 0px 9px 0px 0px;
+
                 table {
                   thead {
                     tr {
@@ -14978,7 +14982,8 @@ table {
                       background: transparent;
 
                       .no_found {
-                        min-height: 250px;
+                        min-height: 170px;
+                        padding-bottom: 15px;
                       }
                     }
                   }
@@ -15016,6 +15021,7 @@ table {
 
           &.show {
             border-radius: 9px 9px 0 0;
+            box-shadow: 0px -1px 6px rgba(0, 102, 190, 0.2);
 
             td {
               &:first-child {
@@ -15164,7 +15170,7 @@ table {
 
 .question-listing-analytics {
   &.speaker_zone {
-    padding: 0 0 20px;
+    padding: 0 0 0px;
   }
 
   .reader_list {
