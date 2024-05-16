@@ -496,6 +496,16 @@ const AnalyticsRegions = () => {
                                           text: "",
                                         },
                                         drilldown: {
+                                          activeAxisLabelStyle: {
+                                            textDecoration: 'none',
+                                            color: "#fff",
+                                
+                                        },
+                                        activeDataLabelStyle: {
+                                            textDecoration: 'none',
+                                            color: "#fff",
+                                
+                                        },
                                           series:
                                             regionData[activeRegion]
                                               .drilldownData,
