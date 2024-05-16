@@ -1968,7 +1968,6 @@ const Analytics = (props) => {
                         </div>
                         <Dropdown>
                           <Dropdown.Toggle
-                            variant="success"
                             id="dropdown-basic"
                           >
                             <svg
@@ -2225,7 +2224,6 @@ const Analytics = (props) => {
                         </div>
                         <Dropdown>
                           <Dropdown.Toggle
-                            variant="success"
                             id="dropdown-basic"
                           >
                             <svg
@@ -2483,7 +2481,6 @@ const Analytics = (props) => {
                         </div>
                         <Dropdown>
                           <Dropdown.Toggle
-                            variant="success"
                             id="dropdown-basic"
                           >
                             <svg

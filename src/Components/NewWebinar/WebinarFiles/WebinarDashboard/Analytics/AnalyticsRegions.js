@@ -366,7 +366,7 @@ const AnalyticsRegions = () => {
                             <div className="rd-training-block-left">
                               <h4>Total registered & Attended HCPs</h4>
                             </div>
-                            <div className="rd-training-block-right d-flex">
+                            <div className="rd-training-block-right d-flex align-items-center">
                               <div className="switch6">
                                 <label className="switch6-light">
                                   <input
@@ -407,7 +407,6 @@ const AnalyticsRegions = () => {
                               </div>
                               <Dropdown>
                                 <Dropdown.Toggle
-                                  variant="success"
                                   id="dropdown-basic"
                                 >
                                   <svg
