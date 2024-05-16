@@ -135,6 +135,16 @@ const AnalyticsEmailView = () => {
         beta: 25,
         depth: 70,
       },
+      events: {
+        load: function() {
+          let categoryHeight = 50;
+          this.update({
+            chart: {
+              height: categoryHeight * this.pointCount + (this.chartHeight - this.plotHeight)
+            }
+          })
+        }
+      }
     },
     title: {
       text: "",
@@ -246,7 +256,7 @@ const AnalyticsEmailView = () => {
     },
     plotOptions: {
       series: {
-        groupPadding: 0.1,
+        groupPadding: 0.2,
         pointPadding: 0,
         borderWidth: 0,
         pointWidth: 30,
@@ -260,7 +270,6 @@ const AnalyticsEmailView = () => {
           shape: "callout",
           size: "100%",
           style: {
-            fontWeight: "normal",
             textShadow: "none",
             fontSize: "14px",
             color: "#004A89",
