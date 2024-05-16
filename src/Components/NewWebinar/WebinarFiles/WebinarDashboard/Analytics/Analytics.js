@@ -203,9 +203,9 @@ const Analytics = (props) => {
     ...commonPieOptions,
   });
 
-  const [whichTypeGraph, setWhichTypeGraph] = useState(0);
-  const [whichTypeGraphRegion, setWhichTypeGraphRegion] = useState(0);
-  const [whichTypeGraphByEmail, setWhichTypeGraphRegionByEmail] = useState(0);
+  const [whichTypeGraph, setWhichTypeGraph] = useState(false);
+  const [whichTypeGraphRegion, setWhichTypeGraphRegion] = useState(true);
+  const [whichTypeGraphByEmail, setWhichTypeGraphRegionByEmail] = useState(true);
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -1181,6 +1181,7 @@ const Analytics = (props) => {
                       fontSize: "13px",
                     },
                   },
+                  allowDecimals: false,
                 },
                 plotOptions: {
                   bar: {
@@ -1221,9 +1222,10 @@ const Analytics = (props) => {
       );
     });
   };
-  const handleDownload = (format, ref,defaultName = "registered_attended_stats") => {
+  const handleDownload =  (format, ref,defaultName = "registered_attended_stats") => {
     // Accessing Highcharts chart object using ref
     let chart = ref.current && ref.current.chart;
+    console.log(chart,"chartchart");
 
     if (chart) {
       switch (format) {
@@ -2041,7 +2043,7 @@ const Analytics = (props) => {
                       <div className="graph-view-smaller">
                         {whichTypeGraph == 0 ? (
                           <HighchartsReact
-                            key={"bar"}
+                            key={"bar-country"}
                             ref={countryBarRef}
                             highcharts={Highcharts}
                             options={{
@@ -2075,9 +2077,8 @@ const Analytics = (props) => {
                                 enabled: false,
                               },
                               exporting: {
+                           
                                 enabled: false,
-                                sourceWidth: 1600,
-                                sourceHeight: 1200,
                                 showHighchart: true,
                                 showTable: false,
                                 tableCaption: "",
@@ -2282,7 +2283,7 @@ const Analytics = (props) => {
                       <div className="graph-view-smaller">
                         {whichTypeGraphRegion == 0 ? (
                           <HighchartsReact
-                            key={"bar"}
+                            key={"bar-region"}
                             ref={regionBarRef}
                             highcharts={Highcharts}
                             options={{
@@ -2316,8 +2317,9 @@ const Analytics = (props) => {
                                 enabled: false,
                               },
                               exporting: {
-                                sourceWidth: 1600,
-                                sourceHeight: 1200,
+                                // sourceWidth: 1600,
+                                // sourceHeight: 1200,
+                                // sourceWidth: 1100,
                                 enabled: false,
                                 showHighchart: true,
                                 showTable: false,
@@ -2591,9 +2593,12 @@ const Analytics = (props) => {
                                   "<b>{point.y}</b> total<br/>",
                               },
                               exporting: {
-                                sourceWidth: 1600,
-                                sourceHeight: 1200,
-                                enabled: false, // Disable exporting
+                                // sourceWidth: 1600,
+                                // sourceHeight: 1100,
+                                enabled: false,
+                                showHighchart: true,
+                                showTable: false,
+                                tableCaption: "",
                               },
                               series: [
                                 {
