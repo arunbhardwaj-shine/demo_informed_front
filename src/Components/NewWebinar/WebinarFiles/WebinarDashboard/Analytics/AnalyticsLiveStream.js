@@ -41,7 +41,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 280, // Increased height to prevent overlapping
+      height: 270, // Increased height to prevent overlapping
     },
     title: {
       // text: "AVG spend time |",
@@ -212,7 +212,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
       type: "spline",
-      height: 280,
+      height: 250,
     },
     title: {
       text: "Live HCPs Tracking",
@@ -220,7 +220,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       style: {
         fontWeight: "500",
         color: "#70899E",
-        fontSize: "14px",
+        fontSize: "12px",
       },
     },
     xAxis: {
@@ -262,8 +262,8 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       // itemHiddenStyle: {
       //     color: "#C0C0C0"
       // },
-      symbolWidth: 10,
-      symbolHeight: 10,
+      symbolWidth: 8,
+      symbolHeight: 8,
       itemDistance: 20,
       lineWidth: 0, // Remove the line cutting through the marker
     },
@@ -294,7 +294,6 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
     series: [
       {
         name: "HCPs online",
-
         data: [],
       },
     ],
@@ -625,10 +624,10 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
             </div>
             {!apiStatus ? (
               <div className="hcp-tracking">
-                <div style={{ display: "flex", justifyContent: "center" }}>
+                <div className="d-flex justify-content-between">
                   <Skeleton width={130} height={20} />
                 </div>
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div className="d-flex justify-content-between">
                   <Skeleton width={30} height={20} />
                 </div>
 
@@ -692,11 +691,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                       )}
                 </Table>
                 <div className="rd-box-export">
-                  <img
-                    src={path_image + "arrow-export.svg"}
-                    alt=""
-                    onClick={handleAttendedUserCountryWise}
-                  />
+                  <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />
                 </div>
               </div>
             )}

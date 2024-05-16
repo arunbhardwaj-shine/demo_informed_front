@@ -79,9 +79,10 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                   highcharts={Highcharts}
                   options={{
                     chart: {
+                      marginTop: 30,
                       type: "bar",
                       // width: 316,
-                      height: 315, // Decrease the height of the chart
+                      height: 270, // Decrease the height of the chart
                       options3d: {
                         enabled: true,
                         alpha: 10,
@@ -120,6 +121,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                     tooltip: {},
                     plotOptions: {
                       series: {
+                        groupPadding: 0.1,
                         pointWidth: 25, // Adjust the width of the bars
                         dataLabels: {
                           allowOverlap: false,

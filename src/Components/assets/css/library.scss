@@ -13526,6 +13526,7 @@ img.change-password-image {
 
         span {
           color: $dark-blue;
+          font-weight: 400;
         }
       }
 
@@ -14208,7 +14209,7 @@ img.change-password-image {
 
 .webinar-analytics-layout {
   &.rd-analytics-content {
-    margin: 14px 0 25px;
+    margin: 14px 0 5px;
 
     .row {
       margin: 0 -16px;
@@ -14290,7 +14291,7 @@ img.change-password-image {
 
         .graph-data {
           overflow-y: auto;
-          max-height: 275px;
+          max-height: 235px;
           padding: 0 6px;
           margin: -9px -6px 0;
 
@@ -14561,6 +14562,7 @@ img.change-password-image {
           right: 0 !important;
           left: auto !important;
           top: 5px !important;
+          overflow: hidden;
 
           a {
             color: #97B6CF;
@@ -14570,6 +14572,8 @@ img.change-password-image {
 
             &:last-child {
               margin: 0;
+            }
+            &:active{color:$white;
             }
           }
         }
@@ -14651,7 +14655,7 @@ img.change-password-image {
       background: $white;
       box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
       padding: 30px 12px;
-      margin: 24px 0;
+      margin: 24px 0 0;
 
       >img {
         max-width: 100%;
@@ -14689,7 +14693,7 @@ img.change-password-image {
         li {
           &.nav-item {
             margin-right: 0;
-            flex: 1 1;
+            flex: 1 1 auto;
 
             button {
               border: 0;
@@ -15245,7 +15249,7 @@ table {
   .graph-view-smaller {
     display: flex;
     justify-content: center;
-    padding: 50px 12px 10px;
+    padding: 20px 12px 10px;
     flex-direction: column;
     gap: 30px;
     max-width: 1180px;

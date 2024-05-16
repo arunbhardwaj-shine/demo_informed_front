@@ -26,7 +26,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 315,
+      height: 270,
     },
     title: {
       text: "Click on the double arrows to see more details",
@@ -107,7 +107,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
     },
     plotOptions: {
       pie: {
-        size: "90%",
+        size: "100%",
         dataLabels: {
           enabled: true,
           format: "{point.y}",
@@ -312,14 +312,10 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                   </div>
 
                   <div className="highchart-chart right-side">
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      
+                    <div className="d-flex justify-content-between">
                       <Skeleton width={130} height={20} />
                       <Skeleton width={20} height={20} />
-
                     </div>
-                  
-
                     <Skeleton width="100%" height={200} />
                   </div>
                 </div>
@@ -339,7 +335,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
               <div className="graph-box d-flex justify-content-between">
                 <div className="highchart-chart left-side">
                   {data?.registeredHcpData?.internalHcps ||
-                  data?.registeredHcpData?.externalHcps ? (
+                   data?.registeredHcpData?.externalHcps ? (
                     <>
                       <HighchartsReact
                         highcharts={Highcharts}
@@ -374,13 +370,13 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           type: "line",
                           //maxWidth: 500,
                           //size: '100%',
-                          height: 292,
+                          height: 248,
                         },
 
                         title: {
                           text: "Registration Over Time",
                           style: {
-                            fontWeight: "500",
+                            fontWeight:"500",
                             color: "#70899E",
                             fontSize: "14px",
                           },
@@ -411,10 +407,20 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           series: {
                             marker: {
                               symbol: "square",
+                              symbolWidth: 6,
+                              symbolHeight: 6,
+                              style:{
+                                width: "6px",
+                                height: "6px",
+                              },
                             },
                             dataLabels: {
                               enabled: true,
                               format: "{point.y}",
+                              style: {
+                                fontSize: "10px",
+                                color: "#555555",
+                              },
                             },
                           },
                         },
@@ -435,8 +441,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           itemHiddenStyle: {
                             color: "#C0C0C0",
                           },
-                          symbolWidth: 8,
-                          symbolHeight: 8,
+                          symbolWidth: 10,
+                          symbolHeight: 10,
                           itemDistance: 20,
                           lineWidth: 0,
                           itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
