@@ -13546,6 +13546,12 @@ gap:30px;
   border: 1px solid #dce6ef;
 }
 
+/* .react-select__option--is-focused{
+  color: white !important;
+} */
+.react-select__option--is-selected{
+  color: white !important;
+} 
 
 
 /* .email_stats_gap .email-stats-details ::-webkit-scrollbar {

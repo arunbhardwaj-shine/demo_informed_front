@@ -507,11 +507,22 @@ const AnalyticsEmailView = () => {
                   <p>Select the email to see the stats:</p>
                   <Form>
                     <Select
+                      classNamePrefix="react-select"
+
                       options={options}
                       className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                       onChange={handleSelectChange}
                       value={selectedOption}
-                    />
+                      classNamePrefix="react-select"
+                      // isMenuOpen={true}
+//                       onMenuOpen={(e)=>{
+// setTimeout(()=>{
+//   console.log( document.querySelector(".react-select__option--is-focused").style.color="white"
+// );
+// },1)
+//                       }} 
+
+                      />
                   </Form>
                 </div>
                 {viewEmailData && (
