@@ -980,15 +980,16 @@ const Analytics = (props) => {
             series: newValueRegionEmail,
             drilldown: {
               activeAxisLabelStyle: {
-                textDecoration: 'none',
+                textDecoration: "none",
+
                 color: "#000000",
-    
-            },
-            activeDataLabelStyle: {
-                textDecoration: 'none',
+              },
+
+              activeDataLabelStyle: {
+                textDecoration: "none",
+
                 color: "#000000",
-    
-            },
+              },
               series:
                 response?.data?.data?.totalRegistrationsByEmailAndOtherChannels
                   ?.drillDownData, // set the drilldown data
@@ -2048,10 +2049,7 @@ const Analytics = (props) => {
                             </label>
                           </div>
                           <Dropdown>
-                            <Dropdown.Toggle
-                              variant="success"
-                              id="dropdown-basic"
-                            >
+                            <Dropdown.Toggle id="dropdown-basic">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="6"
@@ -2357,10 +2355,7 @@ const Analytics = (props) => {
                             </label>
                           </div>
                           <Dropdown>
-                            <Dropdown.Toggle
-                              variant="success"
-                              id="dropdown-basic"
-                            >
+                            <Dropdown.Toggle id="dropdown-basic">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="6"
@@ -2650,10 +2645,7 @@ const Analytics = (props) => {
                           </div>
 
                           <Dropdown>
-                            <Dropdown.Toggle
-                              variant="success"
-                              id="dropdown-basic"
-                            >
+                            <Dropdown.Toggle id="dropdown-basic">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="6"
@@ -2747,6 +2739,7 @@ const Analytics = (props) => {
                                   events: {
                                     load: function () {
                                       let categoryHeight = 35;
+                                      console.log(this);
                                       this.update({
                                         chart: {
                                           height:
@@ -2809,16 +2802,14 @@ const Analytics = (props) => {
                                     dataLabels: {
                                       enabled: true,
                                       format: "{point.y}",
-                                      style: {
-                                        fontWeight: "600",
-                                        textShadow: "none",
-                                        fontSize: "12px",
-                                        color: "#000000",
-                                        TextDecoder: "none",
-                                        textDecoration: "none",
-                                      },
+                                      //   style: {
+                                      //   fontWeight: "600",
+                                      //   textShadow: "none",
+                                      //   fontSize: "14px",
+                                      //   color: "#000000",
+                                      //   TextDecoder:"none",
+                                      // },
                                     },
-
                                     borderRadius: {
                                       radius: 10,
                                     },
