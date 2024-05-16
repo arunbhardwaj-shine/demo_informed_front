@@ -1926,6 +1926,8 @@ const Analytics = (props) => {
                               type="checkbox"
                               // ={graphType == "pie" ? true : false}
                               // onChange={onHandleDisplayResultChange}
+                              checked={whichTypeGraph} 
+
                               onChange={() => {
                                 loader("show");
 
@@ -2163,16 +2165,20 @@ const Analytics = (props) => {
                           <label className="switch6-light">
                             <input
                               type="checkbox"
+                              checked={whichTypeGraphRegion} 
+
                               // ={graphType == "pie" ? true : false}
                               onChange={() => {
                                 loader("show");
 
+                                
                                 setTimeout(() => {
                                   setWhichTypeGraphRegion(
                                     !whichTypeGraphRegion
                                   );
                                   loader("hide");
                                 }, 500);
+
                               }}
                             />
                             <span>
@@ -2261,22 +2267,7 @@ const Analytics = (props) => {
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
-                        {/* <Button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="6"
-                            height="24"
-                            viewBox="0 0 6 24"
-                            fill="none"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        </Button> */}
+              
                       </div>
                     </div>
                     <div className="graph-view">
@@ -2404,6 +2395,7 @@ const Analytics = (props) => {
                           <label className="switch6-light">
                             <input
                               type="checkbox"
+                              checked={whichTypeGraphByEmail} 
                               // ={graphType == "pie" ? true : false}
                               onChange={() => {
                                 loader("show");
@@ -2414,6 +2406,7 @@ const Analytics = (props) => {
                                   );
                                   loader("hide");
                                 }, 500);
+                                
                               }}
                             />
                             <span>
@@ -2430,6 +2423,8 @@ const Analytics = (props) => {
                             <a className="btn"></a>
                           </label>
                         </div>
+
+                        
                         <Dropdown>
                           <Dropdown.Toggle
                             variant="success"
@@ -2502,22 +2497,7 @@ const Analytics = (props) => {
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
-                        {/* <Button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="6"
-                            height="24"
-                            viewBox="0 0 6 24"
-                            fill="none"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        </Button> */}
+        
                       </div>
                     </div>
                     <div className="graph-view">
@@ -2532,13 +2512,41 @@ const Analytics = (props) => {
                               chart: {
                                 type: "bar",
                                 borderWidth: "0",
-                                height: 1050,
                                 options3d: {
                                   enabled: true,
                                   alpha: 10,
                                   beta: 25,
                                   depth: 70,
                                 },
+                                events: {
+                                  load: function() {
+                                    let categoryHeight = 35;
+                                   console.log(this);
+                                    this.update({
+                                      chart: {
+                                        height: categoryHeight * this.pointCount + (this.chartHeight - this.plotHeight)
+                                      }
+                                    })
+                                  },
+                                  drillup : function(event) {
+                                
+                                    this.update({
+                                      chart: {
+                                        height: 135
+                                      }
+                                    })
+                                  },
+                                  
+                                drilldown: function(event) {
+                                  let categoryHeight = 35;
+                                 
+                                  this.update({
+                                    chart: {
+                                      height: categoryHeight * event.seriesOptions.data.length ||0 + (this.chartHeight - this.plotHeight)
+                                    }
+                                  })
+                      }
+                                }
                               },
                               title: {
                                 align: "left",
@@ -2565,7 +2573,7 @@ const Analytics = (props) => {
                                   // pointWidth: 30,
                                   groupPadding: 0.1,
                                   borderWidth: "0",
-                                  pointWidth: 18,
+                                  pointWidth: 25,
                                   dataLabels: {
                                     enabled: true,
                                     format: "{point.y}",
@@ -2657,35 +2665,10 @@ const Analytics = (props) => {
                       <div className="rd-training-block-left">
                         <h4>
                           Registered & attended HCPs According to Region
-                          {/* |{" "}
-                        <span>{attendedUsers?.totalRegistrationCount||0 }</span> */}
+
                         </h4>
                       </div>
-                      {/* <div className="rd-training-block-right d-flex">
-                      <div className="switch6">
-                        <label className="switch6-light">
-                          <input
-                            type="checkbox"
-                            // ={graphType == "pie" ? true : false}
-                            //onChange={onHandleDisplayResultChange}
-                          />
-                          <span>
-                            <span>
-                              <img src={path_image + "bar-graph-img.png"} style={{transform:'rotate(90deg)'}}/>
-                            </span>
-                            <span>
-                              <img src={path_image + "pie-img.png"} />
-                            </span>
-                          </span>
-                          <a className="btn"></a>
-                        </label>
-                      </div>
-                      <Button>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE"/>
-                        </svg>
-                      </Button>
-                    </div> */}
+          
                     </div>
                     <div className="country_tabs">
                       <Tabs
@@ -3203,72 +3186,7 @@ const Analytics = (props) => {
           </Row>
         </div>
       </Col>}
-      {/* <Modal
-        className="modal send-confirm"
-        id="delete-confirm"
-        show={downloadPopup}
-        backdrop="static"
-        onHide={()=>setDownloadPopup(false)}
-      >
-        <Modal.Header>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={()=>setDownloadPopup(false)}
-          ></button>
-        </Modal.Header>
-
-        <Modal.Body>
-          <>
-           
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={downloadStats}
-              >
-               Download Excelsheet
-              </button>
-            </div>
-              <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                // onClick={downloadStats}
-              >
-               Download Region data chart
-              </button>
-              </div>
-              <div className="modal-buttons">
-              <div className="high_charts">
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={pieChartData}
-        />
      
-              </div>
-              </div>
-              <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                // onClick={downloadStats}
-              >
-               Download online user graph
-              </button>
-              </div>
-              <div className="modal-buttons">
-              <div className="high_charts">
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={splineChartData}
-        />     
-              </div>
-              </div>
-          </>
-        </Modal.Body>
-      </Modal> */}
 
       <Modal
         show={downloadPopup}
