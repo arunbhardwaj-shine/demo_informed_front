@@ -135,17 +135,35 @@ const RegistrationPage = ({ prevData,type }) => {
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [apiCallStatus,setApiCallStatus]=useState(false)
-
+  const [eventStatus,setEventStatus]=useState()
 
   useEffect(() => {
     EventDataFun();
   }, [prevData?.isDataSaved]);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const urtyhjd = urlParams.get('urtyhjd');
+
+    if (urtyhjd) {
+      urlParams.delete('urtyhjd');
+      navigate({
+        pathname: location.pathname,
+        search: urlParams.toString()
+      }, { replace: true });
+    }
+  }, [location, navigate]);
 
 
   const EventDataFun = async () => {
     try {
       loader("show");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const qrCodeParam = urlParams.get('urtyhjd');
+      const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+      localStorage.setItem('mode', mode);
+      
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode ? prevData?.eventCode : event_code
         }`
@@ -188,6 +206,8 @@ const RegistrationPage = ({ prevData,type }) => {
           raw_description: raw,
         };
       }
+      let status = differenceDays(hadData?.eventStartDateTime, hadData?.eventEndtDateTime, hadData?.country_timezone, "")
+      setEventStatus(status)
       
       setFormData(hadData);
       setApiCallStatus(true)
@@ -211,13 +231,113 @@ const RegistrationPage = ({ prevData,type }) => {
     }
   };
 
+  const differenceDays = (eventStartDateTime, eventEndtDateTime, timezone, flag = 0) => {
+
+    const time = getEventTime(timezone)
+
+    const currentTime = new Date(time);
+    const startTime = new Date(eventStartDateTime);
+    const endTime = new Date(eventEndtDateTime);
+
+    if (currentTime < startTime) {
+      const timeDifference = startTime.getTime() - currentTime.getTime(); // Get the time difference in milliseconds
+      const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
+      if (flag == 1) {
+        const days = Math.floor(timeDifference / (1000 * 3600 * 24));
+        const remainingTimeAfterDays = timeDifference % (1000 * 3600 * 24);
+        const hours = Math.floor(remainingTimeAfterDays / (1000 * 3600));
+        const remainingTimeAfterHours = remainingTimeAfterDays % (1000 * 3600);
+        const minutes = Math.floor(remainingTimeAfterHours / (1000 * 60));
+        // return `${days} days, ${hours} hours, ${minutes} minutes`
+        // return (days ? days + " days " : "") + (hours ? hours + " hours " : "") + (minutes ? minutes + " minutes" : "");
+        return (days ? days + " Days " : hours ? hours + " Hr" : minutes ? minutes + " Min" : "");
+      } else {
+        return dayDifference;
+      }
+
+    } else if (currentTime > endTime) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  const getEventTime = (timeZone) => {
+    const utcDateTime = new Date().toISOString();
+    try {
+      if (timeZone !== null) {
+        const options = {
+          timeZone: timeZone,
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        };
+
+        const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
+          new Date(utcDateTime)
+        );
+
+        const adjustedLocalDateTime = localDateTime.replace(
+          /(\d{2}:\d{2}:\d{2})/,
+          (_, time) => {
+            let [hours, minutes, seconds] = time.split(':');
+            hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+            const adjustedHours = hours;
+            return `${adjustedHours}:${minutes}:${seconds}`;
+          }
+        );
+        return adjustedLocalDateTime.replace(/, /, ' ');
+      }
+    } catch (error) {
+      console.error('Invalid time zone specified:', timeZone);
+    }
+
+    const londonOptions = {
+      timeZone: 'Europe/London',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    };
+
+    const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
+      new Date(utcDateTime)
+    );
+
+    const adjustedLocalDateTime = localDateTime.replace(
+      /(\d{2}:\d{2}:\d{2})/,
+      (_, time) => {
+        let [hours, minutes, seconds] = time.split(':');
+        hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+        const adjustedHours = hours;
+        return `${adjustedHours}:${minutes}:${seconds}`;
+      }
+    );
+    return adjustedLocalDateTime.replace(/, /, ' ');
+
+    // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = ValidateFormData();
-
     if (isValid) {
       loader("show");
       try {
+
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const qrCodeParam = urlParams.get('urtyhjd');
+        // const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+
+        const mode = localStorage.getItem('mode');
+
         let raw = formData?.raw_description;
         let eventId = formData?.event_id;
         if (formFieldData?.isth_consent && formFieldData.isth_consent == "Wilate") {
@@ -238,6 +358,7 @@ const RegistrationPage = ({ prevData,type }) => {
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
             consent: formFieldData.consent ? formFieldData.consent.join("~") : formFieldData.onesource_consent ? formFieldData.onesource_consent.join("~") : "",
+            mode: mode,
           }
         );
         if (response?.data?.status === 1) {
@@ -809,10 +930,7 @@ const RegistrationPage = ({ prevData,type }) => {
     </div> */}
       <section className="consent-form">
         <div className="container">
-          <div
-            className="consent-form-inner"
-            style={{ background: `${pageColors?.background}` }}
-          >
+          <div className="consent-form-inner">
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
@@ -821,21 +939,19 @@ const RegistrationPage = ({ prevData,type }) => {
                       color: formData?.content?.eventDetails?.pageTitle?.color,
                     }}
                     dangerouslySetInnerHTML={{
-                      __html: formData?.content?.eventDetails?.pageTitle?.value,
+                      __html:
+                        formData?.content?.eventDetails?.pageTitle?.value ||
+                        "These meetings are for healthcare professionals only.",
                     }}
-                  >
-                    {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
-                  </h2>
-
+                  />
+                  {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
                   <h3
                     style={{
                       color: formData?.content?.eventDetails?.bodyText?.color,
                     }}
-                    dangerouslySetInnerHTML={{
-                      __html: formData?.content?.eventDetails?.bodyText?.value,
-                    }}
                   >
-                    {/* {formData?.content?.eventDetails?.bodyText?.value} */}
+                    {" "}
+                    {formData?.content?.bodyText}
                   </h3>
                 </div>
               </div>
@@ -843,8 +959,8 @@ const RegistrationPage = ({ prevData,type }) => {
                 <div className="row">
                   {formData?.content?.body?.map((form, index) => (
                     <FormField7
-                      key={`${form.label}_${index}`}
                       form={form}
+                      key={index}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
                       formErrors={formErrors}
@@ -901,7 +1017,10 @@ const RegistrationPage = ({ prevData,type }) => {
     </div> */}
       <section className="consent-form">
         <div className="container">
-          <div className="consent-form-inner">
+          <div
+            className="consent-form-inner"
+            style={{ background: `${pageColors?.background}` }}
+          >
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
@@ -910,19 +1029,21 @@ const RegistrationPage = ({ prevData,type }) => {
                       color: formData?.content?.eventDetails?.pageTitle?.color,
                     }}
                     dangerouslySetInnerHTML={{
-                      __html:
-                        formData?.content?.eventDetails?.pageTitle?.value ||
-                        "These meetings are for healthcare professionals only.",
+                      __html: formData?.content?.eventDetails?.pageTitle?.value,
                     }}
-                  />
-                  {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
+                  >
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
+                  </h2>
+
                   <h3
                     style={{
                       color: formData?.content?.eventDetails?.bodyText?.color,
                     }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value,
+                    }}
                   >
-                    {" "}
-                    {formData?.content?.bodyText}
+                    {/* {formData?.content?.eventDetails?.bodyText?.value} */}
                   </h3>
                 </div>
               </div>
@@ -930,8 +1051,8 @@ const RegistrationPage = ({ prevData,type }) => {
                 <div className="row">
                   {formData?.content?.body?.map((form, index) => (
                     <FormField8
+                      key={`${form.label}_${index}`}
                       form={form}
-                      key={index}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
                       formErrors={formErrors}
@@ -988,7 +1109,8 @@ const RegistrationPage = ({ prevData,type }) => {
         draggable
         pauseOnHover
       />}
-     
+
+      {/* {eventStatus!=-1?(<> */}
       {Object.keys(formData)?.length?(<>
 
       {formData?.content?.templateId === 1 && (
@@ -1016,19 +1138,22 @@ const RegistrationPage = ({ prevData,type }) => {
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
       )}
 
-{formData?.content?.templateId === 7 && (
-        <TemplateSeven formData={formData}>{myContent7}</TemplateSeven>
-      )}
+      {formData?.content?.templateId === 7 && (
+              <TemplateSeven formData={formData}>{myContent7}</TemplateSeven>
+            )}
 
-{formData?.content?.templateId === 8 && (
-        <TemplateEight formData={formData}>{myContent8}</TemplateEight>
-      )}
-</>)
+      {formData?.content?.templateId === 8 && (
+              <TemplateEight formData={formData}>{myContent8}</TemplateEight>
+            )}
+      </>)
 
 :apiCallStatus?
 <CommonPageLinkNotFound/>
 :""
 }
+
+{/* </>):<CommonPageLinkNotFound/>} */}
+
 
       <Modal
         className="modal send-confirm registration-popup"
@@ -2854,13 +2979,25 @@ const FormField6 = ({
                   }
                 }}
               />
-              <label
+              {/* <label
                 style={{
                   color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
                 {item.optionLabel}
+              </label> */}
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: item.optionLabel,
+                  }}
+                />
               </label>
               <span className="checkmark" />
             </li>
@@ -2912,7 +3049,7 @@ const FormField6 = ({
         }}
       >
         {form.label}
-        {isRequired ? "*" : ""}
+        <span>{isRequired ? "*" : ""}</span>
       </label>
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
@@ -2929,6 +3066,283 @@ const FormField6 = ({
 };
 
 const FormField7 = ({
+  form,
+  formFieldData,
+  setFormFieldData,
+  formErrors,
+  pageColors,
+  level,
+  templateId,
+}) => {
+  // { console.log(form, 'form') }
+  const [countryList, setCountryList] = useState(CountryList);
+  const [extensionData, setExtensionData] = useState({});
+  const label = form?.name?.replace(/ /g, "_");
+  useEffect(() => {
+    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+
+    // placeholderElements.forEach((placeholderElement) => {
+    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    // });
+  }, [form])
+  const handleFieldChange = (value, e = "") => {
+    const newData = { ...formFieldData };
+    if (form?.inputType === "datepicker") {
+      newData[label] = moment(value).format("YYYY-MM-DD");
+    } else if (form?.inputType === "checkbox") {
+      newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+      if (e.target.checked) {
+        newData[label] = [...newData[label], value];
+      } else {
+        newData[label] = newData[label].filter((item) => item !== value);
+      }
+    } else {
+      newData[label] = value;
+    }
+    setFormFieldData(newData);
+  };
+
+  if (label?.includes("country") || label?.includes("Country")) {
+    form.inputType = "selection-country";
+  } else if (label?.includes("state") || label?.includes("state")) {
+    form.inputType = "selection-state";
+  }
+
+  const isRequired = form.required === "yes";
+
+  let fieldInput = null;
+
+  if (form.inputType === "textarea") {
+    fieldInput = (
+      <textarea
+        className="form-control"
+        placeholder={form.placeholder}
+        cols="40"
+        rows="4"
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      ></textarea>
+    );
+  } else if (
+    form.inputType === "selection" ||
+    form.inputType === "selection-country" ||
+    form.inputType === "selection-state"
+  ) {
+    const options = form.option?.map((op) => ({
+      label: op.optionLabel,
+      value: op.optionLabel,
+    }));
+
+    fieldInput = (
+      <Select
+        options={
+          form.inputType === "selection-country"
+            ? countryList
+            : form.inputType === "selection-state"
+              ? stateOptions
+              : options
+        }
+        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+        isClearable
+        onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+    );
+  } else if (form.inputType === "datepicker") {
+    fieldInput = (
+      <DatePicker
+        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
+        name={form.label}
+        dateFormat="dd/MM/yyyy"
+        className="form-control"
+        placeholderText="Select task date"
+        onChange={(date) => handleFieldChange(date)}
+        onKeyDown={(e) => {
+          e.preventDefault();
+        }}
+      />
+    );
+  } else if (form.inputType === "radio") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={() => {
+                  handleFieldChange(item.optionLabel);
+                  // if (item.extension) {
+                  setExtensionData({
+                    [item.optionLabel]: item.extension ? item.extension : [],
+                  });
+                  // }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[item.optionLabel]?.length > 0 &&
+              extensionData[item.optionLabel]?.map((opt, i) => (
+                <FormField7
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  } else if (form.inputType === "checkbox") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={(e) => {
+                  handleFieldChange(item.optionLabel, e);
+                  if (!extensionData[label + index]) {
+                    setExtensionData({
+                      ...extensionData,
+                      [label + index]: item.extension ? item.extension : [],
+                    });
+                  } else {
+                    const updatedExtensionData = { ...extensionData };
+                    delete updatedExtensionData[label + index];
+                    setExtensionData(updatedExtensionData);
+                  }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[label + index]?.length > 0 &&
+              extensionData[label + index]?.map((opt, i) => (
+                <FormField7
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  }
+  else if (form.label === "Dietary restrictions or allergies:" && form.inputType === "text") {
+    fieldInput = (
+
+      <input
+        type={form.inputType}
+        className="form-control"
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+        placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+
+    );
+  }
+  else {
+    fieldInput = (
+      <>
+        <input
+          type={form.inputType}
+          className="form-control"
+          id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+          placeholder={form.placeholder}
+          onChange={(e) => handleFieldChange(e.target.value)}
+          style={{
+            color: pageColors?.typedTextColor,
+          }}
+          data-placeholder-color={pageColors?.placeholderTextColor}
+        />
+        <div className="field-icon">
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <div
+      // className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")
+      //   ? "country"
+      //   : ""
+      //   }`}
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
+        } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
+        }`}
+
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
+      {form.label != "Name" && form.inputType != "email" ? (
+        <label
+          style={{
+            color: pageColors?.labelColor,
+          }}
+        >
+          {form.label}
+          {
+            // isRequired ? "*" : ""
+          }
+        </label>
+      ) : null}
+
+      {fieldInput}
+      <div className="help-block">{formErrors[label]}</div>
+      <style>
+        {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+       
+      `}
+      </style>
+    </div>
+  );
+};
+
+const FormField8 = ({
   form,
   formFieldData,
   setFormFieldData,
@@ -3064,7 +3478,7 @@ const FormField7 = ({
             </li>
             {extensionData[item.optionLabel]?.length > 0 &&
               extensionData[item.optionLabel]?.map((opt, i) => (
-                <FormField7
+                <FormField8
                   form={opt}
                   key={i}
                   formFieldData={formFieldData}
@@ -3116,7 +3530,7 @@ const FormField7 = ({
             </li>
             {extensionData[label + index]?.length > 0 &&
               extensionData[label + index]?.map((opt, i) => (
-                <FormField7
+                <FormField8
                   form={opt}
                   key={i}
                   formFieldData={formFieldData}
@@ -3169,283 +3583,6 @@ const FormField7 = ({
         
       `}
     </style>
-    </div>
-  );
-};
-
-const FormField8 = ({
-  form,
-  formFieldData,
-  setFormFieldData,
-  formErrors,
-  pageColors,
-  level,
-  templateId,
-}) => {
-  // { console.log(form, 'form') }
-  const [countryList, setCountryList] = useState(CountryList);
-  const [extensionData, setExtensionData] = useState({});
-  const label = form?.name?.replace(/ /g, "_");
-  useEffect(() => {
-    // const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
-
-    // placeholderElements.forEach((placeholderElement) => {
-    //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
-    // });
-  }, [form])
-  const handleFieldChange = (value, e = "") => {
-    const newData = { ...formFieldData };
-    if (form?.inputType === "datepicker") {
-      newData[label] = moment(value).format("YYYY-MM-DD");
-    } else if (form?.inputType === "checkbox") {
-      newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
-      if (e.target.checked) {
-        newData[label] = [...newData[label], value];
-      } else {
-        newData[label] = newData[label].filter((item) => item !== value);
-      }
-    } else {
-      newData[label] = value;
-    }
-    setFormFieldData(newData);
-  };
-
-  if (label?.includes("country") || label?.includes("Country")) {
-    form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
-    form.inputType = "selection-state";
-  }
-
-  const isRequired = form.required === "yes";
-
-  let fieldInput = null;
-
-  if (form.inputType === "textarea") {
-    fieldInput = (
-      <textarea
-        className="form-control"
-        placeholder={form.placeholder}
-        cols="40"
-        rows="4"
-        onChange={(e) => handleFieldChange(e.target.value)}
-        style={{
-          color: pageColors?.typedTextColor,
-        }}
-        data-placeholder-color={pageColors?.placeholderTextColor}
-      ></textarea>
-    );
-  } else if (
-    form.inputType === "selection" ||
-    form.inputType === "selection-country" ||
-    form.inputType === "selection-state"
-  ) {
-    const options = form.option?.map((op) => ({
-      label: op.optionLabel,
-      value: op.optionLabel,
-    }));
-
-    fieldInput = (
-      <Select
-        options={
-          form.inputType === "selection-country"
-            ? countryList
-            : form.inputType === "selection-state"
-              ? stateOptions
-              : options
-        }
-        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-        isClearable
-        onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
-        placeholder={form.placeholder ? form.placeholder : "Select"}
-        data-placeholder-color={pageColors?.placeholderTextColor}
-      />
-    );
-  } else if (form.inputType === "datepicker") {
-    fieldInput = (
-      <DatePicker
-        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
-        name={form.label}
-        dateFormat="dd/MM/yyyy"
-        className="form-control"
-        placeholderText="Select task date"
-        onChange={(date) => handleFieldChange(date)}
-        onKeyDown={(e) => {
-          e.preventDefault();
-        }}
-      />
-    );
-  } else if (form.inputType === "radio") {
-    fieldInput = (
-      <ul>
-        {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
-              <input
-                type={form.inputType}
-                id={label + index}
-                name={label}
-                className="organize_own_selection"
-                onChange={() => {
-                  handleFieldChange(item.optionLabel);
-                  // if (item.extension) {
-                  setExtensionData({
-                    [item.optionLabel]: item.extension ? item.extension : [],
-                  });
-                  // }
-                }}
-              />
-              <label
-                style={{
-                  color: pageColors?.optionColor,
-                }}
-                htmlFor={label + index}
-              >
-                {item.optionLabel}
-              </label>
-              <span className="checkmark" />
-            </li>
-            {extensionData[item.optionLabel]?.length > 0 &&
-              extensionData[item.optionLabel]?.map((opt, i) => (
-                <FormField8
-                  form={opt}
-                  key={i}
-                  formFieldData={formFieldData}
-                  setFormFieldData={setFormFieldData}
-                  formErrors={formErrors}
-                  pageColors={pageColors}
-                  level={form.label}
-                />
-              ))}
-          </>
-        ))}
-      </ul>
-    );
-  } else if (form.inputType === "checkbox") {
-    fieldInput = (
-      <ul>
-        {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
-              <input
-                type={form.inputType}
-                id={label + index}
-                name={label}
-                className="organize_own_selection"
-                onChange={(e) => {
-                  handleFieldChange(item.optionLabel, e);
-                  if (!extensionData[label + index]) {
-                    setExtensionData({
-                      ...extensionData,
-                      [label + index]: item.extension ? item.extension : [],
-                    });
-                  } else {
-                    const updatedExtensionData = { ...extensionData };
-                    delete updatedExtensionData[label + index];
-                    setExtensionData(updatedExtensionData);
-                  }
-                }}
-              />
-              <label
-                style={{
-                  color: pageColors?.optionColor,
-                }}
-                htmlFor={label + index}
-              >
-                {item.optionLabel}
-              </label>
-              <span className="checkmark" />
-            </li>
-            {extensionData[label + index]?.length > 0 &&
-              extensionData[label + index]?.map((opt, i) => (
-                <FormField8
-                  form={opt}
-                  key={i}
-                  formFieldData={formFieldData}
-                  setFormFieldData={setFormFieldData}
-                  formErrors={formErrors}
-                  pageColors={pageColors}
-                  level={form.label}
-                />
-              ))}
-          </>
-        ))}
-      </ul>
-    );
-  }
-  else if (form.label === "Dietary restrictions or allergies:" && form.inputType === "text") {
-    fieldInput = (
-
-      <input
-        type={form.inputType}
-        className="form-control"
-        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
-        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}
-        style={{
-          color: pageColors?.typedTextColor,
-        }}
-        data-placeholder-color={pageColors?.placeholderTextColor}
-      />
-
-    );
-  }
-  else {
-    fieldInput = (
-      <>
-        <input
-          type={form.inputType}
-          className="form-control"
-          id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
-          placeholder={form.placeholder}
-          onChange={(e) => handleFieldChange(e.target.value)}
-          style={{
-            color: pageColors?.typedTextColor,
-          }}
-          data-placeholder-color={pageColors?.placeholderTextColor}
-        />
-        <div className="field-icon">
-          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
-        </div>
-      </>
-    );
-  }
-
-  return (
-    <div
-      // className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")
-      //   ? "country"
-      //   : ""
-      //   }`}
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
-        } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
-        }`}
-
-      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
-    >
-      {form.label != "Name" && form.inputType != "email" ? (
-        <label
-          style={{
-            color: pageColors?.labelColor,
-          }}
-        >
-          {form.label}
-          {
-            // isRequired ? "*" : ""
-          }
-        </label>
-      ) : null}
-
-      {fieldInput}
-      <div className="help-block">{formErrors[label]}</div>
-      <style>
-        {`
-        #registration_form > div .form-control::placeholder {
-          color: ${pageColors?.placeholderTextColor};
-        }
-       
-      `}
-      </style>
     </div>
   );
 };
