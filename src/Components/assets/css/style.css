@@ -1300,7 +1300,12 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   max-width: 66px;
 }
 
-.active-subLink .left-sidebar .sidebar_txt {
+.active-subLink .left-sidebar .sidebar_txt button {
+  /* display: none; */
+  cursor:pointer
+}
+
+.active-subLink .left-sidebar .sidebar_txt  span{
   display: none;
 }
 
