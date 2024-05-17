@@ -53,7 +53,6 @@ const customLoader = (functionName, e = null) => {
   loader("show");
   setTimeout(() => {
     functionName(e);
-    loader("hide");
   }, 300);
 };
 const Analytics = (props) => {
@@ -479,7 +478,7 @@ const Analytics = (props) => {
   const [sortOrder, setSortOrder] = useState("asc");
 
   const clearFilter = () => {
-    loader("show");
+    // loader("show");
 
     setTimeout(() => {
       setAppliedFilter({});
@@ -501,7 +500,7 @@ const Analytics = (props) => {
   const applyFilter = (e) => {
     e.preventDefault();
 
-    loader("show");
+    // loader("show");
 
     setTimeout(() => {
       const filteredData = usersDataOriginal.filter((item) => {
@@ -1043,7 +1042,7 @@ const Analytics = (props) => {
 
   const downloadExcel = (data, name) => {
     loader("show");
-
+    setShowFilter(false);
     setTimeout(() => {
       try {
         if (data?.length == 0) {
@@ -1137,7 +1136,7 @@ const Analytics = (props) => {
           {attendedUsers?.length > 0 || registeredUsers?.length > 0 ? (
             <HighchartsReact
               highcharts={Highcharts}
-              key={"totalRegistrationCount"+region}
+              key={"totalRegistrationCount" + region}
               options={{
                 chart: {
                   marginTop: 40,
