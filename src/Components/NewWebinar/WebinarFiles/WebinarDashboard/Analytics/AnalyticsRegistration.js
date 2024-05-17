@@ -407,13 +407,18 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                         },
                         plotOptions: {
                           series: {
-                        
+                            plotShadow: false,
+                            plotBorderWidth: null,
                             dataLabels: {
                               enabled: true,
                               format: "{point.y}",
                               style: {
                                 fontSize: "10px",
-                                color: "#555555",
+                                color: "#000",
+                                fontWeight:"400",
+                                border:0,
+                                stroke:0,
+                                
                               },
                             },
                           },

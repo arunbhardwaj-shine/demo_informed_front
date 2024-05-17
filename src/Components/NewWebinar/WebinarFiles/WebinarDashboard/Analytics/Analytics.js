@@ -176,7 +176,7 @@ const Analytics = (props) => {
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
           style: {
             fontWeight: "bold",
-            color: "black",
+            color: "#0066be",
             textOutline: "none",
             fontSize: "14px",
           },
@@ -917,11 +917,11 @@ const Analytics = (props) => {
             drilldown: {
               activeAxisLabelStyle: {
                 textDecoration: "none",
-                color: "#000000",
+                color: "#0066be",
               },
               activeDataLabelStyle: {
                 textDecoration: "none",
-                color: "#000000",
+                color: "#0066be",
               },
               series: response?.data?.data?.regionData?.drilldownData, // set the drilldown data
             },
@@ -2203,6 +2203,12 @@ const Analytics = (props) => {
                                     sortedCountries?.countryWiseData
                                       ?.categoriesData,
                                   allowDecimals: false,
+                                  labels: {
+                                    style: {
+                                      fontSize: "11px",
+                                      color: "#70899E",
+                                    },
+                                  },
                                 },
                                 credits: {
                                   enabled: false,
@@ -2238,6 +2244,12 @@ const Analytics = (props) => {
                                         "gray",
                                     },
                                   },
+                                   labels: {
+                                    style: {
+                                      fontSize: "11px",
+                                      color: "#97B6CF",
+                                    },
+                                  },
                                   allowDecimals: false,
                                 },
                                 plotOptions: {
@@ -2245,8 +2257,17 @@ const Analytics = (props) => {
                                     dataLabels: {
                                       enabled: true,
                                     },
-                                    series: {
-                                      pointWidth: 40,
+                                    
+                                  },
+                                  series: {
+                                    pointWidth: 20,
+                                    dataLabels: {
+                                      style: {
+                                        fontWeight: "500",
+                                        textShadow: "none",
+                                        fontSize: "14px",
+                                        color: "#0066BE",
+                                      },
                                     },
                                   },
                                 },
@@ -2493,6 +2514,12 @@ const Analytics = (props) => {
                                     sortedCountries?.regionData
                                       ?.barChartCategories,
                                   allowDecimals: false,
+                                  labels: {
+                                    style: {
+                                      fontSize: "11px",
+                                      color: "#70899E",
+                                    },
+                                  },
                                 },
                                 credits: {
                                   enabled: false,
@@ -2531,6 +2558,12 @@ const Analytics = (props) => {
                                         "gray",
                                     },
                                   },
+                                  labels: {
+                                    style: {
+                                      fontSize: "11px",
+                                      color: "#97B6CF",
+                                    },
+                                  },
                                   allowDecimals: false,
                                 },
                                 plotOptions: {
@@ -2549,6 +2582,14 @@ const Analytics = (props) => {
                                     data: sortedCountries?.regionData
                                       ?.barChartSeries,
                                     color: "#00D4C0",
+                                    dataLabels: {
+                                      style: {
+                                        fontWeight: "500",
+                                        textShadow: "none",
+                                        fontSize: "14px",
+                                        color: "#0066BE",
+                                      },
+                                    },
                                   },
                                 ],
                               }}
@@ -2821,8 +2862,9 @@ const Analytics = (props) => {
                                   labels: {
                                     enabled: true,
                                     style: {
-                                      fontSize: "10px",
-                                      color: "#97B6CF",
+                                      fontSize: "12px",
+                                      color: "#70899e",
+                                      fontWeight:"400",
                                     },
                                   },
                                 },
