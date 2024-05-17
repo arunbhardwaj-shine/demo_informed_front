@@ -225,6 +225,8 @@ const AnalyticsRegions = () => {
                 style: {
                   fontWeight: "normal",
                   textShadow: "none",
+                  color: "#0066BE",
+                  fontWeight:"500",
                 },
               },
             },
@@ -252,7 +254,7 @@ const AnalyticsRegions = () => {
             stackLabels: {
               enabled: true,
               style: {
-                fontWeight: "bold",
+                fontWeight: "500",
                 color: "gray",
               },
             },
@@ -266,7 +268,7 @@ const AnalyticsRegions = () => {
             x: 0,
             y: 0,
             itemStyle: {
-              fontWeight: "500",
+              fontWeight: "400",
               color: "#70899E",
               fontSize: "12px",
             },
@@ -364,7 +366,7 @@ const AnalyticsRegions = () => {
                             <div className="rd-training-block-left">
                               <h4>Total registered & Attended HCPs</h4>
                             </div>
-                            <div className="rd-training-block-right d-flex">
+                            <div className="rd-training-block-right d-flex align-items-center">
                               <div className="switch6">
                                 <label className="switch6-light">
                                   <input
@@ -374,13 +376,30 @@ const AnalyticsRegions = () => {
                                   />
                                   <span>
                                     <span>
-                                      <img
+                                      {/* <img
                                         src={path_image + "bar-graph-img.png"}
                                         style={{ transform: "rotate(90deg)" }}
-                                      />
+                                      /> */}
+                                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="24" width="6" height="24" rx="1" transform="rotate(90 24 0)" fill="#0066BE"/>
+                                        <rect x="13.2617" y="9.14258" width="5.71429" height="13.2632" rx="1" transform="rotate(90 13.2617 9.14258)" fill="#8A4E9C"/>
+                                        <rect x="19" y="18" width="6" height="19" rx="1" transform="rotate(90 19 18)" fill="#39CABC"/>
+                                      </svg>
                                     </span>
                                     <span>
-                                      <img src={path_image + "pie-img.png"} />
+                                      {/* <img src={path_image + "pie-img.png"} /> */}
+                                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_5227_2027)">
+                                          <path d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z" fill="#39CABC" />
+                                          <path d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z" fill="#0066BE" />
+                                          <path d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z" fill="#8A4E9C" />
+                                        </g>
+                                        <defs>
+                                          <clipPath id="clip0_5227_2027">
+                                            <rect width="24" height="24" fill="white" />
+                                          </clipPath>
+                                        </defs>
+                                      </svg>
                                     </span>
                                   </span>
                                   <a className="btn"></a>
@@ -388,7 +407,6 @@ const AnalyticsRegions = () => {
                               </div>
                               <Dropdown>
                                 <Dropdown.Toggle
-                                  variant="success"
                                   id="dropdown-basic"
                                 >
                                   <svg
@@ -477,6 +495,16 @@ const AnalyticsRegions = () => {
                                           text: "",
                                         },
                                         drilldown: {
+                                          activeAxisLabelStyle: {
+                                            textDecoration: 'none',
+                                            color: "#fff",
+                                
+                                        },
+                                        activeDataLabelStyle: {
+                                            textDecoration: 'none',
+                                            color: "#fff",
+                                
+                                        },
                                           series:
                                             regionData[activeRegion]
                                               .drilldownData,
@@ -609,6 +637,8 @@ const AnalyticsRegions = () => {
                                                 style: {
                                                   fontWeight: "normal",
                                                   textShadow: "none",
+                                                  color: "#0066BE",
+                                                  fontWeight: "500",
                                                 },
                                               },
                                             },

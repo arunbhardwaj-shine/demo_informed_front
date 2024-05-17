@@ -135,6 +135,16 @@ const AnalyticsEmailView = () => {
         beta: 25,
         depth: 70,
       },
+      events: {
+        load: function() {
+          let categoryHeight = 50;
+          this.update({
+            chart: {
+              height: categoryHeight * this.pointCount + (this.chartHeight - this.plotHeight)
+            }
+          })
+        }
+      }
     },
     title: {
       text: "",
@@ -156,10 +166,27 @@ const AnalyticsEmailView = () => {
     },
     xAxis: {
       categories: [],
+      labels: {
+        align: "right",
+        reserveSpace: true,
+        y: 7,
+      style: {
+        color: '#97B6CF',
+        fontSize: '13',
+        fontWeight: 400,
+      },
+    },
     },
     yAxis: {
       title: {
         text: null,
+      },
+      labels: {
+        style: {
+          color: '#97B6CF',
+          fontSize: '11',
+          fontWeight: 400,
+        },
       },
     },
     exporting: {
@@ -236,11 +263,13 @@ const AnalyticsEmailView = () => {
     },
     plotOptions: {
       series: {
-        groupPadding: 0.1,
+        groupPadding: 0.2,
+        pointPadding: 0,
+        borderWidth: 0,
         pointWidth: 30,
         dataLabels: {
           allowOverlap: false,
-          distance: 40,
+          distance: 30,
           enabled: true,
           inside: false,
           overflow: "justify",
@@ -248,8 +277,10 @@ const AnalyticsEmailView = () => {
           shape: "callout",
           size: "100%",
           style: {
-            fontWeight: "normal",
             textShadow: "none",
+            fontSize: "14px",
+            color: "#004A89",
+            fontWeight: "500",
           },
           formatter: function () {
             return (
@@ -483,11 +514,20 @@ const AnalyticsEmailView = () => {
                   <p>Select the email to see the stats:</p>
                   <Form>
                     <Select
+                      classNamePrefix="react-select"
                       options={options}
                       className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                       onChange={handleSelectChange}
                       value={selectedOption}
-                    />
+                      // isMenuOpen={true}
+//                       onMenuOpen={(e)=>{
+// setTimeout(()=>{
+//   console.log( document.querySelector(".react-select__option--is-focused").style.color="white"
+// );
+// },1)
+//                       }} 
+
+                      />
                   </Form>
                 </div>
                 {viewEmailData && (
@@ -818,10 +858,23 @@ const AnalyticsEmailView = () => {
                                       },
                                       xAxis: {
                                         type: "category",
+                                        
                                       },
                                       yAxis: {
                                         title: {
                                           text: "Total Count",
+                                          style: {
+                                            color: '#70899E',
+                                            fontSize: '13',
+                                            fontWeight: 400,
+                                          },
+                                        },
+                                        labels: {
+                                          style: {
+                                            color: '#97B6CF',
+                                            fontSize: '11',
+                                            fontWeight: 400,
+                                          },
                                         },
                                       },
                                       legend: {
