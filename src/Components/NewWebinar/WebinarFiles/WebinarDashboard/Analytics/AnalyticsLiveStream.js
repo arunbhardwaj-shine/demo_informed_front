@@ -17,24 +17,20 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
-  const [chartHeight, setChartHeight] = useState(270);
-  const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
-  const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
+  const chartHeight= 270;
   const [userIds, setUserIds] = useState([]);
   const [firstTimeStatus, setFirstTimeStatus] = useState(false);
   const [firstTime, setFirstTime] = useState(true);
-  const { eventIdContext, handleEventId } = useSidebar();
-  const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState("new");
+  const eventIdContext= useSidebar();
   const [tempSlotsCategory, setTempSlotsCategory] = useState([]);
   const [topCountries, setTopCountries] = useState([]);
   const [apiStatus, setApiStatus] = useState(false);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(
+  const eventId = 
     eventIdContext?.eventId
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
-  );
+
   const commonPieOptions = {
     chart: {
       plotBackgroundColor: null,
@@ -118,32 +114,6 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
         valueSuffix: "%",
       },
     },
-    legend: {
-      verticalAlign: "bottom",
-    },
-    // legend: {
-    //     reversed: false,
-    //     align: "center",
-    //     verticalAlign: "bottom",
-    //     layout: "horizontal",
-    //     x: 0,
-    //     y: 0,
-    //     itemStyle: {
-    //         fontSize: "12px", // Reduced font size
-    //         fontWeight: "normal",
-    //         color: "#555555",
-    //     },
-    //     itemHoverStyle: {
-    //         color: "#000000",
-    //     },
-    //     itemHiddenStyle: {
-    //         color: "#C0C0C0",
-    //     },
-    //     symbolWidth: 8,
-    //     symbolHeight: 8,
-    //     itemDistance: 20,
-    //     borderWidth: 0,
-    // },
     plotOptions: {
       pie: {
         size: "100%",
@@ -320,7 +290,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const [fixSlotsValue, setFixSlotsValue] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [tempSlotsValue, setTempSlotsValue] = useState([]);
-  const [maxDataPoints, setMaxDataPoints] = useState(10); // Maximum number of data points to display
+  const maxDataPoints=10; // Maximum number of data points to display
 
   useEffect(() => {
     setLineChartOptions((prevOptions) => ({
@@ -447,35 +417,15 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       // if (attendeesTab == "online" || attendeesTab == "offline") {
       //   setAttendees(data);
       // }
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
+      
+      
     } catch (err) {
-      setRefreshAttendeesFlag("");
-      setAttendeesApiCallStatus(false);
+      
+      
       console.log(err);
     }
   };
-  const getEventRegisterReaders = async (searchVal = "", userids = []) => {
-    try {
-      let body = {
-        eventId: eventId,
-        type: "live",
-        search: searchVal,
-        user_ids: userIds,
-      };
-      const response = await postData(
-        ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
-        body
-      );
-      // setAttendees(response?.data?.data);
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
-    } catch (err) {
-      setRefreshAttendeesFlag("");
-      setAttendeesApiCallStatus(false);
-      console.log(err);
-    }
-  };
+
   useEffect(() => {
     // Initial API call
     getLiveStreamData();
@@ -552,12 +502,12 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
           return newOptions;
         });
       }
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
+      
+      
     } catch (err) {
       console.log("--err", err);
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
+      
+      
     }
   };
 
