@@ -596,9 +596,11 @@ const EditLibrary = () => {
         formData.append("allowRequest", JSON.stringify(userInputs?.chat_box));
         formData.append("draft", JSON.stringify(userInputs?.draft));
 
+        let allowVideoValue = 0;
         if (userInputs?.docintelFormat == "video") {
           formData.append("allowVideo", 0);
         } else {
+          allowVideoValue = userInputs?.allow_video ? 1 : 0;
           formData.append(
             "allowVideo",
             JSON.stringify(userInputs?.allow_video)
@@ -620,8 +622,9 @@ const EditLibrary = () => {
           );
         }
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
-          header: {
+          headers: {
             "Content-Type": "multipart/form-data",
+            "CustomHeader": allowVideoValue
           },
         });
         loader("hide");

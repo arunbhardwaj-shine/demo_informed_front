@@ -422,10 +422,11 @@ const LibraryCreateUser = () => {
             ? JSON.stringify(userInputs?.draft)
             : JSON.stringify(false)
         );
-
+        let allowVideoValue = 0;
         if (userInputs?.docintelFormat == "video") {
           formData.append("allowVideo", 0);
         } else {
+          allowVideoValue = userInputs?.allowVideo ? 1 : 0;
           formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
         }
 
@@ -443,10 +444,11 @@ const LibraryCreateUser = () => {
             "pharama_val",
             userInputs?.pharmaArr ? userInputs?.pharmaArr : ""
           );
-        }  
+        }
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-          header: {
+          headers: {
             "Content-Type": "multipart/form-data",
+            "CustomHeader": allowVideoValue
           },
         });
         loader("hide");
