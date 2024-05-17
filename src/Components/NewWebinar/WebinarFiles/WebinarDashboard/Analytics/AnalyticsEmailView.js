@@ -513,7 +513,6 @@ const AnalyticsEmailView = () => {
                       className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                       onChange={handleSelectChange}
                       value={selectedOption}
-                      classNamePrefix="react-select"
                       // isMenuOpen={true}
 //                       onMenuOpen={(e)=>{
 // setTimeout(()=>{
