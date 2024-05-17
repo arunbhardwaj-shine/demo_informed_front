@@ -362,12 +362,14 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                   {data?.registeredOverTime?.seriesData?.length ? (
                     <HighchartsReact
                       highcharts={Highcharts}
+                      key="registeredOverTime"
+
                       options={{
                         chart: {
                           plotBackgroundColor: null,
                           plotBorderWidth: null,
                           plotShadow: false,
-                          type: "line",
+                          type: "spline",
                           //maxWidth: 500,
                           //size: '100%',
                           height: 248,
@@ -405,15 +407,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                         },
                         plotOptions: {
                           series: {
-                            marker: {
-                              symbol: "square",
-                              symbolWidth: 6,
-                              symbolHeight: 6,
-                              style:{
-                                width: "6px",
-                                height: "6px",
-                              },
-                            },
+                        
                             dataLabels: {
                               enabled: true,
                               format: "{point.y}",
@@ -468,6 +462,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                             color: "#874e9e",
                             marker: {
                               symbol: "square",
+                              
                             },
                           },
                         ],

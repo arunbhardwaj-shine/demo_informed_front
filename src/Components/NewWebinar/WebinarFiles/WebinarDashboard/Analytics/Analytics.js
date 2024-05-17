@@ -141,7 +141,7 @@ const Analytics = (props) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 600,
+      height: 500,
     },
     title: {
       // text: "Click on the double arrows to see more details",
@@ -916,6 +916,14 @@ const Analytics = (props) => {
             ...commonPieOptions,
             series: newValueRegion,
             drilldown: {
+              activeAxisLabelStyle: {
+                textDecoration: "none",
+                color: "#000000",
+              },
+              activeDataLabelStyle: {
+                textDecoration: "none",
+                color: "#000000",
+              },
               series: response?.data?.data?.regionData?.drilldownData, // set the drilldown data
             },
           });
@@ -925,7 +933,7 @@ const Analytics = (props) => {
               plotBorderWidth: null,
               plotShadow: false,
               type: "pie",
-              height: 600,
+              height: 500,
             },
             title: {
               // text: "Click on the double arrows to see more details",
@@ -1129,10 +1137,17 @@ const Analytics = (props) => {
           {attendedUsers?.length > 0 || registeredUsers?.length > 0 ? (
             <HighchartsReact
               highcharts={Highcharts}
+              key={"totalRegistrationCount"+region}
               options={{
                 chart: {
                   marginTop: 40,
                   type: "bar",
+                  options3d: {
+                    enabled: true,
+                    alpha: 10,
+                    beta: 25,
+                    depth: 70,
+                  },
                   events: {
                     load: function () {
                       let categoryHeight = 50;
@@ -2149,7 +2164,7 @@ const Analytics = (props) => {
                                   type: "bar",
                                   events: {
                                     load: function () {
-                                      let categoryHeight = 50;
+                                      let categoryHeight = 30;
                                       this.update({
                                         chart: {
                                           height:
@@ -2212,7 +2227,7 @@ const Analytics = (props) => {
                                       enabled: true,
                                     },
                                     series: {
-                                      pointWidth: 30,
+                                      pointWidth: 40,
                                     },
                                   },
                                 },
@@ -2439,7 +2454,7 @@ const Analytics = (props) => {
                                   type: "bar",
                                   events: {
                                     load: function () {
-                                      let categoryHeight = 50;
+                                      let categoryHeight = 30;
                                       this.update({
                                         chart: {
                                           height:
