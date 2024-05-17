@@ -1856,7 +1856,7 @@ const EditLicense = () => {
                         localStorage.getItem("user_id") ==
                           "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                         <>
-                          <div className="form-group">
+                          {/* <div className="form-group">
                             <label htmlFor="">Include video</label>
                             <div className="switch">
                               <label className="switch-light">
@@ -1898,7 +1898,7 @@ const EditLicense = () => {
                                 <a className="btn"></a>
                               </label>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : null}
                     </div>
