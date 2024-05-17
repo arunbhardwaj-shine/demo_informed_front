@@ -181,6 +181,13 @@ const AnalyticsEmailView = () => {
       title: {
         text: null,
       },
+      labels: {
+        style: {
+          color: '#97B6CF',
+          fontSize: '11',
+          fontWeight: 400,
+        },
+      },
     },
     exporting: {
       sourceWidth: 1600,
@@ -508,12 +515,10 @@ const AnalyticsEmailView = () => {
                   <Form>
                     <Select
                       classNamePrefix="react-select"
-
                       options={options}
                       className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                       onChange={handleSelectChange}
                       value={selectedOption}
-                      classNamePrefix="react-select"
                       // isMenuOpen={true}
 //                       onMenuOpen={(e)=>{
 // setTimeout(()=>{
@@ -853,10 +858,23 @@ const AnalyticsEmailView = () => {
                                       },
                                       xAxis: {
                                         type: "category",
+                                        
                                       },
                                       yAxis: {
                                         title: {
                                           text: "Total Count",
+                                          style: {
+                                            color: '#70899E',
+                                            fontSize: '13',
+                                            fontWeight: 400,
+                                          },
+                                        },
+                                        labels: {
+                                          style: {
+                                            color: '#97B6CF',
+                                            fontSize: '11',
+                                            fontWeight: 400,
+                                          },
                                         },
                                       },
                                       legend: {

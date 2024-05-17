@@ -107,6 +107,10 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                         formatter: function () {
                           return this.value.name; // Display the name property of the data point
                         },
+                        style: {
+                          color: "#97B6CF",
+                          fontSize: "33px",
+                        },
                       },
                       lineColor: "rgba(151, 182, 207, 0.30)", // X-axis line color
                       lineWidth: 2, // X-axis line width

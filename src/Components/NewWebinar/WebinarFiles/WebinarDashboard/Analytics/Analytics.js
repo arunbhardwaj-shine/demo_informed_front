@@ -1187,15 +1187,15 @@ const Analytics = (props) => {
                   },
                   labels: {
                     style: {
-                      color: "#70899E",
+                      color: "#97B6CF",
                       fontSize: "13px",
                     },
                   },
                   stackLabels: {
                     enabled: true,
                     style: {
-                      fontWeight: "bold",
-                      color: "#70899E",
+                      fontWeight: "500",
+                      color: "#97B6CF",
                       fontSize: "13px",
                     },
                   },
@@ -1207,13 +1207,28 @@ const Analytics = (props) => {
                       enabled: true,
                     },
                   },
+                  series: {
+                    groupPadding: 0.1,
+                    pointWidth: 25, // Adjust the width of the bars
+                    dataLabels: {
+                      allowOverlap: false,
+                      distance: 40,
+                      size: "100%",
+                      style: {
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        color: "#0066BE",
+                      },
+                    },
+                  },
                 },
 
                 legend: {
                   enabled: true,
                   itemStyle: {
                     color: "#97B6CF", // Color for legend items
-                    fontSize: "15px", // Font size for legend items
+                    fontSize: "14px", // Font size for legend items
+                    fontWeight: "400",
                   },
                 },
 

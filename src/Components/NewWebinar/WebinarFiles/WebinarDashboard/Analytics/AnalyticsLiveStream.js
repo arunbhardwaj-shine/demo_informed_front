@@ -228,6 +228,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       tickInterval: 1,
       labels: {
         enabled: true,
+        rotation: -45,
+        style: {
+          fontSize: "10px",
+          color: "#97B6CF",
+        },
       },
       lineColor: "rgba(151, 182, 207, 0.30)", // X-axis line color
       lineWidth: 2, // X-axis line width
@@ -236,6 +241,13 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       title: {
         text: "",
       },
+      labels: {
+        enabled: true,
+      style: {
+        fontSize: "9px",
+        color: "#97B6CF",
+      },
+     },
       lineColor: "rgba(151, 182, 207, 0.30)", // Y-axis line color
       lineWidth: 2, // Y-axis line width
       allowDecimals: false, // Ensure y-axis labels are integers
@@ -289,6 +301,12 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
         },
         fillColor: "#56cabc",
         color: "#56cabc",
+        style: {
+          fontWeight: "600",
+          textShadow: "none",
+          fontSize: "15px",
+          color: "#0066BE",
+        },
       },
     },
     series: [

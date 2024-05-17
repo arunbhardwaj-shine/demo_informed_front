@@ -387,8 +387,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           labels: {
                             rotation: -45,
                             style: {
-                              fontSize: "12px",
-                              color: "#555555",
+                              fontSize: "10px",
+                              color: "#97B6CF",
                             },
                           },
                           lineColor: "rgba(151, 182, 207, 0.30)",
