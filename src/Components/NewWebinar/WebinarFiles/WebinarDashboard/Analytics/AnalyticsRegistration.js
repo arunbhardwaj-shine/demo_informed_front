@@ -83,6 +83,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
       },
       buttons: {
         contextButton: {
+          x: 14,
+          y: 0,
           symbol:
             "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
           menuItems: [
@@ -131,7 +133,117 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
   };
 
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
-  const [pieOptionsHcps, setPieOptionsHcps] = useState({ ...commonPieOptions });
+  const [pieOptionsHcps, setPieOptionsHcps] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      height: 270,
+    },
+    title: {
+      text: "Click on the double arrows to see more details",
+      align: "left",
+      style: {
+        fontSize: "12px",
+        color: "#97B6CF",
+      },
+    },
+
+    exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
+      enabled: true,
+      chartOptions: {
+        title: {
+          text: "", // Remove title from exported image
+        },
+      },
+      filename: "Total_Registration", // Set filename for exported image
+      menuItemDefinitions: {
+        downloadPNG: {
+          text: "Download PNG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/png",
+            });
+          },
+        },
+        downloadJPEG: {
+          text: "Download JPEG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/jpeg",
+            });
+          },
+        },
+        downloadPDF: {
+          text: "Download PDF",
+          onclick: function () {
+            this.exportChart({
+              type: "application/pdf",
+            });
+          },
+        },
+        downloadSVG: {
+          text: "Download SVG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/svg+xml",
+            });
+          },
+        },
+      },
+      buttons: {
+        contextButton: {
+          x: -15,
+          y: 0,
+          symbol:
+            "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+          menuItems: [
+            "downloadPNG",
+            "downloadJPEG",
+            "downloadPDF",
+            "downloadSVG",
+          ],
+        },
+      },
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    legend: {
+      verticalAlign: "bottom",
+    },
+    plotOptions: {
+      pie: {
+        size: "100%",
+        dataLabels: {
+          enabled: true,
+          format: "{point.y}",
+          style: {
+            fontWeight: "500",
+            color: "white",
+            textOutline: "none",
+            fontSize: "20px",
+          },
+          distance: -40,
+        },
+        animation: {
+          duration: 1000,
+        },
+        enableMouseTracking: true,
+        showInLegend: true,
+        borderWidth: 0,
+      },
+    },
+    series: [],
+  });
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -185,7 +297,17 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
             ],
           },
         ];
-        setPieOptionsHcps({ ...commonPieOptions, series: newValueHcps });
+        setPieOptionsHcps({ ...commonPieOptions, series: newValueHcps, exporting: {
+          ...commonPieOptions.exporting,
+          buttons: {
+              ...commonPieOptions.exporting.buttons,
+              contextButton: {
+                  ...commonPieOptions.exporting.buttons.contextButton,
+                  x: 0, // Set different x value
+                  y: 0, // Set different y value
+              },
+          },
+      }, });
 
         loader("hide");
       } catch (error) {
@@ -518,6 +640,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           },
                           buttons: {
                             contextButton: {
+                              x: 20,
+                              y: 0,
                               symbol:
                                 "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
                               menuItems: [
