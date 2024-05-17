@@ -1789,13 +1789,18 @@
   .bounced-email-page #analytics-hcp-table .selected-hcp-list {
     overflow: initial;
   }
+    .question-listing .answer span.bullet-color {
+      margin: 6px 8px 0 0;
+    }
 }
 
 @media only screen and (max-width: 1399px) {
   .question-outer-layout .question-action {
     gap: 30px;
   }
-
+.question-listing .answer span.bullet-color {
+  margin: 4px 8px 0 0;
+}
   .webinar-auto .mail_trigger_content {
     margin-left: 25px;
     padding: 4px 10px 0 6px;
@@ -1853,7 +1858,7 @@
   }
 
   .left-sidebar .sidebar_txt {
-    margin: 0px 0 0;
+    margin: 15px 0 0;
   }
 
   .sidebar-menu ul {
@@ -2106,6 +2111,9 @@
     left: 57%;
     background-size: 90px;
   }
+    .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+      padding-top: 115px;;
+    }
 }
 
 @media only screen and (min-width:1300px) and (max-width:1370px) {

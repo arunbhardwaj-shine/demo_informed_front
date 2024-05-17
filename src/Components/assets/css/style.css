@@ -237,7 +237,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 
 .sidebar-menu ul {
-  margin: 45px 0 0;
+  margin: 25px 0 0;
   padding-left: 8px;
   width: 100%;
 }
@@ -1294,7 +1294,11 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-
+.toggle_sidebar.active-subLink .sidebar-menu button.toggle_btn img {
+  -moz-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
 .toggle_sidebar .left-sidebar .sidebar-menu,
 .active-subLink .left-sidebar .sidebar-menu {
   max-width: 66px;
@@ -1358,7 +1362,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding-right: 0px;
   background: linear-gradient(90deg, #f3f7fb, #e4edf5);
   border-radius: 25px 0 0 0;
-  padding-top: 80px;
+  padding-top: 125px;
   -webkit-backdrop-filter: blur(254px);
   backdrop-filter: blur(254px);
   z-index: 1;
@@ -10702,10 +10706,11 @@ button.event_sort_btn.svg_active svg {
 .left-sidebar .sidebar_txt button.toggle_btn {
   width: 18px;
   height: 18px;
-  margin: 0px 12px 0 24px;
+  margin: 0px 12px 0 25px;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index:6;
 }
 
 .left-sidebar .sidebar_txt button.toggle_btn img {
