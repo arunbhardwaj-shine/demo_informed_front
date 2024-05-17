@@ -958,7 +958,12 @@ const Analytics = (props) => {
               },
             },
             legend: {
-              enabled: false, // Disable the default legend
+              enabled: true, // Disable the default legend
+              itemStyle: {
+                color: "#97b6cf", // Color for legend items
+                fontSize: "14px", // Font size for legend items
+                fontWeight: "400",
+              },
             },
             plotOptions: {
               pie: {
@@ -968,7 +973,7 @@ const Analytics = (props) => {
                   format: "<b>{point.name}</b>: {point.y} ",
                   style: {
                     fontWeight: "bold",
-                    color: "black",
+                    color: "#0066BE",
                     textOutline: "none",
                     fontSize: "14px",
                   },
@@ -989,13 +994,13 @@ const Analytics = (props) => {
               activeAxisLabelStyle: {
                 textDecoration: "none",
 
-                color: "#000000",
+                color: "#0066BE",
               },
 
               activeDataLabelStyle: {
                 textDecoration: "none",
 
-                color: "#000000",
+                color: "#0066BE",
               },
               series:
                 response?.data?.data?.totalRegistrationsByEmailAndOtherChannels
@@ -1179,7 +1184,7 @@ const Analytics = (props) => {
                   categories: countries,
                   labels: {
                     style: {
-                      color: "#70899E",
+                      color: "#97b6cf",
                       fontSize: "12px",
                       fontWeight: "500",
                     },
@@ -2813,6 +2818,13 @@ const Analytics = (props) => {
                                 },
                                 xAxis: {
                                   type: "category",
+                                  labels: {
+                                    enabled: true,
+                                    style: {
+                                      fontSize: "10px",
+                                      color: "#97B6CF",
+                                    },
+                                  },
                                 },
                                 yAxis: {
                                   title: {
@@ -2880,11 +2892,11 @@ const Analytics = (props) => {
                                 drilldown: {
                                   activeAxisLabelStyle: {
                                     textDecoration: "none",
-                                    color: "#000000",
+                                    color: "#97b6cf",
                                   },
                                   activeDataLabelStyle: {
                                     textDecoration: "none",
-                                    color: "#000000",
+                                    color: "#0066BE",
                                   },
                                   series:
                                     sortedCountries?.totalRegistrationsByEmailAndOtherChannels?.drillDownData?.map(

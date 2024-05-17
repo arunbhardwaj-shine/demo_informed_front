@@ -343,7 +343,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
 
   useEffect(() => {
     if (firstTimeStatus) {
-      // getEventRegisterReadersGraph("", userIds);
+      getEventRegisterReadersGraph("", userIds);
     } else {
       setFirstTimeStatus(true);
     }
