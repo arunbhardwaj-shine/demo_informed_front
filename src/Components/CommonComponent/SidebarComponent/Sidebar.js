@@ -300,7 +300,11 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
             window.location.pathname == "/webinar/analytics/question-data" ||
             window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname == "/webinar/analytics" ||
+            window.location.pathname == "/webinar/analytics" ||  window.location.pathname == "/webinar/analytics/analytics-attendees" || 
+            window.location.pathname == "/webinar/analytics/analytics-poll" || 
+            window.location.pathname == "/webinar/analytics/analytics-questions" || 
+            window.location.pathname == "/webinar/analytics/analytics-emails" || 
+            window.location.pathname == "/webinar/analytics/analytics-regions" || 
             window.location.pathname === "/webinar/live-stream/settings" ||
             window.location.pathname === "/webinar/live-stream/speaker-zone" ||
             window.location.pathname == "/webinar/email/auto-emails" ||
@@ -323,7 +327,6 @@ const Sidebar = () => {
                 }}>
                   <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                 </button>
-                {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
                 <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
               </div>
             </>
@@ -340,7 +343,11 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
             window.location.pathname == "/webinar/analytics/question-data" ||
             window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname === "/webinar/analytics" ||
+            window.location.pathname === "/webinar/analytics" || window.location.pathname == "/webinar/analytics/analytics-attendees" || 
+            window.location.pathname == "/webinar/analytics/analytics-poll" || 
+            window.location.pathname == "/webinar/analytics/analytics-questions" || 
+            window.location.pathname == "/webinar/analytics/analytics-emails" || 
+            window.location.pathname == "/webinar/analytics/analytics-regions" || 
             window.location.pathname === "/webinar/live-stream/contact-dm" ||
             window.location.pathname === "/webinar/live-stream/settings" ||
             window.location.pathname === "/webinar/live-stream/speaker-zone" ||
@@ -1318,15 +1325,14 @@ const Sidebar = () => {
                     </Link>
                     <div className="left-sidebar-secondary">
                       <div className="sidebar-menu-secondary">
-                        <div className="sidebar_txt">
+                        {/* <div className="sidebar_txt">
                           <button className="toggle_btn" onClick={() => {
                             eventList();
                           }}>
                             <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                           </button>
-                          {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
                           <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
-                        </div>
+                        </div> */}
                         <ul>
                           <li className={isActiveEmail ? 'active' : 'side_li'}
                           // className="side_li"
@@ -1447,15 +1453,15 @@ const Sidebar = () => {
                     </Link>
                     <div className="left-sidebar-secondary">
                       <div className="sidebar-menu-secondary">
-                        <div className="sidebar_txt">
+                        {/* <div className="sidebar_txt">
                           <button className="toggle_btn" onClick={() => {
                             eventList();
                           }}>
                             <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                           </button>
-                          {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
+                       
                           <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
-                        </div>
+                        </div> */}
                         <ul>
                           <li className={isActive ? 'active' : 'side_li'}
                           // className="side_li"
@@ -1577,7 +1583,10 @@ const Sidebar = () => {
                   </li>
 
                   <li className={
-                          location.pathname == "/webinar/analytics-events" || location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions" || window.location.pathname == "/webinar/analytics/question-data" || window.location.pathname == "/webinar/analytics/analytics-emails" 
+                          location.pathname == "/webinar/analytics-events" || location.pathname == "/webinar/analytics" || location.pathname == "/webinar/analytics/analytics-attendees" || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions" || location.pathname == "/webinar/analytics/analytics-regions" || window.location.pathname == "/webinar/analytics/question-data" || window.location.pathname == "/webinar/analytics/analytics-emails" || location.pathname == "/webinar/analytics/analytics-attendees" 
+                          || location.pathname == "/webinar/analytics/analytics-poll" || location.pathname == "/webinar/analytics/analytics-questions"
+                           || location.pathname == "/webinar/analytics/analytics-emails"  || location.pathname == "/webinar/analytics/analytics-regions"
+                          
                               ? "active sub-links"
                               : "side_li sub-links"
                           }
@@ -1597,15 +1606,15 @@ const Sidebar = () => {
                     </Link>
                           <div className="left-sidebar-secondary">
                             <div className="sidebar-menu-secondary">
-                              <div className="sidebar_txt">
+                              {/* <div className="sidebar_txt">
                                 <button className="toggle_btn" onClick={() => {
                                   eventList();
                                 }}>
                                   <img src={path_image + "home-icon.svg"} alt="toggle-sidebar" />
                                 </button>
-                                {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
+                                
                                 <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
-                              </div>
+                              </div> */}
                               <ul>
                                 <li className={location.pathname == "/webinar/analytics" ? 'active' : 'side_li'}
                                 // className="side_li"
@@ -2924,6 +2933,7 @@ const Sidebar = () => {
                         "iSnEsKu5gB/DRlycxB6G4g==" ? (
                         window.location.pathname == "/octalatch-totalhcp" ||
                           window.location.pathname == "/octa-country" ||
+                          window.location.pathname == "/analytics-events" ||
                           window.location.pathname == "/octa-country-registration" ||
                           window.location.pathname == "/octalatch-deliveryregistration" ||
                           window.location.pathname == "/octa-trending-content" ||
@@ -3089,6 +3099,39 @@ const Sidebar = () => {
                                   </g>{" "}
                                 </svg>
                                 <p>Stats By Region</p>
+                              </Link>
+                            </li>
+
+                            <li
+                              className={
+                                location.pathname == "/analytics-events"
+                                  ? "active"
+                                  : "side_li"
+                              }
+                            >
+                              <Link to={"/analytics-events"}>
+                                <svg
+                                  version="1.0"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="512.000000pt"
+                                  height="512.000000pt"
+                                  viewBox="0 0 512.000000 512.000000"
+                                >
+                                  {" "}
+                                  <g
+                                    transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                                    fill="#0066be"
+                                    fill-opacity="0.6"
+                                    stroke="none"
+                                  >
+                                    {" "}
+                                    <path d="M3455 4786 c-94 -41 -124 -169 -58 -247 46 -55 69 -59 320 -59 l228 -1 -175 -172 c-736 -724 -1646 -1247 -2689 -1547 -210 -61 -237 -74 -267 -132 -18 -35 -18 -101 1 -137 21 -41 70 -79 113 -87 44 -9 133 13 392 92 361 111 670 235 1020 410 636 317 1162 691 1683 1194 l136 131 3 -225 c3 -209 4 -227 24 -252 39 -53 71 -69 134 -69 63 0 95 16 134 69 21 27 21 38 21 486 0 448 0 459 -21 486 -11 15 -33 37 -48 48 -27 20 -40 21 -474 23 -356 2 -453 0 -477 -11z" />{" "}
+                                    <path d="M3740 3024 c-100 -36 -172 -110 -204 -210 -15 -44 -16 -161 -14 -1154 l3 -1105 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 1125 0 1125 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                                    <path d="M2140 2224 c-100 -36 -172 -110 -204 -210 -15 -43 -16 -128 -14 -754 l3 -705 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 725 0 725 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                                    <path d="M540 1744 c-100 -36 -172 -110 -205 -210 -14 -43 -15 -107 -13 -514 l3 -465 25 -50 c31 -64 91 -124 155 -155 l50 -25 405 0 405 0 50 25 c64 31 124 91 155 155 l25 50 0 485 0 485 -25 50 c-31 64 -91 124 -155 155 l-50 25 -390 2 c-335 2 -396 0 -435 -13z" />{" "}
+                                  </g>{" "}
+                                </svg>
+                                <p>Event summary</p>
                               </Link>
                             </li>
                           </ul>

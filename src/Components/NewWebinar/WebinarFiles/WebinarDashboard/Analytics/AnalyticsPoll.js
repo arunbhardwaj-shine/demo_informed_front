@@ -171,7 +171,7 @@ const AnalyticsPoll = () => {
                             style:{
                               color:'#97B6CF',
                               fontSize:'20',
-                              fontWeight:600,
+                              fontWeight:500,
                             },
                             formatter: function () {
                               return this.value; // Display the category directly
@@ -186,6 +186,13 @@ const AnalyticsPoll = () => {
                           },
                           lineColor: "rgba(151, 182, 207, 0.30)",
                           lineWidth: 2,
+                          labels: {
+                            style: {
+                              color: '#97B6CF',
+                              fontSize: '14',
+                              fontWeight: 400,
+                            },
+                          },
                           
                         },
                         legend: {

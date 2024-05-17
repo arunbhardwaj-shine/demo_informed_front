@@ -17,31 +17,27 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
-  const [chartHeight, setChartHeight] = useState(270);
-  const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
-  const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
+  const chartHeight= 270;
   const [userIds, setUserIds] = useState([]);
   const [firstTimeStatus, setFirstTimeStatus] = useState(false);
   const [firstTime, setFirstTime] = useState(true);
-  const { eventIdContext, handleEventId } = useSidebar();
-  const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState("new");
+  const eventIdContext= useSidebar();
   const [tempSlotsCategory, setTempSlotsCategory] = useState([]);
   const [topCountries, setTopCountries] = useState([]);
   const [apiStatus, setApiStatus] = useState(false);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(
+  const eventId = 
     eventIdContext?.eventId
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
-  );
+
   const commonPieOptions = {
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 280, // Increased height to prevent overlapping
+      height: 270, // Increased height to prevent overlapping
     },
     title: {
       // text: "AVG spend time |",
@@ -118,32 +114,6 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
         valueSuffix: "%",
       },
     },
-    legend: {
-      verticalAlign: "bottom",
-    },
-    // legend: {
-    //     reversed: false,
-    //     align: "center",
-    //     verticalAlign: "bottom",
-    //     layout: "horizontal",
-    //     x: 0,
-    //     y: 0,
-    //     itemStyle: {
-    //         fontSize: "12px", // Reduced font size
-    //         fontWeight: "normal",
-    //         color: "#555555",
-    //     },
-    //     itemHoverStyle: {
-    //         color: "#000000",
-    //     },
-    //     itemHiddenStyle: {
-    //         color: "#C0C0C0",
-    //     },
-    //     symbolWidth: 8,
-    //     symbolHeight: 8,
-    //     itemDistance: 20,
-    //     borderWidth: 0,
-    // },
     plotOptions: {
       pie: {
         size: "100%",
@@ -212,7 +182,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
       type: "spline",
-      height: 280,
+      height: 250,
     },
     title: {
       text: "Live HCPs Tracking",
@@ -220,7 +190,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       style: {
         fontWeight: "500",
         color: "#70899E",
-        fontSize: "14px",
+        fontSize: "12px",
       },
     },
     xAxis: {
@@ -228,6 +198,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       tickInterval: 1,
       labels: {
         enabled: true,
+        rotation: -45,
+        style: {
+          fontSize: "10px",
+          color: "#97B6CF",
+        },
       },
       lineColor: "rgba(151, 182, 207, 0.30)", // X-axis line color
       lineWidth: 2, // X-axis line width
@@ -236,6 +211,13 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       title: {
         text: "",
       },
+      labels: {
+        enabled: true,
+      style: {
+        fontSize: "9px",
+        color: "#97B6CF",
+      },
+     },
       lineColor: "rgba(151, 182, 207, 0.30)", // Y-axis line color
       lineWidth: 2, // Y-axis line width
       allowDecimals: false, // Ensure y-axis labels are integers
@@ -262,8 +244,8 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       // itemHiddenStyle: {
       //     color: "#C0C0C0"
       // },
-      symbolWidth: 10,
-      symbolHeight: 10,
+      symbolWidth: 8,
+      symbolHeight: 8,
       itemDistance: 20,
       lineWidth: 0, // Remove the line cutting through the marker
     },
@@ -289,12 +271,17 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
         },
         fillColor: "#56cabc",
         color: "#56cabc",
+        style: {
+          fontWeight: "600",
+          textShadow: "none",
+          fontSize: "15px",
+          color: "#0066BE",
+        },
       },
     },
     series: [
       {
         name: "HCPs online",
-
         data: [],
       },
     ],
@@ -303,7 +290,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const [fixSlotsValue, setFixSlotsValue] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [tempSlotsValue, setTempSlotsValue] = useState([]);
-  const [maxDataPoints, setMaxDataPoints] = useState(10); // Maximum number of data points to display
+  const maxDataPoints=10; // Maximum number of data points to display
 
   useEffect(() => {
     setLineChartOptions((prevOptions) => ({
@@ -430,35 +417,15 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       // if (attendeesTab == "online" || attendeesTab == "offline") {
       //   setAttendees(data);
       // }
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
+      
+      
     } catch (err) {
-      setRefreshAttendeesFlag("");
-      setAttendeesApiCallStatus(false);
+      
+      
       console.log(err);
     }
   };
-  const getEventRegisterReaders = async (searchVal = "", userids = []) => {
-    try {
-      let body = {
-        eventId: eventId,
-        type: "live",
-        search: searchVal,
-        user_ids: userIds,
-      };
-      const response = await postData(
-        ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
-        body
-      );
-      // setAttendees(response?.data?.data);
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
-    } catch (err) {
-      setRefreshAttendeesFlag("");
-      setAttendeesApiCallStatus(false);
-      console.log(err);
-    }
-  };
+
   useEffect(() => {
     // Initial API call
     getLiveStreamData();
@@ -535,12 +502,12 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
           return newOptions;
         });
       }
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
+      
+      
     } catch (err) {
       console.log("--err", err);
-      setAttendeesApiCallStatus(false);
-      setRefreshAttendeesFlag("");
+      
+      
     }
   };
 
@@ -567,7 +534,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                   <div className="count-number" style={{ color: "#39CABC" }}>
                     <Skeleton width={20} height={20} />
                   </div>
-                  <Skeleton circle={true} width={20} height={20} />
+                  {/* <Skeleton width={20} height={20} /> */}
                 </div>
               </>
             ) : (
@@ -625,10 +592,10 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
             </div>
             {!apiStatus ? (
               <div className="hcp-tracking">
-                <div style={{ display: "flex", justifyContent: "center" }}>
+                <div className="d-flex justify-content-between">
                   <Skeleton width={130} height={20} />
                 </div>
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div className="d-flex justify-content-between">
                   <Skeleton width={30} height={20} />
                 </div>
 
@@ -692,11 +659,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                       )}
                 </Table>
                 <div className="rd-box-export">
-                  <img
-                    src={path_image + "arrow-export.svg"}
-                    alt=""
-                    onClick={handleAttendedUserCountryWise}
-                  />
+                  <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />
                 </div>
               </div>
             )}
