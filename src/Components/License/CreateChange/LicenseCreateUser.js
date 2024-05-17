@@ -151,7 +151,6 @@ const LicenseCreateUser = () => {
         tags.push(key?.value);
       });
     }
-
     setAllTags(tags);
     setUserDetail({
       user: hadData?.data?.data?.user,
@@ -168,6 +167,9 @@ const LicenseCreateUser = () => {
       product: hadData?.data?.data?.product?.sort((a, b) =>
         a.value > b.value ? 1 : -1
       ),
+      // product: hadData?.data?.data?.product?.sort((a, b) => 
+      //   a.value.localeCompare(b.value)
+      // ),
       reseller: hadData?.data?.data?.reseller,
     });
 
@@ -446,7 +448,6 @@ const LicenseCreateUser = () => {
     e.preventDefault();
     setCommanShow(true);
   };
-
   const topicButtonClicked = (group_id) => {
     setIsOpen(true);
   };
@@ -918,11 +919,36 @@ const LicenseCreateUser = () => {
   const handleModelFun = (e) => {
     setUserDetail({ ...userDetail, newValue: e.target.value });
   };
+  // const handleSubmitModelFun = async (e) => {
+  //   try {
+  //     let newAr = userDetail?.product;
+
+  //     newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
+  //     let body = {
+  //       user_id: localStorage.getItem("user_id"),
+  //       product: userDetail?.newValue,
+  //       category: 0,
+  //       type: 1,
+  //     };
+  //     const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+  //     setCreateLibraryInputs({
+  //       ...userInputs,
+  //       product: { value: userDetail?.newValue, label: userDetail?.newValue },
+  //     });
+  //     setUserDetail({ ...userDetail, product: newAr });
+  //   } catch (err) {
+  //     console.log("err", err);
+  //   }
+  // };
+
   const handleSubmitModelFun = async (e) => {
     try {
-      let newAr = userDetail?.product;
-
-      newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
+      let newAr = [...userDetail?.product];
+  
+      newAr.push({ value: userDetail?.newValue, label: userDetail?.newValue });
+      console.log(newAr,'body')
+  
+      newAr.sort((a, b) => a.value > b.value ? 1 : -1 )
       let body = {
         user_id: localStorage.getItem("user_id"),
         product: userDetail?.newValue,
@@ -930,15 +956,18 @@ const LicenseCreateUser = () => {
         type: 1,
       };
       const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+      
       setCreateLibraryInputs({
         ...userInputs,
         product: { value: userDetail?.newValue, label: userDetail?.newValue },
       });
       setUserDetail({ ...userDetail, product: newAr });
+      console.log(userDetail,'userdetail')
     } catch (err) {
       console.log("err", err);
     }
   };
+  
 
   const LimitAgreed = () => {
     return (
