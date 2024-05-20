@@ -104,7 +104,7 @@ const AnalyticsQuestions = () => {
 
         if (sheetData.length) {
           sheetData = sheetData.map((item) => ({
-            Name: item?.name ? item.name.trim() : "Anonymous",
+            Name: item?.username ? item.username.trim() :item?.name ? item.name.trim() : "Anonymous",
             Email: item?.email ? item.email.trim() : "N/A",
             Country: item?.country ? item.country.trim() : "N/A",
             Message: item?.question ? item.question.trim() : "N/A",
