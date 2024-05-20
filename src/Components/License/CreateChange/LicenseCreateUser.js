@@ -948,7 +948,7 @@ const LicenseCreateUser = () => {
       newAr.push({ value: userDetail?.newValue, label: userDetail?.newValue });
       console.log(newAr,'body')
   
-      newAr.sort((a, b) => a.value > b.value ? 1 : -1 )
+      newAr.sort((a, b) => a.value.localeCompare(b.value))
       let body = {
         user_id: localStorage.getItem("user_id"),
         product: userDetail?.newValue,
