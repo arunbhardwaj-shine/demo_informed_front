@@ -191,6 +191,8 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                       },
                       buttons: {
                         contextButton: {
+                          x: 14,
+                          y: 0,
                           symbol:
                             "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
                           menuItems: [
