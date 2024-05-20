@@ -192,6 +192,7 @@ const AnalyticsAttendees = () => {
   
   const handleDropdown = async (userId, index) => {
     loader("show");
+    setShowFilter(false);
     if (currentIndex != index) {
       const body = { eventId, userId };
       const response = await postData(

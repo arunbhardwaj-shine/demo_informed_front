@@ -4045,7 +4045,7 @@ form#add_hcp_form .row:not(:first-child) {
   border-radius: 15px;
   padding: 20px 16px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   width: 100%;
 }
 

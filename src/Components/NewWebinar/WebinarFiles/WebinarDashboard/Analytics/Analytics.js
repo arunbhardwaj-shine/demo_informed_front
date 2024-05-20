@@ -2878,7 +2878,6 @@ const Analytics = (props) => {
                                 },
                                 plotOptions: {
                                   series: {
-                                    // pointWidth: 30,
                                     groupPadding: 0.1,
                                     borderWidth: "0",
                                     pointWidth: 25,
