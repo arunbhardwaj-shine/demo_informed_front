@@ -1369,8 +1369,8 @@ const [templateList, setTemplateList] = useState(() => {
   const generateQRUrl = () => {
     // Generate the QR code URL based on your logic
     const url = eventData?.event_id > 402 ?
-      `https://events.docintel.app/event-registration?event=${event_code}&amp;urtyhjd=qdhjjkr` :
-      `${window.location.host}/event-registration?event=${event_code}&amp;urtyhjd=qdhjjkr`;
+      `https://events.docintel.app/event-registration?event=${event_code}&urtyhjd=qdhjjkr` :
+      `${window.location.host}/event-registration?event=${event_code}&urtyhjd=qdhjjkr`;
     return url;
   };
 
