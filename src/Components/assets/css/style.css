@@ -62,7 +62,7 @@ a {
   fill-opacity: 1;
 }
 .filter-btn button.filter_applied svg rect{
-  fill: #ffffff;
+  fill: var(--white);
 }
 .container-fluid>.row {
   justify-content: flex-start;
@@ -13509,7 +13509,7 @@ table.table-custom {
   max-height: 63vh;
 }
 .event-stats-download .modal-height h4{
-  color: #70899E;
+  color: var(--dark-gray);
   font-size: 24px;
   line-height: 144.7%;
   margin:5px 0 20px;

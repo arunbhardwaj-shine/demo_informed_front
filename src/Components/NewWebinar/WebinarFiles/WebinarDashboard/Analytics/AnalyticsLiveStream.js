@@ -161,19 +161,33 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
     },
     series: [],
     responsive: {
-      rules: [
-        {
-          condition: {
-            maxWidth: 1500,
-          },
-          title: {
-            style: {
-              fontSize: "10px",
-            },
+      rules: [{
+        condition: {
+          maxWidth: 1400
+        },
+        title: {
+          style: {
+            fontSize: "10px",
           },
         },
-      ],
-    },
+
+        // chartOptions: {
+        //   chart: {
+        //     spacing: [10, 0, 10, 0],
+        //     margin: [10, 10, 10, 10]
+        //   },
+        //   plotOptions: {
+        //     pie: {
+        //       dataLabels: {
+        //         style:{
+        //           fontSize: '14px'
+        //         },
+        //       }
+        //     }
+        //   }
+        // }
+      }]
+    }
   };
 
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
@@ -527,11 +541,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
           <div className="rd-analytics-top align-items-center d-flex justify-content-between">
             {!apiStatus ? (
               <>
-                <h6 className="mr-auto" style={{ color: "#39CABC" }}>
+                <h6 className="mr-auto" style={{color:"#39CABC"}}>
                   <Skeleton width={130} height={20} />
                 </h6>
                 <div className="d-flex">
-                  <div className="count-number" style={{ color: "#39CABC" }}>
+                  <div className="count-number" style={{color:"#39CABC"}}>
                     <Skeleton width={20} height={20} />
                   </div>
                   {/* <Skeleton width={20} height={20} /> */}

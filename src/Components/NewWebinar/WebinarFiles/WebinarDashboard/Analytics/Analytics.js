@@ -449,7 +449,6 @@ const Analytics = (props) => {
           shape: "callout",
           size: "100%",
           style: {
-            fontFamily: "Helvetica, sans-serif",
             fontWeight: "normal",
             textShadow: "none",
           },
@@ -963,6 +962,7 @@ const Analytics = (props) => {
                 color: "#97b6cf", // Color for legend items
                 fontSize: "14px", // Font size for legend items
                 fontWeight: "400",
+                margin:"10 0 0 0",
               },
             },
             plotOptions: {
@@ -1248,6 +1248,7 @@ const Analytics = (props) => {
                     color: "#97B6CF", // Color for legend items
                     fontSize: "14px", // Font size for legend items
                     fontWeight: "400",
+                    margin:"10 0 0 0",
                   },
                 },
 
@@ -2860,18 +2861,26 @@ const Analytics = (props) => {
                                 xAxis: {
                                   type: "category",
                                   labels: {
-                                    enabled: true,
                                     style: {
+                                      fontWeight:"400",
                                       fontSize: "12px",
                                       color: "#70899e",
-                                      fontWeight:"400",
                                     },
                                   },
                                 },
                                 yAxis: {
                                   title: {
                                     text: "Total Registered HCP By Email And Other Channels",
+                                    style: {
+                                      color: "#70899E",
+                                      marginTop: 60,
+                                    },
                                   },
+                                  labels: {
+                                    style: {
+                                      color: "#70899E",
+                                    }
+                                  }
                                 },
                                 legend: {
                                   enabled: false,
@@ -2880,7 +2889,7 @@ const Analytics = (props) => {
                                   series: {
                                     groupPadding: 0.1,
                                     borderWidth: "0",
-                                    pointWidth: 25,
+                                    pointWidth: 20,
                                     dataLabels: {
                                       enabled: true,
                                       format: "{point.y}",
