@@ -13,6 +13,7 @@ import { DocumentLoadEvent, RenderPageProps, SpecialZoomLevel } from "@react-pdf
 import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
 import ConfirmationModal from "../../../Model/ConfirmationModel";
+import { popup_alert } from "../../../popup_alert";
 
 const AddLinkToPdf = () => {
   const { state } = useLocation();
@@ -480,6 +481,15 @@ const AddLinkToPdf = () => {
 
   const handleMouseDown = (event) => {
     if (event.target.className === "viewer-text-layer") {
+
+      if(fileVersion == 1){
+        popup_alert({
+          visible: "show",
+          message: "This is Video embedded Pdf file, Add link facility is not available",
+          type: "error",
+        });
+       return;
+     }
       setMousefirstdown(event.clientY);
       setHighlighted(false);
       setShowAddLink(true);
