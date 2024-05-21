@@ -260,6 +260,7 @@ const EditLibrary = () => {
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
+      console.log(hadData);
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (
         hadData?.data?.data?.pdfData?.tags?.length &&
@@ -304,9 +305,26 @@ const EditLibrary = () => {
   useEffect(() => {
     libraryDetail();
     initalFun();
-    console.log(getVideoArticle,'JTGJFJ')
+    getExistingVideos();
+    
   }, []);
-
+const getExistingVideos=async ()=>{
+  const requestBody = {
+    selectValue: JSON.stringify(["id", "title", "code"]),
+    file_type: "'video'",
+  };
+  const response = await postData(ENDPOINT.LIBRARY, requestBody);
+  const hadData = response?.data?.data?.library || [];
+  const pdfObj = hadData
+    .map((item) => ({
+      label: item.title.trim(),
+      value: item.id,
+    }))
+    .sort((a, b) =>
+      a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+    );
+  setVideoArticle(pdfObj);
+}
   const removeHcp = (data, type = "") => {
     if (type == "irt") {
       const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
@@ -898,23 +916,9 @@ const EditLibrary = () => {
   }
 
   const onSelectVideoType = async(e,i,type) => {
-    if(type == 'existing' && getVideoArticle.length == 0){
-      const requestBody = {
-        selectValue: JSON.stringify(["id", "title", "code"]),
-        file_type: "'video'",
-      };
-      const response = await postData(ENDPOINT.LIBRARY, requestBody);
-      const hadData = response?.data?.data?.library || [];
-      const pdfObj = hadData
-        .map((item) => ({
-          label: item.title.trim(),
-          value: item.id,
-        }))
-        .sort((a, b) =>
-          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
-        );
-      setVideoArticle(pdfObj);
-    }
+    // if(type == 'existing' && getVideoArticle.length == 0){
+    
+    // }
     const list = [...chapter];
     list[i].videoType = type;
     setChapter(list);
@@ -2462,7 +2466,7 @@ const EditLibrary = () => {
                                                   options={getVideoArticle}
                                                   isClearable
                                                   placeholder="Select video"
-                                                  // value={getVideoArticle.find(option => option.value === val.existing_video) || null}
+                                                  value={getVideoArticle.find(option => option.value === val.selectedVideo) || null}
                                                 />
                                               </>
                                               : null
