@@ -301,6 +301,7 @@ const Header = () => {
                       window.location.pathname == "/analytic-trending-content" ||
                       window.location.pathname == "/analytic-content-type" ||
                       window.location.pathname == "/octa-country" ||
+                      window.location.pathname == "/analytics-events" ||
                       window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
                       window.location.pathname == "/LEX-210-analytics" ||
@@ -428,6 +429,12 @@ const Header = () => {
                       window.location.pathname == "/webinar/email/smartlist/editlist" ||
                       window.location.pathname == "/webinar/email/smartlist/createsmartlist" ||
                       window.location.pathname == "/webinar/email/smartlist/smartlistfilter" ||
+                      window.location.pathname == "/webinar/analytics/analytics-attendees" ||
+                      window.location.pathname == "/webinar/analytics/analytics-questions" ||
+                      window.location.pathname == "/webinar/analytics/analytics-poll" ||
+                      window.location.pathname == "/webinar/analytics/analytics-emails" ||
+                      window.location.pathname == "/webinar/analytics/analytics-regions" ||
+                      window.location.pathname == "/webinar/analytics/question-data" ||
                       window.location.pathname == "/webinar/email/smartlist/uploadsmartlist"
                       ? "nav-item active active-main"
                       : "nav-item"

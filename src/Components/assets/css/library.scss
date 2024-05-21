@@ -15360,12 +15360,13 @@ table {
           border-radius: 15px;
           background: #FFF;
           box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.24);
-          padding: 8px 0px;
+          padding: 7px 0px 4px;
           height: 100%;
 
           .box {
             padding: 0 10px;
             border-right: 1px dashed #97B6CF;
+            min-width: 92px;
 
             &:last-child {
               border-right: 0;

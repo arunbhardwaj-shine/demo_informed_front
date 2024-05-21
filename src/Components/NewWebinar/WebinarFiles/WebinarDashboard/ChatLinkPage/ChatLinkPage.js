@@ -1140,7 +1140,7 @@ const ChatLinkPage = () => {
                                 formData?.logoImageUrl
                                 // : path_image + "FVIII_logo.png"
                               }
-                              alt="Factor logo"
+                              alt=""
                             />
                           </div>
                         </div>
