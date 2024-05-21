@@ -304,6 +304,7 @@ const EditLibrary = () => {
   useEffect(() => {
     libraryDetail();
     initalFun();
+    console.log(getVideoArticle,'JTGJFJ')
   }, []);
 
   const removeHcp = (data, type = "") => {
@@ -2402,7 +2403,7 @@ const EditLibrary = () => {
                                             }
                                             
                                             {
-                                              val?.videoType == 'new' || val.uploadFile ?
+                                              val?.videoType == 'new' || (val?.videoType == 'new' && val.uploadFile)?
                                               <>
                                                 <input
                                                   type="file"
@@ -2447,7 +2448,7 @@ const EditLibrary = () => {
                                                   </label>
                                                 </div>
                                               </>
-                                              : val?.videoType == 'existing' || val.uploadFile ? 
+                                              : val?.videoType == 'existing'  || (val?.videoType == 'existing' && val.uploadFile) ? 
                                               <>
                                                 <Select
                                                   className={
@@ -2461,6 +2462,7 @@ const EditLibrary = () => {
                                                   options={getVideoArticle}
                                                   isClearable
                                                   placeholder="Select video"
+                                                  // value={getVideoArticle.find(option => option.value === val.existing_video) || null}
                                                 />
                                               </>
                                               : null
