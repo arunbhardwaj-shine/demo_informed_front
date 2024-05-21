@@ -79,9 +79,10 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                   highcharts={Highcharts}
                   options={{
                     chart: {
+                      marginTop: 30,
                       type: "bar",
                       // width: 316,
-                      height: 315, // Decrease the height of the chart
+                      height: 270, // Decrease the height of the chart
                       options3d: {
                         enabled: true,
                         alpha: 10,
@@ -106,6 +107,10 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                         formatter: function () {
                           return this.value.name; // Display the name property of the data point
                         },
+                        style: {
+                          color: "#97B6CF",
+                          fontSize: "33px",
+                        },
                       },
                       lineColor: "rgba(151, 182, 207, 0.30)", // X-axis line color
                       lineWidth: 2, // X-axis line width
@@ -120,6 +125,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                     tooltip: {},
                     plotOptions: {
                       series: {
+                        groupPadding: 0.1,
                         pointWidth: 25, // Adjust the width of the bars
                         dataLabels: {
                           allowOverlap: false,
@@ -185,6 +191,8 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
                       },
                       buttons: {
                         contextButton: {
+                          x: 14,
+                          y: 0,
                           symbol:
                             "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
                           menuItems: [

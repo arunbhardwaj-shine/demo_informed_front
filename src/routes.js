@@ -971,7 +971,7 @@ const Routing = () => {
           element={<LoginLayout component={AnalyticsEmailView} />}
         />
         <Route
-          path="/webinar/analytics/analytics-events"
+          path="/analytics-events"
           element={<LoginLayout component={AnalyticsEvent} />}
         />
         {/* Webinar Analytics */}

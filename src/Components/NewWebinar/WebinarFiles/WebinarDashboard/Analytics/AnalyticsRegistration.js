@@ -26,7 +26,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
-      height: 315,
+      height: 270,
     },
     title: {
       text: "Click on the double arrows to see more details",
@@ -83,6 +83,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
       },
       buttons: {
         contextButton: {
+          x: 14,
+          y: 0,
           symbol:
             "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
           menuItems: [
@@ -107,12 +109,12 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
     },
     plotOptions: {
       pie: {
-        size: "90%",
+        size: "100%",
         dataLabels: {
           enabled: true,
           format: "{point.y}",
           style: {
-            fontWeight: "bold",
+            fontWeight: "500",
             color: "white",
             textOutline: "none",
             fontSize: "20px",
@@ -131,7 +133,117 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
   };
 
   const [pieOptions, setPieOptions] = useState({ ...commonPieOptions });
-  const [pieOptionsHcps, setPieOptionsHcps] = useState({ ...commonPieOptions });
+  const [pieOptionsHcps, setPieOptionsHcps] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+      height: 270,
+    },
+    title: {
+      text: "Click on the double arrows to see more details",
+      align: "left",
+      style: {
+        fontSize: "12px",
+        color: "#97B6CF",
+      },
+    },
+
+    exporting: {
+      sourceWidth: 1600,
+      sourceHeight: 1200,
+      enabled: true,
+      chartOptions: {
+        title: {
+          text: "", // Remove title from exported image
+        },
+      },
+      filename: "Total_Registration", // Set filename for exported image
+      menuItemDefinitions: {
+        downloadPNG: {
+          text: "Download PNG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/png",
+            });
+          },
+        },
+        downloadJPEG: {
+          text: "Download JPEG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/jpeg",
+            });
+          },
+        },
+        downloadPDF: {
+          text: "Download PDF",
+          onclick: function () {
+            this.exportChart({
+              type: "application/pdf",
+            });
+          },
+        },
+        downloadSVG: {
+          text: "Download SVG",
+          onclick: function () {
+            this.exportChart({
+              type: "image/svg+xml",
+            });
+          },
+        },
+      },
+      buttons: {
+        contextButton: {
+          x: -15,
+          y: 0,
+          symbol:
+            "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
+          menuItems: [
+            "downloadPNG",
+            "downloadJPEG",
+            "downloadPDF",
+            "downloadSVG",
+          ],
+        },
+      },
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    legend: {
+      verticalAlign: "bottom",
+    },
+    plotOptions: {
+      pie: {
+        size: "100%",
+        dataLabels: {
+          enabled: true,
+          format: "{point.y}",
+          style: {
+            fontWeight: "500",
+            color: "white",
+            textOutline: "none",
+            fontSize: "20px",
+          },
+          distance: -40,
+        },
+        animation: {
+          duration: 1000,
+        },
+        enableMouseTracking: true,
+        showInLegend: true,
+        borderWidth: 0,
+      },
+    },
+    series: [],
+  });
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -185,7 +297,17 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
             ],
           },
         ];
-        setPieOptionsHcps({ ...commonPieOptions, series: newValueHcps });
+        setPieOptionsHcps({ ...commonPieOptions, series: newValueHcps, exporting: {
+          ...commonPieOptions.exporting,
+          buttons: {
+              ...commonPieOptions.exporting.buttons,
+              contextButton: {
+                  ...commonPieOptions.exporting.buttons.contextButton,
+                  x: 0, // Set different x value
+                  y: 0, // Set different y value
+              },
+          },
+      }, });
 
         loader("hide");
       } catch (error) {
@@ -312,14 +434,10 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                   </div>
 
                   <div className="highchart-chart right-side">
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      
+                    <div className="d-flex justify-content-between">
                       <Skeleton width={130} height={20} />
                       <Skeleton width={20} height={20} />
-
                     </div>
-                  
-
                     <Skeleton width="100%" height={200} />
                   </div>
                 </div>
@@ -339,7 +457,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
               <div className="graph-box d-flex justify-content-between">
                 <div className="highchart-chart left-side">
                   {data?.registeredHcpData?.internalHcps ||
-                  data?.registeredHcpData?.externalHcps ? (
+                   data?.registeredHcpData?.externalHcps ? (
                     <>
                       <HighchartsReact
                         highcharts={Highcharts}
@@ -366,21 +484,23 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                   {data?.registeredOverTime?.seriesData?.length ? (
                     <HighchartsReact
                       highcharts={Highcharts}
+                      key="registeredOverTime"
+
                       options={{
                         chart: {
                           plotBackgroundColor: null,
                           plotBorderWidth: null,
                           plotShadow: false,
-                          type: "line",
+                          type: "spline",
                           //maxWidth: 500,
                           //size: '100%',
-                          height: 292,
+                          height: 248,
                         },
 
                         title: {
                           text: "Registration Over Time",
                           style: {
-                            fontWeight: "500",
+                            fontWeight:"500",
                             color: "#70899E",
                             fontSize: "14px",
                           },
@@ -391,8 +511,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           labels: {
                             rotation: -45,
                             style: {
-                              fontSize: "12px",
-                              color: "#555555",
+                              fontSize: "10px",
+                              color: "#97B6CF",
                             },
                           },
                           lineColor: "rgba(151, 182, 207, 0.30)",
@@ -409,12 +529,19 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                         },
                         plotOptions: {
                           series: {
-                            marker: {
-                              symbol: "square",
-                            },
+                            plotShadow: false,
+                            plotBorderWidth: null,
                             dataLabels: {
                               enabled: true,
                               format: "{point.y}",
+                              style: {
+                                fontSize: "10px",
+                                color: "#000",
+                                fontWeight:"400",
+                                border:0,
+                                stroke:0,
+                                
+                              },
                             },
                           },
                         },
@@ -435,8 +562,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           itemHiddenStyle: {
                             color: "#C0C0C0",
                           },
-                          symbolWidth: 8,
-                          symbolHeight: 8,
+                          symbolWidth: 10,
+                          symbolHeight: 10,
                           itemDistance: 20,
                           lineWidth: 0,
                           itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
@@ -462,6 +589,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                             color: "#874e9e",
                             marker: {
                               symbol: "square",
+                              
                             },
                           },
                         ],
@@ -512,6 +640,8 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           },
                           buttons: {
                             contextButton: {
+                              x: 20,
+                              y: 0,
                               symbol:
                                 "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
                               menuItems: [

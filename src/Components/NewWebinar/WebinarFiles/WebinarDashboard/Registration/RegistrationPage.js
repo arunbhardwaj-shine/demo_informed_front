@@ -144,9 +144,11 @@ const RegistrationPage = ({ prevData,type }) => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const urtyhjd = urlParams.get('urtyhjd');
+    const urtyhjdAnother = urlParams.get('amp;urtyhjd');
 
-    if (urtyhjd) {
+    if (urtyhjd ||urtyhjdAnother ) {
       urlParams.delete('urtyhjd');
+      urlParams.delete('amp;urtyhjd');
       navigate({
         pathname: location.pathname,
         search: urlParams.toString()
@@ -161,7 +163,9 @@ const RegistrationPage = ({ prevData,type }) => {
 
       const urlParams = new URLSearchParams(window.location.search);
       const qrCodeParam = urlParams.get('urtyhjd');
-      const mode = qrCodeParam === 'qdhjjkr' ? 'qr-code' : 'web';
+    const urtyhjdAnother = urlParams.get('amp;urtyhjd');
+
+      const mode = (qrCodeParam === 'qdhjjkr' || urtyhjdAnother === 'qdhjjkr' ) ? 'qr-code' : 'web';
       localStorage.setItem('mode', mode);
       
       const response = await getData(

@@ -67,7 +67,6 @@ const AnalyticsAttendees = () => {
     loader("show");
     setTimeout(() => {
       functionName(e);
-      loader("hide");
     }, 300);
   };
   
@@ -78,6 +77,8 @@ const AnalyticsAttendees = () => {
     setAttendeesData(attendeesDataOriginal);
     // getWebinarCompaignList()
     setShowFilter(false);
+    loader("hide");
+
    
   
   };
@@ -106,6 +107,7 @@ const AnalyticsAttendees = () => {
       }
 
       return true; // All conditions passed
+      
     });
     // console.log(filteredData
     // setEmailListData([]);
@@ -113,6 +115,8 @@ const AnalyticsAttendees = () => {
     setFilterObject(appliedFilter);
     // getWebinarCompaignList(appliedFilter);
     setShowFilter(false);
+    loader("hide");
+
 
   };
   const handleOnFilterChange = (e, item, index, key, data = []) => {
@@ -162,6 +166,8 @@ const AnalyticsAttendees = () => {
   };
   
   const searchChange = (e) => {
+    setShowFilter(false);
+
     setSearch(e?.target?.value);
 
     if (e?.target?.value === "") {
@@ -177,12 +183,16 @@ const AnalyticsAttendees = () => {
       item?.country?.toLowerCase().includes(search.toLowerCase()) ||
       item?.region?.toLowerCase().includes(search.toLowerCase()) 
     );
-  
+    setShowFilter(false);
+
     setAttendeesData(searchData);
+    loader("hide");
+
   };
   
   const handleDropdown = async (userId, index) => {
     loader("show");
+    setShowFilter(false);
     if (currentIndex != index) {
       const body = { eventId, userId };
       const response = await postData(
@@ -204,7 +214,7 @@ const AnalyticsAttendees = () => {
 
   const downloadExcel = (data,name) => {
     loader("show")
-  
+    setShowFilter(false);
     setTimeout(()=>{ try {
       if (data?.length == 0) {
         toast.warning("No data found");
@@ -307,9 +317,10 @@ const AnalyticsAttendees = () => {
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
+                      onFocus={()=>    setShowFilter(false) }
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"

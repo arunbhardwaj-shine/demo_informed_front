@@ -10,6 +10,52 @@ import HighchartsReact from "highcharts-react-official";
 import domtoimage from "dom-to-image";
 
 const AnalyticsEmailView = () => {
+  let menuItemDefinitions = {
+    menuItemDefinitions: {
+      downloadPNG: {
+        text: "Download PNG",
+        onclick: function () {
+          this.exportChart();
+        },
+      },
+      downloadJPEG: {
+        text: "Download JPEG",
+        onclick: function () {
+          this.exportChart({
+            type: "image/jpeg",
+          });
+        },
+      },
+      downloadPDF: {
+        text: "Download PDF",
+        onclick: function () {
+          this.exportChart({
+            type: "application/pdf",
+          });
+        },
+      },
+      downloadSVG: {
+        text: "Download SVG",
+        onclick: function () {
+          this.exportChart({
+            type: "image/svg+xml",
+          });
+        },
+      },
+    },
+    buttons: {
+      contextButton: {
+        symbol:
+          "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
+        menuItems: [
+          "downloadPNG",
+          "downloadJPEG",
+          "downloadPDF",
+          "downloadSVG",
+        ],
+      },
+    },
+  };
   const colorArray = [
     "#349b8e",
     "#4184cc",
@@ -38,50 +84,8 @@ const AnalyticsEmailView = () => {
       sourceWidth: 1600,
       sourceHeight: 1200,
       enabled: false,
-      menuItemDefinitions: {
-        downloadPNG: {
-          text: "Download PNG",
-          onclick: function () {
-            this.exportChart();
-          },
-        },
-        downloadJPEG: {
-          text: "Download JPEG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/jpeg",
-            });
-          },
-        },
-        downloadPDF: {
-          text: "Download PDF",
-          onclick: function () {
-            this.exportChart({
-              type: "application/pdf",
-            });
-          },
-        },
-        downloadSVG: {
-          text: "Download SVG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/svg+xml",
-            });
-          },
-        },
-      },
-      buttons: {
-        contextButton: {
-          symbol:
-            "url(https://cdn3.iconfinder.com/data/icons/slicons-line-essentials/24/more_vertical-512.png)",
-          menuItems: [
-            "downloadPNG",
-            "downloadJPEG",
-            "downloadPDF",
-            "downloadSVG",
-          ],
-        },
-      },
+      ...menuItemDefinitions,
+     
     },
     tooltip: {
       pointFormat: "{series.name}: <b>{point.y}</b>",
@@ -135,6 +139,16 @@ const AnalyticsEmailView = () => {
         beta: 25,
         depth: 70,
       },
+      events: {
+        load: function() {
+          let categoryHeight = 50;
+          this.update({
+            chart: {
+              height: categoryHeight * this.pointCount + (this.chartHeight - this.plotHeight)
+            }
+          })
+        }
+      }
     },
     title: {
       text: "",
@@ -156,10 +170,27 @@ const AnalyticsEmailView = () => {
     },
     xAxis: {
       categories: [],
+      labels: {
+        align: "right",
+        reserveSpace: true,
+        y: 7,
+      style: {
+        color: '#97B6CF',
+        fontSize: '13',
+        fontWeight: 400,
+      },
+    },
     },
     yAxis: {
       title: {
         text: null,
+      },
+      labels: {
+        style: {
+          color: '#97B6CF',
+          fontSize: '11',
+          fontWeight: 400,
+        },
       },
     },
     exporting: {
@@ -172,52 +203,8 @@ const AnalyticsEmailView = () => {
         },
       },
       filename: "Total_Registration", // Set filename for exported image
-      menuItemDefinitions: {
-        downloadPNG: {
-          text: "Download PNG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/png",
-            });
-          },
-        },
-        downloadJPEG: {
-          text: "Download JPEG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/jpeg",
-            });
-          },
-        },
-        downloadPDF: {
-          text: "Download PDF",
-          onclick: function () {
-            this.exportChart({
-              type: "application/pdf",
-            });
-          },
-        },
-        downloadSVG: {
-          text: "Download SVG",
-          onclick: function () {
-            this.exportChart({
-              type: "image/svg+xml",
-            });
-          },
-        },
-      },
-      buttons: {
-        contextButton: {
-          symbol:
-            "url(https://docintel.app/img/octa/e-templates/options-btn.svg)",
-          menuItems: [
-            "downloadPNG",
-            "downloadJPEG",
-            "downloadPDF",
-            "downloadSVG",
-          ],
-        },
-      },
+      ...menuItemDefinitions,
+    
     },
     tooltip: {
       formatter: function () {
@@ -236,11 +223,13 @@ const AnalyticsEmailView = () => {
     },
     plotOptions: {
       series: {
-        groupPadding: 0.1,
+        groupPadding: 0.2,
+        pointPadding: 0,
+        borderWidth: 0,
         pointWidth: 30,
         dataLabels: {
           allowOverlap: false,
-          distance: 40,
+          distance: 30,
           enabled: true,
           inside: false,
           overflow: "justify",
@@ -248,8 +237,10 @@ const AnalyticsEmailView = () => {
           shape: "callout",
           size: "100%",
           style: {
-            fontWeight: "normal",
             textShadow: "none",
+            fontSize: "14px",
+            color: "#004A89",
+            fontWeight: "500",
           },
           formatter: function () {
             return (
@@ -349,6 +340,14 @@ const AnalyticsEmailView = () => {
         ...commonPieOptions,
         series: newValueRegion,
         drilldown: {
+          activeAxisLabelStyle: {
+            textDecoration: "none",
+            color: "#000000",
+          },
+          activeDataLabelStyle: {
+            textDecoration: "none",
+            color: "#000000",
+          },
           series: response?.data?.data?.drilldownData, // set the drilldown data
         },
       });
@@ -483,11 +482,20 @@ const AnalyticsEmailView = () => {
                   <p>Select the email to see the stats:</p>
                   <Form>
                     <Select
+                      classNamePrefix="react-select"
                       options={options}
                       className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
                       onChange={handleSelectChange}
                       value={selectedOption}
-                    />
+                      // isMenuOpen={true}
+//                       onMenuOpen={(e)=>{
+// setTimeout(()=>{
+//   console.log( document.querySelector(".react-select__option--is-focused").style.color="white"
+// );
+// },1)
+//                       }} 
+
+                      />
                   </Form>
                 </div>
                 {viewEmailData && (
@@ -750,7 +758,7 @@ const AnalyticsEmailView = () => {
                           <div className="rd-training-block">
                             <div className="d-flex align-items-center justify-content-between">
                               <div className="rd-training-block-left">
-                                <h4>Total registered & Attended HCPs</h4>
+                                <h4>Emails Opened by country</h4>
                               </div>
                               <div className="rd-training-block-right d-flex">
                                 <div className="switch6">
@@ -791,21 +799,51 @@ const AnalyticsEmailView = () => {
                                       chart: {
                                         type: "bar",
                                         borderWidth: "0",
-                                        // height: () => {
-                                        //     const dataLength = dropdownData?.regionBarData?.length || 0;
-                                        //     const baseHeight = 810;
-                                        //     const additionalHeightPerPoint = 18;
-                                        //     const calculatedHeight = baseHeight + (additionalHeightPerPoint * dataLength);
-                                        //     return calculatedHeight;
-
-                                        // },
-                                        height: 800,
                                         options3d: {
                                           enabled: true,
                                           alpha: 10,
                                           beta: 25,
                                           depth: 70,
                                         },
+                                          events: {
+                                            load: function () {
+                                              let categoryHeight = 30;
+                                              console.log( categoryHeight * this.pointCount +
+                                                (this.chartHeight -
+                                                  this.plotHeight),"ygefkjbekj");
+                                              this.update({
+                                                chart: {
+                                                  height:
+                                                    categoryHeight * this.pointCount +
+                                                    (this.chartHeight -
+                                                      this.plotHeight),
+                                                },
+                                              });
+                                            },
+                                            drillup: function (event) {
+                                              this.update({
+                                                chart: {
+                                                  height: 556,
+                                                },
+                                              });
+                                            },
+        
+                                            drilldown: function (event) {
+                                              let categoryHeight =  event.seriesOptions.data.length<=1 ?130:55;
+                                              console.log(categoryHeight);
+  
+                                              this.update({
+                                                chart: {
+                                                  height:
+                                                    categoryHeight *
+                                                      event.seriesOptions.data.length ||
+                                                    1 +
+                                                      (this.chartHeight -
+                                                        this.plotHeight),
+                                                },
+                                              });
+                                            },
+                                          },
                                       },
                                       title: {
                                         align: "left",
@@ -818,11 +856,26 @@ const AnalyticsEmailView = () => {
                                       },
                                       xAxis: {
                                         type: "category",
+                                        
                                       },
                                       yAxis: {
                                         title: {
                                           text: "Total Count",
+                                          style: {
+                                            color: '#70899E',
+                                            fontSize: '13',
+                                            fontWeight: 400,
+                                          },
                                         },
+                                        labels: {
+                                          style: {
+                                            color: '#97B6CF',
+                                            fontSize: '11',
+                                            fontWeight: 400,
+                                          },
+                                        },
+                                        allowDecimals: false,
+
                                       },
                                       legend: {
                                         enabled: false,
@@ -830,9 +883,13 @@ const AnalyticsEmailView = () => {
                                       plotOptions: {
                                         series: {
                                           // pointWidth: 30,
-                                          groupPadding: 0.1,
-                                          borderWidth: "0",
+                                          groupPadding: 0.2,
+                                 
                                           pointWidth: 18,
+
+
+                                          pointPadding: 0,
+                                          borderWidth: 0,
                                           dataLabels: {
                                             enabled: true,
                                             format: "{point.y}",
@@ -880,6 +937,14 @@ const AnalyticsEmailView = () => {
                                         },
                                       ],
                                       drilldown: {
+                                        activeAxisLabelStyle: {
+                                          textDecoration: "none",
+                                          color: "#000000",
+                                        },
+                                        activeDataLabelStyle: {
+                                          textDecoration: "none",
+                                          color: "#000000",
+                                        },
                                         series:
                                           dropdownData?.drilldownData?.map(
                                             (drilldownItem) => ({

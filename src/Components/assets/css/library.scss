@@ -13242,7 +13242,7 @@ img.change-password-image {
   margin: 30px 0 0;
 
   p {
-    color: #004A89;
+    color: $dark-blue;
     font-size: 18px;
     font-weight: 500;
     margin: 0 0 15px;
@@ -13436,7 +13436,7 @@ img.change-password-image {
         font-size: 14px;
         font-weight: 400;
         margin-bottom: 4px;
-        color: #8A4E9C;
+        color: $voilet;
       }
 
       >p {
@@ -13526,6 +13526,7 @@ img.change-password-image {
 
         span {
           color: $dark-blue;
+          font-weight: 400;
         }
       }
 
@@ -14208,7 +14209,7 @@ img.change-password-image {
 
 .webinar-analytics-layout {
   &.rd-analytics-content {
-    margin: 14px 0 25px;
+    margin: 14px 0 5px;
 
     .row {
       margin: 0 -16px;
@@ -14290,7 +14291,7 @@ img.change-password-image {
 
         .graph-data {
           overflow-y: auto;
-          max-height: 275px;
+          max-height: 235px;
           padding: 0 6px;
           margin: -9px -6px 0;
 
@@ -14378,7 +14379,7 @@ img.change-password-image {
         min-height: 55px;
 
         h6 {
-          color: #004A89;
+          color: $dark-blue;
         }
 
         .align-items-center {
@@ -14460,7 +14461,7 @@ img.change-password-image {
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 32px;
-                color: #004A89;
+                color: $dark-blue;
 
                 &:last-child {
                   color: $secondary-green;
@@ -14508,20 +14509,25 @@ img.change-password-image {
         min-width: 96px;
 
         .switch6-light {
-          height: 40px;
+          height: 48px;
 
           span {
             span {
-              top: 9px;
-              left: 1px;
+              top: 12px;
+              left: 3px;
               // margin-left: 23px;
 
               img {
-                width: 22px;
+                width: 24px;
+              }
+
+              svg {
+                width: 24px;
+                height: 24px;
               }
 
               &:last-child {
-                left: 50%;
+                left: 48%;
                 margin-left: 32px;
               }
             }
@@ -14529,13 +14535,46 @@ img.change-password-image {
 
           a {
             &.btn {
-              width: 34px;
-              right: 60%;
+              width: 40px;
+              right: 54%;
+              height: calc(100% - 8px);
+              top: 4px;
             }
           }
 
           input:checked~a.btn {
             right: 4%;
+          }
+
+          input:checked~span {
+            span {
+              &:first-child {
+                svg {
+                  rect {
+                    fill-opacity: 0.4;
+                    fill: $primary-color;
+                  }
+                }
+              }
+
+              &:last-child {
+                svg {
+                  path {
+                    &:first-child {
+                      fill: #39CABC;
+                    }
+
+                    &:nth-child(2) {
+                      fill: $primary-color;
+                    }
+
+                    &:last-child {
+                      fill: $voilet;
+                    }
+                  }
+                }
+              }
+            }
           }
 
           &.active {
@@ -14561,6 +14600,7 @@ img.change-password-image {
           right: 0 !important;
           left: auto !important;
           top: 5px !important;
+          overflow: hidden;
 
           a {
             color: #97B6CF;
@@ -14570,6 +14610,10 @@ img.change-password-image {
 
             &:last-child {
               margin: 0;
+            }
+
+            &:active {
+              color: $white;
             }
           }
         }
@@ -14651,7 +14695,7 @@ img.change-password-image {
       background: $white;
       box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
       padding: 30px 12px;
-      margin: 24px 0;
+      margin: 24px 0 0;
 
       >img {
         max-width: 100%;
@@ -14689,7 +14733,7 @@ img.change-password-image {
         li {
           &.nav-item {
             margin-right: 0;
-            flex: 1 1;
+            flex: 1 1 auto;
 
             button {
               border: 0;
@@ -14841,7 +14885,7 @@ table {
 
     thead {
       th {
-        color: #004A89;
+        color: $dark-blue;
         font-size: 13px;
         font-weight: 500;
         padding: 10px 16px;
@@ -14910,6 +14954,8 @@ table {
               }
 
               .fold-content-right {
+                border-radius: 0px 9px 0px 0px;
+
                 table {
                   thead {
                     tr {
@@ -14946,7 +14992,7 @@ table {
                     box-shadow: none;
 
                     th {
-                      color: #8A4E9C;
+                      color: $voilet;
                       font-size: 13px;
                       font-weight: 500;
                       padding: 16px 16px 10px;
@@ -14974,7 +15020,8 @@ table {
                       background: transparent;
 
                       .no_found {
-                        min-height: 250px;
+                        min-height: 170px;
+                        padding-bottom: 15px;
                       }
                     }
                   }
@@ -15012,6 +15059,7 @@ table {
 
           &.show {
             border-radius: 9px 9px 0 0;
+            box-shadow: 0px -1px 6px rgba(0, 102, 190, 0.2);
 
             td {
               &:first-child {
@@ -15160,7 +15208,7 @@ table {
 
 .question-listing-analytics {
   &.speaker_zone {
-    padding: 0 0 20px;
+    padding: 0 0 0px;
   }
 
   .reader_list {
@@ -15245,7 +15293,7 @@ table {
   .graph-view-smaller {
     display: flex;
     justify-content: center;
-    padding: 50px 12px 10px;
+    padding: 20px 12px 10px;
     flex-direction: column;
     gap: 30px;
     max-width: 1180px;
@@ -15261,6 +15309,7 @@ table {
 
 .analytics-events-box {
   gap: 32px;
+  padding: 0 0 15px;
   @include vertical-list;
 
   .analytics-events-inset {
@@ -15271,7 +15320,7 @@ table {
     gap: 5px;
 
     h5 {
-      color: #004A89;
+      color: $dark-blue;
     }
 
     .event-date {
@@ -15343,13 +15392,13 @@ table {
 
           &.avg-post {
             p {
-              color: #8A4E9C;
+              color: $voilet;
             }
           }
 
           &.post-event-view {
             p {
-              color: #0066BE;
+              color: $primary-color;
             }
           }
 
@@ -21221,8 +21270,8 @@ table {
       a {
         &.btn-voilet {
           border-radius: 30px;
-          border: 1px solid #8A4E9C;
-          color: #8A4E9C;
+          border: 1px solid $voilet;
+          color: $voilet;
           font-weight: 500;
           display: flex;
           align-items: center;
@@ -21231,7 +21280,7 @@ table {
 
           &:hover {
             color: $white;
-            background: #8A4E9C;
+            background: $voilet;
           }
         }
       }
@@ -22357,6 +22406,12 @@ table {
 
   .rd-full-explain.analytics-region .graph-view .graph-view-smaller {
     padding: 10px 12px 10px;
+  }
+
+  .analytics-events-box{ .analytics-events-inset {.analytics-outer-box {
+    justify-content: flex-start;
+  }
+}
   }
 
   /**webinar question**/

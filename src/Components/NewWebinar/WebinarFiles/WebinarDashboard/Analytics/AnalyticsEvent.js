@@ -3,10 +3,13 @@ import { Accordion, Button, Carousel, Col, Row, Table } from 'react-bootstrap';
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { useNavigate } from "react-router-dom";
 
 const AnalyticsEvent = () => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
+    const { selectedItem, eventIdContext, handleEventId } = useSidebar();
+    let navigate = useNavigate();
     const [search, setSearch] = useState("")
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
@@ -16,6 +19,7 @@ const AnalyticsEvent = () => {
     const [appliedFilter, setAppliedFilter] = useState({});
     const [filterObject, setFilterObject] = useState({})
     const [eventListData, setEventListData] = useState([])
+    const [eventListDataOriginal, setEventListDataOriginal] = useState([])
     const [totalEmailListData, setTotalEmailListData] = useState([])
     const [apiStatus, setApiStatus] = useState(false);
     useEffect(() => {
@@ -26,6 +30,7 @@ const AnalyticsEvent = () => {
             const response = await postData("/webinarEmail/get-analytics-event",{});
             const result = response?.data?.data;
             setEventListData(result);
+            setEventListDataOriginal(result);
     
             loader("hide");
           } catch (error) {
@@ -89,16 +94,30 @@ const AnalyticsEvent = () => {
         setSearch(e?.target?.value);
 
         if (e?.target?.value === "") {
-            setEventListData(totalEmailListData)
+            setEventListData(eventListDataOriginal)
         }
     };
 
     const submitSearchHandler = (event) => {
         event.preventDefault();
-        let searchData = totalEmailListData?.filter((item) => item?.subject?.includes(search))
-        setEventListData(searchData)
-    };
-
+        let searchData = eventListDataOriginal?.filter((item) =>
+          item?.title?.toLowerCase().includes(search.toLowerCase()) 
+        // || 
+        //   item?.email?.toLowerCase().includes(search.toLowerCase()) || 
+        //   item?.country?.toLowerCase().includes(search.toLowerCase()) ||
+        //   item?.region?.toLowerCase().includes(search.toLowerCase()) 
+        );
+      
+        setEventListData(searchData);
+      };
+    const surveyQuestionFormDetail = (e, item) => {
+        loader("show");
+        handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
+        localStorage.setItem("EventIdContext", JSON.stringify({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title }))
+        navigate("/webinar/analytics", {
+          state: { event_id: item?.id, companyId: item?.user_id },
+        });
+      }
     return (
         <>
             <Col className="right-sidebar">
@@ -119,7 +138,7 @@ const AnalyticsEvent = () => {
                                             id="email_search"
                                             onChange={(e) => searchChange(e)}
                                         />
-                                        <button className="btn btn-outline-success" type="submit">
+                                        <button className="btn btn-outline" type="submit">
                                             <svg
                                                 width="16"
                                                 height="16"
@@ -135,7 +154,7 @@ const AnalyticsEvent = () => {
                                         </button>
                                     </form>
                                 </div>
-                                <div className="filter-by nav-item dropdown">
+                                {/* <div className="filter-by nav-item dropdown">
                                     <button
                                         ref={buttonRef}
                                         className={
@@ -299,7 +318,7 @@ const AnalyticsEvent = () => {
                                             </div>
                                         </div>
                                     )}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="analytics-events">
@@ -309,8 +328,8 @@ const AnalyticsEvent = () => {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h5>{event?.title}</h5>
                                         <div className="d-flex align-items-center event-date">
-                                            <p>{event?.eventDate}</p>
-                                            <Button className="shortcut_btn">
+                                            <p>{event?.formattedEventStartDateTime}</p>
+                                            <Button className="shortcut_btn" onClick={(e)=>surveyQuestionFormDetail(e,event)}>
                                                 <img src={path_image + "shortcut-btn.svg"} alt="" />
                                             </Button>
                                         </div>  
@@ -439,7 +458,7 @@ const AnalyticsEvent = () => {
                                                 <div class="email_stats_list d-flex">
                                                     <div class="d-flex align-items-center">
                                                         <img src={path_image + "post-event.svg"} alt="Export" />
-                                                        <p>548476</p>
+                                                        <p>{event?.postEventViews}</p>
 
                                                     </div>
                                                 </div>
