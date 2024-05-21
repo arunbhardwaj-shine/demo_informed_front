@@ -2393,7 +2393,7 @@ const EditLibrary = () => {
                                           val?.type == 'video' ? 
                                           <>
                                             {
-                                              typeof val?.videoType == 'undefined' ? 
+                                              typeof val?.videoType == 'undefined'&& !val.uploadFile ? 
                                               <div className="d-flex">
                                                 <p className="upload_new" onClick={(e) => onSelectVideoType(e, i,'new')}>Upload New Video</p>
                                                 <p className="select_existing" onClick={(e) => onSelectVideoType(e, i,'existing')}>Select existing Video</p>
@@ -2402,7 +2402,7 @@ const EditLibrary = () => {
                                             }
                                             
                                             {
-                                              val?.videoType == 'new' ?
+                                              val?.videoType == 'new' || val.uploadFile ?
                                               <>
                                                 <input
                                                   type="file"
@@ -2445,23 +2445,9 @@ const EditLibrary = () => {
                                                   <label htmlFor={`file-thumb-${i}`}>
                                                     <span>Choose Your File</span>
                                                   </label>
-                                                  {/* {userInputs?.coverPhoto?.[0]?.name ? (
-                                                    <p className="uploaded-file">
-                                                      {userInputs?.coverPhoto?.[0]?.name}
-                                                    </p>
-                                                  ) : (
-                                                    <p>
-                                                      Uplode an alternative cover <br />
-                                                      <span>
-                                                        <i>Allowed formats: PNG,JPEG</i>
-                                                      </span>
-                                                      <br />
-                                                      <span>(Recommended size 88 X 124)</span>
-                                                    </p>
-                                                  )} */}
                                                 </div>
                                               </>
-                                              : val?.videoType == 'existing' ? 
+                                              : val?.videoType == 'existing' || val.uploadFile ? 
                                               <>
                                                 <Select
                                                   className={
@@ -2477,7 +2463,7 @@ const EditLibrary = () => {
                                                   placeholder="Select video"
                                                 />
                                               </>
-                                              :null
+                                              : null
                                             }
                                           </>
                                           : 
