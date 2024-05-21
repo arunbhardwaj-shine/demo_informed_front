@@ -2814,36 +2814,31 @@ const Analytics = (props) => {
                                   },
                                   events: {
                                     load: function () {
-                                      let categoryHeight = 35;
-                                      console.log(this);
+                            
+                                      let categoryHeight = 40;          console.log(  categoryHeight * this.pointCount +
+                                        (this.chartHeight - this.plotHeight));
                                       this.update({
                                         chart: {
                                           height:
                                             categoryHeight * this.pointCount +
-                                            (this.chartHeight -
-                                              this.plotHeight),
+                                            (this.chartHeight - this.plotHeight),
                                         },
                                       });
                                     },
                                     drillup: function (event) {
                                       this.update({
                                         chart: {
-                                          height: 135,
+                                          height: 145,
                                         },
                                       });
                                     },
-
                                     drilldown: function (event) {
-                                      let categoryHeight = 35;
-
+                                      let categoryHeight = 40;
                                       this.update({
                                         chart: {
                                           height:
-                                            categoryHeight *
-                                              event.seriesOptions.data.length ||
-                                            0 +
-                                              (this.chartHeight -
-                                                this.plotHeight),
+                                            categoryHeight * event.seriesOptions.data.length +
+                                            (this.chartHeight - this.plotHeight),
                                         },
                                       });
                                     },
@@ -2888,18 +2883,12 @@ const Analytics = (props) => {
                                 plotOptions: {
                                   series: {
                                     groupPadding: 0.1,
+                                    pointPadding: 0.1,
                                     borderWidth: "0",
                                     pointWidth: 20,
                                     dataLabels: {
                                       enabled: true,
                                       format: "{point.y}",
-                                      //   style: {
-                                      //   fontWeight: "600",
-                                      //   textShadow: "none",
-                                      //   fontSize: "14px",
-                                      //   color: "#000000",
-                                      //   TextDecoder:"none",
-                                      // },
                                     },
                                     borderRadius: {
                                       radius: 10,
@@ -2917,8 +2906,6 @@ const Analytics = (props) => {
                                     "<b>{point.y}</b> total<br/>",
                                 },
                                 exporting: {
-                                  // sourceWidth: 1600,
-                                  // sourceHeight: 1100,
                                   enabled: false,
                                   showHighchart: true,
                                   showTable: false,
@@ -2962,7 +2949,8 @@ const Analytics = (props) => {
                                       })
                                     ) || [],
                                 },
-                              }}
+                              }
+                              }
                             />
                           ) : (
                             <HighchartsReact
