@@ -21,14 +21,14 @@ const ChatLinkPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const aliceCarouselRef = useRef(null);
 
-  const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,4,5,6,7,8,9],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,4,5,6,7,8,9], "wW0geGtDPvig5gF 6KbJrg==":[1,2,4,5,6,7,8,9],
-  "UbCJcnLM9fe HsRMgX8c1A==":[1,2,4,5,6,7,8,9],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,4,5,6,7,8,9],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,4,5,6,7,8,9] ,"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,4,5,6,7,8,9,10],
-"MpEPwXLqTPveAfumxT/KXw==":[1,2,4,5,6,7,8,9],"5EdDBhVCQm08iLJwBENCWw==":[1,2,4,5,6,7,8,9],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,4,5,6,7,8,9],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,4,5,6,7,8,9]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,4,5,6,7,8,9]}
+  const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,4,5,6,7,8,9,10],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,4,5,6,7,8,9,10], "wW0geGtDPvig5gF 6KbJrg==":[1,2,4,5,6,7,8,9,10],
+  "UbCJcnLM9fe HsRMgX8c1A==":[1,2,4,5,6,7,8,9,10],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,4,5,6,7,8,9,10],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,4,5,6,7,8,9,10] ,"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,4,5,6,7,8,9,10,11],
+"MpEPwXLqTPveAfumxT/KXw==":[1,2,4,5,6,7,8,9,10],"5EdDBhVCQm08iLJwBENCWw==":[1,2,4,5,6,7,8,9,10],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,4,5,6,7,8,9,10],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,4,5,6,7,8,9,10]
+,"bWmUjqX7J011   WUTYn9g==":[1,2,4,5,6,7,8,9,10]}
 
   const userId=localStorage.getItem("user_id") 
 
-  const defaultTemplateIds = [10];
+  const defaultTemplateIds = [11];
 
   // const  dynamicEventData=dynamicEventDataJson.map(template => {
   //     if (templateUserIDs[userId]?.includes(template.templateId) ) {
@@ -114,6 +114,7 @@ const ChatLinkPage = () => {
       const response = await getData(
         `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
       );
+     
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         const index = dynamicEventData.findIndex(
@@ -528,7 +529,10 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || template?.templateId == 8 ||  template?.templateId == 9
+          template?.templateId == 7 || 
+          template?.templateId == 8 ||  
+          template?.templateId == 9 ||
+          template?.templateId == 10
         ) {
           setSecondHeaderImage(
             apiData?.headerImage ? apiData?.headerImage : ""
@@ -576,7 +580,10 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || template?.templateId == 8 ||  template?.templateId == 9
+          template?.templateId == 7 || 
+          template?.templateId == 8 ||  
+          template?.templateId == 9 ||
+          template?.templateId == 10
         ) {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
@@ -1156,7 +1163,11 @@ const ChatLinkPage = () => {
                             ) : formData?.templateId == 4 ||
                               formData?.templateId == 5 ||
                               formData?.templateId == 6 ||
-                              formData?.templateId === 7 ||  formData?.templateId === 8 ||  formData?.templateId === 9  ? (
+                              formData?.templateId === 7 ||  
+                              formData?.templateId === 8 ||  
+                              formData?.templateId === 9 || 
+                              formData?.templateId === 10
+                              ? (
                               <>
                                 <div
                                   className="head-sec template2"
@@ -1318,7 +1329,10 @@ const ChatLinkPage = () => {
                           {formData?.templateId === 4 ||
                           formData?.templateId === 5 ||
                           formData?.templateId === 6 ||
-                          formData?.templateId === 7 || formData?.templateId === 8 || formData?.templateId === 9  ? (
+                          formData?.templateId === 7 || 
+                          formData?.templateId === 8 || 
+                          formData?.templateId === 9 ||
+                          formData?.templateId === 10 ? (
                             <>
                               <div className="eahad-footer">
                                 <img
