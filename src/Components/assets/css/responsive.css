@@ -2125,8 +2125,18 @@
 @media only screen and (max-width: 1365px) {
   .trigger_content_image {
     padding: 5px;
-    width: 68px;
+    width: 60px;
+    max-height: 80px;
   }
+  .trigger_content h6 {
+    font-size: 13px;
+  }
+  .trigger_content p {
+    font-size: 12px;
+  }
+    .trigger_content_box .trigger_content button {
+      min-width: 65px;
+    }
   .congress-dropdown .split-button-dropup > div:nth-child(3) {
     padding: 2px 35px 2px 5px;
     min-width: 180px;
@@ -2136,9 +2146,10 @@
     margin-top: 19px;
   }
 
-  .trigger_content_image img {
-    max-width: 60px;
-  }
+.trigger_content_image img {
+  max-width: 50px;
+  max-height: 70px;
+}
 
   header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header {
     top: 126px;
