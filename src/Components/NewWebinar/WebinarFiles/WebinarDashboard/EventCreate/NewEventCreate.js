@@ -261,23 +261,23 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
   };
 
   const webinarRegistrationForm = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
     navigate("/webinar/registration", {
       state: { eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title },
     });
   };
   const liveStream = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
     navigate("/webinar/live-stream");
   };
   const surveyQuestionFormDetail = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
     navigate("/webinar/analytics/question-data", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
   }
   const webinarPollingForm = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
     // if(item?.is_chat_link_created === 0){
     //   navigate('/webinar/live-stream/chat-link')
     // }else{
@@ -288,7 +288,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
   };
 
   const webinarEmailForm = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
     navigate("/webinar/email");
   };
 
@@ -723,8 +723,9 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
   }
 
   const handleCardClick = (item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title })
-    localStorage.setItem("EventIdContext", JSON.stringify({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title }))
+    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event
+    })
+    // localStorage.setItem("EventIdContext", JSON.stringify({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus }))
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };

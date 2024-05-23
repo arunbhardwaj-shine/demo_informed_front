@@ -133,6 +133,9 @@ const Analytics = (props) => {
   const [eventStatus, setEventStatus] = useState(
     localStorageEvent?.eventStatus
   );
+  const [isOneSourceEvent, setIsOneSourceEvent] = useState(
+    localStorageEvent?.isOneSourceEvent
+  );
 
   const commonPieOptions = {
     chart: {
@@ -449,7 +452,6 @@ const Analytics = (props) => {
           shape: "callout",
           size: "100%",
           style: {
-            fontFamily: "Helvetica, sans-serif",
             fontWeight: "normal",
             textShadow: "none",
           },
@@ -963,6 +965,7 @@ const Analytics = (props) => {
                 color: "#97b6cf", // Color for legend items
                 fontSize: "14px", // Font size for legend items
                 fontWeight: "400",
+                margin:"10 0 0 0",
               },
             },
             plotOptions: {
@@ -1248,6 +1251,7 @@ const Analytics = (props) => {
                     color: "#97B6CF", // Color for legend items
                     fontSize: "14px", // Font size for legend items
                     fontWeight: "400",
+                    margin:"10 0 0 0",
                   },
                 },
 
@@ -1353,7 +1357,7 @@ const Analytics = (props) => {
                   <p>{eventData?.formattedEventStartDateTime}</p>
                 </div>
 
-                {eventStatus == -1 && eventId >= 402 ? (
+                {(isOneSourceEvent==1&&eventStatus == -1 && eventId >= 402) ? (
                   <Button
                     title="Download Site Engagements"
                     className="download filled"
@@ -2813,36 +2817,31 @@ const Analytics = (props) => {
                                   },
                                   events: {
                                     load: function () {
-                                      let categoryHeight = 35;
-                                      console.log(this);
+                            
+                                      let categoryHeight = 40;          console.log(  categoryHeight * this.pointCount +
+                                        (this.chartHeight - this.plotHeight));
                                       this.update({
                                         chart: {
                                           height:
                                             categoryHeight * this.pointCount +
-                                            (this.chartHeight -
-                                              this.plotHeight),
+                                            (this.chartHeight - this.plotHeight),
                                         },
                                       });
                                     },
                                     drillup: function (event) {
                                       this.update({
                                         chart: {
-                                          height: 135,
+                                          height: 145,
                                         },
                                       });
                                     },
-
                                     drilldown: function (event) {
-                                      let categoryHeight = 35;
-
+                                      let categoryHeight = 40;
                                       this.update({
                                         chart: {
                                           height:
-                                            categoryHeight *
-                                              event.seriesOptions.data.length ||
-                                            0 +
-                                              (this.chartHeight -
-                                                this.plotHeight),
+                                            categoryHeight * event.seriesOptions.data.length +
+                                            (this.chartHeight - this.plotHeight),
                                         },
                                       });
                                     },
@@ -2860,18 +2859,26 @@ const Analytics = (props) => {
                                 xAxis: {
                                   type: "category",
                                   labels: {
-                                    enabled: true,
                                     style: {
+                                      fontWeight:"400",
                                       fontSize: "12px",
                                       color: "#70899e",
-                                      fontWeight:"400",
                                     },
                                   },
                                 },
                                 yAxis: {
                                   title: {
                                     text: "Total Registered HCP By Email And Other Channels",
+                                    style: {
+                                      color: "#70899E",
+                                      marginTop: 60,
+                                    },
                                   },
+                                  labels: {
+                                    style: {
+                                      color: "#70899E",
+                                    }
+                                  }
                                 },
                                 legend: {
                                   enabled: false,
@@ -2879,18 +2886,12 @@ const Analytics = (props) => {
                                 plotOptions: {
                                   series: {
                                     groupPadding: 0.1,
+                                    pointPadding: 0.1,
                                     borderWidth: "0",
-                                    pointWidth: 25,
+                                    pointWidth: 20,
                                     dataLabels: {
                                       enabled: true,
                                       format: "{point.y}",
-                                      //   style: {
-                                      //   fontWeight: "600",
-                                      //   textShadow: "none",
-                                      //   fontSize: "14px",
-                                      //   color: "#000000",
-                                      //   TextDecoder:"none",
-                                      // },
                                     },
                                     borderRadius: {
                                       radius: 10,
@@ -2908,8 +2909,6 @@ const Analytics = (props) => {
                                     "<b>{point.y}</b> total<br/>",
                                 },
                                 exporting: {
-                                  // sourceWidth: 1600,
-                                  // sourceHeight: 1100,
                                   enabled: false,
                                   showHighchart: true,
                                   showTable: false,
@@ -2953,7 +2952,8 @@ const Analytics = (props) => {
                                       })
                                     ) || [],
                                 },
-                              }}
+                              }
+                              }
                             />
                           ) : (
                             <HighchartsReact
