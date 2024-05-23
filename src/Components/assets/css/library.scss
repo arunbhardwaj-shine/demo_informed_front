@@ -14491,7 +14491,7 @@ img.change-password-image {
   .rd-training-block {
     .rd-training-block-right {
       button {
-        padding: 8px;
+        padding: 10px;
 
         &:hover {
           background: $primary-color;
@@ -15360,12 +15360,13 @@ table {
           border-radius: 15px;
           background: #FFF;
           box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.24);
-          padding: 8px 0px;
+          padding: 7px 0px 4px;
           height: 100%;
 
           .box {
             padding: 0 10px;
             border-right: 1px dashed #97B6CF;
+            min-width: 92px;
 
             &:last-child {
               border-right: 0;
@@ -15806,6 +15807,7 @@ table {
 
   .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .attended_hcp .top-country-data {
     padding: 0 6px 0 10px;
+    overflow: hidden;
   }
 }
 
@@ -16081,11 +16083,21 @@ table {
   }
 
   table.attended-table thead th {
-    padding: 10px 10px;
+    padding: 8px 7px;
+  }
+
+  .email_box_block.no_found p,
+  .not_found p,
+  .no_found p {
+    font-size: 18px;
+  }
+
+  .no_polls h3 {
+    font-size: 26px;
   }
 
   .webinar-analytics-layout.rd-analytics-content .rd-analytics-box-layout .graph-box .graph-data {
-    max-height: 310px;
+    max-height: 280px;
   }
 }
 
@@ -22408,10 +22420,12 @@ table {
     padding: 10px 12px 10px;
   }
 
-  .analytics-events-box{ .analytics-events-inset {.analytics-outer-box {
-    justify-content: flex-start;
-  }
-}
+  .analytics-events-box {
+    .analytics-events-inset {
+      .analytics-outer-box {
+        justify-content: flex-start;
+      }
+    }
   }
 
   /**webinar question**/

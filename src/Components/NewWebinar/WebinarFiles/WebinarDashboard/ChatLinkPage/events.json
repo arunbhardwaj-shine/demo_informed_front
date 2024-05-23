@@ -1,5 +1,5 @@
 [{ 
-    "templateId": 10,
+    "templateId": 11,
     "templateName": "Default Template",
     
    "fieldData":{ 
@@ -57,6 +57,12 @@
         "title": "Footer Text",
         "type": "text",
         "value": "Preparation date: xx xxx 2024"
+    },
+
+    "templateName": {
+        "title": "Template Name",
+        "type": "text",
+        "value": ""
     }
     
     }
@@ -124,9 +130,7 @@
     },
 
     { "templateId": 4,
-    "templateName": "GTH Template",
-
-    
+    "templateName": "GTH Template",    
     "fieldData":{ 
     "logoImageUrl":{
         "title": "Logo",
@@ -635,5 +639,83 @@
     }
     
     }
+    },
+
+
+
+    { "templateId": 10,
+    "templateName": "Aland Island Template",
+
+   
+    "fieldData":{ 
+    "logoImageUrl":{
+        "title": "Logo",
+        "type": "file",
+        "value": ""
+    },
+    "textColor": {
+        "title": "Text Color",
+        "type": "color",
+        "value": "#E64362"  
+    },
+    "headerImage": {
+        "title": "Header Image",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/vthmSL7pv9JP9cf9d8u7Mm0TVa5UuTcp74Xwcb5f.jpg" 
+    },
+    "formHeading": {
+        "title": "Form Heading",
+        "type": "text",
+        "value": "Type your question here!"
+    },
+    "nameLabel": {
+        "title": "Name Label",
+        "type": "text",
+        "value": "Name"
+    },
+    "namePlaceholder": {
+        "title": "Name Placeholder",
+        "type": "text",
+        "value": "Write your name"
+    },
+    "questionLabel": {
+        "title": "Question Label",
+        "type": "text",
+        "value": "Your question"
+    },
+    "questionPlaceholder": {
+        "title": "Question Placeholder",
+        "type": "text",
+        "value": "Write your question"
+    },
+    "buttonText": {
+        "title": "Button Text",
+        "type": "text",
+        "value": "SEND"
+    },
+    "buttonColor": {
+        "title": "Button Color",
+        "type": "color",
+        "value": "#E64362"
+    },
+    "footerImage": {
+        "title": "Footer Image",
+        "type": "file",
+        "value": "https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif" 
+    },
+    "footerTextOne": {
+        "title": "Footer Message",
+        "type": "textArea",
+        "value": "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.<br/><br/>To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a> <br/><br/><span>One Source platform is for healthcare professionals only.</span>"
+
+    },
+    "footerText": {
+        "title": "Footer Text",
+        "type": "text",
+       "value" :"XXXXX_ISLAND 2024<br/>Preparation date: May 2024"
     }
+   
+    }
+    }
+
     ]
