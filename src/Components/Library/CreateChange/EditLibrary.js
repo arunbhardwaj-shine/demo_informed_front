@@ -260,7 +260,6 @@ const EditLibrary = () => {
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
-      console.log(hadData);
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (
         hadData?.data?.data?.pdfData?.tags?.length &&
@@ -775,15 +774,63 @@ const getExistingVideos=async ()=>{
   //   }
   // };
 
+  const onChapterFormatChange = (e, i, isSelectedName) => {
+    const { value } = e;
+    const list = [...chapter];
+    // list[i].chapterFormat = e == true ? "video" : "pdf";
+    list[i].type= e == true ? "video" : "pdf";
+    list[i].uploadFile=""; 
+    list[i].selectedVideo = ""; 
+    if(e==true){      
+      list[i].videoType="existing"
+      onSelectVideoType(e,i,"existing")
+    } 
+    // else {
+    //   list[i].videoType = "";
+    // }  
+    setChapter(list);   
+  };
+
+  // const addMoreChClicked = () => {
+  //   let isValid = true;
+  //   let toastMessage = '';
+  
+  //   chapter.forEach((element) => {
+  //     const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
+  //     const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
+  //     const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
+      
+  //     if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
+  //       isValid = false;
+  //       toastMessage = "Please select a video!";
+  //     } else if (!isVideoExisting && uploadFileEmpty) {
+  //       isValid = false;
+  //       toastMessage = "Please input the chapter file atleast!";
+  //     }
+  //   });
+  
+  //   if (isValid) {
+  //     setChapter([
+  //       ...chapter,
+  //       {
+  //         chapterTitle: "",
+  //         uploadFile: "",
+  //         selectedVideo: ""
+  //       },
+  //     ]);
+  //   } else {
+  //     toast.warning(toastMessage);
+  //   }
+  // };
+
   const addMoreChClicked = () => {
     let isValid = true;
     let toastMessage = '';
-  
+
     chapter.forEach((element) => {
       const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
       const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
       const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
-      
       if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
         isValid = false;
         toastMessage = "Please select a video!";
@@ -792,15 +839,21 @@ const getExistingVideos=async ()=>{
         toastMessage = "Please input the chapter file atleast!";
       }
     });
-  
+
     if (isValid) {
       setChapter([
-        ...chapter,
-        {
-          chapterTitle: "",
-          uploadFile: "",
-          selectedVideo: ""
-        },
+        ...chapter, userInputs.docintelFormat == "ebookVideo" ?
+          {
+            // chapterFormat: "pdf",
+            type:"pdf",
+            chapterTitle: "",
+            uploadFile: "",
+            selectedVideo: ""
+          } : {
+            chapterTitle: "",
+            uploadFile: "",
+            selectedVideo: ""
+          },
       ]);
     } else {
       toast.warning(toastMessage);
@@ -915,12 +968,37 @@ const getExistingVideos=async ()=>{
     setChapter(list);
   }
 
-  const onSelectVideoType = async(e,i,type) => {
-    // if(type == 'existing' && getVideoArticle.length == 0){
+  // const onSelectVideoType = async(e,i,type) => {
+  //   // if(type == 'existing' && getVideoArticle.length == 0){
     
-    // }
+  //   // }
+  //   const list = [...chapter];
+  //   list[i].videoType = type;
+  //   setChapter(list);
+  // }
+
+  const onSelectVideoType = async (e, i, type) => {
+    if (type == 'existing' && getVideoArticle.length == 0) {
+      const requestBody = {
+        selectValue: JSON.stringify(["id", "title", "code"]),
+        file_type: "'video'",
+      };
+      const response = await postData(ENDPOINT.LIBRARY, requestBody);
+      const hadData = response?.data?.data?.library || [];
+      const pdfObj = hadData
+        .map((item) => ({
+          label: item.title.trim(),
+          value: item.id,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+      setVideoArticle(pdfObj);
+    }
     const list = [...chapter];
     list[i].videoType = type;
+    list[i].uploadFile ="";
+    list[i].selectedVideo = "";
     setChapter(list);
   }
 
@@ -2354,6 +2432,61 @@ const getExistingVideos=async ()=>{
                             <>
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
+
+                                {userInputs.docintelFormat == "ebookVideo" ? (<>
+                                  <div>
+                                    <label htmlFor="">
+                                      {localStorage.getItem("user_id") !=
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? "Chapter "
+                                        : "File "}
+                                      {i + 1} format <span>*</span>
+                                    </label>
+                                    <div className="switch">
+                                      <label className="switch-light">
+                                        <input
+                                          type="checkbox"
+                                          // checked={val?.type == "video" ? true : false}
+                                          // onClick={(e) => onSelectType(e, i, e.target.checked ? 'video' : 'pdf')}
+                                          checked={val?.type == "video" ? true : false}
+                                          onChange={(e) => {
+                                            onChapterFormatChange(e.target?.checked, i);
+                                          }}
+                                        />
+                                        <span>
+                                          <span className="switch-btn active">PDF</span>
+                                          <span className="switch-btn">Video</span>
+                                        </span>
+                                        <a className="btn"></a>
+                                      </label>
+                                    </div>
+                                    </div>
+                                    {val?.type == "video"?
+                                    <fieldset id="group2">
+                                    <div>
+                                     <input
+                                        type="radio"
+                                        name={`video-${i}`}
+                                        id={`file-existing-${i}`}
+                                        checked={val?.videoType === "existing" || !val?.videoType}
+                                        onChange={(e) => onSelectVideoType(e, i, 'existing')}
+                                      />
+                                    <label htmlFor="file-6">
+                                      <span>Existing video</span>
+                                    </label>
+                                     <input
+                                        type="radio"
+                                        name={`video-${i}`}
+                                        id={`file-new-${i}`}
+                                        checked={val?.videoType === "new"}
+                                        onChange={(e) => onSelectVideoType(e, i, 'new')}
+                                      />
+                                    <label htmlFor="file-6">
+                                      <span>Upload new</span>
+                                    </label>
+                                  </div></fieldset>:null}</>) : null
+                                }
+
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
                                     "56Ek4feL/1A8mZgIKQWEqg=="
@@ -2375,10 +2508,10 @@ const getExistingVideos=async ()=>{
                                         <div className="d-flex">
                                           {
                                             // typeof val?.type == 'undefined' ? 
-                                              <>
-                                                <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
-                                                <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
-                                              </>
+                                              // <>
+                                              //   <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
+                                              //   <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
+                                              // </>
                                             //  :
                                             //  null
                                              
@@ -2397,14 +2530,14 @@ const getExistingVideos=async ()=>{
                                         {
                                           val?.type == 'video' ? 
                                           <>
-                                            {
+                                            {/* {
                                               typeof val?.videoType == 'undefined'&& !val.uploadFile ? 
                                               <div className="d-flex">
                                                 <p className="upload_new" onClick={(e) => onSelectVideoType(e, i,'new')}>Upload New Video</p>
                                                 <p className="select_existing" onClick={(e) => onSelectVideoType(e, i,'existing')}>Select existing Video</p>
                                               </div>
                                               : null
-                                            }
+                                            } */}
                                             
                                             {
                                               val?.videoType == 'new' || (val?.videoType == 'new' && val.uploadFile)?
