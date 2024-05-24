@@ -90,6 +90,7 @@ const LibraryCreateUser = () => {
   const [videoThumb, setVideoThumb] = useState([]);
   const [chapter, setChapter] = useState([
     {
+
       chapterTitle: "",
       uploadFile: "",
       fileValue: "",
@@ -226,8 +227,18 @@ const LibraryCreateUser = () => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    if (isSelectedName == "docintelFormat") { 
-      if (e == "ebook" || e == "ebookVideo") {
+    if (isSelectedName == "docintelFormat") {
+      // if (e == "ebook" || e == "ebookVideo") {
+      //   setEbookFile([]);
+      //   setpdfSpcData([
+      //     {
+      //       chapterTitle: "",
+      //       uploadFile: "",
+      //       fileValue: "",
+      //     },
+      //   ]);
+      // } 
+      if (e == "ebook") {
         setEbookFile([]);
         setpdfSpcData([
           {
@@ -236,7 +247,20 @@ const LibraryCreateUser = () => {
             fileValue: "",
           },
         ]);
-      } else if (e == "pdfSpc") {
+      } else if (e == "ebookVideo") {
+
+        setEbookFile([]);
+        setChapter([
+          {
+            type:"pdf",
+            chapterTitle: "",
+            uploadFile: "",
+            fileValue: "",
+            selectedVideo: "",
+          },
+        ]);
+      }
+      else if (e == "pdfSpc") {
         setEbookFile([]);
         setChapter([
           {
@@ -346,15 +370,15 @@ const LibraryCreateUser = () => {
 
           userInputs?.mandatory
             ? formData.append(
-                "trail_user_type",
-                hcpIrtClickedFirst?.length
-                  ? JSON.stringify(hcpIrtClickedFirst)
-                  : ""
-              )
+              "trail_user_type",
+              hcpIrtClickedFirst?.length
+                ? JSON.stringify(hcpIrtClickedFirst)
+                : ""
+            )
             : formData.append(
-                "trail_user_type",
-                hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
-              );
+              "trail_user_type",
+              hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
+            );
         }
 
         if (userDetail?.user?.[0]?.group_id == 3 &&
@@ -451,8 +475,8 @@ const LibraryCreateUser = () => {
           "tags",
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
-        
-        if(userDetail?.user?.[0]?.retailer == 1){
+
+        if (userDetail?.user?.[0]?.retailer == 1) {
           formData.append("request_quote", userInputs?.request_quote ? 1 : 0);
           formData.append("sold_unsold_status", userInputs?.sold_unsold_status);
           formData.append(
@@ -460,7 +484,7 @@ const LibraryCreateUser = () => {
             userInputs?.pharmaArr ? userInputs?.pharmaArr : ""
           );
         }
-        
+
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -523,7 +547,7 @@ const LibraryCreateUser = () => {
                 state: {
                   pdfId: res?.data?.data?.pdfId,
                   fileType: userInputs?.docintelFormat,
-                  ibu:userInputs?.ibu?userInputs?.ibu:"",
+                  ibu: userInputs?.ibu ? userInputs?.ibu : "",
                   isEdit: 0,
                 },
               });
@@ -541,7 +565,7 @@ const LibraryCreateUser = () => {
                   state: {
                     pdfId: res?.data?.data?.pdfId,
                     fileType: userInputs?.docintelFormat,
-                    ibu:userInputs?.ibu?userInputs?.ibu:"",
+                    ibu: userInputs?.ibu ? userInputs?.ibu : "",
                     isEdit: 0,
                   },
                 });
@@ -565,7 +589,7 @@ const LibraryCreateUser = () => {
   };
 
   // const addMoreChClicked = () => {
-    
+
   //   if (chapter.every((element) => element.uploadFile != "")) {
   //     setChapter([
   //       ...chapter,
@@ -582,12 +606,11 @@ const LibraryCreateUser = () => {
   const addMoreChClicked = () => {
     let isValid = true;
     let toastMessage = '';
-  
+
     chapter.forEach((element) => {
       const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
       const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
       const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
-      
       if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
         isValid = false;
         toastMessage = "Please select a video!";
@@ -596,23 +619,29 @@ const LibraryCreateUser = () => {
         toastMessage = "Please input the chapter file atleast!";
       }
     });
-  
+
     if (isValid) {
       setChapter([
-        ...chapter,
-        {
-          chapterTitle: "",
-          uploadFile: "",
-          selectedVideo: ""
-        },
+        ...chapter, userInputs.docintelFormat == "ebookVideo" ?
+          {
+            // chapterFormat: "pdf",
+            type:"pdf",
+            chapterTitle: "",
+            uploadFile: "",
+            selectedVideo: ""
+          } : {
+            chapterTitle: "",
+            uploadFile: "",
+            selectedVideo: ""
+          },
       ]);
     } else {
       toast.warning(toastMessage);
     }
   };
-  
 
-  
+
+
   const deleteRecord = (i) => {
     const list = chapter;
     list.splice(i, 1);
@@ -625,9 +654,46 @@ const LibraryCreateUser = () => {
   const onChapterTitleChange = (e, i) => {
     const { value } = e.target;
     const list = [...chapter];
+    // const list=JSON.parse(JSON.stringify(chapter))
     list[i].chapterTitle = value;
     setChapter(list);
   };
+
+  const onChapterFormatChange = (e, i, isSelectedName) => {
+    const list = [...chapter];
+    list[i].type= e == true ? "video" : "pdf";
+    list[i].uploadFile="";
+    list[i].selectedVideo=""   
+    list[i].ebookFile="" 
+   
+    if(e==true){      
+      list[i].videoType="existing"
+      if(getVideoArticle.length == 0){        
+        existingVideoArticle("existing")
+      }
+    }   
+    setChapter(list);   
+  };
+
+  const existingVideoArticle=async(type)=>{
+    if (type == 'existing' && getVideoArticle.length == 0) {
+      const requestBody = {
+        selectValue: JSON.stringify(["id", "title", "code"]),
+        file_type: "'video'",
+      };
+      const response = await postData(ENDPOINT.LIBRARY, requestBody);
+      const hadData = response?.data?.data?.library || [];
+      const pdfObj = hadData
+        .map((item) => ({
+          label: item.title.trim(),
+          value: item.id,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+      setVideoArticle(pdfObj);
+    }
+  }
 
   const handleOnEbookChange = (e, i) => {
     const value = e.target.files[0]?.name;
@@ -816,37 +882,41 @@ const LibraryCreateUser = () => {
     loader("hide");
   };
 
-  const onSelectType = async(e,i,type) => {
+  const onSelectType = async (e, i, type) => {
     const list = [...chapter];
     list[i].type = type;
     setChapter(list);
   }
 
-  const onSelectVideoType = async(e,i,type) => {
-    if(type == 'existing' && getVideoArticle.length == 0){
-      const requestBody = {
-        selectValue: JSON.stringify(["id", "title", "code"]),
-        file_type: "'video'",
-      };
-      const response = await postData(ENDPOINT.LIBRARY, requestBody);
-      const hadData = response?.data?.data?.library || [];
-      const pdfObj = hadData
-        .map((item) => ({
-          label: item.title.trim(),
-          value: item.id,
-        }))
-        .sort((a, b) =>
-          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
-        );
-      setVideoArticle(pdfObj);
-    }
-    const list = [...chapter];
+  const onSelectVideoType = async (e, i, type) => {
+    // if (type == 'existing' && getVideoArticle.length == 0) {
+    //   const requestBody = {
+    //     selectValue: JSON.stringify(["id", "title", "code"]),
+    //     file_type: "'video'",
+    //   };
+    //   const response = await postData(ENDPOINT.LIBRARY, requestBody);
+    //   const hadData = response?.data?.data?.library || [];
+    //   const pdfObj = hadData
+    //     .map((item) => ({
+    //       label: item.title.trim(),
+    //       value: item.id,
+    //     }))
+    //     .sort((a, b) =>
+    //       a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+    //     );
+    //   setVideoArticle(pdfObj);
+    // }
+    // const list = [...chapter];
+    const list=JSON.parse(JSON.stringify(chapter))
     list[i].videoType = type;
+    list[i].uploadFile="";
+    list[i].selectedVideo="";
     setChapter(list);
   }
 
-  const handleVideoChange = (value,i) => {
+  const handleVideoChange = (value, i) => {
     const list = [...chapter];
+    // const list=JSON.parse(JSON.stringify(chapter))
     list[i].selectedVideo = value;
     setChapter(list);
   };
@@ -854,6 +924,7 @@ const LibraryCreateUser = () => {
   const handleOnVideoThumbChange = (e, i) => {
     const value = e.target.files[0]?.name;
     const list = [...chapter];
+    // const list=JSON.parse(JSON.stringify(chapter))
     list[i].videoThumb = value;
     videoThumb[i] = e.target.files[0];
     setVideoThumb(videoThumb);
@@ -919,7 +990,7 @@ const LibraryCreateUser = () => {
               </div>
 
               {
-                 userDetail?.user?.[0]?.retailer == 1  ? 
+                userDetail?.user?.[0]?.retailer == 1 ?
                   <div className="form-group">
                     <label htmlFor="">Pharma</label>
                     <Select
@@ -930,24 +1001,24 @@ const LibraryCreateUser = () => {
                       isClearable
                     />
                   </div>
-                 : null
+                  : null
               }
 
               {localStorage.getItem("user_id") ==
                 "rOhdD02MgXkownQqcreqAw==" && (
-                <>
-                  <div className="form-group">
-                    <label htmlFor="">Sales</label>
-                    <Select
-                      options={userDetail?.sales}
-                      placeholder="Who made the sale?"
-                      onChange={(e) => handleChange(e?.id, "sales")}
-                      className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
-                      isClearable
-                    />
-                  </div>
-                </>
-              )}
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="">Sales</label>
+                      <Select
+                        options={userDetail?.sales}
+                        placeholder="Who made the sale?"
+                        onChange={(e) => handleChange(e?.id, "sales")}
+                        className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                        isClearable
+                      />
+                    </div>
+                  </>
+                )}
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
               <div className="form-group justify-content-end">
@@ -1005,7 +1076,7 @@ const LibraryCreateUser = () => {
           <div className="row">
             <div className="col-12 col-md-6">
               {userDetail?.user?.[0]?.flag != 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
+                userDetail?.user?.[0]?.group_id == 3 ? (
                 <>
                   <div className="form-group">
                     <label htmlFor="">Category</label>
@@ -1030,7 +1101,7 @@ const LibraryCreateUser = () => {
                 </>
               ) : null}
               {userDetail?.user?.[0]?.flag == 0 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
+                userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group margin-added">
                   <label htmlFor="">Product</label>
                   <Select
@@ -1071,7 +1142,7 @@ const LibraryCreateUser = () => {
               )}
 
               {userDetail?.user?.[0]?.pharmaData == 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
+                userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Business Unit</label>
                   <Select
@@ -1102,9 +1173,9 @@ const LibraryCreateUser = () => {
               ) : null}
 
               {userDetail?.user?.[0]?.flag == 0 &&
-              userDetail?.user?.[0]?.pharmaData == 0 &&
-              userDetail?.user?.[0]?.octaLach == 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
+                userDetail?.user?.[0]?.pharmaData == 0 &&
+                userDetail?.user?.[0]?.octaLach == 1 &&
+                userDetail?.user?.[0]?.group_id == 3 ? (
                 <div className="form-group">
                   <label htmlFor="">Content Use</label>
                   <fieldset id="group2">
@@ -1130,7 +1201,7 @@ const LibraryCreateUser = () => {
               ) : null}
 
               {userDetail?.user?.[0]?.flag == 1 &&
-              userDetail?.user?.[0]?.group_id == 3 ? (
+                userDetail?.user?.[0]?.group_id == 3 ? (
                 <>
                   <div className="form-group justify-content-start rd">
                     <label htmlFor="">Topics</label>
@@ -1341,11 +1412,11 @@ const LibraryCreateUser = () => {
               </div>
 
               {
-                userDetail?.user?.[0]?.retailer == 1  ? 
+                userDetail?.user?.[0]?.retailer == 1 ?
                   <>
                     <div className="form-group">
-                      <label htmlFor="">Status 
-                      {/* <span>*</span> */}
+                      <label htmlFor="">Status
+                        {/* <span>*</span> */}
                       </label>
                       <fieldset id="group2">
                         <input
@@ -1379,31 +1450,31 @@ const LibraryCreateUser = () => {
                     </div>
 
                     <div className="form-group">
-                    <label htmlFor="setasdraft1">Request quote</label>
-                    <fieldset id="request_quote">
-                      <div className="switch">
-                        <label className="switch-light">
-                          <input
-                            type="checkbox"
-                            value="value1"
-                            name="request_quote"
-                            id="setasdraft1"
-                            onChange={(e) => {
-                              handleChange(e.target?.checked, "request_quote");
-                            }}
-                          />
-                          <span>
-                            <span className="switch-btn active">No</span>
-                            <span className="switch-btn ">Yes</span>
-                          </span>
-                          <a className="btn"></a>
-                        </label>
-                      </div>
-                    </fieldset>
+                      <label htmlFor="setasdraft1">Request quote</label>
+                      <fieldset id="request_quote">
+                        <div className="switch">
+                          <label className="switch-light">
+                            <input
+                              type="checkbox"
+                              value="value1"
+                              name="request_quote"
+                              id="setasdraft1"
+                              onChange={(e) => {
+                                handleChange(e.target?.checked, "request_quote");
+                              }}
+                            />
+                            <span>
+                              <span className="switch-btn active">No</span>
+                              <span className="switch-btn ">Yes</span>
+                            </span>
+                            <a className="btn"></a>
+                          </label>
+                        </div>
+                      </fieldset>
                     </div>
                   </>
-                
-                : null
+
+                  : null
               }
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
@@ -1429,7 +1500,7 @@ const LibraryCreateUser = () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <div className="custom-container">
           <Row>
             <div className="page-top-nav sticky">
@@ -1468,13 +1539,13 @@ const LibraryCreateUser = () => {
                     </li>
                     {(localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==")  && userInputs?.allowVideo ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==") && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
                     ) : null}
                     {localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <li className="">
                         <a href="">Edit Consent Option</a>
                       </li>
@@ -1508,11 +1579,11 @@ const LibraryCreateUser = () => {
               ? publisherFun()
               : userDetail?.user?.[0]?.flag == 0 &&
                 userDetail?.user?.[0]?.group_id == 3
-              ? docintelLink()
-              : userDetail?.user?.[0]?.flag == 1 &&
-                userDetail?.user?.[0]?.group_id == 3
-              ? docintelLink()
-              : null}
+                ? docintelLink()
+                : userDetail?.user?.[0]?.flag == 1 &&
+                  userDetail?.user?.[0]?.group_id == 3
+                  ? docintelLink()
+                  : null}
             {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
 
             <div className="create-change-content">
@@ -1554,7 +1625,7 @@ const LibraryCreateUser = () => {
                     </div>
 
                     {userDetail?.user?.[0]?.flag == 1 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
                         <label htmlFor="">Comment</label>
                         {/*<input
@@ -1585,7 +1656,7 @@ const LibraryCreateUser = () => {
                     ) : (
                       <div className="form-group">
                         {userDetail?.user?.[0]?.flag == 0 &&
-                        userDetail?.user?.[0]?.group_id == 3 ? (
+                          userDetail?.user?.[0]?.group_id == 3 ? (
                           <label htmlFor="">Subtitle</label>
                         ) : (
                           <label htmlFor="">Journal title</label>
@@ -1610,7 +1681,7 @@ const LibraryCreateUser = () => {
                     )}
 
                     {localStorage.getItem("user_id") ==
-                    "B7SHpAc XDXSH NXkN0rdQ==" ? (
+                      "B7SHpAc XDXSH NXkN0rdQ==" ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Language</label>
@@ -1640,7 +1711,7 @@ const LibraryCreateUser = () => {
 
                     {localStorage.getItem("user_id") !=
                       "iSnEsKu5gB/DRlycxB6G4g==" &&
-                    localStorage.getItem("user_id") !=
+                      localStorage.getItem("user_id") !=
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                       <div className="form-group">
                         <label htmlFor="">Author</label>
@@ -1654,7 +1725,7 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.flag == 1 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         {
                           <div className="form-group">
@@ -1686,7 +1757,7 @@ const LibraryCreateUser = () => {
                       </>
                     ) : null}
                     {userDetail?.user?.[0]?.flag == 0 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Allowed</label>
@@ -1760,7 +1831,7 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.octaLach == 1 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="setasdraft3">Medical</label>
@@ -1789,7 +1860,7 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.octaLach == 1 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="synconesource"><img src={path_image + "library_move.svg"} /></label>
@@ -1816,13 +1887,13 @@ const LibraryCreateUser = () => {
                         </div>
                       </>
                     ) : null}
-                    
+
                     {userDetail?.user?.[0]?.flag == 1 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
                         <label htmlFor="setasdraft4">
                           {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                            "56Ek4feL/1A8mZgIKQWEqg=="
                             ? "Irt mandatory training"
                             : "Mandatory"}
                         </label>
@@ -1839,16 +1910,14 @@ const LibraryCreateUser = () => {
                               />
                               <span>
                                 <span
-                                  className={`switch-btn ${
-                                    userInputs?.mandatory == 0 ? " Active" : ""
-                                  }`}
+                                  className={`switch-btn ${userInputs?.mandatory == 0 ? " Active" : ""
+                                    }`}
                                 >
                                   No
                                 </span>
                                 <span
-                                  className={`switch-btn ${
-                                    userInputs?.mandatory == 1 ? " Active" : ""
-                                  }`}
+                                  className={`switch-btn ${userInputs?.mandatory == 1 ? " Active" : ""
+                                    }`}
                                 >
                                   Yes
                                 </span>
@@ -1861,8 +1930,8 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.flag == 1 &&
-                    (!userInputs?.mandatory || userInputs?.mandatory == 0) &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      (!userInputs?.mandatory || userInputs?.mandatory == 0) &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
                         <label htmlFor="">Role</label>
                         <div className="input-group w-100">
@@ -1919,8 +1988,8 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.flag == 1 &&
-                    userInputs?.mandatory == 1 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userInputs?.mandatory == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
                         <label htmlFor="">IRT role</label>
                         <div className="input-group w-100">
@@ -2060,15 +2129,76 @@ const LibraryCreateUser = () => {
                           </div>
                         ) : null}
                       </div>
-                    ) : userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo"  ? (
+                    ) : userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo" ? (
                       chapter.map((val, i) => {
                         return (
                           <>
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
+                                {userInputs.docintelFormat == "ebookVideo" ? (<>
+                                  <div>
+                                    <label htmlFor="">
+                                      {localStorage.getItem("user_id") !=
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? "Chapter "
+                                        : "File "}
+                                      {i + 1} format <span>*</span>
+                                    </label>
+                                    <div className="switch">
+                                      <label className="switch-light">
+                                       
+                                        <input
+                                          type="checkbox"
+                                          // checked={val?.chapterFormat == "video" ? true : false}
+                                          checked={val?.type == "video" ? true : false}
+                                          onChange={(e) => {
+                                            onChapterFormatChange(e.target?.checked, i);
+                                          }}
+                                        />
+                                        <span>
+                                          <span className="switch-btn active">PDF</span>
+                                          <span className="switch-btn">Video</span>
+                                        </span>
+                                        <a className="btn"></a>
+                                      </label>
+                                    </div>
+                                    </div>
+                                    {
+                                    // val?.chapterFormat == "video"?
+                                    val?.type == "video"?
+                                    <fieldset id="group2">
+                                    <div>
+                                    <input
+                                      type="radio"
+                                      name={`video-${i}`}
+                                      id={`file-existing-${i}`}
+                                      checked={val?.videoType=="existing"?true:false}
+                                      // className="inputfile inputfile-6"
+                                      // accept="video/mp4"
+                                      onClick={(e) => onSelectVideoType(e, i, 'existing')}
+                                    />
+                                    <label htmlFor="file-6">
+                                      <span>Existing video</span>
+                                    </label>
+                                    <input
+                                      type="radio"
+                                      name={`video-${i}`}
+                                      id={`file-existing-${i}`}
+                                      checked={val?.videoType=="new"?true:false}
+                                      // className="inputfile inputfile-6"
+                                      // accept="video/mp4"
+                                      onClick={(e) => onSelectVideoType(e, i, 'new')}
+                                    />
+                                    <label htmlFor="file-6">
+                                      <span>Upload new</span>
+                                    </label>
+                                  </div>
+                                  </fieldset>
+                                  :null}</>) : null
+                                }
                                 <label htmlFor="">
                                   {localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
                                     ? "Chapter "
                                     : "File "}
                                   {i + 1} title <span>*</span>
@@ -2084,18 +2214,16 @@ const LibraryCreateUser = () => {
                                   userInputs.docintelFormat == "ebookVideo" ?
                                     <div className="upload-file-box">
                                       <div className="box">
-                                        <div className="d-flex">
-                                          {
-                                            // typeof val?.type == 'undefined' ? 
-                                              <>
-                                                <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
-                                                <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
-                                              </>
-                                            //  :
-                                            //  null
-                                             
+                                        {/* <div className="d-flex">
+                                          {                                          
+                                            <>
+                                              <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i, 'video')} />
+                                              <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i, 'pdf')} />
+                                            </>
+                                          
+
                                           }
-                                        </div>
+                                        </div> */}
                                         {
                                           /*
                                           val?.type == 'video' ?
@@ -2105,64 +2233,67 @@ const LibraryCreateUser = () => {
                                           : null
                                           */
                                         }
-                                        
+
                                         {
-                                          val?.type == 'video' ? 
-                                          <>
-                                            {
-                                              typeof val?.videoType == 'undefined' ? 
-                                              <div className="d-flex">
-                                                <p className="upload_new" onClick={(e) => onSelectVideoType(e, i,'new')}>Upload New Video</p>
-                                                <p className="select_existing" onClick={(e) => onSelectVideoType(e, i,'existing')}>Select existing Video</p>
-                                              </div>
-                                              : null
-                                            }
+                                          // val?.chapterFormat == 'video' ?
+                                          val?.type == 'video' ?
+                                            <>
                                             
-                                            {
-                                              val?.videoType == 'new' ?
-                                              <>
-                                                <input
-                                                  type="file"
-                                                  name={`file-${i}`}
-                                                  id={`file-${i}`}
-                                                  className={
-                                                    error?.chapter?.[i]
-                                                      ? "inputfile inputfile-6 error"
-                                                      : "inputfile inputfile-6"
-                                                  }
-                                                  accept="video/mp4"
-                                                  onChange={(e) =>
-                                                    handleOnEbookChange(e, i)
-                                                  }
-                                                />
-                                                <label htmlFor={`file-${i}`}>
-                                                  <span>Choose Your File</span>
-                                                </label>
+                                              {/* {
+                                                typeof val?.videoType == 'undefined' ?
+                                                  <div className="d-flex">
+                                                    <p className="upload_new" onClick={(e) => onSelectVideoType(e, i, 'new')}>Upload New Video</p>
+                                                    <p className="select_existing" onClick={(e) => onSelectVideoType(e, i, 'existing')}>Select existing Video</p>
+                                                  </div>
+                                                  : null
+                                              } */}
 
-                                                <p>
-                                                  {val.uploadFile == "" ? (
-                                                    "Upload your Video file"
-                                                  ) : (
-                                                    <p className="uploaded-file">
-                                                      {val.uploadFile}
+                                              {
+                                                val?.videoType == 'new' ?
+                                                  <>
+                                                   <div className="box">
+                                                    <input
+                                                      type="file"
+                                                      name={`file-${i}`}
+                                                      id={`file-${i}`}
+                                                      className={
+                                                        error?.chapter?.[i]
+                                                          ? "inputfile inputfile-6 error"
+                                                          : "inputfile inputfile-6"
+                                                      }
+                                                      accept="video/mp4"
+                                                      onChange={(e) =>
+                                                        handleOnEbookChange(e, i)
+                                                      }
+                                                    />
+                                                    <label htmlFor={`file-${i}`}>
+                                                      <span>Choose Your File</span>
+                                                    </label>
+
+                                                    <p>
+                                                      {val.uploadFile == "" ? (
+                                                        "Upload your Video file"
+                                                      ) : (
+                                                        <p className="uploaded-file">
+                                                          {val.uploadFile}
+                                                        </p>
+                                                      )}
                                                     </p>
-                                                  )}
-                                                </p>
 
-
-                                                <div className="box">
-                                                  <input
-                                                    type="file"
-                                                    name={`file-thumb-${i}`}
-                                                    id={`file-thumb-${i}`}
-                                                    className="inputfile inputfile-5"
-                                                    accept="image/png, image/jpeg"
-                                                    onChange={(e) => handleOnVideoThumbChange(e, i)}
-                                                  />
-                                                  <label htmlFor={`file-thumb-${i}`}>
-                                                    <span>Choose Your File</span>
-                                                  </label>
-                                                  {/* {userInputs?.coverPhoto?.[0]?.name ? (
+                                                    </div>
+                                                    <div className="box">
+                                                      <input
+                                                        type="file"
+                                                        name={`file-thumb-${i}`}
+                                                        id={`file-thumb-${i}`}
+                                                        className="inputfile inputfile-5"
+                                                        accept="image/png, image/jpeg"
+                                                        onChange={(e) => handleOnVideoThumbChange(e, i)}
+                                                      />
+                                                      <label htmlFor={`file-thumb-${i}`}>
+                                                        <span>Choose Your File</span>
+                                                      </label>
+                                                      {/* {userInputs?.coverPhoto?.[0]?.name ? (
                                                     <p className="uploaded-file">
                                                       {userInputs?.coverPhoto?.[0]?.name}
                                                     </p>
@@ -2176,94 +2307,95 @@ const LibraryCreateUser = () => {
                                                       <span>(Recommended size 88 X 124)</span>
                                                     </p>
                                                   )} */}
-                                                </div>
-                                              </>
-                                              : val?.videoType == 'existing' ? 
-                                              <>
-                                                <Select
-                                                  className={
-                                                    error?.docintelFormat
-                                                      ? "dropdown-basic-button split-button-dropup error"
-                                                      : "dropdown-basic-button split-button-dropup"
-                                                  }
-                                                  onChange={(event) =>
-                                                    handleVideoChange(event?.value,i)
-                                                  }
-                                                  options={getVideoArticle}
-                                                  isClearable
-                                                  placeholder="Select video"
-                                                />
-                                              </>
-                                              :null
-                                            }
-                                          </>
-                                          : 
-                                            val?.type == 'pdf' ? 
-                                            <>
-                                              <input
-                                                type="file"
-                                                name={`file-${i}`}
-                                                id={`file-${i}`}
-                                                className={
-                                                  error?.chapter?.[i]
-                                                    ? "inputfile inputfile-6 error"
-                                                    : "inputfile inputfile-6"
-                                                }
-                                                accept="application/pdf"
-                                                onChange={(e) =>
-                                                  handleOnEbookChange(e, i)
-                                                }
-                                              />
-                                              <label htmlFor={`file-${i}`}>
-                                                <span>Choose Your File</span>
-                                              </label>
-
-                                              <p>
-                                                {val.uploadFile == "" ? (
-                                                  "Upload your PDF file"
-                                                ) : (
-                                                  <p className="uploaded-file">
-                                                    {val.uploadFile}
-                                                  </p>
-                                                )}
-                                              </p>
+                                                    </div>
+                                                  </>
+                                                  : val?.videoType == 'existing' ?
+                                                    <>
+                                                      <Select
+                                                        className={
+                                                          error?.docintelFormat
+                                                            ? "dropdown-basic-button split-button-dropup error"
+                                                            : "dropdown-basic-button split-button-dropup"
+                                                        }
+                                                        onChange={(event) =>
+                                                          handleVideoChange(event?.value, i)
+                                                        }
+                                                        options={getVideoArticle}
+                                                        isClearable
+                                                        placeholder="Select video"
+                                                      />
+                                                    </>
+                                                    : null
+                                              }
                                             </>
-                                          : null
+                                            :
+                                            // val?.chapterFormat == 'pdf' ?
+                                            val?.type == 'pdf' ?
+                                              <>
+                                                <input
+                                                  type="file"
+                                                  name={`file-${i}`}
+                                                  id={`file-${i}`}
+                                                  className={
+                                                    error?.chapter?.[i]
+                                                      ? "inputfile inputfile-6 error"
+                                                      : "inputfile inputfile-6"
+                                                  }
+                                                  accept="application/pdf"
+                                                  onChange={(e) =>
+                                                    handleOnEbookChange(e, i)
+                                                  }
+                                                />
+                                                <label htmlFor={`file-${i}`}>
+                                                  <span>Choose Your File</span>
+                                                </label>
+
+                                                <p>
+                                                  {val.uploadFile == "" ? (
+                                                    "Upload your PDF file"
+                                                  ) : (
+                                                    <p className="uploaded-file">
+                                                      {val.uploadFile}
+                                                    </p>
+                                                  )}
+                                                </p>
+                                              </>
+                                              : null
                                         }
                                       </div>
                                     </div>
-                                  :
-                                  <div className="upload-file-box">
-                                    <div className="box">
-                                      <input
-                                        type="file"
-                                        name={`file-${i}`}
-                                        id={`file-${i}`}
-                                        className={
-                                          error?.chapter?.[i]
-                                            ? "inputfile inputfile-6 error"
-                                            : "inputfile inputfile-6"
-                                        }
-                                        accept="application/pdf"
-                                        onChange={(e) =>
-                                          handleOnEbookChange(e, i)
-                                        }
-                                      />
-                                      <label htmlFor={`file-${i}`}>
-                                        <span>Choose Your File</span>
-                                      </label>
+                                    :
+                                    <div className="upload-file-box">
+                                      <div className="box">
+                                        <input
+                                          type="file"
+                                          name={`file-${i}`}
+                                          id={`file-${i}`}
+                                          className={
+                                            error?.chapter?.[i]
+                                              ? "inputfile inputfile-6 error"
+                                              : "inputfile inputfile-6"
+                                          }
+                                          accept="application/pdf"
+                                          onChange={(e) =>
+                                            handleOnEbookChange(e, i)
+                                          }
+                                        />
+                                        <label htmlFor={`file-${i}`}>
+                                          <span>Choose Your File</span>
+                                        </label>
 
-                                      <p>
-                                        {val.uploadFile == "" ? (
-                                          "Upload your PDF file"
-                                        ) : (
-                                          <p className="uploaded-file">
-                                            {val.uploadFile}
-                                          </p>
-                                        )}
-                                      </p>
+                                        <p>
+                                          {val.uploadFile == "" ? (
+                                            "Upload your PDF file"
+                                          ) : (
+                                            <p className="uploaded-file">
+                                              {val.uploadFile}
+                                            </p>
+                                          )}
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
                                 }
                               </div>
                               <div className="chapter-btn-wrapper">
@@ -2305,7 +2437,7 @@ const LibraryCreateUser = () => {
                               <div className="ebook-format">
                                 <label htmlFor="">
                                   {localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
                                     ? "Chapter "
                                     : "File "}{" "}
                                   title
@@ -2360,7 +2492,7 @@ const LibraryCreateUser = () => {
                     ) : null}
 
                     {userDetail?.user?.[0]?.flag == 0 &&
-                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         {/*
                          <div className="form-group">
@@ -2420,7 +2552,7 @@ const LibraryCreateUser = () => {
                   </Col>
 
                   {localStorage.getItem("user_id") !=
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                     <Col
                       md={6}
                       className="d-flex justify-content-end align-items-start right-change"
@@ -2441,13 +2573,14 @@ const LibraryCreateUser = () => {
                       </div>
                     </Col>
                   ) : null}
+                  {console.log("ebook-->",ebookFile,"include ebook",userInputs.docintelFormat?.includes("ebook"))}
                   {(ebookFile?.length &&
                     userInputs.docintelFormat?.includes("ebook")) ||
-                  (["ebook", "pdf", "pdfSpc"].includes(
-                    userInputs.docintelFormat
-                  )) && (localStorage.getItem("user_id") ==
-                    "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                    "iSnEsKu5gB/DRlycxB6G4g==")  ? (
+                    (["ebook", "pdf", "pdfSpc"].includes(
+                      userInputs.docintelFormat
+                    )) && (localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                      "iSnEsKu5gB/DRlycxB6G4g==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>

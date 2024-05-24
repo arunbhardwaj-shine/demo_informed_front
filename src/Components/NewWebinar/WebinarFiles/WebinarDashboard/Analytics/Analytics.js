@@ -133,6 +133,9 @@ const Analytics = (props) => {
   const [eventStatus, setEventStatus] = useState(
     localStorageEvent?.eventStatus
   );
+  const [isOneSourceEvent, setIsOneSourceEvent] = useState(
+    localStorageEvent?.isOneSourceEvent
+  );
 
   const commonPieOptions = {
     chart: {
@@ -1354,7 +1357,7 @@ const Analytics = (props) => {
                   <p>{eventData?.formattedEventStartDateTime}</p>
                 </div>
 
-                {eventStatus == -1 && eventId >= 402 ? (
+                {(isOneSourceEvent==1&&eventStatus == -1 && eventId >= 402) ? (
                   <Button
                     title="Download Site Engagements"
                     className="download filled"
