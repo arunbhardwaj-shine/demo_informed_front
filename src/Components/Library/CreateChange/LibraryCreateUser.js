@@ -665,15 +665,19 @@ const LibraryCreateUser = () => {
     list[i].uploadFile="";
     list[i].selectedVideo=""   
     list[i].ebookFile="" 
-    setEbookFile((prevEbookFile) => {
-      const updatedEbookFile = [...prevEbookFile];
-      updatedEbookFile.splice(i, 1);
-      if (updatedEbookFile.length === 0) {
-        return [];
-      }
-      console.log("updatedEbookFile-->",updatedEbookFile)
-      return updatedEbookFile;
-    });
+    console.log("file length in change format-->",ebookFile[i])
+    if(ebookFile[i]){
+
+      setEbookFile((prevEbookFile) => {
+        const updatedEbookFile = [...prevEbookFile];
+        updatedEbookFile.splice(i, 1);
+        if (updatedEbookFile.length === 0) {
+          return [];
+        }
+        console.log("updatedEbookFile-->",updatedEbookFile)
+        return updatedEbookFile;
+      });
+    }
     if(e==true){      
       list[i].videoType="existing"
       if(getVideoArticle.length == 0){        
@@ -2581,12 +2585,15 @@ const LibraryCreateUser = () => {
                       </div>
                     </Col>
                   ) : null}
-                  {console.log("ebook-->",ebookFile,"include ebook",userInputs.docintelFormat?.includes("ebook"))}
+                 {console.log("chapter-->",chapter)}
+                 {console.log("ebook-->",ebookFile)}
                   {(ebookFile?.length &&
-                    userInputs.docintelFormat?.includes("ebook")) ||
-                    (["ebook", "pdf", "pdfSpc"].includes(
-                      userInputs.docintelFormat
-                    )) && (localStorage.getItem("user_id") ==
+                    // userInputs.docintelFormat?.includes("ebook")
+                    userInputs.docintelFormat=="ebook"
+                  ) ||
+                    (["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat))||
+                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
+                     && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==") ? (
                     <>
