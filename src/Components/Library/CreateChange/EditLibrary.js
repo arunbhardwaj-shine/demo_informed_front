@@ -775,19 +775,25 @@ const getExistingVideos=async ()=>{
   // };
 
   const onChapterFormatChange = (e, i, isSelectedName) => {
-    const { value } = e;
-    const list = [...chapter];
-    // list[i].chapterFormat = e == true ? "video" : "pdf";
+    const list = [...chapter];  
     list[i].type= e == true ? "video" : "pdf";
     list[i].uploadFile=""; 
     list[i].selectedVideo = ""; 
+    list[i].ebookFile="" 
+    if(ebookFile[i]){
+      setEbookFile((prevEbookFile) => {
+        const updatedEbookFile = [...prevEbookFile];
+        updatedEbookFile.splice(i, 1);
+        if (updatedEbookFile.length === 0) {
+          return [];
+        }
+        return updatedEbookFile;
+      });
+    }
     if(e==true){      
       list[i].videoType="existing"
       onSelectVideoType(e,i,"existing")
-    } 
-    // else {
-    //   list[i].videoType = "";
-    // }  
+    }     
     setChapter(list);   
   };
 
@@ -2953,10 +2959,12 @@ const getExistingVideos=async ()=>{
                     ) : null}
 
                     {(ebookFile?.length &&
-                      userInputs.docintelFormat?.includes("ebook")) ||
+                      userInputs.docintelFormat=="ebook") ||
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
-                    )) && (localStorage.getItem("user_id") ==
+                    ))||
+                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
+                     && (localStorage.getItem("user_id") ==
                         "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                         "iSnEsKu5gB/DRlycxB6G4g==") ? (
                       <>
