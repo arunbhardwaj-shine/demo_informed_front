@@ -665,6 +665,8 @@ const LibraryCreateUser = () => {
     list[i].uploadFile="";
     list[i].selectedVideo=""   
     list[i].ebookFile="" 
+    list[i].videoType=""
+    list[i].videoThumb=""
     if(ebookFile[i]){
 
       setEbookFile((prevEbookFile) => {
@@ -2323,7 +2325,7 @@ const LibraryCreateUser = () => {
                                       </div>
                                     </div>
 
-                                    {val?.videoType == 'new' ? 
+                                    {val?.videoType == 'new' &&val.type=="video"? 
                                     <div className="upload-file-box">
                                     <div className="box">
                                         <input
