@@ -665,7 +665,15 @@ const LibraryCreateUser = () => {
     list[i].uploadFile="";
     list[i].selectedVideo=""   
     list[i].ebookFile="" 
-   
+    setEbookFile((prevEbookFile) => {
+      const updatedEbookFile = [...prevEbookFile];
+      updatedEbookFile.splice(i, 1);
+      if (updatedEbookFile.length === 0) {
+        return [];
+      }
+      console.log("updatedEbookFile-->",updatedEbookFile)
+      return updatedEbookFile;
+    });
     if(e==true){      
       list[i].videoType="existing"
       if(getVideoArticle.length == 0){        
