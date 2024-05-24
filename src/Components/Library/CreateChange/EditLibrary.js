@@ -2434,13 +2434,13 @@ const getExistingVideos=async ()=>{
                                 <div className="ebook-format">
 
                                 {userInputs.docintelFormat == "ebookVideo" ? (<>
-                                  <div>
+                                  <div className="d-flex align-items-center justify-content-start w-100 mb-3">
                                     <label htmlFor="">
                                       {localStorage.getItem("user_id") !=
                                         "56Ek4feL/1A8mZgIKQWEqg=="
                                         ? "Chapter "
                                         : "File "}
-                                      {i + 1} format <span>*</span>
+                                      {i + 1} format
                                     </label>
                                     <div className="switch">
                                       <label className="switch-light">
@@ -2460,31 +2460,33 @@ const getExistingVideos=async ()=>{
                                         <a className="btn"></a>
                                       </label>
                                     </div>
+                                      {val?.type == "video" ?
+                                        <fieldset id="group2">
+                                          :
+                                          <div className="radio-selection">
+                                            <input
+                                              type="radio"
+                                              name={`video-${i}`}
+                                              id={`file-existing-${i}`}
+                                              checked={val?.videoType === "existing" || !val?.videoType}
+                                              onChange={(e) => onSelectVideoType(e, i, 'existing')}
+                                            />
+                                            <label htmlFor="file-6">
+                                              <span>Existing video</span>
+                                            </label>
+                                            <input
+                                              type="radio"
+                                              name={`video-${i}`}
+                                              id={`file-new-${i}`}
+                                              checked={val?.videoType === "new"}
+                                              onChange={(e) => onSelectVideoType(e, i, 'new')}
+                                            />
+                                            <label htmlFor="file-6">
+                                              <span>Upload new</span>
+                                            </label>
+                                          </div></fieldset> : null}
                                     </div>
-                                    {val?.type == "video"?
-                                    <fieldset id="group2">
-                                    <div>
-                                     <input
-                                        type="radio"
-                                        name={`video-${i}`}
-                                        id={`file-existing-${i}`}
-                                        checked={val?.videoType === "existing" || !val?.videoType}
-                                        onChange={(e) => onSelectVideoType(e, i, 'existing')}
-                                      />
-                                    <label htmlFor="file-6">
-                                      <span>Existing video</span>
-                                    </label>
-                                     <input
-                                        type="radio"
-                                        name={`video-${i}`}
-                                        id={`file-new-${i}`}
-                                        checked={val?.videoType === "new"}
-                                        onChange={(e) => onSelectVideoType(e, i, 'new')}
-                                      />
-                                    <label htmlFor="file-6">
-                                      <span>Upload new</span>
-                                    </label>
-                                  </div></fieldset>:null}</>) : null
+                                    </>) : null
                                 }
 
                                   <label htmlFor="">
@@ -2503,9 +2505,10 @@ const getExistingVideos=async ()=>{
                                   />
                                   {
                                    userInputs.docintelFormat == "ebookVideo" ?
+                                   <>
                                     <div className="upload-file-box">
                                       <div className="box">
-                                        <div className="d-flex">
+                                        {/* <div className="d-flex">
                                           {
                                             // typeof val?.type == 'undefined' ? 
                                               // <>
@@ -2516,7 +2519,7 @@ const getExistingVideos=async ()=>{
                                             //  null
                                              
                                           }
-                                        </div>
+                                        </div> */}
                                         {
                                           /*
                                           val?.type == 'video' ?
@@ -2560,30 +2563,20 @@ const getExistingVideos=async ()=>{
                                                   <span>Choose Your File</span>
                                                 </label>
 
-                                                <p>
-                                                  {val.uploadFile == "" ? (
-                                                    "Upload your Video file"
-                                                  ) : (
-                                                    <p className="uploaded-file">
-                                                      {val.uploadFile}
-                                                    </p>
-                                                  )}
-                                                </p>
+                                                        <p>
+                                                          {val.uploadFile === "" ? (
+                                                            <>
+                                                              Upload your Video file
+                                                              <span className="video-format">(Only <b>mp4</b> format is allowed)</span>
+                                                            </>
+                                                          ) : (
+                                                            <span className="uploaded-file">
+                                                              {val.uploadFile}
+                                                            </span>
+                                                          )}
+                                                        </p>
 
 
-                                                <div className="box">
-                                                  <input
-                                                    type="file"
-                                                    name={`file-thumb-${i}`}
-                                                    id={`file-thumb-${i}`}
-                                                    className="inputfile inputfile-5"
-                                                    accept="image/png, image/jpeg"
-                                                    onChange={(e) => handleOnVideoThumbChange(e, i)}
-                                                  />
-                                                  <label htmlFor={`file-thumb-${i}`}>
-                                                    <span>Choose Your File</span>
-                                                  </label>
-                                                </div>
                                               </>
                                               : val?.videoType == 'existing'  || (val?.videoType == 'existing' && val.uploadFile) ? 
                                               <>
@@ -2630,16 +2623,44 @@ const getExistingVideos=async ()=>{
                                                 {val.uploadFile == "" ? (
                                                   "Upload your PDF file"
                                                 ) : (
-                                                  <p className="uploaded-file">
+                                                  <span className="uploaded-file">
                                                     {val.uploadFile}
-                                                  </p>
+                                                  </span>
                                                 )}
                                               </p>
                                             </>
                                           : null
                                         }
                                       </div>
+
+                                       
                                     </div>
+                                        {val?.videoType == 'new' || (val?.videoType == 'new' && val.uploadFile) ? 
+                                     <div className="upload-file-box">
+                                     <div className="box">
+                                          <input
+                                            type="file"
+                                            name={`file-thumb-${i}`}
+                                            id={`file-thumb-${i}`}
+                                            className="inputfile inputfile-5"
+                                            accept="image/png, image/jpeg"
+                                            onChange={(e) => handleOnVideoThumbChange(e, i)}
+                                          />
+                                          <label htmlFor={`file-thumb-${i}`}>
+                                            <span>Choose Your Image</span>
+                                          </label>
+                                              <p>
+                                                {val.videoThumb == "" ? (
+                                                  "Upload your Video image"
+                                                ) : (
+                                                  <span className="uploaded-file">
+                                                    {val.videoThumb}
+                                                  </span>
+                                                )}
+                                              </p>
+                                        </div>
+                                        </div>: ''}
+                                        </>
                                   :
                                   <div className="upload-file-box">
                                     <div className="box">
