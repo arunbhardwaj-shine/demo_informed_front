@@ -665,7 +665,6 @@ const LibraryCreateUser = () => {
     list[i].uploadFile="";
     list[i].selectedVideo=""   
     list[i].ebookFile="" 
-    console.log("file length in change format-->",ebookFile[i])
     if(ebookFile[i]){
 
       setEbookFile((prevEbookFile) => {
@@ -674,7 +673,6 @@ const LibraryCreateUser = () => {
         if (updatedEbookFile.length === 0) {
           return [];
         }
-        console.log("updatedEbookFile-->",updatedEbookFile)
         return updatedEbookFile;
       });
     }
@@ -921,6 +919,7 @@ const LibraryCreateUser = () => {
     // const list = [...chapter];
     const list=JSON.parse(JSON.stringify(chapter))
     list[i].videoType = type;
+    list[i].videoThumb = '';
     list[i].uploadFile="";
     list[i].selectedVideo="";
     setChapter(list);
@@ -2148,13 +2147,13 @@ const LibraryCreateUser = () => {
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
                                 {userInputs.docintelFormat == "ebookVideo" ? (<>
-                                  <div>
+                                  <div className="d-flex align-items-center justify-content-start w-100 mb-3">
                                     <label htmlFor="">
                                       {localStorage.getItem("user_id") !=
                                         "56Ek4feL/1A8mZgIKQWEqg=="
                                         ? "Chapter "
                                         : "File "}
-                                      {i + 1} format <span>*</span>
+                                      {i + 1} format
                                     </label>
                                     <div className="switch">
                                       <label className="switch-light">
@@ -2174,12 +2173,13 @@ const LibraryCreateUser = () => {
                                         <a className="btn"></a>
                                       </label>
                                     </div>
-                                    </div>
+                                   
                                     {
                                     // val?.chapterFormat == "video"?
                                     val?.type == "video"?
                                     <fieldset id="group2">
-                                    <div>
+                                      :
+                                    <div className="radio-selection">
                                     <input
                                       type="radio"
                                       name={`video-${i}`}
@@ -2189,24 +2189,26 @@ const LibraryCreateUser = () => {
                                       // accept="video/mp4"
                                       onClick={(e) => onSelectVideoType(e, i, 'existing')}
                                     />
-                                    <label htmlFor="file-6">
+                                    <label htmlFor={`file-existing-${i}`}>
                                       <span>Existing video</span>
                                     </label>
                                     <input
                                       type="radio"
                                       name={`video-${i}`}
-                                      id={`file-existing-${i}`}
+                                      id={`file-new-${i}`}
                                       checked={val?.videoType=="new"?true:false}
                                       // className="inputfile inputfile-6"
                                       // accept="video/mp4"
                                       onClick={(e) => onSelectVideoType(e, i, 'new')}
                                     />
-                                    <label htmlFor="file-6">
+                                    <label htmlFor={`file-new-${i}`}>
                                       <span>Upload new</span>
                                     </label>
                                   </div>
                                   </fieldset>
-                                  :null}</>) : null
+                                  :null}
+                                   </div>
+                                  </>) : null
                                 }
                                 <label htmlFor="">
                                   {localStorage.getItem("user_id") !=
@@ -2223,47 +2225,15 @@ const LibraryCreateUser = () => {
                                 />
 
                                 {
-                                  userInputs.docintelFormat == "ebookVideo" ?
+                                  userInputs.docintelFormat == "ebookVideo" ? <>
                                     <div className="upload-file-box">
                                       <div className="box">
-                                        {/* <div className="d-flex">
-                                          {                                          
-                                            <>
-                                              <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i, 'video')} />
-                                              <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i, 'pdf')} />
-                                            </>
-                                          
-
-                                          }
-                                        </div> */}
                                         {
-                                          /*
-                                          val?.type == 'video' ?
-                                          <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
-                                          :val?.type == 'pdf' ? 
-                                          <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
-                                          : null
-                                          */
-                                        }
-
-                                        {
-                                          // val?.chapterFormat == 'video' ?
                                           val?.type == 'video' ?
                                             <>
-                                            
-                                              {/* {
-                                                typeof val?.videoType == 'undefined' ?
-                                                  <div className="d-flex">
-                                                    <p className="upload_new" onClick={(e) => onSelectVideoType(e, i, 'new')}>Upload New Video</p>
-                                                    <p className="select_existing" onClick={(e) => onSelectVideoType(e, i, 'existing')}>Select existing Video</p>
-                                                  </div>
-                                                  : null
-                                              } */}
-
                                               {
                                                 val?.videoType == 'new' ?
                                                   <>
-                                                   <div className="box">
                                                     <input
                                                       type="file"
                                                       name={`file-${i}`}
@@ -2283,44 +2253,20 @@ const LibraryCreateUser = () => {
                                                     </label>
 
                                                     <p>
-                                                      {val.uploadFile == "" ? (
-                                                        "Upload your Video file"
-                                                      ) : (
-                                                        <p className="uploaded-file">
-                                                          {val.uploadFile}
+                                                          {val.uploadFile === "" ? (
+                                                            <>
+                                                              Upload your Video file
+                                                              <span className="video-format">(Only <b>mp4</b> format is allowed)</span>
+                                                            </>
+                                                          ) : (
+                                                            <span className="uploaded-file">
+                                                              {val.uploadFile}
+                                                            </span>
+                                                          )}
                                                         </p>
-                                                      )}
-                                                    </p>
 
-                                                    </div>
-                                                    <div className="box">
-                                                      <input
-                                                        type="file"
-                                                        name={`file-thumb-${i}`}
-                                                        id={`file-thumb-${i}`}
-                                                        className="inputfile inputfile-5"
-                                                        accept="image/png, image/jpeg"
-                                                        onChange={(e) => handleOnVideoThumbChange(e, i)}
-                                                      />
-                                                      <label htmlFor={`file-thumb-${i}`}>
-                                                        <span>Choose Your File</span>
-                                                      </label>
-                                                      {/* {userInputs?.coverPhoto?.[0]?.name ? (
-                                                    <p className="uploaded-file">
-                                                      {userInputs?.coverPhoto?.[0]?.name}
-                                                    </p>
-                                                  ) : (
-                                                    <p>
-                                                      Uplode an alternative cover <br />
-                                                      <span>
-                                                        <i>Allowed formats: PNG,JPEG</i>
-                                                      </span>
-                                                      <br />
-                                                      <span>(Recommended size 88 X 124)</span>
-                                                    </p>
-                                                  )} */}
-                                                    </div>
-                                                  </>
+                                                        </>
+                                                    
                                                   : val?.videoType == 'existing' ?
                                                     <>
                                                       <Select
@@ -2363,19 +2309,46 @@ const LibraryCreateUser = () => {
                                                 </label>
 
                                                 <p>
-                                                  {val.uploadFile == "" ? (
-                                                    "Upload your PDF file"
-                                                  ) : (
-                                                    <p className="uploaded-file">
-                                                      {val.uploadFile}
-                                                    </p>
-                                                  )}
-                                                </p>
+                                                {val.uploadFile == "" ? (
+                                                  "Upload your PDF file"
+                                                ) : (
+                                                  <span className="uploaded-file">
+                                                    {val.uploadFile}
+                                                  </span>
+                                                )}
+                                              </p>
                                               </>
                                               : null
                                         }
                                       </div>
                                     </div>
+
+                                    {val?.videoType == 'new' ? 
+                                    <div className="upload-file-box">
+                                    <div className="box">
+                                        <input
+                                          type="file"
+                                          name={`file-thumb-${i}`}
+                                          id={`file-thumb-${i}`}
+                                          className="inputfile inputfile-5"
+                                          accept="image/png, image/jpeg"
+                                          onChange={(e) => handleOnVideoThumbChange(e, i)}
+                                        />
+                                        <label htmlFor={`file-thumb-${i}`}>
+                                          <span>Choose Your Image</span>
+                                        </label>
+                                            <p>
+                                              {val.videoThumb == "" ? 
+                                                "Upload your Video image"
+                                               : (
+                                                <span className="uploaded-file">
+                                                  {val.videoThumb}
+                                                </span>
+                                              )}
+                                            </p>
+                                      </div>
+                                      </div>: ''}
+                                      </>
                                     :
                                     <div className="upload-file-box">
                                       <div className="box">
@@ -2394,7 +2367,7 @@ const LibraryCreateUser = () => {
                                           }
                                         />
                                         <label htmlFor={`file-${i}`}>
-                                          <span>Choose Your File</span>
+                                          <span>Change Your File</span>
                                         </label>
 
                                         <p>
@@ -2585,10 +2558,7 @@ const LibraryCreateUser = () => {
                       </div>
                     </Col>
                   ) : null}
-                 {console.log("chapter-->",chapter)}
-                 {console.log("ebook-->",ebookFile)}
                   {(ebookFile?.length &&
-                    // userInputs.docintelFormat?.includes("ebook")
                     userInputs.docintelFormat=="ebook"
                   ) ||
                     (["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat))||
