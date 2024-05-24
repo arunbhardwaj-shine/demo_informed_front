@@ -2479,7 +2479,7 @@ const getExistingVideos=async ()=>{
                                               checked={val?.videoType === "existing" || !val?.videoType}
                                               onChange={(e) => onSelectVideoType(e, i, 'existing')}
                                             />
-                                            <label htmlFor="file-6">
+                                            <label htmlFor={`file-existing-${i}`}>
                                               <span>Existing video</span>
                                             </label>
                                             <input
@@ -2489,7 +2489,7 @@ const getExistingVideos=async ()=>{
                                               checked={val?.videoType === "new"}
                                               onChange={(e) => onSelectVideoType(e, i, 'new')}
                                             />
-                                            <label htmlFor="file-6">
+                                            <label htmlFor={`file-new-${i}`}>
                                               <span>Upload new</span>
                                             </label>
                                           </div></fieldset> : null}
