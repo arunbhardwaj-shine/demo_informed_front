@@ -780,6 +780,8 @@ const getExistingVideos=async ()=>{
     list[i].uploadFile=""; 
     list[i].selectedVideo = ""; 
     list[i].ebookFile="" 
+    list[i].videoType=""
+    list[i].videoThumb=""
     if(ebookFile[i]){
       setEbookFile((prevEbookFile) => {
         const updatedEbookFile = [...prevEbookFile];
