@@ -2346,7 +2346,7 @@ const LibraryCreateUser = () => {
                                         </label>
                                             <p>
                                               {val.videoThumb == "" ? 
-                                                "Upload your Video image"
+                                                "Upload chapter thumbnail"
                                                : (
                                                 <span className="uploaded-file">
                                                   {val.videoThumb}
