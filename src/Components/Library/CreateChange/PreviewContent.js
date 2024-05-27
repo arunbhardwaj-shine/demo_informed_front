@@ -80,6 +80,7 @@ const PreviewContent = () => {
   const [apiCallBackFlag, setApiCallBackFlag] = useState(0);
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+    const [isKey, setIsKey] = useState(0);
 
   useEffect(() => {
     getArticleData();
@@ -156,6 +157,8 @@ const PreviewContent = () => {
   };
 
   const templateClicked = (template, e) => {
+    
+    setIsKey((prevKey) => prevKey + 1);
     const div = document.querySelector("img.select_mm");
     setNewTemplateClicked(true);
     if (div) {
@@ -616,6 +619,7 @@ const PreviewContent = () => {
                               trigger={trigger}
                               updatePublish={updatePublish}
                               editStatus={isEdit}
+                              customKey={isKey}
                             />
                           </>
                       ) : (
