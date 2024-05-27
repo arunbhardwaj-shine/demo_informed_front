@@ -13,6 +13,7 @@ import { DocumentLoadEvent, RenderPageProps, SpecialZoomLevel } from "@react-pdf
 import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
 import ConfirmationModal from "../../../Model/ConfirmationModel";
+import { popup_alert } from "../../../popup_alert";
 
 const AddLinkToPdf = () => {
   const { state } = useLocation();
@@ -35,6 +36,8 @@ const AddLinkToPdf = () => {
   const [endX, setEndX] = useState(0);
   const [endY, setEndY] = useState(0);
   const [file, setFile] = useState();
+  const [articleType, setArticleType] = useState('');
+  const [fileVersion, setFileVersion] = useState(0);
   const [documentHeight, setDocumentHeight] = useState(0);
   const [startXCordinate, setStartXCordinate] = useState(0);
   const [startYCordinate, setStartYCordinate] = useState(0);
@@ -310,6 +313,7 @@ const AddLinkToPdf = () => {
       };
       const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
       setInitFunData(res?.data?.data);
+      setArticleType(res?.data?.data?.file_type);
       if (res?.data?.data?.file_type == "ebook") {
         if (res?.data?.data?.ebookData?.length) {
           const newData = res?.data?.data?.ebookData?.map((item, index) => {
@@ -321,6 +325,7 @@ const AddLinkToPdf = () => {
           });
           setChapterOption(newData);
           setFile(res?.data?.data?.ebookData[0]?.file_name);
+          setFileVersion(res?.data?.data?.ebookData[0]?.ie_allversion);
           setEbookSelectedId(res?.data?.data?.ebookData[0]?.id);
 
           setEbookData(res?.data?.data?.ebookData);
@@ -339,6 +344,7 @@ const AddLinkToPdf = () => {
     closePopup();
     setEbookSelectedId(ebookData[e?.index]?.id);
     setFile(ebookData[e?.index]?.file_name);
+    setFileVersion(ebookData[e?.index]?.ie_allversion);
     setDefaultScale(1.3347);
     setInitialscale(0);
   };
@@ -475,6 +481,15 @@ const AddLinkToPdf = () => {
 
   const handleMouseDown = (event) => {
     if (event.target.className === "viewer-text-layer") {
+
+      if(fileVersion == 1){
+        popup_alert({
+          visible: "show",
+          message: "This is Video embedded Pdf file, Add link facility is not available",
+          type: "error",
+        });
+       return;
+     }
       setMousefirstdown(event.clientY);
       setHighlighted(false);
       setShowAddLink(true);
@@ -1129,7 +1144,7 @@ const AddLinkToPdf = () => {
                               onPageChange={handleDocumentLoad}
                               onDocumentLoad={handleCompleteDocumentLoad}
                               renderMode="canvas"
-                              fileUrl={file}
+                              fileUrl={articleType == 'ebook' && fileVersion == 1 ? path_image + "videotypeebook.pdf" : file}
                               // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
                             />
                             <div

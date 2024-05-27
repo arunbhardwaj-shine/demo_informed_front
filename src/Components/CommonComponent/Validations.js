@@ -28,15 +28,23 @@ export const createContent = (data, fileCheck, groupId = 2, retailer = 0) => {
 
   if (data.hasOwnProperty("chapter")) {
     data.chapter?.forEach((item, index) => {
-      if (!item.uploadFile || !item.chapterTitle) {
-        if (!error?.chapter?.[index]) {
-          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
-            error.chapter = {
-              ...error.chapter,
-              [index]: "Chapter is required",
-            };
-          } else {
-            error.chapter = { ...error.chapter, [index]: "File is required" };
+      if(item.type == "video" && item.videoType == 'existing'){
+        if(item?.selectedVideo == ''){
+          if (!error?.chapter?.[index]) {
+            error.chapter = { ...error.chapter, [index]: "Please select video" };
+          }
+        }
+      }else{
+        if (!item.uploadFile || !item.chapterTitle) {
+          if (!error?.chapter?.[index]) {
+            if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+              error.chapter = {
+                ...error.chapter,
+                [index]: "Chapter is required",
+              };
+            } else {
+              error.chapter = { ...error.chapter, [index]: "File is required" };
+            }
           }
         }
       }

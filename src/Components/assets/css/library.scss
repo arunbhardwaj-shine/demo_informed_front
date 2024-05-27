@@ -646,6 +646,46 @@
     padding: 36px 12px;
   }
 
+  .form-group {
+    .ebook-format {
+      fieldset {
+        padding-left: 8px;
+
+        .radio-selection {
+          @include flex-align-start;
+          align-items: center;
+          padding-left: 11px;
+
+          input {
+            margin-right: 3px;
+          }
+
+          label {
+            padding-right: 11px;
+            flex: 0 0 auto;
+
+            span {
+              color: #70899E;
+            }
+          }
+        }
+      }
+
+      .upload-file-box {
+        .box {
+          .dropdown-basic-button {
+            max-width: 100%;
+
+            &>div:nth-child(3) {
+              max-width: 100%;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
   .product-unit {
     .form-group {
       margin: 18px 0;
@@ -2463,6 +2503,13 @@ form.product-unit button {
   word-break: break-all;
   padding-right: 5px;
 }
+
+.create-change-content .upload-file-box .box p span.video-format {
+  display: block;
+  font-size: 14px;
+  margin: 7px 0 0;
+}
+
 
 .create-change-content .upload-file-box .box p.uploaded-file {
   color: $primary-color;
@@ -9918,6 +9965,55 @@ svg.pencil_icon {
 
   .form-group.primary_phone .dropdown-basic-button.split-button-dropup>div:nth-child(3) {
     padding: 3px 30px 3px 10px;
+  }
+
+  .create-change-content .form-group .ebook-format label {
+    flex: 0 0 124px;
+  }
+
+  .create-change-content .form-group .ebook-format fieldset .radio-selection label span {
+    font-size: 12px;
+  }
+
+  .create-change-content .form-group .ebook-format .switch {
+    width: 99px;
+    max-width: 100px;
+  }
+
+  .create-change-content .form-group .ebook-format .switch .switch-light>span span {
+    font-size: 13px;
+  }
+
+  .create-change-content .form-group .ebook-format .switch .switch-light>span {
+    padding-right: 84px;
+  }
+
+  .create-change-content .form-group .ebook-format fieldset .radio-selection {
+    padding-left: 6px;
+  }
+
+  .create-change-content .form-group .ebook-format fieldset {
+    padding-left: 5px;
+  }
+
+  .create-change-content .form-group .ebook-format .switch label.switch-light {
+    height: 30px;
+  }
+
+  .create-change-content .form-group .ebook-format .switch a.btn {
+    padding: 14px 20px;
+  }
+
+  .create-change-content .form-group .ebook-format .switch .switch-light>span span {
+    top: 1px;
+  }
+
+  .create-change-content .form-group .ebook-format .upload-file-box .box .dropdown-basic-button {
+    margin: 0;
+  }
+
+  .create-change-content .form-group .ebook-format .inputfile~label {
+    font-size: 13px;
   }
 }
 

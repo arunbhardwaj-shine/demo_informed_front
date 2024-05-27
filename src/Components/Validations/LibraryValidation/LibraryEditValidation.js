@@ -15,6 +15,14 @@ export const LibraryEditValidation = (data) => {
   }
   if (data?.hasOwnProperty("chapter")) {
     data?.chapter?.forEach((item, index) => {
+      
+      if(item.type == "video" && item.videoType == 'existing'){
+        if(item?.selectedVideo == ''){
+          if (!error?.chapter?.[index]) {
+            error.chapter = { ...error.chapter, [index]: "Please select video" };
+          }
+        }
+      }else{
       if (
         (item.hasOwnProperty("uploadFile") && item?.uploadFile == "") ||
         !item?.chapterTitle
@@ -30,7 +38,7 @@ export const LibraryEditValidation = (data) => {
           }
           // error.chapter = {...error.chapter,[index]:"Chapter is required"};
         }
-      }
+      }}
     });
   }
   if (data?.hasOwnProperty("pdfChapter")) {
