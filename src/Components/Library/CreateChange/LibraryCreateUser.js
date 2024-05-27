@@ -711,6 +711,7 @@ const LibraryCreateUser = () => {
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].uploadFile = value;
+    list[i].selectedVideo = '';
     ebookFile[i] = e.target.files[0];
     setEbookFile(ebookFile);
     setChapter(list);
@@ -931,6 +932,8 @@ const LibraryCreateUser = () => {
     const list = [...chapter];
     // const list=JSON.parse(JSON.stringify(chapter))
     list[i].selectedVideo = value;
+    list[i].videoThumb = '';
+    list[i].uploadFile = '';
     setChapter(list);
   };
 
