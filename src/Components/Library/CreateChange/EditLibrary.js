@@ -943,6 +943,8 @@ const getExistingVideos=async ()=>{
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].uploadFile = value;
+    list[i].uploadNewFile = value;
+    list[i].selectedVideo = '';
     ebookFile[i] = e.target.files[0];
     setEbookFile(ebookFile);
     setChapter(list);
@@ -1014,6 +1016,8 @@ const getExistingVideos=async ()=>{
   const handleVideoChange = (value,i) => {
     const list = [...chapter];
     list[i].selectedVideo = value;
+    list[i].videoThumb = '';
+    list[i].uploadFile = '';
     setChapter(list);
   };
 
@@ -1021,6 +1025,7 @@ const getExistingVideos=async ()=>{
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].videoThumb = value;
+    list[i].videoNewThumb = value;
     videoThumb[i] = e.target.files[0];
     setVideoThumb(videoThumb);
     setChapter(list);
@@ -2580,7 +2585,8 @@ const getExistingVideos=async ()=>{
                                                             </>
                                                           ) : (
                                                             <span className="uploaded-file">
-                                                              {val.uploadFile}
+                                                              {/* {val.uploadFile} */}
+                                                              {val.uploadNewFile? val.uploadNewFile : '' }
                                                             </span>
                                                           )}
                                                         </p>
@@ -2633,7 +2639,7 @@ const getExistingVideos=async ()=>{
                                                   "Upload your PDF file"
                                                 ) : (
                                                   <span className="uploaded-file">
-                                                    {val.uploadFile}
+                                                    {val.uploadNewFile? val.uploadNewFile : '' }
                                                   </span>
                                                 )}
                                               </p>
@@ -2663,7 +2669,8 @@ const getExistingVideos=async ()=>{
                                                   "Upload your Video image"
                                                 ) : (
                                                   <span className="uploaded-file">
-                                                    {val.videoThumb}
+                                                    {/* {val.videoThumb} */}
+                                                    {val.videoNewThumb? val.videoNewThumb : '' }
                                                   </span>
                                                 )}
                                               </p>
