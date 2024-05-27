@@ -52,6 +52,12 @@ const EditLibrary = () => {
     "Site unblinded pharmacist",
   ]);
   const [updateflag, setupdateFlag] = useState(0);
+  const [ebookVideoType, setEbookVideoType] = useState([
+    {
+      index: "",
+      type: "",
+    },
+  ]);
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: "",
     keyAuthor: "",
@@ -82,7 +88,10 @@ const EditLibrary = () => {
     sold_unsold_status: "",
     request_quote: '',
     pharmaArr: '',
+    parent_id:""
   });
+
+  const [getVideoArticle, setVideoArticle] = useState([]);
 
   const [language, setLanguage] = useState([
     { value: "English", label: "English" },
@@ -94,6 +103,7 @@ const EditLibrary = () => {
     { value: "unblinded", label: "unblind" },
   ]);
   const [ebookFile, setEbookFile] = useState([]);
+  const [videoThumb, setVideoThumb] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
 
   const [chapter, setChapter] = useState([
@@ -101,6 +111,7 @@ const EditLibrary = () => {
       chapterTitle: "",
       uploadFile: "",
       fileValue: "",
+      selectedVideo: "",
     },
   ]);
   const [pdfSpcChapter, setPdfSpcChapter] = useState([
@@ -249,7 +260,6 @@ const EditLibrary = () => {
       const hadData = await getData(
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
-
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
       if (
         hadData?.data?.data?.pdfData?.tags?.length &&
@@ -280,6 +290,10 @@ const EditLibrary = () => {
       } else if (hadData?.data?.data?.ebookData?.length) {
         setChapter(hadData?.data?.data?.ebookData);
       }
+      if (hadData?.data?.data?.pdfData?.docintelFormat == "ebookVideo") {
+        setChapter(hadData?.data?.data?.ebookData);
+        setpdfSpcData(hadData?.data?.data?.ebookData);
+      } 
       setShowFlag(true);
     } catch (err) {
       console.log("-err", err);
@@ -290,8 +304,27 @@ const EditLibrary = () => {
   useEffect(() => {
     libraryDetail();
     initalFun();
+    getExistingVideos();
+    
   }, []);
-
+const getExistingVideos=async ()=>{
+  const requestBody = {
+    selectValue: JSON.stringify(["id", "title", "code"]),
+    file_type: "'video'",
+    is_file_name_exists: 1,
+  };
+  const response = await postData(ENDPOINT.LIBRARY, requestBody);
+  const hadData = response?.data?.data?.library || [];
+  const pdfObj = hadData
+    .map((item) => ({
+      label: item.title.trim(),
+      value: item.id,
+    }))
+    .sort((a, b) =>
+      a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+    );
+  setVideoArticle(pdfObj);
+}
   const removeHcp = (data, type = "") => {
     if (type == "irt") {
       const hcpData = hcpIrtClickedFirst.filter((item) => item != data);
@@ -406,7 +439,7 @@ const EditLibrary = () => {
       return;
     }
     if (isSelectedName == "docintelFormat") {
-      if (e == "ebook") {
+      if (e == "ebook" || e == "ebookVideo") {
         setEbookFile([]);
         setpdfSpcData([
           {
@@ -422,6 +455,7 @@ const EditLibrary = () => {
             chapterTitle: "",
             uploadFile: "",
             fileValue: "",
+            selectedVideo: "",
           },
         ]);
       }
@@ -450,7 +484,7 @@ const EditLibrary = () => {
   const nextButtonClicked = async (e) => {
     e.preventDefault();
 
-    if (userInputs.docintelFormat == "ebook") {
+    if (userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo") {
       userInputs.chapter = chapter;
     } else if (userInputs.docintelFormat == "pdfSpc") {
       userInputs.pdfChapter = pdfSpcData;
@@ -574,6 +608,9 @@ const EditLibrary = () => {
         formData.append("product", userInputs?.product);
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
+        });
+        videoThumb?.forEach((item) => {
+          formData.append("videoThumb", item);
         });
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append(
@@ -724,17 +761,111 @@ const EditLibrary = () => {
     }
   };
 
+  // const addMoreChClicked = () => {
+  //   if (chapter.every((element) => element.uploadFile != "")) {
+  //     setChapter([
+  //       ...chapter,
+  //       {
+  //         chapterTitle: "",
+  //         uploadFile: "",
+  //       },
+  //     ]);
+  //   } else {
+  //     toast.warning("Please input the chapter file atleast!");
+  //   }
+  // };
+
+  const onChapterFormatChange = (e, i, isSelectedName) => {
+    const list = [...chapter];  
+    list[i].type= e == true ? "video" : "pdf";
+    list[i].uploadFile=""; 
+    list[i].selectedVideo = ""; 
+    list[i].ebookFile="" 
+    list[i].videoType=""
+    list[i].videoThumb=""
+    if(ebookFile[i]){
+      setEbookFile((prevEbookFile) => {
+        const updatedEbookFile = [...prevEbookFile];
+        updatedEbookFile.splice(i, 1);
+        if (updatedEbookFile.length === 0) {
+          return [];
+        }
+        return updatedEbookFile;
+      });
+    }
+    if(e==true){      
+      list[i].videoType="existing"
+      onSelectVideoType(e,i,"existing")
+    }     
+    setChapter(list);   
+  };
+
+  // const addMoreChClicked = () => {
+  //   let isValid = true;
+  //   let toastMessage = '';
+  
+  //   chapter.forEach((element) => {
+  //     const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
+  //     const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
+  //     const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
+      
+  //     if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
+  //       isValid = false;
+  //       toastMessage = "Please select a video!";
+  //     } else if (!isVideoExisting && uploadFileEmpty) {
+  //       isValid = false;
+  //       toastMessage = "Please input the chapter file atleast!";
+  //     }
+  //   });
+  
+  //   if (isValid) {
+  //     setChapter([
+  //       ...chapter,
+  //       {
+  //         chapterTitle: "",
+  //         uploadFile: "",
+  //         selectedVideo: ""
+  //       },
+  //     ]);
+  //   } else {
+  //     toast.warning(toastMessage);
+  //   }
+  // };
+
   const addMoreChClicked = () => {
-    if (chapter.every((element) => element.uploadFile != "")) {
+    let isValid = true;
+    let toastMessage = '';
+
+    chapter.forEach((element) => {
+      const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
+      const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
+      const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
+      if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
+        isValid = false;
+        toastMessage = "Please select a video!";
+      } else if (!isVideoExisting && uploadFileEmpty) {
+        isValid = false;
+        toastMessage = "Please input the chapter file atleast!";
+      }
+    });
+
+    if (isValid) {
       setChapter([
-        ...chapter,
-        {
-          chapterTitle: "",
-          uploadFile: "",
-        },
+        ...chapter, userInputs.docintelFormat == "ebookVideo" ?
+          {
+            // chapterFormat: "pdf",
+            type:"pdf",
+            chapterTitle: "",
+            uploadFile: "",
+            selectedVideo: ""
+          } : {
+            chapterTitle: "",
+            uploadFile: "",
+            selectedVideo: ""
+          },
       ]);
     } else {
-      toast.warning("Please input the chapter file atleast!");
+      toast.warning(toastMessage);
     }
   };
 
@@ -812,6 +943,8 @@ const EditLibrary = () => {
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].uploadFile = value;
+    list[i].uploadNewFile = value;
+    list[i].selectedVideo = '';
     ebookFile[i] = e.target.files[0];
     setEbookFile(ebookFile);
     setChapter(list);
@@ -838,6 +971,64 @@ const EditLibrary = () => {
 
   const topicButtonClicked = (group_id) => {
     setIsOpen(true);
+  };
+
+  const onSelectType = async(e,i,type) => {
+    const list = [...chapter];
+    list[i].type = type;
+    setChapter(list);
+  }
+
+  // const onSelectVideoType = async(e,i,type) => {
+  //   // if(type == 'existing' && getVideoArticle.length == 0){
+    
+  //   // }
+  //   const list = [...chapter];
+  //   list[i].videoType = type;
+  //   setChapter(list);
+  // }
+
+  const onSelectVideoType = async (e, i, type) => {
+    if (type == 'existing' && getVideoArticle.length == 0) {
+      const requestBody = {
+        selectValue: JSON.stringify(["id", "title", "code"]),
+        file_type: "'video'",
+      };
+      const response = await postData(ENDPOINT.LIBRARY, requestBody);
+      const hadData = response?.data?.data?.library || [];
+      const pdfObj = hadData
+        .map((item) => ({
+          label: item.title.trim(),
+          value: item.id,
+        }))
+        .sort((a, b) =>
+          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+        );
+      setVideoArticle(pdfObj);
+    }
+    const list = [...chapter];
+    list[i].videoType = type;
+    list[i].uploadFile ="";
+    list[i].selectedVideo = "";
+    setChapter(list);
+  }
+
+  const handleVideoChange = (value,i) => {
+    const list = [...chapter];
+    list[i].selectedVideo = value;
+    list[i].videoThumb = '';
+    list[i].uploadFile = '';
+    setChapter(list);
+  };
+
+  const handleOnVideoThumbChange = (e, i) => {
+    const value = e.target.files[0]?.name;
+    const list = [...chapter];
+    list[i].videoThumb = value;
+    list[i].videoNewThumb = value;
+    videoThumb[i] = e.target.files[0];
+    setVideoThumb(videoThumb);
+    setChapter(list);
   };
 
   const publisherFun = () => {
@@ -2249,12 +2440,69 @@ const EditLibrary = () => {
                         </div>
                       ) : // ePrint == "eBook" ? (
 
-                      userInputs.docintelFormat == "ebook" ? (
+                      userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo" ? (
                         chapter.map((val, i) => {
                           return (
                             <>
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
+
+                                {userInputs.docintelFormat == "ebookVideo" ? (<>
+                                  <div className="d-flex align-items-center justify-content-start w-100 mb-3">
+                                    <label htmlFor="">
+                                      {localStorage.getItem("user_id") !=
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? "Chapter "
+                                        : "File "}
+                                      {i + 1} format
+                                    </label>
+                                    <div className="switch">
+                                      <label className="switch-light">
+                                        <input
+                                          type="checkbox"
+                                          // checked={val?.type == "video" ? true : false}
+                                          // onClick={(e) => onSelectType(e, i, e.target.checked ? 'video' : 'pdf')}
+                                          checked={val?.type == "video" ? true : false}
+                                          onChange={(e) => {
+                                            onChapterFormatChange(e.target?.checked, i);
+                                          }}
+                                        />
+                                        <span>
+                                          <span className="switch-btn active">PDF</span>
+                                          <span className="switch-btn">Video</span>
+                                        </span>
+                                        <a className="btn"></a>
+                                      </label>
+                                    </div>
+                                      {val?.type == "video" ?
+                                        <fieldset id="group2">
+                                          :
+                                          <div className="radio-selection">
+                                            <input
+                                              type="radio"
+                                              name={`video-${i}`}
+                                              id={`file-existing-${i}`}
+                                              checked={val?.videoType === "existing" || !val?.videoType}
+                                              onChange={(e) => onSelectVideoType(e, i, 'existing')}
+                                            />
+                                            <label htmlFor={`file-existing-${i}`}>
+                                              <span>Existing video</span>
+                                            </label>
+                                            <input
+                                              type="radio"
+                                              name={`video-${i}`}
+                                              id={`file-new-${i}`}
+                                              checked={val?.videoType === "new"}
+                                              onChange={(e) => onSelectVideoType(e, i, 'new')}
+                                            />
+                                            <label htmlFor={`file-new-${i}`}>
+                                              <span>Upload new</span>
+                                            </label>
+                                          </div></fieldset> : null}
+                                    </div>
+                                    </>) : null
+                                }
+
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
                                     "56Ek4feL/1A8mZgIKQWEqg=="
@@ -2269,6 +2517,167 @@ const EditLibrary = () => {
                                     onChange={(e) => onChapterTitleChange(e, i)}
                                     value={val.chapterTitle}
                                   />
+                                  {
+                                   userInputs.docintelFormat == "ebookVideo" ?
+                                   <>
+                                    <div className="upload-file-box">
+                                      <div className="box">
+                                        {/* <div className="d-flex">
+                                          {
+                                            // typeof val?.type == 'undefined' ? 
+                                              // <>
+                                              //   <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
+                                              //   <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
+                                              // </>
+                                            //  :
+                                            //  null
+                                             
+                                          }
+                                        </div> */}
+                                        {
+                                          /*
+                                          val?.type == 'video' ?
+                                          <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
+                                          :val?.type == 'pdf' ? 
+                                          <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
+                                          : null
+                                          */
+                                        }
+                                        
+                                        {
+                                          val?.type == 'video' ? 
+                                          <>
+                                            {/* {
+                                              typeof val?.videoType == 'undefined'&& !val.uploadFile ? 
+                                              <div className="d-flex">
+                                                <p className="upload_new" onClick={(e) => onSelectVideoType(e, i,'new')}>Upload New Video</p>
+                                                <p className="select_existing" onClick={(e) => onSelectVideoType(e, i,'existing')}>Select existing Video</p>
+                                              </div>
+                                              : null
+                                            } */}
+                                            
+                                            {
+                                              val?.videoType == 'new' || (val?.videoType == 'new' && val.uploadFile)?
+                                              <>
+                                                <input
+                                                  type="file"
+                                                  name={`file-${i}`}
+                                                  id={`file-${i}`}
+                                                  className={
+                                                    error?.chapter?.[i]
+                                                      ? "inputfile inputfile-6 error"
+                                                      : "inputfile inputfile-6"
+                                                  }
+                                                  accept="video/mp4"
+                                                  onChange={(e) =>
+                                                    handleOnEbookChange(e, i)
+                                                  }
+                                                />
+                                                <label htmlFor={`file-${i}`}>
+                                                  <span>Choose Your File</span>
+                                                </label>
+
+                                                        <p>
+                                                          {val.uploadFile === "" ? (
+                                                            <>
+                                                              Upload your Video file
+                                                              <span className="video-format">(Only <b>mp4</b> format is allowed)</span>
+                                                            </>
+                                                          ) : (
+                                                            <span className="uploaded-file">
+                                                              {/* {val.uploadFile} */}
+                                                              {val.uploadNewFile? val.uploadNewFile : '' }
+                                                            </span>
+                                                          )}
+                                                        </p>
+
+
+                                              </>
+                                              : val?.videoType == 'existing'  || (val?.videoType == 'existing' && val.uploadFile) ? 
+                                              <>
+                                                <Select
+                                                  className={
+                                                    error?.docintelFormat
+                                                      ? "dropdown-basic-button split-button-dropup error"
+                                                      : "dropdown-basic-button split-button-dropup"
+                                                  }
+                                                  onChange={(event) =>
+                                                    handleVideoChange(event?.value,i)
+                                                  }
+                                                  options={getVideoArticle}
+                                                  isClearable
+                                                  placeholder="Select video"
+                                                  value={getVideoArticle.find(option => option.value === val.selectedVideo) || null}
+                                                />
+                                              </>
+                                              : null
+                                            }
+                                          </>
+                                          : 
+                                            val?.type == 'pdf' ? 
+                                            <>
+                                              <input
+                                                type="file"
+                                                name={`file-${i}`}
+                                                id={`file-${i}`}
+                                                className={
+                                                  error?.chapter?.[i]
+                                                    ? "inputfile inputfile-6 error"
+                                                    : "inputfile inputfile-6"
+                                                }
+                                                accept="application/pdf"
+                                                onChange={(e) =>
+                                                  handleOnEbookChange(e, i)
+                                                }
+                                              />
+                                              <label htmlFor={`file-${i}`}>
+                                                <span>Choose Your File</span>
+                                              </label>
+
+                                              <p>
+                                                {val.uploadFile == "" ? (
+                                                  "Upload your PDF file"
+                                                ) : (
+                                                  <span className="uploaded-file">
+                                                    {val.uploadNewFile? val.uploadNewFile : '' }
+                                                  </span>
+                                                )}
+                                              </p>
+                                            </>
+                                          : null
+                                        }
+                                      </div>
+
+                                       
+                                    </div>
+                                        {val?.videoType == 'new' || (val?.videoType == 'new' && val.uploadFile) ? 
+                                     <div className="upload-file-box">
+                                     <div className="box">
+                                          <input
+                                            type="file"
+                                            name={`file-thumb-${i}`}
+                                            id={`file-thumb-${i}`}
+                                            className="inputfile inputfile-5"
+                                            accept="image/png, image/jpeg"
+                                            onChange={(e) => handleOnVideoThumbChange(e, i)}
+                                          />
+                                          <label htmlFor={`file-thumb-${i}`}>
+                                            <span>Choose Your Image</span>
+                                          </label>
+                                              <p>
+                                                {val.videoThumb == "" ? (
+                                                  "Upload your Video image"
+                                                ) : (
+                                                  <span className="uploaded-file">
+                                                    {/* {val.videoThumb} */}
+                                                    {val.videoNewThumb? val.videoNewThumb : '' }
+                                                  </span>
+                                                )}
+                                              </p>
+                                        </div>
+                                        </div>: ''}
+                                        </>
+                                  :
                                   <div className="upload-file-box">
                                     <div className="box">
                                       <input
@@ -2300,6 +2709,7 @@ const EditLibrary = () => {
                                       </p>
                                     </div>
                                   </div>
+                                  }
                                 </div>
                                 <div className="chapter-btn-wrapper">
                                   {chapter.length - 1 == i ? (
@@ -2559,10 +2969,12 @@ const EditLibrary = () => {
                     ) : null}
 
                     {(ebookFile?.length &&
-                      userInputs.docintelFormat?.includes("ebook")) ||
+                      userInputs.docintelFormat=="ebook") ||
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
-                    )) && (localStorage.getItem("user_id") ==
+                    ))||
+                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
+                     && (localStorage.getItem("user_id") ==
                         "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                         "iSnEsKu5gB/DRlycxB6G4g==") ? (
                       <>

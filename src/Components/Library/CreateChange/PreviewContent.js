@@ -72,6 +72,7 @@ const PreviewContent = () => {
   const [templateClickedd, setTemplateClicked] = useState(false);
   const [pdfFileId, setPdfFileId] = useState();
   const [templatePdf, setTemplatePdf] = useState();
+  const [templateAllVersion, setTemplateAllVersion] = useState(0);
   const [nextFlag, setNextFlag] = useState(0);
   const [templateName, setTemplateName] = useState("");
   const [userInputs, setUserInputs] = useState({});
@@ -179,6 +180,7 @@ const PreviewContent = () => {
     setTemplateClicked(true);
     setPdfFileId(template.id);
     setEditTitle(false);
+    setTemplateAllVersion(template?.ie_allversion);
     e.target.classList.toggle("select_mm");
   };
 
@@ -278,42 +280,69 @@ const PreviewContent = () => {
     if (pdfData.file_type == "ebook") {
       obj.append("pdfFileId", pdfFileId);
     }
-    try {
-      const res = await postFormData(ENDPOINT.ADD_PDF_WORD, obj, {
-        header: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      if (pdfData?.file_type && pdfData.file_type == "ebook") {
+
+    if(pdfData.file_type == "ebook" && templateAllVersion == 1){
+      try{
         let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
         pdfData.ebookData[pdfIndex].processed = 1;
-        pdfData.ebookData[pdfIndex].image = res?.data?.data?.image;
 
         let nextItem = pdfData.ebookData[pdfIndex + 1];
-        if (typeof nextItem !== "undefined") {
-          setPublishStatus(false);
-          pdfData.ebookData[pdfIndex + 1].processed = 1;
-          let get_next_id = nextItem.id;
-          var link = document.getElementById("template_dyn" + get_next_id);
-          link.click();
+          if (typeof nextItem !== "undefined") {
+            setPublishStatus(false);
+            pdfData.ebookData[pdfIndex + 1].processed = 1;
+            let get_next_id = nextItem.id;
+            var link = document.getElementById("template_dyn" + get_next_id);
+            link.click();
+          } else {
+            setPublishStatus(true);
+            navigate("/content-detail", {
+              state: { pdfId: articleId,isEdit: isEdit },
+            });
+          }
+          setPdfData(pdfData);
+      }catch(err){
+        console.log(err);
+      }finally{
+        loader("hide");
+      }
+    }else{
+      try {
+        const res = await postFormData(ENDPOINT.ADD_PDF_WORD, obj, {
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        if (pdfData?.file_type && pdfData.file_type == "ebook") {
+          let pdfIndex = pdfData.ebookData.findIndex((el) => el.id === pdfFileId);
+          pdfData.ebookData[pdfIndex].processed = 1;
+          pdfData.ebookData[pdfIndex].image = res?.data?.data?.image;
+  
+          let nextItem = pdfData.ebookData[pdfIndex + 1];
+          if (typeof nextItem !== "undefined") {
+            setPublishStatus(false);
+            pdfData.ebookData[pdfIndex + 1].processed = 1;
+            let get_next_id = nextItem.id;
+            var link = document.getElementById("template_dyn" + get_next_id);
+            link.click();
+          } else {
+            setPublishStatus(true);
+            navigate("/content-detail", {
+              state: { pdfId: articleId,isEdit: isEdit },
+            });
+          }
+          setPdfData(pdfData);
         } else {
           setPublishStatus(true);
           navigate("/content-detail", {
             state: { pdfId: articleId,isEdit: isEdit },
           });
         }
-        setPdfData(pdfData);
-      } else {
-        setPublishStatus(true);
-        navigate("/content-detail", {
-          state: { pdfId: articleId,isEdit: isEdit },
-        });
+        setApiCallBackFlag(apiCallBackFlag + 1);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        loader("hide");
       }
-      setApiCallBackFlag(apiCallBackFlag + 1);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loader("hide");
     }
   };
 
@@ -566,22 +595,29 @@ const PreviewContent = () => {
                           'Publish' at the top right when you're sure.
                         </h6>
                       </div>
-                      <Button className="btn btn-bordered" onClick={handleShow}>
-                        Change content file
-                      </Button>
+                      
+                      {
+                         pdfData.file_type == "ebook" && templateAllVersion == 1 ? null 
+                         :
+                          <Button className="btn btn-bordered" onClick={handleShow}>
+                            Change content file
+                          </Button>
+                      }
                     </div>
                     <div className="new_preview_pdflink">
                     {newTemplateClicked ? (
                       pdfData?.file_type && pdfData.file_type == "ebook" ? (
-                        <RenderPdf
-                          next={nextFlag}
-                          url={templatePdf}
-                          handleNext={handleNext}
-                          hidePopup="0"
-                          trigger={trigger}
-                          updatePublish={updatePublish}
-                          editStatus={isEdit}
-                        />
+                          <>
+                            <RenderPdf
+                              next={nextFlag}
+                              url={templateAllVersion == 1 ? path_image + "videotypeebook.pdf" :templatePdf}
+                              handleNext={handleNext}
+                              hidePopup="0"
+                              trigger={trigger}
+                              updatePublish={updatePublish}
+                              editStatus={isEdit}
+                            />
+                          </>
                       ) : (
                         <RenderPdf
                           next={nextFlag}
