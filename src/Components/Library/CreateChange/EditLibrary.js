@@ -311,6 +311,7 @@ const getExistingVideos=async ()=>{
   const requestBody = {
     selectValue: JSON.stringify(["id", "title", "code"]),
     file_type: "'video'",
+    is_file_name_exists: 1,
   };
   const response = await postData(ENDPOINT.LIBRARY, requestBody);
   const hadData = response?.data?.data?.library || [];

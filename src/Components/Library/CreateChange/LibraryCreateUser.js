@@ -691,7 +691,9 @@ const LibraryCreateUser = () => {
     if (type == 'existing' && getVideoArticle.length == 0) {
       const requestBody = {
         selectValue: JSON.stringify(["id", "title", "code"]),
-        file_type: "'video'",
+        file_type: "'video'",   
+         is_file_name_exists: 1,
+
       };
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
       const hadData = response?.data?.data?.library || [];
