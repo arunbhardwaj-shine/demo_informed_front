@@ -156,7 +156,8 @@ const RegistrationPage = ({ prevData,type }) => {
     }
   }, [location, navigate]);
 
-
+  const urlContainsAland = window.location.href.includes('Alandisland');
+  
   const EventDataFun = async () => {
     try {
       loader("show");
@@ -1186,7 +1187,8 @@ const RegistrationPage = ({ prevData,type }) => {
             <div className="modal-buttons">
               <button
                 type="button"
-                className="btn btn-primary btn-bordered"
+                // className="btn btn-primary btn-bordered"
+                className={`btn btn-primary btn-bordered ${urlContainsAland ? 'island' : ''}`}
                 onClick={() => {
                   window.location.reload();
                   setModalIsOpen(false);

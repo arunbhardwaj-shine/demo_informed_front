@@ -4820,7 +4820,12 @@ form#add_hcp_form .row:not(:first-child) {
   height: auto;
   box-shadow: 0 10px 20px rgba(0, 0, 0, .16);
 }
-
+.registration-popup .modal-body .modal-buttons button.island {
+  background: linear-gradient(90deg, rgba(227,55,90,1) 0%, rgba(234,112,66,1) 50%, rgba(235,119,63,1) 100%);
+}
+.registration-popup .modal-body .modal-buttons button.island:hover {
+  background: linear-gradient(270deg, rgba(227,55,90,1) 0%, rgba(234,112,66,1) 50%, rgba(235,119,63,1) 100%);
+}
 .registration-popup .modal-body .modal-buttons button:hover {
   box-shadow: 0 5px 10px rgba(0, 0, 0, .48);
 }
