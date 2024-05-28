@@ -177,13 +177,25 @@ const SurveyQuestionFormData = () => {
                   usersData[subKey].push(rest);
                 }
               } else if (
-                subKey === "future_clinical" ||
-                subKey === "recommend_clinical"
+                subKey === "future_clinical" 
+                // ||
+                // subKey === "recommend_clinical"
               ) {
                 const answer = survey_data[key][subKey];
                 if (answer === "yes" || answer === "no") {
                   countObjects[subKey][answer]++;
                   rest.answer=answer
+                  rest.region=rest.region
+                  usersData[subKey].push(rest);
+                }
+              }
+              else if (
+                subKey === "recommend_clinical"
+              ) {
+                const recommend_answer = survey_data[key][subKey];
+                if (recommend_answer === "yes" || recommend_answer === "no") {
+                  countObjects[subKey][recommend_answer]++;
+                  rest.recommend_answer=recommend_answer
                   rest.region=rest.region
                   usersData[subKey].push(rest);
                 }
@@ -195,12 +207,54 @@ const SurveyQuestionFormData = () => {
             //   rest.region=rest.region
             //   usersData[key].push(rest);
             // }
-            else if (typeof survey_data[key] === "string" && survey_data[key].trim() !== "") {
-              countObjects[key]["suggestion"]++;
-              rest.suggestion = survey_data[key].trim(); 
-              rest.region = rest.region;
-              usersData[key].push(rest);
-            }
+
+            // else if (typeof survey_data[key] === "string" && survey_data[key].trim() !== "") {
+            //   console.log(survey_data[key],'survey_data[key]')
+            //   if (!countObjects[key]) {
+            //     countObjects[key] = { suggestion: 0 };
+            //   }
+            //   if (countObjects[key]['suggestion'] === undefined) {
+            //     countObjects[key]['suggestion'] = 0;
+            //   }
+
+            //   countObjects[key]["suggestion"]++;
+            //   rest.suggestion = survey_data[key].trim(); 
+
+            //   if (!usersData[key]) {
+            //     usersData[key] = [];
+            //   }
+
+            //   rest.region = rest.region;
+            //   usersData[key].push(rest);
+            // }
+
+            else if (typeof survey_data[key] === 'string' && survey_data[key].trim() !== '') {
+              const suggestion = survey_data[key].trim();
+              
+              // Check if the suggestion is not an IP address (basic regex to check IP address format)
+              const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+              
+              if (!ipPattern.test(suggestion)) {
+            
+                if (!countObjects[key]) {
+                  countObjects[key] = { suggestion: 0 };
+                }
+            
+                if (countObjects[key]['suggestion'] === undefined) {
+                  countObjects[key]['suggestion'] = 0;
+                }
+            
+                countObjects[key]['suggestion']++;
+                rest.suggestion = suggestion;
+            
+                if (!usersData[key]) {
+                  usersData[key] = [];
+                }
+            
+                rest.region = rest.region;
+                usersData[key].push(rest);
+              }
+            } 
           }
         });
       });
@@ -237,6 +291,7 @@ const SurveyQuestionFormData = () => {
         updatedProgressBarData[key]["total_users_answered"] = totalCount;
       });
       setProgressBarData(updatedProgressBarData);
+      
     } catch (error) {
       console.error("An error occurred while processing the data:", error);
     }
@@ -267,7 +322,6 @@ const SurveyQuestionFormData = () => {
   }, [openAccordionIndex]);
 
   const downloadSurveyUsers = (data) => {
-    console.log(data,'data')
     try {
       if (data?.length == 0) {
         toast.warning("No data found");
@@ -351,8 +405,14 @@ const SurveyQuestionFormData = () => {
         if (quesKey !== 'future_clinical' && quesKey !== 'recommend_clinical' && quesKey !== 'suggestion') {
           downloadData.Rating = item?.rating ? item?.rating.trim() : "N/A";
         }
-        if (quesKey !== 'patient_case_rating' && quesKey !== 'suggestion') {
+        if (quesKey == 'future_clinical') {
           downloadData.Answer = item?.answer ? item?.answer.trim() : "N/A";
+        }
+        if (quesKey == 'recommend_clinical') {
+          downloadData.Answer = item?.recommend_answer ? item?.recommend_answer.trim() : "N/A";
+        }
+        if (quesKey == 'suggestion') {
+          downloadData.Suggestion = item?.suggestion ? item?.suggestion.trim() : "N/A";
         }
         downloadData.Date = item?.created_at
         ? item?.created_at.trim()
@@ -1733,7 +1793,7 @@ const SurveyQuestionFormData = () => {
                                   </defs>
                                 </svg>
                               </button></span></th>
-                              ) : (quesKey === 'future_clinical' || quesKey === 'recommend_clinical') ? (
+                              ) : (quesKey === 'future_clinical') ? (
                                 // <th>Answer</th>
                                 <th  className="sort_option"> 
                               <span   onClick={(e) => userSorting(e, "answer")}>Answer
@@ -1766,7 +1826,44 @@ const SurveyQuestionFormData = () => {
                                   </defs>
                                 </svg>
                               </button></span></th>
-                              )  : (
+                              )  :  
+                              
+                              (quesKey === 'recommend_clinical') ? (
+                                // <th>Answer</th>
+                                <th  className="sort_option"> 
+                              <span   onClick={(e) => userSorting(e, "recommend_answer")}>Answer
+                              <button
+                                className={`event_sort_btn ${isActiveSort?.recommend_answer == "dec"
+                                    ? "svg_active"
+                                    : isActiveSort?.recommend_answer == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}
+                                onClick={(e) => userSorting(e, "recommend_answer")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button></span></th>
+                              ) :
+                              
+                              (
                                 '' 
                             )}
 
@@ -1845,7 +1942,7 @@ const SurveyQuestionFormData = () => {
                                   ) : quesKey === 'future_clinical' ? (
                                     <td>{item?.answer ? item?.answer : "N/A"}</td>
                                   ) : quesKey === 'recommend_clinical' ? (
-                                    <td>{item?.answer ? item?.answer : "N/A"}</td>
+                                    <td>{item?.recommend_answer ? item?.recommend_answer : "N/A"}</td>
                                   ) : null}
                                   <td>{item?.created_at ? item?.created_at : "N/A"}</td>
                                 </tr>
