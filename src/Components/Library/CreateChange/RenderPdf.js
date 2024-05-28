@@ -38,6 +38,7 @@ const RenderPdf = ({
   updatePublish,
   previewArticle,
   editStatus,
+  customKey
 }) => {
   const [page, setPage] = useState(1);
   const [scale, setScale] = useState(1);
@@ -47,12 +48,14 @@ const RenderPdf = ({
   const [modalMessage, setModalMessage] = useState("");
   const [modalBtn, setModalBtn] = useState("");
   let total_pages = 1000;
-
+ 
   useEffect(() => {
     if (trigger) {
       publishClicked();
     }
   }, [trigger]);
+
+ 
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     total_pages = e.doc.numPages;
@@ -147,7 +150,7 @@ const RenderPdf = ({
   const scrollEve = (event) => {
     const target = event.target;
     // if (target.scrollHeight - target.scrollTop  === target.clientHeight) {
-    if (target.scrollHeight - target.scrollTop  <= target.clientHeight + 70) {
+    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 70) {
       if (numPages == 1) {
         optimizeSinglePagePdf();
       }
@@ -204,7 +207,9 @@ const RenderPdf = ({
                   onScroll={scrollEve}
                   className={previewArticle ? "scroll_pdf" : "scroll_pdf"}
                 >
+                 
                   <Viewer
+                    key={customKey}
                     onPageChange={handlePageChange}
                     onDocumentLoad={handleDocumentLoad}
                     renderMode="canvas"

@@ -311,6 +311,7 @@ const getExistingVideos=async ()=>{
   const requestBody = {
     selectValue: JSON.stringify(["id", "title", "code"]),
     file_type: "'video'",
+    is_file_name_exists: 1,
   };
   const response = await postData(ENDPOINT.LIBRARY, requestBody);
   const hadData = response?.data?.data?.library || [];
@@ -775,19 +776,27 @@ const getExistingVideos=async ()=>{
   // };
 
   const onChapterFormatChange = (e, i, isSelectedName) => {
-    const { value } = e;
-    const list = [...chapter];
-    // list[i].chapterFormat = e == true ? "video" : "pdf";
+    const list = [...chapter];  
     list[i].type= e == true ? "video" : "pdf";
     list[i].uploadFile=""; 
     list[i].selectedVideo = ""; 
+    list[i].ebookFile="" 
+    list[i].videoType=""
+    list[i].videoThumb=""
+    if(ebookFile[i]){
+      setEbookFile((prevEbookFile) => {
+        const updatedEbookFile = [...prevEbookFile];
+        updatedEbookFile.splice(i, 1);
+        if (updatedEbookFile.length === 0) {
+          return [];
+        }
+        return updatedEbookFile;
+      });
+    }
     if(e==true){      
       list[i].videoType="existing"
       onSelectVideoType(e,i,"existing")
-    } 
-    // else {
-    //   list[i].videoType = "";
-    // }  
+    }     
     setChapter(list);   
   };
 
@@ -934,6 +943,8 @@ const getExistingVideos=async ()=>{
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].uploadFile = value;
+    list[i].uploadNewFile = value;
+    list[i].selectedVideo = '';
     ebookFile[i] = e.target.files[0];
     setEbookFile(ebookFile);
     setChapter(list);
@@ -1005,6 +1016,8 @@ const getExistingVideos=async ()=>{
   const handleVideoChange = (value,i) => {
     const list = [...chapter];
     list[i].selectedVideo = value;
+    list[i].videoThumb = '';
+    list[i].uploadFile = '';
     setChapter(list);
   };
 
@@ -1012,6 +1025,7 @@ const getExistingVideos=async ()=>{
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].videoThumb = value;
+    list[i].videoNewThumb = value;
     videoThumb[i] = e.target.files[0];
     setVideoThumb(videoThumb);
     setChapter(list);
@@ -2471,7 +2485,7 @@ const getExistingVideos=async ()=>{
                                               checked={val?.videoType === "existing" || !val?.videoType}
                                               onChange={(e) => onSelectVideoType(e, i, 'existing')}
                                             />
-                                            <label htmlFor="file-6">
+                                            <label htmlFor={`file-existing-${i}`}>
                                               <span>Existing video</span>
                                             </label>
                                             <input
@@ -2481,7 +2495,7 @@ const getExistingVideos=async ()=>{
                                               checked={val?.videoType === "new"}
                                               onChange={(e) => onSelectVideoType(e, i, 'new')}
                                             />
-                                            <label htmlFor="file-6">
+                                            <label htmlFor={`file-new-${i}`}>
                                               <span>Upload new</span>
                                             </label>
                                           </div></fieldset> : null}
@@ -2571,7 +2585,8 @@ const getExistingVideos=async ()=>{
                                                             </>
                                                           ) : (
                                                             <span className="uploaded-file">
-                                                              {val.uploadFile}
+                                                              {/* {val.uploadFile} */}
+                                                              {val.uploadNewFile? val.uploadNewFile : '' }
                                                             </span>
                                                           )}
                                                         </p>
@@ -2624,7 +2639,7 @@ const getExistingVideos=async ()=>{
                                                   "Upload your PDF file"
                                                 ) : (
                                                   <span className="uploaded-file">
-                                                    {val.uploadFile}
+                                                    {val.uploadNewFile? val.uploadNewFile : '' }
                                                   </span>
                                                 )}
                                               </p>
@@ -2651,10 +2666,11 @@ const getExistingVideos=async ()=>{
                                           </label>
                                               <p>
                                                 {val.videoThumb == "" ? (
-                                                  "Upload your Video image"
+                                                  "Upload chapter thumbnail"
                                                 ) : (
                                                   <span className="uploaded-file">
-                                                    {val.videoThumb}
+                                                    {/* {val.videoThumb} */}
+                                                    {val.videoNewThumb? val.videoNewThumb : '' }
                                                   </span>
                                                 )}
                                               </p>
@@ -2953,10 +2969,12 @@ const getExistingVideos=async ()=>{
                     ) : null}
 
                     {(ebookFile?.length &&
-                      userInputs.docintelFormat?.includes("ebook")) ||
+                      userInputs.docintelFormat=="ebook") ||
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
-                    )) && (localStorage.getItem("user_id") ==
+                    ))||
+                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
+                     && (localStorage.getItem("user_id") ==
                         "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                         "iSnEsKu5gB/DRlycxB6G4g==") ? (
                       <>

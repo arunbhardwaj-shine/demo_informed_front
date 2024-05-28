@@ -667,9 +667,10 @@ const ContentDetail = (props) => {
                                                     <td>
                                                       {data?.spc_included
                                                         ? "PDF+SPC"
-                                                        : data?.file_type ==
-                                                          "ebook"
+                                                        : data?.file_type == "ebook" && data?.parent_id == 0
                                                         ? "Ebook"
+                                                        : data?.file_type == "ebook" && data?.parent_id == 1
+                                                        ? "Ebook + Video"
                                                         : data?.file_type ==
                                                           "video"
                                                         ? "Video"

@@ -112,8 +112,8 @@ const AnalyticsEvent = () => {
       };
     const surveyQuestionFormDetail = (e, item) => {
         loader("show");
-        handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus })
-        localStorage.setItem("EventIdContext", JSON.stringify({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title }))
+        handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item.isOneSourceEvent })
+        localStorage.setItem("EventIdContext", JSON.stringify({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title ,eventStatus:item?.eventStatus,isOneSourceEvent:item.isOneSourceEvent}))
         navigate("/webinar/analytics", {
           state: { event_id: item?.id, companyId: item?.user_id },
         });
