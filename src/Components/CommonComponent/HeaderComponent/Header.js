@@ -401,9 +401,11 @@ const Header = () => {
                 ) : null}
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-                  localStorage.getItem("webinar_flag") == 1 &&
-                  localStorage.getItem("user_id") !=
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  localStorage.getItem("webinar_flag") == 1
+                  //  &&
+                  // localStorage.getItem("user_id") !=
+                  // "56Ek4feL/1A8mZgIKQWEqg=="
+                   ? (
                   <li className={
                     window.location.pathname == "/webinar/live-stream/settings" ||
                       window.location.pathname == "/webinar/invitees" ||
@@ -457,7 +459,7 @@ const Header = () => {
                   ""
                 )}
 
-                {localStorage.getItem("user_id") ==
+                {/* {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
@@ -473,7 +475,7 @@ const Header = () => {
                   </li>
                 ) : (
                   ""
-                )}
+                )} */}
 
                 {/* {localStorage.getItem("user_id") ==
                   "iSnEsKu5gB/DRlycxB6G4g==" ? (
