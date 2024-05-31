@@ -1297,7 +1297,12 @@ eventId={eventId}
               </div>
               <div className="question-block-form small-temp">
                 <div className="log-inner">
-                  <div className="head-sec">
+                  <div className="head-sec"
+                    style={{
+                      background: formData?.headerBackgroundColor,
+                      borderBottomColor: formData?.buttonColor,
+                    }}
+                  >
                     <h2
                       className="top-title"
                       style={{ color: formData?.textColor }}
