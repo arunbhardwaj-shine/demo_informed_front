@@ -15,10 +15,16 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 var old_object = {};
 const WebinarSelectSmartListUsers = (props) => {
   const { eventIdContext, handleEventId } = useSidebar();
-  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
-  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
-  ? switch_account_detail?.user_id
-  : localStorage.getItem("user_id"))
+  const switch_account_detail = JSON.parse(
+    localStorage.getItem("switch_account_detail")
+  );
+  const [localStorageUserId, setLocalStorageUserId] = useState(
+    switch_account_detail != null &&
+      switch_account_detail != "undefined" &&
+      switch_account_detail
+      ? switch_account_detail?.user_id
+      : localStorage.getItem("user_id")
+  );
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
@@ -46,9 +52,12 @@ const WebinarSelectSmartListUsers = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const [showLessInfo, setShowLessInfo] = useState(true);
+  const [apiStatus, setApiStatus] = useState(false);
+
   const [selectedFile, setSelectedFile] = useState(null);
   const [TemplateId, setTemplateId] = useState(0);
   const [removedReaders, setRemovedReaders] = useState([]);
+  const [unSubscribedUsers, setUnSubscribedUsers] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
@@ -82,13 +91,10 @@ const WebinarSelectSmartListUsers = (props) => {
       country: "",
       countryIndex: "",
       role:
-      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ? irtRole?.[0]?.value
           : "",
-      optIrt:
-      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-          ? "yes"
-          : "",
+      optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
       institutionType: "",
     },
   ]);
@@ -108,31 +114,35 @@ const WebinarSelectSmartListUsers = (props) => {
 
   useEffect(() => {
     const typeOfHcp =
-    location?.state?.typeOfHcp || props.getWebinarDraftData?.campaign_data?.typeOfHcp;
-  setTypeOfHcp(typeOfHcp);
-  
-  const campaign_id = old_object?.campaign_id || props.getWebinarDraftData?.campaign_id || "";
-  setCampaign_id(campaign_id);
-  
+      location?.state?.typeOfHcp ||
+      props.getWebinarDraftData?.campaign_data?.typeOfHcp;
+    setTypeOfHcp(typeOfHcp);
 
-  
+    const campaign_id =
+      old_object?.campaign_id || props.getWebinarDraftData?.campaign_id || "";
+    setCampaign_id(campaign_id);
   }, []);
-
 
   useEffect(() => {
     let oldRemovedHcp = old_object?.removedHcp || [];
-    oldRemovedHcp = oldRemovedHcp.length > 0 ? oldRemovedHcp : props.getWebinarDraftData?.campaign_data?.removedHcp || [];
-  
+    oldRemovedHcp =
+      oldRemovedHcp.length > 0
+        ? oldRemovedHcp
+        : props.getWebinarDraftData?.campaign_data?.removedHcp || [];
+
     let oldAddedHcp = old_object?.addedHcp || [];
-    oldAddedHcp = oldAddedHcp.length > 0 ? oldAddedHcp : props.getWebinarDraftData?.campaign_data?.addedHcp || [];
-  
+    oldAddedHcp =
+      oldAddedHcp.length > 0
+        ? oldAddedHcp
+        : props.getWebinarDraftData?.campaign_data?.addedHcp || [];
+
     const userId = localStorageUserId;
     const selectedListId =
       props.getWebinarSelectedSmartListData?.id ||
       props.getWebinarDraftData?.campaign_data?.smart_list_id;
-  
+
     const hasSelectedSmartList = !!props.getWebinarSelectedSmartListData?.id;
-  
+
     if (hasSelectedSmartList) {
       loader("show");
       axios
@@ -144,14 +154,18 @@ const WebinarSelectSmartListUsers = (props) => {
         .then((res) => {
           let pendingUsers = res?.data?.response?.data;
           let subscribersZero = [];
-  
+
           const removedUsersData = [
             ...oldAddedHcp,
             ...oldRemovedHcp,
-            ...props.getWebinarDraftData?.campaign_data?.removedHcp.length > 0?props.getWebinarDraftData?.campaign_data?.removedHcp:[],
-            ...props.getWebinarDraftData?.campaign_data?.addedHcp.length > 0?props.getWebinarDraftData?.campaign_data?.addedHcp:[],
+            ...(props.getWebinarDraftData?.campaign_data?.removedHcp.length > 0
+              ? props.getWebinarDraftData?.campaign_data?.removedHcp
+              : []),
+            ...(props.getWebinarDraftData?.campaign_data?.addedHcp.length > 0
+              ? props.getWebinarDraftData?.campaign_data?.addedHcp
+              : []),
           ];
-  
+
           pendingUsers = pendingUsers.filter((objFromA) => {
             if (objFromA?.subscriber === 0) {
               subscribersZero.push(objFromA);
@@ -162,7 +176,7 @@ const WebinarSelectSmartListUsers = (props) => {
                 objFromA?.profile_user_id === objFromB?.profile_user_id
             );
           });
-  
+
           subscribersZero = subscribersZero.filter(
             (user) =>
               !oldRemovedHcp.some(
@@ -170,22 +184,25 @@ const WebinarSelectSmartListUsers = (props) => {
                   removedUser.profile_user_id === user.profile_user_id
               )
           );
-  
+
           setReaders(pendingUsers);
-          setRemovedReaders([...subscribersZero, ...oldRemovedHcp]);
+          setRemovedReaders([...oldRemovedHcp]);
+          // console.log(subscribersZero);
+          setUnSubscribedUsers(subscribersZero);
           setReadersNewlyAdded(oldAddedHcp);
-  
+
           loader("hide");
+          setApiStatus(true);
         })
         .catch((err) => {
           loader("hide");
+          setApiStatus(true);
           console.log(err);
         });
     } else {
       setReaders(props.getWebinarDraftData?.campaign_data?.selectedHcp);
     }
   }, [props.getWebinarSelectedSmartListData, props.getWebinarDraftData]);
-  
 
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
@@ -193,14 +210,13 @@ const WebinarSelectSmartListUsers = (props) => {
     }
     old_object.addedHcp = readersNewlyAdded;
   }, [readersNewlyAdded]);
-  
+
   useEffect(() => {
     if (props.getWebinarDraftData?.campaign_data) {
       props.getWebinarDraftData.campaign_data.removedHcp = removedReaders;
     }
     old_object.removedHcp = removedReaders;
   }, [removedReaders]);
-  
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
@@ -337,10 +353,11 @@ const WebinarSelectSmartListUsers = (props) => {
       source_code: old_object?.template
         ? old_object?.template
         : props.getWebinarDraftData?.source_code,
-      status:old_object?.status
-      ? old_object?.status
-      : props.getWebinarDraftData?.status
-      ? props.getWebinarDraftData?.status:2, 
+      status: old_object?.status
+        ? old_object?.status
+        : props.getWebinarDraftData?.status
+        ? props.getWebinarDraftData?.status
+        : 2,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -427,13 +444,10 @@ const WebinarSelectSmartListUsers = (props) => {
         country: "",
         countryIndex: "",
         role:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
-        optIrt:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-            ? "yes"
-            : "",
+        optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
         institutionType: "",
       },
     ]);
@@ -543,7 +557,7 @@ const WebinarSelectSmartListUsers = (props) => {
       }
 
       const contact_type_edit =
-      localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
           ? document.getElementById("field_contact_type" + profile_user_id)
               .value
           : "";
@@ -604,7 +618,7 @@ const WebinarSelectSmartListUsers = (props) => {
           "field_index" + data?.profile_user_id
         ).value;
         const contact_type_edit =
-        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
             ? document.getElementById(
                 "field_contact_type" + data.profile_user_id
               ).value
@@ -675,13 +689,10 @@ const WebinarSelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         role:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
             ? irtRole?.[0]?.value
             : "",
-        optIrt:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-            ? "yes"
-            : "",
+        optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
         institutionType: "",
       },
     ]);
@@ -873,7 +884,7 @@ const WebinarSelectSmartListUsers = (props) => {
         } else if (
           data.country == "" &&
           (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||
-          localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
+            localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           setValidationError({
             newHcpCountry: "Please select country",
@@ -1108,54 +1119,57 @@ const WebinarSelectSmartListUsers = (props) => {
                 </div>
               </div>
             </div>
-
-            <section className="search-hcp">
-              <div className="result-hcp-table">
-                <div className="table-title">
-                  <h4>
-                    HCPs{" "}
-                    <span>
-                      |{" "}
-                      {(readersNewlyAdded?.length || 0) +
-                        (readers?.length || 0)}{" "}
-                    </span>
-                  </h4>
-                  <div className="selected-hcp-table-action">
-                    {editable == false ? (
-                      <>
-                        {localStorageUserId !=
-                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
-                          <a
-                            className="show-less-info"
-                            onClick={(e) => showMoreInfo(e)}
-                          >
-                            {showLessInfo == true ? (
-                              <p className="show_more">Show More information</p>
-                            ) : (
-                              <p className="show_less">Show less information</p>
-                            )}{" "}
-                          </a>
-                        ) : null}
-                        <div className="hcp-new-user">
-                          <button
-                            className="btn btn-outline-primary"
-                            onClick={addNewUser}
-                          >
-                            <img
-                              src={path_image + "new-user.svg"}
-                              alt="New User"
-                            />
-                          </button>
-                        </div>
-                        <div className="hcp-added">
-                          <button
-                            className="btn btn-outline-primary"
-                            onClick={editButtonClicked}
-                          >
-                            <img src={path_image + "edit.svg"} alt="Edit" />
-                          </button>
-                        </div>
-                        {/* <div className="hcp-sort">
+            {apiStatus && (
+              <section className="search-hcp">
+                <div className="result-hcp-table">
+                  <div className="table-title">
+                    <h4>
+                      HCPs{" "}
+                      <span>
+                        |{" "}
+                        {(readersNewlyAdded?.length || 0) +
+                          (readers?.length || 0)}{" "}
+                      </span>
+                    </h4>
+                    <div className="selected-hcp-table-action">
+                      {editable == false ? (
+                        <>
+                          {localStorageUserId != "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                            <a
+                              className="show-less-info"
+                              onClick={(e) => showMoreInfo(e)}
+                            >
+                              {showLessInfo == true ? (
+                                <p className="show_more">
+                                  Show More information
+                                </p>
+                              ) : (
+                                <p className="show_less">
+                                  Show less information
+                                </p>
+                              )}{" "}
+                            </a>
+                          ) : null}
+                          <div className="hcp-new-user">
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={addNewUser}
+                            >
+                              <img
+                                src={path_image + "new-user.svg"}
+                                alt="New User"
+                              />
+                            </button>
+                          </div>
+                          <div className="hcp-added">
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={editButtonClicked}
+                            >
+                              <img src={path_image + "edit.svg"} alt="Edit" />
+                            </button>
+                          </div>
+                          {/* <div className="hcp-sort">
                           {sortingCount == 0 ? (
                             <>
                               <button
@@ -1197,160 +1211,45 @@ const WebinarSelectSmartListUsers = (props) => {
                             </>
                           )}
                         </div> */}
-                      </>
-                    ) : null}
-                    {saveOpen ? (
-                      <>
-                        <button
-                          className="btn btn-primary btn-filled"
-                          onClick={closeClicked}
-                        >
-                          Close
-                        </button>
+                        </>
+                      ) : null}
+                      {saveOpen ? (
+                        <>
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={closeClicked}
+                          >
+                            Close
+                          </button>
 
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={saveEditClicked}
-                        >
-                          Save
-                        </button>
-                      </>
-                    ) : null}
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            onClick={saveEditClicked}
+                          >
+                            Save
+                          </button>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-                <div className="selected-hcp-list">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort("first_name")}>
-                            Name
-                            <button
-                              className={`event_sort_btn ${
-                                sortBy == "first_name"
-                                  ? sortOrder == "asc"
-                                    ? "svg_asc"
-                                    : "svg_active"
-                                  : ""
-                              }`}
-                              onClick={() => handleSort("first_name")}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="8"
-                                height="8"
-                                viewBox="0 0 8 8"
-                                fill="none"
-                              >
-                                <g clip-path="url(#clip0_3722_6611)">
-                                  <path
-                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                    fill="#97B6CF"
-                                  />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </button>
-                          </span>
-                        </th>
-                        <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort("email")}>
-                            Email
-                            <button
-                              className={`event_sort_btn ${
-                                sortBy == "email"
-                                  ? sortOrder == "asc"
-                                    ? "svg_asc"
-                                    : "svg_active"
-                                  : ""
-                              }`}
-                              onClick={() => handleSort("email")}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="8"
-                                height="8"
-                                viewBox="0 0 8 8"
-                                fill="none"
-                              >
-                                <g clip-path="url(#clip0_3722_6611)">
-                                  <path
-                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                    fill="#97B6CF"
-                                  />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </button>
-                          </span>
-                        </th>
-                        <th scope="col">Bounced</th>
-                        <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort("country")}>
-                            Country
-                            <button
-                              className={`event_sort_btn ${
-                                sortBy == "country"
-                                  ? sortOrder == "asc"
-                                    ? "svg_asc"
-                                    : "svg_active"
-                                  : ""
-                              }`}
-                              onClick={() => handleSort("country")}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="8"
-                                height="8"
-                                viewBox="0 0 8 8"
-                                fill="none"
-                              >
-                                <g clip-path="url(#clip0_3722_6611)">
-                                  <path
-                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                    fill="#97B6CF"
-                                  />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </button>
-                          </span>
-                        </th>
-
-                        {localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <>
-                            <th scope="col">IRT mandatory training</th>
-                            <th scope="col">IRT role</th>
-                          </>
-                        ) : (
-                          <>
-                            <th scope="col" className="sort_option">
-                              <span onClick={() => handleSort("ibu")}>
-                                Business unit
+                  <div className="selected-hcp-list unsub">
+                    <div className="unsubscribe-users-table">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" className="">
+                              <span>
+                                Name
                                 <button
-                                  className={`event_sort_btn ${
-                                    sortBy == "ibu"
+                                  className={` ${
+                                    sortBy == "first_name"
                                       ? sortOrder == "asc"
                                         ? "svg_asc"
                                         : "svg_active"
                                       : ""
                                   }`}
-                                  onClick={() => handleSort("ibu")}
                                 >
-                                  <svg
+                                  {/* <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="8"
                                     height="8"
@@ -1372,27 +1271,436 @@ const WebinarSelectSmartListUsers = (props) => {
                                         />
                                       </clipPath>
                                     </defs>
-                                  </svg>
+                                  </svg> */}
                                 </button>
                               </span>
                             </th>
-                            <th scope="col">Contact type</th>
-                          </>
-                        )}
+                            <th scope="col" className="">
+                              <span>
+                                Email
+                                <button
+                                  className={` ${
+                                    sortBy == "email"
+                                      ? sortOrder == "asc"
+                                        ? "svg_asc"
+                                        : "svg_active"
+                                      : ""
+                                  }`}
+                                >
+                                  {/* <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                    fill="none"
+                                  >
+                                    <g clip-path="url(#clip0_3722_6611)">
+                                      <path
+                                        d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                        fill="#97B6CF"
+                                      />
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_3722_6611">
+                                        <rect
+                                          width="8"
+                                          height="8"
+                                          fill="white"
+                                        />
+                                      </clipPath>
+                                    </defs>
+                                  </svg> */}
+                                </button>
+                              </span>
+                            </th>
+                            <th scope="col">Bounced</th>
+                            <th scope="col" className="">
+                              <span>
+                                Country
+                                <button
+                                  className={` ${
+                                    sortBy == "country"
+                                      ? sortOrder == "asc"
+                                        ? "svg_asc"
+                                        : "svg_active"
+                                      : ""
+                                  }`}
+                                >
+                                  {/* <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                    fill="none"
+                                  >
+                                    <g clip-path="url(#clip0_3722_6611)">
+                                      <path
+                                        d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                        fill="#97B6CF"
+                                      />
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_3722_6611">
+                                        <rect
+                                          width="8"
+                                          height="8"
+                                          fill="white"
+                                        />
+                                      </clipPath>
+                                    </defs>
+                                  </svg> */}
+                                </button>
+                              </span>
+                            </th>
 
-                        {showLessInfo == false ? (
-                          <>
-                            <th scope="col">Consent</th>
-                            <th scope="col">Email received</th>
-                            <th scope="col">Openings</th>
-                            <th scope="col">Registrations</th>
-                            <th scope="col">Last email</th>
-                          </>
-                        ) : null}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sortData(removedReaders, sortBy, sortOrder)?.map(
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              <>
+                                <th scope="col">IRT mandatory training</th>
+                                <th scope="col">IRT role</th>
+                              </>
+                            ) : (
+                              <>
+                                <th scope="col" className="">
+                                  <span>
+                                    Business unit
+                                    <button
+                                      className={` ${
+                                        sortBy == "ibu"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                      }`}
+                                    >
+                                      {/* <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="8"
+                                        height="8"
+                                        viewBox="0 0 8 8"
+                                        fill="none"
+                                      >
+                                        <g clip-path="url(#clip0_3722_6611)">
+                                          <path
+                                            d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                            fill="#97B6CF"
+                                          />
+                                        </g>
+                                        <defs>
+                                          <clipPath id="clip0_3722_6611">
+                                            <rect
+                                              width="8"
+                                              height="8"
+                                              fill="white"
+                                            />
+                                          </clipPath>
+                                        </defs>
+                                      </svg> */}
+                                    </button>
+                                  </span>
+                                </th>
+                                <th scope="col">Contact type</th>
+                              </>
+                            )}
+
+                            {showLessInfo == false ? (
+                              <>
+                                <th scope="col">Consent</th>
+                                <th scope="col">Email received</th>
+                                <th scope="col">Openings</th>
+                                <th scope="col">Registrations</th>
+                                <th scope="col">Last email</th>
+                              </>
+                            ) : null}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[...removedReaders, ...unSubscribedUsers]?.map(
+                            (user, index) => {
+                              return (
+                                <React.Fragment key={index}>
+                                  <tr
+                                    className={` ${
+                                      user?.subscriber == 0
+                                        ? "hcps-unsubscriber"
+                                        : "hcps-deleted"
+                                    }`}
+                                  >
+                                    <td>
+                                      <span>
+                                        {user?.first_name
+                                          ? `${user.first_name} ${user.last_name}`
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>{user.email ? user.email : "N/A"}</td>
+                                    <td>{user.bounce ? user.bounce : "N/A"}</td>
+                                    <td>
+                                      <span>
+                                        {user.country ? user.country : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      {localStorage.getItem("user_id") ===
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? user?.irt
+                                          ? "Yes"
+                                          : "No"
+                                        : user.ibu && user.ibu !== 0
+                                        ? user.ibu
+                                        : "N/A"}
+                                    </td>
+                                    {localStorage.getItem("user_id") ===
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <td>
+                                        {user?.user_type !== 0
+                                          ? user.user_type
+                                          : "N/A"}
+                                      </td>
+                                    ) : (
+                                      <td>
+                                        {user.contact_type
+                                          ? user.contact_type
+                                          : "N/A"}
+                                      </td>
+                                    )}
+
+                                    {!showLessInfo && (
+                                      <>
+                                        <td>
+                                          <span>
+                                            {user.consent
+                                              ? user.consent
+                                              : "N/A"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <span>
+                                            {user.email_received
+                                              ? user.email_received
+                                              : "N/A"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <span>
+                                            {user.email_opening
+                                              ? user.email_opening
+                                              : "N/A"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <span>
+                                            {user.registration
+                                              ? user.registration
+                                              : "N/A"}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <span>
+                                            {user.last_email
+                                              ? user.last_email
+                                              : "N/A"}
+                                          </span>
+                                        </td>
+                                      </>
+                                    )}
+                                    {user?.subscriber != 0 && (
+                                      <td className="add-new-hcp" colSpan="12">
+                                        <img
+                                          src={path_image + "add-row.png"}
+                                          alt="Add Row"
+                                          onClick={() =>
+                                            readersAdded(user, index)
+                                          }
+                                        />
+                                      </td>
+                                    )}
+                                  </tr>
+                                </React.Fragment>
+                              );
+                            }
+                          )}
+                          {/* <tr className="seprator-add">
+                          <td colSpan="13"></td>
+                        </tr>{" "} */}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="selected-hcp-list">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort("first_name")}>
+                              Name
+                              <button
+                                className={`event_sort_btn ${
+                                  sortBy == "first_name"
+                                    ? sortOrder == "asc"
+                                      ? "svg_asc"
+                                      : "svg_active"
+                                    : ""
+                                }`}
+                                onClick={() => handleSort("first_name")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </span>
+                          </th>
+                          <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort("email")}>
+                              Email
+                              <button
+                                className={`event_sort_btn ${
+                                  sortBy == "email"
+                                    ? sortOrder == "asc"
+                                      ? "svg_asc"
+                                      : "svg_active"
+                                    : ""
+                                }`}
+                                onClick={() => handleSort("email")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </span>
+                          </th>
+                          <th scope="col">Bounced</th>
+                          <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort("country")}>
+                              Country
+                              <button
+                                className={`event_sort_btn ${
+                                  sortBy == "country"
+                                    ? sortOrder == "asc"
+                                      ? "svg_asc"
+                                      : "svg_active"
+                                    : ""
+                                }`}
+                                onClick={() => handleSort("country")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </span>
+                          </th>
+
+                          {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <>
+                              <th scope="col">IRT mandatory training</th>
+                              <th scope="col">IRT role</th>
+                            </>
+                          ) : (
+                            <>
+                              <th scope="col" className="sort_option">
+                                <span onClick={() => handleSort("ibu")}>
+                                  Business unit
+                                  <button
+                                    className={`event_sort_btn ${
+                                      sortBy == "ibu"
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                    }`}
+                                    onClick={() => handleSort("ibu")}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                              </th>
+                              <th scope="col">Contact type</th>
+                            </>
+                          )}
+
+                          {showLessInfo == false ? (
+                            <>
+                              <th scope="col">Consent</th>
+                              <th scope="col">Email received</th>
+                              <th scope="col">Openings</th>
+                              <th scope="col">Registrations</th>
+                              <th scope="col">Last email</th>
+                            </>
+                          ) : null}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {/* {sortData(removedReaders, sortBy, sortOrder)?.map(
                         (reader, index) => {
                           return (
                             <tr
@@ -1474,321 +1782,326 @@ const WebinarSelectSmartListUsers = (props) => {
                             </tr>
                           );
                         }
-                      )}
-
+                      )} */}
+                        {/* 
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
-                      </tr>
-                      {sortData(readersNewlyAdded, sortBy, sortOrder)?.map(
-                        (readers, i) => {
-                          return (
-                            <>
-                              <tr
-                                className="hcps-added"
-                                onClick={(e) =>
-                                  editing(
-                                    readers.profile_id,
-                                    readers.profile_user_id,
-                                    readers.email,
-                                    readers.jobTitle,
-                                    readers.company,
-                                    readers.country,
-                                    readers.first_name +
-                                      " " +
-                                      readers.last_name,
-                                    readers.contact_type
-                                  )
-                                }
-                              >
-                                <td
-                                  id={`field_name` + readers.profile_user_id}
-                                  contentEditable={
-                                    editable === 0 ? "false" : "true"
+                      </tr> */}
+                        {sortData(readersNewlyAdded, sortBy, sortOrder)?.map(
+                          (readers, i) => {
+                            return (
+                              <>
+                                <tr
+                                  className="hcps-added"
+                                  onClick={(e) =>
+                                    editing(
+                                      readers.profile_id,
+                                      readers.profile_user_id,
+                                      readers.email,
+                                      readers.jobTitle,
+                                      readers.company,
+                                      readers.country,
+                                      readers.first_name +
+                                        " " +
+                                        readers.last_name,
+                                      readers.contact_type
+                                    )
                                   }
                                 >
-                                  <span>
-                                    {readers?.first_name
-                                      ? readers?.first_name +
-                                        " " +
-                                        readers?.last_name
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                                <td>
-                                  {readers?.email ? readers?.email : "N/A"}
-                                </td>
-                                <input
-                                  type="hidden"
-                                  id={`field_index` + readers.profile_user_id}
-                                  value={i}
-                                />
-                                <td>
-                                  {readers?.bounce ? readers?.bounce : "N/A"}
-                                </td>
-                                <td>
-                                  {editable ? (
-                                    <EditCountry
-                                      selected_country={readers?.country}
-                                      profile_user={readers?.profile_user_id}
-                                    ></EditCountry>
-                                  ) : (
-                                    <span>
-                                      {readers?.country
-                                        ? readers?.country
-                                        : "N/A"}
-                                    </span>
-                                  )}
-                                </td>
-                                <td>
-                                  {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                  {localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    : readers.ibu && readers.ibu != 0
-                                    ? readers.ibu
-                                    : "N/A"}
-                                </td>
-                                <td>
-                                  {localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                    <span>
-                                      {readers.user_type != 0
-                                        ? readers?.user_type
-                                        : "N/A"}
-                                    </span>
-                                  ) : editable ? (
-                                    <EditContactType
-                                      selected_ibu={readers?.contact_type}
-                                      profile_user={readers?.profile_user_id}
-                                    ></EditContactType>
-                                  ) : (
-                                    <span>
-                                      {readers?.contact_type
-                                        ? readers?.contact_type
-                                        : "N/A"}
-                                    </span>
-                                  )}
-                                </td>
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.consent
-                                        ? readers?.consent
-                                        : "N/A"}
-                                    </span>{" "}
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.email_received
-                                        ? readers?.email_received
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.email_opening
-                                        ? readers?.email_opening
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.registration
-                                        ? readers?.registration
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.last_email
-                                        ? readers?.last_email
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                    onClick={() =>
-                                      newlyAddedRemoved(readers, i)
+                                  <td
+                                    id={`field_name` + readers.profile_user_id}
+                                    contentEditable={
+                                      editable === 0 ? "false" : "true"
                                     }
+                                  >
+                                    <span>
+                                      {readers?.first_name
+                                        ? readers?.first_name +
+                                          " " +
+                                          readers?.last_name
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    {readers?.email ? readers?.email : "N/A"}
+                                  </td>
+                                  <input
+                                    type="hidden"
+                                    id={`field_index` + readers.profile_user_id}
+                                    value={i}
                                   />
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        }
-                      )}
-                      {sortData(readers, sortBy, sortOrder)?.map(
-                        (readers, i) => {
-                          return (
-                            <>
-                              <tr
-                                id={`row-selected` + i}
-                                onClick={(e) =>
-                                  editing(
-                                    readers.profile_id,
-                                    readers.profile_user_id,
-                                    readers.email,
-                                    readers.jobTitle,
-                                    readers.company,
-                                    readers.country,
-                                    readers.first_name +
-                                      " " +
-                                      readers.last_name,
-                                    readers.contact_type
-                                  )
-                                }
-                              >
-                                <td
-                                  id={`field_name` + readers.profile_user_id}
-                                  contentEditable={
-                                    editable === 0 ? "false" : "true"
+                                  <td>
+                                    {readers?.bounce ? readers?.bounce : "N/A"}
+                                  </td>
+                                  <td>
+                                    {editable ? (
+                                      <EditCountry
+                                        selected_country={readers?.country}
+                                        profile_user={readers?.profile_user_id}
+                                      ></EditCountry>
+                                    ) : (
+                                      <span>
+                                        {readers?.country
+                                          ? readers?.country
+                                          : "N/A"}
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td>
+                                    {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                    {localStorageUserId ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? readers?.irt
+                                        ? "Yes"
+                                        : "No"
+                                      : readers.ibu && readers.ibu != 0
+                                      ? readers.ibu
+                                      : "N/A"}
+                                  </td>
+                                  <td>
+                                    {localStorageUserId ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <span>
+                                        {readers.user_type != 0
+                                          ? readers?.user_type
+                                          : "N/A"}
+                                      </span>
+                                    ) : editable ? (
+                                      <EditContactType
+                                        selected_ibu={readers?.contact_type}
+                                        profile_user={readers?.profile_user_id}
+                                      ></EditContactType>
+                                    ) : (
+                                      <span>
+                                        {readers?.contact_type
+                                          ? readers?.contact_type
+                                          : "N/A"}
+                                      </span>
+                                    )}
+                                  </td>
+                                  {showLessInfo == false ? (
+                                    <td>
+                                      <span>
+                                        {readers?.consent
+                                          ? readers?.consent
+                                          : "N/A"}
+                                      </span>{" "}
+                                    </td>
+                                  ) : null}
+                                  {showLessInfo == false ? (
+                                    <td>
+                                      <span>
+                                        {readers?.email_received
+                                          ? readers?.email_received
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                  ) : null}
+                                  {showLessInfo == false ? (
+                                    <td>
+                                      <span>
+                                        {readers?.email_opening
+                                          ? readers?.email_opening
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                  ) : null}
+                                  {showLessInfo == false ? (
+                                    <td>
+                                      <span>
+                                        {readers?.registration
+                                          ? readers?.registration
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                  ) : null}
+                                  {showLessInfo == false ? (
+                                    <td>
+                                      <span>
+                                        {readers?.last_email
+                                          ? readers?.last_email
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                  ) : null}
+                                  <td className="delete_row" colSpan="12">
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Delete Row"
+                                      onClick={() =>
+                                        newlyAddedRemoved(readers, i)
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          }
+                        )}
+                        {sortData(readers, sortBy, sortOrder)?.map(
+                          (readers, i) => {
+                            return (
+                              <>
+                                <tr
+                                  id={`row-selected` + i}
+                                  onClick={(e) =>
+                                    editing(
+                                      readers.profile_id,
+                                      readers.profile_user_id,
+                                      readers.email,
+                                      readers.jobTitle,
+                                      readers.company,
+                                      readers.country,
+                                      readers.first_name +
+                                        " " +
+                                        readers.last_name,
+                                      readers.contact_type
+                                    )
                                   }
                                 >
-                                  <span>
-                                    {" "}
-                                    {readers?.first_name
-                                      ? readers?.first_name +
-                                        " " +
-                                        readers?.last_name
-                                      : "N/A"}{" "}
-                                  </span>
-                                </td>
-                                <td
-                                  id={`field_email` + readers.profile_user_id}
-                                >
-                                  {readers?.email ? readers?.email : "N/A"}
-                                </td>
-                                <input
-                                  type="hidden"
-                                  id={`field_index` + readers.profile_user_id}
-                                  value={i}
-                                />
-                                <td
-                                  id={`field_bounced` + readers.profile_user_id}
-                                >
-                                  {readers?.bounce ? readers?.bounce : "N/A"}
-                                </td>
-                                <td>
-                                  {editable ? (
-                                    <EditCountry
-                                      selected_country={readers?.country}
-                                      profile_user={readers?.profile_user_id}
-                                    ></EditCountry>
-                                  ) : (
+                                  <td
+                                    id={`field_name` + readers.profile_user_id}
+                                    contentEditable={
+                                      editable === 0 ? "false" : "true"
+                                    }
+                                  >
                                     <span>
-                                      {readers?.country
-                                        ? readers?.country
-                                        : "N/A"}
-                                    </span>
-                                  )}
-                                </td>
-                                <td>
-                                  {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                  {localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    : readers?.ibu && readers.ibu != 0
-                                    ? readers?.ibu
-                                    : "N/A"}
-                                </td>
-                                <td>
-                                  {localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                    <span>
-                                      {readers.user_type != 0
-                                        ? readers?.user_type
-                                        : "N/A"}
-                                    </span>
-                                  ) : editable ? (
-                                    <EditContactType
-                                      selected_ibu={readers?.contact_type}
-                                      profile_user={readers?.profile_user_id}
-                                    ></EditContactType>
-                                  ) : (
-                                    <span>
-                                      {readers?.contact_type
-                                        ? readers?.contact_type
-                                        : "N/A"}
-                                    </span>
-                                  )}
-                                </td>
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.consent
-                                        ? readers?.consent
-                                        : "N/A"}
+                                      {" "}
+                                      {readers?.first_name
+                                        ? readers?.first_name +
+                                          " " +
+                                          readers?.last_name
+                                        : "N/A"}{" "}
                                     </span>
                                   </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.email_received
-                                        ? readers?.email_received
-                                        : "N/A"}
-                                    </span>
+                                  <td
+                                    id={`field_email` + readers.profile_user_id}
+                                  >
+                                    {readers?.email ? readers?.email : "N/A"}
                                   </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.email_opening
-                                        ? readers?.email_opening
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.registration
-                                        ? readers?.registration
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers?.last_email
-                                        ? readers?.last_email
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Add Row"
-                                    onClick={() => deleteReader(i)}
+                                  <input
+                                    type="hidden"
+                                    id={`field_index` + readers.profile_user_id}
+                                    value={i}
                                   />
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        }
-                      )}
-                    </tbody>
-                  </table>
+                                  <td
+                                    id={
+                                      `field_bounced` + readers.profile_user_id
+                                    }
+                                  >
+                                    {readers?.bounce ? readers?.bounce : "N/A"}
+                                  </td>
+                                  <td>
+                                    {editable ? (
+                                      <EditCountry
+                                        selected_country={readers?.country}
+                                        profile_user={readers?.profile_user_id}
+                                      ></EditCountry>
+                                    ) : (
+                                      <span>
+                                        {readers?.country
+                                          ? readers?.country
+                                          : "N/A"}
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td>
+                                    {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                    {localStorageUserId ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? readers?.irt
+                                        ? "Yes"
+                                        : "No"
+                                      : readers?.ibu && readers.ibu != 0
+                                      ? readers?.ibu
+                                      : "N/A"}
+                                  </td>
+                                  <td>
+                                    {localStorageUserId ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <span>
+                                        {readers.user_type != 0
+                                          ? readers?.user_type
+                                          : "N/A"}
+                                      </span>
+                                    ) : editable ? (
+                                      <EditContactType
+                                        selected_ibu={readers?.contact_type}
+                                        profile_user={readers?.profile_user_id}
+                                      ></EditContactType>
+                                    ) : (
+                                      <span>
+                                        {readers?.contact_type
+                                          ? readers?.contact_type
+                                          : "N/A"}
+                                      </span>
+                                    )}
+                                  </td>
+                                  {!showLessInfo && (
+                                    <>
+                                      <td>
+                                        <span>
+                                          {readers?.consent
+                                            ? readers.consent
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {readers?.emailReceived
+                                            ? readers.emailReceived
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {readers?.emailOpening
+                                            ? readers.emailOpening
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {readers?.registration
+                                            ? readers.registration
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {readers?.lastEmail
+                                            ? readers.lastEmail
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                    </>
+                                  )}
+
+                                  <td className="delete_row" colSpan="12">
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Add Row"
+                                      onClick={() => deleteReader(i)}
+                                    />
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          }
+                        )}
+
+                        {readers?.length < 1 &&
+                          readersNewlyAdded?.length < 1 && (
+                            <tr className="no-user-selected">
+                              <td colSpan="12">No User Found</td>
+                            </tr>
+                          )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
           </div>
         </div>
       </div>
