@@ -116,6 +116,7 @@ const RegistrationPage = ({ prevData,type }) => {
   const [formData, setFormData] = useState(prevData || {});
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [redirectUrl, setRedirectUrls] = useState("");
   const [pageColors, setPageColors] = useState(
     prevData
       ? {
@@ -367,6 +368,9 @@ const RegistrationPage = ({ prevData,type }) => {
           }
         );
         if (response?.data?.status === 1) {
+          if(response?.data?.minLeft<=15 && response?.data?.minLeft>0){
+            setRedirectUrls(response?.data?.redirectUrl)
+          }
           setModalIsOpen(true);
         } else {
           toast.error(`${response?.data?.message}`, {
@@ -1190,8 +1194,14 @@ const RegistrationPage = ({ prevData,type }) => {
                 // className="btn btn-primary btn-bordered"
                 className={`btn btn-primary btn-bordered ${urlContainsAland ? 'island' : ''}`}
                 onClick={() => {
-                  window.location.reload();
                   setModalIsOpen(false);
+                  loader("show");
+
+                  if(redirectUrl!=""){
+                    window.location.href = redirectUrl;
+                  }else{
+                    window.location.reload();
+                  }
                 }}
               >
                 Okay
