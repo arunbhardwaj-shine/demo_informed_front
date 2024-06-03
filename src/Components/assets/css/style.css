@@ -2711,6 +2711,20 @@ form .input-group {
   border-spacing: 0px 10px;
 }
 
+.result-hcp-table .table tbody tr.unsubscribe-users {
+  box-shadow: none;
+}
+
+.result-hcp-table .table tbody tr.unsubscribe-users>td {
+  background: transparent;
+  padding-left: 0;
+}
+
+.result-hcp-table .table tbody tr.unsubscribe-users .unsubscribe-users-table {
+  height: 250px;
+  overflow-y: auto;
+  padding-left: 17px;
+}
 .graph-box .graph-data table {
   margin: 0;
   border-spacing: 0 12px;

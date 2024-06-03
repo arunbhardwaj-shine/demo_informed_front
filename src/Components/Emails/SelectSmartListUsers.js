@@ -199,7 +199,7 @@ const SelectSmartListUsers = (props) => {
           );
 
           setReaders(pendingUsers);
-          setRemovedReaders([...oldRemovedHcp]);
+          setRemovedReaders([ ...oldRemovedHcp,...subscribersZero]);
           // console.log(subscribersZero);
           setUnSubscribedUsers(subscribersZero);
           setReadersNewlyAdded(oldAddedHcp);
@@ -1537,7 +1537,7 @@ const SelectSmartListUsers = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {removedReaders?.map((rr, i) => {
+                      {/* {removedReaders?.map((rr, i) => {
                         return (
                           <>
                             <tr className="hcps-deleted">
@@ -1555,7 +1555,7 @@ const SelectSmartListUsers = (props) => {
                               </td>
                               <td>
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                {localStorage.getItem("user_id") ==
+                               {/* {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.irt
                                     ? "Yes"
@@ -1627,15 +1627,19 @@ const SelectSmartListUsers = (props) => {
 
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
-                      </tr>
-                      <tr>
-                        <td colSpan={6}>
+                      </tr> */}
+                      <tr className="unsubscribe-users">
+                        <td colSpan={7}>
+                          <div className="unsubscribe-users-table">
                           <table className="table">
                             <tbody>
-                              {unSubscribedUsers?.map((user, index) => {
+                                {removedReaders ?.map((user, index) => {
                                 return (
                                   <React.Fragment key={index}>
-                                    <tr className="hcps-unsubscriber">
+                                    <tr className={` ${user?.subscriber == 0
+                                        ? "hcps-unsubscriber"
+                                        : "hcps-deleted"
+                                      }`}>
                                       <td>
                                         <span>
                                           {user?.first_name
@@ -1714,6 +1718,16 @@ const SelectSmartListUsers = (props) => {
                                                 : "N/A"}
                                             </span>
                                           </td>
+
+                                          {/* {user?.subscriber != 0 && ( */}
+                                            <td className="add-new-hcp" colSpan="12">
+                                              <img
+                                                src={path_image + "add-row.png"}
+                                                alt="Add Row"
+                                                onClick={() => readersAdded(user, index)}
+                                              />
+                                            </td>
+                                          {/* )} */}
                                         </>
                                       )}
                                     </tr>
@@ -1722,6 +1736,7 @@ const SelectSmartListUsers = (props) => {
                               })}
                             </tbody>
                           </table>
+                          </div>
                         </td>
                       </tr>
 
