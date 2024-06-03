@@ -1367,7 +1367,7 @@ const SelectSmartListUsers = (props) => {
                     ) : null}
                   </div>
                 </div>
-                <div className="selected-hcp-list">
+                <div className="selected-hcp-list unsub">
                   <div className="unsubscribe-users-table">
                     <table className="table">
                       <thead>
@@ -2118,7 +2118,7 @@ const SelectSmartListUsers = (props) => {
 
 { (sortData(readers, sortBy, sortOrder)?.length<1 && readersNewlyAdded?.length<1) &&(
                         <tr className="no-user-selected">
-                          <td colSpan="12">No Users Found</td>
+                          <td colSpan="12">No User Found</td>
                         </tr>
                       )}
                     </tbody>

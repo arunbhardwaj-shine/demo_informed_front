@@ -2724,7 +2724,25 @@ form .input-group {
   overflow-y: auto;
   margin-top: 10px;
   padding-right: 8px;
-  border-bottom: 1px dashed #0066be;
+  padding-left: 20px;
+ 
+}
+.selected-hcp-list.unsub{
+border-bottom: 1px dashed #0066be;
+padding-bottom: 10px;
+}
+.unsubscribe-users-table table{margin:0;}
+.result-hcp-table .table tbody tr.no-user-selected {
+  box-shadow: none;
+  text-align: center;
+}
+
+.result-hcp-table .table tbody tr.no-user-selected td {
+  background: transparent;
+  font-size: 32px;
+  color: #97B6CF;
+  padding: 70px 0;
+  line-height: 1;
 }
 .result-hcp-table .unsubscribe-users-table table thead tr th {
   position: sticky;
