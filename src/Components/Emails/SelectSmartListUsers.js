@@ -36,6 +36,7 @@ const SelectSmartListUsers = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const [showLessInfo, setShowLessInfo] = useState(true);
+  const [apiStatus, setApiStatus] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [TemplateId, setTemplateId] = useState(0);
   const [removedReaders, setRemovedReaders] = useState([]);
@@ -205,10 +206,13 @@ const SelectSmartListUsers = (props) => {
           setReadersNewlyAdded(oldAddedHcp);
 
           loader("hide");
+          setApiStatus(true)
         })
         .catch((err) => {
           loader("hide");
           console.log(err);
+          setApiStatus(true)
+
         });
     } else {
       setReaders(props.getDraftData?.campaign_data?.selectedHcp);
@@ -1254,7 +1258,7 @@ const SelectSmartListUsers = (props) => {
               </div>
             </div>
 
-            <section className="search-hcp">
+         { apiStatus &&   <section className="search-hcp">
               <div className="result-hcp-table">
                 <div className="table-title">
                   <h4>
@@ -1641,9 +1645,9 @@ const SelectSmartListUsers = (props) => {
                             );
                           }
                         )}
-                        <tr className="seprator-add">
+                        {/* <tr className="seprator-add">
                           <td colSpan="13"></td>
-                        </tr>{" "}
+                        </tr>{" "} */}
                       </tbody>
                     </table>
                   </div>
@@ -1825,7 +1829,7 @@ const SelectSmartListUsers = (props) => {
                     <tbody>
                    
 
-                      {readersNewlyAdded?.length > 0 ? (
+                      {
                         readersNewlyAdded.map((reader, index) => {
                           return (
                             <tr
@@ -1955,11 +1959,7 @@ const SelectSmartListUsers = (props) => {
                             </tr>
                           );
                         })
-                      ) : (
-                        <tr>
-                          <td colSpan="12">No Users Selected</td>
-                        </tr>
-                      )}
+                      }
 
                       {sortData(readers, sortBy, sortOrder)?.map(
                         (readers, i) => {
@@ -2115,11 +2115,17 @@ const SelectSmartListUsers = (props) => {
                           );
                         }
                       )}
+
+{ (sortData(readers, sortBy, sortOrder)?.length<1 && readersNewlyAdded?.length<1) &&(
+                        <tr className="no-user-selected">
+                          <td colSpan="12">No Users Found</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
-            </section>
+            </section>}
           </div>
         </div>
       </div>
