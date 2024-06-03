@@ -64,7 +64,6 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
   const [closedIndex, setClosedIndex] = useState();
  
   useEffect(() => {
-   
     setShow(false);
     if(firstTimeTab){
       firstTime.current=true   
@@ -178,11 +177,15 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
   const handleBeforeChange = async (current) => {
     try {
+
       setApiCallStatus(true);
       if (currentSnapShot.current) {
         currentSnapShot.current();
       }
       setPieChartData({});
+      if(question?.length==1){
+        handleAfterChange(current)
+      }
     } catch (err) {
       console.log("--err", err);
     } finally {
