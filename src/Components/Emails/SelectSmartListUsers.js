@@ -1309,7 +1309,7 @@ const SelectSmartListUsers = (props) => {
                             </button>
                           </div>
                           <div className="hcp-sort">
-                            {sortingCount == 0 ? (
+                            {/* {sortingCount == 0 ? (
                               <>
                                 <button
                                   className="btn btn-outline-primary"
@@ -1348,7 +1348,7 @@ const SelectSmartListUsers = (props) => {
                                   />
                                 </button>
                               </>
-                            )}
+                            )} */}
                           </div>
                         </>
                       ) : null}
@@ -1841,7 +1841,8 @@ const SelectSmartListUsers = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {readersNewlyAdded.map((reader, index) => {
+                      
+                      {sortData(readersNewlyAdded, sortBy, sortOrder)?.map((reader, index) => {
                           return (
                             <tr
                               key={reader.profile_user_id}
@@ -2119,7 +2120,7 @@ const SelectSmartListUsers = (props) => {
                           }
                         )}
 
-                        {sortData(readers, sortBy, sortOrder)?.length < 1 &&
+                        {readers?.length < 1 &&
                           readersNewlyAdded?.length < 1 && (
                             <tr className="no-user-selected">
                               <td colSpan="12">No User Found</td>
