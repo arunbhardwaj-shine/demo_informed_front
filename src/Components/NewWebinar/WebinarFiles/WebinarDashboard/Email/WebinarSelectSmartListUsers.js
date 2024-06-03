@@ -1124,7 +1124,7 @@ const WebinarSelectSmartListUsers = (props) => {
                 <div className="result-hcp-table">
                   <div className="table-title">
                   <h4 className="d-flex">       
-                      <div className="ml-3" style={{ color: '#d61975'}}>
+                      <div className="ml-3">
                         Unsubscribed<span>| {unSubscribedUsers?.length || 0}</span>
                       </div>
                     </h4>
