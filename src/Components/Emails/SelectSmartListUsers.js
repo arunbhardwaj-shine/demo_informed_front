@@ -199,7 +199,7 @@ const SelectSmartListUsers = (props) => {
           );
 
           setReaders(pendingUsers);
-          setRemovedReaders([ ...oldRemovedHcp,...subscribersZero]);
+          setRemovedReaders([ ...oldRemovedHcp]);
           // console.log(subscribersZero);
           setUnSubscribedUsers(subscribersZero);
           setReadersNewlyAdded(oldAddedHcp);
@@ -1629,11 +1629,11 @@ const SelectSmartListUsers = (props) => {
                         <td colSpan="13"></td>
                       </tr> */}
                       <tr className="unsubscribe-users">
-                        <td colSpan={7}>
+                        <td colSpan={13}>
                           <div className="unsubscribe-users-table">
                           <table className="table">
                             <tbody>
-                                {removedReaders ?.map((user, index) => {
+                                {[...removedReaders,...unSubscribedUsers]?.map((user, index) => {
                                 return (
                                   <React.Fragment key={index}>
                                     <tr className={` ${user?.subscriber == 0
@@ -1719,7 +1719,10 @@ const SelectSmartListUsers = (props) => {
                                             </span>
                                           </td>
 
-                                          {/* {user?.subscriber != 0 && ( */}
+                                     
+                                        </>
+                                      )}
+                                           {user?.subscriber != 0 && (
                                             <td className="add-new-hcp" colSpan="12">
                                               <img
                                                 src={path_image + "add-row.png"}
@@ -1727,9 +1730,7 @@ const SelectSmartListUsers = (props) => {
                                                 onClick={() => readersAdded(user, index)}
                                               />
                                             </td>
-                                          {/* )} */}
-                                        </>
-                                      )}
+                                           )}
                                     </tr>
                                   </React.Fragment>
                                 );
