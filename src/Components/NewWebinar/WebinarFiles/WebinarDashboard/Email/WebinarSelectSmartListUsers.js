@@ -1123,15 +1123,9 @@ const WebinarSelectSmartListUsers = (props) => {
               <section className="search-hcp">
                 <div className="result-hcp-table">
                   <div className="table-title">
-                    <h4 className="d-flex">
-                      HCPs{" "}
-                      <span style={{marginRight:'10px'}}>
-                        -{" "}
-                        {(readersNewlyAdded?.length || 0) +
-                          (readers?.length || 0)}{" "}
-                      </span> |
-                      <div className="ml-3" style={{ color: '#d61975', marginLeft:'10px'}}>
-                        Unsubscribed<span>- {unSubscribedUsers?.length || 0}</span>
+                  <h4 className="d-flex">       
+                      <div className="ml-3" style={{ color: '#d61975'}}>
+                        Unsubscribed<span>| {unSubscribedUsers?.length || 0}</span>
                       </div>
                     </h4>
                     <div className="selected-hcp-table-action">
@@ -1236,6 +1230,7 @@ const WebinarSelectSmartListUsers = (props) => {
                     </div>
                   </div>
                   <div className="selected-hcp-list unsub">
+                    
                     <div className="unsubscribe-users-table">
                       <table className="table">
                         <thead>
@@ -1531,6 +1526,16 @@ const WebinarSelectSmartListUsers = (props) => {
                     </div>
                   </div>
                   <div className="selected-hcp-list">
+                  <div className="table-title">
+                    <h4 className="d-flex" style={{marginTop:'30px'}}>
+                        HCPs{" "}
+                        <span style={{marginRight:'10px'}}>
+                          |{" "}
+                          {(readersNewlyAdded?.length || 0) +
+                            (readers?.length || 0)}{" "}
+                        </span>
+                        </h4>
+                      </div>
                     <table className="table">
                       <thead>
                         <tr>
