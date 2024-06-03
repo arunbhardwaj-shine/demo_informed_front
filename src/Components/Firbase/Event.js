@@ -1138,7 +1138,174 @@ eventId={eventId}
               </div>
               <div className="question-block-form small-temp">
                 <div className="log-inner">
-                  <div className="head-sec">
+                  <div className="head-sec" style={{
+                      background: formData?.headerBackgroundColor,
+                      borderBottomColor: formData?.buttonColor,
+                    }}>
+                    <h2
+                      className="top-title"
+                      style={{ color: formData?.textColor }}
+                      dangerouslySetInnerHTML={{
+                        __html: formData?.heading
+                          ? formData?.heading
+                          : "",
+                      }}
+                    ></h2>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="hidden"
+                    className="form-control"
+                    id="guest_id"
+                    name="guest_id"
+                    value="lji3sjpsdc21tux2st"
+                  />
+
+                  <div className="row">
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="fname"
+                        className="form-label"
+                        style={{ color: formData?.textColor }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.nameLabel
+                            ? formData?.nameLabel
+                            : "",
+                        }}
+                      />
+
+                      <input
+                        type="text"
+                        id="name"
+                        onChange={handleChange}
+                        className="form-control "
+                        placeholder={
+                          formData?.namePlaceholder
+                            ? formData?.namePlaceholder
+                            : ""
+                        }
+                        name="name"
+                        value={user?.name}
+                        style={{
+                          borderColor: formData?.textColor,
+                        }}
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="Question submitted successfully"
+                        name="succ_message"
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="Please enter message"
+                        name="err_message"
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="index.php?evnt=octa-academy-2023"
+                        name="page"
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="fname"
+                        className="form-label"
+                        style={{ color: formData?.textColor }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.questionLabel
+                            ? formData?.questionLabel
+                            : "",
+                        }}
+                      />
+
+                      <textarea
+                        name="question"
+                        id="question"
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder={
+                          formData?.questionPlaceholder
+                            ? formData?.questionPlaceholder
+                            : ""
+                        }
+                        cols="40"
+                        rows="4"
+                        value={user?.question}
+                        style={{
+                          borderColor: formData?.textColor,
+                        }}
+                      ></textarea>
+
+                      {error?.question ? (
+                        <span className="event-validation">
+                          {error?.question}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+
+                    <div className="col-md-12">
+                      <Button
+                        type="submit"
+                        className="btn btn-success"
+                        style={{
+                          background: formData?.buttonColor,
+                          borderColor: formData?.buttonColor,
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.buttonText
+                            ? formData?.buttonText
+                            : "",
+                        }}
+                      ></Button>
+                    </div>
+                  </div>
+                </form>
+
+                <div className="copy-right-bottom-text">
+                  <p
+                    style={{ color: formData?.textColor }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.footerText
+                        ? formData?.footerText
+                        : "",
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {formData?.templateId === 12 && (
+          <div className="container">
+            <div className="question-block">
+              <div className="header-logo">
+                <div>
+                  <img
+                    src={`${
+                      formData?.logoImageUrl
+                        ? formData?.logoImageUrl
+                        : ""
+                    }`}
+                    alt="OneSource logo"
+                  />
+                </div>
+              </div>
+              <div className="question-block-form small-temp">
+                <div className="log-inner">
+                  <div className="head-sec"
+                    style={{
+                      background: formData?.headerBackgroundColor,
+                      borderBottomColor: formData?.buttonColor,
+                    }}
+                  >
                     <h2
                       className="top-title"
                       style={{ color: formData?.textColor }}

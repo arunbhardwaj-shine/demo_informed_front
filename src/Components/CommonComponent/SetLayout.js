@@ -39,13 +39,13 @@ const SetLayout = () => {
         subtitle: "All your licensed content in one place",
       });
     }
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      newdata.push({
-        image: `${path_image}q-polling.svg`,
-        title: "Q & Poll  ",
-        subtitle: "Engage your audience and make them part of the presentation",
-      });
-    }
+    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    //   newdata.push({
+    //     image: `${path_image}q-polling.svg`,
+    //     title: "Q & Poll  ",
+    //     subtitle: "Engage your audience and make them part of the presentation",
+    //   });
+    // }
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 
@@ -95,8 +95,9 @@ const SetLayout = () => {
     } else if (title == "Webinar") {
       if (
         typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-        localStorage.getItem("webinar_flag") == 1 &&
-        localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorage.getItem("webinar_flag") == 1 
+        // &&
+        // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
       ) {
         navigate("/webinar/event-listing")
         // window.open(

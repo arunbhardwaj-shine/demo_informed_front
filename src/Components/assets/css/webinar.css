@@ -5044,10 +5044,12 @@ footer .footer-inner {
   content: "";
   background: url(https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-bg.png) no-repeat;
   width: 209px;
-  height: 212px;
+  /* height: 212px; */
   position: absolute;
   top: 0;
   left: 410px;
+  background-size: 60%;
+  height:100%;
 }
 
 .footer-inner::after {
