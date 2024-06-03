@@ -199,7 +199,7 @@ const SelectSmartListUsers = (props) => {
           );
 
           setReaders(pendingUsers);
-          setRemovedReaders([ ...oldRemovedHcp]);
+          setRemovedReaders([...oldRemovedHcp]);
           // console.log(subscribersZero);
           setUnSubscribedUsers(subscribersZero);
           setReadersNewlyAdded(oldAddedHcp);
@@ -1364,6 +1364,293 @@ const SelectSmartListUsers = (props) => {
                   </div>
                 </div>
                 <div className="selected-hcp-list">
+                  <div className="unsubscribe-users-table">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort("first_name")}>
+                              Name
+                              <button
+                                className={`event_sort_btn ${
+                                  sortBy == "first_name"
+                                    ? sortOrder == "asc"
+                                      ? "svg_asc"
+                                      : "svg_active"
+                                    : ""
+                                }`}
+                                onClick={() => handleSort("first_name")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </span>
+                          </th>
+                          <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort("email")}>
+                              Email
+                              <button
+                                className={`event_sort_btn ${
+                                  sortBy == "email"
+                                    ? sortOrder == "asc"
+                                      ? "svg_asc"
+                                      : "svg_active"
+                                    : ""
+                                }`}
+                                onClick={() => handleSort("email")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </span>
+                          </th>
+                          <th scope="col">Bounced</th>
+                          <th scope="col" className="sort_option">
+                            <span onClick={() => handleSort("country")}>
+                              Country
+                              <button
+                                className={`event_sort_btn ${
+                                  sortBy == "country"
+                                    ? sortOrder == "asc"
+                                      ? "svg_asc"
+                                      : "svg_active"
+                                    : ""
+                                }`}
+                                onClick={() => handleSort("country")}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="8"
+                                  height="8"
+                                  viewBox="0 0 8 8"
+                                  fill="none"
+                                >
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path
+                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                      fill="#97B6CF"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </span>
+                          </th>
+
+                          {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <>
+                              <th scope="col">IRT mandatory training</th>
+                              <th scope="col">IRT role</th>
+                            </>
+                          ) : (
+                            <>
+                              <th scope="col" className="sort_option">
+                                <span onClick={() => handleSort("ibu")}>
+                                  Business unit
+                                  <button
+                                    className={`event_sort_btn ${
+                                      sortBy == "ibu"
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                    }`}
+                                    onClick={() => handleSort("ibu")}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                              </th>
+                              <th scope="col">Contact type</th>
+                            </>
+                          )}
+
+                          {showLessInfo == false ? (
+                            <>
+                              <th scope="col">Consent</th>
+                              <th scope="col">Email received</th>
+                              <th scope="col">Openings</th>
+                              <th scope="col">Registrations</th>
+                              <th scope="col">Last email</th>
+                            </>
+                          ) : null}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[...removedReaders, ...unSubscribedUsers]?.map(
+                          (user, index) => {
+                            return (
+                              <React.Fragment key={index}>
+                                <tr
+                                  className={` ${
+                                    user?.subscriber == 0
+                                      ? "hcps-unsubscriber"
+                                      : "hcps-deleted"
+                                  }`}
+                                >
+                                  <td>
+                                    <span>
+                                      {user?.first_name
+                                        ? `${user.first_name} ${user.last_name}`
+                                        : "N/A"}
+                                    </span>
+                                  </td>
+                                  <td>{user.email ? user.email : "N/A"}</td>
+                                  <td>{user.bounce ? user.bounce : "N/A"}</td>
+                                  <td>
+                                    <span>
+                                      {user.country ? user.country : "N/A"}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    {localStorage.getItem("user_id") ===
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ? user?.irt
+                                        ? "Yes"
+                                        : "No"
+                                      : user.ibu && user.ibu !== 0
+                                      ? user.ibu
+                                      : "N/A"}
+                                  </td>
+                                  {localStorage.getItem("user_id") ===
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    <td>
+                                      {user?.user_type !== 0
+                                        ? user.user_type
+                                        : "N/A"}
+                                    </td>
+                                  ) : (
+                                    <td>
+                                      {user.contact_type
+                                        ? user.contact_type
+                                        : "N/A"}
+                                    </td>
+                                  )}
+
+                                  {!showLessInfo && (
+                                    <>
+                                      <td>
+                                        <span>
+                                          {user.consent ? user.consent : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {user.email_received
+                                            ? user.email_received
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {user.email_opening
+                                            ? user.email_opening
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {user.registration
+                                            ? user.registration
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span>
+                                          {user.last_email
+                                            ? user.last_email
+                                            : "N/A"}
+                                        </span>
+                                      </td>
+                                    </>
+                                  )}
+                                  {user?.subscriber != 0 && (
+                                    <td className="add-new-hcp" colSpan="12">
+                                      <img
+                                        src={path_image + "add-row.png"}
+                                        alt="Add Row"
+                                        onClick={() =>
+                                          readersAdded(user, index)
+                                        }
+                                      />
+                                    </td>
+                                  )}
+                                </tr>
+                              </React.Fragment>
+                            );
+                          }
+                        )}
+                             <tr className="seprator-add">
+                    <td colSpan="13"></td>
+                  </tr>{" "}
+                      </tbody>
+                    </table>
+                  </div>
+             
+                </div>
+
+                <div className="selected-hcp-list">
                   <table className="table">
                     <thead>
                       <tr>
@@ -1555,7 +1842,7 @@ const SelectSmartListUsers = (props) => {
                               </td>
                               <td>
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                               {/* {localStorage.getItem("user_id") ==
+                      {/* {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.irt
                                     ? "Yes"
@@ -1628,122 +1915,7 @@ const SelectSmartListUsers = (props) => {
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
                       </tr> */}
-                      <tr className="unsubscribe-users">
-                        <td colSpan={13}>
-                          <div className="unsubscribe-users-table">
-                          <table className="table">
-                            <tbody>
-                                {[...removedReaders,...unSubscribedUsers]?.map((user, index) => {
-                                return (
-                                  <React.Fragment key={index}>
-                                    <tr className={` ${user?.subscriber == 0
-                                        ? "hcps-unsubscriber"
-                                        : "hcps-deleted"
-                                      }`}>
-                                      <td>
-                                        <span>
-                                          {user?.first_name
-                                            ? `${user.first_name} ${user.last_name}`
-                                            : "N/A"}
-                                        </span>
-                                      </td>
-                                      <td>{user.email ? user.email : "N/A"}</td>
-                                      <td>
-                                        {user.bounce ? user.bounce : "N/A"}
-                                      </td>
-                                      <td>
-                                        <span>
-                                          {user.country ? user.country : "N/A"}
-                                        </span>
-                                      </td>
-                                      <td>
-                                        {localStorage.getItem("user_id") ===
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                          ? user?.irt
-                                            ? "Yes"
-                                            : "No"
-                                          : user.ibu && user.ibu !== 0
-                                          ? user.ibu
-                                          : "N/A"}
-                                      </td>
-                                      {localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                        <td>
-                                          {user?.user_type !== 0
-                                            ? user.user_type
-                                            : "N/A"}
-                                        </td>
-                                      ) : (
-                                        <td>
-                                          {user.contact_type
-                                            ? user.contact_type
-                                            : "N/A"}
-                                        </td>
-                                      )}
 
-                                      {!showLessInfo && (
-                                        <>
-                                          <td>
-                                            <span>
-                                              {user.consent
-                                                ? user.consent
-                                                : "N/A"}
-                                            </span>
-                                          </td>
-                                          <td>
-                                            <span>
-                                              {user.email_received
-                                                ? user.email_received
-                                                : "N/A"}
-                                            </span>
-                                          </td>
-                                          <td>
-                                            <span>
-                                              {user.email_opening
-                                                ? user.email_opening
-                                                : "N/A"}
-                                            </span>
-                                          </td>
-                                          <td>
-                                            <span>
-                                              {user.registration
-                                                ? user.registration
-                                                : "N/A"}
-                                            </span>
-                                          </td>
-                                          <td>
-                                            <span>
-                                              {user.last_email
-                                                ? user.last_email
-                                                : "N/A"}
-                                            </span>
-                                          </td>
-
-                                     
-                                        </>
-                                      )}
-                                           {user?.subscriber != 0 && (
-                                            <td className="add-new-hcp" colSpan="12">
-                                              <img
-                                                src={path_image + "add-row.png"}
-                                                alt="Add Row"
-                                                onClick={() => readersAdded(user, index)}
-                                              />
-                                            </td>
-                                           )}
-                                    </tr>
-                                  </React.Fragment>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                          </div>
-                        </td>
-                      </tr>
-
-                      <tr className="seprator-add">
-                        <td colSpan="13"></td>
-                      </tr>
                       {readersNewlyAdded?.map((readers, i) => {
                         return (
                           <>
