@@ -93,31 +93,32 @@ const AddLinkToPdf = () => {
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //const defaultScale = 1.3347;
+  const [mouseLastup, setMouseLastup] = useState(0);
   
 
     const fitToWidth = ()=> {
     // Calculate the scale factor based on the width of the viewport and the PDF page
     const viewportWidth = document.documentElement.clientWidth;
     const viewportHeight = document.documentElement.clientHeight;
-    console.log(viewportWidth,"view");
-    console.log(viewportHeight,"view");
+   
     const sublink_wid = document.querySelector('.sublink_right').clientWidth;
      const pageWidth = document.querySelector('.viewer-page-layer').clientWidth;
     const pageHeight = document.querySelector('.viewer-page-layer').clientHeight;
-    console.log(pageWidth,"page");
-    console.log(pageHeight,"page");
+   
     const scale = viewportWidth / pageWidth;
 
     if(initialscale===0){
       setInitialscale(pageWidth);
        multiply_factor = 1/scale;
-       console.log("iam")
       setMultiplyfactor(multiply_factor);
     }
     console.log(scale);
+console.log("initial scale-->",initialscale);
 
 
-    if(scale < 1.3347){
+
+    // if(scale < 1.3347){
+      if(scale < 1.30){
       setDefaultScale(scale)
       console.log(file);
       setFile(file)
@@ -293,7 +294,7 @@ const AddLinkToPdf = () => {
   useEffect(() => {
     initFun();
     videoFun();
-    console.log("changed");
+    // console.log("changed");
   }, []);
 
 
@@ -448,7 +449,7 @@ const AddLinkToPdf = () => {
 
   useEffect(() => {
     const handleGlobalMouseUp = (event) => {
-      console.log("Global");
+      // console.log("Global");
       // Check if the mouseup event target is not inside the parentRef
       if (parentRef.current && !parentRef.current.contains(event.target)) {
         handleMouseUp(event);
@@ -611,6 +612,7 @@ const AddLinkToPdf = () => {
       const textLayer = parentRef.current.querySelector(".viewer-text-layer");
       const pageHeight = textLayer.getBoundingClientRect().height;
 
+      setMouseLastup(event.clientX);
       window.getSelection().removeAllRanges();
       setDragging(false);
       if (showAddLink) {
@@ -649,8 +651,10 @@ const AddLinkToPdf = () => {
       // console.log(event.clientX,rect.left,"RECT LEFT")
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top - scrollTop;
-      console.log(event.clientX,"event.clientX");
-      console.log(rect.left,"rect.left");
+      // const y = event.clientY - rect.top 
+      // console.log("y -->",y );
+      // console.log("rect.left-->",rect.left);
+      // console.log("rect.top-->",rect.top);
       setXcoordinates(x);
       setYcoordinates(rect.top);
     }
@@ -672,56 +676,261 @@ const AddLinkToPdf = () => {
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
     let actual_width = xcoordinates- 20  - box_width;
-    console.log(xcoordinates,"xcoordinates")
-    console.log(box_width,"box_width")
-    console.log(actual_width,"actual_width")
-    let x_cord = actual_width;
-    
+    let x_cord = actual_width>0?actual_width:xcoordinates- box_width;
+   
     let actual_height = mousefirstdown -15 - ycoordinates;
     let y_cord = actual_height;
     let page_no = linkonpage + 1;
     let box_width_x = box_width;
     let box_width_y = box_height;
+
+    console.log("x_cord--->",x_cord)
+    console.log("y_cord--->",y_cord)
     
-    if(initialscale>600 && initialscale<800){
-      console.log("i am inside 1200")
-      box_width_y =box_width_y/3.38;
-       box_width_x = box_width_x/3.48;
-       y_cord = y_cord/3.38;
-       x_cord = x_cord/3.48;
-    }else if(initialscale>800 && initialscale<1000){
-      console.log("i am inside 1200")
+    // if(initialscale>600 && initialscale<800){
+    //   console.log("i am inside 800")
+    //   box_width_y =box_width_y/3.38;
+    //    box_width_x = box_width_x/3.48;
+    //    y_cord = y_cord/3.38;
+    //    x_cord = x_cord/3.48;
+    // }
+    // Gagan 
+    if(initialscale>400 && initialscale<600){
+     
+      box_width_y =box_width_y/3.50;
+       box_width_x = box_width_x/3.65;
+       y_cord =y_cord<=0?1:y_cord<100?3.35:(y_cord>=100&&y_cord<200)?y_cord/3.40: (y_cord>=200&&y_cord<350)?y_cord/3.55:(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7
+       :y_cord>=800?y_cord/3.75:y_cord/3.8;
+       x_cord = x_cord<100?x_cord/2.3:(x_cord>=100&&x_cord<200)?x_cord/3.3:(x_cord>=200&&x_cord<300)?x_cord/3.5:x_cord/3.65;
+    }
+    //Gagan
+    else if(initialscale>=600 && initialscale<800){
+      
+      box_width_y =box_width_y/3.30;
+       box_width_x = box_width_x/3.5;
+       y_cord = y_cord<=0?1:y_cord<100?3.35:(y_cord>=100&&y_cord<200)?y_cord/3.40:(y_cord>=200&&y_cord<350)?y_cord/3.55:(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7
+       :y_cord>=800?y_cord/3.75:y_cord/3.77;
+       x_cord = x_cord<100?x_cord/3.2:(x_cord>=100&&x_cord<500)?x_cord/3.6:x_cord/3.7;
+    }
+    else if(initialscale>=800 && initialscale<1000){
+     
       box_width_y =box_width_y/3.58;
        box_width_x = box_width_x/3.68;
-       y_cord = y_cord/3.58;
-       x_cord = x_cord/3.68;
-    }else if(initialscale>1000 && initialscale<1200){
-      console.log("i am inside 1200")
+      //  y_cord =y_cord<=0?1: y_cord/3.58;
+      //  x_cord = x_cord/3.68;
+
+      y_cord = y_cord<=0?1:y_cord<100?3.35:(y_cord>=100&&y_cord<200)?y_cord/3.40:(y_cord>=200&&y_cord<350)?y_cord/3.55
+            :(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7 :y_cord>=800?y_cord/3.73:y_cord/3.75;
+
+      x_cord = x_cord<100?x_cord/3.2:(x_cord>=100&&x_cord<500)?x_cord/3.6:x_cord/3.7;
+    }
+    // else if(initialscale>1000 && initialscale<1200){     
+    //    box_width_y =box_width_y/3.58;
+    //    box_width_x = box_width_x/3.68;    
+    //    y_cord = y_cord/3.58;
+    //    x_cord = x_cord/3.68;
+    // }
+    // else if(initialscale>1200 && initialscale<3000){
+    //   console.log("am inside med");
+    //   box_width_y =box_width_y/2;
+    //   box_width_x = box_width_x/2;
+    //   y_cord = y_cord/2;
+    //   x_cord = x_cord/2;
+    // }
+
+    //Arun sir code
+    else if(initialscale>=1000 && initialscale<1100){
+    
        box_width_y =box_width_y/3.58;
        box_width_x = box_width_x/3.68;
-       y_cord = y_cord/3.58;
+       y_cord =y_cord<=0?1: y_cord/3.58;
        x_cord = x_cord/3.68;
-    }else if(initialscale>1200 && initialscale<3000){
-      console.log("am inside med");
-      box_width_y =box_width_y/2;
-      box_width_x = box_width_x/2;
-      y_cord = y_cord/2;
-      x_cord = x_cord/2;
+    }else if(initialscale>=1100 && initialscale<1200){
+      // console.log("i am inside 1100")
+      //Aamir
+      if(document.documentElement.scrollTop>=700){
+        box_width_y =box_width_y/3.75;
+        box_width_x = box_width_x/3.68;
+        y_cord =y_cord<=0?1: y_cord/3.75;
+        x_cord = x_cord/3.68;
+      }else{
+        box_width_y =box_width_y/3.58;
+        box_width_x = box_width_x/3.68;
+        y_cord =y_cord<=0?1: y_cord/3.58;
+        x_cord = x_cord/3.68;
+      }
+    }else if(initialscale>=1200 && initialscale<1300){
+      //1281 specical susheel sir case
+      // console.log("1281");
+      box_width_y =box_width_y/3.52;
+      box_width_x = box_width_x/3.62;
+      y_cord =y_cord<=0?1: y_cord/3.55;
+      x_cord = x_cord/3.78;
+    }
+    else if(initialscale>=1300 && initialscale<2000){
+      //1907 specical susheel sir case
+     
+      box_width_y = box_width_y/3.6;
+      box_width_x = box_width_x/3.55;
+      y_cord =y_cord<=0?1:y_cord<200?y_cord/3.25 :(y_cord>=200&&y_cord<300)?y_cord/3.3:(y_cord>=300&&y_cord<500)?y_cord/3.42
+              :(y_cord>=500&&y_cord<600)?y_cord/3.45:(y_cord>=600&&y_cord<700)?y_cord/3.48:y_cord/3.5;
+      x_cord = x_cord<100?x_cord/3:(x_cord>=100&&x_cord<300)?x_cord/3.25:(x_cord>=300&&x_cord<550)?x_cord/3.4
+              :(x_cord>=550&&x_cord<700)?x_cord/3.47:(x_cord>=700&&x_cord<1200)?x_cord/3.5:x_cord/3.55;
+    }
+    // else if(initialscale>2000 && initialscale<3000){
+    //   console.log("am inside med",initialscale);
+    //   box_width_y =box_width_y/2;
+    //   box_width_x = box_width_x/2;
+    //   y_cord = y_cord/2;
+    //   x_cord = x_cord/2;
+    // }
+   
+    //Gagan C-600--->2270
+    else if(initialscale>=2200 && initialscale<2400){
+        box_width_y=box_width_y/2.35
+        box_width_x=box_width_x/2.35     
+        y_cord =y_cord<=0?1:y_cord<200?y_cord/2.2 :(y_cord>=200&&y_cord<400)?y_cord/2.25:(y_cord>=400&&y_cord<700)?y_cord/2.3
+                  :(y_cord>=700&&y_cord<800)?y_cord/2.32:y_cord/2.35;
+        x_cord = x_cord<100?x_cord/2:(x_cord>=100&&x_cord<400)?x_cord/2.20:(x_cord>=400&&x_cord<650)?x_cord/2.25
+                :(x_cord>=650&&x_cord<1000)?x_cord/2.28:x_cord/2.32;
+    }
+    //Gagan c-700--->2648
+    else if(initialscale>=2400 && initialscale<2700){
+        box_width_y=box_width_y/2.1
+        box_width_x=box_width_x/2    
+        y_cord =y_cord<=0?1:y_cord<200? y_cord/1.82:(y_cord>=200&&y_cord<300)?y_cord/1.90:(y_cord>=300&&y_cord<500)?y_cord/1.95
+                :(y_cord>=500&&y_cord<800)?y_cord/2:y_cord/2.05;
+        x_cord = x_cord<100?x_cord/1.7:(x_cord>=100&&x_cord<200)?x_cord/1.8:(x_cord>=200&&x_cord<350)?x_cord/1.9
+                :(x_cord>=350&&x_cord<550)?x_cord/1.95:(x_cord>=550&&x_cord<650)?x_cord/1.98:x_cord/2;  
+    }
+    //Gagan c-800--->3027
+    else if(initialscale>=2700 && initialscale<3100){
+        box_width_y=box_width_y/1.8
+        box_width_x=box_width_x/1.8 
         
-    }else{
+        y_cord =y_cord<=0?1:y_cord<100? y_cord/1.5:(y_cord>=100&&y_cord<200)?y_cord/1.6:(y_cord>=200&&y_cord<300)?y_cord/1.65
+                :(y_cord>=300&&y_cord<400)?y_cord/1.7:(y_cord>=400&&y_cord<550)?y_cord/1.75:y_cord/1.75;
+        
+                x_cord = x_cord<100?x_cord/1.5:(x_cord>=100&&x_cord<200)?x_cord/1.6:(x_cord>=200&&x_cord<600)?x_cord/1.72
+                :(x_cord>=600&&x_cord<800)?x_cord/1.75:(x_cord>=800&&x_cord<900)?x_cord/1.8:x_cord/1.85;  
+    }
+
+    else if(initialscale>=3100 && initialscale<3500){
+      // 3405 900
+     
+      box_width_y =box_width_y/1.6;
+      box_width_x = box_width_x/1.65;
+      // y_cord =y_cord<=0?1: y_cord/1.53;
+      // x_cord = x_cord/1.54;
+
+      y_cord =y_cord<=0?1:y_cord<100? y_cord/1.5:(y_cord>=100&&y_cord<200)?y_cord/1.6:(y_cord>=200&&y_cord<300)?y_cord/1.64
+      :(y_cord>=300&&y_cord<400)?y_cord/1.66:(y_cord>=400&&y_cord<550)?y_cord/1.68:(y_cord>=550&&y_cord<800)?y_cord/1.7:y_cord/1.72;
+      
+      x_cord = x_cord<100?x_cord/1.40:(x_cord>=100&&x_cord<200)?x_cord/1.55:(x_cord>=200&&x_cord<400)?x_cord/1.64
+      :(x_cord>=400&&x_cord<600)?x_cord/1.66:(x_cord>=600&&x_cord<1200)?x_cord/1.70:(x_cord>1200&&x_cord<1300)?x_cord/1.72:x_cord/1.74;  
+    }else if(initialscale>=3500 && initialscale<3800){
+      // 3783 1000
+      box_width_y = box_width_y/1.38;
+      box_width_x = box_width_x/1.45;
+      y_cord =y_cord<=0?1: y_cord/1.37;
+      x_cord = x_cord/1.375;
+    }
+    else if(initialscale>=3800 && initialscale<4200){
+      // 4162 1100
+     
+      box_width_y = box_width_y/1.22;
+      box_width_x = box_width_x/1.25;
+      y_cord =y_cord<=0?1:y_cord<200? y_cord/1.22:(y_cord>=200&&y_cord<500)?y_cord/1.25:y_cord/1.28;
+      x_cord =x_cord<200? x_cord/1.15:x_cord<300&&x_cord>=200? x_cord/1.2:x_cord<650&&x_cord>=300? x_cord/1.25
+              :x_cord<1200&&x_cord>=650? x_cord/1.27:x_cord/1.29;
+    }else if(initialscale>=4200 && initialscale<4600){
+      //4540 1200
+      box_width_y = box_width_y/1.03;
+      box_width_x = box_width_x/1.16;
+      y_cord =y_cord<=0?1: y_cord/1.13;
+      x_cord = x_cord/1.16;
+
+    }else if(initialscale>=4600 && initialscale<5000){
+      // 4918 1300
+     
+      box_width_y = box_width_y/1.04;
+      box_width_x = box_width_x/1.06;
+      y_cord = y_cord<=0?1:y_cord/1.05;
+      x_cord = x_cord/1.05;
+    }
+    else if(initialscale>=5000 && initialscale<5300){
+      // 5297 1400
+     
+      box_width_y = box_width_y/1.002;
+      box_width_x = box_width_x/0.99;
+      y_cord = y_cord<=0?1:y_cord/0.96;
+      x_cord = x_cord/0.99;
+    }
+
+     //Gagan c-1500--->5675
+     else if(initialscale>=5300 && initialscale<5700){
+        box_width_y=box_width_y/1.10
+        box_width_x=box_width_x/0.97
+        y_cord =y_cord<=0?1: y_cord<=200?y_cord/0.82: (y_cord<400&& y_cord>200)?y_cord/0.90:y_cord/0.92;
+
+        x_cord =x_cord<300?x_cord/0.78:(x_cord<600&& x_cord>=300)?x_cord/0.90:( x_cord<800&&x_cord>=600)?x_cord/0.92
+                :x_cord>=800?x_cord/0.94:x_cord/0.96
+           
+    }
+    else if(initialscale>=5700 && initialscale<6100){
+      box_width_y=box_width_y/0.9
+      box_width_x=box_width_x/0.9
+      y_cord =y_cord<=0?1: y_cord<=100?y_cord/0.80: (y_cord<300&& y_cord>=100)?y_cord/0.82:(y_cord<500&& y_cord>=300)?y_cord/0.86:y_cord/0.88;
+      x_cord =x_cord<150?x_cord/0.75:(x_cord<200&& x_cord>=150)?x_cord/0.80:( x_cord<350&&x_cord>=200)?x_cord/0.83
+              :( x_cord<550&&x_cord>=350)?x_cord/0.85:( x_cord<800&&x_cord>=550)?x_cord/0.87:x_cord/0.88
+         
+  }
+  else if(initialscale>=6100 && initialscale<6500){
+    box_width_y=box_width_y/0.88
+    box_width_x=box_width_x/0.88
+    y_cord =y_cord<=0?1: y_cord<=100?y_cord/0.75: (y_cord<300&& y_cord>100)?y_cord/0.77:(y_cord<400&& y_cord>=300)?y_cord/0.80
+            :(y_cord<600&& y_cord>=400)?y_cord/0.82:(y_cord<700&& y_cord>=600)?y_cord/0.84:y_cord/0.86;
+    
+    x_cord =x_cord<100?x_cord/0.70:(x_cord<150&& x_cord>=100)?x_cord/0.72:(x_cord<250&& x_cord>=150)?x_cord/0.75
+            :( x_cord<550&&x_cord>=250)?x_cord/0.80:( x_cord<1100&&x_cord>=550)?x_cord/0.82:x_cord/0.83       
+}
+else if(initialscale>=6500 && initialscale<7100){
+  box_width_y=box_width_y/0.8
+  box_width_x=box_width_x/0.8
+  y_cord = y_cord<=0?1:y_cord<=100?y_cord/0.65: (y_cord<200&& y_cord>100)?y_cord/0.72:(y_cord<300&& y_cord>=200)?y_cord/0.74
+          :(y_cord<450&& y_cord>=300)?y_cord/0.76:(y_cord<800&& y_cord>=450)?y_cord/0.78:y_cord/0.80;
+  
+  x_cord =x_cord<100?x_cord/0.65:(x_cord<200&& x_cord>=100)?x_cord/0.68:(x_cord<300&& x_cord>=200)?x_cord/0.73
+          :( x_cord<450&&x_cord>=300)?x_cord/0.75:( x_cord<900&&x_cord>=450)?x_cord/0.77:x_cord/0.78      
+}
+else if(initialscale>=7100 && initialscale<7500){
+  box_width_y=box_width_y/0.75
+  box_width_x=box_width_x/0.75
+  y_cord = y_cord<=0?1:y_cord<=100?y_cord/0.60: (y_cord<200&& y_cord>100)?y_cord/0.68:(y_cord<350&& y_cord>=200)?y_cord/0.71
+          :(y_cord<700&& y_cord>=350)?y_cord/0.73:(y_cord<800&& y_cord>=700)?y_cord/0.75:y_cord/0.78;
+  
+  x_cord =x_cord<100?x_cord/0.60:(x_cord<200&& x_cord>=100)?x_cord/0.65:(x_cord<450&& x_cord>=200)?x_cord/0.71
+          :( x_cord<550&&x_cord>=450)?x_cord/0.72:( x_cord<1000&&x_cord>=550)?x_cord/0.73:x_cord/0.74       
+}
+else if(initialscale>=7500 && initialscale<8000){
+  box_width_y=box_width_y/0.72
+  box_width_x=box_width_x/0.72
+  y_cord = y_cord<=0?1:y_cord<=100?y_cord/0.60: (y_cord<300&& y_cord>100)?y_cord/0.66:(y_cord<600&& y_cord>=300)?y_cord/0.68
+          :(y_cord<700&& y_cord>=600)?y_cord/0.70:(y_cord<800&& y_cord>=700)?y_cord/0.75:y_cord/0.78;
+  
+  x_cord =x_cord<100?x_cord/0.59:(x_cord<200&& x_cord>=100)?x_cord/0.62:(x_cord<300&& x_cord>=200)?x_cord/0.65
+          :( x_cord<600&&x_cord>=300)?x_cord/0.68:( x_cord<1000&&x_cord>=600)?x_cord/0.70:x_cord/0.70       
+}
+    else{
       console.log("i am inside else")
       box_width_y =box_width_y;
       box_width_x = box_width_x;
-      y_cord = y_cord;
+      y_cord =y_cord<=0?1: y_cord;
       x_cord = x_cord;
     }
-
-
-    // console.log(box_width_x,"box_width_x");
-    // console.log(box_width_y,"box_width_y");
     let cordinates =
       x_cord + "," + parseInt(y_cord) + "," + box_width_x + "," + box_width_y;
-      console.log(cordinates,"cordinates");
+      console.log("x_cord--->",x_cord, "y_cord-->",y_cord,"box width x-->",box_width_x,"box width y-->",box_width_y);
     addLinkToPdf(cordinates, page_no, embed_url, file);
   };
 
