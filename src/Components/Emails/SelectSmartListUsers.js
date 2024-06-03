@@ -1960,161 +1960,107 @@ const SelectSmartListUsers = (props) => {
                           );
                         })
                       }
+{sortData(readers, sortBy, sortOrder)?.map((reader, index) => {
+  return (
+    <React.Fragment key={index}>
+      <tr
+        id={`row-selected` + index}
+        onClick={() =>
+          editing(
+            reader.profile_id,
+            reader.profile_user_id,
+            reader.email,
+            reader.jobTitle,
+            reader.company,
+            reader.country,
+            reader.first_name + " " + reader.last_name,
+            reader.contact_type
+          )
+        }
+      >
+        <td
+          id={`field_name` + reader.profile_user_id}
+          contentEditable={editable === 0 ? "false" : "true"}
+        >
+          <span>
+            {reader.first_name
+              ? reader.first_name + " " + reader.last_name
+              : "N/A"}
+          </span>
+        </td>
+        <td id={`field_email` + reader.profile_user_id}>
+          {reader.email ? reader.email : "N/A"}
+        </td>
+        <input
+          type="hidden"
+          id={`field_index` + reader.profile_user_id}
+          value={index}
+        />
+        <td id={`field_bounced` + reader.profile_user_id}>
+          {reader.bounce ? reader.bounce : "N/A"}
+        </td>
+        <td>
+          {editable ? (
+            <EditCountry
+              selected_country={reader.country}
+              profile_user={reader.profile_user_id}
+            />
+          ) : (
+            <span>{reader.country ? reader.country : "N/A"}</span>
+          )}
+        </td>
+        <td>
+          {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="
+            ? reader?.irt
+              ? "Yes"
+              : "No"
+            : reader.ibu && reader.ibu !== 0
+              ? reader.ibu
+              : "N/A"}
+        </td>
+        <td>
+          {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? (
+            <span>{reader.user_type !== 0 ? reader?.user_type : "N/A"}</span>
+          ) : editable ? (
+            <EditContactType
+              selected_ibu={reader.contact_type}
+              profile_user={reader.profile_user_id}
+            />
+          ) : (
+            <span>{reader.contact_type ? reader.contact_type : "N/A"}</span>
+          )}
+        </td>
+        {!showLessInfo && (
+          <>
+            <td>
+              <span>{reader.consent ? reader.consent : "N/A"}</span>
+            </td>
+            <td>
+              <span>{reader.email_received ? reader.email_received : "N/A"}</span>
+            </td>
+            <td>
+              <span>{reader.email_opening ? reader.email_opening : "N/A"}</span>
+            </td>
+            <td>
+              <span>{reader.registration ? reader.registration : "N/A"}</span>
+            </td>
+            <td>
+              <span>{reader.last_email ? reader.last_email : "N/A"}</span>
+            </td>
+          </>
+        )}
+        <td className="delete_row" colSpan="12">
+          <img
+            src={path_image + "delete.svg"}
+            alt="Delete Row"
+            onClick={() => deleteReader(index)}
+          />
+        </td>
+      </tr>
+    </React.Fragment>
+  );
+})}
 
-                      {sortData(readers, sortBy, sortOrder)?.map(
-                        (readers, i) => {
-                          return (
-                            <>
-                              <tr
-                                id={`row-selected` + i}
-                                onClick={(e) =>
-                                  editing(
-                                    readers.profile_id,
-                                    readers.profile_user_id,
-                                    readers.email,
-                                    readers.jobTitle,
-                                    readers.company,
-                                    readers.country,
-                                    readers.first_name +
-                                      " " +
-                                      readers.last_name,
-                                    readers.contact_type
-                                  )
-                                }
-                              >
-                                <td
-                                  id={`field_name` + readers.profile_user_id}
-                                  contentEditable={
-                                    editable === 0 ? "false" : "true"
-                                  }
-                                >
-                                  <span>
-                                    {" "}
-                                    {readers.first_name
-                                      ? readers.first_name +
-                                        " " +
-                                        readers.last_name
-                                      : "N/A"}{" "}
-                                  </span>
-                                </td>
-                                <td
-                                  id={`field_email` + readers.profile_user_id}
-                                >
-                                  {readers.email ? readers.email : "N/A"}
-                                </td>
-                                <input
-                                  type="hidden"
-                                  id={`field_index` + readers.profile_user_id}
-                                  value={i}
-                                />
-                                <td
-                                  id={`field_bounced` + readers.profile_user_id}
-                                >
-                                  {readers.bounce ? readers.bounce : "N/A"}
-                                </td>
-                                <td>
-                                  {editable ? (
-                                    <EditCountry
-                                      selected_country={readers.country}
-                                      profile_user={readers.profile_user_id}
-                                    ></EditCountry>
-                                  ) : (
-                                    <span>
-                                      {readers.country
-                                        ? readers.country
-                                        : "N/A"}
-                                    </span>
-                                  )}
-                                </td>
-                                <td>
-                                  {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                  {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? readers?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    : readers.ibu && readers.ibu != 0
-                                    ? readers.ibu
-                                    : "N/A"}
-                                </td>
-                                <td>
-                                  {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                    <span>
-                                      {readers.user_type != 0
-                                        ? readers?.user_type
-                                        : "N/A"}
-                                    </span>
-                                  ) : editable ? (
-                                    <EditContactType
-                                      selected_ibu={readers.contact_type}
-                                      profile_user={readers.profile_user_id}
-                                    ></EditContactType>
-                                  ) : (
-                                    <span>
-                                      {readers.contact_type
-                                        ? readers.contact_type
-                                        : "N/A"}
-                                    </span>
-                                  )}
-                                </td>
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers.consent
-                                        ? readers.consent
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers.email_received
-                                        ? readers.email_received
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers.email_opening
-                                        ? readers.email_opening
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers.registration
-                                        ? readers.registration
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                {showLessInfo == false ? (
-                                  <td>
-                                    <span>
-                                      {readers.last_email
-                                        ? readers.last_email
-                                        : "N/A"}
-                                    </span>
-                                  </td>
-                                ) : null}
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Add Row"
-                                    onClick={() => deleteReader(i)}
-                                  />
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        }
-                      )}
 
 { (sortData(readers, sortBy, sortOrder)?.length<1 && readersNewlyAdded?.length<1) &&(
                         <tr className="no-user-selected">
