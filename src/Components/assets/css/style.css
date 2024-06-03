@@ -2723,6 +2723,14 @@ form .input-group {
   max-height: 296px;
   overflow-y: auto;
   margin-top: 10px;
+  padding-right: 8px;
+  border-bottom: 1px dashed #0066be;
+}
+.result-hcp-table .unsubscribe-users-table table thead tr th {
+  position: sticky;
+  top: 0;
+  background: #fbfcfd;
+  z-index: 2;
 }
 .result-hcp-table .table tbody tr.unsubscribe-users .unsubscribe-users-table {
   height: 250px;
