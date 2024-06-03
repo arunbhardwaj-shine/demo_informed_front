@@ -9243,17 +9243,31 @@ svg.pencil_icon {
 /**Library Responsive**/
 
 @media only screen and (min-width: 1921px) {
-  .spc-delete .email_box {
-    max-width: 100%;
-    flex: 0 0 100%;
+  .spc-delete {
+    .email_box {
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
   }
 
-  .tab-mail-list.data .progress {
-    width: 150px;
+  .tab-mail-list {
+    &.data {
+      .progress {
+        width: 150px;
+      }
+    }
   }
 
-  ul.tab-mail-list.data span.total-left {
-    font-size: 12px;
+  ul {
+    &.tab-mail-list {
+      &.data {
+        span {
+          &.total-left {
+            font-size: 12px;
+          }
+        }
+      }
+    }
   }
 
   .data-progress {
@@ -9261,95 +9275,180 @@ svg.pencil_icon {
     padding: 0px 0 0 20px;
   }
 
-  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
-    padding: 7px 7px;
-    font-size: 13px;
+  .library-content-box-layuot {
+    .doc-content-main-box {
+      .tab-content {
+        .data-main-footer-sec {
+          .footer-btn-wrapper {
+            .footer-btn {
+              padding: 7px 7px;
+              font-size: 13px;
+            }
+          }
+        }
+
+        .tab-mail-list {
+          &.change {
+            .form-group {
+              .split-button-dropup {
+                &>div {
+                  &:nth-child(3) {
+                    div {
+                      padding-left: 0;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
   }
 
-  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup>div:nth-child(3) div {
-    padding-left: 0;
-  }
-
-  .select-mail-template.library-cosent .email-form form {
-    padding: 0 12px;
+  .select-mail-template {
+    &.library-cosent {
+      .email-form {
+        form {
+          padding: 0 12px;
+        }
+      }
+    }
   }
 }
 
 @media only screen and (max-width: 1900px) {
-  .tab-mail-list.data .progress {
-    width: 145px;
+  .tab-mail-list {
+    &.data {
+      .progress {
+        width: 145px;
+      }
+    }
   }
 
   .data-progress {
     margin-right: 4px;
   }
+
 }
 
 @media only screen and (max-width: 1700px) {
   .library-content-box-layuot {
     gap: 0% 2%;
+
+    .doc-content-main-box {
+      flex: 0 0 32%;
+      margin: 20px 0 30px;
+
+      .tab-content {
+        .data-main-footer-sec {
+          .footer-btn-wrapper {
+            .footer-btn {
+              padding: 7px 10px;
+            }
+          }
+        }
+      }
+    }
   }
 
   .library_create {
     gap: 74px 9%;
+
+    .library_create-box {
+      flex: 0 0 32.3%;
+    }
   }
 
-  .spc-edit .smartlist-view.email_box .mail-box-content table td {
-    padding: 5px;
+  .spc-edit {
+    .smartlist-view {
+      &.email_box {
+        .mail-box-content {
+          table {
+            td {
+              padding: 5px;
+            }
+          }
+        }
+      }
+
+      .mail-box-content {
+        table {
+          th {
+            width: 95px;
+            padding-right: 5px;
+          }
+        }
+      }
+    }
   }
 
-  .create-change-content .form-group .split-button-dropup div:nth-child(3)>div div[class*="-multiValue"] {
-    margin: 2px;
+  .create-change-content {
+    .form-group {
+      .split-button-dropup {
+        div {
+          &:nth-child(3) {
+            &>div {
+              div[class*="-multiValue"] {
+                margin: 2px;
+
+                &>div {
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.margin-added {
+        .add_product {
+          margin-right: -205px;
+        }
+      }
+    }
+
+    .upload-file-box {
+      .box {
+        p {
+          font-size: 15px;
+        }
+      }
+    }
+
+    .inputfile {
+      &~label {
+        padding: 9px;
+        font-size: 15px;
+        min-width: 150px;
+      }
+    }
+
+    &.spc-content {
+      .embedding-video {
+        .side-step-text {
+          p {
+            font-size: 18px;
+          }
+        }
+      }
+    }
   }
 
-  .create-change-content .form-group .split-button-dropup div:nth-child(3)>div div[class*="-multiValue"]>div {
-    font-size: 14px;
-  }
-
-  .spc-edit .smartlist-view .mail-box-content table th {
-    width: 95px;
-    padding-right: 5px;
-  }
-
-  .library_create .library_create-box {
-    flex: 0 0 32.3%;
-  }
-
-  .create-change-content .upload-file-box .box p {
-    font-size: 15px;
-  }
-
-  .create-change-content .inputfile~label {
-    padding: 9px;
-    font-size: 15px;
-    min-width: 150px;
-  }
-
-  .create-change-content .form-group.margin-added .add_product {
-    margin-right: -205px;
-  }
-
-  .create-change-content.spc-content .embedding-video .side-step-text p {
-    font-size: 18px;
-  }
-
-  .library-content-box-layuot .doc-content-main-box {
-    flex: 0 0 32%;
-    margin: 20px 0 30px;
-  }
-
-  .tab-mail-list.data .progress {
-    width: 100%;
-    max-width: 145px;
+  .tab-mail-list {
+    &.data {
+      .progress {
+        width: 100%;
+        max-width: 145px;
+      }
+    }
   }
 
   .data-progress {
     width: 100%;
   }
 
-  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
-    padding: 7px 10px;
-  }
 }
 
 @media only screen and (max-width: 1650px) {
