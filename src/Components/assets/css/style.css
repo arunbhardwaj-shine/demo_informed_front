@@ -2750,6 +2750,15 @@ padding-bottom: 10px;
   background: #fbfcfd;
   z-index: 2;
 }
+.result-hcp-table .unsubscribe-users-table table thead tr th:last-child:after {
+  content: "";
+  position: absolute;
+  width: 35px;
+  height: 26px;
+  right: -16px;
+  background: #fbfcfd;
+  top: 0px;
+}
 .result-hcp-table .table tbody tr.unsubscribe-users .unsubscribe-users-table {
   height: 250px;
   overflow-y: auto;

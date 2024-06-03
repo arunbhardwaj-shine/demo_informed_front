@@ -1123,13 +1123,16 @@ const WebinarSelectSmartListUsers = (props) => {
               <section className="search-hcp">
                 <div className="result-hcp-table">
                   <div className="table-title">
-                    <h4>
+                    <h4 className="d-flex">
                       HCPs{" "}
-                      <span>
-                        |{" "}
+                      <span style={{marginRight:'10px'}}>
+                        -{" "}
                         {(readersNewlyAdded?.length || 0) +
                           (readers?.length || 0)}{" "}
-                      </span>
+                      </span> |
+                      <div className="ml-3" style={{ color: '#d61975', marginLeft:'10px'}}>
+                        Unsubscribed<span>- {unSubscribedUsers?.length || 0}</span>
+                      </div>
                     </h4>
                     <div className="selected-hcp-table-action">
                       {editable == false ? (
