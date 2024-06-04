@@ -3282,6 +3282,10 @@ h5 {
 .email-unsubscribe .unsubscribe-users-table table th {
   padding-top: 0;
 }
+.search-hcp .email-unsubscribe .deleted.accordion .accordion-header button.accordion-button,
+.result-hcp-table .email-unsubscribe .table tbody tr.hcps-deleted {
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+}
 .search-hcp .smart-list-dropdown .accordion .accordion-item .accordion-body {
   border-top: 0;
   padding: 10px 24px 14px;
