@@ -2719,23 +2719,14 @@ form .input-group {
   background: transparent;
   padding-left: 0;
 }
-.unsubscribe-users-table {
+/* .unsubscribe-users-table {
   max-height: 296px;
   overflow-y: auto;
   margin-top: 10px;
   padding-right: 8px;
   padding-left: 20px;
  
-}
-.selected-hcp-list.unsub{
-border-bottom: 1px dashed #0066be;
-padding-bottom: 10px;
-}
-.unsubscribe-users-table table{margin:0;}
-.result-hcp-table .table tbody tr.no-user-selected {
-  box-shadow: none;
-  text-align: center;
-}
+} */
 
 .result-hcp-table .table tbody tr.no-user-selected td {
   background: transparent;
@@ -2744,13 +2735,13 @@ padding-bottom: 10px;
   padding: 70px 0;
   line-height: 1;
 }
-.result-hcp-table .unsubscribe-users-table table thead tr th {
+/* .result-hcp-table .unsubscribe-users-table table thead tr th {
   position: sticky;
   top: 0;
   background: #fbfcfd;
   z-index: 2;
-}
-.result-hcp-table .unsubscribe-users-table table thead tr th:last-child:after {
+} */
+/* .result-hcp-table .unsubscribe-users-table table thead tr th:last-child:after {
   content: "";
   position: absolute;
   width: 35px;
@@ -2758,7 +2749,7 @@ padding-bottom: 10px;
   right: -16px;
   background: #fbfcfd;
   top: 0px;
-}
+} */
 .result-hcp-table .table tbody tr.unsubscribe-users .unsubscribe-users-table {
   height: 250px;
   overflow-y: auto;
@@ -3235,7 +3226,62 @@ h5 {
   border-top: .5px dashed var(--skyblue);
   padding: 10px 20px;
 }
+.search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button {
+  padding: 16px 50px 16px 16px;
+  color: #004A89;
+  font-size: 20px;
+  font-weight: 600;
+  justify-content: flex-start;
+}
 
+.search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button span {
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.selected-hcp-list.unsub {
+  border-bottom: 1px dashed #0066be;
+  padding-bottom: 10px;
+}
+
+.unsubscribe-users-table table {
+  margin: 0;
+}
+
+.result-hcp-table .table tbody tr.no-user-selected {
+  box-shadow: none;
+  text-align: center;
+}
+
+.search-hcp .accordion .content_unsubscribed,
+.search-hcp .accordion .content_added,
+.search-hcp .accordion .content_deleted {
+  border-radius: 13px;
+  background: #FFF;
+}
+
+.search-hcp .accordion .content_unsubscribed {
+  box-shadow: 0px 0px 10px 0px #FAC755;
+}
+
+.search-hcp .accordion .content_added {
+  box-shadow: 0px 0px 10px 0px #77D1C9;
+  ;
+}
+
+.search-hcp .accordion .content_deleted {
+  box-shadow: 0px 0px 10px 0px #B91B68;
+}
+.search-hcp .email-unsubscribe .accordion .accordion-item .accordion-body {
+  border: 0;
+  border-top: .5px dashed var(--skyblue);
+}
+.search-hcp .email-unsubscribe .accordion .accordion-item {
+  margin: 0 0 24px;
+}
+.email-unsubscribe .unsubscribe-users-table table th {
+  padding-top: 0;
+}
 .search-hcp .smart-list-dropdown .accordion .accordion-item .accordion-body {
   border-top: 0;
   padding: 10px 24px 14px;

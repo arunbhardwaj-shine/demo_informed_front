@@ -1263,9 +1263,9 @@ const SelectSmartListUsers = (props) => {
                 <div className="result-hcp-table">
                   <div className="table-title">
                     <h4 className="d-flex">
-                      {/* <div className="ml-3" >
-                        Unsubscribed<span>| {unSubscribedUsers?.length || 0}</span>
-                      </div> */}
+                      <div className="ml-3" >
+                        HCPs
+                      </div>
                     </h4>
                     <div className="selected-hcp-table-action">
                       {editable == false ? (
@@ -1369,19 +1369,19 @@ const SelectSmartListUsers = (props) => {
                       ) : null}
                     </div>
                   </div>
+                  <div className="email-unsubscribe">
                   <Accordion
                     // onSelect={handleReaderAccordionOpen}
                     className="content_analytics_accordian"
                     defaultActiveKey={'4'}
                   >
-                    <Accordion.Item eventKey="1">
+                    <Accordion.Item eventKey="1" className="content_unsubscribed">
                       <Accordion.Header>
-                        Unsubscribed | {unSubscribedUsers?.length || 0}
+                          Unsubscribed  <span>| {unSubscribedUsers?.length || 0}</span>
                         {/* <span>| </span> */}
                       </Accordion.Header>
 
                       <Accordion.Body>
-                        <div className="selected-hcp-list unsub">
                           <div className="unsubscribe-users-table">
                             <table className="table">
                               <thead>
@@ -1686,17 +1686,15 @@ const SelectSmartListUsers = (props) => {
                               </tbody>
                             </table>
                           </div>
-                        </div>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="2">
+                    <Accordion.Item eventKey="2" className="content_added">
                       <Accordion.Header>
-                        Added | {readersNewlyAdded?.length || 0}
+                          Added <span>| {readersNewlyAdded?.length || 0}</span>
                         {/* <span>| </span> */}
                       </Accordion.Header>
 
                       <Accordion.Body>
-                        <div className="selected-hcp-list unsub">
                           <div className="unsubscribe-users-table">
                             <table className="table">
                               <thead>
@@ -2030,17 +2028,15 @@ const SelectSmartListUsers = (props) => {
                               </tbody>
                             </table>
                           </div>
-                        </div>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="3">
+                    <Accordion.Item eventKey="3" className="content_deleted">
                       <Accordion.Header>
-                        Deleted | {removedReaders?.length || 0}
+                          Deleted <span>| {removedReaders?.length || 0}</span>
                         {/* <span>| </span> */}
                       </Accordion.Header>
 
                       <Accordion.Body>
-                        <div className="selected-hcp-list unsub">
                           <div className="unsubscribe-users-table">
                             <table className="table">
                               <thead>
@@ -2345,18 +2341,17 @@ const SelectSmartListUsers = (props) => {
                               </tbody>
                             </table>
                           </div>
-                        </div>
                       </Accordion.Body>
                     </Accordion.Item>
 
-                    <Accordion.Item eventKey="4">
+                    <Accordion.Item eventKey="4" className="content_hcps">
                       <Accordion.Header>
-                        HCPs |{" "}
+                          HCPs <span>| {" "}
                         {/* {(readersNewlyAdded?.length || 0) +
                           (readers?.length || 0)}{" "} */}
                                     {
                                
-                          (readers?.length || 0)}{" "}
+                              (readers?.length || 0)}{" "}</span>
                       </Accordion.Header>
 
                       <Accordion.Body>
@@ -2736,6 +2731,7 @@ const SelectSmartListUsers = (props) => {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
+                  </div>
                 </div>
               </section>
             )}
