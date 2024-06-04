@@ -949,6 +949,29 @@
                 "required": "yes"
             },
             {
+                "label": "Nationality",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "nationality"
+            },
+            {
+                "label": "Date of Birth",
+                "name": "dateOfBirth",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
                 "label": "Email",
                 "name": "userEmail",
                 "inputType": "email",

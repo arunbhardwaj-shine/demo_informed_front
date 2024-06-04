@@ -668,9 +668,9 @@ const SelectSmartListUsers = (props) => {
     const readersRemoved = removedReaders;
     readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
-    setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
+    // setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
 
-    //setReaders((oldArray) => [reader, ...oldArray]);
+    setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
   };
   const addMoreHcp = () => {

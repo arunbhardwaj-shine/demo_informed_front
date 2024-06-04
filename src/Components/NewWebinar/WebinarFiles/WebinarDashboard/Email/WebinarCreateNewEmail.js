@@ -149,6 +149,8 @@ const WebinarCreateNewEmail = (props) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [isOpenAdd, setIsOpenAdd] = useState(false);
+    const [irtRole, setIrtRole] = useState([]);
+
     const [hpc, setHpc] = useState([
         {
             firstname: "",
@@ -168,7 +170,6 @@ const WebinarCreateNewEmail = (props) => {
             institutionType: "",
         },
     ]);
-    const [irtRole, setIrtRole] = useState([]);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");
     const [addListOpen, setAddListOpen] = useState(false);

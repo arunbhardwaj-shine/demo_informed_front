@@ -5,32 +5,21 @@ import { loader } from "../../../../../loader";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
-import { Modal, Dropdown, Accordion } from "react-bootstrap";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import {  Accordion } from "react-bootstrap";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
-import Select, { createFilter } from "react-select";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 var old_object = {};
 const WebinarSelectSmartListUsers = (props) => {
-  const { eventIdContext, handleEventId } = useSidebar();
+  const { eventIdContext } = useSidebar();
   const switch_account_detail = JSON.parse(
     localStorage.getItem("switch_account_detail")
   );
-  const [localStorageUserId, setLocalStorageUserId] = useState(
-    switch_account_detail != null &&
-      switch_account_detail != "undefined" &&
-      switch_account_detail
-      ? switch_account_detail?.user_id
-      : localStorage.getItem("user_id")
-  );
+  const localStorageUserId = switch_account_detail?.user_id || localStorage.getItem("user_id");
+
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId
-      ? eventIdContext?.eventId
-      : localStorageEvent?.eventId
-  );
+  const [eventId, setEventId] = useState(eventIdContext?.eventId || localStorageEvent?.eventId);
   const [totalData, setTotalData] = useState({});
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
@@ -490,9 +479,9 @@ const WebinarSelectSmartListUsers = (props) => {
     const readersRemoved = removedReaders;
     readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
-    setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
+    // setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
 
-    //setReaders((oldArray) => [reader, ...oldArray]);
+    setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
   };
 
@@ -553,9 +542,7 @@ const WebinarSelectSmartListUsers = (props) => {
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
       ).value;
-      {
-      }
-
+  
       const contact_type_edit =
         localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
           ? document.getElementById("field_contact_type" + profile_user_id)
@@ -717,7 +704,6 @@ const WebinarSelectSmartListUsers = (props) => {
   };
 
   const saveClicked = async () => {
-    //   setIsOpenAdd(false);
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
         if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -752,100 +738,7 @@ const WebinarSelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-      // const status = body.data?.map((data, index) => {
-      //   if (
-      //     data.email == "" ||
-      //     data?.institution_type == "" ||
-      //     data.first_name == "" ||
-      //     data.last_name == "" ||
-      //     data.country == ""
-      //   ) {
-      //     if (
-      //       data.first_name == "" &&
-      //       localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-      //     ) {
-      //       setValidationError({
-      //         newHcpFirstName: "Please enter the first name",
-      //         index: index,
-      //       });
-      //       return;
-      //     }
-      //     if (
-      //       data.last_name == "" &&
-      //       localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-      //     ) {
-      //       setValidationError({
-      //         newHcpLastName: "Please enter the last name",
-      //         index: index,
-      //       });
-      //       return;
-      //     }
-      //     if (data.email == "") {
-      //       setValidationError({
-      //         newHcpEmail: "Please enter the email atleast",
-      //         index: index,
-      //       });
-
-      //       return;
-      //     }
-
-      //     if (
-      //       data.institution_type == "" &&
-      //       localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-      //     ) {
-      //       setValidationError({
-      //         newHcpInstitution: "Please enter the institution ",
-      //         index: index,
-      //       });
-      //       return;
-      //     }
-
-      //     if (
-      //       data.country == "" &&
-      //       localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-      //     ) {
-      //       setValidationError({
-      //         newHcpCountry: "Please select the country",
-      //         index: index,
-      //       });
-      //       return;
-      //     }
-      //     return "true";
-      //   } else if (data.email != "") {
-      //     console.log("email",data.email)
-      //     let email = data.email;
-      //     let useremail = email.trim();
-      //     var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      //     if (regex.test(String(useremail).toLowerCase())) {
-      //       console.log("NEW USER ADDED",readers,readersNewlyAdded)
-      //       let prev_obj = readers.find((x) => x.email === useremail);
-      //       let prev_obj_new = readersNewlyAdded.find(
-      //         (x) => x.email === useremail
-      //       );
-
-      //       if (
-      //         typeof prev_obj != "undefined" ||
-      //         typeof prev_obj_new != "undefined"
-      //       ) {
-      //         setValidationError({
-      //           newHcpEmail: "User with same email already added in list.",
-      //           index: index,
-      //         });
-      //         return;
-      //       }
-      //     } else {
-      //       setValidationError({
-      //         newHcpEmail: "Email format is not valid",
-      //         index: index,
-      //       });
-      //       return;
-      //     }
-      //     return "true";
-      //   } else {
-      //     return "true";
-      //   }
-      // });
-
+  
       const status = body.data.map((data, index) => {
         if (
           data.first_name == "" &&
