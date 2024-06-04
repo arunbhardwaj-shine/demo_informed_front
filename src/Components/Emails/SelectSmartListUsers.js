@@ -2352,7 +2352,10 @@ const SelectSmartListUsers = (props) => {
                     <Accordion.Item eventKey="4">
                       <Accordion.Header>
                         HCPs |{" "}
-                        {(readersNewlyAdded?.length || 0) +
+                        {/* {(readersNewlyAdded?.length || 0) +
+                          (readers?.length || 0)}{" "} */}
+                                    {
+                               
                           (readers?.length || 0)}{" "}
                       </Accordion.Header>
 
