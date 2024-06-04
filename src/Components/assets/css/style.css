@@ -2711,6 +2711,65 @@ form .input-group {
   border-spacing: 0px 10px;
 }
 
+.result-hcp-table .table tbody tr.unsubscribe-users {
+  box-shadow: none;
+}
+
+.result-hcp-table .table tbody tr.unsubscribe-users>td {
+  background: transparent;
+  padding-left: 0;
+}
+/* .unsubscribe-users-table {
+  max-height: 296px;
+  overflow-y: auto;
+  margin-top: 10px;
+  padding-right: 8px;
+  padding-left: 20px;
+ 
+} */
+
+.result-hcp-table .table tbody tr.no-user-selected td {
+  background: transparent;
+  font-size: 32px;
+  color: #97B6CF;
+  padding: 50px 0;
+  line-height: 1;
+}
+.search-hcp .email-unsubscribe table {
+    margin: 0;
+}
+.search-hcp .email-unsubscribe .accordion .content_hcps.accordion-item {
+  position: relative;
+  margin-top: 56px;
+}
+
+.search-hcp .email-unsubscribe .accordion .content_hcps.accordion-item:before {
+  content: "";
+  position: absolute;
+  border-top: 1px dashed var(--light-blue);
+  width: 100%;
+  top: -24px;
+}
+/* .result-hcp-table .unsubscribe-users-table table thead tr th {
+  position: sticky;
+  top: 0;
+  background: #fbfcfd;
+  z-index: 2;
+} */
+/* .result-hcp-table .unsubscribe-users-table table thead tr th:last-child:after {
+  content: "";
+  position: absolute;
+  width: 35px;
+  height: 26px;
+  right: -16px;
+  background: #fbfcfd;
+  top: 0px;
+} */
+.result-hcp-table .table tbody tr.unsubscribe-users .unsubscribe-users-table {
+  height: 250px;
+  overflow-y: auto;
+  padding-left: 17px;
+}
 .graph-box .graph-data table {
   margin: 0;
   border-spacing: 0 12px;
@@ -3180,9 +3239,69 @@ h5 {
 
 .search-hcp .accordion .accordion-item .accordion-body {
   border-top: .5px dashed var(--skyblue);
-  padding: 10px 20px;
+  padding: 2px 11px 10px; 
 }
 
+.search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button {
+  padding: 16px 50px 16px 16px;
+  color: var(--dark-blue);
+  font-size: 20px;
+  font-weight: 600;
+  justify-content: flex-start;
+}
+
+.search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button span {
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.selected-hcp-list.unsub {
+  border-bottom: 1px dashed var(--light-blue);
+  padding-bottom: 10px;
+}
+
+.unsubscribe-users-table table {
+  margin: 0;
+}
+
+.result-hcp-table .table tbody tr.no-user-selected {
+  box-shadow: none;
+  text-align: center;
+}
+
+.search-hcp .accordion .content_unsubscribed,
+.search-hcp .accordion .content_added,
+.search-hcp .accordion .content_deleted {
+  border-radius: 13px;
+  background: #FFF;
+}
+
+.search-hcp .accordion .content_unsubscribed {
+  box-shadow: 0px 0px 10px 0px #FAC755;
+}
+
+.search-hcp .accordion .content_added {
+  box-shadow: 0px 0px 10px 0px #77D1C9;
+}
+
+.search-hcp .accordion .content_deleted {
+  box-shadow: 0px 0px 10px 0px #B91B68;
+}
+.search-hcp .email-unsubscribe .accordion .accordion-item .accordion-body {
+  border: 0;
+  border-top: .5px dashed var(--skyblue);
+}
+.search-hcp .email-unsubscribe .accordion .accordion-item {
+  margin: 0 0 24px;
+}
+.email-unsubscribe .unsubscribe-users-table table th {
+  padding-top: 0;
+}
+.email-unsubscribe .hcps-added{position:relative}
+.search-hcp .email-unsubscribe .deleted.accordion .accordion-header button.accordion-button,
+.result-hcp-table .email-unsubscribe .table tbody tr.hcps-deleted {
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+}
 .search-hcp .smart-list-dropdown .accordion .accordion-item .accordion-body {
   border-top: 0;
   padding: 10px 24px 14px;

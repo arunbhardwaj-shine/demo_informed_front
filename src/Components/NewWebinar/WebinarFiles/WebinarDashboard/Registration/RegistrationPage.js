@@ -29,6 +29,7 @@ const userData = {
   name: "userName",
   email: "userEmail",
   country: "country",
+  nationality: "nationality",
   "Your Country": "country",
   state: "state",
   consent: "consent",
@@ -3221,6 +3222,10 @@ const FormField7 = ({
     form.inputType = "selection-state";
   }
 
+  if (label?.includes("nationality") || label?.includes("Nationality")) {
+    form.inputType = "selection-nationality";
+  }
+
   const isRequired = form.required === "yes";
 
   let fieldInput = null;
@@ -3241,7 +3246,7 @@ const FormField7 = ({
     );
   } else if (
     form.inputType === "selection" ||
-    form.inputType === "selection-country" ||
+    form.inputType === "selection-country" || form.inputType === "selection-nationality" || 
     form.inputType === "selection-state"
   ) {
     const options = form.option?.map((op) => ({
@@ -3252,7 +3257,7 @@ const FormField7 = ({
     fieldInput = (
       <Select
         options={
-          form.inputType === "selection-country"
+          form.inputType === "selection-country" || "selection-nationality"
             ? countryList
             : form.inputType === "selection-state"
               ? stateOptions
@@ -3262,6 +3267,7 @@ const FormField7 = ({
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
+        // placeholder={form.inputType === "selection-nationality" ? "Select" : form.placeholder ? form.placeholder : "Select" }
         data-placeholder-color={pageColors?.placeholderTextColor}
       />
     );

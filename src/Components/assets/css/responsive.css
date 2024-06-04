@@ -240,6 +240,10 @@
     top: -19px;
     font-size: 12px;
   }
+    .unsubscribe-users-table {
+      padding-right: 6px;
+      padding-left: 0px;
+    }
 }
 
 @media only screen and (max-width: 1650px) {
@@ -1798,6 +1802,9 @@
   .question-outer-layout .question-action {
     gap: 30px;
   }
+    .search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button {
+      font-size: 17px;
+    }
 .question-listing .answer span.bullet-color {
   margin: 4px 8px 0 0;
 }
@@ -4190,7 +4197,7 @@
   .navbar button.navbar-toggler .navbar-toggler-icon::before,
   .navbar button.navbar-toggler .navbar-toggler-icon:after {
     width: 26px;
-    background: #0066be;
+    background: var(--light-blue);
     height: 2px;
     transition-property: transform;
     transition-duration: .15s;
