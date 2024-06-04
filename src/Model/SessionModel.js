@@ -144,9 +144,14 @@ const [comment,setComment]=useState("")
           updatedArray.push(data);
         }
 
+        // setUserValid({
+        //   ...userValid,
+        //   [questionId]: updatedArray,
+        // });
+
         setUserValid({
           ...userValid,
-          [questionId]: updatedArray,
+          [questionId]: updatedArray?.length>0?updatedArray:0,
         });
       } else {
         setUserValid({
