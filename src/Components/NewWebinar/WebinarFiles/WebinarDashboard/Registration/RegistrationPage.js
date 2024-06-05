@@ -991,13 +991,14 @@ const RegistrationPage = ({ prevData,type }) => {
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>
+                  <p>* This consent is mandatory in order to register for the event.</p>
+                  <p>
                   Octapharma AG is managing the registration for the Aland Island Meeting. By registering and submitting your information, you acknowledge your registration information is transferred
-                 to Octapharma AG headquarters in Switzerland. The data will be held by the Octapharma AG for the purposes of registering for Aland Island Meeting.
-                  </span>
-                  <span>
-                  See our Privacy Notice here.
-                  </span>
+                    to Octapharma AG headquarters in Switzerland. The data will be held by the <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> for the purposes of registering for Aland Island Meeting.
+                  </p>
+                  <p>
+                    See our <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Privacy</a> Notice <a target="_blank" href="https://docintel.app/img/octa/e-templates/ISTH/invitation-of-participants-to-event-data-protection-notice.docx">here</a>.
+                  </p>
                 </div>
               </div>
             </form>
