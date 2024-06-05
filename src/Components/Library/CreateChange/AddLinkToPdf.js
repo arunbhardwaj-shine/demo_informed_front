@@ -854,13 +854,14 @@ const AddLinkToPdf = () => {
           : (x_cord >= 650 && x_cord < 1000) ? x_cord / 2.28 : x_cord / 2.32;
       }else{
         console.log("inside else 2400");
-        box_width_y = box_width_y / 1.9;
-        box_width_x = box_width_x / 2;
-        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.55 : (y_cord >= 100 && y_cord < 300) ? y_cord / 1.6 : (y_cord >= 300 && y_cord < 600) ? y_cord / 1.7
+        box_width_y = box_width_y / 1.85;
+        box_width_x = box_width_x / 1.8;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.55 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.62 
+        :(y_cord >= 200 && y_cord < 300) ? y_cord / 1.7 : (y_cord >= 300 && y_cord < 600) ? y_cord / 1.72
         : (y_cord >= 600 && y_cord < 800) ? y_cord / 1.75 : (y_cord >= 800 && y_cord < 900) ? y_cord / 1.8 : y_cord / 1.9;
       
         x_cord = x_cord < 100 ? x_cord / 1.35 : (x_cord >= 100 && x_cord < 300) ? x_cord / 1.6 : (x_cord >= 300 && x_cord < 550) ? x_cord / 1.72
-        : (x_cord >= 550 && x_cord < 900) ? x_cord /1.75 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 1.8 : x_cord / 1.9;
+        : (x_cord >= 550 && x_cord < 900) ? x_cord /1.75 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 1.77 : x_cord / 1.8;
       }
     }
     //Gagan c-700--->2648
@@ -886,30 +887,57 @@ const AddLinkToPdf = () => {
     }
     //Gagan c-800--->3027
     else if (initialscale >= 2700 && initialscale < 3100) {
-      box_width_y = box_width_y / 1.8
-      box_width_x = box_width_x / 1.8
+      if(screenSize>=1600){
 
-      y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.6 : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.65
-        : (y_cord >= 300 && y_cord < 400) ? y_cord / 1.7 : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.75 : y_cord / 1.75;
+        box_width_y = box_width_y / 1.8
+        box_width_x = box_width_x / 1.8
+  
+        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.6 : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.65
+          : (y_cord >= 300 && y_cord < 400) ? y_cord / 1.7 : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.75 : y_cord / 1.75;
+  
+        x_cord = x_cord < 100 ? x_cord / 1.5 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.6 : (x_cord >= 200 && x_cord < 600) ? x_cord / 1.72
+          : (x_cord >= 600 && x_cord < 800) ? x_cord / 1.75 : (x_cord >= 800 && x_cord < 900) ? x_cord / 1.8 : x_cord / 1.85;
+      }else{
+        console.log("inside 3100 else ");
+        box_width_y = box_width_y / 1.4
+        box_width_x = box_width_x / 1.3
 
-      x_cord = x_cord < 100 ? x_cord / 1.5 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.6 : (x_cord >= 200 && x_cord < 600) ? x_cord / 1.72
-        : (x_cord >= 600 && x_cord < 800) ? x_cord / 1.75 : (x_cord >= 800 && x_cord < 900) ? x_cord / 1.8 : x_cord / 1.85;
+          y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/1.15:(y_cord>=100&&y_cord<200)?y_cord/1.22:(y_cord>=200&&y_cord<300)?y_cord/1.25
+                  :(y_cord>=300&&y_cord<500)?y_cord/1.3:(y_cord>=500&&y_cord<800)?y_cord/1.32 :y_cord/1.35;
+
+          x_cord = x_cord<100?x_cord/1.05:(x_cord>=100&&x_cord<200)?x_cord/1.2:(x_cord>=200&&x_cord<300)?x_cord/1.25
+                    :(x_cord>=300&&x_cord<600)?x_cord/1.3:(x_cord>=600&&x_cord<1000)?x_cord/1.32:x_cord/1.35;
+      }
     }
 
     else if (initialscale >= 3100 && initialscale < 3500) {
       // 3405 900
 
-      box_width_y = box_width_y / 1.6;
-      box_width_x = box_width_x / 1.65;
-      // y_cord =y_cord<=0?1: y_cord/1.53;
-      // x_cord = x_cord/1.54;
+      if(screenSize>=1600){
 
-      y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.55 : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.6
-        : (y_cord >= 300 && y_cord < 400) ? y_cord / 1.62 : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.64 : (y_cord >= 550 && y_cord < 800) ? y_cord / 1.68 : y_cord / 1.7;
+        box_width_y = box_width_y / 1.6;
+        box_width_x = box_width_x / 1.65;
+  
+        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.55 
+        : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.6: (y_cord >= 300 && y_cord < 400) ? y_cord / 1.62 
+        : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.64 : (y_cord >= 550 && y_cord < 800) ? y_cord / 1.68 : y_cord / 1.7;
+  
+        x_cord = x_cord < 100 ? x_cord / 1.40 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.55 : (x_cord >= 200 && x_cord < 400) ? x_cord / 1.64
+          : (x_cord >= 400 && x_cord < 600) ? x_cord / 1.66 : (x_cord >= 600 && x_cord < 1200) ? x_cord / 1.70 
+          : (x_cord > 1200 && x_cord < 1300) ? x_cord / 1.72 : x_cord / 1.74;
+      } else{
+        console.log("inside 3500 else ");
+        box_width_y = box_width_y / 1.2
+        box_width_x = box_width_x / 1.2
 
-      x_cord = x_cord < 100 ? x_cord / 1.40 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.55 : (x_cord >= 200 && x_cord < 400) ? x_cord / 1.64
-        : (x_cord >= 400 && x_cord < 600) ? x_cord / 1.66 : (x_cord >= 600 && x_cord < 1200) ? x_cord / 1.70 : (x_cord > 1200 && x_cord < 1300) ? x_cord / 1.72 : x_cord / 1.74;
-    } else if (initialscale >= 3500 && initialscale < 3800) {
+          y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/0.9:(y_cord>=100&&y_cord<200)?y_cord/1.08:(y_cord>=200&&y_cord<300)?y_cord/1.12
+                  :(y_cord>=300&&y_cord<500)?y_cord/1.15:(y_cord>=500&&y_cord<800)?y_cord/1.2 :y_cord/1.25;
+
+          x_cord = x_cord<100?x_cord/0.9:(x_cord>=100&&x_cord<300)?x_cord/1.05:(x_cord>=300&&x_cord<400)?x_cord/1.1
+                    :(x_cord>=400&&x_cord<600)?x_cord/1.12:(x_cord>=600&&x_cord<700)?x_cord/1.15:(x_cord>=700&&x_cord<900)?x_cord/1.17:x_cord/1.18;
+      }
+      }
+    else if (initialscale >= 3500 && initialscale < 3800) {
       // 3783 1000
       box_width_y = box_width_y / 1.38;
       box_width_x = box_width_x / 1.45;
