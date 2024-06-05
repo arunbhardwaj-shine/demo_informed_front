@@ -2732,8 +2732,23 @@ form .input-group {
   background: transparent;
   font-size: 32px;
   color: #97B6CF;
-  padding: 70px 0;
+  padding: 50px 0;
   line-height: 1;
+}
+.search-hcp .email-unsubscribe table {
+    margin: 0;
+}
+.search-hcp .email-unsubscribe .accordion .content_hcps.accordion-item {
+  position: relative;
+  margin-top: 56px;
+}
+
+.search-hcp .email-unsubscribe .accordion .content_hcps.accordion-item:before {
+  content: "";
+  position: absolute;
+  border-top: 1px dashed var(--light-blue);
+  width: 100%;
+  top: -24px;
 }
 /* .result-hcp-table .unsubscribe-users-table table thead tr th {
   position: sticky;
@@ -3224,11 +3239,12 @@ h5 {
 
 .search-hcp .accordion .accordion-item .accordion-body {
   border-top: .5px dashed var(--skyblue);
-  padding: 10px 20px;
+  padding: 2px 11px 10px; 
 }
+
 .search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button {
   padding: 16px 50px 16px 16px;
-  color: #004A89;
+  color: var(--dark-blue);
   font-size: 20px;
   font-weight: 600;
   justify-content: flex-start;
@@ -3240,7 +3256,7 @@ h5 {
 }
 
 .selected-hcp-list.unsub {
-  border-bottom: 1px dashed #0066be;
+  border-bottom: 1px dashed var(--light-blue);
   padding-bottom: 10px;
 }
 
@@ -11794,7 +11810,7 @@ button.event_sort_btn.svg_active svg {
   font-size: 14px;
   font-weight: 500;
   min-width: 70px;
-  flex: 0 0 70px;
+  flex: 0 0 90px;
 }
 
 .hcp-activity-status .activity-status {

@@ -29,6 +29,7 @@ const userData = {
   name: "userName",
   email: "userEmail",
   country: "country",
+  nationality: "nationality",
   "Your Country": "country",
   state: "state",
   consent: "consent",
@@ -990,10 +991,14 @@ const RegistrationPage = ({ prevData,type }) => {
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>
-                    * This consent is mandatory in order to register for the
-                    event.
-                  </span>
+                  <p>* This consent is mandatory in order to register for the event.</p>
+                  <p>
+                  Octapharma AG is managing the registration for the Aland Island Meeting. By registering and submitting your information, you acknowledge your registration information is transferred
+                    to Octapharma AG headquarters in Switzerland. The data will be held by the <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> for the purposes of registering for Aland Island Meeting.
+                  </p>
+                  <p>
+                    See our <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Privacy</a> Notice <a target="_blank" href="https://docintel.app/img/octa/e-templates/ISTH/invitation-of-participants-to-event-data-protection-notice.docx">here</a>.
+                  </p>
                 </div>
               </div>
             </form>
@@ -3221,6 +3226,10 @@ const FormField7 = ({
     form.inputType = "selection-state";
   }
 
+  if (label?.includes("nationality") || label?.includes("Nationality")) {
+    form.inputType = "selection-nationality";
+  }
+
   const isRequired = form.required === "yes";
 
   let fieldInput = null;
@@ -3241,7 +3250,7 @@ const FormField7 = ({
     );
   } else if (
     form.inputType === "selection" ||
-    form.inputType === "selection-country" ||
+    form.inputType === "selection-country" || form.inputType === "selection-nationality" || 
     form.inputType === "selection-state"
   ) {
     const options = form.option?.map((op) => ({
@@ -3252,7 +3261,7 @@ const FormField7 = ({
     fieldInput = (
       <Select
         options={
-          form.inputType === "selection-country"
+          form.inputType === "selection-country" || "selection-nationality"
             ? countryList
             : form.inputType === "selection-state"
               ? stateOptions
@@ -3262,6 +3271,7 @@ const FormField7 = ({
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
+        // placeholder={form.inputType === "selection-nationality" ? "Select" : form.placeholder ? form.placeholder : "Select" }
         data-placeholder-color={pageColors?.placeholderTextColor}
       />
     );
@@ -3422,13 +3432,14 @@ const FormField7 = ({
       //   : ""
       //   }`}
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
+        }  ${(label?.includes("restrictions")) ? "restrictions" : "" 
+        }  ${(label?.includes("nationality")) ? "nationality" : "" 
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
 
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-      {form.label != "Name" && form.inputType != "email" ? (
+      {/* {form.label != "Name" && form.inputType != "email" ? ( */}
         <label
           style={{
             color: pageColors?.labelColor,
@@ -3439,7 +3450,7 @@ const FormField7 = ({
             // isRequired ? "*" : ""
           }
         </label>
-      ) : null}
+      {/*  ) : null} */}
 
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
