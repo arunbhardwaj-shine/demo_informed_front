@@ -961,7 +961,7 @@
                 ],
                 "required": "yes",
                 "extension": "",
-                "name": "nationality"
+                "name": "country"
             },
             {
                 "label": "Date of Birth",
