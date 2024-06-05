@@ -3434,7 +3434,7 @@ const FormField7 = ({
 
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-      {form.label != "Name" && form.inputType != "email" ? (
+      {/* {form.label != "Name" && form.inputType != "email" ? ( */}
         <label
           style={{
             color: pageColors?.labelColor,
@@ -3445,7 +3445,7 @@ const FormField7 = ({
             // isRequired ? "*" : ""
           }
         </label>
-      ) : null}
+      {/*  ) : null} */}
 
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
