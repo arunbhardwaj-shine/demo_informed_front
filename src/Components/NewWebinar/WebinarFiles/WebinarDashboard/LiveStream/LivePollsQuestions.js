@@ -8,6 +8,8 @@ import QuestionPollsPieChart from "./QuestionPollsPieChart";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { loader } from "../../../../../loader";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { get, off, onValue, orderByChild, ref } from "firebase/database";
+import { database } from "../../../../../config/firebaseConfigOnesource";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const settings = {
@@ -61,8 +63,58 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
     message2: "",
     footerButton: "",
   });
+  const [userIds, setUserIds] = useState([]);
+  const [firstTimeStatus, setFirstTimeStatus] = useState(false);
+  const [totalLive, setTotalLive] = useState(0);
+
+
   const [closedIndex, setClosedIndex] = useState();
- 
+  const getLiveCount = async (questionId) => {
+
+    const usersRef = ref(database, "users");
+    const onlineUsersQuery = query(usersRef, orderByChild("status"));
+  
+    try {
+      const snapshot = await get(onlineUsersQuery);
+      const onlineUserIds = [];
+      snapshot.forEach((userSnapshot) => {
+        const user = userSnapshot.val();
+        if (user?.user_id && user.status === "online") {
+          onlineUserIds.push(user.user_id);
+        }
+      });
+      // setUserIds(onlineUserIds);
+      getEventRegisterReadersGraph("", onlineUserIds,questionId);
+    } catch (error) {
+      console.error("Error fetching online users:", error);
+    }
+  };
+  
+
+const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questionId=0) => {
+  try {
+
+    let body = {
+      eventId: eventData?.id,
+      type: "graph",
+      search: "",
+      user_ids: userids,
+      flag: false,
+      questionId:questionId
+    };
+    const response = await postData(
+      ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
+      body
+    );
+
+    let data = response?.data?.data;
+    setTotalLive(data?.live_count)
+
+  } catch (err) {
+
+    console.log(err);
+  }
+};
   useEffect(() => {
     setShow(false);
     if(firstTimeTab){
@@ -265,6 +317,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
     // finally {
     //   setApiCallStatus(false);
     // }
+    getLiveCount(question_id)
   };
 
   const closedClicked = async (e, question_id, index) => {
@@ -277,7 +330,10 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
     } catch (err) {
       setApiCallStatus(false);
     } finally {
+      getLiveCount(question_id)
+
     }
+
   };
 
   const showConfirmationPopup = () => {
@@ -532,7 +588,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
                                   <label>Total (Live)</label>
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: item?.totalUser,
+                                      __html: (item?.totalUser < Math.max(totalLive, item?.live_count)) ? item?.live_count : item?.totalUser,
                                     }}
                                   ></p>
                                 </div>
