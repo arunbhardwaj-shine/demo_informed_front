@@ -786,7 +786,11 @@ const LiveStream = () => {
         // finalData.ID = item?.id;
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+          finalData.SiteNumber = item?.site_number ? item?.site_number : "N/A";
+        }else{
+          finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        }
         finalData.Status = item?.hcp_status ? item?.hcp_status.trim() : "N/A";
         // finalData.IsOnline = item?.is_online === 1 ? "Yes" : "No";
         if(attendeesTab=="question_ask" || attendeesTab=="not-logged"){
