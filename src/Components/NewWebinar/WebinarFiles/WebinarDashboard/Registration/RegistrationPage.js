@@ -991,10 +991,14 @@ const RegistrationPage = ({ prevData,type }) => {
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>
-                    * This consent is mandatory in order to register for the
-                    event.
-                  </span>
+                  <p>* This consent is mandatory in order to register for the event.</p>
+                  <p>
+                  Octapharma AG is managing the registration for the Aland Island Meeting. By registering and submitting your information, you acknowledge your registration information is transferred
+                    to Octapharma AG headquarters in Switzerland. The data will be held by the <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> for the purposes of registering for Aland Island Meeting.
+                  </p>
+                  <p>
+                    See our <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Privacy</a> Notice <a target="_blank" href="https://docintel.app/img/octa/e-templates/ISTH/invitation-of-participants-to-event-data-protection-notice.docx">here</a>.
+                  </p>
                 </div>
               </div>
             </form>
@@ -3428,7 +3432,8 @@ const FormField7 = ({
       //   : ""
       //   }`}
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
+        }  ${(label?.includes("restrictions")) ? "restrictions" : "" 
+        }  ${(label?.includes("nationality")) ? "nationality" : "" 
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
 
