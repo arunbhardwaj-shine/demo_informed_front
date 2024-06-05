@@ -992,8 +992,11 @@ const RegistrationPage = ({ prevData,type }) => {
                 </div>
                 <div className="footer-sec">
                   <span>
-                    * This consent is mandatory in order to register for the
-                    event.
+                  Octapharma AG is managing the registration for the Aland Island Meeting. By registering and submitting your information, you acknowledge your registration information is transferred
+                 to Octapharma AG headquarters in Switzerland. The data will be held by the Octapharma AG for the purposes of registering for Aland Island Meeting.
+                  </span>
+                  <span>
+                  See our Privacy Notice here.
                   </span>
                 </div>
               </div>
