@@ -997,7 +997,7 @@ const RegistrationPage = ({ prevData,type }) => {
                     to Octapharma AG headquarters in Switzerland. The data will be held by the <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> for the purposes of registering for Aland Island Meeting.
                   </p>
                   <p>
-                    See our <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Privacy</a> Notice <a target="_blank" href="https://docintel.app/img/octa/e-templates/ISTH/invitation-of-participants-to-event-data-protection-notice.docx">here</a>.
+                    See our <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Privacy</a> Notice <a target="_blank" href="https://onesource.octapharma.com/aland-data-protection">here</a>.
                   </p>
                 </div>
               </div>
