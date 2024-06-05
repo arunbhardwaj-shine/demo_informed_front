@@ -88,57 +88,60 @@ const AddLinkToPdf = () => {
     x: 0,
     y: 0,
   });
+  const [screenSize, setScreenSize] = useState(window.innerWidth)
 
-  let multiply_factor =0;
+  let multiply_factor = 0;
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //const defaultScale = 1.3347;
   const [mouseLastup, setMouseLastup] = useState(0);
-  
 
-    const fitToWidth = ()=> {
+
+  const fitToWidth = () => {
     // Calculate the scale factor based on the width of the viewport and the PDF page
     const viewportWidth = document.documentElement.clientWidth;
     const viewportHeight = document.documentElement.clientHeight;
-   
-    const sublink_wid = document.querySelector('.sublink_right').clientWidth;
-     const pageWidth = document.querySelector('.viewer-page-layer').clientWidth;
-    const pageHeight = document.querySelector('.viewer-page-layer').clientHeight;
-   
-    const scale = viewportWidth / pageWidth;
 
-    if(initialscale===0){
+    const sublink_wid = document.querySelector('.sublink_right').clientWidth;
+    const pageWidth = document.querySelector('.viewer-page-layer').clientWidth;
+    const pageHeight = document.querySelector('.viewer-page-layer').clientHeight;
+
+    const scale = viewportWidth / pageWidth;
+    console.log("page width-->", pageWidth);
+
+    if (initialscale === 0) {
       setInitialscale(pageWidth);
-       multiply_factor = 1/scale;
+      multiply_factor = 1 / scale;
       setMultiplyfactor(multiply_factor);
     }
     console.log(scale);
-console.log("initial scale-->",initialscale);
+    console.log("initial scale-->", initialscale);
+    console.log("window width-->", screenSize);
 
 
 
     // if(scale < 1.3347){
-      if(scale < 1.30){
+    if (scale < 1.30) {
       setDefaultScale(scale)
       console.log(file);
       setFile(file)
-      var file_tem =file;
-      setFile((prevst)=>file_tem+'?v=1')
+      var file_tem = file;
+      setFile((prevst) => file_tem + '?v=1')
 
-      setTimeout(()=>{setFile((prevst)=>file_tem)},10)
+      setTimeout(() => { setFile((prevst) => file_tem) }, 10)
       //setFile((prevst)=>file_tem)
     }
-   // https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1711002590.pdf
+    // https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1711002590.pdf
     // Update the state to reflect the new scale
     // You might also need to adjust the page number if you want to maintain the current page
     // For simplicity, this example resets to the first page
-    
+
     // Apply the scale using CSS
-  //  document.querySelector('.react-pdf__Page').style.transform = `scale(${scale})`;
+    //  document.querySelector('.react-pdf__Page').style.transform = `scale(${scale})`;
   }
 
 
-  
+
   const parentRef = useRef(null);
   const popupRef = useRef(null);
   const renderPage = (props: RenderPageProps) => {
@@ -162,17 +165,17 @@ console.log("initial scale-->",initialscale);
   };
 
   const handleCompleteDocumentLoad = (e: DocumentLoadEvent) => {
-    setTimeout(function(){
+    setTimeout(function () {
       const divElement = document.querySelector(".viewer-layout-container");
       if (divElement) {
         const height = divElement.clientHeight;
-       
+
         setDocumentHeight(height);
       } else {
         console.error('Element with class "modal-body-content" not found.');
       }
     }, 2000);
-};
+  };
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     try {
@@ -298,7 +301,7 @@ console.log("initial scale-->",initialscale);
   }, []);
 
 
-  
+
 
   const initFun = async () => {
     try {
@@ -464,7 +467,7 @@ console.log("initial scale-->",initialscale);
       parentRef?.current?.addEventListener("dragstart", handleDragStart); // Attach the event listener
     }
 
-     // Add global mouseup event listener
+    // Add global mouseup event listener
     document.addEventListener("mouseup", handleGlobalMouseUp);
 
     return () => {
@@ -483,14 +486,14 @@ console.log("initial scale-->",initialscale);
   const handleMouseDown = (event) => {
     if (event.target.className === "viewer-text-layer") {
 
-      if(fileVersion == 1){
+      if (fileVersion == 1) {
         popup_alert({
           visible: "show",
           message: "This is Video embedded Pdf file, Add link facility is not available",
           type: "error",
         });
-       return;
-     }
+        return;
+      }
       setMousefirstdown(event.clientY);
       setHighlighted(false);
       setShowAddLink(true);
@@ -511,11 +514,11 @@ console.log("initial scale-->",initialscale);
     }
   };
 
-    
+
 
   const handleMouseMove = (event) => {
     const targetLink = event.target.closest(".viewer-annotation-link");
-    
+
     if (targetLink) {
       const anchorTag = targetLink.querySelector("a");
       if (anchorTag) {
@@ -580,7 +583,7 @@ console.log("initial scale-->",initialscale);
       const textLayer = parentRef.current.querySelector(".viewer-text-layer");
       const pageHeight = textLayer.getBoundingClientRect().height;
       getMousePosition(parentRef.current, event, scrollTop);
-      
+
       // Calculate the coordinates relative to the viewer
       const x = event.clientX - viewerRect.left;
       const y = event.clientY - viewerRect.top;
@@ -618,8 +621,8 @@ console.log("initial scale-->",initialscale);
       if (showAddLink) {
         setHighlighted(true);
       }
-    }else{
-      if(dragging){
+    } else {
+      if (dragging) {
         if (event.target.name === "url") return;
         if (event.target.name === "addurl") return;
         window.getSelection().removeAllRanges();
@@ -648,7 +651,7 @@ console.log("initial scale-->",initialscale);
       );
       const rect2 = viewerTextLayer2.getBoundingClientRect();
       const rect = viewerTextLayer.getBoundingClientRect();
-      // console.log(event.clientX,rect.left,"RECT LEFT")
+      // console.log("client x--->",event.clientX,"rect left-->",rect.left,"rect top-->",rect.top)
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top - scrollTop;
       // const y = event.clientY - rect.top 
@@ -675,18 +678,18 @@ console.log("initial scale-->",initialscale);
     let box = parentRef.current.querySelector(".highlight_box");
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
-    let actual_width = xcoordinates- 20  - box_width;
-    let x_cord = actual_width>0?actual_width:xcoordinates- box_width;
-   
-    let actual_height = mousefirstdown -15 - ycoordinates;
+    let actual_width = xcoordinates - 20 - box_width;
+    let x_cord = actual_width > 0 ? actual_width : xcoordinates - box_width;
+
+    let actual_height = mousefirstdown - 15 - ycoordinates;
     let y_cord = actual_height;
     let page_no = linkonpage + 1;
     let box_width_x = box_width;
     let box_width_y = box_height;
 
-    console.log("x_cord--->",x_cord)
-    console.log("y_cord--->",y_cord)
-    
+    console.log("x_cord--->", x_cord)
+    console.log("y_cord--->", y_cord)
+
     // if(initialscale>600 && initialscale<800){
     //   console.log("i am inside 800")
     //   box_width_y =box_width_y/3.38;
@@ -695,34 +698,34 @@ console.log("initial scale-->",initialscale);
     //    x_cord = x_cord/3.48;
     // }
     // Gagan 
-    if(initialscale>400 && initialscale<600){
-     
-      box_width_y =box_width_y/3.50;
-       box_width_x = box_width_x/3.65;
-       y_cord =y_cord<=0?1:y_cord<100?3.35:(y_cord>=100&&y_cord<200)?y_cord/3.40: (y_cord>=200&&y_cord<350)?y_cord/3.55:(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7
-       :y_cord>=800?y_cord/3.75:y_cord/3.8;
-       x_cord = x_cord<100?x_cord/2.3:(x_cord>=100&&x_cord<200)?x_cord/3.3:(x_cord>=200&&x_cord<300)?x_cord/3.5:x_cord/3.65;
+    if (initialscale > 400 && initialscale < 600) {
+
+      box_width_y = box_width_y / 3.50;
+      box_width_x = box_width_x / 3.65;
+      y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? 3.35 : (y_cord >= 100 && y_cord < 200) ? y_cord / 3.40 : (y_cord >= 200 && y_cord < 350) ? y_cord / 3.55 : (y_cord >= 350 && y_cord < 500) ? y_cord / 3.65 : (y_cord >= 500 && y_cord < 800) ? y_cord / 3.7
+        : y_cord >= 800 ? y_cord / 3.75 : y_cord / 3.8;
+      x_cord = x_cord < 100 ? x_cord / 2.3 : (x_cord >= 100 && x_cord < 200) ? x_cord / 3.3 : (x_cord >= 200 && x_cord < 300) ? x_cord / 3.5 : x_cord / 3.65;
     }
     //Gagan
-    else if(initialscale>=600 && initialscale<800){
-      
-      box_width_y =box_width_y/3.30;
-       box_width_x = box_width_x/3.5;
-       y_cord = y_cord<=0?1:y_cord<100?3.35:(y_cord>=100&&y_cord<200)?y_cord/3.40:(y_cord>=200&&y_cord<350)?y_cord/3.55:(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7
-       :y_cord>=800?y_cord/3.75:y_cord/3.77;
-       x_cord = x_cord<100?x_cord/3.2:(x_cord>=100&&x_cord<500)?x_cord/3.6:x_cord/3.7;
+    else if (initialscale >= 600 && initialscale < 800) {
+
+      box_width_y = box_width_y / 3.30;
+      box_width_x = box_width_x / 3.5;
+      y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? 3.35 : (y_cord >= 100 && y_cord < 200) ? y_cord / 3.40 : (y_cord >= 200 && y_cord < 350) ? y_cord / 3.55 : (y_cord >= 350 && y_cord < 500) ? y_cord / 3.65 : (y_cord >= 500 && y_cord < 800) ? y_cord / 3.7
+        : y_cord >= 800 ? y_cord / 3.75 : y_cord / 3.77;
+      x_cord = x_cord < 100 ? x_cord / 3.2 : (x_cord >= 100 && x_cord < 500) ? x_cord / 3.6 : x_cord / 3.7;
     }
-    else if(initialscale>=800 && initialscale<1000){
-     
-      box_width_y =box_width_y/3.58;
-       box_width_x = box_width_x/3.68;
+    else if (initialscale >= 800 && initialscale < 1000) {
+
+      box_width_y = box_width_y / 3.58;
+      box_width_x = box_width_x / 3.68;
       //  y_cord =y_cord<=0?1: y_cord/3.58;
       //  x_cord = x_cord/3.68;
 
-      y_cord = y_cord<=0?1:y_cord<100?3.35:(y_cord>=100&&y_cord<200)?y_cord/3.40:(y_cord>=200&&y_cord<350)?y_cord/3.55
-            :(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7 :y_cord>=800?y_cord/3.73:y_cord/3.75;
+      y_cord = y_cord <= 0 ? 1 : (y_cord < 100 && y_cord >= 1) ? y_cord / 3.35 : (y_cord >= 100 && y_cord < 200) ? y_cord / 3.40 : (y_cord >= 200 && y_cord < 350) ? y_cord / 3.55
+        : (y_cord >= 350 && y_cord < 500) ? y_cord / 3.65 : (y_cord >= 500 && y_cord < 800) ? y_cord / 3.7 : y_cord >= 800 ? y_cord / 3.73 : y_cord / 3.75;
 
-      x_cord = x_cord<100?x_cord/3.2:(x_cord>=100&&x_cord<500)?x_cord/3.6:x_cord/3.7;
+      x_cord = x_cord < 100 ? x_cord / 3.2 : (x_cord >= 100 && x_cord < 500) ? x_cord / 3.6 : x_cord / 3.7;
     }
     // else if(initialscale>1000 && initialscale<1200){     
     //    box_width_y =box_width_y/3.58;
@@ -739,43 +742,97 @@ console.log("initial scale-->",initialscale);
     // }
 
     //Arun sir code
-    else if(initialscale>=1000 && initialscale<1100){
-    
-       box_width_y =box_width_y/3.58;
-       box_width_x = box_width_x/3.68;
-       y_cord =y_cord<=0?1: y_cord/3.58;
-       x_cord = x_cord/3.68;
-    }else if(initialscale>=1100 && initialscale<1200){
+    else if (initialscale >= 1000 && initialscale < 1100) {
+      console.log("inside 1170")
+
+      box_width_y = box_width_y / 1.8;
+      box_width_x = box_width_x / 1.8;
+      y_cord = y_cord <= 0 ? 1 : y_cord / 3.58;
+      x_cord = x_cord / 3.68;
+
+      // y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/2:(y_cord>=100&&y_cord<200)?y_cord/1.4:(y_cord>=200&&y_cord<350)?y_cord/3.55
+      //       :(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7 :y_cord>=800?y_cord/3.73:y_cord/3.75;
+
+      // x_cord = x_cord<100?x_cord/2:(x_cord>=100&&x_cord<200)?x_cord/1.5:(x_cord>=200&&x_cord<400)?x_cord/1.35:x_cord/1.6;
+    } else if (initialscale >= 1100 && initialscale < 1200) {
       // console.log("i am inside 1100")
       //Aamir
-      if(document.documentElement.scrollTop>=700){
-        box_width_y =box_width_y/3.75;
-        box_width_x = box_width_x/3.68;
-        y_cord =y_cord<=0?1: y_cord/3.75;
-        x_cord = x_cord/3.68;
+      if(screenSize>=1600){
+
+        if (document.documentElement.scrollTop >= 700) {
+          box_width_y = box_width_y / 3.75;
+          box_width_x = box_width_x / 3.68;
+          y_cord = y_cord <= 0 ? 1 : y_cord / 3.75;
+          x_cord = x_cord / 3.68;
+        } else {
+          box_width_y = box_width_y / 3.58;
+          box_width_x = box_width_x / 3.68;
+          y_cord = y_cord <= 0 ? 1 : y_cord / 3.58;
+          x_cord = x_cord / 3.68;
+        }
       }else{
-        box_width_y =box_width_y/3.58;
-        box_width_x = box_width_x/3.68;
-        y_cord =y_cord<=0?1: y_cord/3.58;
-        x_cord = x_cord/3.68;
+        
+          box_width_y = box_width_y / 3;
+          box_width_x = box_width_x / 3.5;
+          y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 3.4 : (y_cord >= 200 && y_cord < 300) ? y_cord / 3.5 : (y_cord >= 300 && y_cord < 600) ? y_cord / 3.55
+          : (y_cord >= 600 && y_cord < 800) ? y_cord / 3.7 : (y_cord >= 800 && y_cord < 900) ? y_cord / 3.75 : y_cord / 3.8;
+        
+          x_cord = x_cord < 100 ? x_cord / 2.6 : (x_cord >= 100 && x_cord < 300) ? x_cord / 3.25 : (x_cord >= 300 && x_cord < 550) ? x_cord / 3.5
+          : (x_cord >= 550 && x_cord < 900) ? x_cord /3.5 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 3.55 : x_cord / 3.6;
+
+
       }
-    }else if(initialscale>=1200 && initialscale<1300){
+    } else if (initialscale >= 1200 && initialscale < 1300) {
       //1281 specical susheel sir case
       // console.log("1281");
-      box_width_y =box_width_y/3.52;
-      box_width_x = box_width_x/3.62;
-      y_cord =y_cord<=0?1: y_cord/3.55;
-      x_cord = x_cord/3.78;
+      box_width_y = box_width_y / 3.52;
+      box_width_x = box_width_x / 3.62;
+      y_cord = y_cord <= 0 ? 1 : y_cord / 3.55;
+      x_cord = x_cord / 3.78;
     }
-    else if(initialscale>=1300 && initialscale<2000){
+    else if (initialscale >= 1300 && initialscale < 1600) {
       //1907 specical susheel sir case
-     
-      box_width_y = box_width_y/3.6;
-      box_width_x = box_width_x/3.55;
-      y_cord =y_cord<=0?1:y_cord<200?y_cord/3.25 :(y_cord>=200&&y_cord<300)?y_cord/3.3:(y_cord>=300&&y_cord<500)?y_cord/3.42
-              :(y_cord>=500&&y_cord<600)?y_cord/3.45:(y_cord>=600&&y_cord<700)?y_cord/3.48:y_cord/3.5;
-      x_cord = x_cord<100?x_cord/3:(x_cord>=100&&x_cord<300)?x_cord/3.25:(x_cord>=300&&x_cord<550)?x_cord/3.4
-              :(x_cord>=550&&x_cord<700)?x_cord/3.47:(x_cord>=700&&x_cord<1200)?x_cord/3.5:x_cord/3.55;
+
+      if(screenSize>=1600){
+
+        box_width_y = box_width_y / 3.6;
+        box_width_x = box_width_x / 3.55;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 3.25 : (y_cord >= 200 && y_cord < 300) ? y_cord / 3.3 : (y_cord >= 300 && y_cord < 500) ? y_cord / 3.42
+          : (y_cord >= 500 && y_cord < 600) ? y_cord / 3.45 : (y_cord >= 600 && y_cord < 700) ? y_cord / 3.48 : y_cord / 3.5;
+        x_cord = x_cord < 100 ? x_cord / 3 : (x_cord >= 100 && x_cord < 300) ? x_cord / 3.25 : (x_cord >= 300 && x_cord < 550) ? x_cord / 3.4
+          : (x_cord >= 550 && x_cord < 700) ? x_cord / 3.47 : (x_cord >= 700 && x_cord < 1200) ? x_cord / 3.5 : x_cord / 3.55;
+      }else{
+        console.log("inside 1600 scale");
+        box_width_y = box_width_y / 2.8;
+        box_width_x = box_width_x / 3;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 2.35 : (y_cord >= 200 && y_cord < 300) ? y_cord / 2.5 : (y_cord >= 300 && y_cord < 600) ? y_cord / 2.55
+        : (y_cord >= 600 && y_cord < 800) ? y_cord / 2.7 : (y_cord >= 800 && y_cord < 900) ? y_cord / 2.75 : y_cord / 2.8;
+      
+        x_cord = x_cord < 100 ? x_cord / 2 : (x_cord >= 100 && x_cord < 300) ? x_cord / 2.45 : (x_cord >= 300 && x_cord < 550) ? x_cord / 2.55
+        : (x_cord >= 550 && x_cord < 900) ? x_cord /2.6 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 2.63 : x_cord / 2.66;
+      }
+
+
+    }
+    else if (initialscale >= 1600 && initialscale < 2200) {
+      //1907 specical susheel sir case
+      if(screenSize>=1600){
+
+        box_width_y = box_width_y / 3;
+        box_width_x = box_width_x / 2.8;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 2.5 : (y_cord >= 200 && y_cord < 300) ? y_cord / 2.6 : (y_cord >= 300 && y_cord < 600) ? y_cord / 2.75
+          : (y_cord >= 600 && y_cord < 800) ? y_cord / 2.8 : (y_cord >= 800 && y_cord < 900) ? y_cord / 2.85 : y_cord / 2.9;
+        x_cord = x_cord < 100 ? x_cord / 2.2 : (x_cord >= 100 && x_cord < 300) ? x_cord / 2.6 : (x_cord >= 300 && x_cord < 550) ? x_cord / 2.7
+          : (x_cord >= 550 && x_cord < 900) ? x_cord / 2.75 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 2.8 : x_cord / 2.85;
+      }else{
+        box_width_y = box_width_y / 2;
+        box_width_x = box_width_x / 2.1;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 2 : (y_cord >= 200 && y_cord < 300) ? y_cord / 2.05 : (y_cord >= 300 && y_cord < 600) ? y_cord / 2.1
+        : (y_cord >= 600 && y_cord < 800) ? y_cord / 2.15 : (y_cord >= 800 && y_cord < 900) ? y_cord / 2.2 : y_cord / 2.25;
+      
+        x_cord = x_cord < 100 ? x_cord / 1.8 : (x_cord >= 100 && x_cord < 300) ? x_cord / 1.95 : (x_cord >= 300 && x_cord < 550) ? x_cord / 2
+        : (x_cord >= 550 && x_cord < 900) ? x_cord /2.1 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 2.15 : x_cord / 2.17;
+      }
     }
     // else if(initialscale>2000 && initialscale<3000){
     //   console.log("am inside med",initialscale);
@@ -784,153 +841,177 @@ console.log("initial scale-->",initialscale);
     //   y_cord = y_cord/2;
     //   x_cord = x_cord/2;
     // }
-   
+
     //Gagan C-600--->2270
-    else if(initialscale>=2200 && initialscale<2400){
-        box_width_y=box_width_y/2.35
-        box_width_x=box_width_x/2.35     
-        y_cord =y_cord<=0?1:y_cord<200?y_cord/2.2 :(y_cord>=200&&y_cord<400)?y_cord/2.25:(y_cord>=400&&y_cord<700)?y_cord/2.3
-                  :(y_cord>=700&&y_cord<800)?y_cord/2.32:y_cord/2.35;
-        x_cord = x_cord<100?x_cord/2:(x_cord>=100&&x_cord<400)?x_cord/2.20:(x_cord>=400&&x_cord<650)?x_cord/2.25
-                :(x_cord>=650&&x_cord<1000)?x_cord/2.28:x_cord/2.32;
+    else if (initialscale >= 2200 && initialscale < 2400) {
+      if(screenSize>=1600){
+
+        box_width_y = box_width_y / 2.35
+        box_width_x = box_width_x / 2.35
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 2.2 : (y_cord >= 200 && y_cord < 400) ? y_cord / 2.25 : (y_cord >= 400 && y_cord < 700) ? y_cord / 2.3
+          : (y_cord >= 700 && y_cord < 800) ? y_cord / 2.32 : y_cord / 2.35;
+        x_cord = x_cord < 100 ? x_cord / 2 : (x_cord >= 100 && x_cord < 400) ? x_cord / 2.20 : (x_cord >= 400 && x_cord < 650) ? x_cord / 2.25
+          : (x_cord >= 650 && x_cord < 1000) ? x_cord / 2.28 : x_cord / 2.32;
+      }else{
+        console.log("inside else 2400");
+        box_width_y = box_width_y / 1.9;
+        box_width_x = box_width_x / 2;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.55 : (y_cord >= 100 && y_cord < 300) ? y_cord / 1.6 : (y_cord >= 300 && y_cord < 600) ? y_cord / 1.7
+        : (y_cord >= 600 && y_cord < 800) ? y_cord / 1.75 : (y_cord >= 800 && y_cord < 900) ? y_cord / 1.8 : y_cord / 1.9;
+      
+        x_cord = x_cord < 100 ? x_cord / 1.35 : (x_cord >= 100 && x_cord < 300) ? x_cord / 1.6 : (x_cord >= 300 && x_cord < 550) ? x_cord / 1.72
+        : (x_cord >= 550 && x_cord < 900) ? x_cord /1.75 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 1.8 : x_cord / 1.9;
+      }
     }
     //Gagan c-700--->2648
-    else if(initialscale>=2400 && initialscale<2700){
-        box_width_y=box_width_y/2.1
-        box_width_x=box_width_x/2    
-        y_cord =y_cord<=0?1:y_cord<200? y_cord/1.82:(y_cord>=200&&y_cord<300)?y_cord/1.90:(y_cord>=300&&y_cord<500)?y_cord/1.95
-                :(y_cord>=500&&y_cord<800)?y_cord/2:y_cord/2.05;
-        x_cord = x_cord<100?x_cord/1.7:(x_cord>=100&&x_cord<200)?x_cord/1.8:(x_cord>=200&&x_cord<350)?x_cord/1.9
-                :(x_cord>=350&&x_cord<550)?x_cord/1.95:(x_cord>=550&&x_cord<650)?x_cord/1.98:x_cord/2;  
+    else if (initialscale >= 2400 && initialscale < 2700) {
+      if (screenSize >= 1600) {
+        box_width_y = box_width_y / 2.1
+        box_width_x = box_width_x / 2
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 1.82 : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.95 : (y_cord >= 300 && y_cord < 500) ? y_cord / 2
+          : (y_cord >= 500 && y_cord < 800) ? y_cord / 2.05 : y_cord / 2.1;
+        
+          x_cord = x_cord < 100 ? x_cord / 1.7 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.8 : (x_cord >= 200 && x_cord < 350) ? x_cord / 1.95
+          : (x_cord >= 350 && x_cord < 500) ? x_cord / 2.05 : (x_cord >= 500 && x_cord < 750) ? x_cord / 2.05 : x_cord / 2.08;
+      } else {
+        box_width_y = box_width_y / 1.6
+        box_width_x = box_width_x / 1.5
+
+          y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/1.3:(y_cord>=100&&y_cord<200)?y_cord/1.35:(y_cord>=200&&y_cord<300)?y_cord/1.45
+                  :(y_cord>=300&&y_cord<450)?y_cord/1.5:(y_cord>=450&&y_cord<800)?y_cord/1.6 :y_cord/1.6;
+
+          x_cord = x_cord<100?x_cord/1.15:(x_cord>=100&&x_cord<200)?x_cord/1.4:(x_cord>=200&&x_cord<300)?x_cord/1.45
+                    :(x_cord>=300&&x_cord<500)?x_cord/1.53:(x_cord>=500&&x_cord<800)?x_cord/1.55:x_cord/1.55;
+      }
     }
     //Gagan c-800--->3027
-    else if(initialscale>=2700 && initialscale<3100){
-        box_width_y=box_width_y/1.8
-        box_width_x=box_width_x/1.8 
-        
-        y_cord =y_cord<=0?1:y_cord<100? y_cord/1.5:(y_cord>=100&&y_cord<200)?y_cord/1.6:(y_cord>=200&&y_cord<300)?y_cord/1.65
-                :(y_cord>=300&&y_cord<400)?y_cord/1.7:(y_cord>=400&&y_cord<550)?y_cord/1.75:y_cord/1.75;
-        
-                x_cord = x_cord<100?x_cord/1.5:(x_cord>=100&&x_cord<200)?x_cord/1.6:(x_cord>=200&&x_cord<600)?x_cord/1.72
-                :(x_cord>=600&&x_cord<800)?x_cord/1.75:(x_cord>=800&&x_cord<900)?x_cord/1.8:x_cord/1.85;  
+    else if (initialscale >= 2700 && initialscale < 3100) {
+      box_width_y = box_width_y / 1.8
+      box_width_x = box_width_x / 1.8
+
+      y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.6 : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.65
+        : (y_cord >= 300 && y_cord < 400) ? y_cord / 1.7 : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.75 : y_cord / 1.75;
+
+      x_cord = x_cord < 100 ? x_cord / 1.5 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.6 : (x_cord >= 200 && x_cord < 600) ? x_cord / 1.72
+        : (x_cord >= 600 && x_cord < 800) ? x_cord / 1.75 : (x_cord >= 800 && x_cord < 900) ? x_cord / 1.8 : x_cord / 1.85;
     }
 
-    else if(initialscale>=3100 && initialscale<3500){
+    else if (initialscale >= 3100 && initialscale < 3500) {
       // 3405 900
-     
-      box_width_y =box_width_y/1.6;
-      box_width_x = box_width_x/1.65;
+
+      box_width_y = box_width_y / 1.6;
+      box_width_x = box_width_x / 1.65;
       // y_cord =y_cord<=0?1: y_cord/1.53;
       // x_cord = x_cord/1.54;
 
-      y_cord =y_cord<=0?1:y_cord<100? y_cord/1.5:(y_cord>=100&&y_cord<200)?y_cord/1.6:(y_cord>=200&&y_cord<300)?y_cord/1.64
-      :(y_cord>=300&&y_cord<400)?y_cord/1.66:(y_cord>=400&&y_cord<550)?y_cord/1.68:(y_cord>=550&&y_cord<800)?y_cord/1.7:y_cord/1.72;
-      
-      x_cord = x_cord<100?x_cord/1.40:(x_cord>=100&&x_cord<200)?x_cord/1.55:(x_cord>=200&&x_cord<400)?x_cord/1.64
-      :(x_cord>=400&&x_cord<600)?x_cord/1.66:(x_cord>=600&&x_cord<1200)?x_cord/1.70:(x_cord>1200&&x_cord<1300)?x_cord/1.72:x_cord/1.74;  
-    }else if(initialscale>=3500 && initialscale<3800){
+      y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.55 : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.6
+        : (y_cord >= 300 && y_cord < 400) ? y_cord / 1.62 : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.64 : (y_cord >= 550 && y_cord < 800) ? y_cord / 1.68 : y_cord / 1.7;
+
+      x_cord = x_cord < 100 ? x_cord / 1.40 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.55 : (x_cord >= 200 && x_cord < 400) ? x_cord / 1.64
+        : (x_cord >= 400 && x_cord < 600) ? x_cord / 1.66 : (x_cord >= 600 && x_cord < 1200) ? x_cord / 1.70 : (x_cord > 1200 && x_cord < 1300) ? x_cord / 1.72 : x_cord / 1.74;
+    } else if (initialscale >= 3500 && initialscale < 3800) {
       // 3783 1000
-      box_width_y = box_width_y/1.38;
-      box_width_x = box_width_x/1.45;
-      y_cord =y_cord<=0?1: y_cord/1.37;
-      x_cord = x_cord/1.375;
+      box_width_y = box_width_y / 1.38;
+      box_width_x = box_width_x / 1.45;
+      y_cord = y_cord <= 0 ? 1 : y_cord / 1.37;
+      x_cord = x_cord / 1.375;
     }
-    else if(initialscale>=3800 && initialscale<4200){
+    else if (initialscale >= 3800 && initialscale < 4200) {
       // 4162 1100
-     
-      box_width_y = box_width_y/1.22;
-      box_width_x = box_width_x/1.25;
-      y_cord =y_cord<=0?1:y_cord<200? y_cord/1.22:(y_cord>=200&&y_cord<500)?y_cord/1.25:y_cord/1.28;
-      x_cord =x_cord<200? x_cord/1.15:x_cord<300&&x_cord>=200? x_cord/1.2:x_cord<650&&x_cord>=300? x_cord/1.25
-              :x_cord<1200&&x_cord>=650? x_cord/1.27:x_cord/1.29;
-    }else if(initialscale>=4200 && initialscale<4600){
+
+      box_width_y = box_width_y / 1.22;
+      box_width_x = box_width_x / 1.25;
+      y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 1.22 : (y_cord >= 200 && y_cord < 500) ? y_cord / 1.25 : y_cord / 1.28;
+      x_cord = x_cord < 200 ? x_cord / 1.15 : x_cord < 300 && x_cord >= 200 ? x_cord / 1.2 : x_cord < 650 && x_cord >= 300 ? x_cord / 1.25
+        : x_cord < 1200 && x_cord >= 650 ? x_cord / 1.27 : x_cord / 1.29;
+    } else if (initialscale >= 4200 && initialscale < 4600) {
       //4540 1200
-      box_width_y = box_width_y/1.03;
-      box_width_x = box_width_x/1.16;
-      y_cord =y_cord<=0?1: y_cord/1.13;
-      x_cord = x_cord/1.16;
+      box_width_y = box_width_y / 1.03;
+      box_width_x = box_width_x / 1.16;
+      y_cord = y_cord <= 0 ? 1 : y_cord / 1.13;
+      x_cord = x_cord / 1.16;
 
-    }else if(initialscale>=4600 && initialscale<5000){
+    } else if (initialscale >= 4600 && initialscale < 5000) {
       // 4918 1300
-     
-      box_width_y = box_width_y/1.04;
-      box_width_x = box_width_x/1.06;
-      y_cord = y_cord<=0?1:y_cord/1.05;
-      x_cord = x_cord/1.05;
+
+      box_width_y = box_width_y / 1.04;
+      box_width_x = box_width_x / 1.06;
+      y_cord = y_cord <= 0 ? 1 : y_cord / 1.05;
+      x_cord = x_cord / 1.05;
     }
-    else if(initialscale>=5000 && initialscale<5300){
+    else if (initialscale >= 5000 && initialscale < 5300) {
       // 5297 1400
-     
-      box_width_y = box_width_y/1.002;
-      box_width_x = box_width_x/0.99;
-      y_cord = y_cord<=0?1:y_cord/0.96;
-      x_cord = x_cord/0.99;
+
+      box_width_y = box_width_y / 1.002;
+      box_width_x = box_width_x / 0.99;
+      y_cord = y_cord <= 0 ? 1 : y_cord / 0.96;
+      x_cord = x_cord / 0.99;
     }
 
-     //Gagan c-1500--->5675
-     else if(initialscale>=5300 && initialscale<5700){
-        box_width_y=box_width_y/1.10
-        box_width_x=box_width_x/0.97
-        y_cord =y_cord<=0?1: y_cord<=200?y_cord/0.82: (y_cord<400&& y_cord>200)?y_cord/0.90:y_cord/0.92;
+    //Gagan c-1500--->5675
+    else if (initialscale >= 5300 && initialscale < 5700) {
+      box_width_y = box_width_y / 1.10
+      box_width_x = box_width_x / 0.97
+      y_cord = y_cord <= 0 ? 1 : y_cord <= 200 ? y_cord / 0.82 : (y_cord < 400 && y_cord > 200) ? y_cord / 0.90 : y_cord / 0.92;
 
-        x_cord =x_cord<300?x_cord/0.78:(x_cord<600&& x_cord>=300)?x_cord/0.90:( x_cord<800&&x_cord>=600)?x_cord/0.92
-                :x_cord>=800?x_cord/0.94:x_cord/0.96
-           
+      x_cord = x_cord < 300 ? x_cord / 0.78 : (x_cord < 600 && x_cord >= 300) ? x_cord / 0.90 : (x_cord < 800 && x_cord >= 600) ? x_cord / 0.92
+        : x_cord >= 800 ? x_cord / 0.94 : x_cord / 0.96
+
     }
-    else if(initialscale>=5700 && initialscale<6100){
-      box_width_y=box_width_y/0.9
-      box_width_x=box_width_x/0.9
-      y_cord =y_cord<=0?1: y_cord<=100?y_cord/0.80: (y_cord<300&& y_cord>=100)?y_cord/0.82:(y_cord<500&& y_cord>=300)?y_cord/0.86:y_cord/0.88;
-      x_cord =x_cord<150?x_cord/0.75:(x_cord<200&& x_cord>=150)?x_cord/0.80:( x_cord<350&&x_cord>=200)?x_cord/0.83
-              :( x_cord<550&&x_cord>=350)?x_cord/0.85:( x_cord<800&&x_cord>=550)?x_cord/0.87:x_cord/0.88
-         
-  }
-  else if(initialscale>=6100 && initialscale<6500){
-    box_width_y=box_width_y/0.88
-    box_width_x=box_width_x/0.88
-    y_cord =y_cord<=0?1: y_cord<=100?y_cord/0.75: (y_cord<300&& y_cord>100)?y_cord/0.77:(y_cord<400&& y_cord>=300)?y_cord/0.80
-            :(y_cord<600&& y_cord>=400)?y_cord/0.82:(y_cord<700&& y_cord>=600)?y_cord/0.84:y_cord/0.86;
-    
-    x_cord =x_cord<100?x_cord/0.70:(x_cord<150&& x_cord>=100)?x_cord/0.72:(x_cord<250&& x_cord>=150)?x_cord/0.75
-            :( x_cord<550&&x_cord>=250)?x_cord/0.80:( x_cord<1100&&x_cord>=550)?x_cord/0.82:x_cord/0.83       
-}
-else if(initialscale>=6500 && initialscale<7100){
-  box_width_y=box_width_y/0.8
-  box_width_x=box_width_x/0.8
-  y_cord = y_cord<=0?1:y_cord<=100?y_cord/0.65: (y_cord<200&& y_cord>100)?y_cord/0.72:(y_cord<300&& y_cord>=200)?y_cord/0.74
-          :(y_cord<450&& y_cord>=300)?y_cord/0.76:(y_cord<800&& y_cord>=450)?y_cord/0.78:y_cord/0.80;
-  
-  x_cord =x_cord<100?x_cord/0.65:(x_cord<200&& x_cord>=100)?x_cord/0.68:(x_cord<300&& x_cord>=200)?x_cord/0.73
-          :( x_cord<450&&x_cord>=300)?x_cord/0.75:( x_cord<900&&x_cord>=450)?x_cord/0.77:x_cord/0.78      
-}
-else if(initialscale>=7100 && initialscale<7500){
-  box_width_y=box_width_y/0.75
-  box_width_x=box_width_x/0.75
-  y_cord = y_cord<=0?1:y_cord<=100?y_cord/0.60: (y_cord<200&& y_cord>100)?y_cord/0.68:(y_cord<350&& y_cord>=200)?y_cord/0.71
-          :(y_cord<700&& y_cord>=350)?y_cord/0.73:(y_cord<800&& y_cord>=700)?y_cord/0.75:y_cord/0.78;
-  
-  x_cord =x_cord<100?x_cord/0.60:(x_cord<200&& x_cord>=100)?x_cord/0.65:(x_cord<450&& x_cord>=200)?x_cord/0.71
-          :( x_cord<550&&x_cord>=450)?x_cord/0.72:( x_cord<1000&&x_cord>=550)?x_cord/0.73:x_cord/0.74       
-}
-else if(initialscale>=7500 && initialscale<8000){
-  box_width_y=box_width_y/0.72
-  box_width_x=box_width_x/0.72
-  y_cord = y_cord<=0?1:y_cord<=100?y_cord/0.60: (y_cord<300&& y_cord>100)?y_cord/0.66:(y_cord<600&& y_cord>=300)?y_cord/0.68
-          :(y_cord<700&& y_cord>=600)?y_cord/0.70:(y_cord<800&& y_cord>=700)?y_cord/0.75:y_cord/0.78;
-  
-  x_cord =x_cord<100?x_cord/0.59:(x_cord<200&& x_cord>=100)?x_cord/0.62:(x_cord<300&& x_cord>=200)?x_cord/0.65
-          :( x_cord<600&&x_cord>=300)?x_cord/0.68:( x_cord<1000&&x_cord>=600)?x_cord/0.70:x_cord/0.70       
-}
-    else{
+    else if (initialscale >= 5700 && initialscale < 6100) {
+      box_width_y = box_width_y / 0.9
+      box_width_x = box_width_x / 0.9
+      y_cord = y_cord <= 0 ? 1 : y_cord <= 100 ? y_cord / 0.80 : (y_cord < 300 && y_cord >= 100) ? y_cord / 0.82 : (y_cord < 500 && y_cord >= 300) ? y_cord / 0.86 : y_cord / 0.88;
+      x_cord = x_cord < 150 ? x_cord / 0.75 : (x_cord < 200 && x_cord >= 150) ? x_cord / 0.80 : (x_cord < 350 && x_cord >= 200) ? x_cord / 0.83
+        : (x_cord < 550 && x_cord >= 350) ? x_cord / 0.85 : (x_cord < 800 && x_cord >= 550) ? x_cord / 0.87 : x_cord / 0.88
+
+    }
+    else if (initialscale >= 6100 && initialscale < 6500) {
+      box_width_y = box_width_y / 0.88
+      box_width_x = box_width_x / 0.88
+      y_cord = y_cord <= 0 ? 1 : y_cord <= 100 ? y_cord / 0.75 : (y_cord < 300 && y_cord > 100) ? y_cord / 0.77 : (y_cord < 400 && y_cord >= 300) ? y_cord / 0.80
+        : (y_cord < 600 && y_cord >= 400) ? y_cord / 0.82 : (y_cord < 700 && y_cord >= 600) ? y_cord / 0.84 : y_cord / 0.86;
+
+      x_cord = x_cord < 100 ? x_cord / 0.70 : (x_cord < 150 && x_cord >= 100) ? x_cord / 0.72 : (x_cord < 250 && x_cord >= 150) ? x_cord / 0.75
+        : (x_cord < 550 && x_cord >= 250) ? x_cord / 0.80 : (x_cord < 1100 && x_cord >= 550) ? x_cord / 0.82 : x_cord / 0.83
+    }
+    else if (initialscale >= 6500 && initialscale < 7100) {
+      box_width_y = box_width_y / 0.8
+      box_width_x = box_width_x / 0.8
+      y_cord = y_cord <= 0 ? 1 : y_cord <= 100 ? y_cord / 0.65 : (y_cord < 200 && y_cord > 100) ? y_cord / 0.72 : (y_cord < 300 && y_cord >= 200) ? y_cord / 0.74
+        : (y_cord < 450 && y_cord >= 300) ? y_cord / 0.76 : (y_cord < 800 && y_cord >= 450) ? y_cord / 0.78 : y_cord / 0.80;
+
+      x_cord = x_cord < 100 ? x_cord / 0.65 : (x_cord < 200 && x_cord >= 100) ? x_cord / 0.68 : (x_cord < 300 && x_cord >= 200) ? x_cord / 0.73
+        : (x_cord < 450 && x_cord >= 300) ? x_cord / 0.75 : (x_cord < 900 && x_cord >= 450) ? x_cord / 0.77 : x_cord / 0.78
+    }
+    else if (initialscale >= 7100 && initialscale < 7500) {
+      box_width_y = box_width_y / 0.75
+      box_width_x = box_width_x / 0.75
+      y_cord = y_cord <= 0 ? 1 : y_cord <= 100 ? y_cord / 0.60 : (y_cord < 200 && y_cord > 100) ? y_cord / 0.68 : (y_cord < 350 && y_cord >= 200) ? y_cord / 0.71
+        : (y_cord < 700 && y_cord >= 350) ? y_cord / 0.73 : (y_cord < 800 && y_cord >= 700) ? y_cord / 0.75 : y_cord / 0.78;
+
+      x_cord = x_cord < 100 ? x_cord / 0.60 : (x_cord < 200 && x_cord >= 100) ? x_cord / 0.65 : (x_cord < 450 && x_cord >= 200) ? x_cord / 0.71
+        : (x_cord < 550 && x_cord >= 450) ? x_cord / 0.72 : (x_cord < 1000 && x_cord >= 550) ? x_cord / 0.73 : x_cord / 0.74
+    }
+    else if (initialscale >= 7500 && initialscale < 8000) {
+      box_width_y = box_width_y / 0.72
+      box_width_x = box_width_x / 0.72
+      y_cord = y_cord <= 0 ? 1 : y_cord <= 100 ? y_cord / 0.60 : (y_cord < 300 && y_cord > 100) ? y_cord / 0.66 : (y_cord < 600 && y_cord >= 300) ? y_cord / 0.68
+        : (y_cord < 700 && y_cord >= 600) ? y_cord / 0.70 : (y_cord < 800 && y_cord >= 700) ? y_cord / 0.75 : y_cord / 0.78;
+
+      x_cord = x_cord < 100 ? x_cord / 0.59 : (x_cord < 200 && x_cord >= 100) ? x_cord / 0.62 : (x_cord < 300 && x_cord >= 200) ? x_cord / 0.65
+        : (x_cord < 600 && x_cord >= 300) ? x_cord / 0.68 : (x_cord < 1000 && x_cord >= 600) ? x_cord / 0.70 : x_cord / 0.70
+    }
+    else {
       console.log("i am inside else")
-      box_width_y =box_width_y;
+      box_width_y = box_width_y;
       box_width_x = box_width_x;
-      y_cord =y_cord<=0?1: y_cord;
+      y_cord = y_cord <= 0 ? 1 : y_cord;
       x_cord = x_cord;
     }
     let cordinates =
       x_cord + "," + parseInt(y_cord) + "," + box_width_x + "," + box_width_y;
-      console.log("x_cord--->",x_cord, "y_cord-->",y_cord,"box width x-->",box_width_x,"box width y-->",box_width_y);
+    console.log("x_cord--->", x_cord, "y_cord-->", y_cord, "box width x-->", box_width_x, "box width y-->", box_width_y);
     addLinkToPdf(cordinates, page_no, embed_url, file);
   };
 
@@ -1002,11 +1083,11 @@ else if(initialscale>=7500 && initialscale<8000){
   const isValidUrl = (urlString) => {
     var urlPattern = new RegExp(
       "^(https?:\\/\\/)?" + // validate protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-        "(\\#[-a-z\\d_]*)?$",
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+      "(\\#[-a-z\\d_]*)?$",
       "i"
     ); // validate fragment locator
     return !!urlPattern.test(urlString);
@@ -1145,163 +1226,163 @@ else if(initialscale>=7500 && initialscale<8000){
   return (
     <>
       <Col className="right-sidebar custom-change full-screen">
-            <div className="page-top-nav sticky">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    ) : (
-                      <Link
-                        className="btn btn-bordered btn btn-primary"
-                        to="/library-create"
-                      >
-                        Back
-                      </Link>
-                    )}
-                  </div>
-                </div>
-                <div className="col-12 col-md-10">
-                  <ul className="tabnav-link">
-                    {
-                      <>
-                        <li className="">
-                          <a href="">Create Your Content</a>
-                        </li>
-                        {localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
-                          <li className="active active-main">
-                            <a href="">[Embedding Video]</a>
-                          </li>
-                        ) : null}
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <li
-                            className={
-                              localStorage.getItem("user_id") !=
-                              "rjiGlqA9DXJVH7bDDTX0Lg=="
-                                ? ""
-                                : ""
-                            }
-                          >
-                            <a href="">Edit Consent Option</a>
-                          </li>
-                        ) : null}
-                        <li className="">
-                          <a href="">Preview Your Content &amp; Publish</a>
-                        </li>
-                      </>
-                    }
-                  </ul>
-                </div>
-                <div className="col-12 col-md-1">
-                  <div className="header-btn">
-                    <Button
-                      className="btn btn-primary btn-filled next "
-                      onClick={() =>
-                        navigate("/set-popup", {
-                          state: {
-                            pdfId: initFunData?.id,
-                            fileType: initFunData?.file_type,
-                            isEdit: isEdit,
-                            allowVideo: allowStateVideo,
-                          },
-                        })
-                      }
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
+        <div className="page-top-nav sticky">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-1">
+              <div className="header-btn-left">
+                {localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  <Link
+                    className="btn btn-bordered btn btn-primary"
+                    to="/library-create"
+                  >
+                    Back
+                  </Link>
+                ) : (
+                  <Link
+                    className="btn btn-bordered btn btn-primary"
+                    to="/library-create"
+                  >
+                    Back
+                  </Link>
+                )}
               </div>
             </div>
-            <div className="create-change-content spc-content">
-              <div className="form_action">
-                <div className="row">
-                  <Col className="sublink_right preview-content d-flex flex-column">
-                    <div className="form_action embedding-video">
-                      {initFunData?.file_type == "ebook" ? (
-                        <>
-                          <div className="side-step-text first-step">
-                            <div className="embedded-video-step">
-                              <h2>Step1</h2>
-                            </div>
-                            <p>Select the Chapter</p>
-                            <Form.Group className="formgroup">
-                              <Form.Label>Chapter</Form.Label>
-                              <Select
-                                className="dropdown-basic-button split-button-dropup "
-                                options={chapterOption}
-                                onChange={onChapterSelect}
-                                defaultValue={chapterOption?.[0]}
-                              />
-                            </Form.Group>
-                          </div>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      <div className="side-step-text second-step">
-                        {initFunData?.file_type == "ebook" ? (
-                          <div className="embedded-video-step">
-                            <h2>Step2</h2>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                        <p>
-                          Select the video and highlight the area you want to
-                          embed the video in{" "}
-                        </p>
+            <div className="col-12 col-md-10">
+              <ul className="tabnav-link">
+                {
+                  <>
+                    <li className="">
+                      <a href="">Create Your Content</a>
+                    </li>
+                    {localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                      "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                      <li className="active active-main">
+                        <a href="">[Embedding Video]</a>
+                      </li>
+                    ) : null}
+                    {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      <li
+                        className={
+                          localStorage.getItem("user_id") !=
+                            "rjiGlqA9DXJVH7bDDTX0Lg=="
+                            ? ""
+                            : ""
+                        }
+                      >
+                        <a href="">Edit Consent Option</a>
+                      </li>
+                    ) : null}
+                    <li className="">
+                      <a href="">Preview Your Content &amp; Publish</a>
+                    </li>
+                  </>
+                }
+              </ul>
+            </div>
+            <div className="col-12 col-md-1">
+              <div className="header-btn">
+                <Button
+                  className="btn btn-primary btn-filled next "
+                  onClick={() =>
+                    navigate("/set-popup", {
+                      state: {
+                        pdfId: initFunData?.id,
+                        fileType: initFunData?.file_type,
+                        isEdit: isEdit,
+                        allowVideo: allowStateVideo,
+                      },
+                    })
+                  }
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="create-change-content spc-content">
+          <div className="form_action">
+            <div className="row">
+              <Col className="sublink_right preview-content d-flex flex-column">
+                <div className="form_action embedding-video">
+                  {initFunData?.file_type == "ebook" ? (
+                    <>
+                      <div className="side-step-text first-step">
+                        <div className="embedded-video-step">
+                          <h2>Step1</h2>
+                        </div>
+                        <p>Select the Chapter</p>
                         <Form.Group className="formgroup">
-                          <Form.Label>
-                            Videos <span>*</span>
-                          </Form.Label>
+                          <Form.Label>Chapter</Form.Label>
                           <Select
                             className="dropdown-basic-button split-button-dropup "
-                            options={videoListingData}
-                            onChange={onVideoSelect}
+                            options={chapterOption}
+                            onChange={onChapterSelect}
+                            defaultValue={chapterOption?.[0]}
                           />
+                        </Form.Group>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  <div className="side-step-text second-step">
+                    {initFunData?.file_type == "ebook" ? (
+                      <div className="embedded-video-step">
+                        <h2>Step2</h2>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    <p>
+                      Select the video and highlight the area you want to
+                      embed the video in{" "}
+                    </p>
+                    <Form.Group className="formgroup">
+                      <Form.Label>
+                        Videos <span>*</span>
+                      </Form.Label>
+                      <Select
+                        className="dropdown-basic-button split-button-dropup "
+                        options={videoListingData}
+                        onChange={onVideoSelect}
+                      />
 
-                          <div className="upload-file-box">
-                            <Button
-                              className="btn-bordered btn-voilet"
-                              onClick={() => setUploadNewVideo(true)}
-                            >
-                              Upload new Video +
-                            </Button>
-                             {/* <Button
+                      <div className="upload-file-box">
+                        <Button
+                          className="btn-bordered btn-voilet"
+                          onClick={() => setUploadNewVideo(true)}
+                        >
+                          Upload new Video +
+                        </Button>
+                        {/* <Button
                               className="btn-bordered btn-voilet"
                               onClick={() => fitToWidth(true)}
                             >
                              Calculate
                             </Button> */}
-                          </div>
-                        </Form.Group>
                       </div>
-                    </div>
-                    {file ? (
-                      <>
-                        <div
-                          id="parent_div"
-                          className="add_link_to_pdf"
-                          ref={parentRef}
-                        >
-                          <div
-                            className={
-                              highlighted
-                                ? "modal-body-content no_scroll"
-                                : "modal-body-content"
-                            }
-                          >
-                            {/* {isPopupOpen ? (
+                    </Form.Group>
+                  </div>
+                </div>
+                {file ? (
+                  <>
+                    <div
+                      id="parent_div"
+                      className="add_link_to_pdf"
+                      ref={parentRef}
+                    >
+                      <div
+                        className={
+                          highlighted
+                            ? "modal-body-content no_scroll"
+                            : "modal-body-content"
+                        }
+                      >
+                        {/* {isPopupOpen ? (
                               <>
                                 <div
                                   ref={popupRef}
@@ -1345,89 +1426,88 @@ else if(initialscale>=7500 && initialscale<8000){
                             ) : (
                               ""
                             )} */}
-                            <Viewer
-                              id="container"
-                              renderPage={renderPage}
-                              defaultScale={defaultScale}
-                              count={count}
-                              onPageChange={handleDocumentLoad}
-                              onDocumentLoad={handleCompleteDocumentLoad}
-                              renderMode="canvas"
-                              fileUrl={articleType == 'ebook' && fileVersion == 1 ? path_image + "videotypeebook.pdf" : file}
-                              // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
-                            />
-                            <div
-                              className="highlight_box"
-                              style={{
-                                position: "absolute",
-                                border: "2px dashed rgb(204, 204, 204)",
-                                backgroundColor: "rgba(255, 0, 0, 0)",
-                                display:
-                                  highlighted || dragging ? "block" : "none",
-                                pointerEvents: "none",
-                                left: `${Math.min(startX, endX)}px`,
-                                top: `${Math.min(startY, endY)}px`,
-                                width: `${Math.abs(startX - endX)}px`,
-                                height: `${Math.abs(startY - endY)}px`,
-                              }}
-                            />
-                            {highlighted && (
-                              <div className="link_popup" style={{
-                                left: `${Math.min(startX, endX)}px`,
-                                top: `${
-                                      Math.min(startY, endY) < 145 ?
-                                        Math.min(startY, endY) + 151
-                                      :
-                                        (documentHeight) - (Math.min(startY, endY) + Math.abs(startY - endY)) > 145 ? 
-                                        Math.min(startY, endY) + Math.abs(startY - endY) + 10 :
-                                        Math.min(startY, endY) - 151}px`,
-                              }}>
-                                <form action="#" id="addLinkForm">
-                                  <button
-                                    type="button"
-                                    className="close"
-                                    id="closeLinkPopup"
-                                    onClick={() => {
-                                      closePopup();
-                                    }}
-                                  >
-                                    <span aria-hidden="true">×</span>
-                                  </button>
-                                  <label htmlFor="targetURL">Add Link:</label>
+                        <Viewer
+                          id="container"
+                          renderPage={renderPage}
+                          defaultScale={defaultScale}
+                          count={count}
+                          onPageChange={handleDocumentLoad}
+                          onDocumentLoad={handleCompleteDocumentLoad}
+                          renderMode="canvas"
+                          fileUrl={articleType == 'ebook' && fileVersion == 1 ? path_image + "videotypeebook.pdf" : file}
+                        // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
+                        />
+                        <div
+                          className="highlight_box"
+                          style={{
+                            position: "absolute",
+                            border: "2px dashed rgb(204, 204, 204)",
+                            backgroundColor: "rgba(255, 0, 0, 0)",
+                            display:
+                              highlighted || dragging ? "block" : "none",
+                            pointerEvents: "none",
+                            left: `${Math.min(startX, endX)}px`,
+                            top: `${Math.min(startY, endY)}px`,
+                            width: `${Math.abs(startX - endX)}px`,
+                            height: `${Math.abs(startY - endY)}px`,
+                          }}
+                        />
+                        {highlighted && (
+                          <div className="link_popup" style={{
+                            left: `${Math.min(startX, endX)}px`,
+                            top: `${Math.min(startY, endY) < 145 ?
+                                Math.min(startY, endY) + 151
+                                :
+                                (documentHeight) - (Math.min(startY, endY) + Math.abs(startY - endY)) > 145 ?
+                                  Math.min(startY, endY) + Math.abs(startY - endY) + 10 :
+                                  Math.min(startY, endY) - 151}px`,
+                          }}>
+                            <form action="#" id="addLinkForm">
+                              <button
+                                type="button"
+                                className="close"
+                                id="closeLinkPopup"
+                                onClick={() => {
+                                  closePopup();
+                                }}
+                              >
+                                <span aria-hidden="true">×</span>
+                              </button>
+                              <label htmlFor="targetURL">Add Link:</label>
 
-                                  <input
-                                    placeholder="https://example.com"
-                                    id="targetURL"
-                                    className="form-control input-xs"
-                                    type="text"
-                                    value={inputUrl}
-                                    readOnly
-                                    onChange={handleChange}
-                                  />
-                                  {selectedError?.fileError ? (
-                                    <p className="err_class">
-                                      Please select a video link
-                                    </p>
-                                  ) : null}
-                                  <input
-                                    type="submit"
-                                    value="Add Link"
-                                    id="addLinkToPdfButton"
-                                    onClick={(e) => handleAddUrl(e, file)}
-                                  />
-                                </form>
-                              </div>
-                            )}
+                              <input
+                                placeholder="https://example.com"
+                                id="targetURL"
+                                className="form-control input-xs"
+                                type="text"
+                                value={inputUrl}
+                                readOnly
+                                onChange={handleChange}
+                              />
+                              {selectedError?.fileError ? (
+                                <p className="err_class">
+                                  Please select a video link
+                                </p>
+                              ) : null}
+                              <input
+                                type="submit"
+                                value="Add Link"
+                                id="addLinkToPdfButton"
+                                onClick={(e) => handleAddUrl(e, file)}
+                              />
+                            </form>
                           </div>
-                        </div>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </Col>
-                </div>
-              </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+              </Col>
             </div>
+          </div>
+        </div>
       </Col>
       <CommonModel
         show={commanShow}
@@ -1475,7 +1555,7 @@ else if(initialscale>=7500 && initialscale<8000){
           <div className="form-group">
             <div className="ebook-format">
               <label htmlFor="">
-                Video title <span style={{"color":"#d61975"}}>*</span>
+                Video title <span style={{ "color": "#d61975" }}>*</span>
               </label>
               <input
                 type="text"
