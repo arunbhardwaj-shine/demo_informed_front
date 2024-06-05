@@ -229,7 +229,8 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
 
   const handleBeforeChange = async (current) => {
     try {
-
+      
+      setTotalLive(0)
       setApiCallStatus(true);
       if (currentSnapShot.current) {
         currentSnapShot.current();
@@ -302,6 +303,7 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
 
   const submitQuestionAnswer = async (e, question_id, type) => {
     try {
+      getLiveCount(question_id)
       setApiCallStatus(true);
       let body = {
         eventId: eventData?.id,
@@ -317,11 +319,12 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
     // finally {
     //   setApiCallStatus(false);
     // }
-    getLiveCount(question_id)
   };
 
   const closedClicked = async (e, question_id, index) => {
     try {
+      getLiveCount(question_id)
+
       setApiCallStatus(true);
       setClosedIndex(index);
       let data = await postData(ENDPOINT.EVENT_CLOSE, {
@@ -329,9 +332,6 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
       });
     } catch (err) {
       setApiCallStatus(false);
-    } finally {
-      getLiveCount(question_id)
-
     }
 
   };
@@ -588,7 +588,7 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
                                   <label>Total (Live)</label>
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: (item?.totalUser < Math.max(totalLive, item?.live_count)) ? item?.live_count : item?.totalUser,
+                                      __html: totalLive || item?.live_count || item?.totalUser,
                                     }}
                                   ></p>
                                 </div>
