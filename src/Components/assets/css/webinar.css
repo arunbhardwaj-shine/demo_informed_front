@@ -4433,6 +4433,25 @@ l .vwd .factor-season-left h2 {
   box-shadow: none;
   background-position: 97% center;
 }
+.island_registration .motivation-body .consent-form .nationality .split-button-dropup>div:nth-child(3) {
+  background: transparent url(../../../../public/componentAssets/images/arrow-white.svg) no-repeat;
+  box-shadow: none;
+  background-position: 97% center;
+  padding:3px;
+  border-bottom: 1px solid rgba(31, 104, 179, 0.4);
+  border-radius: 0;
+}
+.island_registration .motivation-body .consent-form .nationality .split-button-dropup>div:nth-child(3) {
+  background: transparent url(../../../../public/componentAssets/images/accordian_arrow_blue.svg) no-repeat;
+  background-position: 99% center;
+}
+
+.island_registration .motivation-body .consent-form .nationality .split-button-dropup div:nth-child(3)>div div[class*=-placeholder], .island_registration .motivation-body .consent-form .nationality .split-button-dropup>div:nth-child(3) div {
+  color: #1a4b99;
+}
+.island_registration .consent-form .nationality .split-button-dropup>div:nth-child(3) div {
+  padding-left: 0;
+}
 .island_registration .consent-form .split-button-dropup>div:nth-child(3) {
   background-position: 97% center;
 }
@@ -4452,7 +4471,7 @@ l .vwd .factor-season-left h2 {
 }
 .island_registration .consent-form-list .field-icon {
   top: auto;
-  top: 7px;
+  top: 34px;
 }
 .island_registration input::-webkit-datetime-edit-fields-wrapper {
   position: relative;
