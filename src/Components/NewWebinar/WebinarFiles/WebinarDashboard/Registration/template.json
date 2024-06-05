@@ -961,7 +961,7 @@
                 ],
                 "required": "yes",
                 "extension": "",
-                "name": "nationality"
+                "name": "country"
             },
             {
                 "label": "Date of Birth",
@@ -978,21 +978,6 @@
                 "placeholder": "Please enter email",
                 "option": [],
                 "required": "yes"
-            },
-            {
-                "label": "Country",
-                "inputType": "selection",
-                "placeholder": "",
-                "option": [
-                    {
-                        "optionLabel": "  ",
-                        "extension": [],
-                        "checked": ""
-                    }
-                ],
-                "required": "yes",
-                "extension": "",
-                "name": "country"
             },
             {
                 "label": "Airport location / city",
