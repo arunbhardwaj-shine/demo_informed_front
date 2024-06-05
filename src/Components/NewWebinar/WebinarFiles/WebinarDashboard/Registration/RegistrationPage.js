@@ -3428,7 +3428,8 @@ const FormField7 = ({
       //   : ""
       //   }`}
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
+        }  ${(label?.includes("restrictions")) ? "restrictions" : "" 
+        }  ${(label?.includes("nationality")) ? "nationality" : "" 
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
 
