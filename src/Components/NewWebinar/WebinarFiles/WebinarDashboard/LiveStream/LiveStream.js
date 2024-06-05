@@ -976,7 +976,7 @@ useEffect(() => {
                                         <div className="live-stream-hcp">
                                           <h4>
                                             {item?.send_by == 1
-                                              ? "Octapharma"
+                                              ? localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1166,7 +1166,7 @@ useEffect(() => {
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
                                             {item?.send_by == 1
-                                              ? "Octapharma"
+                                              ? localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1352,7 +1352,7 @@ useEffect(() => {
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
                                             {item?.send_by == 1
-                                              ? "Octapharma"
+                                              ? localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1693,10 +1693,18 @@ useEffect(() => {
                                         <div className="d-flex hcp-detail">
                                           <div className="hcp-detail-list">
                                             <ul>
-                                              <li>
-                                                <span>Email</span>
-                                                {item?.email}
-                                              </li>
+                                              {
+                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                                  <li>
+                                                    <span>Site Number</span>
+                                                    {item?.site_number != 0 ? item?.site_number : 'N/A'}
+                                                  </li>
+                                                : 
+                                                  <li>
+                                                    <span>Email</span>
+                                                    {item?.email}
+                                                  </li>
+                                              }
                                               <li>
                                                 <span>Specialty</span>
                                                 {item?.hcp_status}
@@ -1705,7 +1713,10 @@ useEffect(() => {
                                                 <span>Country</span>
                                                 {item?.country
                                                   ? item?.country
-                                                  : item?.province}
+                                                  : item?.province ? item?.province : "N/A"}
+                                                {/* {item?.country
+                                                  ? item?.country
+                                                  : item?.province} */}
                                               </li>
                                             </ul>
                                           </div>
@@ -2036,10 +2047,18 @@ useEffect(() => {
                                         <div className="d-flex hcp-detail">
                                           <div className="hcp-detail-list">
                                             <ul>
-                                              <li>
-                                                <span>Email</span>
-                                                {item?.email}
-                                              </li>
+                                              {
+                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                                  <li>
+                                                    <span>Site Number</span>
+                                                    {item?.site_number != 0 ? item?.site_number : 'N/A'}
+                                                  </li>
+                                                : 
+                                                  <li>
+                                                    <span>Email</span>
+                                                    {item?.email}
+                                                  </li>
+                                              }
                                               <li>
                                                 <span>Specialty</span>
                                                 {item?.hcp_status}
@@ -2048,7 +2067,10 @@ useEffect(() => {
                                                 <span>Country</span>
                                                 {item?.country
                                                   ? item?.country
-                                                  : item?.province}
+                                                  : item?.province ? item?.province : "N/A"}
+                                                {/* {item?.country
+                                                  ? item?.country
+                                                  : item?.province} */}
                                               </li>
                                             </ul>
                                           </div>
@@ -2382,10 +2404,23 @@ useEffect(() => {
                                         <div className="d-flex hcp-detail">
                                           <div className="hcp-detail-list">
                                             <ul>
-                                              <li>
+                                              {/* <li>
                                                 <span>Email</span>
                                                 {item?.email}
-                                              </li>
+                                              </li> */}
+                                              {
+                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                                  <li>
+                                                    <span>Site Number</span>
+                                                    {item?.site_number != 0 ? item?.site_number : 'N/A'}
+                                                  </li>
+                                                : 
+                                                  <li>
+                                                    <span>Email</span>
+                                                    {item?.email}
+                                                  </li>
+                                              }
+                                              
                                               <li>
                                                 <span>Specialty</span>
                                                 {item?.hcp_status}
@@ -2394,7 +2429,7 @@ useEffect(() => {
                                                 <span>Country</span>
                                                 {item?.country
                                                   ? item?.country
-                                                  : item?.province}
+                                                  : item?.province ? item?.province : "N/A"}
                                               </li>
                                               {/* <li className='reader-msg'>
                                           <span>Question</span>
