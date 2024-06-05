@@ -125,9 +125,15 @@ const Invitees = () => {
 
       setShowFilter(false)
       
+      let countryfilter = filter?.Country ? filter?.Country : '';
+      if(eventId === 458){
+        countryfilter = filter?.Nationality ? filter?.Nationality : '';
+      }
+
+
       let payload = {
         "search": serachClear!="-1"?serachClear:search ? search : "",
-        "Country": filter?.Country ? filter?.Country : "",
+        "Country": countryfilter,
         "UserType": filter?.UserType ? filter?.UserType : "",
         // "UserType":["HCP"],
         "Type": filter?.Type ? filter?.Type : "",
@@ -840,7 +846,10 @@ const Invitees = () => {
                           </svg>
                         </button>
                       </th>
-                      <th scope="col">Country
+                      <th scope="col">
+                        {
+                          eventId == 458 ? "Nationality" : "Country"
+                        }
                         <button
                           className={`event_sort_btn ${isActive?.province == "dec"
                             ? "svg_active"
