@@ -254,14 +254,23 @@ const SpeakerZone = () => {
                                 <div className="reader_list" key={index}>
                                     <div className="detail-box">  
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
+                                        <p className="user_name">{item?.send_by == 1 ? 
+                                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
+                                         : item?.name ? item?.name : "Anonymous"}</p>
                                         {/* <div className="specialty">Specialty</div> */}
                                       </div>
                                         <div className="user-question">
                                             <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
                                             {
                                                 item?.reply && item?.reply != "" ?
-                                                <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
+                                                <div className="speaker_reply">
+                                                  { 
+                                                    localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? 
+                                                    <p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
+                                                    :
+                                                    <p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
+                                                  }
+                                                </div>
                                                 : null
                                             }
                                         </div>
@@ -322,14 +331,24 @@ const SpeakerZone = () => {
                                     <div className="reader_list" key={index}>
                                         <div className="detail-box">  
                                           <div class="d-flex justify-content-between align-items-center">
-                                            <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
+                                            <p className="user_name">{item?.send_by == 1 ? 
+                                              localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
+                                              : item?.name ? item?.name : "Anonymous"}
+                                            </p>
                                             {/* <div className="specialty">Specialty</div> */}
                                             </div>
                                             <div className="user-question">
                                               <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
                                               {
                                                   item?.reply && item?.reply != "" ?
-                                                  <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
+                                                  <div className="speaker_reply">
+                                                    { 
+                                                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? 
+                                                      <p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
+                                                      :
+                                                      <p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
+                                                    }
+                                                  </div>
                                                   : null
                                               }
                                             </div>
@@ -387,14 +406,24 @@ const SpeakerZone = () => {
                                     <div className="reader_list"  key={index}>
                                         <div className="detail-box">  
                                             <div class="d-flex justify-content-between align-items-center">
-                                              <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
+                                              <p className="user_name">{item?.send_by == 1 ? 
+                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
+                                                : item?.name ? item?.name : "Anonymous"}
+                                              </p>
                                               {/* <div className="specialty">Specialty</div> */}
                                               </div>
                                             <div className="user-question">
                                             <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
                                             {
                                                 item?.reply && item?.reply != "" ?
-                                                <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
+                                                <div className="speaker_reply">
+                                                    { 
+                                                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? 
+                                                      <p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
+                                                      :
+                                                      <p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
+                                                    }
+                                                </div>
                                                 : null
                                             }
                                             </div>
