@@ -945,13 +945,13 @@ const AddLinkToPdf = () => {
         box_width_y = box_width_y / 1.6;
         box_width_x = box_width_x / 1.65;
   
-        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.5 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.55 
-        : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.6: (y_cord >= 300 && y_cord < 400) ? y_cord / 1.62 
-        : (y_cord >= 400 && y_cord < 550) ? y_cord / 1.64 : (y_cord >= 550 && y_cord < 800) ? y_cord / 1.68 : y_cord / 1.7;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 100 ? y_cord / 1.4 : (y_cord >= 100 && y_cord < 200) ? y_cord / 1.45 
+        : (y_cord >= 200 && y_cord < 300) ? y_cord / 1.50: (y_cord >= 300 && y_cord < 500) ? y_cord / 1.53 
+        : (y_cord >= 500 && y_cord < 550) ? y_cord / 1.55 : (y_cord >= 550 && y_cord < 800) ? y_cord / 1.58 : y_cord / 1.62;
   
-        x_cord = x_cord < 100 ? x_cord / 1.40 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.55 : (x_cord >= 200 && x_cord < 400) ? x_cord / 1.64
-          : (x_cord >= 400 && x_cord < 600) ? x_cord / 1.66 : (x_cord >= 600 && x_cord < 1200) ? x_cord / 1.70 
-          : (x_cord > 1200 && x_cord < 1300) ? x_cord / 1.72 : x_cord / 1.74;
+        x_cord = x_cord < 100 ? x_cord / 1.35 : (x_cord >= 100 && x_cord < 200) ? x_cord / 1.45 : (x_cord >= 200 && x_cord < 400) ? x_cord / 1.50
+          : (x_cord >= 400 && x_cord < 700) ? x_cord / 1.53 : (x_cord >= 700 && x_cord < 900) ? x_cord / 1.56 
+          : (x_cord > 900 && x_cord < 1300) ? x_cord / 1.55 : x_cord / 1.60;
       } else{
         console.log("inside 3500 else ");
         box_width_y = box_width_y / 1.2
