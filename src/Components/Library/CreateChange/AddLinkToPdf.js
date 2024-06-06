@@ -993,10 +993,24 @@ const AddLinkToPdf = () => {
     } else if (initialscale >= 4600 && initialscale < 5000) {
       // 4918 1300
 
-      box_width_y = box_width_y / 1.04;
-      box_width_x = box_width_x / 1.06;
-      y_cord = y_cord <= 0 ? 1 : y_cord / 1.05;
-      x_cord = x_cord / 1.05;
+      if(screenSize>=1600){
+
+        box_width_y = box_width_y / 1.04;
+        box_width_x = box_width_x / 1.06;
+        y_cord = y_cord <= 0 ? 1 : y_cord / 1.05;
+        x_cord = x_cord / 1.05;
+      }else{
+        console.log("inside 5000 else ");
+        box_width_y = box_width_y / 0.8
+        box_width_x = box_width_x / 0.8
+
+          y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/0.67:(y_cord>=100&&y_cord<200)?y_cord/0.75:(y_cord>=200&&y_cord<300)?y_cord/0.78
+                  :(y_cord>=300&&y_cord<600)?y_cord/0.8:(y_cord>=600&&y_cord<800)?y_cord/0.80 :y_cord/0.82;
+
+          x_cord = x_cord<100?x_cord/0.65:(x_cord>=100&&x_cord<150)?x_cord/0.66:(x_cord>=150&&x_cord<250)?x_cord/0.75
+                    :(x_cord>=250&&x_cord<450)?x_cord/0.78:(x_cord>=450&&x_cord<750)?x_cord/0.80
+                    :(x_cord>=750&&x_cord<850)?x_cord/0.81:(x_cord>=850&&x_cord<1000)?x_cord/0.82:(x_cord>=1000&&x_cord<1200)?x_cord/0.85:x_cord/0.88;
+      }
     }
     else if (initialscale >= 5000 && initialscale < 5300) {
       // 5297 1400
