@@ -110,7 +110,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
   try {
 // if(currentQuestion.current && currentIndexRef.current?.triggered==1){
-if(currentQuestion.current){
+if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 || currentIndexRef.current?.showAnswerToUser!=2) ){
     let body = {
       eventId: eventData?.id,
       type: "graph",
