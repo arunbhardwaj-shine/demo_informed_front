@@ -985,10 +985,26 @@ const AddLinkToPdf = () => {
       }
     } else if (initialscale >= 4200 && initialscale < 4600) {
       //4540 1200
-      box_width_y = box_width_y / 1.03;
-      box_width_x = box_width_x / 1.16;
-      y_cord = y_cord <= 0 ? 1 : y_cord / 1.13;
-      x_cord = x_cord / 1.16;
+
+      if(screenSize>=1600){
+
+        box_width_y = box_width_y / 1.03;
+        box_width_x = box_width_x / 1.16;
+        y_cord = y_cord <= 0 ? 1 : y_cord / 1.13;
+        x_cord = x_cord / 1.16;
+      }else{
+        console.log("inside 4600 else ");
+        box_width_y = box_width_y / 0.9
+        box_width_x = box_width_x / 0.9
+
+          y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/0.8:(y_cord>=100&&y_cord<200)?y_cord/0.82:(y_cord>=200&&y_cord<350)?y_cord/0.85
+                  :(y_cord>=350&&y_cord<600)?y_cord/0.87:(y_cord>=600&&y_cord<800)?y_cord/0.9 :y_cord/0.92;
+
+          x_cord = x_cord<100?x_cord/0.7:(x_cord>=100&&x_cord<200)?x_cord/0.8:(x_cord>=200&&x_cord<300)?x_cord/0.82
+                    :(x_cord>=300&&x_cord<450)?x_cord/0.85:(x_cord>=450&&x_cord<800)?x_cord/0.87
+                    :(x_cord>=800&&x_cord<1000)?x_cord/0.88:(x_cord>=1000&&x_cord<1200)?x_cord/0.89:x_cord/0.91;
+
+      }
 
     } else if (initialscale >= 4600 && initialscale < 5000) {
       // 4918 1300
