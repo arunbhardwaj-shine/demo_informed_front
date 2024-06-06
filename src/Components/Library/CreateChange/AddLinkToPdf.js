@@ -961,11 +961,28 @@ const AddLinkToPdf = () => {
     else if (initialscale >= 3800 && initialscale < 4200) {
       // 4162 1100
 
-      box_width_y = box_width_y / 1.22;
-      box_width_x = box_width_x / 1.25;
-      y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 1.22 : (y_cord >= 200 && y_cord < 500) ? y_cord / 1.25 : y_cord / 1.28;
-      x_cord = x_cord < 200 ? x_cord / 1.15 : x_cord < 300 && x_cord >= 200 ? x_cord / 1.2 : x_cord < 650 && x_cord >= 300 ? x_cord / 1.25
-        : x_cord < 1200 && x_cord >= 650 ? x_cord / 1.27 : x_cord / 1.29;
+      if(screenSize>=1600){
+
+        
+              box_width_y = box_width_y / 1.22;
+              box_width_x = box_width_x / 1.25;
+              y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 1.22 : (y_cord >= 200 && y_cord < 500) ? y_cord / 1.25 : y_cord / 1.28;
+              x_cord = x_cord < 200 ? x_cord / 1.15 : x_cord < 300 && x_cord >= 200 ? x_cord / 1.2 : x_cord < 650 && x_cord >= 300 ? x_cord / 1.25
+                : x_cord < 1200 && x_cord >= 650 ? x_cord / 1.27 : x_cord / 1.29;
+      }else{
+
+        console.log("inside 4200 else ");
+        box_width_y = box_width_y / 0.98
+        box_width_x = box_width_x / 0.98
+
+          y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/0.8:(y_cord>=100&&y_cord<200)?y_cord/0.88:(y_cord>=200&&y_cord<300)?y_cord/0.93
+                  :(y_cord>=300&&y_cord<600)?y_cord/0.95:(y_cord>=600&&y_cord<800)?y_cord/0.98 :y_cord/1.02;
+
+          x_cord = x_cord<100?x_cord/0.75:(x_cord>=100&&x_cord<200)?x_cord/0.85:(x_cord>=200&&x_cord<300)?x_cord/0.9
+                    :(x_cord>=300&&x_cord<450)?x_cord/0.92:(x_cord>=450&&x_cord<800)?x_cord/0.95
+                    :(x_cord>=800&&x_cord<1000)?x_cord/0.96:(x_cord>=1000&&x_cord<1200)?x_cord/0.98:x_cord/1.01;
+
+      }
     } else if (initialscale >= 4200 && initialscale < 4600) {
       //4540 1200
       box_width_y = box_width_y / 1.03;
