@@ -856,7 +856,7 @@
                 "name": "care_professional",
                 "option": [
                     {
-                        "optionLabel": "I confirm I am an health care professional",
+                        "optionLabel": "I confirm I am a healthcare professional",
                         "extension": [],
                         "checked": ""
                     }

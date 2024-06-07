@@ -2990,7 +2990,7 @@ const FormField6 = ({
               />
               <label
                 style={{
-                  color: pageColors?.optionColor,
+                  fontWeight:'500', color: "#ffffff" ,
                 }}
                 htmlFor={label + index}
               >
