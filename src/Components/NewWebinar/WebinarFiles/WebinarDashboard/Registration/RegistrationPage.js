@@ -2994,7 +2994,14 @@ const FormField6 = ({
                 }}
                 htmlFor={label + index}
               >
-                {item.optionLabel}
+                {item.optionLabel} {label =="care_professional" && 
+        
+      
+      
+        <span style={{
+          color: "#E94362"
+        }} >{isRequired ? "*" : ""}</span>
+      }
               </label>
               <span className="checkmark" />
             </li>
@@ -3156,19 +3163,19 @@ const FormField6 = ({
   return (
     <div
       // className="col-sm-12 col-md-12 consent-form-list attend-sec"
-      className={`${(label?.includes("consent") ? `col-sm-12 col-md-12 consent-form-list attend-sec` : "col-sm-6 col-md-6 consent-form-list attend-sec"
+      className={`${((label?.includes("consent") || label =="care_professional") ? `col-sm-12 col-md-12 consent-form-list attend-sec` : "col-sm-6 col-md-6 consent-form-list attend-sec"
    ) }
         `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-      <label
+     {label !="care_professional" &&  <label
         style={{
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
         <span>{isRequired ? "*" : ""}</span>
-      </label>
+      </label>}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
       <style>
