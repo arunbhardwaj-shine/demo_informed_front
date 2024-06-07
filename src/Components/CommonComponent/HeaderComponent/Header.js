@@ -240,6 +240,7 @@ const Header = () => {
                       window.location.pathname == "/library-edit-listing" ||
                       window.location.pathname == "/library-create" ||
                       window.location.pathname == "/spc" ||
+                      window.location.pathname == "/all-events" ||
                       window.location.pathname == "/spc-create" ||
                       window.location.pathname == "/spc-edit" ||
                       window.location.pathname == "/spc-view" ||

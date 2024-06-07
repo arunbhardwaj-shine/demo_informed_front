@@ -212,5 +212,6 @@ export const ENDPOINT = {
   WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats",
   RTRREFRESH_EBOOK:"/analytics/refresh_ebook_rtr",
   WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats",
-  DOWNLOAD_EPS_FILE:"webinar/download-eps"
+  DOWNLOAD_EPS_FILE:"webinar/download-eps",
+  GET_ALL_EVENT_LIST:"auth/get-all-event-list",
 };
