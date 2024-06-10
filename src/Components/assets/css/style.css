@@ -2848,6 +2848,19 @@ form .input-group {
   font-size: 14px;
   padding: 10px;
 }
+.all-events_details .survey_data_accordion_heading table tbody td {
+  padding: 8px 16px;
+}
+.all-events_details .survey_data_accordion_heading table {
+  padding-right: 12px;
+}
+.all-events_details {
+  overflow-y: auto;
+  max-height: 75vh;
+}
+.all-events_details table thead.sticky-header:after {
+  top: -2px;
+}
 .add-cmd #download-qr .modal-body .form-group .modal-form-group {
   max-width: 100%;
   width: 100%;
@@ -2855,6 +2868,7 @@ form .input-group {
 .add-cmd #download-qr .modal-footer {
   padding-bottom: 4px;
 }
+
 .add-cmd #download-qr .modal-body .form-group {
   margin-bottom: 0px;
 }
@@ -9968,6 +9982,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   .page_not_found-inset p {
     margin: 0 0 35px;
   }
+    .all-events_details .survey_data_accordion_heading table tbody td {
+      padding: 8px 9px;
+    }
 }
 
 /** Not founf End**/
