@@ -2837,12 +2837,53 @@ form .input-group {
   padding-bottom: 10px;
   background: #fbfcfd;
 }
-
+.survey_data_accordion_heading table thead.sticky-header tr th.comment-events {
+  width: 420px;
+}
+.all-events_details .survey_data_accordion_heading table tbody td:last-child {
+  padding-right: 15px;
+  text-align: right;
+}
+.all-events_details .survey_data_accordion_heading table tbody td:last-child button {
+  font-size: 14px;
+  padding: 10px;
+}
+.add-cmd #download-qr .modal-body .form-group .modal-form-group {
+  max-width: 100%;
+  width: 100%;
+}
+.add-cmd #download-qr .modal-footer {
+  padding-bottom: 4px;
+}
+.add-cmd #download-qr .modal-body .form-group {
+  margin-bottom: 0px;
+}
+.add-cmd #download-qr .modal-body .form-group .form-control {
+  border-radius: 15px;
+  padding: 12px 18px;
+  max-width: 100%;
+  min-height: 110px;
+}
+.survey_data_accordion_heading table tbody td.comment-events-data textarea {
+  resize: none;
+  width: 100%;
+  border-radius: 14px;
+  background: rgba(0, 102, 190, 0.06);
+  color: #004A89;
+  padding: 8px 10px;
+}
 .survey_data_accordion_heading table thead tr {
   box-shadow: none;
   background: transparent;
 }
-
+.all-events_details .survey_data_accordion_heading table thead tr th:nth-child(2),
+.all-events_details .survey_data_accordion_heading table tbody tr td:nth-child(2) {
+  width: 210px;
+}
+.all-events_details .survey_data_accordion_heading table thead tr th:first-child,
+.all-events_details .survey_data_accordion_heading table tbody tr td:first-child {
+  width: 320px;
+}
 .survey_data_accordion_heading table thead tr th {
   font-weight: 500;
   font-size: 13px;

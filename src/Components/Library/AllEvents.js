@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Table, Modal } from "react-bootstrap";
+import { Col, Row, Table, Modal, Button } from "react-bootstrap";
 import { loader } from "../../loader";
 import { getData, postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
@@ -217,10 +217,10 @@ const AllEvents = () => {
               </div>
             </div>
 
-            <div className="survey_data">
+            <div className="all-events">
               {/* {data?.length > 0 ? ( */}
               <>
-                <div className="survey_data_details">
+                <div className="all-events_details">
                   <div className="survey_data_accordion_heading">
                     <Table className="fold-table" id="individual_completion">
                       <thead className="sticky-header">
@@ -239,8 +239,11 @@ const AllEvents = () => {
                           <th className="sort_option">
                             <span>Status</span>
                           </th>
-                          <th className="sort_option">
+                          <th className="sort_option comment-events">
                             <span>Comment</span>
+                          </th>
+                          <th className="sort_option">
+                            &nbsp;
                           </th>
 
                         </tr>
@@ -263,8 +266,8 @@ const AllEvents = () => {
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}</td>
                                 <td>{item?.username}</td>
                                 <td>{item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
-                                <td><textarea>{item?.comment?item?.comment:"N/A"}</textarea></td>
-                                <td><button onClick={(e) => addComment(e, item?.id)}>Add </button></td>
+                                <td className="comment-events-data"><textarea>{item?.comment?item?.comment:"N/A"}</textarea></td>
+                                <td><Button onClick={(e) => addComment(e, item?.id)}>Add </Button></td>
 
                               </tr>
                               {showDetails[index] && (
@@ -304,7 +307,7 @@ const AllEvents = () => {
 
         show={addCommentPopup}
         onHide={() => setAddCommentPopup(false)}
-        className="send-confirm"
+        className="send-confirm add-cmd"
         id="download-qr">
 
         <Modal.Header>
