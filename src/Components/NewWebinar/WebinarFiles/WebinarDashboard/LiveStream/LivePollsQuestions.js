@@ -45,9 +45,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
   const currentQuestion = useRef();
   const slickRef = useRef("");
   const currentSnapShot = useRef(null);
+  const currentSnapShotLiveCount = useRef(null);
   const [count, setCount] = useState(0);
   const [currentTab, setCurrentTab] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const currentIndexRef= useRef(0);
   const [questionIdIndex, setQuestionIdIndex] = useState([]);
   const [pieChartData, setPieChartData] = useState({});
   const [apiCallStatus, setApiCallStatus] = useState(false);
@@ -69,38 +71,53 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
 
   const [closedIndex, setClosedIndex] = useState();
-  const getLiveCount = async (questionId) => {
-
+  const getLiveCount =  () => {
     const usersRef = ref(database, "users");
     const onlineUsersQuery = query(usersRef, orderByChild("status"));
-  
-    try {
-      const snapshot = await get(onlineUsersQuery);
+
+    const handleChange = (snapshot) => {
       const onlineUserIds = [];
       snapshot.forEach((userSnapshot) => {
         const user = userSnapshot.val();
-        if (user?.user_id && user.status === "online") {
-          onlineUserIds.push(user.user_id);
+        if (user.user_id == null) {
+          return;
+        }
+        if (user) {
+          if (user?.status === "online") {
+            onlineUserIds.push(user.user_id);
+          }
         }
       });
       // setUserIds(onlineUserIds);
-      getEventRegisterReadersGraph("", onlineUserIds,questionId);
-    } catch (error) {
-      console.error("Error fetching online users:", error);
+      getEventRegisterReadersGraph("", onlineUserIds);
+
+    };
+    if (onValue) {
+      onValue(onlineUsersQuery, handleChange);
     }
+
+    return () => {
+      if (off) {
+        off(onlineUsersQuery, "value", handleChange);
+      }
+    };
   };
+
+
+
   
 
-const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questionId=0) => {
+const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
   try {
-
+// if(currentQuestion.current && currentIndexRef.current?.triggered==1){
+if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 || currentIndexRef.current?.showAnswerToUser!=2) ){
     let body = {
       eventId: eventData?.id,
       type: "graph",
       search: "",
       user_ids: userids,
       flag: false,
-      questionId:questionId
+      questionId:currentQuestion.current
     };
     const response = await postData(
       ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
@@ -109,7 +126,7 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
 
     let data = response?.data?.data;
     setTotalLive(data?.live_count)
-
+  }
   } catch (err) {
 
     console.log(err);
@@ -174,6 +191,9 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
 
   useEffect(() => {
     if (question?.length > 0) {
+      if (firstTime.current) {
+        getLiveCount()
+        }
       if (slickRef.current) {      
         if (firstTime.current) {
           slickRef.current.slickGoTo(currentIndex, true);
@@ -182,12 +202,16 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
           firstTime.current = false;
         }
       }
+    
+    
     }
   }, [question]);
+
   useEffect(() => {
     if (question?.length > 0) {
       const apiCall = async () => {
         let data = await firebaseev();
+
       };
       apiCall();
     }
@@ -229,7 +253,8 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
 
   const handleBeforeChange = async (current) => {
     try {
-
+      
+      setTotalLive(0)
       setApiCallStatus(true);
       if (currentSnapShot.current) {
         currentSnapShot.current();
@@ -284,7 +309,7 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
               });
 
               tempQuestion[currentIndex] = tempData[0];
-
+              currentIndexRef.current=tempData[0];
               setQuestion(tempQuestion);
 
               setPieChartData({
@@ -302,6 +327,7 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
 
   const submitQuestionAnswer = async (e, question_id, type) => {
     try {
+
       setApiCallStatus(true);
       let body = {
         eventId: eventData?.id,
@@ -317,11 +343,11 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
     // finally {
     //   setApiCallStatus(false);
     // }
-    getLiveCount(question_id)
   };
 
   const closedClicked = async (e, question_id, index) => {
     try {
+    
       setApiCallStatus(true);
       setClosedIndex(index);
       let data = await postData(ENDPOINT.EVENT_CLOSE, {
@@ -329,9 +355,6 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
       });
     } catch (err) {
       setApiCallStatus(false);
-    } finally {
-      getLiveCount(question_id)
-
     }
 
   };
@@ -588,7 +611,7 @@ const getEventRegisterReadersGraph = async (searchVal = "", userids = [],questio
                                   <label>Total (Live)</label>
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: (item?.totalUser < Math.max(totalLive, item?.live_count)) ? item?.live_count : item?.totalUser,
+                                      __html:item?.showAnswerToUser==2  && item?.showQuestionToUser==2 ? item?.live_count:( totalLive || item?.live_count || item?.totalUser),
                                     }}
                                   ></p>
                                 </div>
