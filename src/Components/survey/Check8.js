@@ -97,16 +97,20 @@ const Check8 = () => {
             city: formInputs?.location?.city ? formInputs?.location?.city : "",
             state: formInputs?.location?.state ? formInputs?.location?.state : ""
           },
-          provider: formInputs?.provider ? formInputs?.provider : "",
+          // provider: formInputs?.provider ? formInputs?.provider : "",
           haematologist: formInputs?.haematologist ? formInputs?.haematologist : "",
           practice_location: formInputs?.practice_location ? formInputs?.practice_location : "",
           rate_different_reasons: {
             to_confirm_diagnosis: formInputs?.rate_different_reasons?.to_confirm_diagnosis ? formInputs?.rate_different_reasons?.to_confirm_diagnosis : "",
+            to_make_diagnosis: formInputs?.rate_different_reasons?.to_make_diagnosis ? formInputs?.rate_different_reasons?.to_make_diagnosis : "",
             patient_inhibitor_development_risk: formInputs?.rate_different_reasons?.patient_inhibitor_development_risk ? formInputs?.rate_different_reasons?.patient_inhibitor_development_risk : "",
             guide_treatment_choice: formInputs?.rate_different_reasons?.guide_treatment_choice ? formInputs?.rate_different_reasons?.guide_treatment_choice : "",
             genotype_not_available: formInputs?.rate_different_reasons?.genotype_not_available ? formInputs?.rate_different_reasons?.genotype_not_available : "",
             no_insurance_reimbursement: formInputs?.rate_different_reasons?.no_insurance_reimbursement ? formInputs?.rate_different_reasons?.no_insurance_reimbursement : "",
+            family_members: formInputs?.rate_different_reasons?.family_members ? formInputs?.rate_different_reasons?.family_members : "",
             family_request: formInputs?.rate_different_reasons?.family_request ? formInputs?.rate_different_reasons?.family_request : "",
+            pre_conception: formInputs?.rate_different_reasons?.pre_conception ? formInputs?.rate_different_reasons?.pre_conception : "",
+            prohibitive : formInputs?.rate_different_reasons?.prohibitive ? formInputs?.rate_different_reasons?.prohibitive : "",
           others:formInputs?.rate_different_reasons?.others ? formInputs?.rate_different_reasons?.others : ""
           },
           patients_with_severe_hemophilia_A: {
@@ -129,7 +133,7 @@ const Check8 = () => {
             informed_testing_of_family_members: formInputs?.genotype_information_impacted_rate?.informed_testing_of_family_members ? formInputs?.genotype_information_impacted_rate?.informed_testing_of_family_members : "",
             surgical_management: formInputs?.genotype_information_impacted_rate?.surgical_management ? formInputs?.genotype_information_impacted_rate?.surgical_management : "",
             improved_patients_quality_of_life: formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life ? formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life : "",
-            others:formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life?formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life:"N/A"
+            others:formInputs?.genotype_information_impacted_rate?.others?formInputs?.genotype_information_impacted_rate?.others:"N/A"
           },
 
           satisfied_with_8check_service: {
@@ -240,7 +244,7 @@ const Check8 = () => {
                         Type of Provider:
                       </Form.Label>
 
-                      <Row>
+                      {/* <Row>
                         <Col sm={12}>
                           <Form.Control
                             type="text"
@@ -255,7 +259,7 @@ const Check8 = () => {
                             ""
                           )}
                         </Col>
-                      </Row>
+                      </Row> */}
                     </Form.Group>
                     <Form.Group className="mb-3">
                       <Form.Label className="label-main">
@@ -502,6 +506,140 @@ const Check8 = () => {
                               />
                               <label
                                 for="1-confirm_diagnosis"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </Col>
+                      <Col sm={12} className="d-flex">
+                        <fieldset>
+                          <div className="star-rating">
+                            <label>To make a diagnosis</label>
+
+                            <div className="rating-wrapper">
+                              <input
+                                type="radio"
+                                id="5-make_diagnosis"
+                                name="to_make_diagnosis"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "5")
+                                }
+                                checked={formInputs?.rate_different_reasons?.to_make_diagnosis == "5"}
+                              />
+                              <label
+                                for="5-make_diagnosis"
+                                className="star-rating"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="4-make_diagnosis"
+                                name="to_make_diagnosis"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "4")
+                                }
+                                checked={formInputs?.rate_different_reasons?.to_make_diagnosis == "4"}
+                              />
+                              <label
+                                for="4-make_diagnosis"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="3-make_diagnosis"
+                                name="to_make_diagnosis"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "3")
+                                }
+                                checked={formInputs?.rate_different_reasons?.to_make_diagnosis == "3"}
+                              />
+                              <label
+                                for="3-make_diagnosis"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="2-make_diagnosis"
+                                name="to_make_diagnosis"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "2")
+                                }
+                                checked={formInputs?.rate_different_reasons?.to_make_diagnosis == "2"}
+                              />
+                              <label
+                                for="2-make_diagnosis"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="1-make_diagnosis"
+                                name="to_make_diagnosis"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "1")
+                                }
+                                checked={formInputs?.rate_different_reasons?.to_make_diagnosis == "1"}
+                              />
+                              <label
+                                for="1-make_diagnosis"
                                 className="star-rating star"
                               >
                                 <svg
@@ -1041,6 +1179,139 @@ const Check8 = () => {
                       <Col sm={12} className="d-flex">
                         <fieldset>
                           <div className="star-rating">
+                            <label>To inform family members</label>
+                            <div className="rating-wrapper">
+                              <input
+                                type="radio"
+                                id="5-family_members"
+                                name="family_members"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "5")
+                                }
+                                checked={formInputs?.rate_different_reasons?.family_members == "5"}
+                              />
+                              <label
+                                for="5-family_members"
+                                className="star-rating"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="4-family_members"
+                                name="family_members"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "4")
+                                }
+                                checked={formInputs?.rate_different_reasons?.family_members == "4"}
+                              />
+                              <label
+                                for="4-family_members"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="3-family_members"
+                                name="family_members"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "3")
+                                }
+                                checked={formInputs?.rate_different_reasons?.family_members == "3"}
+                              />
+                              <label
+                                for="3-family_members"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="2-family_members"
+                                name="family_members"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "2")
+                                }
+                                checked={formInputs?.rate_different_reasons?.family_members == "2"}
+                              />
+                              <label
+                                for="2-family_members"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="1-family_members"
+                                name="family_members"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "1")
+                                }
+                                checked={formInputs?.rate_different_reasons?.family_members == "1"}
+                              />
+                              <label
+                                for="1-family_members"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </Col>
+                      <Col sm={12} className="d-flex">
+                        <fieldset>
+                          <div className="star-rating">
                             <label>Family/Individual request</label>
                             <div className="rating-wrapper">
                               <input
@@ -1171,6 +1442,272 @@ const Check8 = () => {
                           </div>
                         </fieldset>
                       </Col>
+                      <Col sm={12} className="d-flex">
+                        <fieldset>
+                          <div className="star-rating">
+                            <label>Pre-conception/Pregnancy planning and support</label>
+                            <div className="rating-wrapper">
+                              <input
+                                type="radio"
+                                id="5-pre_conception"
+                                name="pre_conception"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "5")
+                                }
+                                checked={formInputs?.rate_different_reasons?.pre_conception == "5"}
+                              />
+                              <label
+                                for="5-pre_conception"
+                                className="star-rating"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="4-pre_conception"
+                                name="pre_conception"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "4")
+                                }
+                                checked={formInputs?.rate_different_reasons?.pre_conception == "4"}
+                              />
+                              <label
+                                for="4-pre_conception"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="3-pre_conception"
+                                name="pre_conception"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "3")
+                                }
+                                checked={formInputs?.rate_different_reasons?.pre_conception == "3"}
+                              />
+                              <label
+                                for="3-pre_conception"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="2-pre_conception"
+                                name="pre_conception"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "2")
+                                }
+                                checked={formInputs?.rate_different_reasons?.pre_conception == "2"}
+                              />
+                              <label
+                                for="2-pre_conception"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="1-pre_conception"
+                                name="pre_conception"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "1")
+                                }
+                                checked={formInputs?.rate_different_reasons?.pre_conception == "1"}
+                              />
+                              <label
+                                for="1-pre_conception"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </Col>
+                      <Col sm={12} className="d-flex">
+                        <fieldset>
+                          <div className="star-rating">
+                            <label>Prohibitive out-of-pocket cost</label>
+                            <div className="rating-wrapper">
+                              <input
+                                type="radio"
+                                id="5-prohibitive"
+                                name="prohibitive"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "5")
+                                }
+                                checked={formInputs?.rate_different_reasons?.prohibitive == "5"}
+                              />
+                              <label
+                                for="5-prohibitive"
+                                className="star-rating"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="4-prohibitive"
+                                name="prohibitive"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "4")
+                                }
+                                checked={formInputs?.rate_different_reasons?.prohibitive == "4"}
+                              />
+                              <label
+                                for="4-prohibitive"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="3-prohibitive"
+                                name="prohibitive"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "3")
+                                }
+                                checked={formInputs?.rate_different_reasons?.prohibitive == "3"}
+                              />
+                              <label
+                                for="3-prohibitive"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="2-prohibitive"
+                                name="prohibitive"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "2")
+                                }
+                                checked={formInputs?.rate_different_reasons?.prohibitive == "2"}
+                              />
+                              <label
+                                for="2-prohibitive"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+
+                              <input
+                                type="radio"
+                                id="1-prohibitive"
+                                name="prohibitive"
+                                onChange={(e) =>
+                                  handleChange(e, "rate_different_reasons", "1")
+                                }
+                                checked={formInputs?.rate_different_reasons?.prohibitive == "1"}
+                              />
+                              <label
+                                for="1-prohibitive"
+                                className="star-rating star"
+                              >
+                                <svg
+                                  stroke="#019acc"
+                                  stroke-width="1px"
+                                  fill="#fff"
+                                  width="800px"
+                                  height="800px"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <path d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z" />
+                                </svg>
+                              </label>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </Col>
                       <Col sm={12} className="d-flex flex-wrap">
                         <label>Others</label>
                         <Form.Control
@@ -1191,7 +1728,7 @@ const Check8 = () => {
                     </Form.Group>
                     <Form.Group className="mb-3">
                       <Form.Label column sm={12} className="label-main">
-                        2. How many patients in each patient group have used the
+                        2. For how many patients in each patient group have used the
                         8CHECK service
                       </Form.Label>
                       <Form.Group className="mb-3">
