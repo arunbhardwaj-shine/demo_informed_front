@@ -884,9 +884,14 @@ const Routing = () => {
           path="/survey/8check"
           element={<Check8 />}
         />
-        <Route
+        {/* <Route
           path="/survey/survey-data"
           element={<SurveyData/>}
+        /> */}
+
+        <Route
+          path="/survey/survey-data"
+          element={<LoginLayout component={SurveyData} />}
         />
 
           <Route

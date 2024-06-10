@@ -84,13 +84,13 @@ export const SurveyFormValidations = (data) => {
         }
         if(!data?.satisfied_with_8check_service){
             error.satisfied_with_8check_service="This field is required"
-            error.FVIII_infusion="This field is required"
+            error.recommend_colleague="This field is required"
         }else if(data?.satisfied_with_8check_service){
             if(!data?.satisfied_with_8check_service?.satisfied_with_8check_service){
                 error.satisfied_with_8check_service="This field is required" 
             }
-            if(!data?.satisfied_with_8check_service?.FVIII_infusion){
-                error.FVIII_infusion="This field is required" 
+            if(!data?.satisfied_with_8check_service?.recommend_colleague){
+                error.recommend_colleague="This field is required" 
             }
         }
 
