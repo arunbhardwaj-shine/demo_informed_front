@@ -271,7 +271,8 @@ const ContentAnalytics = () => {
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
 
       const link = document.createElement("a");
-      link.download = `${Math.random()}.png`;
+      // link.download = `${Math.random()}.png`;
+      link.download = `article_stats.png`;
       link.href = dataUrl;
       link.click();
 
