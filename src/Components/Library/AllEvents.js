@@ -239,6 +239,9 @@ const AllEvents = () => {
                           <th className="sort_option">
                             <span>Status</span>
                           </th>
+                          <th className="sort_option">
+                            <span>Comment</span>
+                          </th>
 
                         </tr>
                       </thead>
@@ -260,7 +263,7 @@ const AllEvents = () => {
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}</td>
                                 <td>{item?.username}</td>
                                 <td>{item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
-                                <td><textarea></textarea></td>
+                                <td><textarea>{item?.comment?item?.comment:"N/A"}</textarea></td>
                                 <td><button onClick={(e) => addComment(e, item?.id)}>Add </button></td>
 
                               </tr>
