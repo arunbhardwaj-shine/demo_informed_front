@@ -66,6 +66,7 @@ const AllEvents = () => {
       loader("show")
       if(comment?.trim()==""||comment=="undefined" ){
         setError("Please enter your comment")
+        loader("hide")
         return
       }else{
         let body={
@@ -260,13 +261,13 @@ const AllEvents = () => {
                               >
                                 {console.log("item comment after update-->",item?.comment)}
                                 <td>{item?.title}</td>
-                                <td className="registered"> {formatDate(item?.dateStart)} |{" "}
-                                  {`${item?.dateStartHour > 12 ? parseInt(item?.dateStartHour) - 12 : item?.dateStartHour}:${item?.dateStartMin.length == 1
+                                <td className="registered"> <span>{formatDate(item?.dateStart)}</span> |{" "}
+                                <span>{`${item?.dateStartHour > 12 ? parseInt(item?.dateStartHour) - 12 : item?.dateStartHour}:${item?.dateStartMin.length == 1
                                     ? "0" + item?.dateStartMin
                                     : item?.dateStartMin
-                                    } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}</td>
+                                    } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}</span></td>
                                 <td>{item?.username}</td>
-                                <td className={item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}>
+                                <td className={item?.eventStatus == 0 ? "live" : item?.eventStatus > 0 ? "comingsoon" : "has-ended"}>
                                   {item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
                                 <td className="comment-events-data"><p>{item?.comment?item?.comment:"N/A"}</p></td>
                                 <td><Button onClick={(e) => addComment(e, item?.id,item?.comment)}>Add </Button></td>

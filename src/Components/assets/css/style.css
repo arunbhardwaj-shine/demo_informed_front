@@ -2885,6 +2885,27 @@ form .input-group {
   color: #004A89;
   padding: 8px 10px;
   font-size: 13px;
+  word-break: break-all;
+  overflow-y: auto;
+  max-height: 62px;
+}
+.add-cmd .form-group .modal-form-group .login-validation {
+  position: static;
+  margin: 2px 0 0;
+}
+.all-events_details .survey_data_accordion_heading table tbody td.has-ended {
+  color: #F58289;
+}
+.all-events_details .survey_data_accordion_heading table tbody td.comingsoon {
+  color: #39CABC;
+}
+.all-events_details .survey_data_accordion_heading table tbody td.live {
+  color: #0066BE;
+}
+.all-events_details .survey_data_accordion_heading table tbody tr td.registered span {
+  color: #39CABC;
+  opacity: 1;
+  font-weight: 400;
 }
 .survey_data_accordion_heading table thead tr {
   box-shadow: none;
