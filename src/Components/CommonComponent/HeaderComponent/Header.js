@@ -307,7 +307,7 @@ const Header = () => {
                       "/octalatch-deliveryregistration" ||
                       window.location.pathname == "/LEX-210-analytics" ||
                       window.location.pathname == "/feedback" ||
-                      window.location.pathname == "/content-analytics"
+                      window.location.pathname == "/content-analytics" ||  window.location.pathname == "/survey/survey-data" 
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
@@ -403,6 +403,8 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                   localStorage.getItem("webinar_flag") == 1
+                   ||
+                  localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
                   //  &&
                   // localStorage.getItem("user_id") !=
                   // "56Ek4feL/1A8mZgIKQWEqg=="

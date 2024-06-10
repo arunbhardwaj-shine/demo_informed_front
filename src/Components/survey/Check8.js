@@ -138,7 +138,7 @@ const Check8 = () => {
 
           satisfied_with_8check_service: {
             satisfied_with_8check_service: formInputs?.satisfied_with_8check_service?.satisfied_with_8check_service ? formInputs?.satisfied_with_8check_service?.satisfied_with_8check_service : "",
-            FVIII_infusion: formInputs?.satisfied_with_8check_service?.FVIII_infusion ? formInputs?.satisfied_with_8check_service?.FVIII_infusion : ""
+            recommend_colleague: formInputs?.satisfied_with_8check_service?.recommend_colleague ? formInputs?.satisfied_with_8check_service?.recommend_colleague : ""
           },
 
           suggestion: formInputs?.suggestion ? formInputs?.suggestion : "",
@@ -3125,23 +3125,23 @@ const Check8 = () => {
                         )}
                       </Col>
                       <Col sm={12} className="d-flex flex-wrap mb-3">
-                        <label>Who have not received a FVIII infusion</label>
+                        <label>Would you recommend this service to a colleague</label>
                         <Form.Check
                           type="radio"
-                          name="FVIII_infusion"
+                          name="recommend_colleague"
                           label="Yes"
                           onChange={(e) => handleChange(e, "satisfied_with_8check_service", "yes")}
-                          checked={formInputs?.satisfied_with_8check_service?.FVIII_infusion == "yes"}
+                          checked={formInputs?.satisfied_with_8check_service?.recommend_colleague == "yes"}
                         />
                         <Form.Check
                           type="radio"
-                          name="FVIII_infusion"
+                          name="recommend_colleague"
                           label="No"
                           onChange={(e) => handleChange(e, "satisfied_with_8check_service", "no")}
-                          checked={formInputs?.satisfied_with_8check_service?.FVIII_infusion == "no"}
+                          checked={formInputs?.satisfied_with_8check_service?.recommend_colleague == "no"}
                         />
-                        {error?.FVIII_infusion ? (
-                          <div className="login-validation">{error?.FVIII_infusion
+                        {error?.recommend_colleague ? (
+                          <div className="login-validation">{error?.recommend_colleague
                           }</div>
                         ) : (
                           ""

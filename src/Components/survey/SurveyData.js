@@ -154,8 +154,8 @@ const SurveyData = () => {
         
           "4. How satisfied are you with the 8CHECK service":item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?.trim():"N/A",
 
-          "4. How satisfied are you with the 8CHECK service,Who have not received a FVIII infusion":
-          item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?.trim():"N/A",
+          "4. How satisfied are you with the 8CHECK service,Would you recommend this service to a colleague":
+          item?.survey_data?.satisfied_with_8check_service?.recommend_colleague?item?.survey_data?.satisfied_with_8check_service?.recommend_colleague?.trim():"N/A",
 
           "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
 
@@ -240,7 +240,7 @@ const SurveyData = () => {
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
-      toast.success("content copied to the clipboard!");
+      toast.success("Survey link copied to clipboard");
     } else {
       unsecuredCopyToClipboard(content);
     }
@@ -253,7 +253,7 @@ const SurveyData = () => {
     textArea.select();
     try {
       document.execCommand("copy");
-      toast.success("content copied to the clipboard!");
+      toast.success("Survey link copied to clipboard");
     } catch (err) {
       console.error("Unable to copy to clipboard", err);
     }
@@ -262,7 +262,7 @@ const SurveyData = () => {
 
 
   return (<>
-    <ToastContainer
+    {/* <ToastContainer
       position="top-right"
       autoClose={5000}
       hideProgressBar={false}
@@ -272,13 +272,13 @@ const SurveyData = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-    />
-    <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div>
-    <Col className="right-sidebar custom-change full-width-survey">
-      <meta
+    /> */}
+    {/* <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div> */}
+    <Col className="right-sidebar custom-change ">
+      {/* <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
-      />
+      /> */}
       <div className="custom-container">
         <Row>
           <Col>
@@ -286,7 +286,7 @@ const SurveyData = () => {
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
                 <div className='clear-search d-flex align-items-center'>
-                  {/* <a
+                  <a
                     className={`copy_link btn-voilet`}
                     // href={`${window.location.protocol}//${window.location.host}/survey/check8`}
                     href={`https://events.docintel.app/survey/8check`}
@@ -299,7 +299,7 @@ const SurveyData = () => {
                     }}
                   >
                     Copy Survey Link
-                  </a> */}
+                  </a>
                   {data?.length > 0 ?
                     <div className="clear-search d-flex align-items-center">
                       <button
@@ -422,7 +422,7 @@ const SurveyData = () => {
                                     <div className='survey-data'>
                                       <h6>4. How satisfied are you with the 8CHECK service</h6>
                                       <p><span>{item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service} star</span></p>
-                                      <p>Who have not received a FVIII infusion: <span>{item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion}</span></p>
+                                      <p>Would you recommend this service to a colleague: <span>{item?.survey_data?.satisfied_with_8check_service?.recommend_colleague}</span></p>
                                     </div>
 
                                     <div className='survey-data'>
