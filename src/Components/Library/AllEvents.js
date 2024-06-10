@@ -266,7 +266,8 @@ const AllEvents = () => {
                                     : item?.dateStartMin
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}</td>
                                 <td>{item?.username}</td>
-                                <td>{item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
+                                <td className={item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}>
+                                  {item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
                                 <td className="comment-events-data"><p>{item?.comment?item?.comment:"N/A"}</p></td>
                                 <td><Button onClick={(e) => addComment(e, item?.id,item?.comment)}>Add </Button></td>
 
