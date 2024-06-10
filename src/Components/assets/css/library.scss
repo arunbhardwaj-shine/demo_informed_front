@@ -4779,7 +4779,12 @@ input[type="number"] {
   text-decoration: none;
   font-weight: 400;
 }
-
+.content_details .verify-email-detail h6 a.doc-link + span img{
+width:12px;
+}
+.content_details .verify-email-detail > div {
+  width: 100%;
+}
 .content_details .mail-recipt h6 {
   font-size: 20px;
   line-height: 23px;

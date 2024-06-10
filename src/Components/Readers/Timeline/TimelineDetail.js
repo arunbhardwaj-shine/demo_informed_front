@@ -304,14 +304,18 @@ const TimelineDetail = (props) => {
                                     : "N/A"}
                                 </td>
                               </tr>
-                              <tr>
-                                <th>IBU</th>
-                                <td>
-                                  {timeLineData?.user?.ibu != 0
-                                    ? timeLineData?.user?.ibu
-                                    : timeLineData?.user?.ibu == 0?"Haematology":"N/A"}
-                                </td>
-                              </tr>
+                              {
+                                localStorage.getItem('user_id') != 'wkBwZolAyDp7G37KOikDiA==' ?
+                                <tr>
+                                  <th>IBU</th>
+                                  <td>
+                                    {timeLineData?.user?.ibu != 0
+                                      ? timeLineData?.user?.ibu
+                                      : timeLineData?.user?.ibu == 0?"Haematology":"N/A"}
+                                  </td>
+                                </tr>
+                                : null
+                              }
                               <tr>
                                 <th>Consent</th>
                                 <td>
