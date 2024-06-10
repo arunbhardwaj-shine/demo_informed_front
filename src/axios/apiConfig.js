@@ -214,4 +214,5 @@ export const ENDPOINT = {
   WEBINAR_EVENT_POLL_STATS:"/webinar/download-event-poll-stats",
   DOWNLOAD_EPS_FILE:"webinar/download-eps",
   GET_ALL_EVENT_LIST:"auth/get-all-event-list",
+  ADD_COMMENT_TO_EVENT:"auth/add-comment-to-event"
 };
