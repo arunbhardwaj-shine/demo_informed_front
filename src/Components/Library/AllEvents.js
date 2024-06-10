@@ -265,7 +265,7 @@ const AllEvents = () => {
                                 <td className={item?.eventStatus == 0 ? "live" : item?.eventStatus > 0 ? "comingsoon" : "has-ended"}>
                                   {item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
                                 <td className="comment-events-data"><p>{item?.comment?item?.comment:"N/A"}</p></td>
-                                <td><Button onClick={(e) => addComment(e, item?.id,item?.comment)}>Add </Button></td>
+                                <td><Button onClick={(e) => addComment(e, item?.id,item?.comment)}>Edit </Button></td>
 
                               </tr>
                               {showDetails[index] && (
@@ -310,7 +310,7 @@ const AllEvents = () => {
 
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Comment
+            Edit Comment
           </h5>
           <button
             type="button"
@@ -328,7 +328,7 @@ const AllEvents = () => {
               <textarea
 
                 // name={item?.name ? item?.name : item?.label}
-                placeholder="enter your comment"
+                placeholder="Enter your comment"
                 className="form-control"
                 // onChange={handleModelChange}
                 value={comment?comment: ""}
