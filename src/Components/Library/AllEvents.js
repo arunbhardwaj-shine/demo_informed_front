@@ -25,11 +25,13 @@ const AllEvents = () => {
     getAllEventList();
   }, []);
 
-  const getAllEventList = async () => {
+  const getAllEventList = async (flag=0) => {
     try {
-      loader("show");
+      if(flag==0){
+        loader("show");
+      }
+     
       const response = await getData(ENDPOINT.GET_ALL_EVENT_LIST);
-      //   console.log(response, "response");
       let data = response?.data?.data || [];
       data = data?.map((item, element) => {
         let status = differenceDays(item?.eventStartDateTime, item?.eventEndtDateTime, item?.timezone, "")
@@ -39,7 +41,7 @@ const AllEvents = () => {
         };
       });
       setData(data);
-      console.log("data", data);
+    
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -47,8 +49,9 @@ const AllEvents = () => {
     }
   };
 
-  const addComment = async (e, id) => {
+  const addComment = async (e, id,comment) => {
     setEventId(id)
+    setComment(comment)
     setAddCommentPopup(true)
 
   }
@@ -59,7 +62,6 @@ const AllEvents = () => {
   }
 
   const handleSaveComment=async(e)=>{
-    console.log("comment--->",comment)
     try{
       loader("show")
       if(comment?.trim()==""||comment=="undefined" ){
@@ -73,15 +75,13 @@ const AllEvents = () => {
         const response=await postData(ENDPOINT.ADD_COMMENT_TO_EVENT,body)
         setEventId()
         setAddCommentPopup(false)
+        setData()
+        getAllEventList(1)
         setComment("")
       }
-
      
     }catch(error){
       console.log("error--",error)
-    }finally{
-      loader("hide")
-     
     }
   }
 
@@ -218,7 +218,7 @@ const AllEvents = () => {
             </div>
 
             <div className="all-events">
-              {/* {data?.length > 0 ? ( */}
+              {data?.length > 0 ? ( 
               <>
                 <div className="all-events_details">
                   <div className="survey_data_accordion_heading">
@@ -258,6 +258,7 @@ const AllEvents = () => {
                               // }
                               // onClick={() => toggleDetails(index)}
                               >
+                                {console.log("item comment after update-->",item?.comment)}
                                 <td>{item?.title}</td>
                                 <td className="registered"> {formatDate(item?.dateStart)} |{" "}
                                   {`${item?.dateStartHour > 12 ? parseInt(item?.dateStartHour) - 12 : item?.dateStartHour}:${item?.dateStartMin.length == 1
@@ -266,8 +267,8 @@ const AllEvents = () => {
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}</td>
                                 <td>{item?.username}</td>
                                 <td>{item?.eventStatus == 0 ? "Live" : item?.eventStatus > 0 ? "Coming soon" : "Has ended"}</td>
-                                <td className="comment-events-data"><textarea>{item?.comment?item?.comment:"N/A"}</textarea></td>
-                                <td><Button onClick={(e) => addComment(e, item?.id)}>Add </Button></td>
+                                <td className="comment-events-data"><p>{item?.comment?item?.comment:"N/A"}</p></td>
+                                <td><Button onClick={(e) => addComment(e, item?.id,item?.comment)}>Add </Button></td>
 
                               </tr>
                               {showDetails[index] && (
@@ -292,11 +293,11 @@ const AllEvents = () => {
                   </div>
                 </div>
               </>
-              {/* ) : (
+              ) : (
                 <div className="no_found">
                   <p align="center">No Data Found</p>
                 </div>
-              )} */}
+              )}
             </div>
             {/* </Col> */}
           </Row>
@@ -333,7 +334,7 @@ const AllEvents = () => {
                 placeholder="enter your comment"
                 className="form-control"
                 // onChange={handleModelChange}
-                // defaultValue={item?.value ? item?.value : ""}
+                value={comment?comment: ""}
 
                 onChange={handleChange}
               />
