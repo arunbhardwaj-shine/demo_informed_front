@@ -2864,13 +2864,13 @@ form .input-group {
   max-width: 100%;
   min-height: 110px;
 }
-.survey_data_accordion_heading table tbody td.comment-events-data textarea {
-  resize: none;
+.survey_data_accordion_heading table tbody td.comment-events-data p {
   width: 100%;
   border-radius: 14px;
   background: rgba(0, 102, 190, 0.06);
   color: #004A89;
   padding: 8px 10px;
+  font-size: 13px;
 }
 .survey_data_accordion_heading table thead tr {
   box-shadow: none;
