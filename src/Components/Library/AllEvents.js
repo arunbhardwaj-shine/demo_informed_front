@@ -311,7 +311,7 @@ const AllEvents = () => {
         show={addCommentPopup}
         onHide={() => setAddCommentPopup(false)}
         className="send-confirm add-cmd"
-        id="download-qr">
+        id="add_hcp">
 
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
