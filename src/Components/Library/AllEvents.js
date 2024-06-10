@@ -50,6 +50,7 @@ const AllEvents = () => {
   };
 
   const addComment = async (e, id,comment) => {
+    setError("")
     setEventId(id)
     setComment(comment)
     setAddCommentPopup(true)
@@ -253,13 +254,7 @@ const AllEvents = () => {
                         {data?.map((item, index) => {
                           return (
                             <>
-                              <tr
-                              // className={
-                              //   showDetails[index] ? "view show" : "view"
-                              // }
-                              // onClick={() => toggleDetails(index)}
-                              >
-                                {console.log("item comment after update-->",item?.comment)}
+                              <tr>                              
                                 <td>{item?.title}</td>
                                 <td className="registered"> <span>{formatDate(item?.dateStart)}</span> |{" "}
                                 <span>{`${item?.dateStartHour > 12 ? parseInt(item?.dateStartHour) - 12 : item?.dateStartHour}:${item?.dateStartMin.length == 1
