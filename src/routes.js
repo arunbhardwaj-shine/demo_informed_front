@@ -19,6 +19,7 @@ import LibraryTopics from "./Components/Library/CreateChange/LibraryTopics";
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import PreviewContent from "./Components/Library/CreateChange/PreviewContent";
 import Spc from "./Components/Library/Spc";
+import AllEvents from "./Components/Library/AllEvents";
 import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
@@ -567,6 +568,7 @@ const Routing = () => {
           element={<LoginLayout component={CreateDocintelLink} />}
         />
         <Route path="/spc" element={<LoginLayout component={Spc} />} />
+        <Route path="/all-events" element={<LoginLayout component={AllEvents} />} />
         <Route
           path="/spc-create"
           element={<LoginLayout component={SpcCreate} />}
@@ -882,9 +884,14 @@ const Routing = () => {
           path="/survey/8check"
           element={<Check8 />}
         />
-        <Route
+        {/* <Route
           path="/survey/survey-data"
           element={<SurveyData/>}
+        /> */}
+
+        <Route
+          path="/survey/survey-data"
+          element={<LoginLayout component={SurveyData} />}
         />
 
           <Route

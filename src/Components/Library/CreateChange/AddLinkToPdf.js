@@ -785,10 +785,22 @@ const AddLinkToPdf = () => {
     } else if (initialscale >= 1200 && initialscale < 1300) {
       //1281 specical susheel sir case
       // console.log("1281");
-      box_width_y = box_width_y / 3.52;
-      box_width_x = box_width_x / 3.62;
-      y_cord = y_cord <= 0 ? 1 : y_cord / 3.55;
-      x_cord = x_cord / 3.78;
+      if(screenSize>=1600){
+
+        box_width_y = box_width_y / 3.52;
+        box_width_x = box_width_x / 3.62;
+        y_cord = y_cord <= 0 ? 1 : y_cord / 3.55;
+        x_cord = x_cord / 3.78;
+      }else{
+        console.log("in else  1200-1300")
+        box_width_y = box_width_y / 2.5;
+        box_width_x = box_width_x / 2.8;
+        y_cord = y_cord <= 0 ? 1 : y_cord < 200 ? y_cord / 3 :(y_cord >= 200 && y_cord < 300) ? y_cord / 3 : (y_cord >= 300 && y_cord < 500) ? y_cord / 3.1 : (y_cord >= 500 && y_cord < 600) ? y_cord / 3.15
+        : (y_cord >= 600 && y_cord < 800) ? y_cord / 3.2 : (y_cord >= 800 && y_cord < 900) ? y_cord / 3.25 : y_cord / 3.3;
+      
+        x_cord = x_cord < 50 ? x_cord / 1.5 : x_cord>=50 && x_cord < 100 ? x_cord / 2.4 : (x_cord >= 100 && x_cord < 550) ? x_cord / 3 
+        : (x_cord >= 550 && x_cord < 1100) ? x_cord /3.15 : (x_cord >= 1100 && x_cord < 1200) ? x_cord / 3.2 : x_cord / 3.25;
+      }
     }
     else if (initialscale >= 1300 && initialscale < 1600) {
       //1907 specical susheel sir case
