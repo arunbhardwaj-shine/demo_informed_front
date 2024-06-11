@@ -381,7 +381,7 @@ const SurveyData = () => {
                                     <div className='survey-data'>
                                       <h6>1. Rate the different reasons you have used the 8CHECK service: </h6>
                                       <p>To confirm a diagnosis: <span>{item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis} star</span></p>
-                                      <p>To make a diagnosis <span>{item?.survey_data?.rate_different_reasons?.to_make_diagnosis} star</span></p>
+                                      <p>To make a diagnosis: <span>{item?.survey_data?.rate_different_reasons?.to_make_diagnosis} star</span></p>
                                       <p>Patient inhibitor development risk: <span>{item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk} star</span></p>
                                       <p>Guide treatment choice: <span>{item?.survey_data?.rate_different_reasons?.guide_treatment_choice} star</span></p>
                                       <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available} star</span></p>
@@ -389,8 +389,8 @@ const SurveyData = () => {
                                       <p>To inform family members: <span>{item?.survey_data?.rate_different_reasons?.family_members} star</span></p>
                                       <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request} star</span></p>
                                       <p>Pre-conception/Pregnancy planning and support: <span>{item?.survey_data?.rate_different_reasons?.pre_conception} star</span></p>
-                                      <p>Prohibitive out-of-pocket cost : <span>{item?.survey_data?.rate_different_reasons?.prohibitivet} star</span></p>
-                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others:<span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
+                                      <p>Prohibitive out-of-pocket cost : <span>{item?.survey_data?.rate_different_reasons?.prohibitive} star</span></p>
+                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others: <span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
@@ -399,12 +399,12 @@ const SurveyData = () => {
                                       <p>Who have not received a FVIII infusion: <span>{item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion}</span></p>
                                       <p>Who have received more than 50 infusions FVIII treatment: <span>{item?.survey_data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion}</span></p>
                                       <h6>Patients with non-severe hemophilia A</h6>
-                                      <p>{item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A}</p>
+                                      <p><span>{item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A}</span></p>
                                       <h6>Known, or potential carriers/female with hemophilia A:</h6>
                                       <p>Symptomatic: <span>{item?.survey_data?.known_carrier_with_hemophilia_A?.symptomatic}</span></p>
                                       <p>Asymptomatic: <span>{item?.survey_data?.known_carrier_with_hemophilia_A?.asymptomatic}</span></p>
                                       <h6>Patients with current/past FVIII inhibitors</h6>
-                                      <p>{item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors}</p>
+                                      <p><span>{item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors}</span></p>
                                     </div>
 
                                     <div className='survey-data'>
@@ -416,7 +416,7 @@ const SurveyData = () => {
                                       <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members} star</span></p>
                                       <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management} star</span></p>
                                       <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life} star</span></p>
-                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others:<span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
+                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others: <span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>

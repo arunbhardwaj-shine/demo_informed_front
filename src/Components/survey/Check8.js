@@ -3181,9 +3181,9 @@ const Check8 = () => {
                           name="interested_in_8check_activities"
                           label="Publication of 8CHECK data"
                           onChange={(e) =>
-                            handleChange(e, "publication of 8check data")
+                            handleChange(e, "Publication of 8check data")
                           }
-                          checked={formInputs?.interested_in_8check_activities?.publication_of_8check_data}
+                          checked={formInputs?.interested_in_8check_activities?.Publication_of_8check_data}
 
                         />
                         <Form.Check
@@ -3191,9 +3191,9 @@ const Check8 = () => {
                           name="interested_in_8check_activities"
                           label="Future study in F8 genotyping"
                           onChange={(e) =>
-                            handleChange(e, "future study in F8 genotyping")
+                            handleChange(e, "Future study in F8 genotyping")
                           }
-                          checked={formInputs?.interested_in_8check_activities?.future_study_in_F8_genotyping}
+                          checked={formInputs?.interested_in_8check_activities?.Future_study_in_F8_genotyping}
                         />
                         {error?.interested_in_8check_activities ? (
                           <div className="login-validation">{error?.interested_in_8check_activities

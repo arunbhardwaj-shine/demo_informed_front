@@ -207,6 +207,16 @@ const [comment,setComment]=useState("")
       let newAr = [];
       const keys = Object.keys(userValid);
 
+      let getIp = localStorage.getItem('ip');
+      let ipaddress = '';
+      if (getIp) {
+        ipaddress = getIp;
+      }else{
+        const response  = await axios.get('https://api.ipify.org?format=json');
+        ipaddress = response?.data?.ip ? response?.data?.ip : '';
+        localStorage.setItem('ip',ipaddress);
+      }
+
       keys.forEach((item) => {
         let obj = {};
 
@@ -219,7 +229,7 @@ const [comment,setComment]=useState("")
             // poll_answer_id: "",
             user_answer:user[0]?.parentId == 1660 ? userValid[item].join(',') :comment,
             guest_id: Cookies.get("events"),
-           
+           'ipAddress': ipaddress,
            
           };
           // console.log(obj,'obj')
@@ -233,7 +243,7 @@ const [comment,setComment]=useState("")
             // user_answer: userValid[item],
             user_answer:comment,
             guest_id: Cookies.get("events"),
-           
+           'ipAddress': ipaddress,
           };
         
         }
