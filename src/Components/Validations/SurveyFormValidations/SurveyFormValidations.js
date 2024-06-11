@@ -12,13 +12,13 @@ export const SurveyFormValidations = (data) => {
             error.state = "This field is required"
         }
     }
-    // if (!data?.provider) {
-    //     error.provider = "This field is required"
-    // }
-
-    if (!data?.haematologist) {
-        error.haematologist = "This field is required"
+    if (!data?.provider) {
+        error.provider = "This field is required"
     }
+
+    // if (!data?.haematologist) {
+    //     error.haematologist = "This field is required"
+    // }
 
     if (!data?.practice_location) {
         error.practice_location = "This field is required"
