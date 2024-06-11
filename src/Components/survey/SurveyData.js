@@ -63,7 +63,7 @@ const SurveyData = () => {
           'Location,City': item?.survey_data?.location?.city ? item?.survey_data?.location?.city.trim() : "N/A",
           'Location,State': item?.survey_data?.location?.state ? item?.survey_data?.location?.state.trim() : "N/A",
           // 'Type of Provider': item?.survey_data?.provider ? item?.survey_data?.provider.trim() : "N/A",
-          Haematologist: item?.survey_data?.haematologist ? item?.survey_data?.haematologist?.trim() : "N/A",
+          'Type of Provider': item?.survey_data?.provider ? item?.survey_data?.provider?.trim() : "N/A",
           "Location of Practice": item?.survey_data?.practice_location ? item?.survey_data?.practice_location?.trim() : "N/A",
           "1.Rate the different reasons you have used the 8CHECK service,To confirm a diagnosis":
             item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis ?
@@ -373,7 +373,7 @@ const SurveyData = () => {
                                       <p>Type of Provider: <span>{item?.survey_data?.provider}</span></p>
                                     </div> */}
                                     <div className='survey-data'>
-                                      <p>Haematologist: <span>{item?.survey_data?.haematologist}</span></p>
+                                      <p>Type of Provider: <span>{item?.survey_data?.provider}</span></p>
                                     </div>
                                     <div className='survey-data'>
                                       <p>Location of Practice: <span>{item?.survey_data?.practice_location}</span></p>
