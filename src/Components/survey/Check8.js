@@ -59,7 +59,7 @@ const Check8 = () => {
             [e.target.name]: e?.target?.value,
           },
         }));
-      }else if( e.target.name==="haematologist"||e.target.name==="practice_location"
+      }else if( e.target.name==="provider"||e.target.name==="practice_location"
    ){
         setFormInputs({...formInputs,[e.target.name]:isSelectedName=="other" ? e?.target?.value : isSelectedName})
       }else if(e.target.name==="interested_in_8check_activities"){
@@ -98,7 +98,7 @@ const Check8 = () => {
             state: formInputs?.location?.state ? formInputs?.location?.state : ""
           },
           // provider: formInputs?.provider ? formInputs?.provider : "",
-          haematologist: formInputs?.haematologist ? formInputs?.haematologist : "",
+          provider: formInputs?.provider ? formInputs?.provider : "",
           practice_location: formInputs?.practice_location ? formInputs?.practice_location : "",
           rate_different_reasons: {
             to_confirm_diagnosis: formInputs?.rate_different_reasons?.to_confirm_diagnosis ? formInputs?.rate_different_reasons?.to_confirm_diagnosis : "",
@@ -262,38 +262,38 @@ const Check8 = () => {
                       </Row> */}
                     </Form.Group>
                     <Form.Group className="mb-3">
-                      <Form.Label className="label-main">
+                      {/* <Form.Label className="label-main">
                         Haematologist:
-                      </Form.Label>
+                      </Form.Label> */}
 
                       <Col sm={12} className="d-flex flex-wrap">
                         <div className="form-check-custom">
                           <Form.Check
                             type="radio"
-                            name="haematologist"
-                            label="Adult"
+                            name="provider"
+                            label="Haematologist Adult"
                             // value={formInputs?.adult}
-                            checked={formInputs?.haematologist=="Adult"}
-                            onChange={(e) => handleChange(e, "Adult")}
+                            checked={formInputs?.provider=="Haematologist Adult"}
+                            onChange={(e) => handleChange(e, "Haematologist Adult")}
                           />
                           <span className="custom-radio" />
                         </div>
                         <div className="form-check-custom">
                           <Form.Check
                             type="radio"
-                            name="haematologist"
-                            label="Pediatric"
-                            checked={formInputs?.haematologist=="Pediatric"}
-                            onChange={(e) => handleChange(e, "Pediatric")}
+                            name="provider"
+                            label="Haematologist Pediatric"
+                            checked={formInputs?.provider=="Haematologist Pediatric"}
+                            onChange={(e) => handleChange(e, "Haematologist Pediatric")}
                           />
                           <span className="custom-radio" />
                         </div>
                         <div className="form-check-custom">
                           <Form.Check
                             type="radio"
-                            name="haematologist"
+                            name="provider"
                             label="Obstetric/Gynecologist"
-                            checked={formInputs?.haematologist=="Obstetric/Gynecologist"}
+                            checked={formInputs?.provider=="Obstetric/Gynecologist"}
                             onChange={(e) => handleChange(e, "Obstetric/Gynecologist")}
                           />
                           <span className="custom-radio" />
@@ -301,9 +301,9 @@ const Check8 = () => {
                         <div className="form-check-custom">
                           <Form.Check
                             type="radio"
-                            name="haematologist"
+                            name="provider"
                             label="Genetic Counselor"
-                            checked={formInputs?.haematologist=="Genetic Counselor"}
+                            checked={formInputs?.provider=="Genetic Counselor"}
                             onChange={(e) => handleChange(e, "Genetic Counselor")}
                           />
                           <span className="custom-radio" />
@@ -316,18 +316,18 @@ const Check8 = () => {
                         <Form.Control
                           type="text"
                           placeholder=""
-                          name="haematologist"
-                          value={(formInputs?.haematologist=="Adult"||
-                          formInputs?.haematologist=="Pediatric"||
-                          formInputs?.haematologist=="Obstetric/Gynecologist"||
-                          formInputs?.haematologist=="Genetic Counselor")?"":formInputs?.haematologist
+                          name="provider"
+                          value={(formInputs?.provider=="Haematologist Adult"||
+                          formInputs?.provider=="Haematologist Pediatric"||
+                          formInputs?.provider=="Obstetric/Gynecologist"||
+                          formInputs?.provider=="Genetic Counselor")?"":formInputs?.provider
                         }
                           onChange={(e) => handleChange(e, "other")}
                         />
 
                       </div>
-                      {error?.haematologist ? (
-                        <div className="login-validation">{error?.haematologist}</div>
+                      {error?.provider ? (
+                        <div className="login-validation">{error?.provider}</div>
                       ) : (
                         ""
                       )}
@@ -3181,9 +3181,9 @@ const Check8 = () => {
                           name="interested_in_8check_activities"
                           label="Publication of 8CHECK data"
                           onChange={(e) =>
-                            handleChange(e, "publication of 8check data")
+                            handleChange(e, "Publication of 8check data")
                           }
-                          checked={formInputs?.interested_in_8check_activities?.publication_of_8check_data}
+                          checked={formInputs?.interested_in_8check_activities?.Publication_of_8check_data}
 
                         />
                         <Form.Check
@@ -3191,9 +3191,9 @@ const Check8 = () => {
                           name="interested_in_8check_activities"
                           label="Future study in F8 genotyping"
                           onChange={(e) =>
-                            handleChange(e, "future study in F8 genotyping")
+                            handleChange(e, "Future study in F8 genotyping")
                           }
-                          checked={formInputs?.interested_in_8check_activities?.future_study_in_F8_genotyping}
+                          checked={formInputs?.interested_in_8check_activities?.Future_study_in_F8_genotyping}
                         />
                         {error?.interested_in_8check_activities ? (
                           <div className="login-validation">{error?.interested_in_8check_activities
