@@ -5245,7 +5245,7 @@ footer .footer-copyright ul li a:hover {
 }
 
 @media only screen and (max-width:767px) {
-  .octapharma_event {
+  .eahad .octapharma_event {
     max-width: 95%;
   }
 .motivation-body .consent-form-inner .form-control#restiration {
@@ -5253,7 +5253,7 @@ footer .footer-copyright ul li a:hover {
 }
   .eahad .header {
     background-size: 90px;
-    padding: 40px 15px 10px 20px;
+    padding: 50px 15px 10px 15px;
   }
 
   .eahad .octapharma_event_content h4.mb-4 {
@@ -5269,7 +5269,7 @@ footer .footer-copyright ul li a:hover {
   }
 
   .eahad .octapharma_event_content {
-    padding: 0 20px;
+    padding: 0 15px;
   }
 
   .eahad .octapharma_event_content h4 {
@@ -5335,7 +5335,7 @@ footer .footer-copyright ul li a:hover {
   }
 
   .eahad .footer {
-    padding: 20px 20px 15px;
+    padding: 20px 15px 15px;
   }
 
   .eahad .footer-inner p {
