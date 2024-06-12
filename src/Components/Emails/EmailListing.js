@@ -50,6 +50,7 @@ const EmailList = (props) => {
   const [filtertags, setFilterTags] = useState([]);
   const [filtercreator, setFilterCreators] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
+  const [filterrole, setFilterRole] = useState([]);
   const [filtercampaign, setFilterCampaigns] = useState([]);
   const [updateflag, setUpdateFlag] = useState([]);
   const [removeFlag, setRemoveFlag] = useState(false);
@@ -237,6 +238,30 @@ const EmailList = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+  const getCampaignFiltereData = async() => {
+    try{
+      loader('show');
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+      };
+      await axios
+      .post(`emailapi/get_campaign_list_filter`, body)
+      .then((res) => {
+        setFilterData(res?.data?.response?.filter);
+        getData("initial");
+      })
+      .catch((err) => {
+        loader("hide");
+        console.log(err);
+      });
+    }catch(err){
+      console.log(err);
+      loader('hide');
+    }
+  }
+
+
   const getData = (stage, page = 1) => {
     loader("show");
     const body = {
@@ -252,7 +277,7 @@ const EmailList = (props) => {
           if (stage == "initial") {
             setOriginalSendListData(res.data.response.data.emails);
 
-            setFilterData(res.data.response.data.filter);
+            // setFilterData(res.data.response.data.filter);
           }
           setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
@@ -370,7 +395,8 @@ const EmailList = (props) => {
   //   data.tags;
 
   useEffect(() => {
-    getData("initial");
+    // getData("initial");
+    getCampaignFiltereData();
   }, []);
 
   const showDeleteButtons = () => {
@@ -523,6 +549,27 @@ const EmailList = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleOnFilterRole = (role) => {
+    let tag_index = filterrole.indexOf(role);
+    if (tag_index !== -1) {
+      filterrole.splice(tag_index, 1);
+      setFilterRole(filterrole);
+    } else {
+      filterrole.push(role);
+      setFilterRole(filterrole);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("role")) {
+      getfilter.role = filterrole;
+    } else {
+      getfilter = Object.assign({ role: filterrole }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleOnFilterCampaign = (fcampaign) => {
     let tag_index = filtercampaign.indexOf(fcampaign);
     if (tag_index !== -1) {
@@ -553,6 +600,7 @@ const EmailList = (props) => {
     setFilterTags([]);
     setFilterCreators([]);
     setFilterDate([]);
+    setFilterRole([]);
     setFilterCampaigns([]);
     setFilter([]);
     let up = updateflag + 1;
@@ -578,7 +626,9 @@ const EmailList = (props) => {
       handleOnFilterCampaign(item);
     } else if (src == "date") {
       handleOnFilterDate(item);
-    } else if (src == "creator") {
+    } else if (src == "role") {
+      handleOnFilterRole(item);
+    }else if (src == "creator") {
       handleOnFilterCreator(item);
     }
     if (filterapplied) {
@@ -974,70 +1024,113 @@ const EmailList = (props) => {
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
+                        {
+                          localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' ?
+                          <Accordion.Item className="card" eventKey="3">
+                            <Accordion.Header className="card-header">
+                              Campaign
+                            </Accordion.Header>
+                            <Accordion.Body className="card-body">
+                              <ul>
+                                <li>
+                                  <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-campaign-0`}
+                                      name="campaign[]"
+                                      value="Sent"
+                                      checked={
+                                        updateflag > 0 &&
+                                        typeof filtercampaign !== "undefined" &&
+                                        filtercampaign.indexOf(1) !== -1
+                                      }
+                                      onChange={() => handleOnFilterCampaign(1)}
+                                    />
+                                    Sent
+                                    <span className="checkmark"></span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-campaign-1`}
+                                      name="campaign[]"
+                                      value="Draft"
+                                      checked={
+                                        updateflag > 0 &&
+                                        typeof filtercampaign !== "undefined" &&
+                                        filtercampaign.indexOf(2) !== -1
+                                      }
+                                      onChange={() => handleOnFilterCampaign(2)}
+                                    />
+                                    Draft
+                                    <span className="checkmark"></span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-campaign-2`}
+                                      name="campaign[]"
+                                      value="draft-approved"
+                                      checked={
+                                        updateflag > 0 &&
+                                        typeof filtercampaign !== "undefined" &&
+                                        filtercampaign.indexOf(3) !== -1
+                                      }
+                                      onChange={() => handleOnFilterCampaign(3)}
+                                    />
+                                    Draft Approved
+                                    <span className="checkmark"></span>
+                                  </label>
+                                </li>
+                              </ul>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                          : 
 
-                        <Accordion.Item className="card" eventKey="3">
-                          <Accordion.Header className="card-header">
-                            Campaign
-                          </Accordion.Header>
-                          <Accordion.Body className="card-body">
-                            <ul>
-                              <li>
-                                <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-campaign-0`}
-                                    name="campaign[]"
-                                    value="Sent"
-                                    checked={
-                                      updateflag > 0 &&
-                                      typeof filtercampaign !== "undefined" &&
-                                      filtercampaign.indexOf(1) !== -1
-                                    }
-                                    onChange={() => handleOnFilterCampaign(1)}
-                                  />
-                                  Sent
-                                  <span className="checkmark"></span>
-                                </label>
-                              </li>
-                              <li>
-                                <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-campaign-1`}
-                                    name="campaign[]"
-                                    value="Draft"
-                                    checked={
-                                      updateflag > 0 &&
-                                      typeof filtercampaign !== "undefined" &&
-                                      filtercampaign.indexOf(2) !== -1
-                                    }
-                                    onChange={() => handleOnFilterCampaign(2)}
-                                  />
-                                  Draft
-                                  <span className="checkmark"></span>
-                                </label>
-                              </li>
-                              <li>
-                                <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-campaign-2`}
-                                    name="campaign[]"
-                                    value="draft-approved"
-                                    checked={
-                                      updateflag > 0 &&
-                                      typeof filtercampaign !== "undefined" &&
-                                      filtercampaign.indexOf(3) !== -1
-                                    }
-                                    onChange={() => handleOnFilterCampaign(3)}
-                                  />
-                                  Draft Approved
-                                  <span className="checkmark"></span>
-                                </label>
-                              </li>
-                            </ul>
-                          </Accordion.Body>
-                        </Accordion.Item>
+                            filterdata.hasOwnProperty("IRT_roles") &&
+                            filterdata.IRT_roles.length > 0 &&(
+                              <Accordion.Item className="card" eventKey="3">
+                                <Accordion.Header className="card-header">
+                                  IRT Roles
+                                </Accordion.Header>
+                                <Accordion.Body className="card-body">
+                                  <ul>
+                                    {Object.entries(filterdata.IRT_roles).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <label className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-IRT_roles-${index}`}
+                                              name="IRT_roles[]"
+                                              value={item}
+                                              checked={
+                                                updateflag > 0 &&
+                                                typeof filterrole !==
+                                                "undefined" &&
+                                                filterrole.indexOf(item) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnFilterRole(item)
+                                              }
+                                            />
+                                            {item}
+                                            <span className="checkmark"></span>
+                                          </label>
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </Accordion.Body>
+                              </Accordion.Item>
+                            )
+                        }
+
+                        
                       </Accordion>
 
                       <div className="filter-footer">
@@ -1119,6 +1212,7 @@ const EmailList = (props) => {
               (filtertags.length > 0 ||
                 filtercreator.length > 0 ||
                 filterdate.length > 0 ||
+                filterrole.length > 0 ||
                 filtercampaign.length > 0) && (
                 <div className="apply-filter">
                   <h6>Applied filters</h6>
@@ -1198,6 +1292,30 @@ const EmailList = (props) => {
                         </div>
                       )}
 
+                      {filterrole.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>IRT Roles |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filterrole).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) =>
+                                  removeindividualfilter("role", item)
+                                }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {filtercampaign.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
@@ -1244,6 +1362,7 @@ const EmailList = (props) => {
                 {filtertags.length == 0 &&
                   filtercreator.length == 0 &&
                   filterdate.length == 0 &&
+                  filterrole.length == 0 &&
                   filtercampaign.length == 0 &&
                   !deletestatus && (
                     <div className="email_box_block">
