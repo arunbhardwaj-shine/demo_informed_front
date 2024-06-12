@@ -2838,7 +2838,7 @@ form .input-group {
   background: #fbfcfd;
 }
 .survey_data_accordion_heading table thead.sticky-header tr th.comment-events {
-  width: 420px;
+  width: 355px;
 }
 .all-events_details .survey_data_accordion_heading table tbody td:last-child {
   padding-right: 15px;
@@ -2847,6 +2847,9 @@ form .input-group {
 .all-events_details .survey_data_accordion_heading table tbody td:last-child button {
   font-size: 14px;
   padding: 10px;
+}
+.all-events_details .survey_data_accordion_heading table thead tr th:nth-child(3) {
+  width: 95px;
 }
 .all-events_details .survey_data_accordion_heading table tbody td {
   padding: 8px 16px;
@@ -2919,12 +2922,13 @@ form .input-group {
 }
 .all-events_details .survey_data_accordion_heading table thead tr th:nth-child(2),
 .all-events_details .survey_data_accordion_heading table tbody tr td:nth-child(2) {
-  width: 210px;
+  width: 190px;
 }
 .all-events_details .survey_data_accordion_heading table thead tr th:first-child,
 .all-events_details .survey_data_accordion_heading table tbody tr td:first-child {
-  width: 320px;
+  width: 315px;
 }
+
 .survey_data_accordion_heading table thead tr th {
   font-weight: 500;
   font-size: 13px;
@@ -10000,11 +10004,43 @@ section.search-hcp.smart-list-view .header-btn-left {
 .answer-section.active .answer-section-heading p img {
   transform: rotate(180deg);
 }
-@media only screen and (max-width: 1450px) {
-.all-events_details .survey_data_accordion_heading table tbody td:nth-child(3) {
-    word-break: break-all;
-    width: 250px;
-  }
+.all-events_details .survey_data_accordion_heading table tbody td {
+  word-break: break-all;
+}
+@media only screen and (max-width: 1655px) {
+.all-events_details .survey_data_accordion_heading table thead tr th:first-child,
+.all-events_details .survey_data_accordion_heading table tbody tr td:first-child {
+  width: 270px;
+}
+}
+@media only screen and (max-width: 1505px) {
+.survey_data_accordion_heading table thead.sticky-header tr th.comment-events {
+  width: 255px;
+}
+.all-events_details .survey_data_accordion_heading table thead tr th:first-child,
+.all-events_details .survey_data_accordion_heading table tbody tr td:first-child {
+  width: 230px;
+}
+.all-events_details .survey_data_accordion_heading table thead tr th:nth-child(2),
+.all-events_details .survey_data_accordion_heading table tbody tr td:nth-child(2) {
+  width: 180px;
+}
+}
+@media only screen and (max-width: 1399px) {
+.all-events_details .survey_data_accordion_heading table thead tr th:nth-child(5),
+.all-events_details .survey_data_accordion_heading table tbody tr td:nth-child(5) {
+  width: 100px;
+}
+.survey_data_accordion_heading table thead.sticky-header tr th.comment-events {
+  width: 210px;
+}
+.all-events_details .survey_data_accordion_heading table thead tr th:first-child,
+.all-events_details .survey_data_accordion_heading table tbody tr td:first-child {
+  width: 170px;
+}
+.all-events_details .survey_data_accordion_heading table thead tr th:nth-child(3) {
+  width: 80px;
+}
 }
 @media only screen and (max-width: 1365px) {
   .page_not_found h1 {
