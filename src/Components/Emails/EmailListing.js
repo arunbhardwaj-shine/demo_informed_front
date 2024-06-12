@@ -551,12 +551,31 @@ const EmailList = (props) => {
 
   const handleOnFilterRole = (role) => {
     let tag_index = filterrole.indexOf(role);
-    if (tag_index !== -1) {
-      filterrole.splice(tag_index, 1);
-      setFilterRole(filterrole);
-    } else {
-      filterrole.push(role);
-      setFilterRole(filterrole);
+    if(role == "No IRT"){
+      if (tag_index !== -1) {
+        filterrole.splice(tag_index, 1);
+        setFilterRole(filterrole);
+      }else{
+        filterrole.length = 0;
+        filterrole.push(role);
+        setFilterRole(filterrole);
+      }
+    }else{
+      //TO REMOVE THE NO IRT OPTION
+      const index = filterrole.indexOf('No IRT');
+      if (index !== -1) {
+        filterrole.splice(index, 1);
+      }
+
+
+
+      if (tag_index !== -1) {
+        filterrole.splice(tag_index, 1);
+        setFilterRole(filterrole);
+      } else {
+        filterrole.push(role);
+        setFilterRole(filterrole);
+      }
     }
 
     let getfilter = filter;
