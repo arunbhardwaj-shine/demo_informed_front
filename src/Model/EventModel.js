@@ -62,6 +62,16 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
         setError({});
       }
 
+      let getIp = localStorage.getItem('ip');
+      let ipaddress = '';
+      if (getIp) {
+        ipaddress = getIp;
+      }else{
+        const response  = await axios.get('https://api.ipify.org?format=json');
+        ipaddress = response?.data?.ip ? response?.data?.ip : '';
+        localStorage.setItem('ip',ipaddress);
+      }
+
        loader("show")
        await postData(ENDPOINT.ADD_EVENT_DATA, {
           speakerName: user?.speakerName,
@@ -70,6 +80,7 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
           poll_answer_id: user?.poll_answer_id.toString(),
           user_answer: user?.user_answer,
           guest_id: user?.guest_id,
+          'ipAddress': ipaddress,
         })
 
       const eventQuestion = Cookies.get("eventQuestion");
