@@ -218,6 +218,23 @@ const Settings = () => {
         return;
       }
 
+      if (
+        liveStatus === 3 &&
+        selectedPosterOption.label === "Custom message" &&
+        !uploadedImageUrl.trim()
+      ) {
+        toast.error("Please upload poster image first", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
+
       const payload = {
         eventId: eventId,
         live_status: liveStatus,
@@ -507,7 +524,7 @@ const Settings = () => {
                     ) : null}
 
                       <img
-                      alt="header"
+                      // alt="header"
                         className="header-img"
                         src={poster || uploadedImageUrl}
                       />
