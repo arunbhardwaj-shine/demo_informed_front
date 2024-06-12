@@ -26,7 +26,7 @@ const Settings = () => {
     {
       label: "Post event poster",
       value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks13-banner-min.jpg",
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/thanks-banner.jpg",
     },
     { label: "Custom message", value: "" },
   ];
