@@ -20,34 +20,51 @@ const Settings = () => {
       : localStorageEvent?.eventId
   );
 
+
+  
   const posterOptions = [
     {
-      label: "Thank you message without speaker image",
+      label: "Post event poster",
       value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks1-banner-min.jpg",
-    },
-    {
-      label: "Thank you message with speaker image",
-      value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand_thanks_banner_robert.jpg",
-    },
-    {
-      label: "Event delayed",
-      value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Unexpected-Reason.jpg",
-    },
-    {
-      label: "Stay tuned",
-      value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand_video_banner_robert.jpg",
-    },
-    {
-      label: "Technical difficulties",
-      value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Technical-difficulties.jpg",
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks13-banner-min.jpg",
     },
     { label: "Custom message", value: "" },
   ];
+
+  if (localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==") {
+    const additionalOptions =[
+      {
+        label: "Thank you message without speaker image",
+        value:
+          "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks1-banner-min.jpg",
+      },
+      {
+        label: "Thank you message with speaker image",
+        value:
+          "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand_thanks_banner_robert.jpg",
+      },
+      {
+        label: "Event delayed",
+        value:
+          "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Unexpected-Reason.jpg",
+      },
+      {
+        label: "Stay tuned",
+        value:
+          "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand_video_banner_robert.jpg",
+      },
+      {
+        label: "Technical difficulties",
+        value:
+          "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Technical-difficulties.jpg",
+      },
+    
+    ]
+
+    posterOptions.unshift(...additionalOptions);
+  }
+
+
 
   const [selectedPosterOption, setSelectedPosterOption] = useState(
     posterOptions[0]
@@ -490,6 +507,7 @@ const Settings = () => {
                     ) : null}
 
                       <img
+                      alt="header"
                         className="header-img"
                         src={poster || uploadedImageUrl}
                       />
