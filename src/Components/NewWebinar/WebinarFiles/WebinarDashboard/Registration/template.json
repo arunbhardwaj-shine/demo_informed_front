@@ -1043,7 +1043,7 @@
                         "checked": ""
                     }
                 ],
-                "required": "",
+                "required": "yes",
                 "extension": "",
                 "name": "consent"
             }
