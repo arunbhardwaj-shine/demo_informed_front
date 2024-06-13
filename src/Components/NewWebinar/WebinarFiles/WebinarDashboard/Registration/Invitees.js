@@ -802,7 +802,8 @@ const Invitees = () => {
                 <table className="table" id="table-to-xls">
                   <thead className="sticky-header">
                     <tr>
-                      <th scope="col">Name
+                      <th scope="col" className="sort_option" >
+                        <span onClick={(e) => userSort(e, "name")}>Name</span>
                         <button
                           className={`event_sort_btn ${isActive?.name == "dec"
                             ? "svg_active"
@@ -824,7 +825,8 @@ const Invitees = () => {
                           </svg>
                         </button>
                       </th>
-                      <th scope="col">Email
+                      <th scope="col" className="sort_option">
+                        <span onClick={(e) => userSort(e, "email")}>Email</span>
                         <button
                           className={`event_sort_btn ${isActive?.email == "dec"
                             ? "svg_active"
@@ -846,10 +848,12 @@ const Invitees = () => {
                           </svg>
                         </button>
                       </th>
-                      <th scope="col">
+                      <th scope="col" className="sort_option">
+                        <span onClick={(e) => userSort(e, "province")}> 
                         {
                           eventId == 458 ? "Nationality" : "Country"
                         }
+                        </span>
                         <button
                           className={`event_sort_btn ${isActive?.province == "dec"
                             ? "svg_active"
@@ -871,7 +875,8 @@ const Invitees = () => {
                           </svg>
                         </button>
                       </th>
-                      <th scope="col">Registered
+                      <th scope="col" className="sort_option">
+                        <span onClick={(e) => userSort(e, "register_time")}>Registered</span>
                         <button
                           className={`event_sort_btn ${isActive?.register_time == "dec"
                             ? "svg_active"
