@@ -70,10 +70,11 @@ const WebinarAnalyticCommonModal=({data,id,options})=>{
                           <td>{data?.smart_list_name 
                                         ? data?.smart_list_name?.includes("_internal_hcps_temporary") 
                                         ?"All HCPs"
+                                         :data?.smart_list_name?.includes("_no_registered_users_temporary")
+                                        ?"Non registered HCPs"
                                         :data?.smart_list_name?.includes("_registered_users_temporary") 
                                         ?"Registered HCPs"
-                                        :data?.smart_list_name?.includes("_no_registered_users_temporary")
-                                        ?"Non registered HCPs"
+                                       
                                         :data?.smart_list_name?.includes("_uslist_temporary")
                                         ?"US list"
                                         :data?.smart_list_name
