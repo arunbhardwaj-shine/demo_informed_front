@@ -300,7 +300,7 @@ const SurveyQuestionFormDataLex = () => {
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
         finalData.Region = item?.region ? item?.region.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        finalData.SurveyDate = item?.created_at
+        finalData.Date = item?.created_at
           ? item?.created_at.trim()
           : "N/A";
         Object.keys(item?.survey_data).map((key, index) => {
@@ -735,7 +735,8 @@ const SurveyQuestionFormDataLex = () => {
                         <tr>
                           {["name", "email", "region", "country", "created_at"].map((sortKey) => (
                             <th key={sortKey} className="sort_option">
-                              <span onClick={(e) => userSort(e, sortKey)}>{sortKey.charAt(0).toUpperCase() + sortKey.slice(1)}
+                              <span onClick={(e) => userSort(e, sortKey)}>
+                                {sortKey=="created_at"?"Date":sortKey.charAt(0).toUpperCase() + sortKey.slice(1)}
                                 <SortButton sortKey={sortKey} />
                               </span>
                             </th>
