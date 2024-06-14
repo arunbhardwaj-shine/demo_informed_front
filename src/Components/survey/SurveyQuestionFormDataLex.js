@@ -767,13 +767,13 @@ const SurveyQuestionFormDataLex = () => {
                                         <h6>
                                           Q{index + 1}. {progressBarData[key]?.questionName}
                                         </h6>
-                                        <p>
+                                        <p style={{textTransform: "capitalize"}}>
 
                                           {item?.survey_data[key]?.trim() !== "" ? item?.survey_data[key] : "N/A"}
                                         </p>
-                                        {(key== "interesting_or_beneficial" || key== "feedback") && <p>
+                                        {(key== "interesting_or_beneficial" || (key== "feedback" &&item?.survey_data["feedback"]=="yes" )) && <p>
 
-                                           <b>Answer: </b>{item?.survey_data[`${key}_input`] ?? "N/A"}
+                                           <b>Comment: </b>{item?.survey_data[`${key}_input`] ?? "N/A"}
                                         </p>}
                                       </div>
                                     </td>
@@ -927,7 +927,7 @@ const SurveyQuestionFormDataLex = () => {
                                   <td>{item?.email ? item?.email : "N/A"}</td>
                                   <td>{item?.region ? item?.region : "N/A"}</td>
                                   <td>{item?.country ? item?.country : "N/A"}</td>
-                                  <td>{item[quesKey] ? item[quesKey] : "N/A"}</td>
+                                  <td style={{textTransform: "capitalize"}} >{item[quesKey] ? item[quesKey] : "N/A"}</td>
                                   <td>{item?.created_at ? item?.created_at : "N/A"}</td>
                                 </tr>
                                 <tr key={`blank-${index}`} className="blank">
