@@ -12,7 +12,6 @@ import domtoimage from "dom-to-image";
 
 const SurveyQuestionFormDataLex = () => {
   const { eventIdContext, handleEventId } = useSidebar();
-  const firstAccordionRef = useRef([]);
   const accordionRefs = useRef([]);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventData, setEventData] = useState(
@@ -20,7 +19,6 @@ const SurveyQuestionFormDataLex = () => {
   );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [countData, setCountData] = useState([]);
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [sorting, setSorting] = useState(0);
@@ -31,13 +29,11 @@ const SurveyQuestionFormDataLex = () => {
   const [sort, setSort] = useState(0);
   const [isActiveSort, setIsActiveSort] = useState({});
 
-  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [usersData, setUsersData] = useState(null);
-  const [userDetails, setUserDetails] = useState([]);
   const [showDetails, setShowDetails] = useState({});
   const [showAnswerDetails, setShowAnswerDetails] = useState({});
 
@@ -83,7 +79,7 @@ const SurveyQuestionFormDataLex = () => {
       rating: { 'strongly agree': 0, agree: 0, 'neither agree nor disagree': 0, disagree: 0, "strongly disagree": 0 },
       percentage: { 'strongly agree': 0, agree: 0, 'neither agree nor disagree': 0, disagree: 0, "strongly disagree": 0 },
       overall_rating: 0,
-      questionName: " The information provided and the topics covered were relevant to me and enhanced my understanding of the strategical and operational and clinical goals of the LEX-210 study.",
+      questionName: " The information provided and the topics covered were relevant to me and enhanced my understanding of the strategical and operational  goals of the LEX-210 study.",
       total_users_answered: 0,
       type: "choice",
       color: ["#39CABC", "#FAC755"],
@@ -165,16 +161,13 @@ const SurveyQuestionFormDataLex = () => {
     }
   };
 
-  function isObject(value) {
-    return value !== null && typeof value === "object";
-  }
   useEffect(() => {
     try {
-      const updatedProgressBarData = { ...progressBarData };
 
       if (!data || data.length === 0) {
         return;
       }
+      const updatedProgressBarData = { ...progressBarData };
 
       const countObjects = {
         investigator_meeting: { excellent: 0, "above average": 0, "acceptable (average)": 0, "below average": 0, "poor": 0 },
@@ -196,52 +189,12 @@ const SurveyQuestionFormDataLex = () => {
         feedback: [],
       };
       // Count occurrences of ratings and answers
-      data.forEach((item) => {
+      data.forEach((item,index) => {
         const { survey_data, ...rest } = item;
-        console.log(survey_data);
 
         Object.keys(survey_data).forEach((key) => {
           if (survey_data[key]) {
-            if (isObject(survey_data[key])) {
-              const subKey = Object.keys(survey_data[key])[0];
-              console.log(subKey, "subKey");
-              if (subKey === "patient_case_rating") {
-                const rating = survey_data[key][subKey];
-                if (rating >= 1 && rating <= 5) {
-                  countObjects[subKey][rating.toString()]++;
-                  rest.rating = rating
-                  rest.region = rest.region
-                  usersData[subKey].push(rest);
-                }
-              } else if (
-                subKey === "investigator_meeting"
-                // ||
-                // subKey === "recommend_clinical"
-              ) {
-                const answer = survey_data[key][subKey];
-                if (answer === "yes" || answer === "no") {
-                  countObjects[subKey][answer]++;
-                  rest.answer = answer
-                  rest.region = rest.region
-                  usersData[subKey].push(rest);
-                }
-              }
-              else if (
-                subKey === "recommend_clinical"
-              ) {
-                const recommend_answer = survey_data[key][subKey];
-                if (recommend_answer === "yes" || recommend_answer === "no") {
-                  countObjects[subKey][recommend_answer]++;
-                  rest.recommend_answer = recommend_answer
-                  rest.region = rest.region
-                  usersData[subKey].push(rest);
-                }
-              }
-            }
-
-            else if (typeof survey_data[key] === 'string' && survey_data[key].trim() !== '') {
-              const suggestion = survey_data[key].trim();
-
+            if (typeof survey_data[key] === 'string' && survey_data[key].trim() !== '') {
               // Check if the suggestion is not an IP address (basic regex to check IP address format)
               const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
               if (!ipPattern.test(survey_data[key])) {
@@ -257,7 +210,6 @@ const SurveyQuestionFormDataLex = () => {
                 }
 
                 countObjects[key][survey_data[key]]++;
-                console.log(rest.survey_data);
                 if (rest.survey_data) {
                   rest.survey_data[key] = [survey_data[key]];
                 }
@@ -274,6 +226,7 @@ const SurveyQuestionFormDataLex = () => {
           }
         });
       });
+      console.log(usersData);
 
       setUsersData(usersData);
       Object.keys(updatedProgressBarData).forEach((key) => {
@@ -307,6 +260,7 @@ const SurveyQuestionFormDataLex = () => {
           totalCount > 0 ? (weightedSum / sum).toFixed(2) : 0;
         updatedProgressBarData[key]["total_users_answered"] = totalCount;
       });
+      console.log(updatedProgressBarData);
       setProgressBarData(updatedProgressBarData);
 
     } catch (error) {
@@ -353,19 +307,19 @@ const SurveyQuestionFormDataLex = () => {
         finalData.SurveyDate = item?.created_at
           ? item?.created_at.trim()
           : "N/A";
-          Object.keys(item?.survey_data).map((key, index) =>{
+        Object.keys(item?.survey_data).map((key, index) => {
 
 
-            if(progressBarData[key]){
-              finalData[progressBarData[key]?.questionName] =
-              item?.survey_data[key]
-                ? `${ item?.survey_data[key]}`.trim()
+          if (progressBarData[key]) {
+            finalData[progressBarData[key]?.questionName] =
+            item?.survey_data[key]?.trim() !== "" 
+                ? `${item?.survey_data[key]}`.trim()
                 : "N/A";
 
-              }
-              return 1
-      })
-     
+          }
+          return 1
+        })
+
 
         return finalData;
       });
@@ -911,10 +865,10 @@ const SurveyQuestionFormDataLex = () => {
                             <span onClick={(e) => userSort(e, "region")}>Region
                               <button
                                 className={`event_sort_btn ${isActive?.region == "dec"
-                                    ? "svg_active"
-                                    : isActive?.region == "asc"
-                                      ? "svg_asc"
-                                      : ""
+                                  ? "svg_active"
+                                  : isActive?.region == "asc"
+                                    ? "svg_asc"
+                                    : ""
                                   }`}
                                 onClick={(e) => userSort(e, "region")}
                               >
@@ -1407,12 +1361,12 @@ const SurveyQuestionFormDataLex = () => {
                                           {/* {item?.survey_data?.suggestion
                               ? item?.survey_data?.suggestion
                               : "N/A"} */}
-                                          {item?.survey_data[key] !== "" ? item?.survey_data[key] : "N/A"}
+                                          {item?.survey_data[key]?.trim() !== "" ? item?.survey_data[key] : "N/A"}
                                         </p>
                                       </div>
                                     </td>
                                   </tr>
-                                
+
                                 ))}
                               </>
                               )}
@@ -1714,10 +1668,10 @@ const SurveyQuestionFormDataLex = () => {
                                 <span onClick={(e) => userSorting(e, "region")}>Region
                                   <button
                                     className={`event_sort_btn ${isActiveSort?.region == "dec"
-                                        ? "svg_active"
-                                        : isActiveSort?.region == "asc"
-                                          ? "svg_asc"
-                                          : ""
+                                      ? "svg_active"
+                                      : isActiveSort?.region == "asc"
+                                        ? "svg_asc"
+                                        : ""
                                       }`}
                                     onClick={(e) => userSorting(e, "region")}
                                   >
