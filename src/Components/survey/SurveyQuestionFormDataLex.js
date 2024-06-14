@@ -767,13 +767,13 @@ const SurveyQuestionFormDataLex = () => {
                                         <h6>
                                           Q{index + 1}. {progressBarData[key]?.questionName}
                                         </h6>
-                                        <p>
+                                        <p style={{textTransform: "capitalize"}}>
 
                                           {item?.survey_data[key]?.trim() !== "" ? item?.survey_data[key] : "N/A"}
                                         </p>
-                                        {(key== "interesting_or_beneficial" || key== "feedback") && <p>
+                                        {(key== "interesting_or_beneficial" || (key== "feedback" &&item?.survey_data["feedback"]=="yes" )) && <p>
 
-                                           <b>Answer: </b>{item?.survey_data[`${key}_input`] ?? "N/A"}
+                                           <b>Comment: </b>{item?.survey_data[`${key}_input`] ?? "N/A"}
                                         </p>}
                                       </div>
                                     </td>
