@@ -271,10 +271,10 @@ const Check8 = () => {
                           <Form.Check
                             type="radio"
                             name="provider"
-                            label="Haematologist Adult"
+                            label="Adult Haematologist"
                             // value={formInputs?.adult}
-                            checked={formInputs?.provider=="Haematologist Adult"}
-                            onChange={(e) => handleChange(e, "Haematologist Adult")}
+                            checked={formInputs?.provider=="Adult Haematologist"}
+                            onChange={(e) => handleChange(e, "Adult Haematologist")}
                           />
                           <span className="custom-radio" />
                         </div>
@@ -282,9 +282,9 @@ const Check8 = () => {
                           <Form.Check
                             type="radio"
                             name="provider"
-                            label="Haematologist Pediatric"
-                            checked={formInputs?.provider=="Haematologist Pediatric"}
-                            onChange={(e) => handleChange(e, "Haematologist Pediatric")}
+                            label="Pediatric Haematologist"
+                            checked={formInputs?.provider=="Pediatric Haematologist"}
+                            onChange={(e) => handleChange(e, "Pediatric Haematologist")}
                           />
                           <span className="custom-radio" />
                         </div>
@@ -317,8 +317,8 @@ const Check8 = () => {
                           type="text"
                           placeholder=""
                           name="provider"
-                          value={(formInputs?.provider=="Haematologist Adult"||
-                          formInputs?.provider=="Haematologist Pediatric"||
+                          value={(formInputs?.provider=="Adult Haematologist"|| 
+                          formInputs?.provider=="Pediatric Haematologist"||
                           formInputs?.provider=="Obstetric/Gynecologist"||
                           formInputs?.provider=="Genetic Counselor")?"":formInputs?.provider
                         }
