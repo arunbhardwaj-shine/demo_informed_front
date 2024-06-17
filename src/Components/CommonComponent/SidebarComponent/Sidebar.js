@@ -1134,7 +1134,7 @@ const Sidebar = () => {
               <li
                 className={
                   location.pathname == "/readers-view" ||
-                    location.pathname == "/timeline-detail"
+                    location.pathname == "/timeline-detail"  && localStorage.getItem('irt_sec') != 1
                     ? "active"
                     : "side_li"
                 }
@@ -1153,7 +1153,10 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-                  <p>CRM</p>
+                  <p>
+                    {
+                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "General Library CRM" : "CRM"
+                    }</p>
                 </Link>
               </li>
 
@@ -1232,7 +1235,8 @@ const Sidebar = () => {
               {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 <li
                   className={
-                    location.pathname == "/new-readers-reviews"
+                    location.pathname == "/new-readers-reviews" ||
+                    (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
                       ? "active"
                       : "side_li"
                   }
