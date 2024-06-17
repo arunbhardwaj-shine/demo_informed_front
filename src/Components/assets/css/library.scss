@@ -4779,12 +4779,15 @@ input[type="number"] {
   text-decoration: none;
   font-weight: 400;
 }
-.content_details .verify-email-detail h6 a.doc-link + span img{
-width:12px;
+
+.content_details .verify-email-detail h6 a.doc-link+span img {
+  width: 12px;
 }
-.content_details .verify-email-detail > div {
+
+.content_details .verify-email-detail>div {
   width: 100%;
 }
+
 .content_details .mail-recipt h6 {
   font-size: 20px;
   line-height: 23px;
@@ -15687,9 +15690,95 @@ table {
   border-radius: 9px 9px 0px 0px;
 }
 
-.rd-full-explain .rd-training-block .accordion {
-  margin: 8px 0 0px;
+.rd-full-explain {
+  .rd-training-block {
+    .accordion {
+      margin: 8px 0 0px;
+
+      .accordion-item {
+        border: 0;
+        margin: 0 0 14px;
+        background: #ffffff;
+        box-shadow: 0px 0px 6px rgba(0, 102, 190, 0.24);
+        border-radius: 9px;
+
+        .accordion-header {
+          button {
+            background: transparent;
+            box-shadow: none;
+
+            &:after {
+              display: none;
+            }
+          }
+
+          .d-flex {
+            width: 100%;
+
+            &.engagement-sec {
+              margin: 0;
+            }
+          }
+        }
+      }
+
+      .accordion-body {
+        .article-pages-details {
+          flex-wrap: wrap;
+          gap: 20px 0px;
+
+          .article-page-show {
+            display: flex;
+            min-width: 16.6%;
+            width: 20%;
+
+            .article-cover-img {
+              margin-right: 8px;
+              width: 50px;
+              filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.24));
+              border-radius: 4px;
+              min-height: 75px;
+              display: flex;
+              align-items: center;
+              background: #f8f8f8;
+              padding: 3px;
+              text-align: center;
+              color: $dark-blue;
+              font-size: 14px;
+            }
+
+            .article-detail-view {
+              display: flex;
+              align-items: center;
+
+              .article-spanrd-time {
+                font-weight: 500;
+                font-size: 13px;
+                line-height: 15px;
+                color: rgba(0, 74, 137, 0.55);
+
+                span {
+                  font-weight: 500;
+                  font-size: 14px;
+                  line-height: 15px;
+                  color: #0066BE;
+                  display: inline-flex;
+                  align-items: center;
+                  margin: 0 0 0 1px;
+
+                  img {
+                    margin-left: 4px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
+
 
 .rd-full-explain .rd-training-block .accordion .accordion-body {
   background: $white;
@@ -22995,6 +23084,19 @@ table {
 
   .rd-full-explain.analytics-region .graph-view {
     margin: 17px 0 0;
+  }
+
+  .rd-full-explain .rd-training-block .contents-block-left table thead tr th button.sort_btn {
+    padding: 10px 7px;
+  }
+
+  .rd-full-explain .rd-training-block .contents-block-left table thead tr th button.sort_btn svg {
+    margin-left: 4px;
+  }
+
+  .rd-full-explain .rd-training-block .contents-block-left table thead tr th:first-child {
+    width: auto;
+    min-width: 200px;
   }
 }
 
