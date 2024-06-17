@@ -880,11 +880,11 @@ const CreateEmail = (props) => {
   };
 
   const emailSubjectChanged = (e) => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setemailCampaign(e.target.value);
-      setEmailCreator("Octapharma R&D");
-      setEmailDescription(e.target.value);
-    }
+    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    //   setemailCampaign(e.target.value);
+    //   setEmailCreator("Octapharma R&D");
+    //   setEmailDescription(e.target.value);
+    // }
     setEmailSubject(e.target.value);
   };
 
@@ -2263,8 +2263,8 @@ const CreateEmail = (props) => {
 
                   <div className="email-form padding-add">
                     <form>
-                      {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {/* {localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? ( */}
                         <>
                           <div className="form-inline d-flex justify-content-between align-items-center">
                             <div className="form-group col-12 col-md-7 d-flex align-items-center">
@@ -2374,7 +2374,7 @@ const CreateEmail = (props) => {
                             </div>
                           </div>
                         </>
-                      ) : null}
+                       {/* ) : null} */}
                       <div className="input-group d-flex w-100">
                         <div className="input-group-prepend">
                           <button
