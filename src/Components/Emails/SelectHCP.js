@@ -13,11 +13,12 @@ import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
 var old_object = {};
-
 const SelectHCP = (props) => {
   //console.log(props);
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const SelectHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
+  const [isContentMandatory, setIsContentMandatory] = useState(0);
+  const [title, setTitle] = useState('');
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
 
   // const [templateId, setTemplateId] = useState(
@@ -151,7 +154,7 @@ const SelectHCP = (props) => {
       });
   };
 
-  const nextClicked = (selected) => {
+  const nextClicked = async(selected) => {
     props.getEmailData(old_object);
     props.getSelected(null);
     if (selected == 1) {
@@ -162,8 +165,70 @@ const SelectHCP = (props) => {
       navigate("/VerifyHCP", {
         state: { UserSelected: selected },
       });
+    } else if(selected == 3){
+      await fetchDataAndNavigate();
     }
   };
+
+  useEffect(() => {
+    if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+      checkMandatoryContent();
+    }
+  },[]);
+
+  const checkMandatoryContent = async() => {
+    try{
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          pdf_id: old_object?.PdfSelected
+          ? old_object.PdfSelected
+          : props.getDraftData.pdf_id,
+        };
+        loader("show");
+        await axios.post(`emailapi/check_mandatory_content`, body)
+          .then((res) => {
+            setTitle(res?.data?.response?.data?.title);
+            setIsContentMandatory(res?.data?.response?.data?.mandatory_content);
+            loader("hide");
+          }).catch((err) => {
+            console.log(err);
+            loader("hide");
+          });
+    }catch(err){
+      console.log(err,'er');
+    }
+  }
+
+  const fetchDataAndNavigate = async() => {
+    try{
+      loader("show");
+      let body = {
+        'pdf_id' : old_object?.PdfSelected
+        ? old_object.PdfSelected
+        : props.getDraftData.pdf_id,
+      };
+      const response = await postData(ENDPOINT.MANDATORY_READERS, body);
+      loader("hide");
+      const data = response?.data?.data;
+      if (data?.length) {
+        // if (new_object?.id && data[0].id !== new_object.id) {
+        //   if (old_object?.removedHcp) {
+        //     old_object.removedHcp = [];
+        //   }
+        // }
+        // props.getWebinarSelectedSmartListData(data[0]);
+        // navigate("/webinar/email/selectSmartListUsers", {
+        //   state: { smartListSelected: data[0], flag: 1, typeOfHcp: selected },
+        // });
+      } else {
+        // props.getWebinarSelectedSmartListData(null);
+        toast.warning("No Data Found")
+      }
+    }catch(err){
+
+    }
+  }
 
   return (
     <>
@@ -294,6 +359,34 @@ const SelectHCP = (props) => {
                             : "Single HCP"}{" "}
                         </p>
                       </li>
+
+                      {
+                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && isContentMandatory
+                        ?
+                        <li>
+                          <div
+                          className={templateId === 3
+                              ? "send-option-img active"
+                              : "send-option-img"
+                          }
+                          onClick={(e) => handleInputChange(e, 3)}
+                        >
+                          <input
+                            type="radio"
+                            name="select-option-hcp"
+                            value="Group HCP"
+                          />
+                          <img
+                            src={path_image + "group-hcp.svg"}
+                            alt="Group HCP"
+                          />
+                          </div>
+                          <p>
+                            {title} Mandatory Readers
+                          </p>
+                        </li>
+                        : null
+                      }
                     </ul>
                   </div>
                 </div>
