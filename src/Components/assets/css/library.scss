@@ -22776,6 +22776,20 @@ table {
     height: 40px;
   }
 
+  .rd-full-explain .rd-training-block .rd-training-block-right .dropdown.filter-by button {
+    width: auto;
+    height: auto;
+  }
+
+  .rd-full-explain .rd-training-block .rd-training-block-right .filter_btn_div button {
+    padding: 7px 18px 7px 16px;
+  }
+
+  .rd-full-explain .rd-training-block .rd-training-block-right .filter_btn_div .dropdown .accordion .accordion-item button {
+    width:100%;
+    height:auto;
+  }
+
   .rd-full-explain .rd-training-block .rd-training-block-left h4 {
     margin: 0 0 0px;
   }
