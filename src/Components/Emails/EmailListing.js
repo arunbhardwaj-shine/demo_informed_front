@@ -799,7 +799,8 @@ const EmailList = (props) => {
     };
 
     // If key is a string, split it into an array of keys
-    const keys = typeof key === 'string' ? key.split('.') : [key];
+    // const keys = typeof key === 'string' ? key.split('.') : [key];
+    const keys=[key]
     const valueA = getNestedValue(a, keys);
     const valueB = getNestedValue(b, keys);
 
@@ -2598,16 +2599,16 @@ const EmailList = (props) => {
                         )}
                         {/* <th scope="col">Date</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "item?.recent_send?.[0]?.sent_date")} >
+                          <span onClick={(e) => userSort(e, "send_date")} >
                             Date
                             <button
-                              className={`event_sort_btn ${isActive?.item?.recent_send?.[0]?.sent_date == "dec"
+                              className={`event_sort_btn ${isActive?.send_date == "dec"
                                 ? "svg_active"
-                                : isActive?.item?.recent_send?.[0]?.sent_date == "asc"
+                                : isActive?.send_date == "asc"
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "item?.recent_send?.[0]?.sent_date")}
+                              onClick={(e) => userSort(e, "send_date")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
