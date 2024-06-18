@@ -70,6 +70,11 @@ const SelectSmartListUsers = (props) => {
       ? switch_account_detail?.user_id
       : localStorage.getItem("user_id")
   );
+  const [typeOfHcp, setTypeOfHcp] = useState(
+    location?.state?.typeOfHcp
+      ? location?.state?.typeOfHcp
+      : props.getWebinarDraftData?.campaign_data?.typeOfHcp
+  );
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -126,9 +131,9 @@ const SelectSmartListUsers = (props) => {
   // }, []);
 
   useEffect(() => {
-    //   const typeOfHcp =
-    //   location?.state?.typeOfHcp || props.getDraftData?.campaign_data?.typeOfHcp;
-    // setTypeOfHcp(typeOfHcp);
+      const typeOfHcp =
+      location?.state?.typeOfHcp || props.getDraftData?.campaign_data?.typeOfHcp;
+    setTypeOfHcp(typeOfHcp);
 
     const campaign_id =
       old_object?.campaign_id || props.getDraftData?.campaign_id || "";
@@ -225,13 +230,21 @@ const SelectSmartListUsers = (props) => {
   }, [readersNewlyAdded]);
 
   useEffect(() => {
+    // console.log(props,'props')
     if (props.getDraftData?.campaign_data) {
       props.getDraftData.campaign_data.removedHcp = removedReaders;
     }
     old_object.removedHcp = removedReaders;
   }, [removedReaders]);
   const backClicked = () => {
-    navigate("/SelectSmartList");
+    // navigate("/SelectSmartList");
+    if (props?.getDraftData?.campaign_data ?.list_selection === 3 || typeOfHcp === 3){
+      navigate("/SelectHCP", {
+      });
+    }else{
+      navigate("/SelectSmartList");
+    }
+    console.log(typeOfHcp,'typeOfHcptypeOfHcp')
   };
 
   useEffect(() => {

@@ -19,6 +19,7 @@ import { postData } from "../../axios/apiHelper";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 var old_object = {};
+var new_object;
 const SelectHCP = (props) => {
   //console.log(props);
   const navigate = useNavigate();
@@ -69,6 +70,10 @@ const SelectHCP = (props) => {
       props.getSelectedSmartListData(null);
     }
 
+    if(selectede === 3) {
+      fetchDataAndNavigate();
+    }
+
     setSelection(event.target.children[0].value);
     //  console.log(event.target.children[0].value);
     const div = document.querySelector("div.active");
@@ -91,7 +96,7 @@ const SelectHCP = (props) => {
     });
   };
 
-  // console.log(props.getEmailData);
+  // console.log(props,'props');
   // console.log(props.getDraftData);
   const saveAsDraft = async () => {
     const body = {
@@ -208,21 +213,21 @@ const SelectHCP = (props) => {
         ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
       };
-      const response = await postData(ENDPOINT.MANDATORY_READERS, body);
+      const response = await postData('reader/mandatory-readers',body);
       loader("hide");
       const data = response?.data?.data;
       if (data?.length) {
-        // if (new_object?.id && data[0].id !== new_object.id) {
-        //   if (old_object?.removedHcp) {
-        //     old_object.removedHcp = [];
-        //   }
-        // }
-        // props.getWebinarSelectedSmartListData(data[0]);
-        // navigate("/webinar/email/selectSmartListUsers", {
-        //   state: { smartListSelected: data[0], flag: 1, typeOfHcp: selected },
-        // });
+        if (new_object?.id && data[0].id !== new_object.id) {
+          if (old_object?.removedHcp) {
+            old_object.removedHcp = [];
+          }
+        }
+        props.getSelectedSmartListData(data[0]);
+        navigate("/SelectSmartListUsers", {
+          state: { smartListSelected: data[0], flag: 1, typeOfHcp: 3 },
+        });
       } else {
-        // props.getWebinarSelectedSmartListData(null);
+        props.getSelectedSmartListData(null);
         toast.warning("No Data Found")
       }
     }catch(err){
@@ -401,6 +406,7 @@ const SelectHCP = (props) => {
 
 const mapStateToProps = (state) => {
   old_object = state.getEmailData;
+  new_object = state.getSelectedSmartListData;
   return state;
 };
 
