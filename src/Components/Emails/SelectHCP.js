@@ -20,6 +20,8 @@ import { propTypes } from "react-bootstrap/esm/Image";
 
 var old_object = {};
 var new_object;
+var draft_object;
+
 const SelectHCP = (props) => {
   //console.log(props);
   const navigate = useNavigate();
@@ -70,9 +72,9 @@ const SelectHCP = (props) => {
       props.getSelectedSmartListData(null);
     }
 
-    if(selectede === 3) {
-      fetchDataAndNavigate();
-    }
+    // if(selectede === 3) {
+    //   fetchDataAndNavigate();
+    // }
 
     setSelection(event.target.children[0].value);
     //  console.log(event.target.children[0].value);
@@ -162,16 +164,45 @@ const SelectHCP = (props) => {
   const nextClicked = async(selected) => {
     props.getEmailData(old_object);
     props.getSelected(null);
-    if (selected == 1) {
+    console.log(selected,'selectedselected')
+
+    if (draft_object?.campaign_data?.typeOfHcp != selected) {
+      if (old_object?.removedHcp) {
+        old_object.removedHcp = [];
+      }
+      if (old_object?.addedHcp) {
+        old_object.addedHcp = [];
+      }
+      if (old_object?.selectedHcp) {
+        old_object.selectedHcp = [];
+      }
+
+      if (draft_object?.campaign_data?.removedHcp) {
+        draft_object.campaign_data.removedHcp = [];
+      }
+
+      if (draft_object?.campaign_data?.addedHcp) {
+        draft_object.campaign_data.addedHcp = [];
+      }
+      if (draft_object?.campaign_data?.selectedHcp) {
+        draft_object.campaign_data.selectedHcp = [];
+      }
+    }
+
+    if (selected === 1) {
       navigate("/SelectSmartList", {
         state: { UserSelected: selected },
       });
-    } else if (selected == 2) {
+    } else if (selected === 2) {
       navigate("/VerifyHCP", {
         state: { UserSelected: selected },
       });
-    } else if(selected == 3){
-      await fetchDataAndNavigate();
+    } 
+    else if(selected === 3){
+       fetchDataAndNavigate();
+      // navigate("/SelectSmartListUsers", {
+      //   state: { smartListSelected: data[0], flag: 1, typeOfHcp: 3 },
+      // });
     }
   };
 
@@ -284,19 +315,19 @@ const SelectHCP = (props) => {
                         Next{" "}
                       </button>
                     ) : (
-                      <Link
-                        to={
-                          templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
-                        }
-                        state={{ UserSelected: templateId }}
-                      >
+                      // <Link
+                      //   to={
+                      //     templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
+                      //   }
+                      //   state={{ UserSelected: templateId }}
+                      // >
                         <button
                           className="btn btn-primary btn-filled next"
                           onClick={(event) => nextClicked(templateId)}
                         >
                           Next
                         </button>
-                      </Link>
+                      // </Link>
                     )}
                   </div>
                 </div>
@@ -407,6 +438,7 @@ const SelectHCP = (props) => {
 const mapStateToProps = (state) => {
   old_object = state.getEmailData;
   new_object = state.getSelectedSmartListData;
+  draft_object = state.getDraftData ? state.getDraftData : {};
   return state;
 };
 
