@@ -244,7 +244,7 @@ const SelectHCP = (props) => {
         ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
       };
-      const response = await postData('reader/mandatory-readers',body);
+      const response = await postData(ENDPOINT.MANDATORY_READERS,body);
       loader("hide");
       const data = response?.data?.data;
       if (data?.length) {
