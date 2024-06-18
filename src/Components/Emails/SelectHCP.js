@@ -164,7 +164,7 @@ const SelectHCP = (props) => {
   const nextClicked = async(selected) => {
     props.getEmailData(old_object);
     props.getSelected(null);
-    console.log(selected,'selectedselected')
+    // console.log(selected,'selectedselected')
 
     if (draft_object?.campaign_data?.typeOfHcp != selected) {
       if (old_object?.removedHcp) {
