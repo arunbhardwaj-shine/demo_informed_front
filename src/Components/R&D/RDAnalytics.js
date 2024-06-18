@@ -86,6 +86,7 @@ const RDAnalytics = () => {
   const [otherFilter, setOtherFilter] = useState({});
   const [forceRender, setForceRender] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   const individual_Completion = useRef(null);
   const site_Completion = useRef(null);
@@ -1033,6 +1034,22 @@ const RDAnalytics = () => {
     setForceRender(!forceRender);
   };
 
+  const refresh = async() => {
+    try{
+      setRefreshFlag(true);
+      let obj = {
+        "sync":1
+      };
+      const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION,obj);
+      const hadData = response?.data?.data || [];
+      setIndividualCompletionTableData(hadData);
+      setIndividualCompletionTableDataBackup(hadData);
+      setRefreshFlag(false);
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <Col className="right-sidebar">
@@ -1096,252 +1113,7 @@ const RDAnalytics = () => {
                     <h4>IRT Mandatory Training</h4>
                   </div>
 
-                  {/* Code for filter start */}
-                  <div className="filter_btn_div">                            
-
-                                  {/** By gagan */}
-                                  {Object.keys(filterObject)?.length !== 0 &&
-                                filterApplyflag > 0 ? (
-                                <div className="apply-filter">
-                                  <div className="filter-block">
-                                    <div className="filter-block-left full">
-                                      {Object.keys(filterObject)?.map((key, index) => {
-                                        return (
-                                          <>
-                                            {filterObject[key]?.length ? (
-                                              <div className="filter-div">
-                                                <div className="filter-div-title">
-                                                  <span>{key=="training_status"?"Training":key=="User_type"?"Role":key=="site_number"?"Site":key} |</span>
-                                                </div>
-
-                                                <div className="filter-div-list">
-                                                  {filterObject[key]?.map((item, index) => (
-                                                    <div
-                                                      className={
-                                                        key == "Role"
-                                                          ? "filter-result upper"
-                                                          : "filter-result"
-                                                      }
-                                                    >
-                                                      {key == "draft" && item == "0"
-                                                        ? "live"
-                                                        : key == "draft" && item == "1"
-                                                          ? "draft"
-                                                          : item}
-                                                      <img
-                                                        src={path_image + "filter-close.svg"}
-                                                        onClick={() =>
-                                                          removeindividualfilter(key, item)
-                                                        }
-                                                        alt="Close-filter"
-                                                      />
-                                                    </div>
-                                                  ))}
-                                                </div>
-                                              </div>
-                                            ) : null}
-                                          </>
-                                        );
-                                      })}
-                                    </div>
-                                    <div className="clear-filter">
-                                      <button
-                                        className="btn btn-outline-primary btn-bordered"
-                                        onClick={clearFilter}
-                                      >
-                                        Remove All
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : null}
-
-                                  {/** end */}
-
-                    {/** By Gagan */}
-
-                    <div className="filter-by nav-item dropdown">
-                      <button
-                        ref={buttonRef}
-                        className={
-                          Object.keys(apifilterObject)?.length &&
-                            filterApplyflag == 1
-                            ? "btn btn-secondary dropdown filter_applied"
-                            : "btn btn-secondary dropdown"
-                        }
-                        type="button"
-                        id="dropdownMenuButton2"
-                        onClick={() => setShowFilter((showfilter) => !showfilter)}
-                      >
-                        Filter By
-                        {showfilter ? (
-                          <svg
-                            className="close-arrow"
-                            width="13"
-                            height="12"
-                            viewBox="0 0 13 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect
-                              width="2.09896"
-                              height="15.1911"
-                              rx="1.04948"
-                              transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                              fill="#0066BE"
-                            />
-                            <rect
-                              width="2.09896"
-                              height="15.1911"
-                              rx="1.04948"
-                              transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            className="filter-arrow"
-                            width="16"
-                            height="14"
-                            viewBox="0 0 16 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                              fill="#97B6CF"
-                            ></path>
-                            <path
-                              d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                              fill="#97B6CF"
-                            ></path>
-                            <path
-                              d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                              fill="#97B6CF"
-                            ></path>
-                          </svg>
-                        )}
-                      </button>
-                      {showfilter && (
-                        <div
-                          ref={filterRef}
-                          className="dropdown-menu filter-options"
-                          aria-labelledby="dropdownMenuButton2"
-                        >
-                          <h4>Filter By</h4>
-
-                          <Accordion defaultActiveKey="0" flush>
-                            {Object.keys(filterdata)?.map(function (key, index) {
-                              return (
-                                <>
-                                  {filterdata[key]?.length > 0 ? (
-                                    <Accordion.Item
-                                      className={
-                                        key == "role" ? "card upper" : "card"
-                                      }
-                                      eventKey={index}
-                                    >
-                                      <Accordion.Header className="card-header">
-                                        {key=="training_status"?"Training":key=="user_type"?"Role":key=="site_number"?"Site":key}
-                                      </Accordion.Header>
-
-                                      <Accordion.Body className="card-body">
-                                        <ul>
-                                          {filterdata[key]?.length
-                                            ? filterdata[key]?.map(
-                                              (item, index) => (
-                                                <li key={index}>
-                                                  {item != "" ? (
-                                                    <label className="select-multiple-option">
-                                                      <input
-                                                        type="radio"
-                                                        id={`custom-checkbox-tags-${index}`}
-                                                        value={
-                                                          typeof item ==
-                                                            "object"
-                                                            ? item?.title
-                                                            : item
-                                                        }
-                                                        name={key}
-                                                        checked={
-                                                          typeof item ==
-                                                            "object"
-                                                            ? appliedFilter[
-                                                              key
-                                                            ]?.includes(
-                                                              item.id
-                                                            )
-                                                              ? true
-                                                              : false
-                                                            : appliedFilter[
-                                                              key
-                                                            ]?.includes(item)
-                                                              ? true
-                                                              : false
-                                                        }
-
-
-                                                        onChange={(e) =>
-                                                          handleOnFilterChange(
-                                                            e,
-                                                            typeof item ==
-                                                              "object"
-                                                              ? item.id
-                                                              : item,
-                                                            index,
-                                                            key,
-                                                            [...filterdata[key]]
-                                                          )
-                                                        }
-                                                      />
-                                                      {typeof item == "object"
-                                                        ? item?.title
-                                                        : item}
-                                                      {/* {key == "draft" &&
-                                                      typeof item  == "string" && item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&  typeof item  == "string" &&
-                                                        item == "1"
-                                                      ? "draft" &&  typeof item  == "string"
-                                                      : item} */}
-                                                      <span className="checkmark"></span>
-                                                    </label>
-                                                  ) : null}
-                                                </li>
-                                              )
-                                            )
-                                            : null}
-                                        </ul>
-                                      </Accordion.Body>
-                                    </Accordion.Item>
-                                  ) : null}
-                                </>
-                              );
-                            })}
-                          </Accordion>
-
-                          <div className="filter-footer">
-                            <Button
-                              className="btn btn-primary btn-bordered"
-                              onClick={clearFilter}
-                            >
-                              Clear
-                            </Button>
-                            <Button
-                              className="btn btn-primary btn-filled"
-                              onClick={applyFilter}
-                            >
-                              Apply
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-
-                    {/* end*/}
-                  </div>
-                  {/* Code for filter end */}
+                 
 
                   <div
                     className="rd-training-block"
@@ -1359,29 +1131,38 @@ const RDAnalytics = () => {
                       <div className="rd-training-block-right d-flex">
                       {typeof indidualCompletionTableData !== "undefined" &&
                       indidualCompletionTableData?.length > 0?
-                        <Button
-                          title="Download stats"
-                          onClick={() => handleExport("individual_completion")}
-                        >
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                      <>
+                          <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh" onClick={refresh}>
+                              <svg fill="#0066be" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+                              C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+                              L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+                              c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+                              c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
+                          </button>
+                          <Button
+                            title="Download stats"
+                            onClick={() => handleExport("individual_completion")}
                           >
-                            <path
-                              d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                              fill="#0066BE"
-                            ></path>
-                            <path
-                              d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                              fill="#0066BE"
-                            ></path>
-                          </svg>
-                        </Button>
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                                fill="#0066BE"
+                              ></path>
+                              <path
+                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                                fill="#0066BE"
+                              ></path>
+                            </svg>
+                          </Button>
+                      </>
                         :""}
-
+                       
                         {/* <Button
                           // className={`sort_btn ${isActive ? "active" : ""}`}
                           className={`sort_btn ${
@@ -1415,6 +1196,252 @@ const RDAnalytics = () => {
                         </Button> */}
                       </div>
                     </div>
+                     {/* Code for filter start */}
+                     <div className="filter_btn_div">
+
+{/** By gagan */}
+{Object.keys(filterObject)?.length !== 0 &&
+  filterApplyflag > 0 ? (
+  <div className="apply-filter">
+    <div className="filter-block">
+      <div className="filter-block-left full">
+        {Object.keys(filterObject)?.map((key, index) => {
+          return (
+            <>
+              {filterObject[key]?.length ? (
+                <div className="filter-div">
+                  <div className="filter-div-title">
+                    <span>{key == "training_status" ? "Training" : key == "User_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
+                  </div>
+
+                  <div className="filter-div-list">
+                    {filterObject[key]?.map((item, index) => (
+                      <div
+                        className={
+                          key == "Role"
+                            ? "filter-result upper"
+                            : "filter-result"
+                        }
+                      >
+                        {key == "draft" && item == "0"
+                          ? "live"
+                          : key == "draft" && item == "1"
+                            ? "draft"
+                            : item}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          onClick={() =>
+                            removeindividualfilter(key, item)
+                          }
+                          alt="Close-filter"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </>
+          );
+        })}
+      </div>
+      <div className="clear-filter">
+        <button
+          className="btn btn-outline-primary btn-bordered"
+          onClick={clearFilter}
+        >
+          Remove All
+        </button>
+      </div>
+    </div>
+  </div>
+) : null}
+
+{/** end */}
+
+{/** By Gagan */}
+
+<div className="filter-by nav-item dropdown" style={{margin:'0'}}>
+  <button
+    ref={buttonRef}
+    className={
+      Object.keys(apifilterObject)?.length &&
+        filterApplyflag == 1
+        ? "btn btn-secondary dropdown filter_applied"
+        : "btn btn-secondary dropdown"
+    }
+    type="button"
+    id="dropdownMenuButton2"
+    onClick={() => setShowFilter((showfilter) => !showfilter)}
+  >
+    Filter By
+    {showfilter ? (
+      <svg
+        className="close-arrow"
+        width="13"
+        height="12"
+        viewBox="0 0 13 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          width="2.09896"
+          height="15.1911"
+          rx="1.04948"
+          transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+          fill="#0066BE"
+        />
+        <rect
+          width="2.09896"
+          height="15.1911"
+          rx="1.04948"
+          transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+          fill="#0066BE"
+        />
+      </svg>
+    ) : (
+      <svg
+        className="filter-arrow"
+        width="16"
+        height="14"
+        viewBox="0 0 16 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+          fill="#97B6CF"
+        ></path>
+        <path
+          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+          fill="#97B6CF"
+        ></path>
+        <path
+          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+          fill="#97B6CF"
+        ></path>
+      </svg>
+    )}
+  </button>
+  {showfilter && (
+    <div
+      ref={filterRef}
+      className="dropdown-menu filter-options"
+      aria-labelledby="dropdownMenuButton2"
+    >
+      <h4>Filter By</h4>
+
+      <Accordion defaultActiveKey="0" flush>
+        {Object.keys(filterdata)?.map(function (key, index) {
+          return (
+            <>
+              {filterdata[key]?.length > 0 ? (
+                <Accordion.Item
+                  className={
+                    key == "role" ? "card upper" : "card"
+                  }
+                  eventKey={index}
+                >
+                  <Accordion.Header className="card-header">
+                    {key == "training_status" ? "Training" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
+                  </Accordion.Header>
+
+                  <Accordion.Body className="card-body">
+                    <ul>
+                      {filterdata[key]?.length
+                        ? filterdata[key]?.map(
+                          (item, index) => (
+                            <li key={index}>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="radio"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    value={
+                                      typeof item ==
+                                        "object"
+                                        ? item?.title
+                                        : item
+                                    }
+                                    name={key}
+                                    checked={
+                                      typeof item ==
+                                        "object"
+                                        ? appliedFilter[
+                                          key
+                                        ]?.includes(
+                                          item.id
+                                        )
+                                          ? true
+                                          : false
+                                        : appliedFilter[
+                                          key
+                                        ]?.includes(item)
+                                          ? true
+                                          : false
+                                    }
+
+
+                                    onChange={(e) =>
+                                      handleOnFilterChange(
+                                        e,
+                                        typeof item ==
+                                          "object"
+                                          ? item.id
+                                          : item,
+                                        index,
+                                        key,
+                                        [...filterdata[key]]
+                                      )
+                                    }
+                                  />
+                                  {typeof item == "object"
+                                    ? item?.title
+                                    : item}
+                                  {/* {key == "draft" &&
+                            typeof item  == "string" && item == "0"
+                            ? "live"
+                            : key == "draft" &&  typeof item  == "string" &&
+                              item == "1"
+                            ? "draft" &&  typeof item  == "string"
+                            : item} */}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          )
+                        )
+                        : null}
+                    </ul>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ) : null}
+            </>
+          );
+        })}
+      </Accordion>
+
+      <div className="filter-footer">
+        <Button
+          className="btn btn-primary btn-bordered"
+          onClick={clearFilter}
+        >
+          Clear
+        </Button>
+        <Button
+          className="btn btn-primary btn-filled"
+          onClick={applyFilter}
+        >
+          Apply
+        </Button>
+      </div>
+    </div>
+  )}
+</div>
+
+
+{/* end*/}
+</div>
+{/* Code for filter end */}
                     <Table className="fold-table" id="individual_completion">
                       <thead>
                         <tr>
@@ -2004,7 +2031,8 @@ const RDAnalytics = () => {
                             )
                           })}
                           </>)
-                          :<div className="no_found" style={{ textAlign: 'center' }}><p>No Data Found</p></div>
+
+                          : <><tr><td colspan="9"><div className="no_found" style={{ textAlign: 'center' }}><p>No Data Found</p></div></td></tr></>
                           }
                       </tbody>
                     </Table>

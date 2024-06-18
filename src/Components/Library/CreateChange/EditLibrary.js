@@ -673,10 +673,20 @@ const getExistingVideos=async ()=>{
             navigate("/content-detail", {
               state: { pdfId: state?.pdfid },
             });
-          } else {
-            navigate("/preview-content", {
-              state: { pdfId: state?.pdfid, isEdit: 1 },
-            });
+          }else {
+            if (userInputs?.allow_video) {
+              navigate("/library-add-link", {
+                state: {
+                  pdfId: state?.pdfid,
+                  isEdit: 1,
+                  allowVideo: userInputs?.allow_video ? true : false,
+                },
+              });
+            }else{
+              navigate("/preview-content", {
+                state: { pdfId: state?.pdfid, isEdit: 1 },
+              });
+            }
           }
         } else {
           if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
@@ -835,15 +845,15 @@ const getExistingVideos=async ()=>{
   const addMoreChClicked = () => {
     let isValid = true;
     let toastMessage = '';
-
     chapter.forEach((element) => {
       const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
       const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
       const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
+      const uploadChapterId = !element.id || element.id === "";
       if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
         isValid = false;
         toastMessage = "Please select a video!";
-      } else if (!isVideoExisting && uploadFileEmpty) {
+      } else if (!isVideoExisting && (uploadFileEmpty && uploadChapterId)) {
         isValid = false;
         toastMessage = "Please input the chapter file atleast!";
       }
@@ -2976,7 +2986,8 @@ const getExistingVideos=async ()=>{
                     (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
                      && (localStorage.getItem("user_id") ==
                         "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                        "iSnEsKu5gB/DRlycxB6G4g==") ? (
+                        "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==") ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
