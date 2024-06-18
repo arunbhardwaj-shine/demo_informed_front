@@ -1211,7 +1211,7 @@ const RDAnalytics = () => {
               {filterObject[key]?.length ? (
                 <div className="filter-div">
                   <div className="filter-div-title">
-                    <span>{key == "training_status" ? "Training" : key == "User_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
+                    <span>{key == "training_status" ? "Training" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
                   </div>
 
                   <div className="filter-div-list">
