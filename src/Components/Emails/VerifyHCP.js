@@ -1756,7 +1756,7 @@ const VerifyHCP = (props) => {
                                 <td>
                                   {localStorage.getItem("user_id") ===
                                   "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? users?.user_type
+                                    ? users?.user_type!=0
                                       ? users?.user_type
                                       : "N/A"
                                     : users?.contact_type
