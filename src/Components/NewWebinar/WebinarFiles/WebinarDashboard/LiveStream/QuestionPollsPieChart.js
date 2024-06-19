@@ -50,14 +50,14 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                     },
                 ],
             },
-           
             pie: {
+                showInLegend: true,
                 size: "100%",
                 dataLabels: {
                     enabled: false,
                 },
                 borderWidth: 0,
-            }
+            }  
         },
         series: [],
     };
@@ -122,7 +122,7 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
             type: "bar",
         },
         title: {
-            text: "Polls Results",
+            text: "",
         },
         xAxis: {
             categories: [],
@@ -171,6 +171,9 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                     },
                 ],
             },
+            bar: {
+                showInLegend: true,
+              }
         },
         series: [],
     };

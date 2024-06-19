@@ -1099,6 +1099,7 @@ const NewReaders = () => {
     setChangeUpdateFlag(changeUpdateFlag);
   };
   const handleTimeLine = (data) => {
+    localStorage.setItem('irt_sec',0);
     localStorage.setItem("myData", data);
     window.open("/timeline-detail");
     // navigate("/timeline-detail");

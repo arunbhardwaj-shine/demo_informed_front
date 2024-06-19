@@ -802,7 +802,10 @@ const Invitees = () => {
                 <table className="table" id="table-to-xls">
                   <thead className="sticky-header">
                     <tr>
-                      <th scope="col">Name
+                      <th scope="col" className="sort_option">
+                       <span  onClick={(e) => userSort(e, "name")}>
+                       Name
+                     
                         <button
                           className={`event_sort_btn ${isActive?.name == "dec"
                             ? "svg_active"
@@ -823,8 +826,10 @@ const Invitees = () => {
                             </defs>
                           </svg>
                         </button>
+                        </span>
                       </th>
-                      <th scope="col">Email
+                      <th scope="col" className="sort_option">
+                        <span onClick={(e) => userSort(e, "email")}> Email
                         <button
                           className={`event_sort_btn ${isActive?.email == "dec"
                             ? "svg_active"
@@ -832,7 +837,7 @@ const Invitees = () => {
                               ? "svg_asc"
                               : ""
                             }`}
-                          onClick={(e) => userSort(e, "email")}
+                          
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <g clip-path="url(#clip0_3722_6611)">
@@ -845,8 +850,10 @@ const Invitees = () => {
                             </defs>
                           </svg>
                         </button>
+                        </span>
                       </th>
-                      <th scope="col">
+                      <th scope="col" className="sort_option">
+                        <span onClick={(e) => userSort(e, "province")}>
                         {
                           eventId == 458 ? "Nationality" : "Country"
                         }
@@ -857,7 +864,7 @@ const Invitees = () => {
                               ? "svg_asc"
                               : ""
                             }`}
-                          onClick={(e) => userSort(e, "province")}
+                          
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <g clip-path="url(#clip0_3722_6611)">
@@ -870,8 +877,11 @@ const Invitees = () => {
                             </defs>
                           </svg>
                         </button>
+                        </span>
                       </th>
-                      <th scope="col">Registered
+                      <th scope="col" className="sort_option">
+                        <span  onClick={(e) => userSort(e, "register_time")}>
+                        Registered
                         <button
                           className={`event_sort_btn ${isActive?.register_time == "dec"
                             ? "svg_active"
@@ -892,6 +902,7 @@ const Invitees = () => {
                             </defs>
                           </svg>
                         </button>
+                        </span>
                       </th>
                       <th scope="col">Last Email
                         {/* <button
