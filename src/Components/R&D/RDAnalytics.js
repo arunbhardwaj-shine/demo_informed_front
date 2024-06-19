@@ -1265,7 +1265,7 @@ const RDAnalytics = () => {
     <button
       ref={buttonRef}
       className={
-        Object.keys(apifilterObject)?.length &&
+        Object.keys(filterObject)?.length &&
           filterApplyflag == 1
           ? "btn btn-secondary dropdown filter_applied"
           : "btn btn-secondary dropdown"
