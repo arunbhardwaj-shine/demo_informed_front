@@ -1063,6 +1063,7 @@ const VerifyHcpMAIL = (props) => {
                       {localStorage.getItem("user_id") ===
                       "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
+                        <th scope="col">Site number</th>
                         <th scope="col">IRT mandatory training</th>
                         <th scope="col">IRT role</th>
                         </>
@@ -1094,6 +1095,8 @@ const VerifyHcpMAIL = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
+                              {localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="&&(<><td>{rr?.site_number?rr?.site_number:"N/A"}</td></>)}
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
