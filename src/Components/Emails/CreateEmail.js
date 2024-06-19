@@ -373,9 +373,28 @@ const CreateEmail = (props) => {
 
 
         setTimeout(function () {
-          const div_img = document.querySelector("#template_dyn0");
-          if (div_img !== null && typeof div_img != "undefined") {
-            div_img.click();
+          if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && [3968,3970,4521,'3968','3970','4521'].includes(pdf_id)){
+            let div_img = '';
+            if(pdf_id == '3968'){
+              div_img = document.querySelector('[data-id="template_dyn_data_id554"]');
+            }else if(pdf_id == '3970'){
+              div_img = document.querySelector('[data-id="template_dyn_data_id555"]');
+            }else if(pdf_id == '4521'){
+              div_img = document.querySelector('[data-id="template_dyn_data_id556"]');
+            }
+            if (div_img !== '' && div_img !== null && typeof div_img != "undefined") {
+              div_img.click();
+            }else{
+              const new_div = document.querySelector("#template_dyn0");
+              if (new_div !== null && typeof new_div != "undefined") {
+                new_div.click();
+              }
+            }
+          }else{
+            const div_img = document.querySelector("#template_dyn0");
+            if (div_img !== null && typeof div_img != "undefined") {
+              div_img.click();
+            }
           }
         }, 400);
 
@@ -2243,6 +2262,7 @@ const CreateEmail = (props) => {
                             <img
                               id={"template_dyn" + index}
                               src={template.template_img}
+                              data-id={"template_dyn_data_id" + template.id}
                               alt=""
                               className={
                                 typeof templateId !== "undefined" &&

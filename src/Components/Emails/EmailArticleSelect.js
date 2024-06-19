@@ -31,8 +31,8 @@ const EmailArticleSelect = (props) => {
   const [filtertags, setFilterTags] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
   const [filterlng, setFilterlng] = useState([]);
-  const [filterMandatory, setFilterMandatory] = useState("");
-  const [updateflag, setUpdateFlag] = useState(0);
+  const [filterMandatory, setFilterMandatory] = useState("Yes");
+  const [updateflag, setUpdateFlag] = useState(1);
   const [getloadmore, setloadmore] = useState(0);
   const [filterapplied, setFilterApply] = useState(false);
   const inputElement = useRef();
@@ -209,6 +209,7 @@ const EmailArticleSelect = (props) => {
     setFilterlng([]);
     setFilterDate([]);
     setFilterMandatory("");
+    handleMandatory()
     setFilter([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
