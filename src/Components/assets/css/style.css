@@ -6919,6 +6919,7 @@ button#test-table-xls-button {
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
+  min-height: 40px;
 }
 
 button#test-table-xls-button:hover {

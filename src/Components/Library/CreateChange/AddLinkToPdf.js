@@ -1351,6 +1351,31 @@ const AddLinkToPdf = () => {
     }
   };
 
+  const nextButtonClicked = async () => {
+    try{
+      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+        navigate("/preview-content", {
+          state: {
+          pdfId: initFunData?.id,
+          isEdit: isEdit,
+          allowVideo: allowStateVideo,
+          },
+        });
+      }else{
+        navigate("/set-popup", {
+          state: {
+            pdfId: initFunData?.id,
+            fileType: initFunData?.file_type,
+            isEdit: isEdit,
+            allowVideo: allowStateVideo,
+          },
+        })
+      }
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <Col className="right-sidebar custom-change full-screen">
@@ -1414,16 +1439,7 @@ const AddLinkToPdf = () => {
               <div className="header-btn">
                 <Button
                   className="btn btn-primary btn-filled next "
-                  onClick={() =>
-                    navigate("/set-popup", {
-                      state: {
-                        pdfId: initFunData?.id,
-                        fileType: initFunData?.file_type,
-                        isEdit: isEdit,
-                        allowVideo: allowStateVideo,
-                      },
-                    })
-                  }
+                  onClick={nextButtonClicked}
                 >
                   Next
                 </Button>

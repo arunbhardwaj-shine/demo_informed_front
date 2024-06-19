@@ -849,10 +849,11 @@ const getExistingVideos=async ()=>{
       const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
       const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
       const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
+      const uploadChapterId = !element.id || element.id === "";
       if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
         isValid = false;
         toastMessage = "Please select a video!";
-      } else if (!isVideoExisting && uploadFileEmpty) {
+      } else if (!isVideoExisting && (uploadFileEmpty && uploadChapterId)) {
         isValid = false;
         toastMessage = "Please input the chapter file atleast!";
       }
