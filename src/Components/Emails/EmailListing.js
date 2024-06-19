@@ -76,16 +76,16 @@ const EmailList = (props) => {
         beta: 25,
         depth: 70,
       },
-    //   events: {
-    //     load: function() {
-    //         var chart = this;
-    //         chart.series.forEach(function(series) {
-    //             series.data.forEach(function(point) {
-    //                 point.onMouseOver(); // Trigger tooltip display
-    //             });
-    //         });
-    //     }
-    // }
+      //   events: {
+      //     load: function() {
+      //         var chart = this;
+      //         chart.series.forEach(function(series) {
+      //             series.data.forEach(function(point) {
+      //                 point.onMouseOver(); // Trigger tooltip display
+      //             });
+      //         });
+      //     }
+      // }
     },
     title: {
       text: "Mail campaign stats",
@@ -143,7 +143,7 @@ const EmailList = (props) => {
               this.x +
               "</span><br/><strong>" +
               this.series.name +
-              "</strong> <strong >" +":"+
+              "</strong> <strong >" + ":" +
               Highcharts.numberFormat(this.y, 0) +
               "</strong></div></span>"
             );
@@ -239,23 +239,23 @@ const EmailList = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-  const getCampaignFiltereData = async() => {
-    try{
+  const getCampaignFiltereData = async () => {
+    try {
       loader('show');
       const body = {
         user_id: localStorage.getItem("user_id"),
       };
       await axios
-      .post(`emailapi/get_campaign_list_filter`, body)
-      .then((res) => {
-        setFilterData(res?.data?.response?.filter);
-        getData("initial");
-      })
-      .catch((err) => {
-        loader("hide");
-        console.log(err);
-      });
-    }catch(err){
+        .post(`emailapi/get_campaign_list_filter`, body)
+        .then((res) => {
+          setFilterData(res?.data?.response?.filter);
+          getData("initial");
+        })
+        .catch((err) => {
+          loader("hide");
+          console.log(err);
+        });
+    } catch (err) {
       console.log(err);
       loader('hide');
     }
@@ -551,16 +551,16 @@ const EmailList = (props) => {
 
   const handleOnFilterRole = (role) => {
     let tag_index = filterrole.indexOf(role);
-    if(role == "No IRT"){
+    if (role == "No IRT") {
       if (tag_index !== -1) {
         filterrole.splice(tag_index, 1);
         setFilterRole(filterrole);
-      }else{
+      } else {
         filterrole.length = 0;
         filterrole.push(role);
         setFilterRole(filterrole);
       }
-    }else{
+    } else {
       //TO REMOVE THE NO IRT OPTION
       const index = filterrole.indexOf('No IRT');
       if (index !== -1) {
@@ -647,7 +647,7 @@ const EmailList = (props) => {
       handleOnFilterDate(item);
     } else if (src == "role") {
       handleOnFilterRole(item);
-    }else if (src == "creator") {
+    } else if (src == "creator") {
       handleOnFilterCreator(item);
     }
     if (filterapplied) {
@@ -745,18 +745,18 @@ const EmailList = (props) => {
     setloadmore(1);
   };
 
-  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "",page=1) => {
+  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "", page = 1) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: viewEmailData?.[0]?.id,
       pdf_id: viewEmailData?.[0]?.pdf_id,
       name: dynamic_name,
       type: type,
-      page:page
+      page: page
     };
     setviewEmailModal(false);
     setFunctionParameter({
-      type , name , color_code , dynamic_name,page
+      type, name, color_code, dynamic_name, page
     })
     // console.log(functionParameter?.page)
     // if(type == "ctr"){
@@ -773,7 +773,7 @@ const EmailList = (props) => {
         if (res.data.status_code == 200) {
           loader("hide");
           if (res?.data?.response?.data) {
-            let temporaryUsers=[...readerDetailsData,...res?.data?.response?.data];
+            let temporaryUsers = [...readerDetailsData, ...res?.data?.response?.data];
             setReaderDetailsData(temporaryUsers);
           }
           setReaderDetailsPopupStatus(true);
@@ -797,24 +797,25 @@ const EmailList = (props) => {
       }
       return obj;
     };
-   
+
     // If key is a string, split it into an array of keys
-    const keys = typeof key === 'string' ? key.split('.') : [key];
+    // const keys = typeof key === 'string' ? key.split('.') : [key];
+    const keys=[key]
     const valueA = getNestedValue(a, keys);
     const valueB = getNestedValue(b, keys);
-   
+
     if (direction === 'asc') {
       return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
     } else {
       return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
     }
   };
-   
+
   const userSort = (e, key) => {
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
-   
+
     const sortedUserData = [...readerDetailsData].sort(dynamicSort(key, direction));
-   
+
     setReaderDetailsData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
     setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
@@ -1045,73 +1046,73 @@ const EmailList = (props) => {
                           )}
                         {
                           localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' ?
-                          <Accordion.Item className="card" eventKey="3">
-                            <Accordion.Header className="card-header">
-                              Campaign
-                            </Accordion.Header>
-                            <Accordion.Body className="card-body">
-                              <ul>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-campaign-0`}
-                                      name="campaign[]"
-                                      value="Sent"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(1) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(1)}
-                                    />
-                                    Sent
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-campaign-1`}
-                                      name="campaign[]"
-                                      value="Draft"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(2) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(2)}
-                                    />
-                                    Draft
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-campaign-2`}
-                                      name="campaign[]"
-                                      value="draft-approved"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(3) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(3)}
-                                    />
-                                    Draft Approved
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                              </ul>
-                            </Accordion.Body>
-                          </Accordion.Item>
-                          : 
+                            <Accordion.Item className="card" eventKey="3">
+                              <Accordion.Header className="card-header">
+                                Campaign
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-0`}
+                                        name="campaign[]"
+                                        value="Sent"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(1) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(1)}
+                                      />
+                                      Sent
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-1`}
+                                        name="campaign[]"
+                                        value="Draft"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(2) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(2)}
+                                      />
+                                      Draft
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-2`}
+                                        name="campaign[]"
+                                        value="draft-approved"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(3) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(3)}
+                                      />
+                                      Draft Approved
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                            :
 
                             filterdata.hasOwnProperty("IRT_roles") &&
-                            filterdata.IRT_roles.length > 0 &&(
+                            filterdata.IRT_roles.length > 0 && (
                               <Accordion.Item className="card" eventKey="3">
                                 <Accordion.Header className="card-header">
                                   IRT Roles
@@ -1149,7 +1150,7 @@ const EmailList = (props) => {
                             )
                         }
 
-                        
+
                       </Accordion>
 
                       <div className="filter-footer">
@@ -1413,7 +1414,7 @@ const EmailList = (props) => {
                           <div className="mail-top-title">
 
                             <span>
-                              {( data?.status == 5)
+                              {(data?.status == 5)
                                 ? "Sending in queue" :
                                 data.status == 2 ? "Draft" : "Approved Draft"
                               }
@@ -1619,64 +1620,64 @@ const EmailList = (props) => {
                                   </>
                                 )}
                               </div>
-                            ) : 
+                            ) :
                               data.status == 5 ? (
                                 <div className="mailbox-buttons d-flex justify-content-end">
                                   <button
-                                        className="btn btn-primary btn-filled edit"
-                                        onClick={(e) =>
-                                          showViewEmailModal(data.id)
-                                        }
-                                      >
-                                        View
-                                      </button>
+                                    className="btn btn-primary btn-filled edit"
+                                    onClick={(e) =>
+                                      showViewEmailModal(data.id)
+                                    }
+                                  >
+                                    View
+                                  </button>
                                 </div>
-                              ) :(
-                              <div className="mailbox-buttons">
-                                {!deletestatus && (
-                                  <div className="mailbox-buttons-list">
-                                    {data.route_location == "VerifyMAIL" &&
-                                      data.pdf_id != 13 ? (
+                              ) : (
+                                <div className="mailbox-buttons">
+                                  {!deletestatus && (
+                                    <div className="mailbox-buttons-list">
+                                      {data.route_location == "VerifyMAIL" &&
+                                        data.pdf_id != 13 ? (
+                                        <button
+                                          className="btn btn-primary send btn-bordered"
+                                          onClick={() => {
+                                            getEmailData(null);
+                                            draftEmailCampaign(data.id);
+                                            setDraftEmailSendStatus(
+                                              (getDraftEmailSendStatus) =>
+                                                !getDraftEmailSendStatus
+                                            );
+                                          }}
+                                        // onClick={(e) => showModal("send", data.id)
+                                        >
+                                          Send
+                                        </button>
+                                      ) : (
+                                        ""
+                                      )}
                                       <button
-                                        className="btn btn-primary send btn-bordered"
+                                        className="btn btn-primary edit btn-filled"
                                         onClick={() => {
                                           getEmailData(null);
-                                          draftEmailCampaign(data.id);
-                                          setDraftEmailSendStatus(
-                                            (getDraftEmailSendStatus) =>
-                                              !getDraftEmailSendStatus
+                                          // getSelectedSmartListData(null);
+                                          draftNavigate(
+                                            data.id,
+                                            data.pdf_id,
+                                            data.route_location,
+                                            data.campaign,
+                                            data.creator,
+                                            data.discription,
+                                            data.subject,
+                                            data.tags
                                           );
                                         }}
-                                      // onClick={(e) => showModal("send", data.id)
                                       >
-                                        Send
+                                        Edit
                                       </button>
-                                    ) : (
-                                      ""
-                                    )}
-                                    <button
-                                      className="btn btn-primary edit btn-filled"
-                                      onClick={() => {
-                                        getEmailData(null);
-                                        // getSelectedSmartListData(null);
-                                        draftNavigate(
-                                          data.id,
-                                          data.pdf_id,
-                                          data.route_location,
-                                          data.campaign,
-                                          data.creator,
-                                          data.discription,
-                                          data.subject,
-                                          data.tags
-                                        );
-                                      }}
-                                    >
-                                      Edit
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
@@ -1783,7 +1784,7 @@ const EmailList = (props) => {
               onClick={hideEmailModal}
             ></button>
           </Modal.Header>
-           
+
           <Modal.Body onScroll={handleScroll}>
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
@@ -1795,16 +1796,16 @@ const EmailList = (props) => {
                     </div>
                     {
                       viewEmailData[0].status != 5
-                      ? 
-                      <div className="mail-view-btn">
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={(e) => showModal("send", campaign_id)}
-                        >
-                          Resend
-                        </button>
-                      </div>
-                      : null
+                        ?
+                        <div className="mail-view-btn">
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            onClick={(e) => showModal("send", campaign_id)}
+                          >
+                            Resend
+                          </button>
+                        </div>
+                        : null
                     }
                   </div>
                   <div className="mailbox-table">
@@ -2382,89 +2383,195 @@ const EmailList = (props) => {
                       <tr>
                         {/* <th scope="col">Name</th> */}
                         <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "first_name")} >
-                                Name
-                                <button
-                                className={`event_sort_btn ${isActive?.first_name == "dec"
-                                    ? "svg_active"
-                                    : isActive?.first_name == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "first_name")}
+                          <span onClick={(e) => userSort(e, "first_name")} >
+                            Name
+                            <button
+                              className={`event_sort_btn ${isActive?.first_name == "dec"
+                                ? "svg_active"
+                                : isActive?.first_name == "asc"
+                                  ? "svg_asc"
+                                  : ""
+                                }`}
+                              onClick={(e) => userSort(e, "first_name")}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                          </span>
+
                         </th>
                         {/* <th scope="col">Email</th> */}
                         <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "email")} >
-                                Email
-                                <button
-                                className={`event_sort_btn ${isActive?.email == "dec"
-                                    ? "svg_active"
-                                    : isActive?.email == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "email")}
+                          <span onClick={(e) => userSort(e, "email")} >
+                            Email
+                            <button
+                              className={`event_sort_btn ${isActive?.email == "dec"
+                                ? "svg_active"
+                                : isActive?.email == "asc"
+                                  ? "svg_asc"
+                                  : ""
+                                }`}
+                              onClick={(e) => userSort(e, "email")}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                          </span>
+
                         </th>
                         {/* <th scope="col">Bounced</th> */}
                         {/* <th scope="col">Country</th> */}
                         <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "country")} >
-                                Country
+                          <span onClick={(e) => userSort(e, "country")} >
+                            Country
+                            <button
+                              className={`event_sort_btn ${isActive?.country == "dec"
+                                ? "svg_active"
+                                : isActive?.country == "asc"
+                                  ? "svg_asc"
+                                  : ""
+                                }`}
+                              onClick={(e) => userSort(e, "country")}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
+                              >
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                          </span>
+
+                        </th>
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                            <th scope="col" className="sort_option">
+                              <span onClick={(e) => userSort(e, "site_number")}>
+                                Site number
                                 <button
-                                className={`event_sort_btn ${isActive?.country == "dec"
+                                  className={`event_sort_btn ${isActive?.site_number == "dec"
                                     ? "svg_active"
-                                    : isActive?.country == "asc"
+                                    : isActive?.site_number == "asc"
                                       ? "svg_asc"
                                       : ""
+                                    }`}
+                                  onClick={(e) => userSort(e, "site_number")}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                    fill="none"
+                                  >
+                                    <g clip-path="url(#clip0_3722_6611)">
+                                      <path
+                                        d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                        fill="#97B6CF"
+                                      />
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_3722_6611">
+                                        <rect width="8" height="8" fill="white" />
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
+                                </button>
+                              </span></th>
+                            <th scope="col" className="sort_option">
+                              <span onClick={(e) => userSort(e, "irt")}>
+                                IRT mandatory training
+                                <button
+                                  className={`event_sort_btn ${isActive?.irt == "dec"
+                                    ? "svg_active"
+                                    : isActive?.irt == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                    }`}
+                                  onClick={(e) => userSort(e, "irt")}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                    fill="none"
+                                  >
+                                    <g clip-path="url(#clip0_3722_6611)">
+                                      <path
+                                        d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                        fill="#97B6CF"
+                                      />
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_3722_6611">
+                                        <rect width="8" height="8" fill="white" />
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
+                                </button>
+                              </span>
+                            </th>
+                          </>) : (
+                          // <th scope="col">Business Unit</th>
+                          <th scope="col" className="sort_option" >
+                            <span onClick={(e) => userSort(e, "ibu")} >
+                              Business Unit
+                              <button
+                                className={`event_sort_btn ${isActive?.ibu == "dec"
+                                  ? "svg_active"
+                                  : isActive?.ibu == "asc"
+                                    ? "svg_asc"
+                                    : ""
                                   }`}
-                                onClick={(e) => userSort(e, "country")}
+                                onClick={(e) => userSort(e, "ibu")}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -2486,85 +2593,45 @@ const EmailList = (props) => {
                                   </defs>
                                 </svg>
                               </button>
-                                </span>
-                           
-                        </th>
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <th scope="col">IRT mandatory training</th>
-                        ) : (
-                          // <th scope="col">Business Unit</th>
-                          <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "ibu")} >
-                          Business Unit
-                          <button
-                          className={`event_sort_btn ${isActive?.ibu == "dec"
-                              ? "svg_active"
-                              : isActive?.ibu == "asc"
-                                ? "svg_asc"
-                                : ""
-                            }`}
-                          onClick={(e) => userSort(e, "ibu")}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="8"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            fill="none"
-                          >
-                            <g clip-path="url(#clip0_3722_6611)">
-                              <path
-                                d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                fill="#97B6CF"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </button>
-                          </span>
-                     
-                  </th>
+                            </span>
+
+                          </th>
                         )}
                         {/* <th scope="col">Date</th> */}
                         <th scope="col" className="sort_option" >
-                                <span onClick={(e) => userSort(e, "item?.recent_send?.[0]?.sent_date")} >
-                                Date
-                                <button
-                                className={`event_sort_btn ${isActive?.item?.recent_send?.[0]?.sent_date == "dec"
-                                    ? "svg_active"
-                                    : isActive?.item?.recent_send?.[0]?.sent_date == "asc"
-                                      ? "svg_asc"
-                                      : ""
-                                  }`}
-                                onClick={(e) => userSort(e, "item?.recent_send?.[0]?.sent_date")}
+                          <span onClick={(e) => userSort(e, "send_date")} >
+                            Date
+                            <button
+                              className={`event_sort_btn ${isActive?.send_date == "dec"
+                                ? "svg_active"
+                                : isActive?.send_date == "asc"
+                                  ? "svg_asc"
+                                  : ""
+                                }`}
+                              onClick={(e) => userSort(e, "send_date")}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="8"
+                                height="8"
+                                viewBox="0 0 8 8"
+                                fill="none"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white" />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                           
+                                <g clip-path="url(#clip0_3722_6611)">
+                                  <path
+                                    d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                    fill="#97B6CF"
+                                  />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_3722_6611">
+                                    <rect width="8" height="8" fill="white" />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                            </button>
+                          </span>
+
                         </th>
                         {/* <th scope="col">Contact Type</th> */}
                         {/* <th scope="col">Opened</th> */}
@@ -2574,103 +2641,107 @@ const EmailList = (props) => {
                     <tbody>
                       {typeof readerDetailsData !== "undefined" &&
                         readerDetailsData.length > 0 ? (
-                          <>
-                          { readerDetailsData.map((item, index) => (
-                          <>
-                            <tr
-                              key={"readers_" + index}
-                              className="hcp"
-                              id={`row-selected` + index}
-                            >
-                              <td>
-                                {" "}
-                                {item?.first_name + " " + item?.last_name}{" "}
-                              </td>
-                              <td> {item?.email ? item.email : "N/A"} </td>
-                              {/* <td> {item?.bounce ? item.bounce : "N/A"}</td> */}
-                              <td>
-                                {" "}
-                                <span>
-                                  {item?.country ? item.country : "N/A"}
-                                </span>{" "}
-                              </td>
-                              <td>
+                        <>
+                          {readerDetailsData.map((item, index) => (
+                            <>
+                              <tr
+                                key={"readers_" + index}
+                                className="hcp"
+                                id={`row-selected` + index}
+                              >
+                                <td>
+                                  {" "}
+                                  {item?.first_name + " " + item?.last_name}{" "}
+                                </td>
+                                <td> {item?.email ? item.email : "N/A"} </td>
+                                {/* <td> {item?.bounce ? item.bounce : "N/A"}</td> */}
+                                <td>
+                                  {" "}
+                                  <span>
+                                    {item?.country ? item.country : "N/A"}
+                                  </span>{" "}
+                                </td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? item.irt
-                                    ? "Yes"
-                                    : "No"
-                                  : item.ibu
-                                    ? item.ibu
-                                    : "N/A"}
-                              </td>
-                              <td>
-                                {
-                                  item?.recent_send?.length > 0 ? moment(item?.recent_send?.[0]?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
-                                    : null
-                                }
-                                {
-                                  item?.recent_send?.length > 1 ? 
-                                  <div className="mail-resend" title="Resend Emails">
-                                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
-                                  </div>
-                                  : null
-                                }
-                              </td>
-                            </tr>
-
-                            {
-                              item?.recent_send?.length > 1 ?
-
-                                <>
+                                  "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                <td>
+                                  {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    ? item.irt
+                                      ? "Yes"
+                                      : "No"
+                                    : item.ibu
+                                      ? item.ibu
+                                      : "N/A"}
+                                </td>
+                                <td>
                                   {
-                                    item?.recent_send?.map((subItem, subIndex) => (
-                                      subIndex !== 0 ?
-                                        <>
-                                          <tr>
-                                            <td>
-                                              {item?.first_name + " " + item?.last_name}
-                                            </td>
-                                            <td> {item?.email ? item.email : "N/A"} </td>
-                                            <td>
-                                              <span>
-                                                {item?.country ? item.country : "N/A"}
-                                              </span>
-                                            </td>
-                                            <td>
-                                              {localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                ? item.irt
-                                                  ? "Yes"
-                                                  : "No"
-                                                : item.ibu
-                                                  ? item.ibu
-                                                  : "N/A"}
-                                            </td>
-                                            <td>
-                                              {subItem?.sent_date ?
-                                              moment(subItem?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
-                                              : null}
-                                              {
-                                                item?.recent_send?.length - subIndex > 1 ? 
-                                                <div className="mail-resend" title="Resend Emails">
-                                                  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
-                                                </div>
-                                                 : null
-                                              }
-                                              </td>
-                                          </tr>
-                                        </>
-                                        : null
-                                    ))
+                                    item?.recent_send?.length > 0 ? moment(item?.recent_send?.[0]?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
+                                      : null
                                   }
-                                </>
+                                  {
+                                    item?.recent_send?.length > 1 ?
+                                      <div className="mail-resend" title="Resend Emails">
+                                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
+                                      </div>
+                                      : null
+                                  }
+                                </td>
+                              </tr>
 
-                                : null
-                            }
-                     
-                          </>
-                        ))}
+                              {
+                                item?.recent_send?.length > 1 ?
+
+                                  <>
+                                    {
+                                      item?.recent_send?.map((subItem, subIndex) => (
+                                        subIndex !== 0 ?
+                                          <>
+                                            <tr>
+                                              <td>
+                                                {item?.first_name + " " + item?.last_name}
+                                              </td>
+                                              <td> {item?.email ? item.email : "N/A"} </td>
+                                              <td>
+                                                <span>
+                                                  {item?.country ? item.country : "N/A"}
+                                                </span>
+                                              </td>
+                                              {localStorage.getItem("user_id") ==
+                                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                              <td>
+                                                {localStorage.getItem("user_id") ==
+                                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                                  ? item.irt
+                                                    ? "Yes"
+                                                    : "No"
+                                                  : item.ibu
+                                                    ? item.ibu
+                                                    : "N/A"}
+                                              </td>
+                                              <td>
+                                                {subItem?.sent_date ?
+                                                  moment(subItem?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
+                                                  : null}
+                                                {
+                                                  item?.recent_send?.length - subIndex > 1 ?
+                                                    <div className="mail-resend" title="Resend Emails">
+                                                      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
+                                                    </div>
+                                                    : null
+                                                }
+                                              </td>
+                                            </tr>
+                                          </>
+                                          : null
+                                      ))
+                                    }
+                                  </>
+
+                                  : null
+                              }
+
+                            </>
+                          ))}
                         </>
                       ) : readerDetailsData.length == 0 ? (
                         <tr className="table_no_data_found">
@@ -2683,12 +2754,12 @@ const EmailList = (props) => {
                       ) : null}
                     </tbody>
                   </table>
-                  {readerDetailsData.length >=50 && functionParameter?.page==1 &&  
-                          (<div className="text-center load_more">
-                        <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.name,functionParameter?.color_code,functionParameter?.dynamic_name,2)}>
-                          Load All
-                        </button>
-                      </div>)}
+                  {readerDetailsData.length >= 50 && functionParameter?.page == 1 &&
+                    (<div className="text-center load_more">
+                      <button className="btn btn-primary btn-filled" onClick={() => getReaderData(functionParameter?.type, functionParameter?.name, functionParameter?.color_code, functionParameter?.dynamic_name, 2)}>
+                        Load All
+                      </button>
+                    </div>)}
                 </div>
               }
             </Modal.Body>

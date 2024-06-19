@@ -502,9 +502,19 @@ const LibraryCreateUser = () => {
               state: { pdfId: res?.data?.data?.pdfId },
             });
           } else {
-            navigate("/preview-content", {
-              state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
-            });
+            if(userInputs?.allowVideo){
+              navigate("/library-add-link", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  isEdit: 0,
+                  allowVideo: userInputs?.allowVideo,
+                },
+              });
+            }else{
+              navigate("/preview-content", {
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+              });
+            }
           }
         } else {
           if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
@@ -606,7 +616,6 @@ const LibraryCreateUser = () => {
   const addMoreChClicked = () => {
     let isValid = true;
     let toastMessage = '';
-
     chapter.forEach((element) => {
       const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
       const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
@@ -1557,7 +1566,8 @@ const LibraryCreateUser = () => {
                     </li>
                     {(localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==") && userInputs?.allowVideo ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==") && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
@@ -2572,7 +2582,8 @@ const LibraryCreateUser = () => {
                     (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
                      && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==") ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>

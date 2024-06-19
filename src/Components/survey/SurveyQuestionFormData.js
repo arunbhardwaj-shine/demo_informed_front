@@ -12,7 +12,7 @@ import SurveyQuestionFormDataLex from "./SurveyQuestionFormDataLex";
 
 
 
-const SurveyQuestionFormData = () => {
+const SurveyQuestionFormDataOthers = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const firstAccordionRef = useRef([]);
   const accordionRefs = useRef([]);
@@ -1993,6 +1993,12 @@ const SurveyQuestionFormData = () => {
     </Col>
   );
 };
-const userId = localStorage.getItem("user_id");
 
-export default userId === "56Ek4feL/1A8mZgIKQWEqg==" ? SurveyQuestionFormDataLex : SurveyQuestionFormData;
+
+const SurveyQuestionFormData=()=>{
+  const userId = localStorage.getItem("user_id");
+
+return (userId === "56Ek4feL/1A8mZgIKQWEqg==" ? <SurveyQuestionFormDataLex/> : <SurveyQuestionFormDataOthers/>)
+}
+
+export default SurveyQuestionFormData
