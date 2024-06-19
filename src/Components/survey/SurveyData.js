@@ -284,7 +284,7 @@ const SurveyData = () => {
           <Col>
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
-                <h4>Survey Data</h4>
+                <h4>Survey Data | <span>{data?.length}</span></h4>
                 <div className='clear-search d-flex align-items-center'>
                   <a
                     className={`copy_link btn-voilet`}

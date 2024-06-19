@@ -1037,6 +1037,8 @@ const RDAnalytics = () => {
   const refresh = async() => {
     try{
       setRefreshFlag(true);
+      setSortBy('site_number');
+      setSortOrder('asc');
       let obj = {
         "sync":1
       };
@@ -1212,7 +1214,7 @@ const RDAnalytics = () => {
                                       {filterObject[key]?.length ? (
                                         <div className="filter-div">
                                           <div className="filter-div-title">
-                                            <span>{key == "training_status" ? "Training" : key == "User_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
+                                            <span>{key == "training_status" ? "Training" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
                                           </div>
 
                                           <div className="filter-div-list">
@@ -1261,11 +1263,11 @@ const RDAnalytics = () => {
 
   {/** By Gagan */}
 
-  <div className="filter-by nav-item dropdown" style={{margin:'0'}}>
+  <div className={`${showfilter?"filter-by nav-item dropdown highlight":"filter-by nav-item dropdown" }`} style={{margin:'0'}}>
     <button
       ref={buttonRef}
       className={
-        Object.keys(apifilterObject)?.length &&
+        Object.keys(filterObject)?.length &&
           filterApplyflag == 1
           ? "btn btn-secondary dropdown filter_applied"
           : "btn btn-secondary dropdown"

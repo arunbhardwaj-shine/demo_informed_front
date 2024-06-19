@@ -13730,9 +13730,12 @@ img.change-password-image {
       .filter_btn_div {
         gap: 20px;
         margin: 15px 0 0px;
+        width: 100%;
+        justify-content: flex-end;
 
         .apply-filter {
           margin: 0;
+          flex: 1 1;
         }
       }
     }

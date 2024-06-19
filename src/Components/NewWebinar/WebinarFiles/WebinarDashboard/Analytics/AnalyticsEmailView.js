@@ -8,6 +8,7 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import domtoimage from "dom-to-image";
+import { toast } from "react-toastify";
 
 const AnalyticsEmailView = () => {
   let menuItemDefinitions = {
@@ -119,7 +120,6 @@ const AnalyticsEmailView = () => {
         },
         enableMouseTracking: true,
         showInLegend: true,
-        borderWidth: 0,
       },
     },
     series: [],
@@ -130,7 +130,7 @@ const AnalyticsEmailView = () => {
   });
   const regionPieRef = useRef(null);
 
-  const [optionsHighchart, setOptionsHighhart] = useState({
+  const [optionsHighChart, setOptionsHighChart] = useState({
     chart: {
       type: "bar",
       options3d: {
@@ -199,10 +199,10 @@ const AnalyticsEmailView = () => {
       enabled: true,
       chartOptions: {
         title: {
-          text: "", // Remove title from exported image
+          text: "", 
         },
       },
-      filename: "Total_Registration", // Set filename for exported image
+      filename: "Total_Registration", 
       ...menuItemDefinitions,
     
     },
@@ -265,8 +265,8 @@ const AnalyticsEmailView = () => {
     ],
   });
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [viewEmailData, setviewEmailData] = useState(null);
-  const { eventIdContext, handleEventId } = useSidebar();
+  const [viewEmailData, setViewEmailData] = useState(null);
+  const { eventIdContext } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [campaignId, setCampaignId] = useState("");
   const [ctrName, setCTRName] = useState("");
@@ -275,12 +275,11 @@ const AnalyticsEmailView = () => {
   const [dropdownData, setDropdownData] = useState(null);
   const [isPieChart, setIsPieChart] = useState(true);
   const [apiStatus, setApiStatus] = useState(false);
+  const [dynamicName, setDynamicName] = useState("");
 
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId
+  const eventId = eventIdContext?.eventId
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
-  );
   useEffect(() => {
     if (regionPieRef?.current) {
       regionPieRef.current.scrollIntoView({ behavior: "smooth" });
@@ -313,6 +312,9 @@ const AnalyticsEmailView = () => {
     loadAll = 1
   ) => {
     try {
+      setPieOptionsRegion(null);
+      setDropdownData(null);
+      setDynamicName(popup_name)
       loader("show");
       const body = {
         eventId: eventId,
@@ -348,19 +350,12 @@ const AnalyticsEmailView = () => {
             textDecoration: "none",
             color: "#000000",
           },
-          series: response?.data?.data?.drilldownData, // set the drilldown data
+          series: response?.data?.data?.drilldownData, 
         },
       });
 
       setDropdownData(response?.data?.data);
-      //   setviewEmailModal(false);
-      //   setFunctionParameter({
-      //     type, dynamic_name, popup_name, loadAll
-      //   })
-      //   let temporaryUsers = [...readerDetailsData, ...response?.data?.data];
-      //   setReaderDetailsData(temporaryUsers);
-      //   setDetailPopupName(popup_name)
-      //   setReaderDetailsPopupStatus(true);
+
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -369,7 +364,10 @@ const AnalyticsEmailView = () => {
   };
 
   const handleSelectChange = (selectedOption) => {
-    setviewEmailData(null);
+    setPieOptionsRegion(null);
+
+      setDropdownData(null);
+    setViewEmailData(null);
     setSelectedOption(selectedOption);
     if (selectedOption) {
       getEmailCount(selectedOption.id, selectedOption.status);
@@ -394,29 +392,27 @@ const AnalyticsEmailView = () => {
   };
 
   const showViewEmailModal = async (data) => {
-    let id = data?.auto_id;
     if (typeof data !== "undefined") {
-      // let valueupdate =JSON.parse(JSON.stringify(options)) ;
-      let valueupdate = { ...optionsHighchart };
-      valueupdate.xAxis.categories = ["Emails sent", "Emails opened"];
-      valueupdate.series[0].data = [
+      let valueUpdate = { ...optionsHighChart };
+      valueUpdate.xAxis.categories = ["Emails sent", "Emails opened"];
+      valueUpdate.series[0].data = [
         { y: data?.email_sent, color: "#8a4e9c" },
         { y: data?.email_read, color: "#ffbe2c" },
       ];
 
       Object.keys(data?.labels_value)?.map((item, index) => {
-        valueupdate?.xAxis?.categories?.push(data?.labels[item]);
+        valueUpdate?.xAxis?.categories?.push(data?.labels[item]);
 
         let obj = {
           y: data?.labels_value[item],
           color: colorArray?.[index],
         };
-        valueupdate.series[0].data.push(obj);
+        valueUpdate.series[0].data.push(obj);
       });
 
       setCTRName(data?.labels_value);
-      setOptionsHighhart(valueupdate);
-      setviewEmailData(data);
+      setOptionsHighChart(valueUpdate);
+      setViewEmailData(data);
     }
     setCampaignId(data);
     loader("hide");
@@ -534,6 +530,11 @@ const AnalyticsEmailView = () => {
                                   <div
                                     className="rd-box-export"
                                     onClick={() => {
+                                      if(viewEmailData?.email_sent==0) {
+                                        toast.warning("No Data Found!");
+                                        return 
+
+                                      }
                                       getReaderData("sent", "", "Email sent");
                                     }}
                                   >
@@ -565,6 +566,11 @@ const AnalyticsEmailView = () => {
                                   <div
                                     className="rd-box-export"
                                     onClick={() => {
+                                      if(viewEmailData?.email_read==0) {
+                                        toast.warning("No Data Found!");
+                                        return 
+
+                                      }
                                       getReaderData("open", "", "Email open");
                                     }}
                                   >
@@ -594,7 +600,7 @@ const AnalyticsEmailView = () => {
                                       <div className="email_stats_list d-flex align-items-end justify-content-between">
                                         <div className="d-flex align-items-center">
 
-                                          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" > <circle cx="16" cy="16" r="14.5" stroke={colorArray?.[index % colorArray.length]} stroke-width="3" stroke-linejoin="round" /> <path d="M11.9634 13.3063C11.8537 12.9347 11.7483 12.5624 11.6691 12.2058C11.1485 11.8977 10.7943 11.3372 10.7943 10.6893C10.7943 9.71473 11.5868 8.92284 12.5608 8.92284C13.5347 8.92284 14.3273 9.71535 14.3273 10.6893C14.3273 10.8234 14.3092 10.9525 14.2811 11.0778C14.4501 11.45 14.5866 11.8691 14.7064 12.2949C15.0431 11.846 15.2501 11.2942 15.2501 10.6893C15.2501 9.20343 14.0467 8 12.5608 8C11.0749 8 9.87207 9.20343 9.87207 10.6893C9.87207 11.9688 10.7668 13.0345 11.9634 13.3063Z" fill={colorArray?.[index % colorArray.length]} /> <path d="M10.1062 19.673C10.769 18.9566 11.5129 19.2372 12.5087 19.3887C13.3641 19.5203 14.2066 19.2802 14.1504 18.8182C14.0619 18.0705 13.9372 17.7363 13.6535 16.768C13.4271 15.9979 12.9975 14.6099 12.6065 13.283C12.0828 11.5078 11.9313 10.6835 12.6284 10.4777C13.3797 10.2588 13.8106 11.3263 14.2009 12.8066C14.6455 14.4914 14.8793 15.2353 15.0103 15.196C15.241 15.1299 14.9255 14.4091 15.5291 14.2314C16.2836 14.0119 16.4295 14.6018 16.6408 14.5426C16.8522 14.479 16.7805 13.8816 17.3822 13.7058C17.9871 13.5312 18.2907 14.2757 18.5401 14.2015C18.7871 14.1285 18.7815 13.8598 19.1543 13.7532C19.5278 13.6422 20.9333 14.2713 21.7376 17.0193C22.7472 20.4743 21.6098 21.1165 21.9546 22.2863L17.4483 23.9998C17.0836 23.1224 15.9537 23.0576 14.9542 22.4983C13.9472 21.9315 13.2631 20.8272 10.6387 20.8808C9.6516 20.9008 9.69837 20.1139 10.1062 19.673Z" fill={colorArray?.[index % colorArray.length]} /> </svg>
+                                          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" > <circle cx="16" cy="16" r="14.5" stroke={colorArray?.[index % colorArray.length]} strokeWidth="3" strokeLinejoin="round" /> <path d="M11.9634 13.3063C11.8537 12.9347 11.7483 12.5624 11.6691 12.2058C11.1485 11.8977 10.7943 11.3372 10.7943 10.6893C10.7943 9.71473 11.5868 8.92284 12.5608 8.92284C13.5347 8.92284 14.3273 9.71535 14.3273 10.6893C14.3273 10.8234 14.3092 10.9525 14.2811 11.0778C14.4501 11.45 14.5866 11.8691 14.7064 12.2949C15.0431 11.846 15.2501 11.2942 15.2501 10.6893C15.2501 9.20343 14.0467 8 12.5608 8C11.0749 8 9.87207 9.20343 9.87207 10.6893C9.87207 11.9688 10.7668 13.0345 11.9634 13.3063Z" fill={colorArray?.[index % colorArray.length]} /> <path d="M10.1062 19.673C10.769 18.9566 11.5129 19.2372 12.5087 19.3887C13.3641 19.5203 14.2066 19.2802 14.1504 18.8182C14.0619 18.0705 13.9372 17.7363 13.6535 16.768C13.4271 15.9979 12.9975 14.6099 12.6065 13.283C12.0828 11.5078 11.9313 10.6835 12.6284 10.4777C13.3797 10.2588 13.8106 11.3263 14.2009 12.8066C14.6455 14.4914 14.8793 15.2353 15.0103 15.196C15.241 15.1299 14.9255 14.4091 15.5291 14.2314C16.2836 14.0119 16.4295 14.6018 16.6408 14.5426C16.8522 14.479 16.7805 13.8816 17.3822 13.7058C17.9871 13.5312 18.2907 14.2757 18.5401 14.2015C18.7871 14.1285 18.7815 13.8598 19.1543 13.7532C19.5278 13.6422 20.9333 14.2713 21.7376 17.0193C22.7472 20.4743 21.6098 21.1165 21.9546 22.2863L17.4483 23.9998C17.0836 23.1224 15.9537 23.0576 14.9542 22.4983C13.9472 21.9315 13.2631 20.8272 10.6387 20.8808C9.6516 20.9008 9.69837 20.1139 10.1062 19.673Z" fill={colorArray?.[index % colorArray.length]} /> </svg>
                                           <p>
                                             {
                                               // (
@@ -613,6 +619,11 @@ const AnalyticsEmailView = () => {
                                         <div
                                           className="rd-box-export"
                                           onClick={() => {
+                                            if(ctrName[item]==0) {
+                                              toast.warning("No Data Found!");
+                                              return 
+
+                                            }
                                             getReaderData(
                                               "ctr",
                                               item,
@@ -646,7 +657,10 @@ const AnalyticsEmailView = () => {
                                           />{" "}
                                           <p>0%</p>
                                         </div>
-                                        <div className="rd-box-export">
+                                        <div className="rd-box-export"  onClick={() =>{
+                                              toast.warning("No Data Found!");
+
+                                        }}>
                                           <img
                                             src={
                                               path_image + "arrow-export.svg"
@@ -667,14 +681,14 @@ const AnalyticsEmailView = () => {
                           <HighchartsReact
                             key={campaignId?.auto_id}
                             highcharts={Highcharts}
-                            options={optionsHighchart}
+                            options={optionsHighChart}
                           />{" "}
                         </div>
                         {dropdownData && (
                           <div className="rd-training-block">
                             <div className="d-flex align-items-center justify-content-between">
                               <div className="rd-training-block-left">
-                                <h4>Emails Opened by country</h4>
+                                <h4>{dynamicName.replace(/-/g, ' ')} by country</h4>
                               </div>
                               <div className="rd-training-block-right d-flex">
                                 <div className="switch6">

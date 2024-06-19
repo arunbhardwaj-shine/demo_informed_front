@@ -2168,7 +2168,7 @@ const NewReadersReview = () => {
 
             <div className="library-content-box-layuot readerlist new-reader d-flex">
 
-              {readerDataList || updateflag ? (
+              {readerDataList?.length || updateflag ? (
                  readerDataList.map((data, index) => {
                 
                   return (
