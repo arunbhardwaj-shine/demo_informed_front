@@ -1157,11 +1157,12 @@ const Analytics = (props) => {
                   },
                   events: {
                     load: function () {
-                      let categoryHeight = 50;
+            
+                      let categoryHeight = 40;         
                       this.update({
                         chart: {
                           height:
-                            categoryHeight * countries.length +
+                            categoryHeight * this.pointCount +
                             (this.chartHeight - this.plotHeight),
                         },
                       });
