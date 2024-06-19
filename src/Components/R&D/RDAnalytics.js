@@ -1261,7 +1261,7 @@ const RDAnalytics = () => {
 
   {/** By Gagan */}
 
-  <div className="filter-by nav-item dropdown" style={{margin:'0'}}>
+  <div className={`${showfilter?"filter-by nav-item dropdown highlight":"filter-by nav-item dropdown" }`} style={{margin:'0'}}>
     <button
       ref={buttonRef}
       className={
