@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, Button, Carousel, Col, Row, Table } from "react-bootstrap";
+import { Accordion, Button, Col, Row, Table } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
@@ -10,26 +10,22 @@ import { toast } from "react-toastify";
 
 const AnalyticsAttendees = () => {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [indidualCompletionTableData, setIndividualCompletionTableData] =
-    useState();
-  const [individualCompletionShow, setIndividualCompletionShow] = useState();
   const [search, setSearch] = useState("");
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [apifilterObject, setApifilterObject] = useState({});
   const [showFilter, setShowFilter] = useState(false);
-  const [filterdata, setFilterData] = useState({});
+  const [filterData, setFilterData] = useState({});
   const [appliedFilter, setAppliedFilter] = useState({});
   const [filterObject, setFilterObject] = useState({});
-  const [emailListData, setEmailListData] = useState([]);
-  const [totalEmailListData, setTotalEmailListData] = useState([]);
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+  
   const [currentIndex, setCurrentIndex] = useState(-1);
 
-  const { eventIdContext, handleEventId } = useSidebar();
+  const { eventIdContext } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId || localStorageEvent?.eventId
-  );
+  const eventId = eventIdContext?.eventId || localStorageEvent?.eventId
+
   const [attendeesData, setAttendeesData] = useState([]);
   const [attendeesDataDropdown, setAttendeesDataDropdown] = useState(null);
   const [attendeesDataOriginal, setAttendeesDataOriginal] = useState([]);
@@ -51,7 +47,7 @@ const AnalyticsAttendees = () => {
 
       } catch (error) {
         console.error("Error fetching analytics data:", error);
-      }finally{
+      } finally {
         setApiStatus(true)
         loader("hide");
 
@@ -60,8 +56,8 @@ const AnalyticsAttendees = () => {
 
     fetchAnalyticsData();
   }, [eventId]);
-  const customLoader = (functionName,e=null) => {
-    if(e!=null){
+  const customLoader = (functionName, e = null) => {
+    if (e != null) {
       e.preventDefault()
     }
     loader("show");
@@ -69,64 +65,64 @@ const AnalyticsAttendees = () => {
       functionName(e);
     }, 300);
   };
-  
+
   const clearFilter = () => {
-  setAppliedFilter({});
+    setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
     setAttendeesData(attendeesDataOriginal);
-    // getWebinarCompaignList()
     setShowFilter(false);
+    setIsFilterApplied(false);
     loader("hide");
 
-   
-  
+
+
   };
-  const applyFilter = () => {
+  const applyFilter = (updatedFilter = null) => {
     
+    let filters = updatedFilter ?? appliedFilter;
+    console.log(Object.keys(filters).length);
+    setIsFilterApplied(Object.keys(filters).length==0);
     const filteredData = attendeesDataOriginal.filter((item) => {
-      for (const key in appliedFilter) {
-        const filterValues = appliedFilter[key];
+      for (const key in filters) {
+        const filterValues = filters[key];
         if (filterValues.length === 0) {
           continue;
         }
         let isMatch = false;
 
         if (filterValues.length > 1) {
-          // "or" condition
-          isMatch = filterValues.some(value =>{ if(value=="All")return true 
-          return item[key] === value});
+          isMatch = filterValues.some(value => {
+            if (value == "All") return true
+            return item[key] === value
+          });
         } else {
-          // "and" condition
-          isMatch = filterValues[0]=="All"?true:item[key] === filterValues[0];
+          isMatch = filterValues[0] == "All" ? true : item[key] === filterValues[0];
         }
 
         if (!isMatch) {
-          return false; // If any condition fails, immediately return false
+          return false;
         }
       }
 
-      return true; // All conditions passed
-      
+      return true;
+
     });
-    // console.log(filteredData
-    // setEmailListData([]);
     setAttendeesData(filteredData);
-    setFilterObject(appliedFilter);
-    // getWebinarCompaignList(appliedFilter);
+    setFilterObject(filters);
     setShowFilter(false);
     loader("hide");
 
 
   };
   const handleOnFilterChange = (e, item, index, key, data = []) => {
-   
+
     let newObj = { ...appliedFilter };
     let newApiFilterObject = { ...apifilterObject };
-  const radioKeys=["Attended", "Registered", "Poll Participate", "Asked Question"]    // Initialize arrays if they don't exist
+    const radioKeys = ["Attended", "Registered", "Poll Participate", "Asked Question"]    // Initialize arrays if they don't exist
     newObj[key] = newObj[key] || [];
     newApiFilterObject[key] = newApiFilterObject[key] || [];
-  
+
     // Check if checkbox is checked
     if (e?.target?.checked) {
       // Special handling for certain keys
@@ -159,12 +155,12 @@ const AnalyticsAttendees = () => {
         }
       }
     }
-  
+
     // Update state
     setAppliedFilter(newObj);
     setApifilterObject(newApiFilterObject);
   };
-  
+
   const searchChange = (e) => {
     setShowFilter(false);
 
@@ -178,10 +174,10 @@ const AnalyticsAttendees = () => {
   const submitSearchHandler = (event) => {
     event.preventDefault();
     let searchData = attendeesDataOriginal?.filter((item) =>
-      item?.name?.toLowerCase().includes(search.toLowerCase()) || 
-      item?.email?.toLowerCase().includes(search.toLowerCase()) || 
+      item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.email?.toLowerCase().includes(search.toLowerCase()) ||
       item?.country?.toLowerCase().includes(search.toLowerCase()) ||
-      item?.region?.toLowerCase().includes(search.toLowerCase()) 
+      item?.region?.toLowerCase().includes(search.toLowerCase())
     );
     setShowFilter(false);
 
@@ -189,7 +185,7 @@ const AnalyticsAttendees = () => {
     loader("hide");
 
   };
-  
+
   const handleDropdown = async (userId, index) => {
     loader("show");
     setShowFilter(false);
@@ -206,91 +202,89 @@ const AnalyticsAttendees = () => {
       setAttendeesDataDropdown(null);
       setCurrentIndex(-1);
     }
-
-    // setAttendeesData(result?.attendeesData);
-
     loader("hide");
   };
 
-  const downloadExcel = (data,name) => {
+  const downloadExcel = (data, name) => {
     loader("show")
     setShowFilter(false);
-    setTimeout(()=>{ try {
-      if (data?.length == 0) {
-        toast.warning("No data found");
-        return;
-      }
-      data = data?.map((item, index) => {
-        let finalData = {};
+    setTimeout(() => {
+      try {
+        if (data?.length == 0) {
+          toast.warning("No data found");
+          return;
+        }
+        data = data?.map((item, index) => {
+          let finalData = {};
 
-        finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
+          finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
 
-        finalData.Email = item?.email ? item?.email.trim() : "N/A";
-        finalData.Region = item?.region ? item?.region.trim() : "N/A";
-        finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        // finalData.Registered = item?.register_time
-        //   ? item?.register_time.trim()
-        //   : "N/A";
-      
-          if(item?.liveSpendTime!=undefined){
+          finalData.Email = item?.email ? item?.email.trim() : "N/A";
+          finalData.Region = item?.region ? item?.region.trim() : "N/A";
+          finalData.Country = item?.country ? item?.country.trim() : "N/A";
+          // finalData.Registered = item?.register_time
+          //   ? item?.register_time.trim()
+          //   : "N/A";
 
-        finalData["Live Spend Time"] = item?.liveSpendTime
-          ? item?.liveSpendTime
-          : "N/A";
+          if (item?.liveSpendTime != undefined) {
+
+            finalData["Live Spend Time"] = item?.liveSpendTime
+              ? item?.liveSpendTime
+              : "N/A";
           }
-          if(item?.askedQuestion!=undefined){
+          if (item?.askedQuestion != undefined) {
 
             finalData["Asked Question"] = item?.askedQuestion
               ? item?.askedQuestion.trim()
               : "N/A";
-              }
-              if(item?.pollParticipate!=undefined){
+          }
+          if (item?.pollParticipate != undefined) {
 
-                finalData["Poll Participate"] = item?.pollParticipate
-                  ? item?.pollParticipate.trim()
-                  : "N/A";
-                  }
-                  
-        return finalData;
-      });
-      const worksheet = XLSX.utils.json_to_sheet(data);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-      const excelBuffer = XLSX.write(workbook, {
-        bookType: "xlsx",
-        type: "array",
-      });
-      const blob = new Blob([excelBuffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
-      });
-      saveAs(blob, `${name}_data.xlsx`);
-    } catch (error) {
-      console.error(
-        "An error occurred while downloading the Excel file:",
-        error
-      );
-    }  loader("hide")
-  
-  }  ,500)
+            finalData["Poll Participate"] = item?.pollParticipate
+              ? item?.pollParticipate.trim()
+              : "N/A";
+          }
+
+          return finalData;
+        });
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        const excelBuffer = XLSX.write(workbook, {
+          bookType: "xlsx",
+          type: "array",
+        });
+        const blob = new Blob([excelBuffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+        });
+        saveAs(blob, `${name}_data.xlsx`);
+      } catch (error) {
+        console.error(
+          "An error occurred while downloading the Excel file:",
+          error
+        );
+      } loader("hide")
+
+    }, 500)
   };
   const handleSort = (key) => {
     setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
   const sortData = (data, key, order) => {
     return data.sort((a, b) => {
       let valueA = a[key];
       let valueB = b[key];
-      if(key=="register_time"){
-        valueA =new Date(a[key]);;
-       valueB = new Date(b[key]);
-       return order === 'asc' ? valueA - valueB : valueB - valueA;
+      if (key == "register_time") {
+        valueA = new Date(a[key]);;
+        valueB = new Date(b[key]);
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
       }
-      
+
       // Handle different data types (numbers, strings)
       if (typeof valueA === 'number' && typeof valueB === 'number') {
-        
+
         return order === 'asc' ? valueA - valueB : valueB - valueA;
       } else {
         return order === 'asc'
@@ -299,25 +293,56 @@ const AnalyticsAttendees = () => {
       }
     });
   };
+  const removeindividualfilter = (key, item) => {
+    loader("show");
+    let updatedFilter = JSON.parse(JSON.stringify(appliedFilter))
+    let index = updatedFilter[key]?.indexOf(item)
+    if (index > -1) {
+      updatedFilter[key]?.splice(index, 1)
+      if (updatedFilter[key]?.length == 0) {
+        delete updatedFilter[key]
+      }
+    }
+    setAppliedFilter(updatedFilter)
+    applyFilter(updatedFilter)
+  }
+  const renderSortButton = (key) => (
+    <button
+      className={`event_sort_btn ${sortBy === key ? (sortOrder === "asc" ? "svg_asc" : "svg_active") : ""}`}
+      onClick={() => handleSort(key)}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+        <g clipPath="url(#clip0_3722_6611)">
+          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+        </g>
+        <defs>
+          <clipPath id="clip0_3722_6611">
+            <rect width="8" height="8" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    </button>
+  );
+
   return (
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
-        {apiStatus &&  <Row>
+          {apiStatus && <Row>
             <div className="top-header regi-web sticky">
               <div className="page-title d-flex flex-column align-items-start">
                 <h2>Attendees</h2>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                <form className="d-flex" onSubmit={(e) => customLoader(submitSearchHandler,e)}>
+                  <form className="d-flex" onSubmit={(e) => customLoader(submitSearchHandler, e)}>
                     <input
                       className="form-control me-2"
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
-                      onFocus={()=>    setShowFilter(false) }
+                      onFocus={() => setShowFilter(false)}
                       onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline" type="submit">
@@ -405,10 +430,10 @@ const AnalyticsAttendees = () => {
                     >
                       <h4>Filter By</h4>
                       <Accordion defaultActiveKey="0" flush>
-                        {Object.keys(filterdata)?.map(function (key, index) {
+                        {Object.keys(filterData)?.map(function (key, index) {
                           return (
                             <>
-                              {filterdata[key]?.length > 0 ? (
+                              {filterData[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className={
                                     key == "role" ? "card upper" : "card"
@@ -420,8 +445,8 @@ const AnalyticsAttendees = () => {
                                   </Accordion.Header>
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {filterdata[key]?.length
-                                        ? filterdata[key]?.map(
+                                      {filterData[key]?.length
+                                        ? filterData[key]?.map(
                                           (item, index) => (
                                             <li key={index}>
                                               {item != "" ? (
@@ -461,7 +486,7 @@ const AnalyticsAttendees = () => {
                                                           : item,
                                                         index,
                                                         key,
-                                                        [...filterdata[key]]
+                                                        [...filterData[key]]
                                                       )
                                                     }
                                                   />
@@ -487,13 +512,13 @@ const AnalyticsAttendees = () => {
                       <div className="filter-footer">
                         <Button
                           className="btn btn-primary btn-bordered"
-                          onClick={()=>customLoader(clearFilter)}
+                          onClick={() => customLoader(clearFilter)}
                         >
                           Clear
                         </Button>
                         <Button
                           className="btn btn-primary btn-filled"
-                          onClick={(e)=>customLoader(applyFilter)}
+                          onClick={(e) => customLoader(applyFilter)}
                         >
                           Apply
                         </Button>
@@ -505,8 +530,8 @@ const AnalyticsAttendees = () => {
                   <Button
                     title="Download stats"
                     className="download"
-                    onClick={() => downloadExcel(attendeesData,"Attendees data")}
-                    >
+                    onClick={() => downloadExcel(attendeesData, "Attendees data")}
+                  >
                     <svg
                       width="20"
                       height="20"
@@ -532,190 +557,80 @@ const AnalyticsAttendees = () => {
                 <div className="table-title">
                   <h4>Total Attendees |{" "}<span>{attendeesData?.length || 0}</span></h4>
                 </div>
+                {(Object.keys(appliedFilter)?.length > 0 && isFilterApplied)? (
+                  <div className="apply-filter">
+                    <div className="filter-block">
+                      <div className="filter-block-left full">
+                        {Object.keys(appliedFilter)?.map((key, index) => {
+                          return (<>
+                            {appliedFilter[key]?.length ? (
+                              <div className="filter-div">
+                                <div className="filter-div-title">
+                                  <span>{key} |</span>
+                                </div>
+                                <div className="filter-div-list">
+                                  {appliedFilter[key]?.map((item, index) => (
+                                    <div className="filter-result"
+                                      id={item}
+                                      rt={index} >
+                                      {item}
+                                      <img
+                                        src={
+                                          path_image + "filter-close.svg"
+                                        }
+                                        onClick={(event) => {
+                                          removeindividualfilter(key, item);
+                                        }}
+                                        alt="Close-filter"
+                                      />
+                                    </div>
+
+                                  ))}
+                                </div>
+                              </div>
+                            ) : ""}
+                          </>)
+                        })}
+                      </div>
+                      <div className="clear-filter">
+                        <Button
+                          className="btn btn-outline-primary btn-bordered"
+                          onClick={() => customLoader(clearFilter)}
+                        >
+                          Remove All
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : ""}
               </div>
+
+
               <Table className="attended-table" id="individual_completion">
                 <thead>
                   <tr>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('name')}>
-                      Name 
-                      <button
-                       className={`event_sort_btn ${sortBy == "name" ?
-                       sortOrder == "asc"
-                       ? "svg_asc"
-                       : "svg_active"
-                       : "" 
-                       }`}
-                    onClick={() => handleSort('name')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span>
-                    </th>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('email')}>
-                      Email 
-                      <button
-                       className={`event_sort_btn ${sortBy == "email" ?
-                       sortOrder == "asc"
-                       ? "svg_asc"
-                       : "svg_active"
-                       : "" 
-                       }`}
-                    onClick={() => handleSort('email')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span>
-                    </th>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('region')}>
-                      Region 
-                      <button
-                      className={`event_sort_btn ${sortBy == "region" ?
-                      sortOrder == "asc"
-                      ? "svg_asc"
-                      : "svg_active"
-                      : "" 
-                      }`}
-                    onClick={() => handleSort('region')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span>
-                    </th>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('country')}>
-                      Country 
-                      <button
-                     className={`event_sort_btn ${sortBy == "country" ?
-                     sortOrder == "asc"
-                     ? "svg_asc"
-                     : "svg_active"
-                     : "" 
-                     }`}
-                    onClick={() => handleSort('country')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span>
-                    </th>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('liveSpendTime')}>
-                      Live spend time 
-                      <button
-                       className={`event_sort_btn ${sortBy == "liveSpendTime" ?
-                       sortOrder == "asc"
-                       ? "svg_asc"
-                       : "svg_active"
-                       : "" 
-                       }`}
-                    onClick={() => handleSort('liveSpendTime')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span>
-                    </th>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('askedQuestion')}>
-                      Asked question 
-                      <button
-                      className={`event_sort_btn ${sortBy == "askedQuestion" ?
-                      sortOrder == "asc"
-                      ? "svg_asc"
-                      : "svg_active"
-                      : "" 
-                      }`}
-                    onClick={() => handleSort('askedQuestion')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span>
-                    </th>
-                    <th scope="col" className="sort_option">
-                    <span  onClick={() => handleSort('pollParticipate')}>
-                      Poll participate 
-                      <button
-                      className={`event_sort_btn ${sortBy == "pollParticipate" ?
-                      sortOrder == "asc"
-                      ? "svg_asc"
-                      : "svg_active"
-                      : "" 
-                      }`}
-                    onClick={() => handleSort('pollParticipate')}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <g clip-path="url(#clip0_3722_6611)">
-                          <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_3722_6611">
-                            <rect width="8" height="8" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </button>
-                    </span></th>
+                    {[
+                      { name: 'Name', key: 'name' },
+                      { name: 'Email', key: 'email' },
+                      { name: 'Region', key: 'region' },
+                      { name: 'Country', key: 'country' },
+                      { name: 'Live spend time', key: 'liveSpendTime' },
+                      { name: 'Asked question', key: 'askedQuestion' },
+                      { name: 'Poll participate', key: 'pollParticipate' },
+                    ].map((column) => (
+                      <th scope="col" className="sort_option" key={column.key}>
+                        <span onClick={() => handleSort(column.key)}>
+                          {column.name}
+                          {renderSortButton(column.key)}
+                        </span>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {attendeesData?.length ? (
                     // attendeesData.map((user, index) => (
-                      sortData(attendeesData, sortBy, sortOrder).map((user, index) => (
+                    sortData(attendeesData, sortBy, sortOrder).map((user, index) => (
                       <>
                         <tr
                           key={index}
@@ -737,7 +652,7 @@ const AnalyticsAttendees = () => {
                             "fold " + (currentIndex === index ? "show" : "")
                           }
                         >
-                          <td colspan="8">
+                          <td colSpan="8">
                             <div className="fold-content d-flex justify-content-between">
                               <Col className="fold-content-left">
                                 <Table>
@@ -822,7 +737,7 @@ const AnalyticsAttendees = () => {
                   )}
 
                   <tr className="blank">
-                    <td colspan="7">&nbsp;</td>
+                    <td colSpan="7">&nbsp;</td>
                   </tr>
                 </tbody>
               </Table>
