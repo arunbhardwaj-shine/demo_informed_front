@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import axios from "axios";
 import { getDraftData, getEmailData } from "../../actions";
 import { connect } from "react-redux";
@@ -19,6 +19,7 @@ import moment from "moment";
 
 const EmailList = (props) => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -35,7 +36,7 @@ const EmailList = (props) => {
   const [ctrName, setCTRName] = useState("");
   const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
+  
   const [submiHandle, setSubmiHandle] = useState("");
   const [getreference, setReference] = useState("");
   const [campaign_id, setCampaignId] = useState("");
@@ -65,7 +66,15 @@ const EmailList = (props) => {
   const [isActive, setIsActive] = useState({});
   const [functionParameter, setFunctionParameter] = useState({
 
-  })
+  });
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+  );
+
+  const [filter, setFilter] = useState(
+    state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
+  );
+  // const [filter, setFilter] = useState(initialFilterProp || {});
 
   const [options_ch, setOptions_ch] = useState({
     chart: {
@@ -244,6 +253,8 @@ const EmailList = (props) => {
       loader('show');
       const body = {
         user_id: localStorage.getItem("user_id"),
+        flag:irtRoleObj?.IRTFlag,
+        id:irtRoleObj?.pdfId
       };
       await axios
         .post(`emailapi/get_campaign_list_filter`, body)
@@ -395,7 +406,6 @@ const EmailList = (props) => {
   //   data.tags;
 
   useEffect(() => {
-    // getData("initial");
     getCampaignFiltereData();
   }, []);
 
@@ -411,6 +421,9 @@ const EmailList = (props) => {
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
   };
 
   const showConfirmationPopup = (id) => {
@@ -1387,9 +1400,11 @@ const EmailList = (props) => {
                   !deletestatus && (
                     <div className="email_box_block">
                       <div className="email-block-add">
-                        <Link to="/EmailArticleSelect" onClick={createNewEmail}>
-                          <img src={path_image + "add-button.svg"} alt="" />
-                        </Link>
+                        {/* <Link to="/EmailArticleSelect" onClick={createNewEmail}> */}
+                          <button onClick={createNewEmail}>
+                            <img src={path_image + "add-button.svg"} alt="" />
+                          </button>
+                        {/* </Link> */}
                         <p>Create New Email</p>
                       </div>
                     </div>
