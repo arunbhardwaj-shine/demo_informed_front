@@ -240,6 +240,7 @@ const Header = () => {
                       window.location.pathname == "/library-edit-listing" ||
                       window.location.pathname == "/library-create" ||
                       window.location.pathname == "/spc" ||
+                      window.location.pathname == "/all-events" ||
                       window.location.pathname == "/spc-create" ||
                       window.location.pathname == "/spc-edit" ||
                       window.location.pathname == "/spc-view" ||
@@ -306,7 +307,7 @@ const Header = () => {
                       "/octalatch-deliveryregistration" ||
                       window.location.pathname == "/LEX-210-analytics" ||
                       window.location.pathname == "/feedback" ||
-                      window.location.pathname == "/content-analytics"
+                      window.location.pathname == "/content-analytics" ||  window.location.pathname == "/survey/survey-data" 
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
@@ -402,6 +403,8 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                   localStorage.getItem("webinar_flag") == 1
+                   ||
+                  localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
                   //  &&
                   // localStorage.getItem("user_id") !=
                   // "56Ek4feL/1A8mZgIKQWEqg=="
@@ -437,7 +440,8 @@ const Header = () => {
                       window.location.pathname == "/webinar/analytics/analytics-emails" ||
                       window.location.pathname == "/webinar/analytics/analytics-regions" ||
                       window.location.pathname == "/webinar/analytics/question-data" ||
-                      window.location.pathname == "/webinar/email/smartlist/uploadsmartlist"
+                      window.location.pathname == "/webinar/email/smartlist/uploadsmartlist"||
+                      window.location.pathname =="/webinar/email/smartlist/viewlist"
                       ? "nav-item active active-main"
                       : "nav-item"
                   }>

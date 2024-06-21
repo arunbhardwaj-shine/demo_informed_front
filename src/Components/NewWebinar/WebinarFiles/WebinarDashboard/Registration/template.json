@@ -802,37 +802,37 @@
                 "title": "Header Heading",
                 "type": "text",
                 "value": "Registration to watch our ISTH 2023 symposia",
-                "color": "#001489"
+                "color": "#ffffff"
             },
             "Specialization": {
                 "title": "Specialization",
                 "type": "text",
                 "value": "For healthcare professionals only.",
-                "color": "#001489"
+                "color": "#ffffff"
             },
             "EventDateAndTime": {
                 "title": "Event Date And Time",
                 "type": "text",
                 "value": "Monday, June 26 2023 | 01:15 - 2:30 pm ET <br/>Tuesday, June 27 2023 | 01:15 - 2:30 pm ET",
-                "color": "#001489"
+                "color": "#ffffff"
             },
             "pageTitle": {
                 "title": "Registration Title",
                 "type": "textArea",
                 "value": "To register to our symposia live stream fill in all your details below:",
-                "color": "#001489"
+                "color": "#ffffff"
             },
             "footerMessage": {
                 "title": "Footer Message",
                 "type": "textArea",
                 "value": "These symposia have been organized and funded by Octapharma and are intended for healthcare professionals only. Discussions about products will take place. The symposia will be live streamed on the one source, Octapharma's Haematology platform. To attend, you can register directly using your one source account. If you do not have an account yet, your registration for this event will create a new one source login. By registering to one source you will gain access to the relevant content in accordance with the data privacy of <a target='_blank' href='Octapharma AG'>Octapharma AG</a> and <a target='_blank' href='Docintel.app'>Docintel.app</a> operating this page.",
-                "color": "#6e7288"
+                "color": "#5D7682"
             },
             "footerText": {
                 "title": "Footer Text",
                 "type": "textArea",
                 "value": "528_HAEREG_ISTH 2023<br/>Date of preparation: May 2023",
-                "color": "#6e7288"
+                "color": "#5D7682"
             },
             "Message": {
                 "title": "Thanks Message",
@@ -842,11 +842,26 @@
             }
             
         },
-        "labelColor": "#001489",
+        "labelColor": "#ffffff",
         "placeholderTextColor":"#97b8da",
-        "typedTextColor":"#97b8da",
+        "typedTextColor":"#5D7682",
         "optionColor": "",
         "body": [
+            {
+                "label": "",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "yes",
+                "extension": "",
+                "name": "care_professional",
+                "option": [
+                    {
+                        "optionLabel": "I confirm I am a healthcare professional",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            },
            
             {
                 "label": "Name",
@@ -961,7 +976,7 @@
                 ],
                 "required": "yes",
                 "extension": "",
-                "name": "nationality"
+                "name": "country"
             },
             {
                 "label": "Date of Birth",
@@ -978,21 +993,6 @@
                 "placeholder": "Please enter email",
                 "option": [],
                 "required": "yes"
-            },
-            {
-                "label": "Country",
-                "inputType": "selection",
-                "placeholder": "",
-                "option": [
-                    {
-                        "optionLabel": "  ",
-                        "extension": [],
-                        "checked": ""
-                    }
-                ],
-                "required": "yes",
-                "extension": "",
-                "name": "country"
             },
             {
                 "label": "Airport location / city",
@@ -1043,7 +1043,7 @@
                         "checked": ""
                     }
                 ],
-                "required": "",
+                "required": "yes",
                 "extension": "",
                 "name": "consent"
             }

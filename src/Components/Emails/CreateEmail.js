@@ -9,7 +9,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown,OverlayTrigger,Tooltip } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -36,7 +36,7 @@ const CreateEmail = (props) => {
   const editorRef = useRef(null);
   const [totalData, setTotalData] = useState({});
   const linkingPayload = useRef();
-  const templateIdRef = useRef( state_object != null &&
+  const templateIdRef = useRef(state_object != null &&
     state_object != "undefined" &&
     state_object.templateId
     ? state_object.templateId
@@ -373,9 +373,28 @@ const CreateEmail = (props) => {
 
 
         setTimeout(function () {
-          const div_img = document.querySelector("#template_dyn0");
-          if (div_img !== null && typeof div_img != "undefined") {
-            div_img.click();
+          if (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
+            let div_img = '';
+            if (pdf_id == '3968') {
+              div_img = document.querySelector('[data-id="template_dyn_data_id554"]');
+            } else if (pdf_id == '3970') {
+              div_img = document.querySelector('[data-id="template_dyn_data_id555"]');
+            } else if (pdf_id == '4521') {
+              div_img = document.querySelector('[data-id="template_dyn_data_id556"]');
+            }
+            if (div_img !== '' && div_img !== null && typeof div_img != "undefined") {
+              div_img.click();
+            } else {
+              const new_div = document.querySelector("#template_dyn0");
+              if (new_div !== null && typeof new_div != "undefined") {
+                new_div.click();
+              }
+            }
+          } else {
+            const div_img = document.querySelector("#template_dyn0");
+            if (div_img !== null && typeof div_img != "undefined") {
+              div_img.click();
+            }
           }
         }, 400);
 
@@ -880,11 +899,11 @@ const CreateEmail = (props) => {
   };
 
   const emailSubjectChanged = (e) => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setemailCampaign(e.target.value);
-      setEmailCreator("Octapharma R&D");
-      setEmailDescription(e.target.value);
-    }
+    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    //   setemailCampaign(e.target.value);
+    //   setEmailCreator("Octapharma R&D");
+    //   setEmailDescription(e.target.value);
+    // }
     setEmailSubject(e.target.value);
   };
 
@@ -1920,122 +1939,122 @@ const CreateEmail = (props) => {
   //     }
   //   });
   // };
-  
+
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-        let dialog = document.getElementsByClassName("tox-dialog")[0];
-        if (dialog) {
-            let header = dialog?.querySelector(".tox-dialog__header");
-            const closeButton = header?.querySelector('[aria-label="Close"]');
-            let text = header?.querySelector(".tox-dialog__title");
-            let url = dialog?.querySelector(".tox-control-wrap")
-            let newLink = url?.querySelector(".tox-textfield")
-            let newButton = document.createElement("button");
-            const baseLink =
-                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            let payload = {}
-            let apiLink = ""
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
+      if (dialog) {
+        let header = dialog?.querySelector(".tox-dialog__header");
+        const closeButton = header?.querySelector('[aria-label="Close"]');
+        let text = header?.querySelector(".tox-dialog__title");
+        let url = dialog?.querySelector(".tox-control-wrap")
+        let newLink = url?.querySelector(".tox-textfield")
+        let newButton = document.createElement("button");
+        const baseLink =
+          "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+        let payload = {}
+        let apiLink = ""
 
-            if (text?.innerText == "Insert/Edit Link") {
-                let uploadIcon = document.querySelector(
-                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-                );
-                uploadIcon.style.display = "none";
-                // let newButton = document.createElement("button");
-                if (newLink?.value?.includes(baseLink)) {
-                    newButton.innerText = "Remove Tracking";
-                    apiLink = `https://onesource.informed.pro/api/delete-track-links`;
-                } else {
-                    newButton.innerText = "Add Tracking";
-                    apiLink = `https://onesource.informed.pro/api/track-links`;
-                }
-                newButton.classList.add("tox-button");
-                newButton.classList.add("tox-button--icon");
-                newButton.classList.add("tox-button--naked");
-                newButton.classList.add("track");
+        if (text?.innerText == "Insert/Edit Link") {
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
+          // let newButton = document.createElement("button");
+          if (newLink?.value?.includes(baseLink)) {
+            newButton.innerText = "Remove Tracking";
+            apiLink = `https://onesource.informed.pro/api/delete-track-links`;
+          } else {
+            newButton.innerText = "Add Tracking";
+            apiLink = `https://onesource.informed.pro/api/track-links`;
+          }
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
 
-                newButton.onclick = function () {
-                    if (templateIdRef.current == "") {
-                        alert("Please select the template first before adding the link");
-                        return;
-                    }
-                    let firstToxControlWrap = document.querySelector(
-                        "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-                    );
-
-                    if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
-                      if (!window.confirm("Are you sure you want to remove the tracking?")) {
-                        return;
-                    }
-                                    const urlParams = new URLSearchParams(newLink.value);
-                                    const redirectUrl = urlParams.get('redirect_url');
-                                    const trackingCode = urlParams.get('tracking_code');
-                                    firstToxControlWrap.value = redirectUrl;
-                                    payload = {
-                                        template_id: templateIdRef.current,
-                                        url_code: trackingCode,
-                                    };
-                                }
-                                
-                    if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
-                        if (!newLink?.value) {
-                            alert("Please enter a link")
-                            return
-                        }
-                        if (!firstToxControlWrap.value) {
-                            alert("Please enter a link");
-                            return;
-                        }
-                        if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Tracking already added");
-                            return;
-                        }
-                        let slugValue = prompt("Enter a slug value");
-
-                        const currentTimestamp = Date.now();
-                        payload = {
-                            slug_value: slugValue,
-                            template_id: templateIdRef.current,
-                            url_code: `clicked_track_doc_${currentTimestamp}`,
-                        };
-                        linkingPayload.current = payload;
-                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                        firstToxControlWrap.value = link;
-
-                    }
-
-                    var saveButton = document.querySelector(
-                        '.tox-button[title="Save"]'
-                    );
-                    saveButton.addEventListener("click", function () {
-                        axios
-                            .post(apiLink, payload)
-                            .then((res) => {
-                                console.log("done");
-                            })
-                            .catch((err) => {
-                                loader("hide");
-                                console.log(err);
-                            });
-                    });
-                    if (newLink?.value?.includes(baseLink)) {
-                        alert("Tracking added");
-                    } else {
-                      saveButton.click()
-
-                        alert("Tracking removed");
-                    }
-                };
-
-                header.insertBefore(newButton, closeButton);
-            } else if (text.innerText == "Insert/Edit Media") {
-                document.querySelector(
-                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-                ).innerText += " (Max size: 1GB)";
+          newButton.onclick = function () {
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
             }
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
+            if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+              if (!window.confirm("Are you sure you want to remove the tracking?")) {
+                return;
+              }
+              const urlParams = new URLSearchParams(newLink.value);
+              const redirectUrl = urlParams.get('redirect_url');
+              const trackingCode = urlParams.get('tracking_code');
+              firstToxControlWrap.value = redirectUrl;
+              payload = {
+                template_id: templateIdRef.current,
+                url_code: trackingCode,
+              };
+            }
+
+            if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+              if (!newLink?.value) {
+                alert("Please enter a link")
+                return
+              }
+              if (!firstToxControlWrap.value) {
+                alert("Please enter a link");
+                return;
+              }
+              if (firstToxControlWrap.value.startsWith(baseLink)) {
+                alert("Tracking already added");
+                return;
+              }
+              let slugValue = prompt("Enter a slug value");
+
+              const currentTimestamp = Date.now();
+              payload = {
+                slug_value: slugValue,
+                template_id: templateIdRef.current,
+                url_code: `clicked_track_doc_${currentTimestamp}`,
+              };
+              linkingPayload.current = payload;
+              let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+              firstToxControlWrap.value = link;
+
+            }
+
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
+            saveButton.addEventListener("click", function () {
+              axios
+                .post(apiLink, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
+            if (newLink?.value?.includes(baseLink)) {
+              alert("Tracking added");
+            } else {
+              saveButton.click()
+
+              alert("Tracking removed");
+            }
+          };
+
+          header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
         }
+      }
     });
-};
+  };
   const uploadImageToServer = async function uploadImageToServer(file) {
     try {
       const formData = new FormData();
@@ -2119,14 +2138,14 @@ const CreateEmail = (props) => {
 
   const handleSort = (key) => {
     setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
   const sortData = (data, key, order) => {
     return data.sort((a, b) => {
       const valueA = a[key];
       const valueB = b[key];
-  
+
       // Handle different data types (numbers, strings)
       if (typeof valueA === 'number' && typeof valueB === 'number') {
         return order === 'asc' ? valueA - valueB : valueB - valueA;
@@ -2139,12 +2158,12 @@ const CreateEmail = (props) => {
   };
 
 
-  const viewSmartListData = async(id) => {
+  const viewSmartListData = async (id) => {
     setAddListOpen(false);
     setSelectedListId(id);
   }
 
-  const closeSmartListPopup = async() => {
+  const closeSmartListPopup = async () => {
     setSelectedListId(0);
     setAddListOpen(true);
   }
@@ -2243,6 +2262,7 @@ const CreateEmail = (props) => {
                             <img
                               id={"template_dyn" + index}
                               src={template.template_img}
+                              data-id={"template_dyn_data_id" + template.id}
                               alt=""
                               className={
                                 typeof templateId !== "undefined" &&
@@ -2263,118 +2283,118 @@ const CreateEmail = (props) => {
 
                   <div className="email-form padding-add">
                     <form>
-                      {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <>
-                          <div className="form-inline d-flex justify-content-between align-items-center">
-                            <div className="form-group col-12 col-md-7 d-flex align-items-center">
-                              <label htmlFor="exampleInputEmail1">
-                                  Email Description <span>*</span>  
-                                <LinkWithTooltip
-                                  tooltip="About this specific email, this description will aid in distinguishing it from others."
-                                  href="#"
-                                >
-                                  <img
-                                    src={
-                                      path_image +
-                                      "info_circle_icon.svg"
-                                    }
-                                    alt="refresh-btn"
-                                  />
-                                </LinkWithTooltip> 
-                                
-                              </label>
+                      {/* {localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? ( */}
+                      <>
+                        <div className="form-inline d-flex justify-content-between align-items-center">
+                          <div className="form-group col-12 col-md-7 d-flex align-items-center">
+                            <label htmlFor="exampleInputEmail1">
+                              Email Description <span>*</span>
+                              <LinkWithTooltip
+                                tooltip="About this specific email, this description will aid in distinguishing it from others."
+                                href="#"
+                              >
+                                <img
+                                  src={
+                                    path_image +
+                                    "info_circle_icon.svg"
+                                  }
+                                  alt="refresh-btn"
+                                />
+                              </LinkWithTooltip>
 
-                              <input
-                                onChange={(e) => emailDescriptionChange(e)}
-                                type="text"
-                                className={
-                                  validator?.message(
-                                    "emailDesc",
-                                    emailDescription,
-                                    "required"
-                                  )
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                id="email-desc"
-                                value={emailDescription}
-                              />
-                              {validator.message(
-                                "emailDesc",
-                                emailDescription,
-                                "required"
-                              )}
-                            </div>
-                            <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
-                              <label htmlFor="exampleInputEmail1">
-                                Email Creator <span>*</span>
-                              </label>
+                            </label>
 
-                              <input
-                                onChange={(e) => emailCreatorChange(e)}
-                                type="text"
-                                className={
-                                  validator.message(
-                                    "creator",
-                                    emailCreator,
-                                    "required"
-                                  )
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                id="email-address"
-                                value={emailCreator}
-                              />
-                              {validator.message(
-                                "creator",
-                                emailCreator,
-                                "required"
-                              )}
-                            </div>
+                            <input
+                              onChange={(e) => emailDescriptionChange(e)}
+                              type="text"
+                              className={
+                                validator?.message(
+                                  "emailDesc",
+                                  emailDescription,
+                                  "required"
+                                )
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-desc"
+                              value={emailDescription}
+                            />
+                            {validator.message(
+                              "emailDesc",
+                              emailDescription,
+                              "required"
+                            )}
                           </div>
-                          <div className="form-inline d-flex justify-content-between align-items-center">
-                              <div className="form-group col-12 col-md-7 d-flex align-items-center">
-                              <label htmlFor="exampleInputEmail1">
-                                  Email Campaign <span>*</span> 
-                                <LinkWithTooltip
-                                  tooltip="Including details about the product, event, or subject of this email will facilitate filtering and locating a cluster of related emails."
-                                  href="#"
-                                >
-                                  <img
-                                    src={
-                                      path_image +
-                                      "info_circle_icon.svg"
-                                    }
-                                    alt="refresh-btn"
-                                  />
-                                </LinkWithTooltip>
-                              </label>
+                          <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
+                            <label htmlFor="exampleInputEmail1">
+                              Email Creator <span>*</span>
+                            </label>
 
-                              <input
-                                type="text"
-                                className={
-                                  validator.message(
-                                    "emailCampaign",
-                                    emailCampaign,
-                                    "required"
-                                  )
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                id="email-campaign"
-                                value={emailCampaign}
-                                onChange={changeEmailCampaign}
-                              />
-                              {validator.message(
-                                "emailCampaign",
-                                emailCampaign,
-                                "required"
-                              )}
-                            </div>
+                            <input
+                              onChange={(e) => emailCreatorChange(e)}
+                              type="text"
+                              className={
+                                validator.message(
+                                  "creator",
+                                  emailCreator,
+                                  "required"
+                                )
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-address"
+                              value={emailCreator}
+                            />
+                            {validator.message(
+                              "creator",
+                              emailCreator,
+                              "required"
+                            )}
                           </div>
-                        </>
-                      ) : null}
+                        </div>
+                        <div className="form-inline d-flex justify-content-between align-items-center">
+                          <div className="form-group col-12 col-md-7 d-flex align-items-center">
+                            <label htmlFor="exampleInputEmail1">
+                              Email Campaign <span>*</span>
+                              <LinkWithTooltip
+                                tooltip="Including details about the product, event, or subject of this email will facilitate filtering and locating a cluster of related emails."
+                                href="#"
+                              >
+                                <img
+                                  src={
+                                    path_image +
+                                    "info_circle_icon.svg"
+                                  }
+                                  alt="refresh-btn"
+                                />
+                              </LinkWithTooltip>
+                            </label>
+
+                            <input
+                              type="text"
+                              className={
+                                validator.message(
+                                  "emailCampaign",
+                                  emailCampaign,
+                                  "required"
+                                )
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-campaign"
+                              value={emailCampaign}
+                              onChange={changeEmailCampaign}
+                            />
+                            {validator.message(
+                              "emailCampaign",
+                              emailCampaign,
+                              "required"
+                            )}
+                          </div>
+                        </div>
+                      </>
+                      {/* ) : null} */}
                       <div className="input-group d-flex w-100">
                         <div className="input-group-prepend">
                           <button
@@ -3088,24 +3108,24 @@ const CreateEmail = (props) => {
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
-                            <h5>{data.name}</h5>
-                            <div className="select-mail-option">
-                              <input
-                                type="radio"
-                                name="radio"
-                                onClick={(e) => handleSelect(data, e)}
-                                checked={
-                                  typeof getSmartListId !== "undefined" &&
-                                    getSmartListId !== 0 &&
-                                    getSmartListId == data.id
-                                    ? "checked"
-                                    : ""
-                                }
-                              />
-                              <span className="checkmark"></span>
+                              <h5>{data.name}</h5>
+                              <div className="select-mail-option">
+                                <input
+                                  type="radio"
+                                  name="radio"
+                                  onClick={(e) => handleSelect(data, e)}
+                                  checked={
+                                    typeof getSmartListId !== "undefined" &&
+                                      getSmartListId !== 0 &&
+                                      getSmartListId == data.id
+                                      ? "checked"
+                                      : ""
+                                  }
+                                />
+                                <span className="checkmark"></span>
+                              </div>
                             </div>
-                            </div>
-                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
+                            <SmartListLayout data={data} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} />
                             {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
@@ -3990,7 +4010,7 @@ const CreateEmail = (props) => {
                   HCPs {" "}
                   <span>
                     |
-                     {typeof getReaderDetails !== "undefined" &&
+                    {typeof getReaderDetails !== "undefined" &&
                       getReaderDetails.length > 0 &&
                       getReaderDetails.length}
                   </span>
@@ -4014,22 +4034,22 @@ const CreateEmail = (props) => {
                     <tr>
                       <th scope="col" >
                         Name
-                      <button
+                        <button
                           className={`event_sort_btn ${sortBy == "first_name" ?
-                          sortOrder == "asc"
-                           ? "svg_asc"
-                           : "svg_active"
-                          : "" 
-                         }`}
+                            sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                            : ""
+                            }`}
                           onClick={() => handleSort('first_name')}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <g clip-path="url(#clip0_3722_6611)">
-                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                             </g>
                             <defs>
                               <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white"/>
+                                <rect width="8" height="8" fill="white" />
                               </clipPath>
                             </defs>
                           </svg>
@@ -4037,53 +4057,53 @@ const CreateEmail = (props) => {
                       </th>
                       <th scope="col">Email
                         <button
-                            className={`event_sort_btn ${sortBy == "email" ?
-                               sortOrder == "asc"
-                                ? "svg_asc"
-                                : "svg_active"
-                               : "" 
-                              }`}
-                            onClick={() => handleSort('email')}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
-                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_3722_6611">
-                                  <rect width="8" height="8" fill="white"/>
-                                </clipPath>
-                              </defs>
-                            </svg>
-                          </button>
+                          className={`event_sort_btn ${sortBy == "email" ?
+                            sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                            : ""
+                            }`}
+                          onClick={() => handleSort('email')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button>
                       </th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country
                         <button
-                              className={`event_sort_btn ${sortBy == "country" ?
-                              sortOrder == "asc"
-                                ? "svg_asc"
-                                : "svg_active"
-                              : "" 
-                             }`}
-                              onClick={() => handleSort('country')}
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                <g clip-path="url(#clip0_3722_6611)">
-                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white"/>
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </button>
+                          className={`event_sort_btn ${sortBy == "country" ?
+                            sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                            : ""
+                            }`}
+                          onClick={() => handleSort('country')}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <g clip-path="url(#clip0_3722_6611)">
+                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3722_6611">
+                                <rect width="8" height="8" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button>
                       </th>
 
                       {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <>
+                        <><th scope="col">Site number</th>
                           <th scope="col">IRT mandatory training</th>
                           <th scope="col">IRT role</th>
                         </>
@@ -4092,20 +4112,20 @@ const CreateEmail = (props) => {
                           <th scope="col">Business unit
                             <button
                               className={`event_sort_btn ${sortBy == "ibu" ?
-                              sortOrder == "asc"
-                                ? "svg_asc"
-                                : "svg_active"
-                              : "" 
-                             }`}
+                                sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : ""
+                                }`}
                               onClick={() => handleSort('ibu')}
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                                 <g clip-path="url(#clip0_3722_6611)">
-                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                 </g>
                                 <defs>
                                   <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white"/>
+                                    <rect width="8" height="8" fill="white" />
                                   </clipPath>
                                 </defs>
                               </svg>
@@ -4137,6 +4157,8 @@ const CreateEmail = (props) => {
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
+                              {localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
@@ -4243,8 +4265,8 @@ const CreateEmail = (props) => {
 
       {
         selectedListId ?
-         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
-         : null
+          <SmartListTableLayout id={selectedListId} closeSmartListPopup={closeSmartListPopup} />
+          : null
       }
     </>
   );

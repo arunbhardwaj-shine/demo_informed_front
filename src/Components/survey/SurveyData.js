@@ -62,12 +62,16 @@ const SurveyData = () => {
           SurveyDate: item?.created_at ? item.created_at.trim() : "N/A",
           'Location,City': item?.survey_data?.location?.city ? item?.survey_data?.location?.city.trim() : "N/A",
           'Location,State': item?.survey_data?.location?.state ? item?.survey_data?.location?.state.trim() : "N/A",
-          'Type of Provider': item?.survey_data?.provider ? item?.survey_data?.provider.trim() : "N/A",
-          Haematologist: item?.survey_data?.haematologist ? item?.survey_data?.haematologist?.trim() : "N/A",
+          // 'Type of Provider': item?.survey_data?.provider ? item?.survey_data?.provider.trim() : "N/A",
+          'Type of Provider': item?.survey_data?.provider ? item?.survey_data?.provider?.trim() : "N/A",
           "Location of Practice": item?.survey_data?.practice_location ? item?.survey_data?.practice_location?.trim() : "N/A",
           "1.Rate the different reasons you have used the 8CHECK service,To confirm a diagnosis":
             item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis ?
               item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis : "N/A",
+
+          "1.Rate the different reasons you have used the 8CHECK service,To make a diagnosis":
+              item?.survey_data?.rate_different_reasons?.to_make_diagnosis ?
+                item?.survey_data?.rate_different_reasons?.to_make_diagnosis : "N/A",
 
           "1.Rate the different reasons you have used the 8CHECK service,Patient inhibitor development risk":
             item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk ?
@@ -85,30 +89,42 @@ const SurveyData = () => {
             item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement ?
               item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement : "N/A",
 
+          "1.Rate the different reasons you have used the 8CHECK service,To inform family members":
+              item?.survey_data?.rate_different_reasons?.family_members ?
+                item?.survey_data?.rate_different_reasons?.family_members : "N/A",
+
           "1.Rate the different reasons you have used the 8CHECK service,Family/Individual request":
             item?.survey_data?.rate_different_reasons?.family_request ?
               item?.survey_data?.rate_different_reasons?.family_request : "N/A",
+
+          "1.Rate the different reasons you have used the 8CHECK service,Pre-conception/Pregnancy planning and support":
+              item?.survey_data?.rate_different_reasons?.pre_conception ?
+                item?.survey_data?.rate_different_reasons?.pre_conception : "N/A",
+
+          "1.Rate the different reasons you have used the 8CHECK service,Prohibitive out-of-pocket cost":
+            item?.survey_data?.rate_different_reasons?.prohibitive ?
+              item?.survey_data?.rate_different_reasons?.prohibitive : "N/A",
 
               "1.Rate the different reasons you have used the 8CHECK service,Others":
             item?.survey_data?.rate_different_reasons?.others ?
               item?.survey_data?.rate_different_reasons?.others?.trim() : "N/A",
 
-          "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have not received a FVIII infusion":
+          "2.For how many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have not received a FVIII infusion":
             item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion : "N/A",
         
-            "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have received more than 50 infusions FVIII treatment":
+            "2.For how many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have received more than 50 infusions FVIII treatment":
             item?.survey_data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion : "N/A",
           
-            "2.How many patients in each patient group have used the 8CHECK service,Patients with non-severe hemophilia A":
+            "2.For how many patients in each patient group have used the 8CHECK service,Patients with non-severe hemophilia A":
             item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A ? item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A : "N/A",
           
-            "2.How many patients in each patient group have used the 8CHECK service,Known, or potential carriers/female with hemophilia A,Symptomatic":
+            "2.Fpr how many patients in each patient group have used the 8CHECK service,Known, or potential carriers/female with hemophilia A,Symptomatic":
             item?.survey_data?.known_carrier_with_hemophilia_A?.symptomatic?item?.survey_data?.known_carrier_with_hemophilia_A?.symptomatic?.trim():"N/A",
 
-            "2.How many patients in each patient group have used the 8CHECK service,Known, or potential carriers/female with hemophilia A,Asymptomatic":
+            "2.Fpr how many patients in each patient group have used the 8CHECK service,Known, or potential carriers/female with hemophilia A,Asymptomatic":
             item?.survey_data?.known_carrier_with_hemophilia_A?.asymptomatic?item?.survey_data?.known_carrier_with_hemophilia_A?.asymptomatic?.trim():"N/A",
 
-            "2.How many patients in each patient group have used the 8CHECK service,Patients with current/past FVIII inhibitors":
+            "2.For how many patients in each patient group have used the 8CHECK service,Patients with current/past FVIII inhibitors":
             item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors?item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors?.trim():"N/A",
           
           "3. How has receiving the genotype information impacted patient care? Rate the options below,Improved accuracy of diagnosis":
@@ -138,8 +154,8 @@ const SurveyData = () => {
         
           "4. How satisfied are you with the 8CHECK service":item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?.trim():"N/A",
 
-          "4. How satisfied are you with the 8CHECK service,Who have not received a FVIII infusion":
-          item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?.trim():"N/A",
+          "4. How satisfied are you with the 8CHECK service,Would you recommend this service to a colleague":
+          item?.survey_data?.satisfied_with_8check_service?.recommend_colleague?item?.survey_data?.satisfied_with_8check_service?.recommend_colleague?.trim():"N/A",
 
           "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
 
@@ -224,7 +240,7 @@ const SurveyData = () => {
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
-      toast.success("content copied to the clipboard!");
+      toast.success("Survey link copied to clipboard");
     } else {
       unsecuredCopyToClipboard(content);
     }
@@ -237,7 +253,7 @@ const SurveyData = () => {
     textArea.select();
     try {
       document.execCommand("copy");
-      toast.success("content copied to the clipboard!");
+      toast.success("Survey link copied to clipboard");
     } catch (err) {
       console.error("Unable to copy to clipboard", err);
     }
@@ -246,7 +262,7 @@ const SurveyData = () => {
 
 
   return (<>
-    <ToastContainer
+    {/* <ToastContainer
       position="top-right"
       autoClose={5000}
       hideProgressBar={false}
@@ -256,21 +272,21 @@ const SurveyData = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-    />
-    <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div>
-    <Col className="right-sidebar custom-change full-width-survey">
-      <meta
+    /> */}
+    {/* <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div> */}
+    <Col className="right-sidebar custom-change ">
+      {/* <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
-      />
+      /> */}
       <div className="custom-container">
         <Row>
           <Col>
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
-                <h4>Survey Data</h4>
+                <h4>Survey Data | <span>{data?.length}</span></h4>
                 <div className='clear-search d-flex align-items-center'>
-                  {/* <a
+                  <a
                     className={`copy_link btn-voilet`}
                     // href={`${window.location.protocol}//${window.location.host}/survey/check8`}
                     href={`https://events.docintel.app/survey/8check`}
@@ -283,7 +299,7 @@ const SurveyData = () => {
                     }}
                   >
                     Copy Survey Link
-                  </a> */}
+                  </a>
                   {data?.length > 0 ?
                     <div className="clear-search d-flex align-items-center">
                       <button
@@ -353,11 +369,11 @@ const SurveyData = () => {
                                       <p>City: <span>{item?.survey_data?.location?.city}</span></p>
                                       <p>State: <span>{item?.survey_data?.location?.state}</span></p>
                                     </div>
+                                    {/* <div className='survey-data'>
+                                      <p>Type of Provider: <span>{item?.survey_data?.provider}</span></p>
+                                    </div> */}
                                     <div className='survey-data'>
                                       <p>Type of Provider: <span>{item?.survey_data?.provider}</span></p>
-                                    </div>
-                                    <div className='survey-data'>
-                                      <p>Haematologist: <span>{item?.survey_data?.haematologist}</span></p>
                                     </div>
                                     <div className='survey-data'>
                                       <p>Location of Practice: <span>{item?.survey_data?.practice_location}</span></p>
@@ -365,26 +381,30 @@ const SurveyData = () => {
                                     <div className='survey-data'>
                                       <h6>1. Rate the different reasons you have used the 8CHECK service: </h6>
                                       <p>To confirm a diagnosis: <span>{item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis} star</span></p>
+                                      <p>To make a diagnosis: <span>{item?.survey_data?.rate_different_reasons?.to_make_diagnosis} star</span></p>
                                       <p>Patient inhibitor development risk: <span>{item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk} star</span></p>
                                       <p>Guide treatment choice: <span>{item?.survey_data?.rate_different_reasons?.guide_treatment_choice} star</span></p>
                                       <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available} star</span></p>
                                       <p>No insurance reimbursement: <span>{item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement} star</span></p>
+                                      <p>To inform family members: <span>{item?.survey_data?.rate_different_reasons?.family_members} star</span></p>
                                       <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request} star</span></p>
-                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others:<span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
+                                      <p>Pre-conception/Pregnancy planning and support: <span>{item?.survey_data?.rate_different_reasons?.pre_conception} star</span></p>
+                                      <p>Prohibitive out-of-pocket cost : <span>{item?.survey_data?.rate_different_reasons?.prohibitive} star</span></p>
+                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others: <span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
-                                      <h6>2. How many patients in each patient group have used the 8CHECK service: </h6>
+                                      <h6>2. For how many patients in each patient group have used the 8CHECK service: </h6>
                                       <h6>Patients with severe hemophilia A:</h6>
                                       <p>Who have not received a FVIII infusion: <span>{item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion}</span></p>
                                       <p>Who have received more than 50 infusions FVIII treatment: <span>{item?.survey_data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion}</span></p>
                                       <h6>Patients with non-severe hemophilia A</h6>
-                                      <p>{item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A}</p>
+                                      <p><span>{item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A}</span></p>
                                       <h6>Known, or potential carriers/female with hemophilia A:</h6>
                                       <p>Symptomatic: <span>{item?.survey_data?.known_carrier_with_hemophilia_A?.symptomatic}</span></p>
                                       <p>Asymptomatic: <span>{item?.survey_data?.known_carrier_with_hemophilia_A?.asymptomatic}</span></p>
                                       <h6>Patients with current/past FVIII inhibitors</h6>
-                                      <p>{item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors}</p>
+                                      <p><span>{item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors}</span></p>
                                     </div>
 
                                     <div className='survey-data'>
@@ -396,13 +416,13 @@ const SurveyData = () => {
                                       <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members} star</span></p>
                                       <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management} star</span></p>
                                       <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life} star</span></p>
-                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others:<span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
+                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others: <span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
                                       <h6>4. How satisfied are you with the 8CHECK service</h6>
                                       <p><span>{item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service} star</span></p>
-                                      <p>Who have not received a FVIII infusion: <span>{item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion}</span></p>
+                                      <p>Would you recommend this service to a colleague: <span>{item?.survey_data?.satisfied_with_8check_service?.recommend_colleague}</span></p>
                                     </div>
 
                                     <div className='survey-data'>

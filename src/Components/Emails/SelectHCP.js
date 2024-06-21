@@ -13,10 +13,14 @@ import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
 var old_object = {};
+var new_object;
+var draft_object;
 
 const SelectHCP = (props) => {
   //console.log(props);
@@ -25,6 +29,8 @@ const SelectHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
+  const [isContentMandatory, setIsContentMandatory] = useState(0);
+  const [title, setTitle] = useState('');
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
 
   // const [templateId, setTemplateId] = useState(
@@ -66,6 +72,10 @@ const SelectHCP = (props) => {
       props.getSelectedSmartListData(null);
     }
 
+    // if(selectede === 3) {
+    //   fetchDataAndNavigate();
+    // }
+
     setSelection(event.target.children[0].value);
     //  console.log(event.target.children[0].value);
     const div = document.querySelector("div.active");
@@ -88,7 +98,7 @@ const SelectHCP = (props) => {
     });
   };
 
-  // console.log(props.getEmailData);
+  // console.log(props,'props');
   // console.log(props.getDraftData);
   const saveAsDraft = async () => {
     const body = {
@@ -151,19 +161,110 @@ const SelectHCP = (props) => {
       });
   };
 
-  const nextClicked = (selected) => {
+  const nextClicked = async(selected) => {
     props.getEmailData(old_object);
     props.getSelected(null);
-    if (selected == 1) {
+    // console.log(selected,'selectedselected')
+
+    if (draft_object?.campaign_data?.typeOfHcp != selected) {
+      if (old_object?.removedHcp) {
+        old_object.removedHcp = [];
+      }
+      if (old_object?.addedHcp) {
+        old_object.addedHcp = [];
+      }
+      if (old_object?.selectedHcp) {
+        old_object.selectedHcp = [];
+      }
+
+      if (draft_object?.campaign_data?.removedHcp) {
+        draft_object.campaign_data.removedHcp = [];
+      }
+
+      if (draft_object?.campaign_data?.addedHcp) {
+        draft_object.campaign_data.addedHcp = [];
+      }
+      if (draft_object?.campaign_data?.selectedHcp) {
+        draft_object.campaign_data.selectedHcp = [];
+      }
+    }
+
+    if (selected === 1) {
       navigate("/SelectSmartList", {
         state: { UserSelected: selected },
       });
-    } else if (selected == 2) {
+    } else if (selected === 2) {
       navigate("/VerifyHCP", {
         state: { UserSelected: selected },
       });
+    } 
+    else if(selected === 3){
+       fetchDataAndNavigate();
+      // navigate("/SelectSmartListUsers", {
+      //   state: { smartListSelected: data[0], flag: 1, typeOfHcp: 3 },
+      // });
     }
   };
+
+  useEffect(() => {
+    if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+      checkMandatoryContent();
+    }
+  },[]);
+
+  const checkMandatoryContent = async() => {
+    try{
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          pdf_id: old_object?.PdfSelected
+          ? old_object.PdfSelected
+          : props.getDraftData.pdf_id,
+        };
+        loader("show");
+        await axios.post(`emailapi/check_mandatory_content`, body)
+          .then((res) => {
+            setTitle(res?.data?.response?.data?.title);
+            setIsContentMandatory(res?.data?.response?.data?.mandatory_content);
+            loader("hide");
+          }).catch((err) => {
+            console.log(err);
+            loader("hide");
+          });
+    }catch(err){
+      console.log(err,'er');
+    }
+  }
+
+  const fetchDataAndNavigate = async() => {
+    try{
+      loader("show");
+      let body = {
+        'pdf_id' : old_object?.PdfSelected
+        ? old_object.PdfSelected
+        : props.getDraftData.pdf_id,
+      };
+      const response = await postData(ENDPOINT.MANDATORY_READERS,body);
+      loader("hide");
+      const data = response?.data?.data;
+      if (data?.length) {
+        if (new_object?.id && data[0].id !== new_object.id) {
+          if (old_object?.removedHcp) {
+            old_object.removedHcp = [];
+          }
+        }
+        props.getSelectedSmartListData(data[0]);
+        navigate("/SelectSmartListUsers", {
+          state: { smartListSelected: data[0], flag: 1, typeOfHcp: 3 },
+        });
+      } else {
+        props.getSelectedSmartListData(null);
+        toast.warning("No Data Found")
+      }
+    }catch(err){
+
+    }
+  }
 
   return (
     <>
@@ -214,19 +315,19 @@ const SelectHCP = (props) => {
                         Next{" "}
                       </button>
                     ) : (
-                      <Link
-                        to={
-                          templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
-                        }
-                        state={{ UserSelected: templateId }}
-                      >
+                      // <Link
+                      //   to={
+                      //     templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
+                      //   }
+                      //   state={{ UserSelected: templateId }}
+                      // >
                         <button
                           className="btn btn-primary btn-filled next"
                           onClick={(event) => nextClicked(templateId)}
                         >
                           Next
                         </button>
-                      </Link>
+                      // </Link>
                     )}
                   </div>
                 </div>
@@ -294,6 +395,34 @@ const SelectHCP = (props) => {
                             : "Single HCP"}{" "}
                         </p>
                       </li>
+
+                      {
+                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && isContentMandatory
+                        ?
+                        <li>
+                          <div
+                          className={templateId === 3
+                              ? "send-option-img active"
+                              : "send-option-img"
+                          }
+                          onClick={(e) => handleInputChange(e, 3)}
+                        >
+                          <input
+                            type="radio"
+                            name="select-option-hcp"
+                            value="Group HCP"
+                          />
+                          <img
+                            src={path_image + "group-hcp.svg"}
+                            alt="Group HCP"
+                          />
+                          </div>
+                          <p>
+                            {title} Mandatory Readers
+                          </p>
+                        </li>
+                        : null
+                      }
                     </ul>
                   </div>
                 </div>
@@ -308,6 +437,8 @@ const SelectHCP = (props) => {
 
 const mapStateToProps = (state) => {
   old_object = state.getEmailData;
+  new_object = state.getSelectedSmartListData;
+  draft_object = state.getDraftData ? state.getDraftData : {};
   return state;
 };
 

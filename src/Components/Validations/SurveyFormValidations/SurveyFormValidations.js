@@ -16,9 +16,9 @@ export const SurveyFormValidations = (data) => {
         error.provider = "This field is required"
     }
 
-    if (!data?.haematologist) {
-        error.haematologist = "This field is required"
-    }
+    // if (!data?.haematologist) {
+    //     error.haematologist = "This field is required"
+    // }
 
     if (!data?.practice_location) {
         error.practice_location = "This field is required"
@@ -28,11 +28,15 @@ export const SurveyFormValidations = (data) => {
     }
     else if (data?.rate_different_reasons) {
         if (!data?.rate_different_reasons?.to_confirm_diagnosis || 
+            !data?.rate_different_reasons?.to_make_diagnosis ||
             !data?.rate_different_reasons?.patient_inhibitor_development_risk ||
             !data?.rate_different_reasons?.guide_treatment_choice || 
             !data?.rate_different_reasons?.genotype_not_available ||
             !data?.rate_different_reasons?.no_insurance_reimbursement || 
-            !data?.rate_different_reasons?.family_request) {
+            !data?.rate_different_reasons?.family_members ||
+            !data?.rate_different_reasons?.family_request ||
+            !data?.rate_different_reasons?.pre_conception ||
+            !data?.rate_different_reasons?.prohibitive ) {
             error.rate_different_reasons = "This field is required"
         }
     }
@@ -80,13 +84,13 @@ export const SurveyFormValidations = (data) => {
         }
         if(!data?.satisfied_with_8check_service){
             error.satisfied_with_8check_service="This field is required"
-            error.FVIII_infusion="This field is required"
+            error.recommend_colleague="This field is required"
         }else if(data?.satisfied_with_8check_service){
             if(!data?.satisfied_with_8check_service?.satisfied_with_8check_service){
                 error.satisfied_with_8check_service="This field is required" 
             }
-            if(!data?.satisfied_with_8check_service?.FVIII_infusion){
-                error.FVIII_infusion="This field is required" 
+            if(!data?.satisfied_with_8check_service?.recommend_colleague){
+                error.recommend_colleague="This field is required" 
             }
         }
 

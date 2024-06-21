@@ -314,6 +314,7 @@ const LicenseContentDetail = (props) => {
 
                                       <h6>
                                         <strong>Docintel | </strong>
+                                        <div className="d-flex">
                                         <a
                                           href={data?.docintelLink}
                                           className="doc-link"
@@ -334,6 +335,7 @@ const LicenseContentDetail = (props) => {
                                             alt="Copy"
                                           />
                                         </span>
+                                        </div>
                                       </h6>
 
                                       <div className="info_btn">

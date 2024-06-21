@@ -107,7 +107,7 @@ export default function ContentAnalyticsComponentActivityGauge({
         // Create a link and click it to trigger the download
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'sample_excel_file.xlsx';
+        link.download = 'Articledownloads.xlsx';
         link.click();
 
         // Clean up the temporary URL

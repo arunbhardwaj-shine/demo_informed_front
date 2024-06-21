@@ -8,9 +8,11 @@ import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import domtoimage from "dom-to-image";
+import SurveyQuestionFormDataLex from "./SurveyQuestionFormDataLex";
 
 
-const SurveyQuestionFormData = () => {
+
+const SurveyQuestionFormDataOthers = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const firstAccordionRef = useRef([]);
   const accordionRefs = useRef([]);
@@ -1992,4 +1994,11 @@ const SurveyQuestionFormData = () => {
   );
 };
 
-export default SurveyQuestionFormData;
+
+const SurveyQuestionFormData=()=>{
+  const userId = localStorage.getItem("user_id");
+
+return (userId === "56Ek4feL/1A8mZgIKQWEqg==" ? <SurveyQuestionFormDataLex/> : <SurveyQuestionFormDataOthers/>)
+}
+
+export default SurveyQuestionFormData

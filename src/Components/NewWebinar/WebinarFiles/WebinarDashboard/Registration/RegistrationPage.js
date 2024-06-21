@@ -991,13 +991,14 @@ const RegistrationPage = ({ prevData,type }) => {
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>
+                  <p>* This consent is mandatory in order to register for the event.</p>
+                  <p>
                   Octapharma AG is managing the registration for the Aland Island Meeting. By registering and submitting your information, you acknowledge your registration information is transferred
-                 to Octapharma AG headquarters in Switzerland. The data will be held by the Octapharma AG for the purposes of registering for Aland Island Meeting.
-                  </span>
-                  <span>
-                  See our Privacy Notice here.
-                  </span>
+                    to Octapharma AG headquarters in Switzerland. The data will be held by the <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> for the purposes of registering for Aland Island Meeting.
+                  </p>
+                  <p>
+                    See our Privacy Notice <a target="_blank" href="https://onesource.octapharma.com/aland-data-protection">here</a>.
+                  </p>
                 </div>
               </div>
             </form>
@@ -2989,11 +2990,18 @@ const FormField6 = ({
               />
               <label
                 style={{
-                  color: pageColors?.optionColor,
+                  fontWeight:'500', color: "#ffffff" ,
                 }}
                 htmlFor={label + index}
               >
-                {item.optionLabel}
+                {item.optionLabel} {label =="care_professional" && 
+        
+      
+      
+        <span style={{
+          color: "#E94362"
+        }} >{isRequired ? "*" : ""}</span>
+      }
               </label>
               <span className="checkmark" />
             </li>
@@ -3155,19 +3163,19 @@ const FormField6 = ({
   return (
     <div
       // className="col-sm-12 col-md-12 consent-form-list attend-sec"
-      className={`${(label?.includes("consent") ? `col-sm-12 col-md-12 consent-form-list attend-sec` : "col-sm-6 col-md-6 consent-form-list attend-sec"
+      className={`${((label?.includes("consent") || label =="care_professional") ? `col-sm-12 col-md-12 consent-form-list attend-sec` : "col-sm-6 col-md-6 consent-form-list attend-sec"
    ) }
         `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-      <label
+     {label !="care_professional" &&  <label
         style={{
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
         <span>{isRequired ? "*" : ""}</span>
-      </label>
+      </label>}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
       <style>

@@ -1731,14 +1731,14 @@ const Table = (props, ref) => {
 
   const handleSort = (key) => {
     setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
   const sortData = (data, key, order) => {
     return data.sort((a, b) => {
       const valueA = a[key];
       const valueB = b[key];
-  
+
       // Handle different data types (numbers, strings)
       if (typeof valueA === 'number' && typeof valueB === 'number') {
         return order === 'asc' ? valueA - valueB : valueB - valueA;
@@ -1800,8 +1800,8 @@ const Table = (props, ref) => {
                   : "Uploaded HCPs for the smart list"}
                 <span>| {
                   props?.listcount ? props?.listcount :
-                  editList?.length > 0 ? editList?.length : 0
-                  }</span>
+                    editList?.length > 0 ? editList?.length : 0
+                }</span>
               </h4>
             ) : (
               <h4>
@@ -1809,7 +1809,7 @@ const Table = (props, ref) => {
                 <span>
                   {
                     props?.listcount ? props?.listcount :
-                    editList?.length > 0 ? editList?.length : 0
+                      editList?.length > 0 ? editList?.length : 0
                   }
                 </span>
               </h4>
@@ -1817,531 +1817,635 @@ const Table = (props, ref) => {
 
             {/*
               props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?*/}
-                <div className="selected-hcp-table-action">
-                  {editable == false ? (
-                    <>
-                      {" "}
-                      <a
-                        className="show-less-info"
-                        onClick={(e) => showMoreInfo(e)}
-                      >
-                        {showLessInfo == true ? (
-                          <p className="show_more">Show More information</p>
-                        ) : (
-                          <p className="show_less">Show less information</p>
-                        )}{" "}
-                      </a>
-                      <ReactHTMLTableToExcel
-                        id="test-table-xls-button"
-                        className="btn btn-outline-primary"
-                        table="table-to-xls"
-                        filename="tablexls"
-                        sheet="tablexls"
-                        buttonText="Download "
-                      />
-                      <div className="hcp-new-user">
+            <div className="selected-hcp-table-action">
+              {editable == false ? (
+                <>
+                  {" "}
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p className="show_more">Show More information</p>
+                    ) : (
+                      <p className="show_less">Show less information</p>
+                    )}{" "}
+                  </a>
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Download "
+                  />
+                  <div className="hcp-new-user">
+                    <button
+                      className="btn btn-outline-primary"
+                      title="Add new user"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button>
+                  </div>
+                  <div className="hcp-added">
+                    <button
+                      className="btn btn-outline-primary"
+                      title="Edit user"
+                      onClick={editButtonClicked}
+                    >
+                      <img src={path + "edit-button.svg"} alt="Edit" />
+                    </button>
+                  </div>
+                  {/* <div className="hcp-sort">
+                    {sortingCount == 0 ? (
+                      <>
                         <button
                           className="btn btn-outline-primary"
-                          title="Add new user"
-                          onClick={handleShow}
+                          onClick={sortSelectedUsers}
                         >
-                          <img src={path + "new-user.svg"} alt="New User" />
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
                         </button>
-                      </div>
-                      <div className="hcp-added">
+                      </>
+                    ) : sorting == 0 ? (
+                      <>
                         <button
-                          className="btn btn-outline-primary"
-                          title="Edit user"
-                          onClick={editButtonClicked}
+                          className="btn btn-outline-primary desc"
+                          onClick={sortSelectedUsers}
                         >
-                          <img src={path + "edit-button.svg"} alt="Edit" />
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-decending.svg"}
+                            alt="Shorting"
+                          />
                         </button>
-                      </div>
-                      <div className="hcp-sort">
-                        {sortingCount == 0 ? (
-                          <>
-                            <button
-                              className="btn btn-outline-primary"
-                              onClick={sortSelectedUsers}
-                            >
-                              Sort By{" "}
-                              <img src={path_image + "sort.svg"} alt="Shorting" />
-                            </button>
-                          </>
-                        ) : sorting == 0 ? (
-                          <>
-                            <button
-                              className="btn btn-outline-primary desc"
-                              onClick={sortSelectedUsers}
-                            >
-                              Sort By{" "}
-                              <img
-                                src={path_image + "sort-decending.svg"}
-                                alt="Shorting"
-                              />
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              className="btn btn-outline-primary asc"
-                              onClick={sortSelectedUsers}
-                            >
-                              Sort By{" "}
-                              <img
-                                src={path_image + "sort-assending.svg"}
-                                alt="Shorting"
-                              />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </>
-                  ) : null}
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-outline-primary asc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-assending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    )}
+                  </div> */}
+                </>
+              ) : null}
 
-                  {saveOpen ? (
-                    <>
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={closeClicked}
-                      >
-                        Close
-                      </button>
-                      <button
-                        className="btn btn-primary btn-bordered"
-                        onClick={saveEditClicked}
-                      >
-                        Save
-                      </button>
-                    </>
-                  ) : null}
-                </div>
-                {/*: null
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={saveEditClicked}
+                  >
+                    Save
+                  </button>
+                </>
+              ) : null}
+            </div>
+            {/*: null
                   */}
           </div>
 
           {/*
             props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?*/}
-              <div className="selected-hcp-list new-hcp-list">
-                <table className="table " id="table-to-xls">
-                  <thead className="sticky-header">
-                    <tr>
-                      <th scope="col" className="sort_option">
-                        <span onClick={() => handleSort('first_name')} >
-                          Name
-                          <button
-                            className={`event_sort_btn ${sortBy == "first_name" ?
-                            sortOrder == "asc"
-                              ? "svg_asc"
-                              : "svg_active"
-                            : "" 
-                            }`}
-                            onClick={() => handleSort('first_name')}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
-                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_3722_6611">
-                                  <rect width="8" height="8" fill="white"/>
-                                </clipPath>
-                              </defs>
-                            </svg>
-                          </button>
-                        </span>
-                      </th>
-                      <th scope="col" className="sort_option">
-                        <span onClick={() => handleSort('email')} >
-                          Email
-                            <button
-                            className={`event_sort_btn ${sortBy == "email" ?
-                                sortOrder == "asc"
-                                ? "svg_asc"
-                                : "svg_active"
-                                : "" 
-                              }`}
-                            onClick={() => handleSort('email')}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
-                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_3722_6611">
-                                  <rect width="8" height="8" fill="white"/>
-                                </clipPath>
-                              </defs>
-                            </svg>
-                          </button>
-                        </span>
-                      </th>
-                      <th scope="col">Bounced</th>
-                      <th scope="col" className="sort_option">
-                        <span onClick={() => handleSort('country')} >
-                        Country
-                        <button
-                          className={`event_sort_btn ${sortBy == "country" ?
+          <div className="selected-hcp-list new-hcp-list">
+            <table className="table " id="table-to-xls">
+              <thead className="sticky-header">
+                <tr>
+                  <th scope="col" className="sort_option">
+                    <span onClick={() => handleSort('first_name')} >
+                      Name
+                      <button
+                        className={`event_sort_btn ${sortBy == "first_name" ?
                           sortOrder == "asc"
                             ? "svg_asc"
                             : "svg_active"
-                          : "" 
+                          : ""
                           }`}
-                          onClick={() => handleSort('country')}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <g clip-path="url(#clip0_3722_6611)">
-                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </button>
+                        onClick={() => handleSort('first_name')}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                          <g clip-path="url(#clip0_3722_6611)">
+                            <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_3722_6611">
+                              <rect width="8" height="8" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </button>
+                    </span>
+                  </th>
+                  <th scope="col" className="sort_option">
+                    <span onClick={() => handleSort('email')} >
+                      Email
+                      <button
+                        className={`event_sort_btn ${sortBy == "email" ?
+                          sortOrder == "asc"
+                            ? "svg_asc"
+                            : "svg_active"
+                          : ""
+                          }`}
+                        onClick={() => handleSort('email')}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                          <g clip-path="url(#clip0_3722_6611)">
+                            <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_3722_6611">
+                              <rect width="8" height="8" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </button>
+                    </span>
+                  </th>
+                  <th scope="col" className="sort_option">
+                    Bounced
+                  </th>
+                  <th scope="col" className="sort_option">
+                    <span onClick={() => handleSort('country')} >
+                      Country
+                      <button
+                        className={`event_sort_btn ${sortBy == "country" ?
+                          sortOrder == "asc"
+                            ? "svg_asc"
+                            : "svg_active"
+                          : ""
+                          }`}
+                        onClick={() => handleSort('country')}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                          <g clip-path="url(#clip0_3722_6611)">
+                            <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_3722_6611">
+                              <rect width="8" height="8" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </button>
+                    </span>
+                  </th>
+                  {localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    <>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort('site_number')} >
+                          Site number
+                          <button
+                            className={`event_sort_btn ${sortBy == "site_number" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : ""
+                              }`}
+                            onClick={() => handleSort('site_number')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
                         </span>
                       </th>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort('irt')} >
+                          IRT mandatory training
+                          <button
+                            className={`event_sort_btn ${sortBy == "irt" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : ""
+                              }`}
+                            onClick={() => handleSort('irt')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+                      </th>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort('user_type')} >
+                          IRT role
+                          <button
+                            className={`event_sort_btn ${sortBy == "user_type" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : ""
+                              }`}
+                            onClick={() => handleSort('user_type')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+                      </th>
+                    </>
+                  ) : (
+                    <>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort('ibu')} >
+                          Business unit
+                          <button
+                            className={`event_sort_btn ${sortBy == "ibu" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : ""
+                              }`}
+                            onClick={() => handleSort('ibu')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+                      </th>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort('contact_type')} >
+                          Contact type
+                          <button
+                            className={`event_sort_btn ${sortBy == "contact_type" ?
+                              sortOrder == "asc"
+                                ? "svg_asc"
+                                : "svg_active"
+                              : ""
+                              }`}
+                            onClick={() => handleSort('contact_type')}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+                      </th>
+                    </>
+                  )}
+
+                  {showLessInfo == false ? (
+                    <>
+                      {" "}
+                      <th scope="col">Consent</th>
+                      <th scope="col">Email received</th>
+                      <th scope="col">Openings</th>
+                      <th scope="col">Registrations</th>
+                      <th scope="col">Last email</th>
+                      <th scope="col"></th>{" "}
+                    </>
+                  ) : null}
+                </tr>
+              </thead>
+              <tbody>
+                {typeof getNewReaders !== "undefined" &&
+                  getNewReaders?.length > 0 &&
+                  getNewReaders?.map((item, index) => (
+                    <tr
+                      key={item}
+                      className="hcps-added"
+                      id={`row-selected` + index}
+                      onClick={(e) =>
+                        editing(
+                          item?.profile_id,
+                          item?.profile_user_id,
+                          item?.email,
+                          item?.jobTitle,
+                          item?.company,
+                          item?.country,
+                          item?.first_name + " " + item?.last_name,
+                          item?.contact_type
+                        )
+                      }
+                    >
+                      <td
+                        contenteditable={editable === 0 ? "false" : "true"}
+                        id={`field_name` + item?.profile_user_id}
+                      >
+                        {inEditMode?.status &&
+                          inEditMode?.rowKey === item?.profile_id ? (
+                          <input
+                            value={name}
+                            onChange={(event) => setName(event?.target?.value)}
+                          />
+                        ) : (
+                          item?.first_name + " " + item?.last_name
+                        )}
+                      </td>
+                      <td>
+                        {" "}
+                        {inEditMode?.status &&
+                          inEditMode?.rowKey === item?.profile_id ? (
+                          <input
+                            value={email}
+                            type="email"
+                            onChange={(event) => setEmail(event?.target?.value)}
+                          />
+                        ) : item?.email ? (
+                          item?.email
+                        ) : (
+                          "N/A"
+                        )}
+                      </td>
+                      <input
+                        type="hidden"
+                        id={`field_index` + item?.profile_user_id}
+                        value={index}
+                      />
+                      <td>{item?.bounce ? item?.bounce : "N/A"}</td>
+                      <td>
+                        {editable ? (
+                          <EditCountry
+                            selected_country={item?.country}
+                            profile_user={item?.profile_user_id}
+                          ></EditCountry>
+                        ) : (
+                          <span>{item?.country ? item?.country : "N/A"}</span>
+                        )}
+                      </td>
                       {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <>
-                          <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT role</th>
-                        </>
-                      ) : (
-                        <>
-                          <th scope="col" className="sort_option">
-                            <span onClick={() => handleSort('ibu')} >
-                              Business unit
-                              <button
-                                className={`event_sort_btn ${sortBy == "ibu" ?
-                                sortOrder == "asc"
-                                  ? "svg_asc"
-                                  : "svg_active"
-                                : "" 
-                                }`}
-                                onClick={() => handleSort('ibu')}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect width="8" height="8" fill="white"/>
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                          </th>
-                          <th scope="col">Contact type</th>
-                        </>
-                      )}
+                        "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                      <td>
+                        {/*item.ibu*/}
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? item?.irt
+                            ? "Yes"
+                            : "No"
+                          : item?.ibu
+                            ? item?.ibu
+                            : "N/A"}
+                      </td>
+                      <td>
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <span>
+                            {item?.user_type != 0 ? item?.user_type : "N/A"}
+                          </span>
+                        ) : editable ? (
+                          <EditContactType
+                            selected_ibu={item?.contact_type}
+                            profile_user={item?.profile_user_id}
+                          ></EditContactType>
+                        ) : (
+                          <span>
+                            {item?.contact_type ? item?.contact_type : "N/A"}
+                          </span>
+                        )}
+                      </td>
 
                       {showLessInfo == false ? (
-                        <>
-                          {" "}
-                          <th scope="col">Consent</th>
-                          <th scope="col">Email received</th>
-                          <th scope="col">Openings</th>
-                          <th scope="col">Registrations</th>
-                          <th scope="col">Last email</th>
-                          <th scope="col"></th>{" "}
-                        </>
+                        <td>
+                          <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
+                        </td>
                       ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.email_received
+                              ? item?.email_received
+                              : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.email_opening ? item?.email_opening : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.registration ? item?.registration : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.last_email ? item?.last_email : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+
+                      <td className="delete_row" colspan="12">
+                        <img
+                          src={path + "delete.svg"}
+                          alt="Delete Row"
+                          onClick={() =>
+                            deleteNewlyAdded(item?.profile_user_id)
+                          }
+                        />
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {typeof getNewReaders !== "undefined" &&
-                      getNewReaders?.length > 0 &&
-                      getNewReaders?.map((item, index) => (
-                        <tr
-                          key={item}
-                          className="hcps-added"
-                          id={`row-selected` + index}
-                          onClick={(e) =>
-                            editing(
-                              item?.profile_id,
-                              item?.profile_user_id,
-                              item?.email,
-                              item?.jobTitle,
-                              item?.company,
-                              item?.country,
-                              item?.first_name + " " + item?.last_name,
-                              item?.contact_type
-                            )
-                          }
-                        >
-                          <td
-                            contenteditable={editable === 0 ? "false" : "true"}
-                            id={`field_name` + item?.profile_user_id}
-                          >
-                            {inEditMode?.status &&
-                              inEditMode?.rowKey === item?.profile_id ? (
-                              <input
-                                value={name}
-                                onChange={(event) => setName(event?.target?.value)}
-                              />
-                            ) : (
-                              item?.first_name + " " + item?.last_name
-                            )}
-                          </td>
-                          <td>
-                            {" "}
-                            {inEditMode?.status &&
-                              inEditMode?.rowKey === item?.profile_id ? (
-                              <input
-                                value={email}
-                                type="email"
-                                onChange={(event) => setEmail(event?.target?.value)}
-                              />
-                            ) : item?.email ? (
-                              item?.email
-                            ) : (
-                              "N/A"
-                            )}
-                          </td>
-                          <input
-                            type="hidden"
-                            id={`field_index` + item?.profile_user_id}
-                            value={index}
-                          />
-                          <td>{item?.bounce ? item?.bounce : "N/A"}</td>
-                          <td>
-                            {editable ? (
-                              <EditCountry
-                                selected_country={item?.country}
-                                profile_user={item?.profile_user_id}
-                              ></EditCountry>
-                            ) : (
-                              <span>{item?.country ? item?.country : "N/A"}</span>
-                            )}
-                          </td>
-                          <td>
-                            {/*item.ibu*/}
-                            {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg=="
-                              ? item?.irt
-                                ? "Yes"
-                                : "No"
-                              : item?.ibu
-                                ? item?.ibu
-                                : "N/A"}
-                          </td>
-                          <td>
-                            {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                              <span>
-                                {item?.user_type != 0 ? item?.user_type : "N/A"}
-                              </span>
-                            ) : editable ? (
-                              <EditContactType
-                                selected_ibu={item?.contact_type}
-                                profile_user={item?.profile_user_id}
-                              ></EditContactType>
-                            ) : (
-                              <span>
-                                {item?.contact_type ? item?.contact_type : "N/A"}
-                              </span>
-                            )}
-                          </td>
+                  ))}
+                {typeof getNewReaders !== "undefined" &&
+                  getNewReaders?.length > 0 && (
+                    <tr className="seprator-add">
+                      <td colspan="13"></td>
+                    </tr>
+                  )}
+                {typeof editList !== "undefined" &&
+                  editList?.length > 0 &&
+                  sortData(editList, sortBy, sortOrder)?.map((item, index) => (
+                    <tr
+                      key={item}
+                      id={`row-selected` + index}
+                      onClick={(e) =>
+                        editing(
+                          //  e.currentTarget,
+                          item?.profile_id,
+                          item?.profile_user_id,
+                          item?.email,
+                          item?.jobTitle,
+                          item?.company,
+                          item?.country,
+                          item?.first_name + " " + item?.last_name,
+                          item?.contact_type
+                        )
+                      }
+                    >
+                      <td
+                        id={`field_name` + item?.profile_user_id}
+                        contenteditable={editable === 0 ? "false" : "true"}
+                      >
+                        <span>{item?.first_name + " " + item?.last_name}</span>
+                      </td>
 
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.email_received
-                                  ? item?.email_received
-                                  : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.email_opening ? item?.email_opening : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.registration ? item?.registration : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.last_email ? item?.last_email : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-
-                          <td className="delete_row" colspan="12">
-                            <img
-                              src={path + "delete.svg"}
-                              alt="Delete Row"
-                              onClick={() =>
-                                deleteNewlyAdded(item?.profile_user_id)
-                              }
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    {typeof getNewReaders !== "undefined" &&
-                      getNewReaders?.length > 0 && (
-                        <tr className="seprator-add">
-                          <td colspan="13"></td>
-                        </tr>
-                      )}
-                    {typeof editList !== "undefined" &&
-                      editList?.length > 0 &&
-                      sortData(editList, sortBy, sortOrder)?.map((item, index) => (
-                        <tr
-                          key={item}
-                          id={`row-selected` + index}
-                          onClick={(e) =>
-                            editing(
-                              //  e.currentTarget,
-                              item?.profile_id,
-                              item?.profile_user_id,
-                              item?.email,
-                              item?.jobTitle,
-                              item?.company,
-                              item?.country,
-                              item?.first_name + " " + item?.last_name,
-                              item?.contact_type
-                            )
-                          }
-                        >
-                          <td
-                            id={`field_name` + item?.profile_user_id}
-                            contenteditable={editable === 0 ? "false" : "true"}
-                          >
-                            <span>{item?.first_name + " " + item?.last_name}</span>
-                          </td>
-
-                          <td id={`field_email` + item?.profile_user_id}>
-                            {item?.email ? item?.email : "N/A"}
-                          </td>
-                          <input
-                            type="hidden"
-                            id={`field_index` + item?.profile_user_id}
-                            value={index}
-                          />
-                          <td id={`field_bounced` + item?.profile_user_id}>
-                            {item?.bounce ? item?.bounce : "N/A"}
-                          </td>
-                          <td>
-                            {editable ? (
-                              <EditCountry
-                                selected_country={item?.country}
-                                profile_user={item?.profile_user_id}
-                              ></EditCountry>
-                            ) : (
-                              <span>{item?.country ? item?.country : "N/A"}</span>
-                            )}
-                          </td>
-                          {/*showLessInfo == false ? (
+                      <td id={`field_email` + item?.profile_user_id}>
+                        {item?.email ? item?.email : "N/A"}
+                      </td>
+                      <input
+                        type="hidden"
+                        id={`field_index` + item?.profile_user_id}
+                        value={index}
+                      />
+                      <td id={`field_bounced` + item?.profile_user_id}>
+                        {item?.bounce ? item?.bounce : "N/A"}
+                      </td>
+                      <td>
+                        {editable ? (
+                          <EditCountry
+                            selected_country={item?.country}
+                            profile_user={item?.profile_user_id}
+                          ></EditCountry>
+                        ) : (
+                          <span>{item?.country ? item?.country : "N/A"}</span>
+                        )}
+                      </td>
+                      {/*showLessInfo == false ? (
                             <td id="field_readers">NA</td>
                           ) : null*/}
-                          <td id="field_business_unit">
-                            {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg=="
-                              ? item?.irt
-                                ? "Yes"
-                                : "No"
-                              : item?.ibu
-                                ? item?.ibu
-                                : "N/A"}
-                          </td>
-                          <td id="field_interest">
-                            {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                              <span>
-                                {item?.user_type != 0 ? item?.user_type : "N/A"}
-                              </span>
-                            ) : editable ? (
-                              <EditContactType
-                                selected_ibu={item?.contact_type}
-                                profile_user={item?.profile_user_id}
-                              ></EditContactType>
-                            ) : (
-                              <span>
-                                {item?.contact_type ? item?.contact_type : "N/A"}
-                              </span>
-                            )}
-                          </td>
+                      {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" && (<><td id="field_site_number">{item?.site_number ? item?.site_number : "N/A"}</td></>)}
 
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.email_received
-                                  ? item?.email_received
-                                  : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.email_opening ? item?.email_opening : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.registration ? item?.registration : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>
-                                {item?.last_email ? item?.last_email : "N/A"}
-                              </span>
-                            </td>
-                          ) : null}
+                      <td id="field_business_unit">
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? item?.irt
+                            ? "Yes"
+                            : "No"
+                          : item?.ibu
+                            ? item?.ibu
+                            : "N/A"}
+                      </td>
+                      <td id="field_interest">
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <span>
+                            {item?.user_type != 0 ? item?.user_type : "N/A"}
+                          </span>
+                        ) : editable ? (
+                          <EditContactType
+                            selected_ibu={item?.contact_type}
+                            profile_user={item?.profile_user_id}
+                          ></EditContactType>
+                        ) : (
+                          <span>
+                            {item?.contact_type ? item?.contact_type : "N/A"}
+                          </span>
+                        )}
+                      </td>
 
-                          <td
-                            className="delete_row"
-                            colspan="12"
-                            onClick={() =>
-                              onDelete({
-                                id: item?.profile_id,
-                                currentName:
-                                  item?.first_name + " " + item?.last_name,
-                                currentJobTitle: item?.jobTitle,
-                                currentCompany: item?.company,
-                                currentIndication: item?.indication,
-                                currentProduct: item?.product,
-                                currentCountry: item?.country,
-                                currentEmail: item?.email,
-                                profile_user_id: item?.profile_user_id,
-                              })
-                            }
-                          >
-                            <img src={path + "delete.svg"} alt="Delete Row" />
-                          </td>
-                        </tr>
-                      ))}
-                    {validator3.message("email", email, "required|email")}
-                  </tbody>
-                </table>
-              </div>
-              {/*: null
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.email_received
+                              ? item?.email_received
+                              : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.email_opening ? item?.email_opening : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.registration ? item?.registration : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>
+                            {item?.last_email ? item?.last_email : "N/A"}
+                          </span>
+                        </td>
+                      ) : null}
+
+                      <td
+                        className="delete_row"
+                        colspan="12"
+                        onClick={() =>
+                          onDelete({
+                            id: item?.profile_id,
+                            currentName:
+                              item?.first_name + " " + item?.last_name,
+                            currentJobTitle: item?.jobTitle,
+                            currentCompany: item?.company,
+                            currentIndication: item?.indication,
+                            currentProduct: item?.product,
+                            currentCountry: item?.country,
+                            currentEmail: item?.email,
+                            profile_user_id: item?.profile_user_id,
+                          })
+                        }
+                      >
+                        <img src={path + "delete.svg"} alt="Delete Row" />
+                      </td>
+                    </tr>
+                  ))}
+                {validator3.message("email", email, "required|email")}
+              </tbody>
+            </table>
+          </div>
+          {/*: null
           */}
         </div>
       </section>

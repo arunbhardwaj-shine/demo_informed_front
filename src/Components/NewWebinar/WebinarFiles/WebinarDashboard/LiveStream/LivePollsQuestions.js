@@ -8,6 +8,8 @@ import QuestionPollsPieChart from "./QuestionPollsPieChart";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { loader } from "../../../../../loader";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { get, off, onValue, orderByChild, ref } from "firebase/database";
+import { database } from "../../../../../config/firebaseConfigOnesource";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const settings = {
@@ -43,9 +45,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
   const currentQuestion = useRef();
   const slickRef = useRef("");
   const currentSnapShot = useRef(null);
+  const currentSnapShotLiveCount = useRef(null);
   const [count, setCount] = useState(0);
   const [currentTab, setCurrentTab] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const currentIndexRef= useRef(0);
   const [questionIdIndex, setQuestionIdIndex] = useState([]);
   const [pieChartData, setPieChartData] = useState({});
   const [apiCallStatus, setApiCallStatus] = useState(false);
@@ -61,8 +65,73 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
     message2: "",
     footerButton: "",
   });
+  const [userIds, setUserIds] = useState([]);
+  const [firstTimeStatus, setFirstTimeStatus] = useState(false);
+  const [totalLive, setTotalLive] = useState(0);
+
+
   const [closedIndex, setClosedIndex] = useState();
- 
+  const getLiveCount =  () => {
+    const usersRef = ref(database, "users");
+    const onlineUsersQuery = query(usersRef, orderByChild("status"));
+
+    const handleChange = (snapshot) => {
+      const onlineUserIds = [];
+      snapshot.forEach((userSnapshot) => {
+        const user = userSnapshot.val();
+        if (user.user_id == null) {
+          return;
+        }
+        if (user) {
+          if (user?.status === "online") {
+            onlineUserIds.push(user.user_id);
+          }
+        }
+      });
+      // setUserIds(onlineUserIds);
+      getEventRegisterReadersGraph("", onlineUserIds);
+
+    };
+    if (onValue) {
+      onValue(onlineUsersQuery, handleChange);
+    }
+
+    return () => {
+      if (off) {
+        off(onlineUsersQuery, "value", handleChange);
+      }
+    };
+  };
+
+
+
+  
+
+const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
+  try {
+// if(currentQuestion.current && currentIndexRef.current?.triggered==1){
+if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 || currentIndexRef.current?.showAnswerToUser!=2) ){
+    let body = {
+      eventId: eventData?.id,
+      type: "graph",
+      search: "",
+      user_ids: userids,
+      flag: false,
+      questionId:currentQuestion.current
+    };
+    const response = await postData(
+      ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
+      body
+    );
+
+    let data = response?.data?.data;
+    setTotalLive(data?.live_count)
+  }
+  } catch (err) {
+
+    console.log(err);
+  }
+};
   useEffect(() => {
     setShow(false);
     if(firstTimeTab){
@@ -122,6 +191,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
   useEffect(() => {
     if (question?.length > 0) {
+      if (firstTime.current) {
+        getLiveCount()
+        }
       if (slickRef.current) {      
         if (firstTime.current) {
           slickRef.current.slickGoTo(currentIndex, true);
@@ -130,12 +202,16 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
           firstTime.current = false;
         }
       }
+    
+    
     }
   }, [question]);
+
   useEffect(() => {
     if (question?.length > 0) {
       const apiCall = async () => {
         let data = await firebaseev();
+
       };
       apiCall();
     }
@@ -177,7 +253,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
   const handleBeforeChange = async (current) => {
     try {
-
+      
+      setTotalLive(0)
       setApiCallStatus(true);
       if (currentSnapShot.current) {
         currentSnapShot.current();
@@ -232,7 +309,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
               });
 
               tempQuestion[currentIndex] = tempData[0];
-
+              currentIndexRef.current=tempData[0];
               setQuestion(tempQuestion);
 
               setPieChartData({
@@ -250,6 +327,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
   const submitQuestionAnswer = async (e, question_id, type) => {
     try {
+
       setApiCallStatus(true);
       let body = {
         eventId: eventData?.id,
@@ -269,6 +347,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
   const closedClicked = async (e, question_id, index) => {
     try {
+    
       setApiCallStatus(true);
       setClosedIndex(index);
       let data = await postData(ENDPOINT.EVENT_CLOSE, {
@@ -276,8 +355,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
       });
     } catch (err) {
       setApiCallStatus(false);
-    } finally {
     }
+
   };
 
   const showConfirmationPopup = () => {
@@ -532,7 +611,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
                                   <label>Total (Live)</label>
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: item?.totalUser,
+                                      __html:item?.showAnswerToUser==2  && item?.showQuestionToUser==2 ? item?.live_count:( totalLive || item?.live_count || item?.totalUser),
                                     }}
                                   ></p>
                                 </div>

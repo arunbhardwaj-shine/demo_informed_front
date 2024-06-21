@@ -318,7 +318,19 @@ const LiveStream = () => {
         ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
         body
       );
-      setAttendees(response?.data?.data);
+      let attendees
+      if (Array.isArray(response?.data?.data)) {
+        attendees=response?.data?.data?.length>0?response?.data?.data:[]
+      }else if (typeof response?.data?.data === 'object' && response?.data?.data !== null) {
+        if(Object.keys(response?.data?.data)?.length>0){
+          attendees=response?.data?.data
+        }else{
+          attendees=[]
+        }
+      }else{
+        attendees=[]
+      }      
+      setAttendees(attendees);
       setAttendeesApiCallStatus(false);
       setRefreshAttendeesFlag("");
     } catch (err) {
@@ -786,7 +798,11 @@ const LiveStream = () => {
         // finalData.ID = item?.id;
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+          finalData.SiteNumber = item?.site_number ? item?.site_number : "N/A";
+        }else{
+          finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        }
         finalData.Status = item?.hcp_status ? item?.hcp_status.trim() : "N/A";
         // finalData.IsOnline = item?.is_online === 1 ? "Yes" : "No";
         if(attendeesTab=="question_ask" || attendeesTab=="not-logged"){
@@ -1513,10 +1529,11 @@ useEffect(() => {
                   <Tab eventKey="online" title="Online">
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
-                        <h4>
-                          HCPs | <span>{attendees.length}</span>
+                        <h4>                         
+                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
+                          
                            <button
                             className="btn print"
                             title="Download stats"
@@ -1541,6 +1558,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
+                        
                           {/* {attendees.length > 0 ? (
                             
                             <button
@@ -1870,9 +1888,10 @@ useEffect(() => {
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
                         <h4>
-                          HCPs | <span>{attendees.length}</span>
+                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
+                         
                         <button
                             className="btn print"
                             title="Download stats"
@@ -1897,6 +1916,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
+                         
                           {/* {attendees.length > 0 ? (
                             <button
                               className={
@@ -2227,9 +2247,10 @@ useEffect(() => {
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
                         <h4>
-                          HCPs | <span>{attendees.length}</span>
+                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
+                        
                         <button
                             className="btn print"
                             title="Download stats"
@@ -2254,6 +2275,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
+                         
                           {/* {attendees.length > 0 ? (
                             <button
                               className={
@@ -2764,10 +2786,10 @@ useEffect(() => {
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
                         <h4>
-                          HCPs | <span>{attendees.length}</span>
+                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
-                      
+                     
                           <div className="search-bar">
                             <form
                               className="d-flex"
@@ -2831,6 +2853,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
+                         
                           {/* {attendees.length > 0 ? (
                             <button
                               className={

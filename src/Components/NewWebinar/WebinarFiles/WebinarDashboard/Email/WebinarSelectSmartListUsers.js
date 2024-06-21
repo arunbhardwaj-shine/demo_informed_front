@@ -5,7 +5,7 @@ import { loader } from "../../../../../loader";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
-import {  Accordion } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
@@ -294,13 +294,13 @@ const WebinarSelectSmartListUsers = (props) => {
       description: old_object?.emailDescription
         ? old_object?.emailDescription
         : props.getWebinarDraftData?.description
-        ? props.getWebinarDraftData?.description
-        : "",
+          ? props.getWebinarDraftData?.description
+          : "",
       creator: old_object?.emailCreator
         ? old_object?.emailCreator
         : props.getWebinarDraftData?.creator
-        ? props.getWebinarDraftData?.creator
-        : "",
+          ? props.getWebinarDraftData?.creator
+          : "",
       campaign_name: "webinar",
       // campaign_name: old_object?.emailCampaign
       //   ? old_object?.emailCampaign
@@ -325,8 +325,8 @@ const WebinarSelectSmartListUsers = (props) => {
         list_selection: old_object?.selected
           ? old_object?.selected
           : props.getWebinarDraftData?.campaign_data?.list_selection
-          ? props.getWebinarDraftData?.campaign_data?.list_selection
-          : 0,
+            ? props.getWebinarDraftData?.campaign_data?.list_selection
+            : 0,
         removedHcp: removedReaders,
         addedHcp: readersNewlyAdded,
         auto_responder_id: props.old_object?.templateId
@@ -345,8 +345,8 @@ const WebinarSelectSmartListUsers = (props) => {
       status: old_object?.status
         ? old_object?.status
         : props.getWebinarDraftData?.status
-        ? props.getWebinarDraftData?.status
-        : 2,
+          ? props.getWebinarDraftData?.status
+          : 2,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -493,16 +493,16 @@ const WebinarSelectSmartListUsers = (props) => {
         a.first_name.toLowerCase() > b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     } else {
       normalArr.sort((a, b) =>
         a.first_name.toLowerCase() < b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     }
     setReaders(normalArr);
@@ -542,11 +542,11 @@ const WebinarSelectSmartListUsers = (props) => {
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
       ).value;
-  
+
       const contact_type_edit =
         localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
           ? document.getElementById("field_contact_type" + profile_user_id)
-              .value
+            .value
           : "";
 
       const arr = [];
@@ -607,8 +607,8 @@ const WebinarSelectSmartListUsers = (props) => {
         const contact_type_edit =
           localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
             ? document.getElementById(
-                "field_contact_type" + data.profile_user_id
-              ).value
+              "field_contact_type" + data.profile_user_id
+            ).value
             : "";
 
         let prev_obj = readers?.find(
@@ -738,7 +738,7 @@ const WebinarSelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-  
+
       const status = body.data.map((data, index) => {
         if (
           data.first_name == "" &&
@@ -960,9 +960,9 @@ const WebinarSelectSmartListUsers = (props) => {
                         state={
                           typeOfHcp == 1
                             ? {
-                                typeOfHcp: typeOfHcp,
-                                thisEventToggled: thisEventToggled,
-                              }
+                              typeOfHcp: typeOfHcp,
+                              thisEventToggled: thisEventToggled,
+                            }
                             : null
                         }
                       >
@@ -1149,13 +1149,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     >
                                       Name
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "first_name"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "first_name"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("first_name")}
                                       >
                                         <svg
@@ -1188,13 +1187,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("email")}>
                                       Email
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "email"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "email"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("email")}
                                       >
                                         <svg
@@ -1228,13 +1226,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("country")}>
                                       Country
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "country"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "country"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("country")}
                                       >
                                         <svg
@@ -1265,12 +1262,110 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <>
-                                      <th scope="col">
-                                        IRT mandatory training
+                                      <th scope="col" className="sort_option">
+                                        <span onClick={() => handleSort('site_number')}>
+                                          Site number
+                                          <button
+                                            className={`event_sort_btn ${sortBy == "site_number" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('site_number')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
                                       </th>
-                                      <th scope="col">IRT role</th>
+                                      <th scope="col" className="sort_option">
+                                      <span onClick={() => handleSort('irt')}>
+                                        IRT mandatory training
+                                        <button
+                                            className={`event_sort_btn ${sortBy == "irt" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('irt')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                      </th>
+                                      <th scope="col" className="sort_option">
+                                      <span onClick={() => handleSort('user_type')}>
+                                        IRT role
+                                        <button
+                                            className={`event_sort_btn ${sortBy == "user_type" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('user_type')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                        </th>
                                     </>
                                   ) : (
                                     <>
@@ -1278,13 +1373,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
-                                            className={`event_sort_btn ${
-                                              sortBy == "ibu"
-                                                ? sortOrder == "asc"
-                                                  ? "svg_asc"
-                                                  : "svg_active"
-                                                : ""
-                                            }`}
+                                            className={`event_sort_btn ${sortBy == "ibu"
+                                              ? sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
                                             onClick={() => handleSort("ibu")}
                                           >
                                             <svg
@@ -1337,11 +1431,10 @@ const WebinarSelectSmartListUsers = (props) => {
                                   return (
                                     <React.Fragment key={index}>
                                       <tr
-                                        className={` ${
-                                          user?.subscriber == 0
-                                            ? "hcps-unsubscriber"
-                                            : "hcps-deleted"
-                                        }`}
+                                        className={` ${user?.subscriber == 0
+                                          ? "hcps-unsubscriber"
+                                          : "hcps-deleted"
+                                          }`}
                                       >
                                         <td>
                                           <span>
@@ -1363,18 +1456,23 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : "N/A"}
                                           </span>
                                         </td>
+                                        {localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                            <td>
+                                              {user?.site_number ? user?.site_number : "N/A"}
+                                            </td></>)}
                                         <td>
                                           {localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg=="
+                                            "56Ek4feL/1A8mZgIKQWEqg=="
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
                                             : user.ibu && user.ibu !== 0
-                                            ? user.ibu
-                                            : "N/A"}
+                                              ? user.ibu
+                                              : "N/A"}
                                         </td>
                                         {localStorage.getItem("user_id") ===
-                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                           <td>
                                             {user?.user_type !== 0
                                               ? user.user_type
@@ -1472,13 +1570,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     >
                                       Name
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "first_name"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "first_name"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("first_name")}
                                       >
                                         <svg
@@ -1511,13 +1608,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("email")}>
                                       Email
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "email"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "email"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("email")}
                                       >
                                         <svg
@@ -1551,13 +1647,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("country")}>
                                       Country
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "country"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "country"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("country")}
                                       >
                                         <svg
@@ -1588,12 +1683,110 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <>
-                                      <th scope="col">
-                                        IRT mandatory training
+                                      <th scope="col" className="sort_option">
+                                        <span onClick={() => handleSort('site_number')}>
+                                          Site number
+                                          <button
+                                            className={`event_sort_btn ${sortBy == "site_number" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('site_number')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
                                       </th>
-                                      <th scope="col">IRT role</th>
+                                      <th scope="col" className="sort_option">
+                                      <span onClick={() => handleSort('irt')}>
+                                        IRT mandatory training
+                                        <button
+                                            className={`event_sort_btn ${sortBy == "irt" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('irt')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                      </th>
+                                      <th scope="col" className="sort_option">
+                                      <span onClick={() => handleSort('user_type')}>
+                                        IRT role
+                                        <button
+                                            className={`event_sort_btn ${sortBy == "user_type" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('user_type')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                        </th>
                                     </>
                                   ) : (
                                     <>
@@ -1601,13 +1794,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
-                                            className={`event_sort_btn ${
-                                              sortBy == "ibu"
-                                                ? sortOrder == "asc"
-                                                  ? "svg_asc"
-                                                  : "svg_active"
-                                                : ""
-                                            }`}
+                                            className={`event_sort_btn ${sortBy == "ibu"
+                                              ? sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
                                             onClick={() => handleSort("ibu")}
                                           >
                                             <svg
@@ -1711,19 +1903,23 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </span>
                                         )}
                                       </td>
+                                      {localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                          <td>{reader?.site_number ? reader?.site_number : "N/A"}
+                                          </td></>)}
                                       <td>
                                         {localStorage.getItem("user_id") ===
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                          "56Ek4feL/1A8mZgIKQWEqg=="
                                           ? reader.irt
                                             ? "Yes"
                                             : "No"
                                           : reader.ibu && reader.ibu !== 0
-                                          ? reader.ibu
-                                          : "N/A"}
+                                            ? reader.ibu
+                                            : "N/A"}
                                       </td>
                                       <td>
                                         {localStorage.getItem("user_id") ===
-                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                           <span>
                                             {reader.user_type !== 0
                                               ? reader.user_type
@@ -1822,13 +2018,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     >
                                       Name
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "first_name"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "first_name"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("first_name")}
                                       >
                                         <svg
@@ -1861,13 +2056,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("email")}>
                                       Email
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "email"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "email"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("email")}
                                       >
                                         <svg
@@ -1901,13 +2095,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("country")}>
                                       Country
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "country"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "country"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("country")}
                                       >
                                         <svg
@@ -1938,12 +2131,110 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <>
-                                      <th scope="col">
-                                        IRT mandatory training
+                                      <th scope="col" className="sort_option">
+                                        <span onClick={() => handleSort('site_number')}>
+                                          Site number
+                                          <button
+                                            className={`event_sort_btn ${sortBy == "site_number" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('site_number')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
                                       </th>
-                                      <th scope="col">IRT role</th>
+                                      <th scope="col" className="sort_option">
+                                      <span onClick={() => handleSort('irt')}>
+                                        IRT mandatory training
+                                        <button
+                                            className={`event_sort_btn ${sortBy == "irt" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('irt')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                      </th>
+                                      <th scope="col" className="sort_option">
+                                      <span onClick={() => handleSort('user_type')}>
+                                        IRT role
+                                        <button
+                                            className={`event_sort_btn ${sortBy == "user_type" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('user_type')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                        </th>
                                     </>
                                   ) : (
                                     <>
@@ -1951,13 +2242,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
-                                            className={`event_sort_btn ${
-                                              sortBy == "ibu"
-                                                ? sortOrder == "asc"
-                                                  ? "svg_asc"
-                                                  : "svg_active"
-                                                : ""
-                                            }`}
+                                            className={`event_sort_btn ${sortBy == "ibu"
+                                              ? sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
                                             onClick={() => handleSort("ibu")}
                                           >
                                             <svg
@@ -2010,11 +2300,10 @@ const WebinarSelectSmartListUsers = (props) => {
                                   return (
                                     <React.Fragment key={index}>
                                       <tr
-                                        className={` ${
-                                          user?.subscriber == 0
-                                            ? "hcps-unsubscriber"
-                                            : "hcps-deleted"
-                                        }`}
+                                        className={` ${user?.subscriber == 0
+                                          ? "hcps-unsubscriber"
+                                          : "hcps-deleted"
+                                          }`}
                                       >
                                         <td>
                                           <span>
@@ -2036,18 +2325,23 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : "N/A"}
                                           </span>
                                         </td>
+                                        {localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                            <td>
+                                              {user?.site_number ? user?.site_number : "N/A"}
+                                            </td></>)}
                                         <td>
                                           {localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg=="
+                                            "56Ek4feL/1A8mZgIKQWEqg=="
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
                                             : user.ibu && user.ibu !== 0
-                                            ? user.ibu
-                                            : "N/A"}
+                                              ? user.ibu
+                                              : "N/A"}
                                         </td>
                                         {localStorage.getItem("user_id") ===
-                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                           <td>
                                             {user?.user_type !== 0
                                               ? user.user_type
@@ -2161,13 +2455,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     >
                                       Name
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "first_name"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "first_name"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("first_name")}
                                       >
                                         <svg
@@ -2200,13 +2493,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                     <span onClick={() => handleSort("email")}>
                                       Email
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "email"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "email"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("email")}
                                       >
                                         <svg
@@ -2235,18 +2527,19 @@ const WebinarSelectSmartListUsers = (props) => {
                                       </button>
                                     </span>
                                   </th>
-                                  <th scope="col">Bounced</th>
+                                  <th scope="col" className="sort_option">                                                    
+                                                    Bounced                                                        
+                                                    </th>
                                   <th scope="col" className="sort_option">
                                     <span onClick={() => handleSort("country")}>
                                       Country
                                       <button
-                                        className={`event_sort_btn ${
-                                          sortBy == "country"
-                                            ? sortOrder == "asc"
-                                              ? "svg_asc"
-                                              : "svg_active"
-                                            : ""
-                                        }`}
+                                        className={`event_sort_btn ${sortBy == "country"
+                                          ? sortOrder == "asc"
+                                            ? "svg_asc"
+                                            : "svg_active"
+                                          : ""
+                                          }`}
                                         onClick={() => handleSort("country")}
                                       >
                                         <svg
@@ -2277,12 +2570,92 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <>
-                                      <th scope="col">
-                                        IRT mandatory training
+                                      <th scope="col" className="sort_option">
+                                        <span onClick={() => handleSort('site_number')}>
+                                          Site number
+                                          <button
+                                            className={`event_sort_btn ${sortBy == "site_number" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('site_number')}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              width="8"
+                                              height="8"
+                                              viewBox="0 0 8 8"
+                                              fill="none"
+                                            >
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path
+                                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                                  fill="#97B6CF"
+                                                />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
                                       </th>
-                                      <th scope="col">IRT role</th>
+                                      <th scope="col"  className="sort_option">
+                                <span onClick={() => handleSort('irt')}>
+                                IRT mandatory training
+                                    <button
+                                    className={`event_sort_btn ${sortBy == "irt" ?
+                                    sortOrder == "asc"
+                                        ? "svg_asc"
+                                        : "svg_active"
+                                    : "" 
+                                    }`}
+                                    onClick={() => handleSort('irt')}
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                        <g clip-path="url(#clip0_3722_6611)">
+                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                            <rect width="8" height="8" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+                                    </button>
+                                    </span>
+                                </th>
+                                <th scope="col" className="sort_option">
+                                <span onClick={() => handleSort('user_type')}>
+                                IRT role
+                                    <button
+                                    className={`event_sort_btn ${sortBy == "user_type" ?
+                                    sortOrder == "asc"
+                                        ? "svg_asc"
+                                        : "svg_active"
+                                    : "" 
+                                    }`}
+                                    onClick={() => handleSort('user_type')}
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                        <g clip-path="url(#clip0_3722_6611)">
+                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                            <rect width="8" height="8" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+                                    </button>
+                                    </span>
+                                </th>
                                     </>
                                   ) : (
                                     <>
@@ -2290,13 +2663,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
-                                            className={`event_sort_btn ${
-                                              sortBy == "ibu"
-                                                ? sortOrder == "asc"
-                                                  ? "svg_asc"
-                                                  : "svg_active"
-                                                : ""
-                                            }`}
+                                            className={`event_sort_btn ${sortBy == "ibu"
+                                              ? sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
                                             onClick={() => handleSort("ibu")}
                                           >
                                             <svg
@@ -2356,8 +2728,8 @@ const WebinarSelectSmartListUsers = (props) => {
                                               reader.company,
                                               reader.country,
                                               reader.first_name +
-                                                " " +
-                                                reader.last_name,
+                                              " " +
+                                              reader.last_name,
                                               reader.contact_type
                                             )
                                           }
@@ -2374,8 +2746,8 @@ const WebinarSelectSmartListUsers = (props) => {
                                             <span>
                                               {reader.first_name
                                                 ? reader.first_name +
-                                                  " " +
-                                                  reader.last_name
+                                                " " +
+                                                reader.last_name
                                                 : "N/A"}
                                             </span>
                                           </td>
@@ -2425,19 +2797,24 @@ const WebinarSelectSmartListUsers = (props) => {
                                               </span>
                                             )}
                                           </td>
+                                          {localStorage.getItem("user_id") ==
+                                            "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                              <td>{reader?.site_number ? reader?.site_number : "N/A"}
+                                              </td></>)}
                                           <td>
                                             {localStorage.getItem("user_id") ===
-                                            "56Ek4feL/1A8mZgIKQWEqg=="
+                                              "56Ek4feL/1A8mZgIKQWEqg=="
                                               ? reader?.irt
                                                 ? "Yes"
                                                 : "No"
                                               : reader.ibu && reader.ibu !== 0
-                                              ? reader.ibu
-                                              : "N/A"}
+                                                ? reader.ibu
+                                                : "N/A"}
                                           </td>
+                                          
                                           <td>
                                             {localStorage.getItem("user_id") ===
-                                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                               <span>
                                                 {reader.user_type !== 0
                                                   ? reader?.user_type
