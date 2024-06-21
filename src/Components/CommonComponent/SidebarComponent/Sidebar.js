@@ -27,13 +27,14 @@ const Sidebar = () => {
   // if(!eventIdContext){
   //   navigate("/webinar/event-listing");
   // }
-
+  console.log("location--->",location?.state?.IrtObj?.IRTFlag)
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id");
     if (user_id) {
       set_user_id(user_id);
     }
+    
   }, [selectedItem]);
 
   const toggleClassToBody = () => {
@@ -392,9 +393,25 @@ const Sidebar = () => {
             window.location.pathname == "/get-details" ? (
 
             <ul>
+              {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
               <li
                 className={
-                  location.pathname == "/IRTRole"
+                  location.pathname == "/IRTRole"||
+                  ((location.pathname == "/EmailList" ||
+                    location.pathname === "/EmailArticleSelect" ||
+                    location.pathname === "/CreateEmail" ||
+                    location.pathname === "/SelectHCP" ||
+                    location.pathname === "/CreateEmail" ||
+                    location.pathname === "/VerifyHCP" ||
+                    location.pathname === "/VerifyMAIL" ||
+                    location.pathname === "/verifyMAIL" ||
+                    location.pathname === "/SelectSmartListUsers" ||
+                    location.pathname === "/SelectSmartList" ||
+                    location.pathname === "/VerifyHcpMAIL" ||
+                    ((location.pathname == "/CreateSmartList" ||
+                      location.pathname == "/SmartListFilter" ||
+                      location.pathname == "/UploadExcel") &&
+                      c_id != 0))&&location?.state?.IrtObj?.IRTFlag==1)
                    
                     ? "active"
                     : "side_li"
@@ -420,9 +437,10 @@ const Sidebar = () => {
                   <p>IRT Role</p>
                 </Link>
               </li>
+              :null}
               <li
                 className={
-                  location.pathname == "/EmailList" ||
+                 (location.pathname == "/EmailList" ||
                     location.pathname === "/EmailArticleSelect" ||
                     location.pathname === "/CreateEmail" ||
                     location.pathname === "/SelectHCP" ||
@@ -436,7 +454,7 @@ const Sidebar = () => {
                     ((location.pathname == "/CreateSmartList" ||
                       location.pathname == "/SmartListFilter" ||
                       location.pathname == "/UploadExcel") &&
-                      c_id != 0)
+                      c_id != 0))&&location?.state?.IrtObj?.IRTFlag!=1
                     ? "active"
                     : "side_li"
                 }
@@ -461,6 +479,7 @@ const Sidebar = () => {
                   <p>Email</p>
                 </Link>
               </li>
+         
 
               <li
                 className={
