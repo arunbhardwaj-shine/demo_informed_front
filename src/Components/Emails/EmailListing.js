@@ -248,7 +248,8 @@ const EmailList = (props) => {
       await axios
         .post(`emailapi/get_campaign_list_filter`, body)
         .then((res) => {
-          setFilterData(res?.data?.response?.filter);
+          setFilterData(res?.data?.response?.filter?res?.data?.response?.filter:{});
+         
           getData("initial");
         })
         .catch((err) => {
