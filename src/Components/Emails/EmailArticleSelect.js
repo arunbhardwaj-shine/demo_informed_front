@@ -315,7 +315,7 @@ const EmailArticleSelect = (props) => {
                     ) : (
                       <Link
                         to="/CreateEmail"
-                        state={{ PdfSelected: PdfSelected }}
+                        state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
                         onClick={nextClicked}
                       >
                         <button
