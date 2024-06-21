@@ -48,7 +48,7 @@ const SetLayout = () => {
     // }
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-      localStorage.getItem("webinar_flag") == 1 ||  localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
+      localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
       // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
       // localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
       // localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
@@ -76,28 +76,30 @@ const SetLayout = () => {
       localStorage.getItem("group_id") == 2
         ? navigate("/content-analytics")
         : localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="
-        ? navigate("/totalhcp")
-        : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
-        ? navigate("/octalatch-totalhcp")
-        : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ? navigate("/LEX-210-analytics")
-        : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
-        ? navigate("/totalhcp")
-        : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
-        ? navigate("/totalhcp")
-        : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
-        ? navigate("/totalhcp")
-        : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
-        ? navigate("/totalhcp")
-        : navigate("/content-analytics");
+          ? navigate("/totalhcp")
+          : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
+            ? navigate("/octalatch-totalhcp")
+            : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? navigate("/LEX-210-analytics")
+              : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
+                ? navigate("/totalhcp")
+                : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
+                  ? navigate("/totalhcp")
+                  : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
+                    ? navigate("/totalhcp")
+                    : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
+                      ? navigate("/totalhcp")
+                      : navigate("/content-analytics");
     } else if (title == "Email") {
-      navigate("/EmailList");
+      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ? navigate("/IRTRole")
+        :navigate("/EmailList");
     } else if (title == "Webinar") {
       if (
         typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-        localStorage.getItem("webinar_flag") == 1 
-         ||
-         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
+        localStorage.getItem("webinar_flag") == 1
+        ||
+        localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
         // &&
         // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
       ) {
@@ -116,7 +118,7 @@ const SetLayout = () => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
         window.open(
           "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
-            localStorage.getItem("user_id"),
+          localStorage.getItem("user_id"),
           "_blank"
         );
       }
@@ -127,7 +129,7 @@ const SetLayout = () => {
 
   return (
     <>
-        <meta
+      <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
       />

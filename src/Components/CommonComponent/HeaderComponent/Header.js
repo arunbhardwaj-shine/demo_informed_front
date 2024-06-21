@@ -361,12 +361,13 @@ const Header = () => {
                       window.location.pathname == "/EditList" ||
                       window.location.pathname == "/EmailStatss" ||
                       window.location.pathname == "/bounced-email" ||
-                      window.location.pathname == "/get-details"
+                      window.location.pathname == "/get-details"||
+                      window.location.pathname == "/IRTRole"
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={"/EmailList"} > 
+                  <Link className="nav-link" to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"} > 
                     EMAIL
                   </Link>
                 </li>

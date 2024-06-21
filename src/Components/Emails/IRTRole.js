@@ -7,6 +7,7 @@ const IRTRole = () => {
   const navigate = useNavigate();
   const navigateEmail = (pdfId,role) => {
     let obj = { pdfId: pdfId,IRTFlag: 1,siteRole: role};
+    localStorage.setItem("IRTFlag",1)
     navigate("/EmailList", {
       state: {IrtObj:obj},
     });
