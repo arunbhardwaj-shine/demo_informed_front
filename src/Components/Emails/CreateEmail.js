@@ -64,6 +64,7 @@ const CreateEmail = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
+  const { state } = useLocation();
   const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
@@ -185,6 +186,10 @@ const CreateEmail = (props) => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [selectedListId, setSelectedListId] = useState(0);
+
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+  );
 
   const [hpc, setHpc] = useState([
     {
@@ -947,21 +952,41 @@ const CreateEmail = (props) => {
 
     if (validator.allValid()) {
       // console.log(PdfSelected);
-      props.getEmailData({
-        //uniqueId: uniqueId,
-        status: getIsApprovedStatus,
-        emailDescription: emailDescription,
-        emailCreator: emailCreator,
-        emailCampaign: emailCampaign,
-        emailSubject: emailSubject,
-        templateId: templateId,
-        tags: tags,
-        template: template,
-        PdfSelected: PdfSelected,
-        campaign_id: campaign_id_st,
-      });
+      if(irtRoleObj?.IRTFlag){
+        let existingObj = {
+          status: getIsApprovedStatus,
+          emailDescription: emailDescription,
+          emailCreator: emailCreator,
+          emailCampaign: emailCampaign,
+          emailSubject: emailSubject,
+          templateId: templateId,
+          tags: tags,
+          template: template,
+          PdfSelected: PdfSelected,
+          campaign_id: campaign_id_st,
+        };
 
-      navigate("/SelectHCP");
+        const mergedObject = { ...existingObj, ...irtRoleObj };
+        props.getEmailData(mergedObject);
+        navigate("/VerifyHCP", {
+          state: {IrtObj:irtRoleObj},
+        });
+      }else{
+        props.getEmailData({
+          //uniqueId: uniqueId,
+          status: getIsApprovedStatus,
+          emailDescription: emailDescription,
+          emailCreator: emailCreator,
+          emailCampaign: emailCampaign,
+          emailSubject: emailSubject,
+          templateId: templateId,
+          tags: tags,
+          template: template,
+          PdfSelected: PdfSelected,
+          campaign_id: campaign_id_st,
+        });
+        navigate("/SelectHCP");
+      }
     } else {
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);

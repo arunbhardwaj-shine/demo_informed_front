@@ -12,7 +12,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getEmailData } from "../../actions";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
@@ -23,7 +23,7 @@ var old_object = {};
 var selected_Data = [];
 const VerifyHCP = (props) => {
   const [totalData, setTotalData] = useState({});
-
+  const { state } = useLocation();
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -100,6 +100,10 @@ const VerifyHCP = (props) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
+
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+  );
 
   const axiosFun = async () => {
     try {
@@ -1144,20 +1148,26 @@ const VerifyHCP = (props) => {
                 </div>
               </div>
             </div>
-
-            <div className="top-header">
-              <div className="page-title">
-                <h4>
-                  {localStorage.getItem("user_id") == userId
-                    ? "Search For User By:"
-                    : "Search For HCP By:"}
-                </h4>
-              </div>
-            </div>
+            
+            {
+              !irtRoleObj?.IRTFlag ? 
+                <div className="top-header">
+                  <div className="page-title">
+                    <h4>
+                      {localStorage.getItem("user_id") == userId
+                        ? "Search For User By:"
+                        : "Search For HCP By:"}
+                    </h4>
+                  </div>
+                </div>
+                : null
+            }
 
             <section className="search-hcp">
               <div className="form-search-hcp">
                 <form>
+                {
+                  !irtRoleObj?.IRTFlag ?
                   <div className="form-inline row justify-content-between align-items-center">
                     <div className="col-12 col-md-7">
                       <div className="row justify-content-between align-items-center">
@@ -1201,6 +1211,24 @@ const VerifyHCP = (props) => {
                       </button>
                     </div>
                   </div>
+                  : 
+                  <div className="form-inline">
+                    <div className="form-button d-flex justify-content-end align-items-center">
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add_hcp"
+                        onClick={addNewHcp}
+                      >
+                        {localStorage.getItem("user_id") == userId
+                          ? "Add User +"
+                          : "Add HCP +"}
+                      </button>
+                    </div>
+                  </div>
+                }  
+              
                 </form>
               </div>
               <div className="search-hcp-table">
