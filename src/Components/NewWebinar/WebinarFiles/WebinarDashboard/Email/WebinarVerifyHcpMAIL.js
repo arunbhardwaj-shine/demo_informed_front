@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getWebinarDraftData, getWebinarEmailData } from "../../../../../actions";
-import { connect, connectAdvanced,useDispatch } from "react-redux";
+import { connect, connectAdvanced, useDispatch } from "react-redux";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -16,11 +16,11 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 const WebinarVerifyHcpMAIL = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
-    const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
-    ? switch_account_detail?.user_id
-    : localStorage.getItem("user_id"))
+    const [localStorageUserId, setLocalStorageUserId] = useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+        ? switch_account_detail?.user_id
+        : localStorage.getItem("user_id"))
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
@@ -61,7 +61,7 @@ const WebinarVerifyHcpMAIL = (props) => {
     const [showLessInfo, setShowLessInfo] = useState(true);
     const [getSelectedPdfId, setSelectedPdfId] = useState(PdfSelected);
     const [selectedListId, setSelectedListId] = useState(0);
-  const [addListOpen, setAddListOpen] = useState(false);
+    const [addListOpen, setAddListOpen] = useState(false);
     const [getArticleType, setArticleType] = useState(
         props.getWebinarEmailData?.status
             ? props.getWebinarEmailData?.status
@@ -174,8 +174,8 @@ const WebinarVerifyHcpMAIL = (props) => {
         const body = {
             user_id: localStorageUserId,
             pdf_id: 0,
-                event_id:eventId,
-                description: props.getWebinarEmailData?.emailDescription
+            event_id: eventId,
+            description: props.getWebinarEmailData?.emailDescription
                 ? props.getWebinarEmailData?.emailDescription
                 : props.getWebinarDraftData?.description
                     ? props.getWebinarDraftData?.description
@@ -185,7 +185,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.creator
                     ? props.getWebinarDraftData?.creator
                     : "",
-                    campaign_name: "webinar",
+            campaign_name: "webinar",
 
             subject: props.getWebinarEmailData?.emailSubject
                 ? props.getWebinarEmailData?.emailSubject
@@ -203,7 +203,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                     ? props.getWebinarEmailData?.selected
                     : props.getWebinarDraftData?.campaign_data.list_selection,
                 removedHcp: getRemovedHcp,
-                typeOfHcp:typeOfHcp
+                typeOfHcp: typeOfHcp
             },
             campaign_id: campaign_id_st,
             source_code: props.getWebinarEmailData?.template
@@ -211,8 +211,8 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.source_code,
             status: 2,
             auto_responder_id: props.getWebinarEmailData?.templateId
-            ? props.getWebinarEmailData?.templateId
-            : props.getWebinarDraftData?.campaign_data?.template_id
+                ? props.getWebinarEmailData?.templateId
+                : props.getWebinarDraftData?.campaign_data?.template_id
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -266,18 +266,18 @@ const WebinarVerifyHcpMAIL = (props) => {
             const body = {
                 user_id: localStorageUserId,
                 route_location: "webinar/email/verifyHcpMAIL",
-                pdf_id:0,
+                pdf_id: 0,
                 // pdf_id: props.getWebinarEmailData?.PdfSelected
                 //     ? props.getWebinarEmailData?.PdfSelected
                 //     : props.getWebinarDraftData?.pdf_id,
-                
+
                 subject: props.getWebinarEmailData?.emailSubject
                     ? props.getWebinarEmailData?.emailSubject
-                    : props.getWebinarDraftData?.subject, 
-                    templateId: props.getWebinarEmailData?.templateId
+                    : props.getWebinarDraftData?.subject,
+                templateId: props.getWebinarEmailData?.templateId
                     ? props.getWebinarEmailData?.templateId
                     : 0,
-                event_id:eventId,
+                event_id: eventId,
 
                 description: props.getWebinarEmailData?.emailDescription
                     ? props.getWebinarEmailData?.emailDescription
@@ -289,7 +289,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                     : props.getWebinarDraftData?.creator
                         ? props.getWebinarDraftData?.creator
                         : "",
-                        campaign_name:"webinar",
+                campaign_name: "webinar",
                 // campaign_name: props.getWebinarEmailData?.emailSubject
                 //     ? props.getWebinarEmailData?.emailSubject
                 //     : props.getWebinarDraftData?.subject,
@@ -308,10 +308,10 @@ const WebinarVerifyHcpMAIL = (props) => {
                         : props.getWebinarDraftData?.campaign_data?.list_selection,
                 },
                 auto_responder_id: props.getWebinarEmailData?.templateId
-                ? props.getWebinarEmailData?.templateId
-                : props.getWebinarDraftData?.campaign_data?.template_id
+                    ? props.getWebinarEmailData?.templateId
+                    : props.getWebinarDraftData?.campaign_data?.template_id
             };
-            
+
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             if (localStorageUserId == 'rjiGlqA9DXJVH7bDDTX0Lg==') {
@@ -395,7 +395,7 @@ const WebinarVerifyHcpMAIL = (props) => {
         // ) {
         //   navigate("/webinar/email/selectSmartListUsers");
         // } else {
-        navigate("/webinar/email/verifyHCP",{state:{typeOfHcp:typeOfHcp}});
+        navigate("/webinar/email/verifyHCP", { state: { typeOfHcp: typeOfHcp } });
         // }
     };
 
@@ -444,7 +444,7 @@ const WebinarVerifyHcpMAIL = (props) => {
         const body = {
             user_id: localStorageUserId,
             pdf_id: 0,
-            event_id:eventId,
+            event_id: eventId,
             description: props.getWebinarEmailData?.emailDescription
                 ? props.getWebinarEmailData?.emailDescription
                 : props.getWebinarDraftData?.description
@@ -455,7 +455,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.creator
                     ? props.getWebinarDraftData?.creator
                     : "",
-                    campaign_name: "webinar",
+            campaign_name: "webinar",
 
             subject: props.getWebinarEmailData?.emailSubject
                 ? props.getWebinarEmailData?.emailSubject
@@ -472,7 +472,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                 list_selection: props.getWebinarEmailData?.selected
                     ? props.getWebinarEmailData?.selected
                     : props.getWebinarDraftData?.campaign_data?.list_selection,
-                    typeOfHcp:typeOfHcp
+                typeOfHcp: typeOfHcp
             },
             campaign_id: campaign_id_st,
             source_code: props.getWebinarEmailData?.template
@@ -480,9 +480,9 @@ const WebinarVerifyHcpMAIL = (props) => {
                 : props.getWebinarDraftData?.source_code,
             status: status,
             approved_page: 1,
-            auto_responder_id:  props.getWebinarEmailData?.templateId
-            ? props.getWebinarEmailData?.templateId
-            : props.getWebinarDraftData?.campaign_data?.template_id
+            auto_responder_id: props.getWebinarEmailData?.templateId
+                ? props.getWebinarEmailData?.templateId
+                : props.getWebinarDraftData?.campaign_data?.template_id
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -491,7 +491,7 @@ const WebinarVerifyHcpMAIL = (props) => {
             .then((res) => {
                 if (res?.data?.status_code === 200) {
                     setCampaign_id(res?.data?.response?.data?.id);
-                    dispatch(getWebinarDraftData({...props.getWebinarDraftData,status:status}))
+                    dispatch(getWebinarDraftData({ ...props.getWebinarDraftData, status: status }))
                     if (status === 3) {
                         toast.success("Approved Draft saved");
                     } else {
@@ -514,16 +514,16 @@ const WebinarVerifyHcpMAIL = (props) => {
         newWindow.data = data;
     };
 
-    const viewSmartListData = async(id) => {
+    const viewSmartListData = async (id) => {
         setAddListOpen(false);
         setSelectedListId(id);
-      }
-    
-      const closeSmartListPopup = async() => {
+    }
+
+    const closeSmartListPopup = async () => {
         setSelectedListId(0);
         setAddListOpen(true);
-      }
-    
+    }
+
 
     return (
         <>
@@ -570,9 +570,9 @@ const WebinarVerifyHcpMAIL = (props) => {
                      :
                           */}
                                         <li className="active">
-                                            <Link 
-                                            to="/webinar/email/verifyHCP"
-                                            state={{typeOfHcp:typeOfHcp}}
+                                            <Link
+                                                to="/webinar/email/verifyHCP"
+                                                state={{ typeOfHcp: typeOfHcp }}
                                             >Select Verify Your HCPs</Link>
                                         </li>
 
@@ -616,8 +616,8 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                     {props.getWebinarEmailData?.emailCampaign
                                                         ? props.getWebinarEmailData?.emailCampaign
                                                         : props.getWebinarDraftData?.campaign
-                                                        ?props.getWebinarDraftData?.campaign
-                                                    :"webinar"}
+                                                            ? props.getWebinarDraftData?.campaign
+                                                            : "webinar"}
                                                 </h6>
                                                 <h6>
                                                     <strong>Creator | </strong>
@@ -859,18 +859,18 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                         The recipients <span>| {selectedHcp?.length}</span>
                                                     </h6>
                                                     <p>{/* Single HCP <span>| 1</span> */}</p>
-                                                    
-                                                    {(getSmartListData.length !== 0 &&typeOfHcp==1)&& (
-                        <div className="smartlist-view email_box_outer new-smartlist">
-                          <div className="smartlist-view email_box">
-                            <div className="mail-box-content">
-                            <div className="mail-box-conten-title">
-                              <h5>{getSmartListData.name}</h5>
-                            </div>
-                              <SmartListLayout data = {getSmartListData} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} webinarFlag={1} />
+
+                                                    {(getSmartListData.length !== 0 && typeOfHcp == 1) && (
+                                                        <div className="smartlist-view email_box_outer new-smartlist">
+                                                            <div className="smartlist-view email_box">
+                                                                <div className="mail-box-content">
+                                                                    <div className="mail-box-conten-title">
+                                                                        <h5>{getSmartListData.name}</h5>
+                                                                    </div>
+                                                                    <SmartListLayout data={getSmartListData} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} webinarFlag={1} />
 
 
-                              {/* <div className="mailbox-table">
+                                                                    {/* <div className="mailbox-table">
                                 <table>
                                   <tbody>
                                     <tr>
@@ -911,7 +911,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                 </table>
                               </div> */}
 
-                              {/* <div className="mail-time">
+                                                                    {/* <div className="mail-time">
                                 <span>{getSmartListData.created_at}</span>
                               </div>
                               <div className="smart-list-added-user">
@@ -919,10 +919,10 @@ const WebinarVerifyHcpMAIL = (props) => {
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
                                 /> */}
-                                {/*getSmartListData.readers_count*/}
-                                                    {/*selectedHcp.length*/}
-                                                    {/*</div>*/}
-                                                    {/* <div className="mail-stats">
+                                                                    {/*getSmartListData.readers_count*/}
+                                                                    {/*selectedHcp.length*/}
+                                                                    {/*</div>*/}
+                                                                    {/* <div className="mail-stats">
                               <ul>
                                 <li>
                                   <div className="mail-status smartlist_view">
@@ -978,14 +978,14 @@ const WebinarVerifyHcpMAIL = (props) => {
                           </div>
                         </div>
                       )}*/}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            </div>  
+                                            </div>
                                         </div>
-                                          )}
                                     </div>
-                                </div>
-                                </div>
-                                </div>
                                 </div>
                                 <div className="col-12 verify-right">
                                     <div className="preview_mail">
@@ -1106,6 +1106,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                             {localStorageUserId ===
                                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                                 <>
+                                                    <th scope="col">Site number</th>
                                                     <th scope="col">IRT mandatory training</th>
                                                     <th scope="col">IRT role</th>
                                                 </>
@@ -1137,6 +1138,10 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                             <td>{rr?.email}</td>
                                                             <td>{rr?.bounce}</td>
                                                             <td>{rr?.country}</td>
+                                                            {localStorage.getItem("user_id") ==
+                                                                "56Ek4feL/1A8mZgIKQWEqg==" && 
+                                                                (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
+                                                                </td></>)}
                                                             <td>
                                                                 {localStorageUserId ==
                                                                     "56Ek4feL/1A8mZgIKQWEqg=="
@@ -1192,10 +1197,10 @@ const WebinarVerifyHcpMAIL = (props) => {
             </Modal>
             {/*Reader Details popup end*/}
             {
-        selectedListId ?
-         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
-         : null
-      }
+                selectedListId ?
+                    <SmartListTableLayout id={selectedListId} closeSmartListPopup={closeSmartListPopup} />
+                    : null
+            }
         </>
     );
 };
