@@ -60,7 +60,7 @@ const RDAnalytics = () => {
   );
 
   const [sortBy, setSortBy] = useState('site_number'); // Initial sort key
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const [siteCompletionShow, setSiteCompletionShow] = useState();
   const [sortDirection, setSortDirection] = useState(0);
@@ -266,7 +266,7 @@ const RDAnalytics = () => {
       setIsActive("");
       setIndividualCompletionShow();
       setSortBy('site_number');
-      setSortOrder('asc');
+      setSortOrder('desc');
       setFlag({
         site_Completion: false,
         site_Engagement: false,
@@ -1038,7 +1038,7 @@ const RDAnalytics = () => {
     try{
       setRefreshFlag(true);
       setSortBy('site_number');
-      setSortOrder('asc');
+      setSortOrder('desc');
       let obj = {
         "sync":1
       };

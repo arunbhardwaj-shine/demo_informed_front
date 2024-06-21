@@ -81,8 +81,7 @@ const AnalyticsAttendees = () => {
   const applyFilter = (updatedFilter = null) => {
     
     let filters = updatedFilter ?? appliedFilter;
-    console.log(Object.keys(filters).length);
-    setIsFilterApplied(Object.keys(filters).length==0);
+    // setIsFilterApplied(Object.keys(filters).length==0);
     const filteredData = attendeesDataOriginal.filter((item) => {
       for (const key in filters) {
         const filterValues = filters[key];
@@ -557,7 +556,7 @@ const AnalyticsAttendees = () => {
                 <div className="table-title">
                   <h4>Total Attendees |{" "}<span>{attendeesData?.length || 0}</span></h4>
                 </div>
-                {(Object.keys(appliedFilter)?.length > 0 && isFilterApplied)? (
+                {(Object.keys(appliedFilter)?.length > 0 )? (
                   <div className="apply-filter">
                     <div className="filter-block">
                       <div className="filter-block-left full">

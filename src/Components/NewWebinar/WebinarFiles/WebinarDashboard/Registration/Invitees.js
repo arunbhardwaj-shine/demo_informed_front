@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Col, Modal, Accordion } from "react-bootstrap";
+import { Button, Col, Accordion } from "react-bootstrap";
 import Select from "react-select";
-import ConfirmationModal from "../../../../../Model/ConfirmationModel";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
 import { loader } from "../../../../../loader";
 import { useLocation } from "react-router-dom";
-import { getData, postData, deleteMethod,postFormData } from "../../../../../axios/apiHelper";
+import { postData, deleteMethod, postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import { Spinner } from "react-activity";
@@ -19,7 +18,6 @@ const Invitees = () => {
   const { state } = useLocation()
   const [userTypeOptions, setUserTypeOptions] = useState([])
   const [userData, setUserData] = useState()
-  const [originalUserData, setOriginalUserData] = useState()
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [clickUserId, setClickUserId] = useState(0);
   const [sortNameDirection, setSortNameDirection] = useState(0);
@@ -27,7 +25,6 @@ const Invitees = () => {
   const [sorting, setSorting] = useState(0);
   const [isActive, setIsActive] = useState({});
   const [search, setSearch] = useState("");
-  const [noData, setNoData] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [apiStatus, setApiStatus] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
@@ -37,138 +34,78 @@ const Invitees = () => {
   });
   const [otherFilter, setOtherFilter] = useState({
     "UserType": [
-        "HCP"
+      "HCP"
     ]
-});
+  });
   const [page, setPage] = useState(1)
   const [totalReaders, setTotalReaders] = useState()
-  const [totalPage, setTotalPage] = useState()
   const [pageAll, setPageAll] = useState(false);
   const [appliedFilter, setAppliedFilter] = useState({
     "UserType": [
-        "HCP"
+      "HCP"
     ]
-})
+  })
 
-  const {eventIdContext,handleEventId } = useSidebar();
-  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
-  
-  const  [eventId,setEventId]  = useState(state?.eventId?state?.eventId:eventIdContext?.eventId?eventIdContext?.eventId:JSON.parse(localStorage.getItem("EventIdContext"))?.eventId);
-  const navigate=useNavigate()
+  const { eventIdContext } = useSidebar();
 
-  useEffect(() => { 
-    // if(!eventIdContext){
-    //   handleEventId(localStorageEvent)
-    // }  
-   if(eventId){
-    getWebinarData(page,otherFilter);
-   }
-      
-   
-       
+  const eventId = state?.eventId ? state?.eventId : eventIdContext?.eventId ? eventIdContext?.eventId : JSON.parse(localStorage.getItem("EventIdContext"))?.eventId;
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (eventId) {
+      getWebinarData(page, otherFilter);
+    }
   }, [])
 
-  // const getWebinarData = async (page) => {
-  //   try {
-  //     loader("show");
-  //     let payload = {
-  //       "search": search,
-  //       "Country": otherFilter?.Country ? otherFilter?.Country : "",
-  //       "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
-  //       "Type": otherFilter?.Type ? otherFilter?.Type : "",
-  //       "id": eventId
-  //     };
 
-  //     const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload);
-  //     setTotalReaders(response?.data?.data?.totalReaders);
-  //     setTotalPage(response?.data?.data?.totalPage);
 
-  //     let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
-  //       return { label: item, value: item };
-  //     });
-
-  //     setFilterData(response?.data?.data?.filterData);
-  //     setUserTypeOptions(userType);
-
-  //     if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
-  //       setIsLoaded(true);
-  //     } else {
-  //       setIsLoaded(false);
-  //     }
-
-  //     if (page === 1) {
-  //       setUserData(response?.data?.data?.data);
-  //     } else {
-  //       setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
-  //     }
-
-  //     setApiStatus(true);
-
-  //     return response; 
-  //   } catch (err) {
-  //     console.log("---err", err);
-  //     setApiStatus(true);
-  //     throw err; 
-  //   } finally {
-  //     loader("hide");
-  //   }
-  // };
-
-  const getWebinarData = async (page, filter, loadMore = 0,serachClear="-1") => {
+  const getWebinarData = async (page, filter, loadMore = 0, searchClear = "-1") => {
     try {
-      setIsLoaded(false)
-      if (loadMore == 0) {
+      setIsLoaded(false);
+      if (loadMore === 0) {
         loader("show");
       } else {
-        setPageAll(true)
+        setPageAll(true);
       }
 
-      setShowFilter(false)
-      
-      let countryfilter = filter?.Country ? filter?.Country : '';
-      if(eventId === 458){
-        countryfilter = filter?.Nationality ? filter?.Nationality : '';
-      }
+      setShowFilter(false);
 
+      // Determine country filter based on event ID
+      const countryFilter = eventId === 458
+        ? filter?.Nationality ?? ''
+        : filter?.Country ?? '';
 
-      let payload = {
-        "search": serachClear!="-1"?serachClear:search ? search : "",
-        "Country": countryfilter,
-        "UserType": filter?.UserType ? filter?.UserType : "",
-        // "UserType":["HCP"],
-        "Type": filter?.Type ? filter?.Type : "",
-        "id": eventId
+      // Construct payload
+      const payload = {
+        search: searchClear !== "-1" ? searchClear : search || "",
+        Country: countryFilter,
+        UserType: filter?.UserType ?? "",
+        Type: filter?.Type ?? "",
+        id: eventId
       };
 
+      // Fetch data from API
       const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload);
+      const responseData = response?.data?.data;
 
-      setTotalReaders(response?.data?.data?.totalReaders);
-      setTotalPage(response?.data?.data?.totalPage);
+      // Update total readers and filter data
+      setTotalReaders(responseData?.totalReaders);
+      const userTypeOptions = responseData?.filterData?.UserType?.map(item => ({ label: item, value: item }));
+      setFilterData(responseData?.filterData);
+      setUserTypeOptions(userTypeOptions);
 
-      let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
-        return { label: item, value: item };
-      });
+      // Determine if there is more data to load
+      setIsLoaded(responseData?.totalReaders > ((userData?.length || 0) + responseData?.data?.length));
 
-      setFilterData(response?.data?.data?.filterData);
-      setUserTypeOptions(userType);
+      // Update user data based on the page
+      setUserData(page === 1 ? responseData?.data : [...userData, ...responseData?.data]);
 
-      if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
-        setIsLoaded(true);
-      } else {
-        setIsLoaded(false);
-      }
-
-      if (page === 1) {
-        setUserData(response?.data?.data?.data);
-      } else {
-        setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
-      }
-
+      // Set API status and reset page all flag
       setApiStatus(true);
-      setPageAll(false)
+      setPageAll(false);
       return response;
     } catch (err) {
-      console.log("---err", err);
+      console.error("Error in getWebinarData:", err);
       setApiStatus(true);
       throw err;
     } finally {
@@ -177,10 +114,10 @@ const Invitees = () => {
   };
 
 
+
   const searchChange = async (e) => {
     try {
       setIsLoaded(false);
-      setNoData(false);
       let sp = 1;
       if (e?.target?.value == "" || e?.target?.value == null) {
         let searched = e?.target?.value
@@ -188,9 +125,9 @@ const Invitees = () => {
         setUserData()
         setApiStatus(false)
         setSearch("");
-      await  getWebinarData(sp,otherFilter,0,e?.target?.value);
-        
-      }else{
+        await getWebinarData(sp, otherFilter, 0, e?.target?.value);
+
+      } else {
         setSearch(e?.target?.value);
       }
     } catch (error) {
@@ -202,18 +139,17 @@ const Invitees = () => {
   const submitSearchHandler = (event) => {
     try {
       event.preventDefault();
-      setNoData(false);
       setIsLoaded(false);
       setApiStatus(false)
       setUserData()
       let sp = 1;
       setPage(sp)
       if (!search) {
-        getWebinarData(sp,otherFilter);
+        getWebinarData(sp, otherFilter);
       } else {
         setUserData()
         // setSearch("")
-        getWebinarData(sp,otherFilter);
+        getWebinarData(sp, otherFilter);
       }
     } catch (error) {
       console.error('Error in submitSearchHandler:', error);
@@ -250,7 +186,6 @@ const Invitees = () => {
 
   const userEmailClicked = (e, user) => {
     navigate("/webinar/email");
-    // console.log("email clicked-->", user?.Email)
   }
 
   const userBlockedClicked = async (e, user, index) => {
@@ -271,32 +206,6 @@ const Invitees = () => {
       loader("hide")
     }
   }
-
-  // const handleConfirmModel = async (id) => {
-  //   setConfirmationPopup(false);
-
-  //   try {
-  //     loader("show");
-  //     const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${eventId}`);
-  //     setTotalReaders(res?.data?.data?.totalReaders)
-  //     let updatedUserData = userData
-  //     updatedUserData = updatedUserData?.filter((item) => item?.user_id != id)
-  //     setUserData(updatedUserData)
-  //     loader("hide");
-  //     setClickUserId(0);
-  //     popup_alert({
-  //       visible: "show",
-  //       message: "Your user has been deleted <br />successfully !",
-  //       type: "success",
-  //       redirect: "",
-  //     });
-  //   } catch (err) {
-  //     console.log("--err", err);
-  //     loader("hide");
-  //   }
-  // };
-
-
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
 
@@ -323,35 +232,6 @@ const Invitees = () => {
     }
   };
 
-
-  // const userSort = (e, type) => {
-  //   const sortedIsData = [...userData].sort((a, b) => {
-  //     const siteNumberA = a?.type;
-  //     const siteNumberB = b?.type;
-  //     if (sortNameDirection === 0) {
-  //       if (siteNumberA < siteNumberB) return -1;
-  //       if (siteNumberA > siteNumberB) return 1;
-  //       return 0;
-  //     } else {
-  //       if (siteNumberA > siteNumberB) return -1;
-  //       if (siteNumberA < siteNumberB) return 1;
-  //       return 0;
-  //     }
-  //   });
-
-  //   setUserData(sortedIsData);
-  //   setSortNameDirection(sortNameDirection === 0 ? 1 : 0); // Toggle the sort direction
-  //   if (isActive == "asc") {
-  //     setIsActive("dec");
-  //   } else {
-  //     setIsActive("asc");
-  //   }
-
-  //   setSorting(1 - sorting);
-  //   setSortingCount(sortingCount + 1);
-  // };
-
-
   const dynamicSort = (key, direction) => (a, b) => {
     const valueA = a[key];
     const valueB = b[key];
@@ -368,15 +248,14 @@ const Invitees = () => {
   };
 
   const userSort = (e, key) => {
-   
+
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
 
     const sortedUserData = [...userData].sort(dynamicSort(key, direction));
 
     setUserData(sortedUserData);
-    setSortNameDirection(sortNameDirection === 0 ? 1 : 0); // Toggle the sort direction
-    // setIsActive({...isActive,[key]:direction === 'asc' ? 'dec' : 'asc'});
-    setIsActive({[key]:direction === 'asc' ? 'dec' : 'asc'});
+    setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
+    setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
@@ -398,16 +277,16 @@ const Invitees = () => {
       });
 
       console.log("Response:", res);
-      let eventName=localStorage.getItem('EventIdContext')
-      if(eventName){
-        eventName=JSON.parse(eventName)
+      let eventName = localStorage.getItem('EventIdContext')
+      if (eventName) {
+        eventName = JSON.parse(eventName)
 
       }
 
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
-      link.download = `${eventName?.eventTitle?eventName?.eventTitle+"_Registered_Users":"Registered_Users"}.xlsx`;
+      link.download = `${eventName?.eventTitle ? eventName?.eventTitle + "_Registered_Users" : "Registered_Users"}.xlsx`;
       link.click();
       loader("hide");
     } catch (err) {
@@ -444,7 +323,7 @@ const Invitees = () => {
           delete updatedFilter[key]
         }
       }
-    }  
+    }
 
     setOtherFilter(updatedFilter);
   };
@@ -529,7 +408,7 @@ const Invitees = () => {
 
   return (
     <>
-     <meta
+      <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
       />
@@ -541,7 +420,7 @@ const Invitees = () => {
                 <h2>Registered Users</h2>
               </div>
               <div className="top-right-action">
-                  <div className="search-bar">
+                <div className="search-bar">
                   <form
                     className="d-flex"
                     onSubmit={(e) => submitSearchHandler(e)}
@@ -553,8 +432,9 @@ const Invitees = () => {
                       aria-label="Search"
                       id="email_search"
                       value={search}
-                      onChange={(e) =>{
-                        searchChange(e)} }
+                      onChange={(e) => {
+                        searchChange(e)
+                      }}
                     />
                     <button className="btn-outline-success" type="submit">
                       <svg
@@ -572,7 +452,7 @@ const Invitees = () => {
                     </button>
                   </form>
                 </div>
-                
+
                 <div
                   className="filter-by nav-item dropdown"
                 >
@@ -747,8 +627,8 @@ const Invitees = () => {
                 <div className="page-title">
                   <h4>Total Registrations | <span>{totalReaders}</span></h4>
                 </div>
-                
-                
+
+
               </div>
               {Object.keys(appliedFilter)?.length > 0 ? (
                 <div className="apply-filter">
@@ -802,132 +682,41 @@ const Invitees = () => {
                 <table className="table" id="table-to-xls">
                   <thead className="sticky-header">
                     <tr>
-                      <th scope="col" className="sort_option">
-                       <span  onClick={(e) => userSort(e, "name")}>
-                       Name
-                     
-                        <button
-                          className={`event_sort_btn ${isActive?.name == "dec"
-                            ? "svg_active"
-                            : isActive?.name == "asc"
-                              ? "svg_asc"
-                              : ""
-                            }`}
-                          onClick={(e) => userSort(e, "name")}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <g clip-path="url(#clip0_3722_6611)">
-                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </button>
-                        </span>
-                      </th>
-                      <th scope="col" className="sort_option">
-                        <span onClick={(e) => userSort(e, "email")}> Email
-                        <button
-                          className={`event_sort_btn ${isActive?.email == "dec"
-                            ? "svg_active"
-                            : isActive?.email == "asc"
-                              ? "svg_asc"
-                              : ""
-                            }`}
-                          
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <g clip-path="url(#clip0_3722_6611)">
-                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </button>
-                        </span>
-                      </th>
-                      <th scope="col" className="sort_option">
-                        <span onClick={(e) => userSort(e, "province")}>
-                        {
-                          eventId == 458 ? "Nationality" : "Country"
-                        }
-                        <button
-                          className={`event_sort_btn ${isActive?.province == "dec"
-                            ? "svg_active"
-                            : isActive?.province == "asc"
-                              ? "svg_asc"
-                              : ""
-                            }`}
-                          
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <g clip-path="url(#clip0_3722_6611)">
-                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </button>
-                        </span>
-                      </th>
-                      <th scope="col" className="sort_option">
-                        <span  onClick={(e) => userSort(e, "register_time")}>
-                        Registered
-                        <button
-                          className={`event_sort_btn ${isActive?.register_time == "dec"
-                            ? "svg_active"
-                            : isActive?.register_time == "asc"
-                              ? "svg_asc"
-                              : ""
-                            }`}
-                          onClick={(e) => userSort(e, "register_time")}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <g clip-path="url(#clip0_3722_6611)">
-                              <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_3722_6611">
-                                <rect width="8" height="8" fill="white"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </button>
-                        </span>
-                      </th>
-                      <th scope="col">Last Email
-                        {/* <button
-                          className={`event_sort_btn ${isActive?.last_email == "dec"
-                            ? "svg_active"
-                            : isActive?.last_email == "asc"
-                              ? "svg_asc"
-                              : ""
-                            }`}
-                          onClick={(e) => userSort(e, "last_email")}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                          <g clip-path="url(#clip0_3722_6611)">
-                            <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_3722_6611">
-                              <rect width="8" height="8" fill="white"/>
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        </button> */}
-
-                      </th>
-                      <th scope="col">User Type</th>
+                      {[
+                        { key: 'name', label: 'Name' },
+                        { key: 'email', label: 'Email' },
+                        { key: 'province', label: eventId === 458 ? 'Nationality' : 'Country' },
+                        { key: 'register_time', label: 'Registered' },
+                        { key: 'last_email', label: 'Last Email', isSortable: false },
+                        { key: 'user_type', label: 'User Type', isSortable: false }
+                      ].map(({ key, label, isSortable = true }) => (
+                        <th key={key} scope="col" className={isSortable ? "sort_option" : ''} onClick={isSortable ? (e) => userSort(e, key) : null}>
+                          <span >
+                            {label}
+                            {isSortable && (
+                              <button
+                                className={`event_sort_btn ${isActive?.[key] === "dec"
+                                  ? "svg_active"
+                                  : isActive?.[key] === "asc"
+                                    ? "svg_asc"
+                                    : ""
+                                  }`}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                  <g clipPath="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            )}
+                          </span>
+                        </th>
+                      ))}
                     </tr>
                   </thead>
 
@@ -938,16 +727,15 @@ const Invitees = () => {
                         <td>{user?.email}</td>
                         <td>{user?.province}</td>
                         <td className={user?.is_blocked == 0 ? "registred" : "registred block"}>
-                          {/* {user?.is_blocked == 0 ?
-                            moment(user?.register_time).format('DD MMMM YYYY | hh:mm:ss A') : "Blocked"} */}
-                            
-                            {user?.is_blocked === 0 ? (
-                                <>
-                                    {moment(user?.register_time).format('DD MMM YYYY')} <span>|</span> {moment(user?.register_time).format('hh:mm:ss A')}
-                                </>
-                            ) : (
-                                "Blocked"
-                            )}
+
+
+                          {user?.is_blocked === 0 ? (
+                            <>
+                              {moment(user?.register_time).format('DD MMM YYYY')} <span>|</span> {moment(user?.register_time).format('hh:mm:ss A')}
+                            </>
+                          ) : (
+                            "Blocked"
+                          )}
                         </td>
                         <td>{user?.last_email ? user?.last_email : "N/A"}</td>
                         <td className="invites-td">
@@ -977,39 +765,39 @@ const Invitees = () => {
                             </div>
                             <div className="invitess-tbl-right">
                               <div className="clear-search">
-                              <button
-                                title="Copy SSI"
-                                onClick={() => {
-                                copyToClipboard(user?.user_id);
-                                }}
+                                <button
+                                  title="Copy SSI"
+                                  onClick={() => {
+                                    copyToClipboard(user?.user_id);
+                                  }}
                                 >
-                                <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                >
-                                <g clip-path="url(#clip0_3694_655)">
-                                <path
-                                d="M11.9973 1.37297L7.93219 5.43805C7.92434 5.44586 7.91945 5.45535 7.91164 5.46324C8.91308 5.31738 9.94187 5.41738 10.8955 5.78926L13.6545 3.03027C14.5686 2.11625 16.0551 2.11625 16.9691 3.03027C17.8831 3.94422 17.8831 5.43082 16.9691 6.34476C16.8132 6.5007 12.669 10.645 12.904 10.4098C11.9828 11.3312 10.4714 11.2918 9.58945 10.4098C9.13269 9.95308 8.38902 9.95308 7.93219 10.4098L7.2207 11.1213C7.41805 11.4566 7.6443 11.7793 7.93219 12.0672C9.66812 13.8031 12.6562 13.9418 14.5361 12.0877C14.544 12.0799 14.5534 12.075 14.5613 12.0672L18.6264 8.00211C20.4569 6.17148 20.4569 3.20359 18.6264 1.37297C16.7958 -0.457656 13.8279 -0.457656 11.9973 1.37297Z"
-                                fill="#0066BE"
-                                />
-                                <path
-                                d="M9.11267 14.2014L6.34478 16.9693C5.43083 17.8833 3.94423 17.8833 3.03028 16.9693C2.11626 16.0553 2.11626 14.5688 3.03028 13.6548C3.18614 13.4989 7.33927 9.34577 7.10423 9.58081C8.02548 8.65956 9.53688 8.6989 10.4188 9.58081C10.8756 10.0376 11.6193 10.0376 12.0761 9.58081L12.7875 8.86932C12.5902 8.53401 12.364 8.21136 12.0761 7.92354C10.3434 6.19085 7.35759 6.04343 5.47212 7.90296C5.46427 7.91077 5.45481 7.91569 5.44692 7.92354L1.37294 11.9975C-0.457607 13.8281 -0.457685 16.796 1.37294 18.6267C3.20356 20.4572 6.17153 20.4572 8.00208 18.6267L12.076 14.5526C12.0839 14.5448 12.0888 14.5354 12.0966 14.5275C11.0951 14.6733 10.0664 14.5733 9.11267 14.2014Z"
-                                fill="#0066BE"
-                                />
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_3694_655">
-                                <rect
-                                width="20"
-                                height="20"
-                                fill="white"
-                                />
-                                </clipPath>
-                                </defs>
-                                </svg>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                  >
+                                    <g clip-path="url(#clip0_3694_655)">
+                                      <path
+                                        d="M11.9973 1.37297L7.93219 5.43805C7.92434 5.44586 7.91945 5.45535 7.91164 5.46324C8.91308 5.31738 9.94187 5.41738 10.8955 5.78926L13.6545 3.03027C14.5686 2.11625 16.0551 2.11625 16.9691 3.03027C17.8831 3.94422 17.8831 5.43082 16.9691 6.34476C16.8132 6.5007 12.669 10.645 12.904 10.4098C11.9828 11.3312 10.4714 11.2918 9.58945 10.4098C9.13269 9.95308 8.38902 9.95308 7.93219 10.4098L7.2207 11.1213C7.41805 11.4566 7.6443 11.7793 7.93219 12.0672C9.66812 13.8031 12.6562 13.9418 14.5361 12.0877C14.544 12.0799 14.5534 12.075 14.5613 12.0672L18.6264 8.00211C20.4569 6.17148 20.4569 3.20359 18.6264 1.37297C16.7958 -0.457656 13.8279 -0.457656 11.9973 1.37297Z"
+                                        fill="#0066BE"
+                                      />
+                                      <path
+                                        d="M9.11267 14.2014L6.34478 16.9693C5.43083 17.8833 3.94423 17.8833 3.03028 16.9693C2.11626 16.0553 2.11626 14.5688 3.03028 13.6548C3.18614 13.4989 7.33927 9.34577 7.10423 9.58081C8.02548 8.65956 9.53688 8.6989 10.4188 9.58081C10.8756 10.0376 11.6193 10.0376 12.0761 9.58081L12.7875 8.86932C12.5902 8.53401 12.364 8.21136 12.0761 7.92354C10.3434 6.19085 7.35759 6.04343 5.47212 7.90296C5.46427 7.91077 5.45481 7.91569 5.44692 7.92354L1.37294 11.9975C-0.457607 13.8281 -0.457685 16.796 1.37294 18.6267C3.20356 20.4572 6.17153 20.4572 8.00208 18.6267L12.076 14.5526C12.0839 14.5448 12.0888 14.5354 12.0966 14.5275C11.0951 14.6733 10.0664 14.5733 9.11267 14.2014Z"
+                                        fill="#0066BE"
+                                      />
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_3694_655">
+                                        <rect
+                                          width="20"
+                                          height="20"
+                                          fill="white"
+                                        />
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
                                 </button>
                               </div>
                               <div className="clear-search">
@@ -1130,12 +918,12 @@ const Invitees = () => {
 
           </div>
         </div>
-        
+
       </Col>
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={setConfirmationPopup}
-        onCloseCross={()=>setConfirmationPopup(false)}
+        onCloseCross={() => setConfirmationPopup(false)}
         fun={handleConfirmModel}
         resetDataId={clickUserId}
         popupMessage={{
