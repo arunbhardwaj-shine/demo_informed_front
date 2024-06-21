@@ -259,7 +259,8 @@ const EmailList = (props) => {
       await axios
         .post(`emailapi/get_campaign_list_filter`, body)
         .then((res) => {
-          setFilterData(res?.data?.response?.filter);
+          setFilterData(res?.data?.response?.filter?res?.data?.response?.filter:{});
+         
           getData("initial");
         })
         .catch((err) => {
@@ -849,7 +850,7 @@ const EmailList = (props) => {
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
-                      type="text"
+                      type="search"
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
