@@ -107,7 +107,9 @@ const EmailArticleSelect = (props) => {
 
   const cancelClicked = () => {
     if(irtRoleObj?.IRTFlag){
-      navigate("/IRTRole");
+      navigate("/IRTRole", {
+        state: {IrtObj:irtRoleObj},
+      });
     }else{
       navigate("/EmailList");
     }
