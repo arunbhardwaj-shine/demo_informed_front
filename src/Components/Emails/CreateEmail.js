@@ -98,6 +98,10 @@ const CreateEmail = (props) => {
         ? props.getDraftData.description
         : ""
   );
+  const [manualEmailDescription, setManualEmailDescription] = useState(
+    state_object?.emailDescription ?? props.getDraftData?.description ?? ""
+  );
+
   const [emailCreator, setEmailCreator] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -118,6 +122,9 @@ const CreateEmail = (props) => {
         ? props.getDraftData.campaign
         : ""
   );
+  const [manualEmailCampaign, setManualEmailCampaign] = useState(
+    state_object?.emailCampaign ?? props.getDraftData?.campaign ?? ""
+  );
   const [emailSubject, setEmailSubject] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -126,6 +133,9 @@ const CreateEmail = (props) => {
       : props.getDraftData
         ? props.getDraftData.subject
         : ""
+  );
+  const [manualEmailSubject, setManualEmailSubject] = useState(
+    state_object?.emailSubject ?? props.getDraftData?.subject ?? ""
   );
   const [templateId, setTemplateId] = useState(
     state_object != null &&
@@ -449,9 +459,12 @@ const CreateEmail = (props) => {
     ) {
       if (props.getDraftData !== null) {
         setEmailDescription(props.getDraftData.description);
+        setManualEmailDescription(props.getDraftData.description);
         setEmailCreator(props.getDraftData.creator);
         setemailCampaign(props.getDraftData.campaign);
+        setManualEmailCampaign(props.getDraftData.campaign);
         setEmailSubject(props.getDraftData.subject);
+        setManualEmailSubject(props.getDraftData.subject);
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
@@ -889,6 +902,26 @@ const CreateEmail = (props) => {
     if (div) {
       div.classList.remove("select_mm");
     }
+    const templateDescriptions = {
+      "E-Mail IRT: Site User": "IRT Training Site User",
+      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+    };
+    setEmailDescription(manualEmailDescription ? manualEmailDescription : templateDescriptions[template?.name])
+
+    const templateSubject = {
+      "E-Mail IRT: Site User": "IRT Training Site User",
+      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+    };
+    setEmailSubject(manualEmailSubject ? manualEmailSubject : templateSubject[template?.name])
+
+    const templateCampaign = {
+      "E-Mail IRT: Site User": "IRT Training Site User",
+      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+    };
+    setemailCampaign(manualEmailCampaign ? manualEmailCampaign : templateCampaign[template?.name])
 
     setTemplateId(template.id);
     templateIdRef.current = template?.id;
@@ -1165,9 +1198,9 @@ const CreateEmail = (props) => {
     //console.log(new_atg);
   };
 
-  const emailDescriptionChange = (e) => {
-    setEmailDescription(e.target.value);
-  };
+  // const emailDescriptionChange = (e) => {
+  //   setEmailDescription(e.target.value);
+  // };
 
   const emailCreatorChange = (e) => {
     setEmailCreator(e.target.value);
@@ -2306,7 +2339,11 @@ const CreateEmail = (props) => {
                             </label>
 
                             <input
-                              onChange={(e) => emailDescriptionChange(e)}
+                              // onChange={(e) => emailDescriptionChange(e)}
+                              onChange={(e) => {
+                                setEmailDescription(e?.target?.value);
+                                setManualEmailDescription(e?.target?.value)
+                            }}
                               type="text"
                               className={
                                 validator?.message(
@@ -2384,7 +2421,11 @@ const CreateEmail = (props) => {
                               }
                               id="email-campaign"
                               value={emailCampaign}
-                              onChange={changeEmailCampaign}
+                              // onChange={changeEmailCampaign}
+                              onChange={(e) => {
+                                setemailCampaign(e?.target?.value);
+                                setManualEmailCampaign(e?.target?.value)
+                            }}
                             />
                             {validator.message(
                               "emailCampaign",
@@ -2446,7 +2487,11 @@ const CreateEmail = (props) => {
                                 : "form-control"
                             }
                             id="email-subject"
-                            onChange={(e) => emailSubjectChanged(e)}
+                            // onChange={(e) => emailSubjectChanged(e)}
+                            onChange={(e) => {
+                              setEmailSubject(e?.target?.value);
+                              setManualEmailSubject(e?.target?.value)
+                          }}
                             value={emailSubject}
                           />
                           {validationError?.emailSubject ? (
