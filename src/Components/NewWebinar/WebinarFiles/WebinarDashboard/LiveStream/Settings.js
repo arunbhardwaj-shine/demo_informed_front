@@ -21,17 +21,17 @@ const Settings = () => {
   );
 
 
-  
+  console.log(eventIdContext);
   const posterOptions = [
     {
       label: "Post event poster",
       value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/thanks-banner.jpg",
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/thanks-watch.jpg",
     },
     { label: "Custom message", value: "" },
   ];
 
-  if (localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==") {
+  if (localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==" && !([454,455].includes(eventId))) {
     const additionalOptions =[
       {
         label: "Thank you message without speaker image",
@@ -57,6 +57,17 @@ const Settings = () => {
         label: "Technical difficulties",
         value:
           "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Technical-difficulties.jpg",
+      },
+    
+    ]
+
+    posterOptions.unshift(...additionalOptions);
+  }else {
+    const additionalOptions =[
+      {
+        label: "Technical difficulties",
+        value:
+          "https://docintel.s3.eu-west-1.amazonaws.com/image/technical-issue.jpg",
       },
     
     ]
