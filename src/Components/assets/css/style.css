@@ -1631,6 +1631,9 @@ a.btn.btn-filled:hover .smartlist-buttons a.btn.btn-primary.btn-filled:hover,
 
 ul.tabnav-link li.active {
   pointer-events: unset;
+  color: var(--violet);
+  position: relative;
+  cursor: pointer;
 }
 
 ul.tabnav-link li.active a {
