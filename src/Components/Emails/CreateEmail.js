@@ -908,7 +908,7 @@ const CreateEmail = (props) => {
     }
   };
 
-  const templateClicked = (template, e) => {
+  const templateIRTClicked = (template, e) => {
     const div = document.querySelector("img.select_mm");
 
     if (div) {
@@ -934,6 +934,21 @@ const CreateEmail = (props) => {
       "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
     };
     setemailCampaign(manualEmailCampaign ? manualEmailCampaign : templateCampaign[template?.name])
+
+    setTemplateId(template.id);
+    templateIdRef.current = template?.id;
+
+    setTemplateName(template.name);
+    setTemplate(template.source_code);
+    e.target.classList.toggle("select_mm");
+  };
+
+  const templateClicked = (template, e) => {
+    const div = document.querySelector("img.select_mm");
+
+    if (div) {
+      div.classList.remove("select_mm");
+    }
 
     setTemplateId(template.id);
     templateIdRef.current = template?.id;
@@ -2262,7 +2277,8 @@ const CreateEmail = (props) => {
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active" onClick={handleSelectUsers}>
-                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}Select Content
+                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                      Select Content
                     </li>
                     <li className="active active-main">
                       <a href="">Create Your Email</a>
@@ -2341,7 +2357,8 @@ const CreateEmail = (props) => {
                           <div
                             key={index}
                             className="item"
-                            onClick={(e) => templateClicked(template, e)}
+                            // onClick={(e) => templateClicked(template, e)}
+                            onClick={(e) => irtRoleObj?.IRTFlag ? templateIRTClicked(template, e) : templateClicked(template, e)}
                           >
                             <img
                               id={"template_dyn" + index}
