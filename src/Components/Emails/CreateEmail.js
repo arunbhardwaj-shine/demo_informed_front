@@ -847,6 +847,12 @@ const CreateEmail = (props) => {
         up_temp = editorRef.current.getContent();
       }
 
+      let redirectPath = "/EmailList";
+ 
+      if (irtRoleObj?.IRTFlag) {
+        redirectPath = "/IRTRole";
+      }
+
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
@@ -884,7 +890,8 @@ const CreateEmail = (props) => {
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              redirect: "/EmailList",
+              // redirect: "/EmailList",
+              redirect: redirectPath
             });
             // toast.success("Draft saved");
           } else {
@@ -2226,6 +2233,18 @@ const CreateEmail = (props) => {
     setAddListOpen(true);
   }
 
+  const handleBackClick = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+
+  const handleSelectUsers = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -2235,26 +2254,33 @@ const CreateEmail = (props) => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/EmailArticleSelect">Back</Link>
+                    <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
+                      {/* <Link to="/EmailArticleSelect">Back</Link> */} Back
                     </button>
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                    <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    <li className="active" onClick={handleSelectUsers}>
+                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}Select Content
                     </li>
                     <li className="active active-main">
                       <a href="">Create Your Email</a>
                     </li>
-                    <li className="">
+                    {/* <li className="">
                       <a href="">
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
                           : "Select HCPs"}
                       </a>
-                    </li>
+                    </li> */}
+                     {!irtRoleObj?.IRTFlag && (
+                        <li className="">
+                          <a href="">
+                            {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}
+                          </a>
+                        </li>
+                      )}
                     <li className="">
                       <a href="">Verify your list</a>
                     </li>
@@ -2266,14 +2292,14 @@ const CreateEmail = (props) => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <button
-                      className="btn btn-primary btn-bordered move-draft"
+                      className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
                       onClick={saveAsDraft}
                     >
                       Save As Draft
                     </button>
 
                     <button
-                      className="btn btn-primary btn-filled next"
+                      className="btn btn-primary btn-filled next"  state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
                       onClick={nextClicked}
                       disabled={
                         typeof emailSubject == "undefined" ||

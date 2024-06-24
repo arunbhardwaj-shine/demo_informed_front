@@ -281,13 +281,20 @@ const EmailArticleSelect = (props) => {
                     <li className="">
                       <a href="">Create Your Email</a>
                     </li>
-                    <li className="">
+                    {/* <li className="">
                       <a href="">
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
                           : "Select HCPs"}
                       </a>
-                    </li>
+                    </li> */}
+                    {!irtRoleObj?.IRTFlag && (
+                        <li className="">
+                          <a href="">
+                            {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}
+                          </a>
+                        </li>
+                      )}
                     <li className="">
                       <a href="">Verify your list</a>
                     </li>

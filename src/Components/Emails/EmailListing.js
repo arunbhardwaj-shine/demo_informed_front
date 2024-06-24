@@ -393,7 +393,10 @@ const EmailList = (props) => {
       });
 
     //console.log(props);
-    navigate("/" + route);
+    // navigate("/" + route);
+    navigate("/" + route, {
+      state: {IrtObj:irtRoleObj},
+    });
     //  }
   };
 
