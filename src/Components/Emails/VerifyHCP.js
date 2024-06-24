@@ -18,6 +18,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
+import { postData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 var old_object = {};
 var selected_Data = [];
@@ -166,6 +168,9 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
+    console.log("props-->",props)
+    console.log("state-->",state)
+   
     if (
       typeof props !== "undefined" &&
       props !== null &&
@@ -202,6 +207,9 @@ const VerifyHCP = (props) => {
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
+      if(state?.NextFlag==1){
+        getUserList()
+      }
     }
 
     const getalCountry = async () => {
@@ -259,6 +267,25 @@ const VerifyHCP = (props) => {
     };
     getalCountry();
   }, []);
+
+  const getUserList=async ()=>{
+    try{
+      loader("show")
+      let body={
+        pdf_id:irtRoleObj?.pdfId      
+      }
+      console.log("body-->",irtRoleObj)
+      const response=await postData(ENDPOINT.MANDATORY_READERS,body)
+      console.log("response-->",response);
+      let searchedUserList=response?.data?.data?response?.data?.data:[]
+      setSearchedUsers(searchedUserList)
+      loader("hide")
+    }catch(err){
+      console.log("--err",err)
+      loader("hide")
+    }
+   
+  }
 
   const nextClicked = () => {
     props.getSelected(selectedHcp);
@@ -322,8 +349,8 @@ const VerifyHCP = (props) => {
   const selectHcp = (index) => {
     let arr = [];
     arr = searchedUsers;
-    let added_user_id = arr[index].profile_user_id;
-    let prev_obj = selectedHcp.find((x) => x.profile_user_id === added_user_id);
+    let added_user_id = arr[index]?.profile_user_id;
+    let prev_obj = selectedHcp?.find((x) => x?.profile_user_id === added_user_id);
     if (typeof prev_obj == "undefined") {
       const removedArray = arr.splice(index, 1);
       setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);

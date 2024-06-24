@@ -969,7 +969,7 @@ const CreateEmail = (props) => {
         const mergedObject = { ...existingObj, ...irtRoleObj };
         props.getEmailData(mergedObject);
         navigate("/VerifyHCP", {
-          state: {IrtObj:irtRoleObj},
+          state: {IrtObj:irtRoleObj,NextFlag:1},
         });
       }else{
         props.getEmailData({
