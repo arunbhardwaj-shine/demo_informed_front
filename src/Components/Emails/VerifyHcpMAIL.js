@@ -35,9 +35,18 @@ const VerifyHcpMAIL = (props) => {
   var var_template_source_code = template_source_code.replaceAll("800", "450");
   var_template_source_code = var_template_source_code.replaceAll("600", "450");
 
-  const selectedHcp = location.state
-    ? location.state.selectedHcp
+  const selectedHcp = (location?.state?.selectedHcp&&location?.state?.selectedHcp!="undefined")
+    ? location?.state?.selectedHcp
     : props.getDraftData.campaign_data.selectedHcp;
+
+    console.log("location--->",location.state?.selectedHcp)
+    console.log("getDraftData--->",props.getDraftData.campaign_data.selectedHcp)
+
+    const searchedUsers = location.state
+    ? location.state?.searchedUsers
+    : props.getDraftData?.campaign_data?.searchedUsers
+    ?props.getDraftData?.campaign_data?.searchedUsers
+    :[];
 
   const PdfSelected = location.state
     ? location.state.PdfSelected
@@ -56,6 +65,9 @@ const VerifyHcpMAIL = (props) => {
       : props.getDraftData?.status && props.getDraftData.status != ""
       ? props.getDraftData.status
       : 0
+  );
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof location?.state?.IrtObj !== "undefined" ? location?.state?.IrtObj : {}
   );
 
   useEffect(() => {
@@ -185,9 +197,12 @@ const VerifyHcpMAIL = (props) => {
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
         selectedHcp: selectedHcp,
+        searchedUsers:irtRoleObj?.IRTFlag?searchedUsers:[],
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
-          : props.getDraftData.campaign_data.list_selection,
+          : props.getDraftData?.campaign_data?.list_selection
+          ?props.getDraftData?.campaign_data?.list_selection
+          :[],
         removedHcp: getRemovedHcp,
       },
       campaign_id: campaign_id_st,
@@ -204,12 +219,23 @@ const VerifyHcpMAIL = (props) => {
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/EmailList",
-          });
+          if(irtRoleObj?.IRTFlag){
+            // setSearchedUsers(searchedUsers)
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/IRTRole",
+            });
+          }else{
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+          }
+         
         } else {
           toast.warning(res.data.message);
         }
@@ -369,7 +395,13 @@ const VerifyHcpMAIL = (props) => {
     // ) {
     //   navigate("/SelectSmartListUsers");
     // } else {
-    navigate("/VerifyHCP");
+    console.log("IrtObj-->",irtRoleObj)
+    if(irtRoleObj?.IRTFlag){
+      navigate("/VerifyHCP",{state: {IrtObj:irtRoleObj}})
+    }else{
+
+      navigate("/VerifyHCP");
+    }
     // }
   };
 
@@ -445,6 +477,7 @@ const VerifyHcpMAIL = (props) => {
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
         selectedHcp: selectedHcp,
+        searchedUsers:irtRoleObj?.IRTFlag?searchedUsers:[],
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
           : props.getDraftData.campaign_data.list_selection,
@@ -485,6 +518,25 @@ const VerifyHcpMAIL = (props) => {
     newWindow.data = data;
   };
 
+  const handleSelectUsers = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+ 
+  const handleCreateMail = () => {
+    navigate("/CreateEmail", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+
+  const handleVerifyHCPClicked = () => {
+    navigate("/VerifyHCP", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+  
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -504,11 +556,13 @@ const VerifyHcpMAIL = (props) => {
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                    <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                  <li className="active" onClick={handleSelectUsers}>
+                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                      Select Content
                     </li>
-                    <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                    <li className="active" onClick={handleCreateMail}>
+                      {/* <Link to="/CreateEmail">Create Your Email</Link> */}
+                      Create Your Email
                     </li>
                     {/*
                 <li className="active">
@@ -531,8 +585,8 @@ const VerifyHcpMAIL = (props) => {
                    </li>
                      :
                           */}
-                    <li className="active">
-                      <Link to="/VerifyHCP">Select Verify Your HCPs</Link>
+                    <li className="active" onClick={handleVerifyHCPClicked}>
+                      Select Verify Your HCPs
                     </li>
 
                     <li className="active active-main">
@@ -813,7 +867,7 @@ const VerifyHcpMAIL = (props) => {
 
                         <div className="col-12 col-md-12 mail-recipt-left">
                           <h6>
-                            The recipients <span>| {selectedHcp.length}</span>
+                            The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 

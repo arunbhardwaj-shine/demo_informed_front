@@ -209,9 +209,7 @@ const VerifyHCP = (props) => {
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
-      console.log("irtRoleObj-->",irtRoleObj)
      if(state?.NextFlag==1){
-
        getRDMandatoryReaders()
      }
      
@@ -299,15 +297,27 @@ const VerifyHCP = (props) => {
   }
 
   const nextClicked = () => {
-    props.getSelected(selectedHcp);  
-    props.getSearched(searchedUsers);
-    navigate("/VerifyHcpMAIL", {
-      state: {
-        selectedHcp: selectedHcp,
-        removedHcp: "",
-        searchedUsers:searchedUsers
-      },
-    });
+   
+    if(irtRoleObj?.IRTFlag){
+      props.getSearched(searchedUsers);
+      props.getSelected(selectedHcp);
+      navigate("/VerifyHcpMAIL", {
+        state: {
+          selectedHcp: selectedHcp,
+          removedHcp: "",
+          IrtObj:irtRoleObj,
+          searchedUsers:searchedUsers
+        },
+      });
+    }else{
+      props.getSelected(selectedHcp);  
+      navigate("/VerifyHcpMAIL", {
+        state: {
+          selectedHcp: selectedHcp,
+          removedHcp: "",
+        },
+      });
+    }
   };
 
   const closeModal = () => {
@@ -924,7 +934,12 @@ const VerifyHCP = (props) => {
   };
 
   const backClicked = () => {
-    navigate("/SelectHCP");
+    if(irtRoleObj?.IRTFlag){
+      navigate("/CreateEmail",{state: {IrtObj:irtRoleObj}})
+    }else{
+
+      navigate("/SelectHCP");
+    }
   };
 
   const searchHcp = async (e) => {
@@ -1088,9 +1103,12 @@ const VerifyHCP = (props) => {
           ? old_object.templateId
           : props.getDraftData.campaign_data.template_id,
         selectedHcp: selectedHcp,
+        searchedUsers:irtRoleObj?.IRTFlag?searchedUsers:[],
         list_selection: old_object?.selected
           ? old_object.selected
-          : props.getDraftData.campaign_data.list_selection,
+          : props.getDraftData?.campaign_data?.list_selection
+          ?props.getDraftData?.campaign_data?.list_selection
+          :"",
       },
 
       campaign_id: campaign_id_st,
@@ -1108,12 +1126,22 @@ const VerifyHCP = (props) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
           setSelectedHcp(selectedHcp);
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/EmailList",
-          });
+          if(irtRoleObj?.IRTFlag){
+            setSearchedUsers(searchedUsers)
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/IRTRole",
+            });
+          }else{
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+          }
         } else {
           toast.warning(res.data.message);
         }
@@ -1122,6 +1150,18 @@ const VerifyHCP = (props) => {
       .catch((err) => {
         toast.error("Something went wrong");
       });
+  };
+
+  const handleSelectUsers = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+ 
+  const handleCreateMail = () => {
+    navigate("/CreateEmail", {
+      state: {IrtObj:irtRoleObj},
+    });
   };
 
   return (
@@ -1143,11 +1183,13 @@ const VerifyHCP = (props) => {
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                    <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                  <li className="active" onClick={handleSelectUsers}>
+                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                      Select Content
                     </li>
-                    <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                    <li className="active" onClick={handleCreateMail}>
+                      {/* <Link to="/CreateEmail">Create Your Email</Link> */}
+                      Create Your Email
                     </li>
                     {/*
                   <li className="active">
@@ -1803,7 +1845,7 @@ const VerifyHCP = (props) => {
                           return (
                             <>
                               <tr>
-                                <td>{users?.name}</td>
+                                <td>{users?.name?users?.name:users?.first_name}</td>
                                 <td>{users?.email ? users?.email : "N/A"}</td>
                                 <td>{users?.bounce ? users?.bounce : "N/A"}</td>
                                 <td>
