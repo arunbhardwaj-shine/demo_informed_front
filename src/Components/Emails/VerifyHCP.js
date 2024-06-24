@@ -7,6 +7,7 @@ import {
   getCampaignId,
   getSelected,
   getSelectedSmartListData,
+  getSearched
 } from "../../actions";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -23,6 +24,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 
 var old_object = {};
 var selected_Data = [];
+var searched_Data=[]
 const VerifyHCP = (props) => {
   const [totalData, setTotalData] = useState({});
   const { state } = useLocation();
@@ -62,7 +64,7 @@ const VerifyHCP = (props) => {
   const [sorting, setSorting] = useState(0);
   const [editable, setEditable] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
-  const [searchedUsers, setSearchedUsers] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState(searched_Data?searched_Data:[]);
   const [editableData, setEditableData] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
@@ -207,9 +209,12 @@ const VerifyHCP = (props) => {
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
-      if(state?.NextFlag==1){
-        getUserList()
-      }
+      console.log("irtRoleObj-->",irtRoleObj)
+     if(state?.NextFlag==1){
+
+       getRDMandatoryReaders()
+     }
+     
     }
 
     const getalCountry = async () => {
@@ -268,31 +273,39 @@ const VerifyHCP = (props) => {
     getalCountry();
   }, []);
 
-  const getUserList=async ()=>{
-    try{
+  const getRDMandatoryReaders=async ()=>{
+   
       loader("show")
       let body={
+        user_id:userId,
         pdf_id:irtRoleObj?.pdfId      
       }
       console.log("body-->",irtRoleObj)
-      const response=await postData(ENDPOINT.MANDATORY_READERS,body)
-      console.log("response-->",response);
-      let searchedUserList=response?.data?.data?response?.data?.data:[]
-      setSearchedUsers(searchedUserList)
-      loader("hide")
-    }catch(err){
-      console.log("--err",err)
-      loader("hide")
-    }
-   
+      // const response=await postData(ENDPOINT.GET_RD_MANDATORY_READERS,body)
+
+      await axios
+      .post(`distributes/get_rd_mandatory_readers`,body)
+      .then((res)=>{
+        console.log("res-->",res)
+        if(res?.data?.status_code==200){
+          let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]  
+          setSearchedUsers(searchedUserList)
+          loader("hide")
+        }
+      }).catch((err)=> {
+        console.log(err);
+        loader("hide")
+      }) 
   }
 
   const nextClicked = () => {
-    props.getSelected(selectedHcp);
+    props.getSelected(selectedHcp);  
+    props.getSearched(searchedUsers);
     navigate("/VerifyHcpMAIL", {
       state: {
         selectedHcp: selectedHcp,
         removedHcp: "",
+        searchedUsers:searchedUsers
       },
     });
   };
@@ -3402,10 +3415,12 @@ const VerifyHCP = (props) => {
 const mapStateToProps = (state) => {
   old_object = state.getEmailData;
   selected_Data = state.getSelected;
+  searched_Data=state.getSearched;
   return state;
 };
 
 export default connect(mapStateToProps, {
   getEmailData,
   getSelected,
+  getSearched,
 })(VerifyHCP);

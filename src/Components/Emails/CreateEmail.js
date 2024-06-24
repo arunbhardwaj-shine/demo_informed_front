@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
-import { getCampaignId, getEmailData } from "../../actions";
+import { getCampaignId, getEmailData, getSearched,getSelected } from "../../actions";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -975,6 +975,8 @@ const CreateEmail = (props) => {
 
         const mergedObject = { ...existingObj, ...irtRoleObj };
         props.getEmailData(mergedObject);
+        props.getSelected(null)
+        props.getSearched(null)
         navigate("/VerifyHCP", {
           state: {IrtObj:irtRoleObj,NextFlag:1},
         });
@@ -4377,4 +4379,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getCampaignId: getCampaignId,
+  getSelected,
+  getSearched
 })(CreateEmail);
