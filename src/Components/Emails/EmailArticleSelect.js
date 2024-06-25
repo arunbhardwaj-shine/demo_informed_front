@@ -33,7 +33,7 @@ const EmailArticleSelect = (props) => {
   const [filterdate, setFilterDate] = useState([]);
   const [filterlng, setFilterlng] = useState([]);
   const [filterMandatory, setFilterMandatory] = useState("Yes");
-  const [updateflag, setUpdateFlag] = useState(1);
+  const [updateflag, setUpdateFlag] = useState(0);
   const [getloadmore, setloadmore] = useState(0);
   const [filterapplied, setFilterApply] = useState(false);
   const inputElement = useRef();
@@ -45,6 +45,13 @@ const EmailArticleSelect = (props) => {
   useEffect(() => {
     getContentData(0, 1);
   }, [props]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("user_id");
+    if (userId === "56Ek4feL/1A8mZgIKQWEqg==") {
+      setUpdateFlag(1);
+    }
+  }, []); 
 
   const getContentData = (flag, page,value = "") => {
     let filterData = { ...filter };

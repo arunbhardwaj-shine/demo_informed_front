@@ -1469,18 +1469,34 @@ const EmailList = (props) => {
                                         <th>List</th>
                                         <td>{data.smart_list_name}</td>
                                       </tr>
+                                      {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
                                       <tr>
-                                        <th>Site No.</th>
-                                        {/* <td>{filter?.role}</td> */}
+                                        <th>Site</th>
+                                      <td>
+                                        {data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length > 0 && data?.unique_site_numbers.filter(item => item).length <= 10 
+                                          ? data?.unique_site_numbers.filter(item => item).join(', ') 
+                                          : 'N/A'}
+                                      </td>
+
                                       </tr>
                                       <tr>
-                                        <th>Site Name</th>
-                                        {/* <td>{filter?.role}</td> */}
+                                        <th>IRTs</th>
+                                        <td>
+                                        {data?.unique_site_names && data?.unique_site_names.filter(item => item).length > 0 && data?.unique_site_names.filter(item => item).length <= 10 
+                                          ? data?.unique_site_names.filter(item => item).join(', ') 
+                                          : 'N/A'}
+                                        </td>
                                       </tr>
                                       <tr>
                                         <th>Role</th>
-                                        <td>{filter?.role}</td>
+                                        <td>
+                                        {data?.unique_user_types && data?.unique_user_types.filter(item => item).length > 0 
+                                          ? data?.unique_user_types.filter(item => item)
+                                          : 'N/A'}
+                                      </td>
                                       </tr>
+                                      </>):''}
                                     </tbody>
                                   </table>
                                 </div>
