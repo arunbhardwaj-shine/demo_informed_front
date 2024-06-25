@@ -1489,10 +1489,10 @@ const EmailList = (props) => {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <th>Role</th>
-                                        <td>
-                                        {data?.unique_user_types && data?.unique_user_types.filter(item => item).length > 0 
-                                          ? data?.unique_user_types.filter(item => item)
+                                        <th>Users Name</th>
+                                      <td>
+                                        {data?.unique_user_types && data?.unique_user_types.filter(item => item).length > 0 && data?.unique_user_types.filter(item => item).length <= 10 
+                                          ? data?.unique_user_types.filter(item => item).join(', ') 
                                           : 'N/A'}
                                       </td>
                                       </tr>
