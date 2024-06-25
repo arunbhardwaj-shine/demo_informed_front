@@ -209,8 +209,12 @@ const VerifyHCP = (props) => {
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
-     if(state?.NextFlag==1){
-       getRDMandatoryReaders()
+    //  if(state?.NextFlag==1){
+    //    getRDMandatoryReaders()
+    //  }
+
+     if(irtRoleObj?.IRTFlag){
+      getRDMandatoryReaders()
      }
      
     }
@@ -278,13 +282,13 @@ const VerifyHCP = (props) => {
         user_id:userId,
         pdf_id:irtRoleObj?.pdfId      
       }
-      console.log("body-->",irtRoleObj)
+      // console.log("body-->",irtRoleObj)
       // const response=await postData(ENDPOINT.GET_RD_MANDATORY_READERS,body)
 
       await axios
       .post(`distributes/get_rd_mandatory_readers`,body)
       .then((res)=>{
-        console.log("res-->",res)
+        // console.log("res-->",res)
         if(res?.data?.status_code==200){
           let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]  
           setSearchedUsers(searchedUserList)

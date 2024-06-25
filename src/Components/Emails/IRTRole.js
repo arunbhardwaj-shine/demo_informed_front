@@ -68,7 +68,7 @@ const IRTRole = () => {
                           <img src={path_image + "IRT-doctor.svg"} alt=""/>
                         
                         </div>
-                      <div className=""><h3>Site User-Blinded</h3></div>
+                      <div className="" onClick={() => navigateEmail(3968,'Site User-Blinded')}><h3>Site User-Blinded</h3></div>
                     </div>
                     <div className="irt-status">
                       <div className="started"> 
@@ -108,7 +108,7 @@ const IRTRole = () => {
                           <img src={path_image + "IRT-doctor.svg"} alt=""/>
                         
                         </div>
-                      <div className=""><h3>Investigatoar-Blinded</h3></div>
+                      <div className="" onClick={() => navigateEmail(4521,'Investigator-Blinded')}><h3>Investigator-Blinded</h3></div>
                     </div>
                     <div className="irt-status">
                       <div className="started"> 
@@ -148,7 +148,7 @@ const IRTRole = () => {
                           <img src={path_image + "IRT-doctor.svg"} alt=""/>
                         
                         </div>
-                      <div className=""><h3>Site Unblinded Pharmacist</h3></div>
+                      <div className="" onClick={() => navigateEmail(3970,'Site unblinded pharmacist')}><h3>Site Unblinded Pharmacist</h3></div>
                     </div>
                     <div className="irt-status">
                       <div className="started"> 

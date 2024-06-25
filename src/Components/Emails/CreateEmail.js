@@ -112,6 +112,9 @@ const CreateEmail = (props) => {
         ? props.getDraftData.creator
         : ""
   );
+  const [manualEmailCreator, setManualEmailCreator] = useState(
+    state_object?.emailCreator ?? props.getDraftData?.creator ?? ""
+  );
   const [counter, setCounter] = useState(0);
   const [modalCounter, setModalCounter] = useState(0);
   const [emailCampaign, setemailCampaign] = useState(
@@ -466,6 +469,7 @@ const CreateEmail = (props) => {
         setEmailDescription(props.getDraftData.description);
         setManualEmailDescription(props.getDraftData.description);
         setEmailCreator(props.getDraftData.creator);
+        setManualEmailCreator(props.getDraftData.creator);
         setemailCampaign(props.getDraftData.campaign);
         setManualEmailCampaign(props.getDraftData.campaign);
         setEmailSubject(props.getDraftData.subject);
@@ -934,7 +938,7 @@ const CreateEmail = (props) => {
       "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
     };
     setemailCampaign(manualEmailCampaign ? manualEmailCampaign : templateCampaign[template?.name])
-
+    setEmailCreator(manualEmailCreator ? manualEmailCreator : 'R&D')
     setTemplateId(template.id);
     templateIdRef.current = template?.id;
 
@@ -2439,7 +2443,11 @@ const CreateEmail = (props) => {
                             </label>
 
                             <input
-                              onChange={(e) => emailCreatorChange(e)}
+                              // onChange={(e) => emailCreatorChange(e)}
+                              onChange={(e) => {
+                                setEmailCreator(e?.target?.value);
+                                setManualEmailCreator(e?.target?.value)
+                            }}
                               type="text"
                               className={
                                 validator.message(

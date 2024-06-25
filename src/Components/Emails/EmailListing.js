@@ -847,7 +847,7 @@ const EmailList = (props) => {
         <div className="custom-container">
           <Row>
             <div className="top-header sticky">
-              <div className="page-title">{/* <h2>Email</h2> */}</div>
+              <div className="page-title"> {irtRoleObj?.IRTFlag ?<h2>{irtRoleObj?.siteRole}</h2>:<h2>Emails</h2>}</div>
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1418,7 +1418,6 @@ const EmailList = (props) => {
                   SendListData.map((data) => {
                     return (
                       <>
-                     {console.log(data,'data')}
                       <div className="email_box_block">
                         <div
                           className={
