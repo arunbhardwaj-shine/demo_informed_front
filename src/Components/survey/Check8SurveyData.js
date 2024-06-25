@@ -262,7 +262,7 @@ const Check8SurveyData = () => {
 
 
   return (<>
-    {/* <ToastContainer
+    <ToastContainer
       position="top-right"
       autoClose={5000}
       hideProgressBar={false}
@@ -272,7 +272,7 @@ const Check8SurveyData = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-    /> */}
+    />
     <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div>
     {/* <Col className="right-sidebar custom-change "> */}
       <meta
