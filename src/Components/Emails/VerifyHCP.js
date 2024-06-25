@@ -1299,6 +1299,12 @@ const VerifyHCP = (props) => {
                   </div>
                   : 
                   <div className="form-inline">
+                     {localStorage.getItem("user_id") == userId
+                          ? <div className="">
+                          <h4>Select IRTs :</h4>
+                          <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
+                          </div>
+                          : ""}
                     <div className="form-button d-flex justify-content-end align-items-center">
                       <button
                         className="btn btn-primary btn-bordered"
@@ -1948,9 +1954,9 @@ const VerifyHCP = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    {localStorage.getItem("user_id") == userId
+                    {/* {localStorage.getItem("user_id") == userId
                       ? "Selected Users"
-                      : "Selected HCPs"}
+                      : "Selected HCPs"} */}Selected HCPs
                     <span>| {selectedHcp?.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
