@@ -19882,6 +19882,597 @@ table {
           input.form-control {
             border-radius: 30px;
             border: 0;
+            padding: 6px;
+            width: 40px;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0px;
+            background: $white;
+
+            &:hover {
+              background: $primary-color;
+
+              svg {
+                path {
+                  fill: $white
+                }
+              }
+            }
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+
+    .consent-form .split-button-dropup>div:nth-child(3) {
+      max-width: 100%;
+      border-radius: 20px;
+      padding: 15px 18px;
+      background-position: 95% center;
+    }
+
+    .vwd .consent-form .split-button-dropup>div:nth-child(3) {
+      background-color: #00529f;
+    }
+
+    .webinarRegistrationBody button.btn-back {
+      margin: 0 0 0 20px;
+    }
+
+    .register-page-left {
+      .save.btn {
+        margin: 14px 10px 20px;
+        @include flex-middle;
+        min-width: 130px;
+      }
+    }
+
+    .registration-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px 0;
+      padding-top: 18px;
+      padding-bottom: 74px;
+
+      .header-section {
+        @include flex-middle;
+        padding: 10px 10px 50px;
+        position: relative;
+        min-height: 300px;
+
+        &.logo-section {
+          .logo-img {
+            max-width: 350px;
+            max-height: 160px;
+          }
+        }
+
+        img {
+          &.header-img {
+            max-height: 250px;
+            max-width: 100%;
+            min-height: 210px;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+
+        h4 {
+          color: $dark-blue;
+          padding-top: 30px;
+        }
+      }
+
+      .registration-preview {
+        width: 100%;
+        border: 1px solid $primary-color;
+        border-radius: 12px;
+        cursor: pointer;
+        overflow: hidden;
+        min-height: 350px;
+        padding: 10px;
+      }
+
+      .footer-section {
+        min-height: 304px;
+        @include flex-middle;
+        padding: 10px 10px 50px;
+        position: relative;
+
+        img {
+          &.footer-img {
+            max-height: 250px;
+            max-width: 100%;
+            min-height: 210px;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+
+        h4 {
+          color: $dark-blue;
+          padding-top: 30px;
+        }
+      }
+
+      .header-text,
+      .footer-text {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        gap: 0 15px;
+        // background: rgb(0 102 190 / 5%);
+        background: rgb(230 240 249);
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        justify-content: center;
+      }
+
+      .header-text,
+      .footer-text {
+        button {
+          width: 35px;
+          text-align: center;
+          background: $white;
+          border-radius: 30px;
+          box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+          border: 0;
+          padding: 6px;
+          height: 35px;
+          margin: 5px 0;
+          @include flex-middle;
+
+          img {
+            width: 18px;
+          }
+        }
+      }
+    }
+
+    .webinar-event {
+      margin-bottom: 25px;
+    }
+
+    .webinar-select {
+      margin-bottom: 25px;
+      margin-top: 12px
+    }
+
+    .register-feild-delete {
+      margin-left: 50px
+    }
+
+    /**MOdule End**/
+
+    /**Pharma page End**/
+
+    /* keyframe animation */
+
+    @keyframes Rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @-webkit-keyframes Rotate {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes Rotate-reverse {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    @-webkit-keyframes Rotate-reverse {
+      from {
+        -webkit-transform: rotate(360deg);
+      }
+
+      to {
+        -webkit-transform: rotate(0deg);
+      }
+    }
+
+    @keyframes circle-rotate {
+      from {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      to {
+        transform: translate(-50%, -50%) rotate(405deg);
+      }
+    }
+
+    @-webkit-keyframes circle-rotate {
+      from {
+        -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      to {
+        -webkit-transform: translate(-50%, -50%) rotate(405deg);
+      }
+    }
+
+    @keyframes circle-rotate-reverse {
+      from {
+        transform: translate(-50%, -50%) rotate(405deg);
+      }
+
+      to {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+
+    @-webkit-keyframes circle-rotate-reverse {
+      from {
+        -webkit-transform: translate(-50%, -50%) rotate(405deg);
+      }
+
+      to {
+        -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+
+    @keyframes img-rotate-reverse {
+      from {
+        transform: rotate(-405deg);
+      }
+
+      to {
+        transform: rotate(-45deg);
+      }
+    }
+
+    @-webkit-keyframes img-rotate-reverse {
+      from {
+        -webkit-transform: rotate(-405deg);
+      }
+
+      to {
+        -webkit-transform: rotate(-45deg);
+      }
+    }
+
+    @keyframes img-rotate {
+      from {
+        transform: rotate(-45deg);
+      }
+
+      to {
+        transform: rotate(-405deg);
+      }
+    }
+
+    @-webkit-keyframes img-rotate {
+      from {
+        -webkit-transform: rotate(-45deg);
+      }
+
+      to {
+        -webkit-transform: rotate(-405deg);
+      }
+    }
+
+    .mobile-content {
+      display: none;
+    }
+
+    .modules-diagram .split-button-dropup.show+span svg path {
+      fill: #0066b3;
+      fill-opacity: 1;
+    }
+
+    .contact-us .contact-inset .split-button-dropup.show+span svg path {
+      fill: $white;
+      fill-opacity: 1;
+    }
+
+    .event-endDate,
+    .event-endTime {
+      min-width: 120px;
+    }
+
+    /**New Landign Page End**/
+    /**8check survey**/
+    .check-survey {
+      .survey-block {
+        max-width: 890px;
+        margin: 0 auto;
+        border: 3px solid #00aeef;
+        box-shadow: 0px 0px 8px rgba(0, 20, 137, 0.15);
+        border-radius: 15px;
+        background: #ebf0f5;
+        padding: 0;
+        overflow: hidden;
+
+        .survey-header {
+          background: linear-gradient(to right, #24407d 0%, #009bcc 100%);
+          padding: 15px 30px;
+
+          img {
+            max-width: 180px;
+          }
+
+          h1 {
+            text-align: center;
+            color: $white;
+            font-weight: 700;
+          }
+        }
+
+        .survey-question {
+          padding: 40px;
+
+          .login-validation {
+            position: static;
+            width: 100%;
+          }
+
+
+          label {
+            &.form-label {
+              color: #24407d;
+              font-size: 17px;
+              margin: 0 0 7px;
+            }
+
+            &.label-main {
+              font-weight: 700;
+              font-size: 20px;
+              margin: 0 0 12px;
+
+              small {
+                font-size: 14px;
+                font-weight: 400;
+                padding: 0 0 0 24px;
+              }
+            }
+          }
+
+          input {
+
+            &.form-control {
+              border-radius: 0;
+              border: 1px solid #019acc;
+              box-shadow: none;
+            }
+          }
+
+          .form-check {
+            display: flex;
+            flex-direction: row-reverse;
+            padding: 0 40px 0 0;
+            gap: 13px;
+            align-items: center;
+
+            label {
+              font-size: 17px;
+              color: #24407d;
+            }
+
+            input {
+              &.form-check-input {
+                border-radius: 0;
+                width: 28px;
+                height: 28px;
+                border: 1px solid #019acc;
+                margin: 0;
+                position: relative;
+                cursor: pointer;
+
+                &:checked::after {
+                  background: #019acc;
+                  content: "";
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+
+              &:checked::before {
+                left: 9px;
+                top: 3px;
+                width: 9px;
+                height: 18px;
+                border: solid $white;
+                border-width: 0 3px 3px 0;
+                transform: rotate(45deg);
+                content: "";
+                position: absolute;
+                z-index: 1;
+              }
+            }
+          }
+
+
+          .rating-wrapper {
+            display: inline-flex;
+            flex-direction: row-reverse;
+            margin: 0 0;
+            width: initial;
+            padding-left: 0;
+
+            input {
+              display: none;
+              height: 100%;
+              width: 100%;
+            }
+
+            label {
+              color: #E1E6F6;
+              cursor: pointer;
+              display: inline-flex;
+              font-size: 23px;
+              padding: 0rem;
+              transition: color 0.5s;
+
+              svg {
+                width: 36px;
+                height: 36px;
+              }
+            }
+          }
+
+          fieldset {
+            width: 100%;
+
+            .star-rating {
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              label {
+                font-size: 17px;
+                color: #24407d;
+                padding-left: 24px;
+
+                &.star-rating {
+                  padding-left: 0;
+                }
+              }
+            }
+          }
+
+          .flex-wrap {
+            padding-left: 24px;
+
+            &>label {
+              font-size: 17px;
+              color: #24407d;
+              flex: 0 0 100%;
+              margin: 2px 0 10px;
+            }
+
+            fieldset {
+              margin: -15px 0 10px;
+            }
+
+            &.activity {
+              flex-direction: column;
+              align-items: flex-start;
+
+              .form-check {
+                padding: 0;
+                margin: 0 0 10px;
+              }
+
+              .form-check-label {
+                min-width: 280px;
+              }
+            }
+          }
+
+          textarea {
+            border-radius: 0;
+            box-shadow: none;
+            resize: none;
+            border: 1px solid #019acc;
+            min-height: 100px;
+          }
+
+          .other-option {
+            margin: 10px 0 0;
+
+            label {
+              font-size: 17px;
+              color: #24407d;
+            }
+          }
+
+          button {
+            min-width: 140px;
+            margin: 15px 0 0 auto;
+            display: block;
+          }
+        }
+      }
+
+      .rating-wrapper label:hover svg path,
+      .rating-wrapper label:hover~label svg path,
+      .rating-wrapper input:checked~label svg path {
+        fill: #019acc;
+      }
+    }
+
+    /**8check survey end**/
+
+    /**survey data**/
+    .survey_result{background: $white;min-height: 100vh;}
+    .survey_data {
+      background: rgba(0, 102, 190, 0.03);
+      border-radius: 20px;
+      padding: 20px 16px 25px;
+      margin: 20px 0;
+      min-height: 86vh;
+      max-height: 86vh;
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+
+      .survey_data_heading {
+        margin: 0 0 22px;
+
+        h4 {
+          font-weight: 500;
+          text-transform: capitalize;
+          color: $dark-blue;
+          padding: 0 0 0 4px;
+        }
+
+        .clear-search {
+          gap: 12px;
+
+          a {
+            &.btn-voilet {
+              border-radius: 30px;
+              border: 1px solid $voilet;
+              color: $voilet;
+              font-weight: 500;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 7px 16px;
+
+              &:hover {
+                color: $white;
+                background: $voilet;
+              }
+            }
+          }
+        }
+      }
+
+      .survey_data_accordion_heading {
+        padding: 0px 4px 0 0;
+
+        ul {
+          li {
+            font-weight: 500;
+            line-height: 18px;
             color: $dark-blue;
             font-size: 14px;
             font-weight: 400;

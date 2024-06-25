@@ -221,6 +221,7 @@ import AnalyticsEmailView from "./Components/NewWebinar/WebinarFiles/WebinarDash
 import AnalyticsEvent from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsEvent";
 import InformedSurveyData from "./Components/survey/InformedSurveyData";
 import IRTRole from "./Components/Emails/IRTRole";
+import Check8SurveyData from "./Components/survey/Check8SurveyData";
 
 let platform = 0;
 let show = 0;
@@ -889,10 +890,10 @@ const Routing = () => {
           path="/survey/8check"
           element={<Check8 />}
         />
-        {/* <Route
-          path="/survey/survey-data"
-          element={<SurveyData/>}
-        /> */}
+        <Route
+          path="/survey/8check-data"
+          element={<Check8SurveyData/>}
+        />
 
         <Route
           path="/survey/survey-data"
