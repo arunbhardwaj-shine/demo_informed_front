@@ -21676,6 +21676,7 @@ img.change-password-image {
     /**8check survey end**/
 
     /**survey data**/
+    .survey_result{background: $white;min-height: 100vh;}
     .survey_data {
       background: rgba(0, 102, 190, 0.03);
       border-radius: 20px;
