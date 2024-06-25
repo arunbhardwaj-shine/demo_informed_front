@@ -840,7 +840,7 @@ const CreateEmail = (props) => {
       : props.getDraftData.campaign;
 
     if (typeof campaign !== "undefined" && campaign !== "") {
-      console.log(props.getDraftData);
+      // console.log(props.getDraftData);
 
       let up_temp = template;
       if (editorRef.current) {
@@ -1019,7 +1019,7 @@ const CreateEmail = (props) => {
 
   const approvedClicked = async (e) => {
     let ab = getIsApprovedStatus;
-    console.log(ab);
+    // console.log(ab);
     if (getIsApprovedStatus === 3) {
       await setIsApprovedStatus(2);
       ab = 2;
@@ -1427,7 +1427,7 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -1599,7 +1599,7 @@ const CreateEmail = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        console.log(data);
+        // console.log(data);
         if (
           data.email == "" ||
           data?.institution_type == "" ||
@@ -1737,7 +1737,7 @@ const CreateEmail = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
+      // console.log(formData);
 
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

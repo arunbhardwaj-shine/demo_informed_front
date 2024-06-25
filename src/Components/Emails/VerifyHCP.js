@@ -170,8 +170,8 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
-    console.log("props-->",props)
-    console.log("state-->",state)
+    // console.log("props-->",props)
+    // console.log("state-->",state)
    
     if (
       typeof props !== "undefined" &&

@@ -1417,6 +1417,8 @@ const EmailList = (props) => {
                 {SendListData.length > 0 ? (
                   SendListData.map((data) => {
                     return (
+                      <>
+                     {console.log(data,'data')}
                       <div className="email_box_block">
                         <div
                           className={
@@ -1466,6 +1468,18 @@ const EmailList = (props) => {
                                       <tr>
                                         <th>List</th>
                                         <td>{data.smart_list_name}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Site No.</th>
+                                        {/* <td>{filter?.role}</td> */}
+                                      </tr>
+                                      <tr>
+                                        <th>Site Name</th>
+                                        {/* <td>{filter?.role}</td> */}
+                                      </tr>
+                                      <tr>
+                                        <th>Role</th>
+                                        <td>{filter?.role}</td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -1714,6 +1728,7 @@ const EmailList = (props) => {
                           </div>
                         </div>
                       </div>
+                      </>
                     );
                   })
                 ) : (

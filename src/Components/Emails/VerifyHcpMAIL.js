@@ -39,8 +39,8 @@ const VerifyHcpMAIL = (props) => {
     ? location?.state?.selectedHcp
     : props.getDraftData.campaign_data.selectedHcp;
 
-    console.log("location--->",location.state?.selectedHcp)
-    console.log("getDraftData--->",props.getDraftData.campaign_data.selectedHcp)
+    // console.log("location--->",location.state?.selectedHcp)
+    // console.log("getDraftData--->",props.getDraftData.campaign_data.selectedHcp)
 
     const searchedUsers = location.state
     ? location.state?.searchedUsers
@@ -163,7 +163,7 @@ const VerifyHcpMAIL = (props) => {
   };
 
   const nextClicked = () => {
-    console.log("next clicked");
+    // console.log("next clicked");
   };
 
   const saveAsDraft = async () => {
@@ -369,11 +369,11 @@ const VerifyHcpMAIL = (props) => {
     const allTags = props.getEmailData?.tags
       ? props.getEmailData.tags
       : props.getDraftData.tags;
-    console.log(allTags);
+    // console.log(allTags);
     allTags.splice(i, 1);
-    console.log(allTags);
+    // console.log(allTags);
     setReRender(reRender + 1);
-    console.log("props.tags");
+    // console.log("props.tags");
     //  console.log(props.getEmailData.tags);
 
     //  props.getEmailData();
@@ -395,7 +395,7 @@ const VerifyHcpMAIL = (props) => {
     // ) {
     //   navigate("/SelectSmartListUsers");
     // } else {
-    console.log("IrtObj-->",irtRoleObj)
+    // console.log("IrtObj-->",irtRoleObj)
     if(irtRoleObj?.IRTFlag){
       navigate("/VerifyHCP",{state: {IrtObj:irtRoleObj}})
     }else{
