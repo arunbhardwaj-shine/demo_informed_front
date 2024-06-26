@@ -41,8 +41,9 @@ const template = {
   5:['header'],
   6:['logo','templateOne','templateTwo'],
   7:['header'],
-  8:['logo','header','footer'],
-  9:['logo','header','footer'],
+  8:[],
+  10:['logo','header','footer'],
+  11:['logo','header','footer'],
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -54,11 +55,11 @@ const WebinarRegistration = () => {
 
 
 const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,7],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,7], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,7],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,7],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,7],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,7],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,7,8],
+"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,7],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,7,8],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,7],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,7,10],
 "MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,7],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,7],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,7],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,7]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,7],"56Ek4feL/1A8mZgIKQWEqg==":[9]}
+,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,7],"56Ek4feL/1A8mZgIKQWEqg==":[11]}
 const userId = localStorage.getItem("user_id");
-const defaultTemplateIds = [8]; 
+const defaultTemplateIds = [10]; 
  
 const [templateList, setTemplateList] = useState(() => {
 
