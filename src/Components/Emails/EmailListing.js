@@ -900,7 +900,7 @@ const EmailList = (props) => {
                     <input
                       className="form-control me-2"
                       type="search"
-                      placeholder="Search"
+                      placeholder="Search by campaign or creator"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}
