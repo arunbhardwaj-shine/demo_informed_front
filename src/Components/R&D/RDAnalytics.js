@@ -58,7 +58,7 @@ const RDAnalytics = () => {
   const [isContentPageAccordionOpen, setIsContentPageAccordionOpen] = useState(
     []
   );
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('site_number'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('desc');
 
@@ -911,7 +911,7 @@ const RDAnalytics = () => {
     
   };
 
-  const applyFilter = () => {
+  const applyFilter = (flag=0) => {
     setFilterApplyflag(1);
     setIndividualCompletionTableData([]);
     setFilterObject(appliedFilter);
@@ -922,9 +922,10 @@ const RDAnalytics = () => {
       }
       return value !== null && value !== undefined && value !== '';
     });
-    if (!hasAllNonEmptyValues) {
+    
+    if (!hasAllNonEmptyValues || searchTerm.length != 0) {
       const data = indidualCompletionTableDataBackup.filter(item => {
-        return Object.keys(otherFilter).every(key => {
+        const matchesFilters = Object.keys(otherFilter).every(key => {
           if (Array.isArray(otherFilter[key])) {
             return otherFilter[key].some(value => {
               if (typeof value === 'string') {
@@ -937,6 +938,18 @@ const RDAnalytics = () => {
           }
           return true;
         });
+        
+         // Check if the item matches the search term (name or email)
+         if(flag == 1){
+           return matchesFilters;
+         }else{
+            const matchesSearch = (
+              item.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              item.email.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            return matchesFilters && matchesSearch;
+         }
+
       });
       setIndividualCompletionTableData(data);
     } else {
@@ -958,8 +971,8 @@ const RDAnalytics = () => {
     if (Object.keys(filterObject)?.length) {
       setFilterObject({});
       setIndividualCompletionTableData(indidualCompletionTableDataBackup);
-  
-    }  
+      setSearchTerm(''); 
+    } 
     setShowFilter(false);
     setForceRender(!forceRender);
   };
@@ -1052,6 +1065,19 @@ const RDAnalytics = () => {
     }
   }
 
+  const submitHandler = (event) => {
+    applyFilter();
+    event.preventDefault();
+    return false;
+  };
+
+  const searchChange = (e) => {
+    setSearchTerm(e.target.value);
+    if (e.target.value === "") {
+      applyFilter(1);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -1131,6 +1157,33 @@ const RDAnalytics = () => {
                         <p>Click on the Record to see more details</p>
                       </div>
                       <div className="rd-training-block-right d-flex">
+                        <div className="search-bar">
+                          <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                            <input
+                              className="form-control me-2"
+                              type="search"
+                              value={searchTerm}
+                              placeholder="Search"
+                              aria-label="Search"
+                              id="email_search"
+                              onChange={(e) => searchChange(e)}
+                            />
+                            <button className="btn btn-outline-success" type="submit">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                                  fill="#97B6CF"
+                                />
+                              </svg>
+                            </button>
+                          </form>
+                        </div>
                       {typeof indidualCompletionTableData !== "undefined" &&
                       indidualCompletionTableData?.length > 0?
                       <>

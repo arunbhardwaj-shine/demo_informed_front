@@ -80,6 +80,7 @@ const SmartList = (props) => {
       .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
         setLoading(false);
+        // setSmartListData(res?.data?.response?.data ? res?.data?.response?.data:[]);
         setSmartListData(res?.data?.response?.data);
         if (flag == 0) {
           // setFilterData(res?.data?.response?.filter);
@@ -208,8 +209,11 @@ const SmartList = (props) => {
           var updatedArray = smartListData.filter(function (item) {
             return item["id"] != deletecardid;
           });
-          if (typeof updatedArray !== "undefined") {
-            setSmartListData(updatedArray);
+          if (typeof updatedArray !== "undefined") {            
+            setSmartListData(updatedArray);                         
+          }
+          if(updatedArray?.length==0){
+            setDeleteStatus(false)
           }
           popup_alert({
             visible: "show",
@@ -220,6 +224,7 @@ const SmartList = (props) => {
         } else {
           toast.warning(res.data.message);
         }
+        
         loader("hide");
       })
       .catch((err) => {
@@ -421,6 +426,9 @@ const SmartList = (props) => {
             <div className="top-header sticky">
               <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
+                
+                {smartListData !== "undefined" &&
+                smartListData?.length > 0&&(<>
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -732,6 +740,7 @@ const SmartList = (props) => {
                     </button>
                   )}
                 </div>
+                </>)}
               </div>
             </div>
 
