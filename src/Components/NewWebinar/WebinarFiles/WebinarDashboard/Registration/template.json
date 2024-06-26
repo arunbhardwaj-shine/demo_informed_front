@@ -1019,8 +1019,9 @@
                 
             ],
             "extension": "",
-            "name": "onesource_consent"
+            "name": "consent"
         },
+        
         {
             "name": "country",
             "label": "Country",
@@ -1046,7 +1047,137 @@
             "required": "yes"
         }
     ]
-},
+    },
+
+    {"templateId": 9,
+    "templateName": "Octapharma 2",
+    "pageTitle": "Welcome to the",
+    "bodyText": "",
+    "headerImageUrl": "",
+    "footerImageUrl": "",
+    "labelColor": "#001489",
+    "optionColor": "#001489",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
+    "backgroundColor": "",
+    "eventDetails": {
+        "eventStartDate": {
+            "title": "Event Start Date",
+            "type": "date",
+            "value": "",
+            "color": "#001489"
+        },
+        
+        "eventStartTime": {
+            "title": "Event Start Time",
+            "type": "time",
+            "value": "",
+            "color": "#001489"
+        },
+
+        "speakerName": {
+            "title": "Speaker Name",
+            "type": "text",
+            "value": "by Jacob Flindt",
+            "color": "#0053a0"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "textArea",
+            "value": "Monday, July 8, 2022 <br/> 16:00 - 18:00 PM CET",
+            "color": "#0053a0"
+        
+        },
+        "pageTitle": {
+            "title": "Registration Title",
+            "type": "textArea",
+            "value": "Welcome to the",
+            "color": "#0053a0"
+        },
+        "SubTitle": {
+            "title": "Sub Title",
+            "type": "textArea",
+            "value": "PUP Management Workshop",
+            "color": "#39b6ac"
+        },
+        "SubHeading": {
+            "title": "Sub Heading",
+            "type": "textArea",
+            "value": "This workshop is for Health Care Professionals only.",
+            "color": "#0053a0"
+        },
+        "SubText": {
+            "title": "Sub Text",
+            "type": "textArea",
+            "value": "To register please fill in all your details below.",
+            "color": "#0053a0"
+        },
+        "Message": {
+            "title": "Thanks Message",
+            "type": "textArea",
+            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
+            "color":  "#001489"
+        }
+    },
+    "body": [
+        
+        {
+            "label": "I also consent to:",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "My activity being tracked on this webinar page*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Being contacted by Octapharma",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Receive future materials from the Octapharma Digital Library",
+                    "extension": [],
+                    "checked": ""
+                }
+                
+            ],
+            "extension": "",
+            "name": "consent"
+        },
+        
+        {
+            "name": "country",
+            "label": "Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "yes"
+        }
+    ]
+    },
 
     {
         "templateId": 7,

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-export default function TemplateEight({ children, formData }) {
+export default function TemplateNine({ children, formData }) {
   const eventData = formData?.raw_description;
   let eventDataSample = formData?.content?.eventDetails;
 
@@ -205,6 +205,7 @@ export default function TemplateEight({ children, formData }) {
               // </p>
               ''
             )}
+            
 
             <div className="octapharma_event_form">{children}</div>
           </div>
