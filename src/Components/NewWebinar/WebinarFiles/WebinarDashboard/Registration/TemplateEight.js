@@ -57,7 +57,7 @@ export default function TemplateOctaEight({ children, formData }) {
   return (
     <>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-      <div className="wrapper eahad">
+      <div className="wrapper octapharma-one">
         <div
           className="octapharma_event"
           style={{ background: `${formData?.content?.backgroundColor}` }}
