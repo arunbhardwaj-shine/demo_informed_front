@@ -18,6 +18,7 @@ import { Col, Row } from "react-bootstrap";
 import moment from "moment";
 
 const EmailList = (props) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -68,9 +69,8 @@ const EmailList = (props) => {
 
   });
   const [irtRoleObj,setIRTRoleObj] = useState(
-    typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+    typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
   );
-
   const [filter, setFilter] = useState(
     state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
   );
@@ -409,7 +409,7 @@ const EmailList = (props) => {
   //   data.subject,
   //   data.tags;
 
-  const location = useLocation();
+  
 
   useEffect(() => {
     console.log('Fetching data for path:', location.pathname);
@@ -1525,16 +1525,16 @@ const EmailList = (props) => {
                                       </td>
 
                                       </tr>
-                                      <tr>
+                                      {/* <tr>
                                         <th>IRTs</th>
                                         <td>
                                         {data?.unique_site_names && data?.unique_site_names.filter(item => item).length > 0 && data?.unique_site_names.filter(item => item).length <= 10 
                                           ? data?.unique_site_names.filter(item => item).join(', ') 
                                           : 'N/A'}
                                         </td>
-                                      </tr>
+                                      </tr> */}
                                       <tr>
-                                        <th>Users Name</th>
+                                        <th>IRTs</th>
                                       <td>
                                         {data?.unique_user_types && data?.unique_user_types.filter(item => item).length > 0 && data?.unique_user_types.filter(item => item).length <= 10 
                                           ? data?.unique_user_types.filter(item => item).join(', ') 
