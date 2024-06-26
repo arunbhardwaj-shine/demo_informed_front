@@ -216,5 +216,7 @@ export const ENDPOINT = {
   GET_ALL_EVENT_LIST:"auth/get-all-event-list",
   ADD_COMMENT_TO_EVENT:"auth/add-comment-to-event",
   // MANDATORY_READERS:"/reader/mandatory-readers"
-  GET_RD_MANDATORY_READERS:"https://webinar.docintel.app/lmn/api/distributes/get_rd_mandatory_readers"
+  GET_RD_MANDATORY_READERS:"https://webinar.docintel.app/lmn/api/distributes/get_rd_mandatory_readers",
+  EMAIL_COUNT_GRAPH: "/email-irt-count",
+
 };
