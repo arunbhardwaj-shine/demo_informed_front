@@ -938,7 +938,7 @@ const CreateEmail = (props) => {
       "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
     };
     setemailCampaign(manualEmailCampaign ? manualEmailCampaign : templateCampaign[template?.name])
-    setEmailCreator(manualEmailCreator ? manualEmailCreator : 'R&D')
+    setEmailCreator(manualEmailCreator ? manualEmailCreator : 'LEX')
     setTemplateId(template.id);
     templateIdRef.current = template?.id;
 
