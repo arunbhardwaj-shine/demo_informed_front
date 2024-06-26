@@ -159,7 +159,13 @@ const SurveyData = () => {
 
           "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
 
-          "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
+          // "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
+          "6. Would you be interested in participating in any of the following 8CHECK activities": 
+          item?.survey_data?.interested_in_8check_activities?.length > 0 
+           ? item.survey_data.interested_in_8check_activities.length === 1
+             ? item.survey_data.interested_in_8check_activities[0]
+             : item.survey_data.interested_in_8check_activities.join(", ")
+           : "N/A"
         };
       })
       
@@ -432,7 +438,14 @@ const SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>6. Would you be interested in participating in any of the following 8CHECK activities</h6>
-                                      <p>{item?.survey_data?.interested_in_8check_activities}</p>
+                                      {/* <p>{item?.survey_data?.interested_in_8check_activities}</p> */}
+                                      <p>
+                                      {item?.survey_data?.interested_in_8check_activities?.length > 0 
+                                        ? item.survey_data.interested_in_8check_activities.length === 1
+                                          ? item.survey_data.interested_in_8check_activities[0]
+                                          : item.survey_data.interested_in_8check_activities.join(", ")
+                                        : "N/A"}
+                                    </p>
                                     </div>
                                   </div>
                                 ) : (
