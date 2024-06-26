@@ -91,9 +91,10 @@ const SetLayout = () => {
                       ? navigate("/totalhcp")
                       : navigate("/content-analytics");
     } else if (title == "Email") {
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ? navigate("/IRTRole")
-        :navigate("/EmailList");
+      // localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      //   ? navigate("/IRTRole")
+        // :
+        navigate("/EmailList");
     } else if (title == "Webinar") {
       if (
         typeof localStorage.getItem("webinar_flag") !== "undefined" &&

@@ -367,7 +367,10 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"} > 
+                  <Link className="nav-link" 
+                  // to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"}
+                  to={"/EmailList"}
+                   > 
                     EMAIL
                   </Link>
                 </li>
