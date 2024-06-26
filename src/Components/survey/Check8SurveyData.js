@@ -13,6 +13,7 @@ const Check8SurveyData = () => {
   const [apiCallStatus, setApiCallStatus] = useState(false)
   const accordionRefs = useRef([]);
   useEffect(() => {
+  
     getSurveyData()
   }, [])
 
@@ -159,7 +160,13 @@ const Check8SurveyData = () => {
 
           "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
 
-          "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
+          // "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
+         "6. Would you be interested in participating in any of the following 8CHECK activities": 
+         item?.survey_data?.interested_in_8check_activities?.length > 0 
+          ? item.survey_data.interested_in_8check_activities.length === 1
+            ? item.survey_data.interested_in_8check_activities[0]
+            : item.survey_data.interested_in_8check_activities.join(", ")
+          : "N/A"
         };
       })
       
@@ -259,7 +266,7 @@ const Check8SurveyData = () => {
     }
     document.body.removeChild(textArea);
   };
-
+ 
 
   return (<>
     <ToastContainer
@@ -345,6 +352,7 @@ const Check8SurveyData = () => {
 
                   {data?.map((item, index) => {
                     return (<>
+                   
                       <Accordion
                       key={index}
                         activeKey={openAccordionIndex === index ? '0' : null}                        
@@ -364,7 +372,9 @@ const Check8SurveyData = () => {
                           <Accordion.Body>
                             {openAccordionIndex === index && (
                               <>
+                              
                                 {Object.keys(item?.survey_data)?.length ? (
+                                
                                   <div className='main'>
                                     <div className='survey-data'>
                                       <h6>Location:</h6>
@@ -434,7 +444,15 @@ const Check8SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>6. Would you be interested in participating in any of the following 8CHECK activities</h6>
-                                      <p>{item?.survey_data?.interested_in_8check_activities}</p>
+                                      {/* <p>{item?.survey_data?.interested_in_8check_activities}</p> */}
+                                      <p>
+                                      {item?.survey_data?.interested_in_8check_activities?.length > 0 
+                                        ? item.survey_data.interested_in_8check_activities.length === 1
+                                          ? item.survey_data.interested_in_8check_activities[0]
+                                          : item.survey_data.interested_in_8check_activities.join(", ")
+                                        : "N/A"}
+                                    </p>
+
                                     </div>
                                   </div>
                                 ) : (
