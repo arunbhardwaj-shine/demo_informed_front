@@ -349,6 +349,7 @@ const Header = () => {
                     window.location.pathname == "/EmailArticleSelect" ||
                       window.location.pathname == "/EmailList" ||
                       window.location.pathname == "/RD-EmailList" ||
+                      window.location.pathname == "/VerifyHCP" ||
                       window.location.pathname == "/CreateEmail" ||
                       window.location.pathname == "/SelectHCP" ||
                       window.location.pathname == "/SelectSmartList" ||
