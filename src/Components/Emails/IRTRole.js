@@ -9,7 +9,7 @@ import { loader } from "../../loader";
 const IRTRole = () => {
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   const navigate = useNavigate();
-  const pieOptions={
+  const pieOptions = {
     chart: {
       type: "pie",
       height: 200,
@@ -23,7 +23,7 @@ const IRTRole = () => {
       enabled: false,
     },
     tooltip: {
-      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{series.name}: <b>{point.y}</b>",
     },
     accessibility: {
       point: {
@@ -35,28 +35,14 @@ const IRTRole = () => {
     },
     plotOptions: {
       pie: {
-        size: "80%",
         dataLabels: {
-          enabled: true,
-          format: "{point.y}",
-          style: {
-            fontWeight: "bold",
-            color: "white",
-            textOutline: "none",
-            fontSize: "20px",
-          },
-          distance: -40,
+          enabled: false, 
         },
-        animation: {
-          duration: 1000,
-        },
-        enableMouseTracking: true,
-        showInLegend: false,
-        borderWidth: 0,
       },
     },
     series: [],
   };
+  
   const [roleData, setRoleData] = useState({});
 
   useEffect(() => {
