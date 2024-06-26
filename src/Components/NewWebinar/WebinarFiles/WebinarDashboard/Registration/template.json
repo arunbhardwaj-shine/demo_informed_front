@@ -958,33 +958,33 @@
             "title": "Speaker Name",
             "type": "text",
             "value": "by Jacob Flindt",
-            "color": "#001489"
+            "color": "#0053a0"
         },
         
         "eventDateDetails": {
             "title": "Event Date Details",
             "type": "textArea",
             "value": "Monday, July 8, 2022 <br/> 16:00 - 18:00 PM CET",
-            "color": "#001489"
+            "color": "#0053a0"
         
         },
         "pageTitle": {
             "title": "Registration Title",
             "type": "textArea",
             "value": "Welcome to the webinar",
-            "color": "#001489"
+            "color": "#0053a0"
         },
         "SubTitle": {
             "title": "Sub Title",
             "type": "textArea",
             "value": "Management of haemophilia A with inhibitors: <br/> A regional web-workshop",
-            "color": "#33baa8"
+            "color": "#39b6ac"
         },
         "SubHeading": {
             "title": "Sub Heading",
             "type": "textArea",
             "value": "This webinar is for Health Care Professionals only.<br/> To register please fill in all your details below.",
-            "color": "#001489"
+            "color": "#0053a0"
         },
         "Message": {
             "title": "Thanks Message",

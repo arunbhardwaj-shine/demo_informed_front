@@ -3581,7 +3581,7 @@ const FormField8 = ({
           if (e.target.id == "onesource_consent0") {
             checkboxes[0].checked = true;
             checkboxes[2].checked = checkboxes[1].checked ? true : false;
-            checkboxes[3].checked = false;
+            // checkboxes[3].checked = false;
 
             newData[label] = [];
             newData[label] = [options[0?.optionLabel]];
@@ -3598,23 +3598,17 @@ const FormField8 = ({
               newData[label] = [...newData[label], options[2]?.optionLabel];
             }
             checkboxes[2].checked = checkboxes[0].checked ? true : false;
-            checkboxes[3].checked = false;
+            // checkboxes[3].checked = false;
           } else if (e.target.id == "onesource_consent2") {
             checkboxes[0].checked = true;
             checkboxes[1].checked = true;
             checkboxes[2].checked = true;
-            checkboxes[3].checked = false;
+            // checkboxes[3].checked = false;
             newData[label] = [];
             newData[label] = [...newData[label], options[0]?.optionLabel];
             newData[label] = [...newData[label], options[1]?.optionLabel];
             newData[label] = [...newData[label], options[2]?.optionLabel];
-          } else if (e.target.id == "onesource_consent3") {
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = true;
-            newData[label] = [options[3]?.optionLabel];
-          }
+          } 
 
           // checkbox.checked = !checkbox.checked;
         } else {
@@ -3633,7 +3627,7 @@ const FormField8 = ({
               checkboxes[0].checked = false;
               // checkboxes[1].checked = false;
               checkboxes[2].checked = false;
-              checkboxes[3].checked = false;
+              // checkboxes[3].checked = false;
               newData[label] = [];
               if (checkboxes[1].checked) {
                 newData[label] = [options[1]?.optionLabel];
@@ -3644,7 +3638,7 @@ const FormField8 = ({
               // checkboxes[0].checked = false;
               checkboxes[1].checked = false;
               checkboxes[2].checked = false;
-              checkboxes[3].checked = false;
+              // checkboxes[3].checked = false;
               newData[label] = [];
               newData[label] = [];
               if (checkboxes[0].checked) {
@@ -3656,17 +3650,18 @@ const FormField8 = ({
               checkboxes[0].checked = false;
               checkboxes[1].checked = false;
               checkboxes[2].checked = false;
-              checkboxes[3].checked = false;
+              // checkboxes[3].checked = false;
               newData[label] = [];
-            } else if (e.target.id == "onesource_consent3") {
-              checkboxes[0].checked = false;
-              checkboxes[1].checked = false;
-              checkboxes[2].checked = false;
-              checkboxes[3].checked = false;
-              newData[label] = [];
+            } 
+            // else if (e.target.id == "onesource_consent3") {
+            //   checkboxes[0].checked = false;
+            //   checkboxes[1].checked = false;
+            //   checkboxes[2].checked = false;
+            //   checkboxes[3].checked = false;
+            //   newData[label] = [];
 
-              newData[label] = [];
-            }
+            //   newData[label] = [];
+            // }
           }
         }
         else {
@@ -3860,13 +3855,17 @@ const FormField8 = ({
         }}
         data-placeholder-color={pageColors?.placeholderTextColor}
       />
+      <div className="field-icon">
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+        </div>
       </>
     );
   }
 
   return (
     <div
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass} ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+        } `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
       <label
