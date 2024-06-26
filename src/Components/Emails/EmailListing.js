@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { Link,useLocation } from "react-router-dom";
 import axios from "axios";
-import { getDraftData, getEmailData } from "../../actions";
+import { getDraftData, getEmailData,getSearched,getSelected  } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
@@ -421,13 +421,21 @@ const EmailList = (props) => {
     }
   };
 
-  const createNewEmail = () => {
+  const createNewEmail = async() => {
     props.getDraftData(null);
+    props.getSelected(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
-    navigate("/EmailArticleSelect", {
-      state: {IrtObj:irtRoleObj},
-    });
+    props.getSearched(null)
+    if([3968,3970,4521].includes(irtRoleObj?.pdfId)){
+      await navigateRole(irtRoleObj?.pdfId);
+      // console.log(irtRoleObj?.pdfId,'irtRoleObj?.pdfId');
+    }else{
+      navigate("/EmailArticleSelect", {
+        state: {IrtObj:irtRoleObj},
+      });
+    }
+    
   };
 
   const showConfirmationPopup = (id) => {
@@ -839,6 +847,38 @@ const EmailList = (props) => {
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
+
+  const navigateRole = async(pdfId) => {
+    try{
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        pdf_id: pdfId,
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`emailapi/get_rd_campaign_data`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            let campaign_data = res?.data?.response?.data;
+            props.getEmailData(campaign_data);
+          } else {
+            toast.warning(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+        });
+      navigate("/VerifyHCP", {
+        state: {IrtObj:irtRoleObj,NextFlag:1},
+      });
+    }catch(err){
+      loader("hide");
+      console.log(err,'err');
+    }
+  }
 
 
   return (
@@ -2827,4 +2867,6 @@ export default connect(mapStateToProps, {
   getDraftData: getDraftData,
   getSelectedSmartListData: getSelectedSmartListData,
   getEmailData: getEmailData,
+  getSelected,
+  getSearched
 })(EmailList);
