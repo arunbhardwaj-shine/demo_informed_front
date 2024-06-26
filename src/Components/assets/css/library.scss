@@ -13886,6 +13886,9 @@ img.change-password-image {
             line-height: 18px;
             color: $dark-blue;
             padding: 5px 10px 16px 15px;
+            &:nth-child(2){
+              width: 320px;
+            }
 
             &:first-child {
               min-width: 85px;
@@ -14027,6 +14030,7 @@ img.change-password-image {
             height: 50px;
             vertical-align: middle;
             position: relative;
+            word-break: break-all;
 
             &.active-irt {
               span {
