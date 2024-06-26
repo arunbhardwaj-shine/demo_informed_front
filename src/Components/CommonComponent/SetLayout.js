@@ -71,7 +71,11 @@ const SetLayout = () => {
     if (title == "Library") {
       navigate("/library-content");
     } else if (title == "CRM") {
-      navigate("/readers-view");
+       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ? navigate("/new-readers-reviews")
+        :
+        navigate("/readers-view");
+      // navigate("/readers-view");
     } else if (title == "Analytics") {
       localStorage.getItem("group_id") == 2
         ? navigate("/content-analytics")

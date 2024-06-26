@@ -273,7 +273,10 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={"/readers-view"} >
+                  <Link className="nav-link" 
+                  to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/new-readers-reviews":"/readers-view"}
+                  // to={"/readers-view"} 
+                  >
                     CRM
                   </Link>
                 </li>
@@ -345,6 +348,7 @@ const Header = () => {
                   className={
                     window.location.pathname == "/EmailArticleSelect" ||
                       window.location.pathname == "/EmailList" ||
+                      window.location.pathname == "/RD-EmailList" ||
                       window.location.pathname == "/CreateEmail" ||
                       window.location.pathname == "/SelectHCP" ||
                       window.location.pathname == "/SelectSmartList" ||

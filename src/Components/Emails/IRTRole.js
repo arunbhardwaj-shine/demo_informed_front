@@ -95,7 +95,7 @@ const IRTRole = () => {
     
     const IRTData = { pdfId, IRTFlag: 1, siteRole: role };
     localStorage.setItem("IRTFlag", 1);
-    navigate("/EmailList", { state: { IrtObj: IRTData } });
+    navigate("/RD-EmailList", { state: { IrtObj: IRTData } });
   };
 
   const pathToImage = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;

@@ -409,9 +409,12 @@ const EmailList = (props) => {
   //   data.subject,
   //   data.tags;
 
+  const location = useLocation();
+
   useEffect(() => {
+    console.log('Fetching data for path:', location.pathname);
     getCampaignFiltereData();
-  }, []);
+  }, [location.pathname]);
 
   const showDeleteButtons = () => {
     if (deletestatus) {
@@ -843,8 +846,11 @@ const EmailList = (props) => {
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
-        <div className="custom-container">
+    {
+      console.log(location.pathname)
+    }
+      <Col className="right-sidebar custom-change" key={location.pathname}>
+        <div className="custom-container" key={location.pathname}>
           <Row>
             <div className="top-header sticky">
               <div className="page-title"> {irtRoleObj?.IRTFlag ?<h2>{irtRoleObj?.siteRole}</h2>:<h2>Emails</h2>}</div>

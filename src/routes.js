@@ -738,6 +738,10 @@ const Routing = () => {
           element={<LoginLayout component={EmailList} />}
         />
         <Route
+          path="/RD-EmailList"
+          element={<LoginLayout component={EmailList} />}
+        />
+        <Route
           path="/TemplateBuilder"
           element={<LoginLayout component={TemplateBuilder} />}
         />

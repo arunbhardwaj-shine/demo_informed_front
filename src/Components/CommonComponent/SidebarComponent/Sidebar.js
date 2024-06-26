@@ -27,7 +27,7 @@ const Sidebar = () => {
   // if(!eventIdContext){
   //   navigate("/webinar/event-listing");
   // }
-  console.log("location--->",location?.state?.IrtObj?.IRTFlag)
+  // console.log("location--->",location?.state?.IrtObj?.IRTFlag)
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id");
@@ -371,6 +371,7 @@ const Sidebar = () => {
             window.location.pathname == "/SmartListFilter" ||
             window.location.pathname == "/SelectSmartList" ||
             window.location.pathname == "/EmailList" ||
+            window.location.pathname == "/RD-EmailList" ||
             window.location.pathname == "/TemplateBuilder" ||
             window.location.pathname == "/AutoEmail" ||
             window.location.pathname == "/IRTRole" ||
@@ -441,6 +442,7 @@ const Sidebar = () => {
                 className={
                   location.pathname == "/IRTRole"||
                   ((location.pathname == "/EmailList" ||
+                    location.pathname == "/RD-EmailList" ||
                     location.pathname === "/EmailArticleSelect" ||
                     location.pathname === "/CreateEmail" ||
                     location.pathname === "/SelectHCP" ||
