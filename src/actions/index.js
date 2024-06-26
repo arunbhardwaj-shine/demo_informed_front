@@ -55,6 +55,13 @@ export const getTestingSelected = (data) => {
   };
 };
 
+export const getSearched=(data)=>{
+  return {
+    type: "GET_SEARCHED",
+    payload: data,
+  };
+}
+
 
 export const getWebinarEmailData = (data) => {
   return {

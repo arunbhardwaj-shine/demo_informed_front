@@ -27,13 +27,14 @@ const Sidebar = () => {
   // if(!eventIdContext){
   //   navigate("/webinar/event-listing");
   // }
-
+  // console.log("location--->",location?.state?.IrtObj?.IRTFlag)
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id");
     if (user_id) {
       set_user_id(user_id);
     }
+    
   }, [selectedItem]);
 
   const toggleClassToBody = () => {
@@ -370,8 +371,10 @@ const Sidebar = () => {
             window.location.pathname == "/SmartListFilter" ||
             window.location.pathname == "/SelectSmartList" ||
             window.location.pathname == "/EmailList" ||
+            window.location.pathname == "/RD-EmailList" ||
             window.location.pathname == "/TemplateBuilder" ||
             window.location.pathname == "/AutoEmail" ||
+            window.location.pathname == "/IRTRole" ||
             window.location.pathname == "/EmailArticleSelect" ||
             window.location.pathname == "/CreateEmail" ||
             window.location.pathname == "/FilterSegment" ||
@@ -391,9 +394,10 @@ const Sidebar = () => {
             window.location.pathname == "/get-details" ? (
 
             <ul>
+             
               <li
                 className={
-                  location.pathname == "/EmailList" ||
+                 (location.pathname == "/EmailList" ||
                     location.pathname === "/EmailArticleSelect" ||
                     location.pathname === "/CreateEmail" ||
                     location.pathname === "/SelectHCP" ||
@@ -407,7 +411,7 @@ const Sidebar = () => {
                     ((location.pathname == "/CreateSmartList" ||
                       location.pathname == "/SmartListFilter" ||
                       location.pathname == "/UploadExcel") &&
-                      c_id != 0)
+                      c_id != 0))&&location?.state?.IrtObj?.IRTFlag!=1
                     ? "active"
                     : "side_li"
                 }
@@ -432,6 +436,62 @@ const Sidebar = () => {
                   <p>Email</p>
                 </Link>
               </li>
+
+              {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
+              <li
+                className={
+                  location.pathname == "/IRTRole"||
+                  ((location.pathname == "/EmailList" ||
+                    location.pathname == "/RD-EmailList" ||
+                    location.pathname === "/EmailArticleSelect" ||
+                    location.pathname === "/CreateEmail" ||
+                    location.pathname === "/SelectHCP" ||
+                    location.pathname === "/CreateEmail" ||
+                    location.pathname === "/VerifyHCP" ||
+                    location.pathname === "/VerifyMAIL" ||
+                    location.pathname === "/verifyMAIL" ||
+                    location.pathname === "/SelectSmartListUsers" ||
+                    location.pathname === "/SelectSmartList" ||
+                    location.pathname === "/VerifyHcpMAIL" ||
+                    ((location.pathname == "/CreateSmartList" ||
+                      location.pathname == "/SmartListFilter" ||
+                      location.pathname == "/UploadExcel") &&
+                      c_id != 0))&&location?.state?.IrtObj?.IRTFlag==1)
+                   
+                    ? "active"
+                    : "side_li"
+                }
+              >
+                <Link to={"/IRTRole"}>
+                  {/* <svg
+                    width="24"
+                    height="18"
+                    viewBox="0 0 24 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
+                      fill="rgba(0, 102, 190, 0.6)"
+                    />
+                    <path
+                      d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
+                      fill="rgba(0, 102, 190, 0.6)"
+                    />
+                  </svg> */}
+
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.3823 3.14704L11.1914 9.16123C11.1163 9.20194 11.0321 9.22327 10.9465 9.22327C10.8609 9.22327 10.7767 9.20194 10.7016 9.16123L0.500291 3.14704C0.750598 2.79357 1.08285 2.50489 1.46908 2.30528C1.85532 2.10568 2.28425 2.00098 2.71979 2H19.1628C19.5983 2.00098 20.0273 2.10568 20.4135 2.30528C20.7998 2.50489 21.132 2.79357 21.3823 3.14704Z" fill="rgba(0, 102, 190, 0.6)"/>
+                  <path d="M11.7123 10.0184L21.8094 4.06623C21.8577 4.27293 21.8822 4.48441 21.8824 4.69659V13.0906H18.3701C17.9728 13.0906 17.6055 13.2193 17.3078 13.4374C16.6674 13.1891 15.9829 13.0906 15.2939 13.0906H12.5644C12.3382 13.0906 12.1217 13.1323 11.9223 13.2085C11.7229 13.1323 11.5064 13.0906 11.2802 13.0906H9.69331C8.6992 13.0906 7.89331 13.8965 7.89331 14.8906V17.5H2.71966C1.99836 17.5 1.30661 17.2158 0.796571 16.71C0.286535 16.2042 0 15.5182 0 14.8029V4.69659C0.000155306 4.48441 0.024626 4.27293 0.0729411 4.06623L10.1805 10.0184C10.4137 10.1507 10.6777 10.2204 10.9464 10.2204C11.2151 10.2204 11.4791 10.1507 11.7123 10.0184Z" fill="rgba(0, 102, 190, 0.6)"/>
+                  <path d="M11.2803 14.8906V22H9.69336V14.8906H11.2803Z" fill="rgba(0, 102, 190, 0.6)"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5645 14.8906H15.2939C15.8376 14.8906 16.3079 14.972 16.7051 15.1348C17.1055 15.2975 17.4131 15.5384 17.6279 15.8574C17.8428 16.1764 17.9502 16.5703 17.9502 17.0391C17.9502 17.4297 17.8867 17.7617 17.7598 18.0352C17.6328 18.3086 17.4538 18.5348 17.2227 18.7139C17.0638 18.8387 16.886 18.9469 16.6892 19.0384L18.2041 21.9268V22H16.5L15.2019 19.4316H14.1562V22H12.5645V14.8906ZM15.2988 18.1963H14.1562V16.126H15.2939C15.5283 16.126 15.7236 16.1683 15.8799 16.2529C16.0394 16.3343 16.1598 16.4531 16.2412 16.6094C16.3226 16.7656 16.3633 16.9512 16.3633 17.166C16.3633 17.3743 16.3226 17.5566 16.2412 17.7129C16.1631 17.8659 16.0459 17.9847 15.8896 18.0693C15.7334 18.154 15.5365 18.1963 15.2988 18.1963Z" fill="rgba(0, 102, 190, 0.6)"/>
+                  <path d="M22.0762 22V16.126H24.2393V14.8906H18.3701V16.126H20.4893V22H22.0762Z" fill="rgba(0, 102, 190, 0.6)"/>
+                  </svg>
+                  <p>Email IRT</p>
+                </Link>
+              </li>
+              :null}
+         
 
               <li
                 className={
@@ -1131,6 +1191,35 @@ const Sidebar = () => {
             window.location.pathname == "/site-listing" || window.location.pathname == "/new-readers-reviews" ||
             window.location.pathname == "/timeline-detail" ? (
             <ul>
+
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                <li
+                  className={
+                    location.pathname == "/new-readers-reviews" ||
+                    (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/new-readers-reviews"}>
+                    <svg
+                      width="25"
+                      height="22"
+                      viewBox="0 0 25 22"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.4843 4.36793C15.594 5.0637 16.3721 6.24109 16.5138 7.60777C16.9664 7.81923 17.4687 7.94083 18.0012 7.94083C19.9453 7.94083 21.5211 6.36509 21.5211 4.42125C21.5211 2.47711 19.9453 0.901367 18.0012 0.901367C16.0756 0.901966 14.5137 2.44955 14.4843 4.36793ZM12.1784 11.5748C14.1225 11.5748 15.6982 9.99878 15.6982 8.05494C15.6982 6.1111 14.1222 4.53536 12.1784 4.53536C10.2345 4.53536 8.65788 6.1114 8.65788 8.05524C8.65788 9.99908 10.2345 11.5748 12.1784 11.5748ZM13.6714 11.8147H10.6847C8.19962 11.8147 6.17791 13.8367 6.17791 16.3218V19.9744L6.18719 20.0316L6.43878 20.1104C8.81033 20.8513 10.8707 21.0984 12.5665 21.0984C15.8788 21.0984 17.7987 20.1541 17.917 20.0939L18.1521 19.975H18.1773V16.3218C18.1782 13.8367 16.1565 11.8147 13.6714 11.8147ZM19.4949 8.18104H16.5312C16.4991 9.36681 15.993 10.4346 15.1924 11.2025C17.4013 11.8594 19.0174 13.9077 19.0174 16.3272V17.4528C21.9437 17.3455 23.6299 16.5162 23.7411 16.4605L23.9762 16.3413H24.0013V12.6875C24.0013 10.2028 21.9796 8.18104 19.4949 8.18104ZM6.00209 7.94143C6.69067 7.94143 7.33133 7.74045 7.87405 7.39811C8.04657 6.27284 8.64979 5.28954 9.51149 4.61982C9.51508 4.55393 9.52137 4.48864 9.52137 4.42215C9.52137 2.47801 7.94533 0.902266 6.00209 0.902266C4.05765 0.902266 2.48221 2.47801 2.48221 4.42215C2.48221 6.36539 4.05765 7.94143 6.00209 7.94143ZM9.16316 11.2025C8.36645 10.4385 7.86207 9.3764 7.82523 8.19781C7.71531 8.18972 7.60658 8.18104 7.49457 8.18104H4.50812C2.02306 8.18104 0.00134277 10.2028 0.00134277 12.6875V16.3407L0.0106277 16.397L0.262219 16.4764C2.16473 17.0703 3.86267 17.344 5.33747 17.4303V16.3272C5.33807 13.9077 6.95365 11.86 9.16316 11.2025Z"
+                        fill="#0066BE"
+                        fillOpacity="0.6"
+                      />
+                    </svg>
+                    <p>IRT Mandatory</p>
+                  </Link>
+                </li>
+              ) : null}
+
               <li
                 className={
                   location.pathname == "/readers-view" ||
@@ -1155,7 +1244,7 @@ const Sidebar = () => {
                   </svg>
                   <p>
                     {
-                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "General Library CRM" : "CRM"
+                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "IRT Non Mandatory" : "CRM"
                     }</p>
                 </Link>
               </li>
@@ -1228,34 +1317,6 @@ const Sidebar = () => {
                       </g>{" "}
                     </svg>
                     <p>Add Site</p>
-                  </Link>
-                </li>
-              ) : null}
-
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                <li
-                  className={
-                    location.pathname == "/new-readers-reviews" ||
-                    (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
-                      ? "active"
-                      : "side_li"
-                  }
-                >
-                  <Link to={"/new-readers-reviews"}>
-                    <svg
-                      width="25"
-                      height="22"
-                      viewBox="0 0 25 22"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14.4843 4.36793C15.594 5.0637 16.3721 6.24109 16.5138 7.60777C16.9664 7.81923 17.4687 7.94083 18.0012 7.94083C19.9453 7.94083 21.5211 6.36509 21.5211 4.42125C21.5211 2.47711 19.9453 0.901367 18.0012 0.901367C16.0756 0.901966 14.5137 2.44955 14.4843 4.36793ZM12.1784 11.5748C14.1225 11.5748 15.6982 9.99878 15.6982 8.05494C15.6982 6.1111 14.1222 4.53536 12.1784 4.53536C10.2345 4.53536 8.65788 6.1114 8.65788 8.05524C8.65788 9.99908 10.2345 11.5748 12.1784 11.5748ZM13.6714 11.8147H10.6847C8.19962 11.8147 6.17791 13.8367 6.17791 16.3218V19.9744L6.18719 20.0316L6.43878 20.1104C8.81033 20.8513 10.8707 21.0984 12.5665 21.0984C15.8788 21.0984 17.7987 20.1541 17.917 20.0939L18.1521 19.975H18.1773V16.3218C18.1782 13.8367 16.1565 11.8147 13.6714 11.8147ZM19.4949 8.18104H16.5312C16.4991 9.36681 15.993 10.4346 15.1924 11.2025C17.4013 11.8594 19.0174 13.9077 19.0174 16.3272V17.4528C21.9437 17.3455 23.6299 16.5162 23.7411 16.4605L23.9762 16.3413H24.0013V12.6875C24.0013 10.2028 21.9796 8.18104 19.4949 8.18104ZM6.00209 7.94143C6.69067 7.94143 7.33133 7.74045 7.87405 7.39811C8.04657 6.27284 8.64979 5.28954 9.51149 4.61982C9.51508 4.55393 9.52137 4.48864 9.52137 4.42215C9.52137 2.47801 7.94533 0.902266 6.00209 0.902266C4.05765 0.902266 2.48221 2.47801 2.48221 4.42215C2.48221 6.36539 4.05765 7.94143 6.00209 7.94143ZM9.16316 11.2025C8.36645 10.4385 7.86207 9.3764 7.82523 8.19781C7.71531 8.18972 7.60658 8.18104 7.49457 8.18104H4.50812C2.02306 8.18104 0.00134277 10.2028 0.00134277 12.6875V16.3407L0.0106277 16.397L0.262219 16.4764C2.16473 17.0703 3.86267 17.344 5.33747 17.4303V16.3272C5.33807 13.9077 6.95365 11.86 9.16316 11.2025Z"
-                        fill="#0066BE"
-                        fillOpacity="0.6"
-                      />
-                    </svg>
-                    <p>IRT Edit</p>
                   </Link>
                 </li>
               ) : null}

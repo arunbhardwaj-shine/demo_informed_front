@@ -220,6 +220,7 @@ import AnalyticsRegions from "./Components/NewWebinar/WebinarFiles/WebinarDashbo
 import AnalyticsEmailView from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsEmailView";
 import AnalyticsEvent from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/AnalyticsEvent";
 import InformedSurveyData from "./Components/survey/InformedSurveyData";
+import IRTRole from "./Components/Emails/IRTRole";
 import Check8SurveyData from "./Components/survey/Check8SurveyData";
 
 let platform = 0;
@@ -729,7 +730,15 @@ const Routing = () => {
           element={<LoginLayout component={SelectSmartList} />}
         />
         <Route
+          path="/IRTRole"
+          element={<LoginLayout component={IRTRole} />}
+        />
+        <Route
           path="/EmailList"
+          element={<LoginLayout component={EmailList} />}
+        />
+        <Route
+          path="/RD-EmailList"
           element={<LoginLayout component={EmailList} />}
         />
         <Route

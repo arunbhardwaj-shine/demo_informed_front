@@ -69,6 +69,15 @@ const getTestingSelected =(testselected=JSON.parse(localStorage.getItem('getTest
 
 }
 
+const getSearched =(searched=JSON.parse(localStorage.getItem('getSearched')),action) => {
+  if (action.type === "GET_SEARCHED") {
+    localStorage.setItem('getSearched', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return searched;
+
+}
+
 const getWebinarEmailData = ( webinarEmailData = JSON.parse(localStorage.getItem('getWebinarEmailData')), action) => {
   if (action.type === "GET_WEBINAR_EMAIL_DATA") {
     localStorage.setItem('getWebinarEmailData', JSON.stringify(action.payload));
@@ -123,4 +132,5 @@ export default combineReducers({
   getWebinarDraftData:getWebinarDraftData,
   getWebinarCampaignId:getWebinarCampaignId,
   getWebinarSelected:getWebinarSelected,
+  getSearched:getSearched
 });
