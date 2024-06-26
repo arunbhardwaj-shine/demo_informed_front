@@ -290,7 +290,20 @@ const VerifyHCP = (props) => {
       .then((res)=>{
         // console.log("res-->",res)
         if(res?.data?.status_code==200){
-          let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]  
+          let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]
+          // console.log(searchedUserList,'searchedUserList');
+          // console.log(selectedHcp,'selectedHcp');
+
+          let selectedProfileIds = new Set();
+          if (selectedHcp.length > 0) {
+              selectedHcp.forEach(hcp => selectedProfileIds.add(hcp?.profile_user_id));
+          }
+
+          // Filter searchedUserList to remove objects with profile_ids present in selectedProfileIds
+          searchedUserList = searchedUserList.filter(user => !selectedProfileIds.has(user?.profile_user_id));
+
+          // console.log(searchedUserList,'searchedUserList');
+
           setSearchedUsers(searchedUserList)
           loader("hide")
         }
@@ -347,6 +360,12 @@ const VerifyHCP = (props) => {
   };
 
   const addNewHcp = () => {
+    
+    let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
+    if(state?.IrtObj?.siteRole && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
+      setDefaultRole = irtRole?.[userRoleIndex]?.value;
+    }
     // $('#myModal').modal('show'
     // document.getElementById("tagsModal").modal('show');
     setIsOpen(true);
@@ -360,7 +379,7 @@ const VerifyHCP = (props) => {
         countryIndex: "",
         role:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ? irtRole?.[0]?.value
+            ? setDefaultRole
             : "",
         optIrt:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -542,6 +561,13 @@ const VerifyHCP = (props) => {
   };
 
   const onIRTChange = (e, i) => {
+
+    let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
+		if(state?.IrtObj?.siteRole && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+		  const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
+		  setDefaultRole = irtRole?.[userRoleIndex]?.value;
+		}
+
     if (e == "") {
       const list = [...hpc];
       list[i].optIrt = "";
@@ -553,7 +579,7 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
+      list[i].role = e == "yes" ? setDefaultRole : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -859,6 +885,14 @@ const VerifyHCP = (props) => {
     });
 
     if (status.every((element) => element == "true")) {
+
+      let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
+      if(state?.IrtObj?.siteRole && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+        const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
+        setDefaultRole = irtRole?.[userRoleIndex]?.value;
+      }
+
+
       setHpc([
         ...hpc,
         {
@@ -870,7 +904,7 @@ const VerifyHCP = (props) => {
           countryIndex: "",
           role:
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? irtRole?.[0]?.value
+              ? setDefaultRole
               : "",
           optIrt:
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -1300,24 +1334,40 @@ const VerifyHCP = (props) => {
                   : 
                   <div className="form-inline">
                      {localStorage.getItem("user_id") == userId
-                          ? <div className="">
-                          <h4>Select IRTs :</h4>
-                          <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
+                          ? <div className="d-flex justify-content-between align-items-end"><div className="select-irt">
+                              <h4>Select IRTs :</h4>
+                              <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
+                              </div>
+                              <div className="form-button d-flex justify-content-end align-items-center">
+                                <button
+                                  className="btn btn-primary btn-bordered"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#add_hcp"
+                                  onClick={addNewHcp}
+                                >
+                                  {localStorage.getItem("user_id") == userId
+                                    ? "Add User +"
+                                    : "Add HCP +"}
+                                </button>
+                              </div>
                           </div>
-                          : ""}
-                    <div className="form-button d-flex justify-content-end align-items-center">
-                      <button
-                        className="btn btn-primary btn-bordered"
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#add_hcp"
-                        onClick={addNewHcp}
-                      >
-                        {localStorage.getItem("user_id") == userId
-                          ? "Add User +"
-                          : "Add HCP +"}
-                      </button>
-                    </div>
+                          : 
+                          <div className="form-button d-flex justify-content-end align-items-center">
+                            <button
+                              className="btn btn-primary btn-bordered"
+                              type="button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#add_hcp"
+                              onClick={addNewHcp}
+                            >
+                              {localStorage.getItem("user_id") == userId
+                                ? "Add User +"
+                                : "Add HCP +"}
+                            </button>
+                          </div>
+                          }
+                    
                   </div>
                 }  
               

@@ -685,6 +685,9 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   width: 100%;
   height: 100%;
 }
+.email-block-add > button{
+  background: transparent;
+}
 
 .event_listing .email-block-add {
   flex: 0 0 450px;
@@ -3212,7 +3215,16 @@ form .input-group {
 .search-hcp {
   padding: 32px 8px 0;
 }
-
+.select-irt h4{
+color:#004A89;
+font-weight: 700;
+margin:0 0 27px;
+}
+.select-irt p{
+  color:#97B6CF;
+  font-size: 18px;
+  font-weight: 400;
+  }
 h3 {
   font-size: 28px;
   line-height: 33px;
