@@ -65,8 +65,8 @@ const WebinarSelectHCP = (props) => {
     ];
   }else if(currentUserId == "z2TunmZQf3QwCsICFTLGGQ=="){
     sendOptions = [
-      { id: 2, navigateUrl: "/webinar/email/selectSmartList", label: "IBU HCPs",alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "IBU HCPs - Find or upload a new individual HCP (or a few)" },
-      { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: "Internal HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+      { id: 2, navigateUrl: "/webinar/email/selectSmartList", label: "IBU HCPs",alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "IBU HCPs - List of all IBU readers from Mena region" },
+      { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: "Internal HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "List of all internal readers" }
     ];
   }else{
     sendOptions = [
