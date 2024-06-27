@@ -1184,7 +1184,7 @@
     "templateName": "Octapharma 2",
     "pageTitle": "Welcome to the",
     "bodyText": "",
-    "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/VetunKAP819g6OLyjSWrSiWIBQkyVA9m5ahTBMw1.png",
+    "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/D0oKkYfUHCnLwV3aiWfq02eTBpSoQ7JSsXKICXbm.png",
     "footerImageUrl": "",
     "labelColor": "#001489",
     "optionColor": "#0053a0",
@@ -1251,7 +1251,7 @@
             "title": "Footer Text",
             "type": "textArea",
             "value": "354_HAEREG_WFH2024<br/>Date of preparation: June 2024",
-            "color": "#5D7682"
+            "color": "#001489"
         },
         "Message": {
             "title": "Thanks Message",
