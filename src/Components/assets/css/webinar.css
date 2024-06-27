@@ -5285,7 +5285,157 @@ font-size: 16px;
 
 }
 /**Octapharma1 template end**/
+/**Octapharma2 template**/
+.wrapper.octapharma-two {
+  background: #fff;
+  padding: 20px 0;
+}
 
+.octapharma-two .octapharma_event {
+  max-width: 700px;
+  border: 2px solid #2068b3;
+  background: transparent;
+  border-radius: 20px;
+}
+
+.octapharma-two .octapharma_event_content h4 {
+  text-align: center;
+  margin: 20px auto;
+  font-family: "muliextrabold";
+}
+
+.octapharma-two .octapharma_event_content .speaker {
+  flex-direction: column;
+}
+
+.octapharma-two .octapharma_event_content .speaker h4 {
+  margin: 0 !important;
+}
+
+.octapharma-two .octapharma_event_content h3 {
+  text-align: center;
+  /* font-family: "mulibold"; */
+  font-family: "muliextrabold";
+}
+
+.octapharma-two .octapharma_event_content img {
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+.octapharma-two .octapharma_event_content p {
+  font-family: "mulisemibold";
+}
+
+.octapharma-two .octapharma_event_content h4+p.speaker-specialization {
+  margin-bottom: 70px;
+  position: relative;
+  text-align: center;
+  font-size: 15px;
+  font-family: "muliregular";
+}
+
+.octapharma-two .octapharma_event_content h4+p.speaker-specialization:after {
+  content: "";
+  border-bottom: 7px solid #39b6ac;
+  position: absolute;
+  width: calc(100% + 120px);
+  bottom: -30px;
+  left: -60px;
+}
+
+.octapharma-two .consent-form-list.attend-sec li .checkmark {
+  border: 2px solid #39b6ac;
+}
+
+.octapharma-two #hcp-form [type='checkbox']:checked+label+label#consent-label:after,
+.octapharma-two [type='checkbox']:not(:checked)+label:after {
+  background: #39b6ac;
+}
+
+.octapharma-two .consent-form-list.attend-sec label {
+  margin-bottom: 12px;
+}
+
+.octapharma-two .consent-form-list.attend-sec>label {
+  font-weight: 500;
+}
+
+.octapharma-two {
+  position: relative;
+  min-height: 100vh;
+}
+
+.octapharma-two .consent-form-list.attend-sec li .checkmark::after {
+  background: #39b6ac;
+}
+
+.octapharma-two .consent-form-list.attend-sec input.form-control {
+  box-shadow: none;
+  border: 0;
+  border-bottom: 1px solid #2068b3;
+  border-radius: 0;
+  padding-left: 33px;
+}
+
+.octapharma-two .consent-form .btn#submit_registration {
+  background: #39b6ac;
+  min-width: 150px;
+  box-shadow: none;
+  max-width: 150px;
+  border-radius: 0 10px;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 8px 27px;
+}
+
+.octapharma-two .consent-form .btn#submit_registration:hover {
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.16);
+}
+
+.octapharma-two .footer {
+  padding: 0px 0;
+}
+
+.octapharma-two .footer-sec {
+  margin: 20px 0 0 0;
+}
+
+.octapharma-two .footer-sec span {
+  color: #2068b3;
+  font-size: 12px;
+}
+
+.octapharma-two .consent-form .split-button-dropup>div:nth-child(3) {
+  border-radius: 10px;
+  padding: 7px 18px;
+}
+
+.octapharma-two .consent-form .split-button-dropup>div:nth-child(3) {
+  background-color: #39b6ac;
+  color: #fff;
+}
+
+.octapharma-two .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+  color: #fff !important;
+}
+
+.octapharma-two .split-button-dropup div:nth-child(3)>div div {
+  color: #fff;
+}
+
+.octapharma-two .footer {
+  padding: 20px 60px 20px;
+  background: transparent;
+}
+
+.octapharma-two .footer-text p {
+  font-size: 11px;
+}
+
+/**Octapharma2 template end**/
 
 
 @media only screen and (max-width:1399px) {
