@@ -19,21 +19,21 @@
         "value": "",
         "color": "#001489"
     },
-    
+   
     "eventStartTime": {
         "title": "Event Start Time",
         "type": "time",
         "value": "",
         "color": "#001489"
     },
-
+ 
     "speakerName": {
         "title": "Speaker Name",
         "type": "text",
         "value": "Guy Young ",
         "color": "#001489"
     },
-    
+   
     "eventDateDetails": {
         "title": "Event Date Details",
         "type": "textArea",
@@ -71,18 +71,6 @@
         "value": "Children's Hospital Los Angeles",
         "color": "#001489"
     },
-   "footerMessage": {
-                "title": "Footer Message",
-                "type": "textArea",
-                "value": "To visit One Source <a href=\"https://onesource.octapharma.com/\">Click Here</a>. Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders. <br/> One Source platform is for healthcare professionals only.",
-                "color": "#001489"
-            },
-            "footerText": {
-                "title": "Footer Text",
-                "type": "textArea",
-                "value": "* This consent is mandatory in order to register for the event.",
-                "color": "#001489"
-            },
     "Message": {
         "title": "Thanks Message",
         "type": "textArea",
@@ -91,7 +79,7 @@
     }
 },
 "body": [
-    
+   
     {
         "label": "I also consent to:",
         "inputType": "checkbox",

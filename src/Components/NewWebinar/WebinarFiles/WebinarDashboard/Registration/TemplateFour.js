@@ -60,16 +60,16 @@ export default function TemplateFour({ children, formData }) {
       <div className="wrapper eahad">
         <div
           className="octapharma_event"
-          // style={{ background: `${formData?.content?.backgroundColor}` }}
+          style={{ background: `${formData?.content?.backgroundColor}` }}
         >
-          {/* <div className="header">
+          <div className="header">
             <div className="header-text">
               <h3>
                 A monthly online series of interactive patient cases presented
                 by leading experts in haematology
               </h3>
             </div>
-          </div> */}
+          </div>
           <div className="octapharma_event_content">
             <h4
               style={{
@@ -207,7 +207,7 @@ export default function TemplateFour({ children, formData }) {
 
             <div className="octapharma_event_form">{children}</div>
           </div>
-          {/* <div className="footer">
+          <div className="footer">
             <div className="footer-inner">
               <Row>
                 <Col md={8}>
@@ -243,31 +243,6 @@ export default function TemplateFour({ children, formData }) {
                 * This consent is mandatory in order to register for the event.
               </span>
             </div>
-          </div> */}
-
-          <div className="footer">
-          <div className="footer-message">
-              <p
-                style={{
-                  color: formData?.content?.eventDetails?.footerMessage?.color,
-                }}
-                dangerouslySetInnerHTML={{
-                  __html: formData?.content?.eventDetails?.footerMessage?.value,
-                }}
-              >
-              </p>
-          </div>
-          <div className="footer-text">
-              <p
-                style={{
-                  color: formData?.content?.eventDetails?.footerText?.color,
-                }}
-                dangerouslySetInnerHTML={{
-                  __html: formData?.content?.eventDetails?.footerText?.value,
-                }}
-              >
-              </p>
-          </div>
           </div>
         </div>
       </div>
