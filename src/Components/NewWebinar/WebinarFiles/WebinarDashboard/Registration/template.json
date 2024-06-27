@@ -1057,7 +1057,7 @@
     "headerImageUrl": "",
     "footerImageUrl": "",
     "labelColor": "#001489",
-    "optionColor": "#2068b3",
+    "optionColor": "#0053a0",
     "typedTextColor":"#2068B3",
     "placeholderTextColor":"#2068B3",
     "dropdownOptionColor": "#2068B3",
@@ -1120,7 +1120,7 @@
         "Message": {
             "title": "Thanks Message",
             "type": "textArea",
-            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
+            "value": "Thank you for registering!",
             "color":  "#001489"
         }
     },
@@ -1187,7 +1187,7 @@
     "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/VetunKAP819g6OLyjSWrSiWIBQkyVA9m5ahTBMw1.png",
     "footerImageUrl": "",
     "labelColor": "#001489",
-    "optionColor": "#001489",
+    "optionColor": "#0053a0",
     "typedTextColor":"#2068B3",
     "placeholderTextColor":"#2068B3",
     "dropdownOptionColor": "#2068B3",
@@ -1256,7 +1256,7 @@
         "Message": {
             "title": "Thanks Message",
             "type": "textArea",
-            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
+            "value": "Thank you for registering!",
             "color":  "#001489"
         }
     },
