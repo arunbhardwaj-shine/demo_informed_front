@@ -219,4 +219,7 @@ export const ENDPOINT = {
   GET_RD_MANDATORY_READERS:"https://webinar.docintel.app/lmn/api/distributes/get_rd_mandatory_readers",
   EMAIL_COUNT_GRAPH: "/email-irt-count",
 
+  IBU_USERS_LISTING:"/webinarEmail/ibu-users",
+  OWN_USERS_LISTING:"/webinarEmail/own-internal-users",
+
 };

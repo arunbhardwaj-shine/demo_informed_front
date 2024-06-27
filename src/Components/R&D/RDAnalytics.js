@@ -1163,7 +1163,7 @@ const RDAnalytics = () => {
                               className="form-control me-2"
                               type="search"
                               value={searchTerm}
-                              placeholder="Search"
+                              placeholder="Search by email or name"
                               aria-label="Search"
                               id="email_search"
                               onChange={(e) => searchChange(e)}
