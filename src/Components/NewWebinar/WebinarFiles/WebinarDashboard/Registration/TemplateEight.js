@@ -62,14 +62,6 @@ export default function TemplateEight({ children, formData }) {
           className="octapharma_event"
           style={{ background: `${formData?.content?.backgroundColor}` }}
         >
-          {/* <div className="header">
-            <div className="header-text">
-              <h3>
-                A monthly online series of interactive patient cases presented
-                by leading experts in haematology
-              </h3>
-            </div>
-          </div> */}
           <div className="octapharma_event_content">
            <h4
               style={{
@@ -79,7 +71,6 @@ export default function TemplateEight({ children, formData }) {
                 __html: formData?.content?.eventDetails?.pageTitle?.value,
               }}
             >
-              {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
             </h4> 
 
             <h4
@@ -98,14 +89,12 @@ export default function TemplateEight({ children, formData }) {
                 __html: formData?.content?.eventDetails?.SubTitle?.value,
               }}
             >
-              {/* {formData?.content?.eventDetails?.SubHeading?.value} */}
             </h3>
 
             <div className="speaker">
               <h4
                 className="mb-4"
                 style={{
-                  // textTransform: "capitalize",
                   color: eventDataSample?.speakerName?.color,
                 }}
                 dangerouslySetInnerHTML={{
@@ -122,10 +111,6 @@ export default function TemplateEight({ children, formData }) {
                       }`,
                 }}
               >
-                {/* by {eventDataSample?.speakerName?.value
-              ? eventDataSample?.speakerName?.value
-              : eventData?.speaker_name}
-            {formData?.content?.eventDetails?.Specialization?.value && ","} */}
               </h4>
 
               <h4
@@ -138,27 +123,16 @@ export default function TemplateEight({ children, formData }) {
                     formData?.content?.eventDetails?.Specialization?.value,
                 }}
               >
-                {/* {formData?.content?.eventDetails?.Specialization?.value} */}
               </h4>
             </div>
 
-            {/* <h4 style={{ color: eventDataSample?.eventStartDate?.color }}>
-              {formattedDateRange}
-            </h4> */}
+            <h4 style={{
+                              color: formData?.content?.eventDetails?.eventDateDetails?.color,
+                            }} dangerouslySetInnerHTML={{
+              __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:""}`
+            }}>
+            </h4>
 
-<h4 style={{
-                  color: formData?.content?.eventDetails?.eventDateDetails?.color,
-                }} dangerouslySetInnerHTML={{
-  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:""}`
-}}>
-</h4>
-{/* <h4 dangerouslySetInnerHTML={{
-  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value} (${eventData?.countryTimezone})<br/>Online in One Source`
-}}>
-</h4> */}
-
-
-            {/*  */}
             {formData?.content?.eventDetails?.SubHeading?.value ? (
               <p style={{
                 color: formData?.content?.eventDetails?.SubHeading?.color,
@@ -209,36 +183,6 @@ export default function TemplateEight({ children, formData }) {
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">
-            {/* <div className="footer-inner">
-              <Row>
-                <Col md={8}>
-                  <p>
-                  To visit One Source &nbsp; 
-                    <Link  target="_blank" to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
-                     Click Here
-                    </Link>{" "}.
-                    <br/>
-                    Octapharma’s online haematology platform for healthcare
-                    professionals, to be up to date with the latest news and
-                    events, and to hear leading experts share their opinions
-                    about treating patients with bleeding disorders.
-                  </p>
-                  <p className="health-professional">
-                    One Source platform is for healthcare professionals only.
-                  </p>
-                </Col>
-                <Col md={4}>
-                  <div className="footer-logo">
-                    <a target="_blank" href="https://onesource.octapharma.com/octapharma-privacy">
-                    <img
-                      src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
-                      alt="Logo image"
-                    />
-                    </a>
-                  </div>
-                </Col>
-              </Row>
-            </div> */}
              <div className="footer-text">
               <p
                 style={{
