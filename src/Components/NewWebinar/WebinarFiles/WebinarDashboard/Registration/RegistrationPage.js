@@ -1487,9 +1487,9 @@ const FormField1 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -1735,9 +1735,9 @@ const FormField2 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -1941,7 +1941,7 @@ const FormField2 = ({
       //   ? "country"
       //   : ""
       //   }`}
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) ? "country" : ""
         }  ${(label?.includes("restrictions")) ? "restrictions" : ""
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
@@ -2014,9 +2014,9 @@ const FormField3 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -2362,9 +2362,9 @@ const FormField4 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -2610,9 +2610,9 @@ const FormField5 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -2800,7 +2800,7 @@ const FormField5 = ({
       //   ? "country"
       //   : ""
       //   }`}
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) ? "country" : ""
         }  ${(label?.includes("restrictions")) ? "restrictions" : ""
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
@@ -3033,9 +3033,9 @@ const FormField6 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -3356,9 +3356,9 @@ const FormField7 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -3567,7 +3567,7 @@ const FormField7 = ({
       //   ? "country"
       //   : ""
       //   }`}
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) ? "country" : ""
         }  ${(label?.includes("restrictions")) ? "restrictions" : "" 
         }  ${(label?.includes("nationality")) ? "nationality" : "" 
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
@@ -3649,9 +3649,9 @@ const FormField8 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -3839,7 +3839,7 @@ const FormField8 = ({
   return (
   <>
     <div
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass} ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass} ${((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) ? "country" : ""
         } `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
@@ -3917,9 +3917,9 @@ const FormField9 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -4108,7 +4108,7 @@ const FormField9 = ({
   <>
   {console.log(form.label,'form.label')}
     <div
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass} ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass} ${((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) ? "country" : ""
         } `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
@@ -4180,9 +4180,9 @@ const FormField10 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
@@ -4425,9 +4425,9 @@ const FormField11 = ({
     setFormFieldData(newData);
   };
 
-  if (label?.includes("country") || label?.includes("Country")) {
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
-  } else if (label?.includes("state") || label?.includes("state")) {
+  } else if (label?.includes("state_(us)")) {
     form.inputType = "selection-state";
   }
 
