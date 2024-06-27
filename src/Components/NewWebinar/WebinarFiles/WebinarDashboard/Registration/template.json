@@ -1057,7 +1057,7 @@
     "headerImageUrl": "",
     "footerImageUrl": "",
     "labelColor": "#001489",
-    "optionColor": "#2068b3",
+    "optionColor": "#0053a0",
     "typedTextColor":"#2068B3",
     "placeholderTextColor":"#2068B3",
     "dropdownOptionColor": "#2068B3",
@@ -1089,7 +1089,7 @@
         "eventDateDetails": {
             "title": "Event Date Details",
             "type": "textArea",
-            "value": "Monday, July 8, 2022 <br/> 16:00 - 18:00 PM CET",
+            "value": "Monday, July 8, 2024 <br/> 16:00 - 18:00 PM CET",
             "color": "#0053a0"
         
         },
@@ -1111,10 +1111,16 @@
             "value": "This webinar is for Health Care Professionals only.<br/> To register please fill in all your details below.",
             "color": "#0053a0"
         },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": " This webinar is for healthcare professionals only. Please review the product information before prescribing Haemophilia A and inhibitors products.",
+            "color": "#5D7682"
+        },
         "Message": {
             "title": "Thanks Message",
             "type": "textArea",
-            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
+            "value": "Thank you for registering!",
             "color":  "#001489"
         }
     },
@@ -1181,7 +1187,7 @@
     "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/VetunKAP819g6OLyjSWrSiWIBQkyVA9m5ahTBMw1.png",
     "footerImageUrl": "",
     "labelColor": "#001489",
-    "optionColor": "#001489",
+    "optionColor": "#0053a0",
     "typedTextColor":"#2068B3",
     "placeholderTextColor":"#2068B3",
     "dropdownOptionColor": "#2068B3",
@@ -1213,7 +1219,7 @@
         "eventDateDetails": {
             "title": "Event Date Details",
             "type": "textArea",
-            "value": "Monday, July 8, 2022 <br/> 16:00 - 18:00 PM CET",
+            "value": "Monday, July 8, 2024 <br/> 16:00 - 18:00 PM CET",
             "color": "#0053a0"
         
         },
@@ -1241,10 +1247,16 @@
             "value": "To register please fill in all your details below.",
             "color": "#0053a0"
         },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": "354_HAEREG_WFH2024<br/>Date of preparation: June 2024",
+            "color": "#5D7682"
+        },
         "Message": {
             "title": "Thanks Message",
             "type": "textArea",
-            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
+            "value": "Thank you for registering!",
             "color":  "#001489"
         }
     },
