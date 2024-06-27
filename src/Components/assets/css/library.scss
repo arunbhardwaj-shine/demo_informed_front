@@ -1613,6 +1613,17 @@ ul.tab-mail-list.data span.total-left small {
       .split-button-dropup {
         max-width: 331px;
         width: 100%;
+        &.selectcountry{
+          >div {
+            &:nth-child(4) {
+              max-height: 120px;
+        
+              >div {
+                max-height: 100px;
+        }
+      }
+      }
+    }
 
         &.addval {
           button {
@@ -21025,6 +21036,11 @@ img.change-password-image {
         .form-group {
           margin: 0px 0 0;
           align-items: flex-start;
+          &.state{
+            .btn-bordered{
+              padding: 15px 14px;
+            }
+          }
 
           label {
             padding: 0px 5px 0 0;
@@ -22326,6 +22342,9 @@ img.change-password-image {
     }
 
     @media only screen and (max-width: 1500px) {
+      .webinarRegistrationBody #registration-form .form-group.state .btn-bordered {
+        padding: 14px 14px;
+      }
       .landing-banner {
         .landing-block {
           padding: 120px 0 110px;
@@ -22868,6 +22887,9 @@ img.change-password-image {
     }
 
     @media (max-width: $layout-breakpoint-extraLarge) {
+      .webinarRegistrationBody #registration-form .form-group.state .btn-bordered {
+        padding: 12px 12px;
+    }
       .pharma-slider {
         .slider {
           .add-space {

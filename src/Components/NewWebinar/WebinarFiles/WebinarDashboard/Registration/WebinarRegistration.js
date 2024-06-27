@@ -12,7 +12,7 @@ import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { loader } from "../../../../../loader";
-import { getData, postData,postFormData } from "../../../../../axios/apiHelper";
+import { getData, postData, postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { Link, useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
@@ -27,6 +27,9 @@ import templateData from "./template.json";
 import moment from "moment";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import QRCode from 'qrcode';
+import ChangeCountry from "./ChangeCountryModel";
+import Countries from "./Countries.json";
+
 let currentDate = new Date(
   moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
 );
@@ -34,15 +37,15 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const template = {
-  1:["logo","header"],
-  2:['logoOne',"logoTwo"],
-  3:['logo','header','footer'],
-  4:[],
-  5:['header'],
-  6:['logo','templateOne','templateTwo'],
-  7:['header'],
-  8:['logo','header','footer'],
-  9:['logo','header','footer'],
+  1: ["logo", "header"],
+  2: ['logoOne', "logoTwo"],
+  3: ['logo', 'header', 'footer'],
+  4: [],
+  5: ['header'],
+  6: ['logo', 'templateOne', 'templateTwo'],
+  7: ['header'],
+  8: ['logo', 'header', 'footer'],
+  9: ['logo', 'header', 'footer'],
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -53,29 +56,31 @@ const WebinarRegistration = () => {
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
 
-const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,7],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,7], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,7],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,7],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,4,5,6,7],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,7],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,7,8],
-"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,7],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,7],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,7],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,7]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,7],"56Ek4feL/1A8mZgIKQWEqg==":[9]}
-const userId = localStorage.getItem("user_id");
-const defaultTemplateIds = [8]; 
- 
-const [templateList, setTemplateList] = useState(() => {
+  const templateUserIDs = {
+    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 3, 4, 5, 6, 7], "B7SHpAc XDXSH NXkN0rdQ==": [1, 2, 3, 4, 5, 6, 7], "wW0geGtDPvig5gF 6KbJrg==": [1, 2, 3, 4, 5, 6, 7],
+    "UbCJcnLM9fe HsRMgX8c1A==": [1, 2, 3, 4, 5, 6, 7], "z2TunmZQf3QwCsICFTLGGQ==": [1, 2, 3, 4, 5, 6, 7], "qDgwPdToP05Kgzc g2VjIQ==": [1, 2, 3, 4, 5, 6, 7], "rjiGlqA9DXJVH7bDDTX0Lg==": [1, 2, 3, 4, 5, 6, 7, 8],
+    "MpEPwXLqTPveAfumxT/KXw==": [1, 2, 3, 4, 5, 6, 7], "5EdDBhVCQm08iLJwBENCWw==": [1, 2, 3, 4, 5, 6, 7], "I3yCIhnPAd0Ma6sNY4augA==": [1, 2, 3, 4, 5, 6, 7], "Y/I8/x8K0syk/ulWyKwKhg==": [1, 2, 3, 4, 5, 6, 7]
+    , "bWmUjqX7J011   WUTYn9g==": [1, 2, 3, 4, 5, 6, 7], "56Ek4feL/1A8mZgIKQWEqg==": [9]
+  }
+  const userId = localStorage.getItem("user_id");
+  const defaultTemplateIds = [8];
 
-  return templateData.filter(template => {
-    if (templateUserIDs[userId]?.includes(template.templateId)) {
-      return true;
-    }
+  const [templateList, setTemplateList] = useState(() => {
 
-    else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
-      return true;
-    } 
-   
-    else {
-      return false;
-    }
+    return templateData.filter(template => {
+      if (templateUserIDs[userId]?.includes(template.templateId)) {
+        return true;
+      }
+
+      else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
+        return true;
+      }
+
+      else {
+        return false;
+      }
+    });
   });
-});
 
 
   const responsive = {
@@ -103,8 +108,8 @@ const [templateList, setTemplateList] = useState(() => {
     location?.state?.eventCode
       ? location?.state?.eventCode
       : eventIdContext?.eventCode
-      ? eventIdContext?.eventCode
-      : JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
+        ? eventIdContext?.eventCode
+        : JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
   );
   const [logo, setLogo] = useState();
   const [logoOne, setLogoOne] = useState();
@@ -114,13 +119,14 @@ const [templateList, setTemplateList] = useState(() => {
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
+  const [changeCountry, setChangeCountry] = useState(false);
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(true);
   const [save, setSave] = useState(0);
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -178,13 +184,13 @@ const [templateList, setTemplateList] = useState(() => {
     event_id: location?.state?.eventId
       ? location?.state?.eventId
       : eventIdContext?.eventId
-      ? eventIdContext?.eventId
-      : localStorageEvent?.eventId,
+        ? eventIdContext?.eventId
+        : localStorageEvent?.eventId,
     company_id: location?.state?.companyId
       ? location?.state?.companyId
       : eventIdContext?.companyId
-      ? eventIdContext?.companyId
-      : localStorageEvent?.companyId,
+        ? eventIdContext?.companyId
+        : localStorageEvent?.companyId,
   });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
@@ -252,7 +258,7 @@ const [templateList, setTemplateList] = useState(() => {
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
   const textAreaRefs = useRef(null);
-  const [downloadType,setDownloadType]=useState("png")
+  const [downloadType, setDownloadType] = useState("png")
 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
@@ -282,18 +288,20 @@ const [templateList, setTemplateList] = useState(() => {
       getWebinarData(event_code);
     }
   }, []);
-  useEffect(() => {if(textAreaRefs.current)
-   { textAreaRefs.current.map((value,index)=>{
-      const textAreaRef = value
-      // console.log(textAreaRef);
-  
-      if (textAreaRef) {
+  useEffect(() => {
+    if (textAreaRefs.current) {
+      textAreaRefs.current.map((value, index) => {
+        const textAreaRef = value
         // console.log(textAreaRef);
-        textAreaRef.style.height = "auto";
-        textAreaRef.style.height = textAreaRef.scrollHeight + "px";
-      }
-    })}
- 
+
+        if (textAreaRef) {
+          // console.log(textAreaRef);
+          textAreaRef.style.height = "auto";
+          textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+        }
+      })
+    }
+
   }, [formData]);
   const getWebinarData = async (event_code) => {
     // console.log(event_code,'event_code')
@@ -414,8 +422,8 @@ const [templateList, setTemplateList] = useState(() => {
       }
       setFormData(newFormData);
       // console.log(newFormData);
-      if(Object.keys(newFormData.eventDetails)?.length>0){        
-        textAreaRefs.current=Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
+      if (Object.keys(newFormData.eventDetails)?.length > 0) {
+        textAreaRefs.current = Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
       }
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
@@ -617,6 +625,8 @@ const [templateList, setTemplateList] = useState(() => {
     setIndex();
     setFieldData();
     setModal(false);
+    setChangeCountry(false)
+
   };
 
   const handleModalSave = (form) => {
@@ -635,11 +645,18 @@ const [templateList, setTemplateList] = useState(() => {
     });
   };
 
-  const editFieldData = (e, index) => {
+  const editFieldData = (e, index, changeCountryStatus = false) => {
+
     e.preventDefault();
     setIndex(index);
     setFieldData(formData?.body[index]);
-    setModal(true);
+    if (changeCountryStatus) {
+      setChangeCountry(changeCountryStatus)
+
+    } else {
+      setModal(true);
+
+    }
   };
 
   const editExtendedFeildData = (e, index, optIndex, extIndex) => {
@@ -725,9 +742,8 @@ const [templateList, setTemplateList] = useState(() => {
             label: isSelectedName == "userEmail" ? "Email" : "Name",
             name: isSelectedName,
             inputType: isSelectedName == "userEmail" ? "email" : "text",
-            placeholder: `Please enter ${
-              isSelectedName == "userEmail" ? "Email" : "Name"
-            }`,
+            placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"
+              }`,
             option: [],
             required: "yes",
             addSpace: 10,
@@ -860,6 +876,21 @@ const [templateList, setTemplateList] = useState(() => {
 
             showAllCountries: false,
           };
+          if(isSelectedName=="state"){
+            newObj.stateCountry="Bahrain"
+            newObj.option=Countries["Bahrain"]?.states.map((item) => ({
+              checked: "",
+              optionLabel: item.label,
+              extension: [],
+            }));
+    
+          }else if(isSelectedName=="country (region)"){
+            newObj.option=Object.keys(Countries).map((item) => ({
+              checked: "",
+              optionLabel: item,
+              extension: [],
+            }));
+          }
           updateFormBody?.push(newObj);
         }
         setFormData({ ...formData, body: updateFormBody });
@@ -1037,9 +1068,9 @@ const [templateList, setTemplateList] = useState(() => {
       // setFile("");
       // setFoot("");
       // setLogo("");
-      setSave((save)=>save+1);
+      setSave((save) => save + 1);
       setIsDataSaved(true);
-     
+
     } catch (err) {
       console.error("--err", err);
     } finally {
@@ -1079,9 +1110,9 @@ const [templateList, setTemplateList] = useState(() => {
       return;
     }
     let link = '';
-    if(eventData?.event_id > 402){
+    if (eventData?.event_id > 402) {
       link = `https://events.docintel.app/event-registration?event=${event_code}`;
-    }else{
+    } else {
       link = `${window.location.origin}/event-registration?event=${event_code}`;
     }
 
@@ -1227,9 +1258,9 @@ const [templateList, setTemplateList] = useState(() => {
         );
         // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
-        if(Object.keys(updatedBody.eventDetails)?.length>0){
-        
-          textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+        if (Object.keys(updatedBody.eventDetails)?.length > 0) {
+
+          textAreaRefs.current = Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
         }
         setFormData(JSON.parse(JSON.stringify(updatedBody)));
       } else {
@@ -1311,9 +1342,9 @@ const [templateList, setTemplateList] = useState(() => {
         setFile(updatedBody?.headerImageUrl ? updatedBody?.headerImageUrl : "");
         setFoot(updatedBody?.footerImageUrl ? updatedBody?.footerImageUrl : "");
         // console.log(updatedBody);
-        if(Object.keys(updatedBody.eventDetails)?.length>0){
-        
-          textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+        if (Object.keys(updatedBody.eventDetails)?.length > 0) {
+
+          textAreaRefs.current = Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
         }
         setFormData(JSON.parse(JSON.stringify(updatedBody)));
       }
@@ -1330,9 +1361,9 @@ const [templateList, setTemplateList] = useState(() => {
     //   setFormData(updatedBody);
     // }
     // setActiveIndex(template?.templateId);
-    
 
-    setSave((save)=>save+1);
+
+    setSave((save) => save + 1);
   };
 
   const handleCommonConfirmModal = () => {
@@ -1382,13 +1413,13 @@ const [templateList, setTemplateList] = useState(() => {
     const qrUrl = generateQRUrl();
 
     try {
-      let fileName= (localStorageEvent?.eventTitle).replaceAll(" ","_")
+      let fileName = (localStorageEvent?.eventTitle).replaceAll(" ", "_")
       const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
-      if(downloadType=="png"){
+      if (downloadType == "png") {
         console.log("in png")
-        
+
         const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
-       
+
         const downloadLink = document.createElement('a');
         downloadLink.href = pngUrl;
         downloadLink.download = `${fileName}_Registration.png`; // Set the filename
@@ -1396,27 +1427,27 @@ const [templateList, setTemplateList] = useState(() => {
         downloadLink.click();
         document.body.removeChild(downloadLink);
       }
-      else if(downloadType=="eps"){        
+      else if (downloadType == "eps") {
         const pngUrl = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/png");
         const res = await postFormData(ENDPOINT.DOWNLOAD_EPS_FILE, { "svgCode": pngUrl },
-        {
-          responseType: "blob",
-        }
-      );
-      const url = URL.createObjectURL(res?.data);    
-      const downloadLink = document.createElement('a');
-      downloadLink.href = url;
-      downloadLink.download = `${fileName}_Registration.eps`;     
-      // downloadLink.style.display = 'none';    
-      document.body.appendChild(downloadLink);      
-      downloadLink.click();     
-      URL.revokeObjectURL(url);
-      document.body.removeChild(downloadLink);
+          {
+            responseType: "blob",
+          }
+        );
+        const url = URL.createObjectURL(res?.data);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = `${fileName}_Registration.eps`;
+        // downloadLink.style.display = 'none';    
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(downloadLink);
 
       }
-     
+
     } catch (error) {
       console.error('Error generating QR code:', error);
     }
@@ -1426,9 +1457,9 @@ const [templateList, setTemplateList] = useState(() => {
     <>
       <Col className="right-sidebar custom-change">
         <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-      />
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <div className="custom-container">
           <div className="row">
             <div className="top-header regi-web sticky">
@@ -1436,9 +1467,8 @@ const [templateList, setTemplateList] = useState(() => {
                 <h2>Registration Page</h2>
               </div>
               <div className="top-right-action">
-                  <div className="d-flex justify-content-center header_btns">
-                  <div className={`dropdown qr-download ${
-                      !isDataSaved ? "disabled" : ""
+                <div className="d-flex justify-content-center header_btns">
+                  <div className={`dropdown qr-download ${!isDataSaved ? "disabled" : ""
                     }`}>
                     <button
                       className="btn btn-primary dropdown"
@@ -1496,36 +1526,35 @@ const [templateList, setTemplateList] = useState(() => {
                       </div>
                     )}  */}
                   </div>
-                    <a
-                      className={`copy_link btn-bordered ${
-                        !isDataSaved ? "disabled" : ""
+                  <a
+                    className={`copy_link btn-bordered ${!isDataSaved ? "disabled" : ""
                       }`}
-                      href={eventData?.event_id > 402  ?`https://events.docintel.app/event-registration?event=${event_code}`:`${window.location.host}/event-registration?event=${event_code}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (!isDataSaved) {
-                          return;
-                        }
-                        console.dir();
-                        let newLink =e.currentTarget.getAttribute("href");
-                        copyToClipboard(newLink);
-                      }}
-                    >
-                      Copy Link
-                    </a>
-                    <Button
-                      type="button"
-                      className={`save btn-filled ${!isDataSaved? "disabled":""}`}
-                      disabled={isDataSaved?false:true}
-                      onClick={(e) => {
-                        handlePreviewInNewTab(e);
-                      }}
-                    >
-                      Open Link
-                    </Button>
-                  </div>
+                    href={eventData?.event_id > 402 ? `https://events.docintel.app/event-registration?event=${event_code}` : `${window.location.host}/event-registration?event=${event_code}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (!isDataSaved) {
+                        return;
+                      }
+                      console.dir();
+                      let newLink = e.currentTarget.getAttribute("href");
+                      copyToClipboard(newLink);
+                    }}
+                  >
+                    Copy Link
+                  </a>
+                  <Button
+                    type="button"
+                    className={`save btn-filled ${!isDataSaved ? "disabled" : ""}`}
+                    disabled={isDataSaved ? false : true}
+                    onClick={(e) => {
+                      handlePreviewInNewTab(e);
+                    }}
+                  >
+                    Open Link
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
             <section className="select-mail-template library-consent create-change-content">
               <div className="custom-container">
                 <Row>
@@ -1546,7 +1575,7 @@ const [templateList, setTemplateList] = useState(() => {
                       return (
                         <>
                           <div
-                          key={index}
+                            key={index}
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
                           >
@@ -1556,7 +1585,7 @@ const [templateList, setTemplateList] = useState(() => {
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
-                                activeIndex == template?.templateId
+                                  activeIndex == template?.templateId
                                   ? "select_mm"
                                   : ""
                               }
@@ -1662,9 +1691,9 @@ const [templateList, setTemplateList] = useState(() => {
                                       selected={
                                         // field.value &&
                                         // field.value >= currentDate
-                                          // ? 
-                                          new Date(field.value)
-                                          // : currentDate
+                                        // ? 
+                                        new Date(field.value)
+                                        // : currentDate
                                       }
                                       onChange={(v, e) => {
                                         handleChange(v, `eventDetails-${key}`);
@@ -1672,7 +1701,7 @@ const [templateList, setTemplateList] = useState(() => {
                                       onKeyDown={(e) => {
                                         e.preventDefault();
                                       }}
-                                    /> 
+                                    />
                                     {/* } */}
                                     {isEventEndDate ? (
                                       <div className="event-endDate"></div>
@@ -1681,11 +1710,11 @@ const [templateList, setTemplateList] = useState(() => {
                                     )}
                                     {field.color && (
                                       <div className="color-pick">
-                                      <div className="color-pick-point">
-                                        <img
-                                          src={path_image + "color-picker.svg"}
-                                          alt=""
-                                        />
+                                        <div className="color-pick-point">
+                                          <img
+                                            src={path_image + "color-picker.svg"}
+                                            alt=""
+                                          />
                                         </div>
                                         <input
                                           type="color"
@@ -1706,42 +1735,42 @@ const [templateList, setTemplateList] = useState(() => {
                                       {field.title}
                                       {/* <span>*</span> */}
                                     </label>
-                                   { field.type == 'textArea'? <textarea  key={`textarea-${index}-${formData?.templateId}`} className={`form-control`}
+                                    {field.type == 'textArea' ? <textarea key={`textarea-${index}-${formData?.templateId}`} className={`form-control`}
                                       ref={(ref) => (textAreaRefs.current[index] = ref)}
-                                      onChange={(e)=>{handleChange(e)
+                                      onChange={(e) => {
+                                        handleChange(e)
                                         resizeTextArea(index);
-                                      }} name={`eventDetails-${key}`}>{field.value} 
-                                      
-                                       </textarea>:
-                                       
-                                       <input
-                                       key={`${field.type}-${index}-${formData?.templateId}`}
-                                      type={field.type}
-                                      name={`eventDetails-${key}`}
-                                      value={field.value}
-                                      readOnly={
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? true
-                                          : false
-                                      }
-                                      disabled={
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? true
-                                          : false
-                                      }
-                                      className={`form-control ${
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? "disabled"
-                                          : ""
-                                      }`}
-                                      // className="form-control"
-                                      onChange={handleChange}
+                                      }} name={`eventDetails-${key}`}>{field.value}
+
+                                    </textarea> :
+
+                                      <input
+                                        key={`${field.type}-${index}-${formData?.templateId}`}
+                                        type={field.type}
+                                        name={`eventDetails-${key}`}
+                                        value={field.value}
+                                        readOnly={
+                                          key == "eventEndTime" ||
+                                            key == "eventStartTime"
+                                            ? true
+                                            : false
+                                        }
+                                        disabled={
+                                          key == "eventEndTime" ||
+                                            key == "eventStartTime"
+                                            ? true
+                                            : false
+                                        }
+                                        className={`form-control ${key == "eventEndTime" ||
+                                            key == "eventStartTime"
+                                            ? "disabled"
+                                            : ""
+                                          }`}
+                                        // className="form-control"
+                                        onChange={handleChange}
                                       // disabled
                                       // readOnly={true}
-                                    />}
+                                      />}
                                     {isEventEndTime ? (
                                       <div className="event-endTime"></div>
                                     ) : (
@@ -1750,10 +1779,10 @@ const [templateList, setTemplateList] = useState(() => {
                                     {field.color && (
                                       <div className="color-pick">
                                         <div className="color-pick-point">
-                                        <img
-                                          src={path_image + "color-picker.svg"}
-                                          alt=""
-                                        />
+                                          <img
+                                            src={path_image + "color-picker.svg"}
+                                            alt=""
+                                          />
                                         </div>
                                         <input
                                           type="color"
@@ -1773,166 +1802,32 @@ const [templateList, setTemplateList] = useState(() => {
                         <div className="feilds-section">
                           <h5>What data should be collected?</h5>
                           <div className="select-collected">
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="Name"
-                              name="name"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) => item?.name == "userName"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleChange(e, "userName")}
-                            />
+                            {[
+                              { label: "Name", name: "userName" },
+                              { label: "Email", name: "userEmail" },
+                              { label: "Country", name: "country" },
+                              { label: "Country (Region)", name: "country (region)" },
+                              { label: "State", name: "state" },
+                              { label: "State (US)", name: "state (us)" },
+                              { label: "Travel accommodation", name: "travel accomodation" },
+                              { label: "Consent", name: "consent" },
+                              { label: "Onesource Consent", name: "onesource_consent" },
+                            ].map(({ label, name }) => (
+                              <Form.Check
+                                key={name}
+                                className="webinar-checkbox"
+                                inline
+                                label={label}
+                                name={name}
+                                type="checkbox"
+                                checked={formData?.body?.some(item => item?.name?.toLowerCase() === name.toLowerCase())}
+                                onChange={(e) => handleChange(e, name)}
+                              />
+                            ))}
 
-                            <Form.Check
-                              className="webinar-checkbox"
-                              label="Email"
-                              name="email"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) => item?.name == "userEmail"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleChange(e, "userEmail")}
-                            />
-
-                            {/* <Form.Check
-                            className="webinar-checkbox"
-                            inline
-                            label="Profession"
-                            name="profession"
-                            type="checkbox"
-                            checked={
-                              formData?.body?.findIndex(
-                                (item, index) =>
-                                  item?.label?.toLowerCase() == "profession"
-                              ) != -1
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => handleChange(e, "profession")}
-                          /> */}
-
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="Country"
-                              name="country"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) =>
-                                    item?.name?.toLowerCase() == "country"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleChange(e, "country")}
-                            />
-
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="State"
-                              name="state"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) =>
-                                    item?.name?.toLowerCase() == "state"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleChange(e, "state")}
-                            />
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="State (US)"
-                              name="State (US)"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) =>
-                                    item?.name?.toLowerCase() == "state (us)"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleChange(e, "state (us)")}
-                            />
-
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="Travel accomodation"
-                              name="travel"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item) =>
-                                    item?.name?.toLowerCase() ==
-                                    "travel accomodation"
-                                ) !== -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) =>
-                                handleChange(e, "travel accomodation")
-                              }
-                            />
-
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="Consent"
-                              name="consent"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) =>
-                                    item?.name?.toLowerCase() == "consent"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => handleChange(e, "consent")}
-                            />
-                            <Form.Check
-                              className="webinar-checkbox"
-                              inline
-                              label="Onesource Consent"
-                              name="onesource_consent"
-                              type="checkbox"
-                              checked={
-                                formData?.body?.findIndex(
-                                  (item, index) =>
-                                    item?.name?.toLowerCase() ==
-                                    "onesource_consent"
-                                ) != -1
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) =>
-                                handleChange(e, "onesource_consent")
-                              }
-                            />
-
-                            <span
-                              className="add-choice"
-                              onClick={() => setModal(true)}
-                            >
+                            <span className="add-choice" onClick={() => setModal(true)}>
                               Add data field
-                              <img src={path_image + "add-choice-voilet.svg"} alt="" />
+                              <img src={`${path_image}add-choice-voilet.svg`} alt="" />
                             </span>
                           </div>
                           <section className="webinarRegistrationBody">
@@ -1942,7 +1837,7 @@ const [templateList, setTemplateList] = useState(() => {
                                   <div className="row">
                                     <div id="registration-form">
                                       {formData &&
-                                      Object.keys(formData)?.length ? (
+                                        Object.keys(formData)?.length ? (
                                         <div>
                                           <div className="center-align-form">
                                             <div>
@@ -1960,24 +1855,35 @@ const [templateList, setTemplateList] = useState(() => {
                                                     }
                                                     onDragOver={handleDragOver}
                                                   >
-                                                    <div className="form-group">
+                                                    <div className="form-group state">
                                                       <label htmlFor="">
                                                         {data?.label
                                                           ? data?.label
-                                                              ?.charAt(0)
-                                                              .toUpperCase() +
-                                                            data?.label
-                                                              ?.slice(1)
-                                                              ?.toLowerCase()
+                                                            ?.charAt(0)
+                                                            .toUpperCase() +
+                                                          data?.label
+                                                            ?.slice(1)
+                                                            ?.toLowerCase()
                                                           : ""}
                                                         {data?.required ===
                                                           "yes" && (
-                                                          <span>*</span>
-                                                        )}
+                                                            <span>*</span>
+                                                          )}
                                                       </label>
+                                                      {
+                                                        data?.name == "state" && <Button className="btn-bordered" onClick={(e) => {
+                                                          editFieldData(
+                                                            e,
+                                                            index,
+                                                            true
+                                                          )
+                                                        }
+                                                        } >Change country </Button>
+
+                                                      }
 
                                                       {data?.inputType ===
-                                                      "radio" ? (
+                                                        "radio" ? (
                                                         <div className="btn-container">
                                                           {data?.option?.map(
                                                             (
@@ -1992,12 +1898,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                   type={
                                                                     data?.inputType
                                                                   }
-                                                                  name={`${
-                                                                    data?.name
+                                                                  name={`${data?.name
                                                                       ? data?.name
                                                                       : "dynamic_" +
-                                                                        dynamicFieldNo
-                                                                  }`}
+                                                                      dynamicFieldNo
+                                                                    }`}
                                                                   value={
                                                                     item?.optionValue
                                                                   }
@@ -2015,7 +1920,7 @@ const [templateList, setTemplateList] = useState(() => {
                                                                   }
                                                                 </label>
                                                                 {data?.extension ==
-                                                                true ? (
+                                                                  true ? (
                                                                   <span
                                                                     className="add-choice"
                                                                     onClick={(
@@ -2048,7 +1953,7 @@ const [templateList, setTemplateList] = useState(() => {
                                                                 true ?  */}
                                                                 {item?.extension
                                                                   ?.length >
-                                                                0 ? (
+                                                                  0 ? (
                                                                   <div className="extension">
                                                                     {item?.extension?.map(
                                                                       (
@@ -2062,7 +1967,7 @@ const [templateList, setTemplateList] = useState(() => {
                                                                           }
                                                                         >
                                                                           {extItem?.inputType ==
-                                                                          "text" ? (
+                                                                            "text" ? (
                                                                             <div className="extOption">
                                                                               <label
                                                                                 htmlFor={
@@ -2078,12 +1983,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                   extItem?.inputType
                                                                                 }
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
                                                                                 }
@@ -2117,12 +2021,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2157,12 +2060,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                 }
                                                                               </label>
                                                                               <DatePicker
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
                                                                                 placeholderText="Select date"
@@ -2197,12 +2099,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2237,28 +2138,27 @@ const [templateList, setTemplateList] = useState(() => {
                                                                               </label>
                                                                               <Select
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
                                                                                   ) ||
-                                                                                  extItem?.label?.includes(
-                                                                                    "Country"
-                                                                                  )
+                                                                                    extItem?.label?.includes(
+                                                                                      "Country"
+                                                                                    )
                                                                                     ? countryList
                                                                                     : extItem?.label?.includes(
-                                                                                        "state"
-                                                                                      ) ||
+                                                                                      "state"
+                                                                                    ) ||
                                                                                       extItem?.label?.includes(
                                                                                         "State"
                                                                                       )
-                                                                                    ? stateOptions
-                                                                                    : extItem?.option?.map(
+                                                                                      ? stateOptions
+                                                                                      : extItem?.option?.map(
                                                                                         (
                                                                                           item
                                                                                         ) => ({
@@ -2294,12 +2194,11 @@ const [templateList, setTemplateList] = useState(() => {
 
                                                                               <textarea
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
@@ -2409,12 +2308,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                   type={
                                                                     data?.inputType
                                                                   }
-                                                                  name={`${
-                                                                    data?.name
+                                                                  name={`${data?.name
                                                                       ? data?.name
                                                                       : "dynamic_" +
-                                                                        dynamicFieldNo
-                                                                  }`}
+                                                                      dynamicFieldNo
+                                                                    }`}
                                                                   checked={
                                                                     item?.checked
                                                                   }
@@ -2425,7 +2323,7 @@ const [templateList, setTemplateList] = useState(() => {
                                                                   }
                                                                 </label>
                                                                 {data?.extension ==
-                                                                true ? (
+                                                                  true ? (
                                                                   <span
                                                                     className="add-choice"
                                                                     onClick={(
@@ -2458,7 +2356,7 @@ const [templateList, setTemplateList] = useState(() => {
                                                                 true ? */}
                                                                 {item?.extension
                                                                   ?.length >
-                                                                0 ? (
+                                                                  0 ? (
                                                                   <div className="extension">
                                                                     {item?.extension?.map(
                                                                       (
@@ -2467,7 +2365,7 @@ const [templateList, setTemplateList] = useState(() => {
                                                                       ) => (
                                                                         <div className="extItem">
                                                                           {extItem?.inputType ==
-                                                                          "text" ? (
+                                                                            "text" ? (
                                                                             <div className="extOption">
                                                                               <label
                                                                                 htmlFor={
@@ -2483,12 +2381,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                   extItem?.inputType
                                                                                 }
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
                                                                                 }
@@ -2522,12 +2419,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2562,12 +2458,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                 }
                                                                               </label>
                                                                               <DatePicker
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
                                                                                 placeholderText="Select date"
@@ -2603,12 +2498,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2642,29 +2536,28 @@ const [templateList, setTemplateList] = useState(() => {
                                                                                 }
                                                                               </label>
                                                                               <Select
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
                                                                                   ) ||
-                                                                                  extItem?.label?.includes(
-                                                                                    "Country"
-                                                                                  )
+                                                                                    extItem?.label?.includes(
+                                                                                      "Country"
+                                                                                    )
                                                                                     ? countryList
                                                                                     : extItem?.label?.includes(
-                                                                                        "state"
-                                                                                      ) ||
+                                                                                      "state"
+                                                                                    ) ||
                                                                                       extItem?.label?.includes(
                                                                                         "State"
                                                                                       )
-                                                                                    ? stateOptions
-                                                                                    : extItem?.option?.map(
+                                                                                      ? stateOptions
+                                                                                      : extItem?.option?.map(
                                                                                         (
                                                                                           item
                                                                                         ) => ({
@@ -2700,12 +2593,11 @@ const [templateList, setTemplateList] = useState(() => {
 
                                                                               <textarea
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
@@ -2807,25 +2699,24 @@ const [templateList, setTemplateList] = useState(() => {
                                                         >
                                                           <Select
                                                             className="dropdown-basic-button split-button-dropup webinar-select disabled"
-                                                            name={`${
-                                                              data?.name
+                                                            name={`${data?.name
                                                                 ? data?.name
                                                                 : "dynamic_" +
-                                                                  dynamicFieldNo
-                                                            }`}
+                                                                dynamicFieldNo
+                                                              }`}
                                                             options={
                                                               data?.label?.includes(
                                                                 "country"
                                                               ) ||
-                                                              data?.label?.includes(
-                                                                "Country"
-                                                              )
+                                                                data?.label?.includes(
+                                                                  "Country"
+                                                                )
                                                                 ? countryList
                                                                 : data?.label?.includes(
-                                                                    "state (us)"
-                                                                  )
-                                                                ? stateOptions
-                                                                : data?.option?.map(
+                                                                  "state (us)"
+                                                                )
+                                                                  ? stateOptions
+                                                                  : data?.option?.map(
                                                                     (item) => ({
                                                                       label:
                                                                         item?.optionLabel,
@@ -2851,12 +2742,11 @@ const [templateList, setTemplateList] = useState(() => {
                                                         >
                                                           <textarea
                                                             className="form-control disabled"
-                                                            name={`${
-                                                              data?.name
+                                                            name={`${data?.name
                                                                 ? data?.name
                                                                 : "dynamic_" +
-                                                                  dynamicFieldNo
-                                                            }`}
+                                                                dynamicFieldNo
+                                                              }`}
                                                             type={
                                                               data?.inputType
                                                             }
@@ -2867,44 +2757,42 @@ const [templateList, setTemplateList] = useState(() => {
                                                           />
                                                         </div>
                                                       ) :
-                                                      
-                                                      data?.inputType ==
-                                                       "date" ? (
-                                                       <div
-                                                         className="slt-opt"
-                                                         key={index}
-                                                       >
-                                                         <DatePicker
-                                                           name={`${
-                                                           data?.name
-                                                           ? data?.name
-                                                           : "dynamic_" +
-                                                           dynamicFieldNo
-                                                           }`}
-                                                           dateFormat="dd/MM/yyyy"
-                                                           className="form-control disabled"
-                                                           placeholderText="Select date"
-                                                           // minDate={currentDate}
-                                                           />                
-                                                       </div>
-                                                     ) :
-                                                      
-                                                      (
-                                                        <input
-                                                          name={`${
-                                                            data?.name
-                                                              ? data?.name
-                                                              : "dynamic_" +
-                                                                dynamicFieldNo
-                                                          }`}
-                                                          className="form-control disabled"
-                                                          type={data?.inputType}
-                                                          placeholder={
-                                                            data?.placeholder
-                                                          }
-                                                          disabled
-                                                        />
-                                                      )}
+
+                                                        data?.inputType ==
+                                                          "date" ? (
+                                                          <div
+                                                            className="slt-opt"
+                                                            key={index}
+                                                          >
+                                                            <DatePicker
+                                                              name={`${data?.name
+                                                                  ? data?.name
+                                                                  : "dynamic_" +
+                                                                  dynamicFieldNo
+                                                                }`}
+                                                              dateFormat="dd/MM/yyyy"
+                                                              className="form-control disabled"
+                                                              placeholderText="Select date"
+                                                            // minDate={currentDate}
+                                                            />
+                                                          </div>
+                                                        ) :
+
+                                                          (
+                                                            <input
+                                                              name={`${data?.name
+                                                                  ? data?.name
+                                                                  : "dynamic_" +
+                                                                  dynamicFieldNo
+                                                                }`}
+                                                              className="form-control disabled"
+                                                              type={data?.inputType}
+                                                              placeholder={
+                                                                data?.placeholder
+                                                              }
+                                                              disabled
+                                                            />
+                                                          )}
                                                       <button
                                                         className="btn-edit btn-filled"
                                                         onClick={(e) =>
@@ -2980,8 +2868,8 @@ const [templateList, setTemplateList] = useState(() => {
                                       <div className="d-flex align-items-center reg-color-set">
                                         <div className="form-group d-flex align-items-center">
                                           <label>Typed text</label>
-                                            <div className="color-pick">
-                                              <div className="color-pick-point">
+                                          <div className="color-pick">
+                                            <div className="color-pick-point">
                                               <img
                                                 src={
                                                   path_image +
@@ -2989,28 +2877,28 @@ const [templateList, setTemplateList] = useState(() => {
                                                 }
                                                 alt=""
                                               />
-                                              </div>
-                                              <input
-                                                type="color"
-                                                title="Choose your color"
-                                                onChange={(e) =>
-                                                  onColorChange(
-                                                    e,
-                                                    "typedTextColor"
-                                                  )
-                                                }
-                                                value={
-                                                  formData?.typedTextColor
-                                                    ? formData?.typedTextColor
-                                                    : ""
-                                                }
-                                              />
                                             </div>
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(
+                                                  e,
+                                                  "typedTextColor"
+                                                )
+                                              }
+                                              value={
+                                                formData?.typedTextColor
+                                                  ? formData?.typedTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
                                         </div>
                                         <div className="form-group d-flex align-items-center">
                                           <label>Placeholder text</label>
-                                            <div className="color-pick">
-                                              <div className="color-pick-point">
+                                          <div className="color-pick">
+                                            <div className="color-pick-point">
                                               <img
                                                 src={
                                                   path_image +
@@ -3018,28 +2906,28 @@ const [templateList, setTemplateList] = useState(() => {
                                                 }
                                                 alt=""
                                               />
-                                              </div>
-                                              <input
-                                                type="color"
-                                                title="Choose your color"
-                                                onChange={(e) =>
-                                                  onColorChange(
-                                                    e,
-                                                    "placeholderTextColor"
-                                                  )
-                                                }
-                                                value={
-                                                  formData?.placeholderTextColor
-                                                    ? formData?.placeholderTextColor
-                                                    : ""
-                                                }
-                                              />
                                             </div>
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(
+                                                  e,
+                                                  "placeholderTextColor"
+                                                )
+                                              }
+                                              value={
+                                                formData?.placeholderTextColor
+                                                  ? formData?.placeholderTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
                                         </div>
                                         <div className="form-group d-flex align-items-center">
                                           <label> Label </label>
-                                            <div className="color-pick">
-                                              <div className="color-pick-point">
+                                          <div className="color-pick">
+                                            <div className="color-pick-point">
                                               <img
                                                 src={
                                                   path_image +
@@ -3047,20 +2935,20 @@ const [templateList, setTemplateList] = useState(() => {
                                                 }
                                                 alt=""
                                               />
-                                              </div>
-                                              <input
-                                                type="color"
-                                                title="Choose your color"
-                                                onChange={(e) =>
-                                                  onColorChange(e, "labelColor")
-                                                }
-                                                value={
-                                                  formData?.labelColor
-                                                    ? formData?.labelColor
-                                                    : ""
-                                                }
-                                              />
                                             </div>
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "labelColor")
+                                              }
+                                              value={
+                                                formData?.labelColor
+                                                  ? formData?.labelColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
                                         </div>
                                         {/* <div className="form-group">
                                           <label>Select Option color</label>
@@ -3232,436 +3120,436 @@ const [templateList, setTemplateList] = useState(() => {
                             Save
                           </Button>
                         </div> */}
-                     
-                    {template[formData?.templateId]?.includes("logo")?
-                    <div className="form-group d-flex align-items-center less-spacer">
-                    <label>Upload Logo</label>
-                    <div
-                      className="logo-section"
-                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                    >
-                      {!logo && (
-                        <>
-                          <div>
-                            <h5>Upload your file</h5>
-                            <h6>(Recommended size 300 x 140)</h6>
-                          </div>
-                          <Button className="upload-img"
-                            onClick={(e) =>
-                              handleFileSelect(e, "logoImageUrl")
-                            }
-                          >
-                            Choose Your File
-                          </Button>
-                        </>
-                      )}
 
-                      <img className="logo-img" src={logo} />
-                      <div className="logo-text header-text">
-                        {logo && (
-                          <button
-                            className="btn btn-outline-primary"
-                            title="Edit user"
-                            type="button"
-                          >
-                            <img
-                              src={path + "edit-button.svg"}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleFileSelect(e, "logoImageUrl");
-                              }}
-                            />
-                          </button>
-                        )}
+                        {template[formData?.templateId]?.includes("logo") ?
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Logo</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!logo && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "logoImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
 
-                        {logo && (
-                          <button
-                            className="dlt_btn_event btn-voilet"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteLogoImage(e, "logoImageUrl");
-                            }}
-                          >
-                            <img
-                              title="Delete"
-                              src={path_image + "delete-icon.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    </div>
-                    :''}
+                              <img className="logo-img" src={logo} />
+                              <div className="logo-text header-text">
+                                {logo && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "logoImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
 
-                  {template[formData?.templateId]?.includes("logoOne")?
-                    <div className="form-group d-flex align-items-center less-spacer">
-                    <label>Upload First Logo</label>
-                    <div
-                      className="logo-section"
-                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                    >
-                      {!logoOne && (
-                        <>
-                          <div>
-                            <h5>Upload your file</h5>
-                            <h6>(Recommended size 300 x 140)</h6>
-                          </div>
-                          <Button className="upload-img"
-                            onClick={(e) =>
-                              handleFileSelect(e, "logoOneImageUrl")
-                            }
-                          >
-                            Choose Your File
-                          </Button>
-                        </>
-                      )}
-
-                      <img className="logo-img" src={logoOne} />
-                      <div className="logo-text header-text">
-                        {logoOne && (
-                          <button
-                            className="btn btn-outline-primary"
-                            title="Edit user"
-                            type="button"
-                          >
-                            <img
-                              src={path + "edit-button.svg"}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleFileSelect(e, "logoOneImageUrl");
-                              }}
-                            />
-                          </button>
-                        )}
-
-                        {logoOne && (
-                          <button
-                            className="dlt_btn_event btn-voilet"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteLogoOneImage(e, "logoOneImageUrl");
-                            }}
-                          >
-                            <img
-                              title="Delete"
-                              src={path_image + "delete-icon.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    </div>
-                    :''}
-
-                  {template[formData?.templateId]?.includes("logoTwo")?
-                    <div className="form-group d-flex align-items-center less-spacer">
-                    <label>Upload Second Logo</label>
-                    <div
-                      className="logo-section"
-                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                    >
-                      {!logoTwo && (
-                        <>
-                          <div>
-                            <h5>Upload your file</h5>
-                            <h6>(Recommended size 300 x 140)</h6>
-                          </div>
-                          <Button className="upload-img"
-                            onClick={(e) =>
-                              handleFileSelect(e, "logoTwoImageUrl")
-                            }
-                          >
-                            Choose Your File
-                          </Button>
-                        </>
-                      )}
-
-                      <img className="logo-img" src={logoTwo} />
-                      <div className="logo-text header-text">
-                        {logoTwo && (
-                          <button
-                            className="btn btn-outline-primary"
-                            title="Edit user"
-                            type="button"
-                          >
-                            <img
-                              src={path + "edit-button.svg"}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleFileSelect(e, "logoTwoImageUrl");
-                              }}
-                            />
-                          </button>
-                        )}
-
-                        {logoTwo && (
-                          <button
-                            className="dlt_btn_event btn-voilet"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteLogoTwoImage(e, "logoTwoImageUrl");
-                            }}
-                          >
-                            <img
-                              title="Delete"
-                              src={path_image + "delete-icon.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    </div>
-                    :''}
-
-                  {template[formData?.templateId]?.includes("templateOne")?
-                    <div className="form-group d-flex align-items-center less-spacer">
-                    <label>Upload First Template</label>
-                    <div
-                      className="logo-section"
-                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                    >
-                      {!templateOne && (
-                        <>
-                          <div>
-                            <h5>Upload your file</h5>
-                            <h6>(Recommended size 300 x 140)</h6>
-                          </div>
-                          <Button className="upload-img"
-                            onClick={(e) =>
-                              handleFileSelect(e, "templateOneImageUrl")
-                            }
-                          >
-                            Choose Your File
-                          </Button>
-                        </>
-                      )}
-
-                      <img className="templateOne-img" src={templateOne} />
-                      <div className="logo-text header-text">
-                        {templateOne && (
-                          <button
-                            className="btn btn-outline-primary"
-                            title="Edit user"
-                            type="button"
-                          >
-                            <img
-                              src={path + "edit-button.svg"}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleFileSelect(e, "templateOneImageUrl");
-                              }}
-                            />
-                          </button>
-                        )}
-
-                        {templateOne && (
-                          <button
-                            className="dlt_btn_event btn-voilet"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteTemplateOneImage(e, "templateOneImageUrl");
-                            }}
-                          >
-                            <img
-                              title="Delete"
-                              src={path_image + "delete-icon.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    </div>
-                    :''}
-
-                  {template[formData?.templateId]?.includes("templateTwo")?
-                    <div className="form-group d-flex align-items-center less-spacer">
-                    <label>Upload Second Template</label>
-                    <div
-                      className="logo-section"
-                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                    >
-                      {!templateTwo && (
-                        <>
-                          <div>
-                            <h5>Upload your file</h5>
-                            <h6>(Recommended size 300 x 140)</h6>
-                          </div>
-                          <Button className="upload-img"
-                            onClick={(e) =>
-                              handleFileSelect(e, "templateTwoImageUrl")
-                            }
-                          >
-                            Choose Your File
-                          </Button>
-                        </>
-                      )}
-
-                      <img className="templateTwo-img" src={templateTwo} />
-                      <div className="logo-text header-text">
-                        {templateTwo && (
-                          <button
-                            className="btn btn-outline-primary"
-                            title="Edit user"
-                            type="button"
-                          >
-                            <img
-                              src={path + "edit-button.svg"}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleFileSelect(e, "templateTwoImageUrl");
-                              }}
-                            />
-                          </button>
-                        )}
-
-                        {templateTwo && (
-                          <button
-                            className="dlt_btn_event btn-voilet"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteTemplateTwoImage(e, "templateTwoImageUrl");
-                            }}
-                          >
-                            <img
-                              title="Delete"
-                              src={path_image + "delete-icon.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    </div>
-                    :''}
-                      
-
-                      {template[formData?.templateId]?.includes("header") ? <div className="form-group d-flex align-items-center less-spacer">
-                      <label>Upload Header</label>
-                      <div
-                        className="header-section"
-                        // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
-                      >
-                        {!file && (
-                          <>
-                            <div>
-                              <h5>Upload your file</h5>
-                              <h6>(Recommended size 1170 x 323)</h6>
+                                {logo && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteLogoImage(e, "logoImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
                             </div>
-                            <Button className="upload-img"
-                              onClick={(e) =>
-                                handleFileSelect(e, "headerImageUrl")
-                              }
-                            >
-                              Choose Your File
-                            </Button>
-                          </>
-                        )}
+                          </div>
+                          : ''}
 
-                        <img className="header-img" src={file} />
-                        <div className="header-text">
-                          {file && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                              type="button"
+                        {template[formData?.templateId]?.includes("logoOne") ?
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload First Logo</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                             >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleFileSelect(e, "headerImageUrl");
-                                }}
-                              />
-                            </button>
-                          )}
+                              {!logoOne && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "logoOneImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
 
-                          {file && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteHeaderImage(e, "headerImageUrl");
-                              }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      </div> : 
-                      ''
-                       }
+                              <img className="logo-img" src={logoOne} />
+                              <div className="logo-text header-text">
+                                {logoOne && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "logoOneImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
 
-                      {template[formData?.templateId]?.includes("footer")?
-                      <div className="form-group d-flex align-items-center less-spacer">
-                        <label>Upload Footer</label>
-                      <div
-                        className="footer-section"
-                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
-                      >
-                        {!foot && (
-                          <>
-                            <div>
-                              <h5>Upload your file</h5>
-                              <h6>(Recommended size 1170 x 300)</h6>
+                                {logoOne && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteLogoOneImage(e, "logoOneImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
                             </div>
-                            <Button className="upload-img"
-                              onClick={(e) =>
-                                handleFileSelect(e, "footerImageUrl")
-                              }
-                            >
-                              Choose Your File
-                            </Button>
-                          </>
-                        )}
+                          </div>
+                          : ''}
 
-                        <img className="footer-img" src={foot} />
-                        <div className="footer-text">
-                          {foot && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                              type="button"
+                        {template[formData?.templateId]?.includes("logoTwo") ?
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Second Logo</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                             >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleFileSelect(e, "footerImageUrl");
-                                }}
-                              />
-                            </button>
-                          )}
-                          {foot && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteFooterImage(e, "footerImageUrl");
-                              }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      </div>:''}
+                              {!logoTwo && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "logoTwoImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
 
-                      {/* <div className="form-group d-flex align-items-center less-spacer">
+                              <img className="logo-img" src={logoTwo} />
+                              <div className="logo-text header-text">
+                                {logoTwo && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "logoTwoImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {logoTwo && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteLogoTwoImage(e, "logoTwoImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          : ''}
+
+                        {template[formData?.templateId]?.includes("templateOne") ?
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload First Template</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!templateOne && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "templateOneImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="templateOne-img" src={templateOne} />
+                              <div className="logo-text header-text">
+                                {templateOne && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "templateOneImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {templateOne && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteTemplateOneImage(e, "templateOneImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          : ''}
+
+                        {template[formData?.templateId]?.includes("templateTwo") ?
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Second Template</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!templateTwo && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "templateTwoImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="templateTwo-img" src={templateTwo} />
+                              <div className="logo-text header-text">
+                                {templateTwo && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "templateTwoImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {templateTwo && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteTemplateTwoImage(e, "templateTwoImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          : ''}
+
+
+                        {template[formData?.templateId]?.includes("header") ? <div className="form-group d-flex align-items-center less-spacer">
+                          <label>Upload Header</label>
+                          <div
+                            className="header-section"
+                          // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                          >
+                            {!file && (
+                              <>
+                                <div>
+                                  <h5>Upload your file</h5>
+                                  <h6>(Recommended size 1170 x 323)</h6>
+                                </div>
+                                <Button className="upload-img"
+                                  onClick={(e) =>
+                                    handleFileSelect(e, "headerImageUrl")
+                                  }
+                                >
+                                  Choose Your File
+                                </Button>
+                              </>
+                            )}
+
+                            <img className="header-img" src={file} />
+                            <div className="header-text">
+                              {file && (
+                                <button
+                                  className="btn btn-outline-primary"
+                                  title="Edit user"
+                                  type="button"
+                                >
+                                  <img
+                                    src={path + "edit-button.svg"}
+                                    alt="Edit"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleFileSelect(e, "headerImageUrl");
+                                    }}
+                                  />
+                                </button>
+                              )}
+
+                              {file && (
+                                <button
+                                  className="dlt_btn_event btn-voilet"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteHeaderImage(e, "headerImageUrl");
+                                  }}
+                                >
+                                  <img
+                                    title="Delete"
+                                    src={path_image + "delete-icon.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div> :
+                          ''
+                        }
+
+                        {template[formData?.templateId]?.includes("footer") ?
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Footer</label>
+                            <div
+                              className="footer-section"
+                            // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                            >
+                              {!foot && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 1170 x 300)</h6>
+                                  </div>
+                                  <Button className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "footerImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="footer-img" src={foot} />
+                              <div className="footer-text">
+                                {foot && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      alt="Edit"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "footerImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+                                {foot && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteFooterImage(e, "footerImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div> : ''}
+
+                        {/* <div className="form-group d-flex align-items-center less-spacer">
                         <label>Upload Footer</label>
                       <div
                         className="footer-section"
@@ -3719,35 +3607,35 @@ const [templateList, setTemplateList] = useState(() => {
                       </div>
                       </div> */}
 
-                      {/* <div className="registration-preview">
+                        {/* <div className="registration-preview">
                             <div className="registration-form-view">
 
                             </div>
                     </div> */}
-                     </Form>
+                      </Form>
                     </div>
                   </Col>
                   <Col md={5} sm={5}>
                     <div className="register-page-right-view">
                       <div className="register-page-action d-flex align-items-center justify-content-between">
-                          <p>Preview <span>(save it to see the changes)</span></p>
-                          <Button onClick={(e) => saveClicked(e)} className="save">
-                            Save
-                          </Button>
+                        <p>Preview <span>(save it to see the changes)</span></p>
+                        <Button onClick={(e) => saveClicked(e)} className="save">
+                          Save
+                        </Button>
                       </div>
-                   
+
                       <div className="register-popup">
                         <div className="register-popup-view">
-                        <RegistrationPage
-                          type="preview"
-                          prevData={{
-                            eventId: eventData?.event_id,
-                            companyId: eventData?.company_id,
-                            content: JSON.stringify(formData),
-                            eventCode: event_code,
-                            isDataSaved: save,
-                          }}
-                        />
+                          <RegistrationPage
+                            type="preview"
+                            prevData={{
+                              eventId: eventData?.event_id,
+                              companyId: eventData?.company_id,
+                              content: JSON.stringify(formData),
+                              eventCode: event_code,
+                              isDataSaved: save,
+                            }}
+                          />
                         </div>
                       </div>
                     </div>
@@ -3761,11 +3649,19 @@ const [templateList, setTemplateList] = useState(() => {
             ) : (
               ""
             )}
-              </div>
-            </div>
+          </div>
+        </div>
       </Col>
       <CommonAddQuestionModal
         show={showModal}
+        onClose={handleAddQuestionModalClose}
+        handleSave={handleModalSave}
+        formLabel={formData?.body}
+        fieldData={fieldData}
+        dynamicFieldNo={dynamicFieldNo}
+
+      /> <ChangeCountry
+        show={changeCountry}
         onClose={handleAddQuestionModalClose}
         handleSave={handleModalSave}
         formLabel={formData?.body}

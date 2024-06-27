@@ -1,0 +1,1425 @@
+{
+    "Bahrain": {
+        "id": 18,
+        "name": "Bahrain",
+        "label": "Bahrain",
+        "value": "Bahrain",
+        "states": [
+            {
+                "label": "Capital",
+                "value": "Capital",
+                "country_code": "BH",
+                "state_code": "13",
+                "country_id": 18
+            },
+            {
+                "label": "Central",
+                "value": "Central",
+                "country_code": "BH",
+                "state_code": "16",
+                "country_id": 18
+            },
+            {
+                "label": "Muharraq",
+                "value": "Muharraq",
+                "country_code": "BH",
+                "state_code": "15",
+                "country_id": 18
+            },
+            {
+                "label": "Northern",
+                "value": "Northern",
+                "country_code": "BH",
+                "state_code": "17",
+                "country_id": 18
+            },
+            {
+                "label": "Southern",
+                "value": "Southern",
+                "country_code": "BH",
+                "state_code": "14",
+                "country_id": 18
+            }
+        ]
+    },
+    "Egypt": {
+        "id": 65,
+        "name": "Egypt",
+        "label": "Egypt",
+        "value": "Egypt",
+        "states": [
+            {
+                "label": "Alexandria",
+                "value": "Alexandria",
+                "country_code": "EG",
+                "state_code": "ALX",
+                "country_id": 65
+            },
+            {
+                "label": "Aswan",
+                "value": "Aswan",
+                "country_code": "EG",
+                "state_code": "ASN",
+                "country_id": 65
+            },
+            {
+                "label": "Asyut",
+                "value": "Asyut",
+                "country_code": "EG",
+                "state_code": "AST",
+                "country_id": 65
+            },
+            {
+                "label": "Beheira",
+                "value": "Beheira",
+                "country_code": "EG",
+                "state_code": "BH",
+                "country_id": 65
+            },
+            {
+                "label": "Beni Suef",
+                "value": "Beni Suef",
+                "country_code": "EG",
+                "state_code": "BNS",
+                "country_id": 65
+            },
+            {
+                "label": "Cairo",
+                "value": "Cairo",
+                "country_code": "EG",
+                "state_code": "C",
+                "country_id": 65
+            },
+            {
+                "label": "Dakahlia",
+                "value": "Dakahlia",
+                "country_code": "EG",
+                "state_code": "DK",
+                "country_id": 65
+            },
+            {
+                "label": "Damietta",
+                "value": "Damietta",
+                "country_code": "EG",
+                "state_code": "DT",
+                "country_id": 65
+            },
+            {
+                "label": "Faiyum",
+                "value": "Faiyum",
+                "country_code": "EG",
+                "state_code": "FYM",
+                "country_id": 65
+            },
+            {
+                "label": "Gharbia",
+                "value": "Gharbia",
+                "country_code": "EG",
+                "state_code": "GH",
+                "country_id": 65
+            },
+            {
+                "label": "Giza",
+                "value": "Giza",
+                "country_code": "EG",
+                "state_code": "GZ",
+                "country_id": 65
+            },
+            {
+                "label": "Ismailia",
+                "value": "Ismailia",
+                "country_code": "EG",
+                "state_code": "IS",
+                "country_id": 65
+            },
+            {
+                "label": "Kafr el-Sheikh",
+                "value": "Kafr el-Sheikh",
+                "country_code": "EG",
+                "state_code": "KFS",
+                "country_id": 65
+            },
+            {
+                "label": "Luxor",
+                "value": "Luxor",
+                "country_code": "EG",
+                "state_code": "LX",
+                "country_id": 65
+            },
+            {
+                "label": "Matrouh",
+                "value": "Matrouh",
+                "country_code": "EG",
+                "state_code": "MT",
+                "country_id": 65
+            },
+            {
+                "label": "Minya",
+                "value": "Minya",
+                "country_code": "EG",
+                "state_code": "MN",
+                "country_id": 65
+            },
+            {
+                "label": "Monufia",
+                "value": "Monufia",
+                "country_code": "EG",
+                "state_code": "MNF",
+                "country_id": 65
+            },
+            {
+                "label": "New Valley",
+                "value": "New Valley",
+                "country_code": "EG",
+                "state_code": "WAD",
+                "country_id": 65
+            },
+            {
+                "label": "North Sinai",
+                "value": "North Sinai",
+                "country_code": "EG",
+                "state_code": "SIN",
+                "country_id": 65
+            },
+            {
+                "label": "Port Said",
+                "value": "Port Said",
+                "country_code": "EG",
+                "state_code": "PTS",
+                "country_id": 65
+            },
+            {
+                "label": "Qalyubia",
+                "value": "Qalyubia",
+                "country_code": "EG",
+                "state_code": "KB",
+                "country_id": 65
+            },
+            {
+                "label": "Qena",
+                "value": "Qena",
+                "country_code": "EG",
+                "state_code": "KN",
+                "country_id": 65
+            },
+            {
+                "label": "Red Sea",
+                "value": "Red Sea",
+                "country_code": "EG",
+                "state_code": "BA",
+                "country_id": 65
+            },
+            {
+                "label": "Sharqia",
+                "value": "Sharqia",
+                "country_code": "EG",
+                "state_code": "SHR",
+                "country_id": 65
+            },
+            {
+                "label": "Sohag",
+                "value": "Sohag",
+                "country_code": "EG",
+                "state_code": "SHG",
+                "country_id": 65
+            },
+            {
+                "label": "South Sinai",
+                "value": "South Sinai",
+                "country_code": "EG",
+                "state_code": "JS",
+                "country_id": 65
+            },
+            {
+                "label": "Suez",
+                "value": "Suez",
+                "country_code": "EG",
+                "state_code": "SUZ",
+                "country_id": 65
+            }
+        ]
+    },
+    "Germany": {
+        "id": 82,
+        "name": "Germany",
+        "label": "Germany",
+        "value": "Germany",
+        "states": [
+            {
+                "label": "Baden-Württemberg",
+                "value": "Baden-Württemberg",
+                "country_code": "DE",
+                "state_code": "BW",
+                "country_id": 82
+            },
+            {
+                "label": "Bavaria",
+                "value": "Bavaria",
+                "country_code": "DE",
+                "state_code": "BY",
+                "country_id": 82
+            },
+            {
+                "label": "Berlin",
+                "value": "Berlin",
+                "country_code": "DE",
+                "state_code": "BE",
+                "country_id": 82
+            },
+            {
+                "label": "Brandenburg",
+                "value": "Brandenburg",
+                "country_code": "DE",
+                "state_code": "BB",
+                "country_id": 82
+            },
+            {
+                "label": "Bremen",
+                "value": "Bremen",
+                "country_code": "DE",
+                "state_code": "HB",
+                "country_id": 82
+            },
+            {
+                "label": "Hamburg",
+                "value": "Hamburg",
+                "country_code": "DE",
+                "state_code": "HH",
+                "country_id": 82
+            },
+            {
+                "label": "Hesse",
+                "value": "Hesse",
+                "country_code": "DE",
+                "state_code": "HE",
+                "country_id": 82
+            },
+            {
+                "label": "Lower Saxony",
+                "value": "Lower Saxony",
+                "country_code": "DE",
+                "state_code": "NI",
+                "country_id": 82
+            },
+            {
+                "label": "Mecklenburg-Vorpommern",
+                "value": "Mecklenburg-Vorpommern",
+                "country_code": "DE",
+                "state_code": "MV",
+                "country_id": 82
+            },
+            {
+                "label": "North Rhine-Westphalia",
+                "value": "North Rhine-Westphalia",
+                "country_code": "DE",
+                "state_code": "NW",
+                "country_id": 82
+            },
+            {
+                "label": "Rhineland-Palatinate",
+                "value": "Rhineland-Palatinate",
+                "country_code": "DE",
+                "state_code": "RP",
+                "country_id": 82
+            },
+            {
+                "label": "Saarland",
+                "value": "Saarland",
+                "country_code": "DE",
+                "state_code": "SL",
+                "country_id": 82
+            },
+            {
+                "label": "Saxony",
+                "value": "Saxony",
+                "country_code": "DE",
+                "state_code": "SN",
+                "country_id": 82
+            },
+            {
+                "label": "Saxony-Anhalt",
+                "value": "Saxony-Anhalt",
+                "country_code": "DE",
+                "state_code": "ST",
+                "country_id": 82
+            },
+            {
+                "label": "Schleswig-Holstein",
+                "value": "Schleswig-Holstein",
+                "country_code": "DE",
+                "state_code": "SH",
+                "country_id": 82
+            },
+            {
+                "label": "Thuringia",
+                "value": "Thuringia",
+                "country_code": "DE",
+                "state_code": "TH",
+                "country_id": 82
+            }
+        ]
+    },
+    "Iraq": {
+        "id": 104,
+        "name": "Iraq",
+        "label": "Iraq",
+        "value": "Iraq",
+        "states": [
+            {
+                "label": "Al Anbar",
+                "value": "Al Anbar",
+                "country_code": "IQ",
+                "state_code": "AN",
+                "country_id": 104
+            },
+            {
+                "label": "Al Muthanna",
+                "value": "Al Muthanna",
+                "country_code": "IQ",
+                "state_code": "MU",
+                "country_id": 104
+            },
+            {
+                "label": "Al-Qādisiyyah",
+                "value": "Al-Qādisiyyah",
+                "country_code": "IQ",
+                "state_code": "QA",
+                "country_id": 104
+            },
+            {
+                "label": "Babylon",
+                "value": "Babylon",
+                "country_code": "IQ",
+                "state_code": "BB",
+                "country_id": 104
+            },
+            {
+                "label": "Baghdad",
+                "value": "Baghdad",
+                "country_code": "IQ",
+                "state_code": "BG",
+                "country_id": 104
+            },
+            {
+                "label": "Basra",
+                "value": "Basra",
+                "country_code": "IQ",
+                "state_code": "BA",
+                "country_id": 104
+            },
+            {
+                "label": "Dhi Qar",
+                "value": "Dhi Qar",
+                "country_code": "IQ",
+                "state_code": "DQ",
+                "country_id": 104
+            },
+            {
+                "label": "Diyala",
+                "value": "Diyala",
+                "country_code": "IQ",
+                "state_code": "DI",
+                "country_id": 104
+            },
+            {
+                "label": "Dohuk",
+                "value": "Dohuk",
+                "country_code": "IQ",
+                "state_code": "DA",
+                "country_id": 104
+            },
+            {
+                "label": "Erbil",
+                "value": "Erbil",
+                "country_code": "IQ",
+                "state_code": "AR",
+                "country_id": 104
+            },
+            {
+                "label": "Karbala",
+                "value": "Karbala",
+                "country_code": "IQ",
+                "state_code": "KA",
+                "country_id": 104
+            },
+            {
+                "label": "Kirkuk",
+                "value": "Kirkuk",
+                "country_code": "IQ",
+                "state_code": "KI",
+                "country_id": 104
+            },
+            {
+                "label": "Maysan",
+                "value": "Maysan",
+                "country_code": "IQ",
+                "state_code": "MA",
+                "country_id": 104
+            },
+            {
+                "label": "Najaf",
+                "value": "Najaf",
+                "country_code": "IQ",
+                "state_code": "NA",
+                "country_id": 104
+            },
+            {
+                "label": "Nineveh",
+                "value": "Nineveh",
+                "country_code": "IQ",
+                "state_code": "NI",
+                "country_id": 104
+            },
+            {
+                "label": "Saladin",
+                "value": "Saladin",
+                "country_code": "IQ",
+                "state_code": "SD",
+                "country_id": 104
+            },
+            {
+                "label": "Sulaymaniyah",
+                "value": "Sulaymaniyah",
+                "country_code": "IQ",
+                "state_code": "SU",
+                "country_id": 104
+            },
+            {
+                "label": "Wasit",
+                "value": "Wasit",
+                "country_code": "IQ",
+                "state_code": "WA",
+                "country_id": 104
+            }
+        ]
+    },
+    "Israel": {
+        "id": 106,
+        "name": "Israel",
+        "label": "Israel",
+        "value": "Israel",
+        "states": [
+            {
+                "label": "Central District",
+                "value": "Central District",
+                "country_code": "IL",
+                "state_code": "M",
+                "country_id": 106
+            },
+            {
+                "label": "Haifa District",
+                "value": "Haifa District",
+                "country_code": "IL",
+                "state_code": "HA",
+                "country_id": 106
+            },
+            {
+                "label": "Jerusalem District",
+                "value": "Jerusalem District",
+                "country_code": "IL",
+                "state_code": "JM",
+                "country_id": 106
+            },
+            {
+                "label": "Northern District",
+                "value": "Northern District",
+                "country_code": "IL",
+                "state_code": "Z",
+                "country_id": 106
+            },
+            {
+                "label": "Southern District",
+                "value": "Southern District",
+                "country_code": "IL",
+                "state_code": "D",
+                "country_id": 106
+            },
+            {
+                "label": "Tel Aviv District",
+                "value": "Tel Aviv District",
+                "country_code": "IL",
+                "state_code": "TA",
+                "country_id": 106
+            }
+        ]
+    },
+    "Jordan": {
+        "id": 111,
+        "name": "Jordan",
+        "label": "Jordan",
+        "value": "Jordan",
+        "states": [
+            {
+                "label": "Ajloun",
+                "value": "Ajloun",
+                "country_code": "JO",
+                "state_code": "AJ",
+                "country_id": 111
+            },
+            {
+                "label": "Amman",
+                "value": "Amman",
+                "country_code": "JO",
+                "state_code": "AM",
+                "country_id": 111
+            },
+            {
+                "label": "Aqaba",
+                "value": "Aqaba",
+                "country_code": "JO",
+                "state_code": "AQ",
+                "country_id": 111
+            },
+            {
+                "label": "Balqa",
+                "value": "Balqa",
+                "country_code": "JO",
+                "state_code": "BA",
+                "country_id": 111
+            },
+            {
+                "label": "Irbid",
+                "value": "Irbid",
+                "country_code": "JO",
+                "state_code": "IR",
+                "country_id": 111
+            },
+            {
+                "label": "Jerash",
+                "value": "Jerash",
+                "country_code": "JO",
+                "state_code": "JA",
+                "country_id": 111
+            },
+            {
+                "label": "Karak",
+                "value": "Karak",
+                "country_code": "JO",
+                "state_code": "KA",
+                "country_id": 111
+            },
+            {
+                "label": "Ma'an",
+                "value": "Ma'an",
+                "country_code": "JO",
+                "state_code": "MN",
+                "country_id": 111
+            },
+            {
+                "label": "Madaba",
+                "value": "Madaba",
+                "country_code": "JO",
+                "state_code": "MD",
+                "country_id": 111
+            },
+            {
+                "label": "Mafraq",
+                "value": "Mafraq",
+                "country_code": "JO",
+                "state_code": "MA",
+                "country_id": 111
+            },
+            {
+                "label": "Tafilah",
+                "value": "Tafilah",
+                "country_code": "JO",
+                "state_code": "AT",
+                "country_id": 111
+            },
+            {
+                "label": "Zarqa",
+                "value": "Zarqa",
+                "country_code": "JO",
+                "state_code": "AZ",
+                "country_id": 111
+            }
+        ]
+    },
+    "Kuwait": {
+        "id": 117,
+        "name": "Kuwait",
+        "label": "Kuwait",
+        "value": "Kuwait",
+        "states": [
+            {
+                "label": "Al Ahmadi",
+                "value": "Al Ahmadi",
+                "country_code": "KW",
+                "state_code": "AH",
+                "country_id": 117
+            },
+            {
+                "label": "Al Farwaniyah",
+                "value": "Al Farwaniyah",
+                "country_code": "KW",
+                "state_code": "FA",
+                "country_id": 117
+            },
+            {
+                "label": "Al Jahra",
+                "value": "Al Jahra",
+                "country_code": "KW",
+                "state_code": "JA",
+                "country_id": 117
+            },
+            {
+                "label": "Capital",
+                "value": "Capital",
+                "country_code": "KW",
+                "state_code": "KU",
+                "country_id": 117
+            },
+            {
+                "label": "Hawalli",
+                "value": "Hawalli",
+                "country_code": "KW",
+                "state_code": "HA",
+                "country_id": 117
+            },
+            {
+                "label": "Mubarak Al-Kabeer",
+                "value": "Mubarak Al-Kabeer",
+                "country_code": "KW",
+                "state_code": "MU",
+                "country_id": 117
+            }
+        ]
+    },
+    "Lebanon": {
+        "id": 121,
+        "name": "Lebanon",
+        "label": "Lebanon",
+        "value": "Lebanon",
+        "states": [
+            {
+                "label": "Akkar",
+                "value": "Akkar",
+                "country_code": "LB",
+                "state_code": "AK",
+                "country_id": 121
+            },
+            {
+                "label": "Baalbek-Hermel",
+                "value": "Baalbek-Hermel",
+                "country_code": "LB",
+                "state_code": "BH",
+                "country_id": 121
+            },
+            {
+                "label": "Beirut",
+                "value": "Beirut",
+                "country_code": "LB",
+                "state_code": "BA",
+                "country_id": 121
+            },
+            {
+                "label": "Beqaa",
+                "value": "Beqaa",
+                "country_code": "LB",
+                "state_code": "BI",
+                "country_id": 121
+            },
+            {
+                "label": "Mount Lebanon",
+                "value": "Mount Lebanon",
+                "country_code": "LB",
+                "state_code": "JL",
+                "country_id": 121
+            },
+            {
+                "label": "Nabatieh",
+                "value": "Nabatieh",
+                "country_code": "LB",
+                "state_code": "NA",
+                "country_id": 121
+            },
+            {
+                "label": "North",
+                "value": "North",
+                "country_code": "LB",
+                "state_code": "AS",
+                "country_id": 121
+            },
+            {
+                "label": "South",
+                "value": "South",
+                "country_code": "LB",
+                "state_code": "JA",
+                "country_id": 121
+            }
+        ]
+    },
+    "Oman": {
+        "id": 166,
+        "name": "Oman",
+        "label": "Oman",
+        "value": "Oman",
+        "states": [
+            {
+                "label": "Ad Dakhiliyah",
+                "value": "Ad Dakhiliyah",
+                "country_code": "OM",
+                "state_code": "DA",
+                "country_id": 166
+            },
+            {
+                "label": "Ad Dhahirah",
+                "value": "Ad Dhahirah",
+                "country_code": "OM",
+                "state_code": "ZA",
+                "country_id": 166
+            },
+            {
+                "label": "Al Batinah North",
+                "value": "Al Batinah North",
+                "country_code": "OM",
+                "state_code": "BS",
+                "country_id": 166
+            },
+            {
+                "label": "Al Batinah Region",
+                "value": "Al Batinah Region",
+                "country_code": "OM",
+                "state_code": "BA",
+                "country_id": 166
+            },
+            {
+                "label": "Al Batinah South",
+                "value": "Al Batinah South",
+                "country_code": "OM",
+                "state_code": "BJ",
+                "country_id": 166
+            },
+            {
+                "label": "Al Buraimi",
+                "value": "Al Buraimi",
+                "country_code": "OM",
+                "state_code": "BU",
+                "country_id": 166
+            },
+            {
+                "label": "Al Wusta",
+                "value": "Al Wusta",
+                "country_code": "OM",
+                "state_code": "WU",
+                "country_id": 166
+            },
+            {
+                "label": "Ash Sharqiyah North",
+                "value": "Ash Sharqiyah North",
+                "country_code": "OM",
+                "state_code": "SS",
+                "country_id": 166
+            },
+            {
+                "label": "Ash Sharqiyah Region",
+                "value": "Ash Sharqiyah Region",
+                "country_code": "OM",
+                "state_code": "SH",
+                "country_id": 166
+            },
+            {
+                "label": "Ash Sharqiyah South",
+                "value": "Ash Sharqiyah South",
+                "country_code": "OM",
+                "state_code": "SJ",
+                "country_id": 166
+            },
+            {
+                "label": "Dhofar",
+                "value": "Dhofar",
+                "country_code": "OM",
+                "state_code": "ZU",
+                "country_id": 166
+            },
+            {
+                "label": "Musandam",
+                "value": "Musandam",
+                "country_code": "OM",
+                "state_code": "MU",
+                "country_id": 166
+            },
+            {
+                "label": "Muscat",
+                "value": "Muscat",
+                "country_code": "OM",
+                "state_code": "MA",
+                "country_id": 166
+            }
+        ]
+    },
+    "Pakistan": {
+        "id": 167,
+        "name": "Pakistan",
+        "label": "Pakistan",
+        "value": "Pakistan",
+        "states": [
+            {
+                "label": "Azad Kashmir",
+                "value": "Azad Kashmir",
+                "country_code": "PK",
+                "state_code": "JK",
+                "country_id": 167
+            },
+            {
+                "label": "Balochistan",
+                "value": "Balochistan",
+                "country_code": "PK",
+                "state_code": "BA",
+                "country_id": 167
+            },
+            {
+                "label": "Federally Administered Tribal Areas",
+                "value": "Federally Administered Tribal Areas",
+                "country_code": "PK",
+                "state_code": "TA",
+                "country_id": 167
+            },
+            {
+                "label": "Gilgit-Baltistan",
+                "value": "Gilgit-Baltistan",
+                "country_code": "PK",
+                "state_code": "GB",
+                "country_id": 167
+            },
+            {
+                "label": "Islamabad Capital Territory",
+                "value": "Islamabad Capital Territory",
+                "country_code": "PK",
+                "state_code": "IS",
+                "country_id": 167
+            },
+            {
+                "label": "Khyber Pakhtunkhwa",
+                "value": "Khyber Pakhtunkhwa",
+                "country_code": "PK",
+                "state_code": "KP",
+                "country_id": 167
+            },
+            {
+                "label": "Punjab",
+                "value": "Punjab",
+                "country_code": "PK",
+                "state_code": "PB",
+                "country_id": 167
+            },
+            {
+                "label": "Sindh",
+                "value": "Sindh",
+                "country_code": "PK",
+                "state_code": "SD",
+                "country_id": 167
+            }
+        ]
+    },
+    "Qatar": {
+        "id": 179,
+        "name": "Qatar",
+        "label": "Qatar",
+        "value": "Qatar",
+        "states": [
+            {
+                "label": "Al Daayen",
+                "value": "Al Daayen",
+                "country_code": "QA",
+                "state_code": "ZA",
+                "country_id": 179
+            },
+            {
+                "label": "Al Khor",
+                "value": "Al Khor",
+                "country_code": "QA",
+                "state_code": "KH",
+                "country_id": 179
+            },
+            {
+                "label": "Al Rayyan Municipality",
+                "value": "Al Rayyan Municipality",
+                "country_code": "QA",
+                "state_code": "RA",
+                "country_id": 179
+            },
+            {
+                "label": "Al Wakrah",
+                "value": "Al Wakrah",
+                "country_code": "QA",
+                "state_code": "WA",
+                "country_id": 179
+            },
+            {
+                "label": "Al-Shahaniya",
+                "value": "Al-Shahaniya",
+                "country_code": "QA",
+                "state_code": "SH",
+                "country_id": 179
+            },
+            {
+                "label": "Doha",
+                "value": "Doha",
+                "country_code": "QA",
+                "state_code": "DA",
+                "country_id": 179
+            },
+            {
+                "label": "Madinat ash Shamal",
+                "value": "Madinat ash Shamal",
+                "country_code": "QA",
+                "state_code": "MS",
+                "country_id": 179
+            },
+            {
+                "label": "Umm Salal Municipality",
+                "value": "Umm Salal Municipality",
+                "country_code": "QA",
+                "state_code": "US",
+                "country_id": 179
+            }
+        ]
+    },
+    "Saudi Arabia": {
+        "id": 194,
+        "name": "Saudi Arabia",
+        "label": "Saudi Arabia",
+        "value": "Saudi Arabia",
+        "states": [
+            {
+                "label": "'Asir",
+                "value": "'Asir",
+                "country_code": "SA",
+                "state_code": "14",
+                "country_id": 194
+            },
+            {
+                "label": "Al Bahah",
+                "value": "Al Bahah",
+                "country_code": "SA",
+                "state_code": "11",
+                "country_id": 194
+            },
+            {
+                "label": "Al Jawf",
+                "value": "Al Jawf",
+                "country_code": "SA",
+                "state_code": "12",
+                "country_id": 194
+            },
+            {
+                "label": "Al Madinah",
+                "value": "Al Madinah",
+                "country_code": "SA",
+                "state_code": "03",
+                "country_id": 194
+            },
+            {
+                "label": "Al-Qassim",
+                "value": "Al-Qassim",
+                "country_code": "SA",
+                "state_code": "05",
+                "country_id": 194
+            },
+            {
+                "label": "Eastern Province",
+                "value": "Eastern Province",
+                "country_code": "SA",
+                "state_code": "04",
+                "country_id": 194
+            },
+            {
+                "label": "Ha'il",
+                "value": "Ha'il",
+                "country_code": "SA",
+                "state_code": "06",
+                "country_id": 194
+            },
+            {
+                "label": "Jizan",
+                "value": "Jizan",
+                "country_code": "SA",
+                "state_code": "09",
+                "country_id": 194
+            },
+            {
+                "label": "Makkah",
+                "value": "Makkah",
+                "country_code": "SA",
+                "state_code": "02",
+                "country_id": 194
+            },
+            {
+                "label": "Najran",
+                "value": "Najran",
+                "country_code": "SA",
+                "state_code": "10",
+                "country_id": 194
+            },
+            {
+                "label": "Northern Borders",
+                "value": "Northern Borders",
+                "country_code": "SA",
+                "state_code": "08",
+                "country_id": 194
+            },
+            {
+                "label": "Riyadh",
+                "value": "Riyadh",
+                "country_code": "SA",
+                "state_code": "01",
+                "country_id": 194
+            },
+            {
+                "label": "Tabuk",
+                "value": "Tabuk",
+                "country_code": "SA",
+                "state_code": "07",
+                "country_id": 194
+            }
+        ]
+    },
+    "Sudan": {
+        "id": 209,
+        "name": "Sudan",
+        "label": "Sudan",
+        "value": "Sudan",
+        "states": [
+            {
+                "label": "Al Jazirah",
+                "value": "Al Jazirah",
+                "country_code": "SD",
+                "state_code": "GZ",
+                "country_id": 209
+            },
+            {
+                "label": "Al Qadarif",
+                "value": "Al Qadarif",
+                "country_code": "SD",
+                "state_code": "GD",
+                "country_id": 209
+            },
+            {
+                "label": "Blue Nile",
+                "value": "Blue Nile",
+                "country_code": "SD",
+                "state_code": "NB",
+                "country_id": 209
+            },
+            {
+                "label": "Central Darfur",
+                "value": "Central Darfur",
+                "country_code": "SD",
+                "state_code": "DC",
+                "country_id": 209
+            },
+            {
+                "label": "East Darfur",
+                "value": "East Darfur",
+                "country_code": "SD",
+                "state_code": "DE",
+                "country_id": 209
+            },
+            {
+                "label": "Kassala",
+                "value": "Kassala",
+                "country_code": "SD",
+                "state_code": "KA",
+                "country_id": 209
+            },
+            {
+                "label": "Khartoum",
+                "value": "Khartoum",
+                "country_code": "SD",
+                "state_code": "KH",
+                "country_id": 209
+            },
+            {
+                "label": "North Darfur",
+                "value": "North Darfur",
+                "country_code": "SD",
+                "state_code": "DN",
+                "country_id": 209
+            },
+            {
+                "label": "North Kordofan",
+                "value": "North Kordofan",
+                "country_code": "SD",
+                "state_code": "KN",
+                "country_id": 209
+            },
+            {
+                "label": "Northern",
+                "value": "Northern",
+                "country_code": "SD",
+                "state_code": "NO",
+                "country_id": 209
+            },
+            {
+                "label": "Red Sea",
+                "value": "Red Sea",
+                "country_code": "SD",
+                "state_code": "RS",
+                "country_id": 209
+            },
+            {
+                "label": "River Nile",
+                "value": "River Nile",
+                "country_code": "SD",
+                "state_code": "NR",
+                "country_id": 209
+            },
+            {
+                "label": "Sennar",
+                "value": "Sennar",
+                "country_code": "SD",
+                "state_code": "SI",
+                "country_id": 209
+            },
+            {
+                "label": "South Darfur",
+                "value": "South Darfur",
+                "country_code": "SD",
+                "state_code": "DS",
+                "country_id": 209
+            },
+            {
+                "label": "South Kordofan",
+                "value": "South Kordofan",
+                "country_code": "SD",
+                "state_code": "KS",
+                "country_id": 209
+            },
+            {
+                "label": "West Darfur",
+                "value": "West Darfur",
+                "country_code": "SD",
+                "state_code": "DW",
+                "country_id": 209
+            },
+            {
+                "label": "West Kordofan",
+                "value": "West Kordofan",
+                "country_code": "SD",
+                "state_code": "GK",
+                "country_id": 209
+            },
+            {
+                "label": "White Nile",
+                "value": "White Nile",
+                "country_code": "SD",
+                "state_code": "NW",
+                "country_id": 209
+            }
+        ]
+    },
+    "United Arab Emirates": {
+        "id": 231,
+        "name": "United Arab Emirates",
+        "label": "United Arab Emirates",
+        "value": "United Arab Emirates",
+        "states": [
+            {
+                "label": "Abu Dhabi Emirate",
+                "value": "Abu Dhabi Emirate",
+                "country_code": "AE",
+                "state_code": "AZ",
+                "country_id": 231
+            },
+            {
+                "label": "Ajman Emirate",
+                "value": "Ajman Emirate",
+                "country_code": "AE",
+                "state_code": "AJ",
+                "country_id": 231
+            },
+            {
+                "label": "Dubai",
+                "value": "Dubai",
+                "country_code": "AE",
+                "state_code": "DU",
+                "country_id": 231
+            },
+            {
+                "label": "Fujairah",
+                "value": "Fujairah",
+                "country_code": "AE",
+                "state_code": "FU",
+                "country_id": 231
+            },
+            {
+                "label": "Ras al-Khaimah",
+                "value": "Ras al-Khaimah",
+                "country_code": "AE",
+                "state_code": "RK",
+                "country_id": 231
+            },
+            {
+                "label": "Sharjah Emirate",
+                "value": "Sharjah Emirate",
+                "country_code": "AE",
+                "state_code": "SH",
+                "country_id": 231
+            },
+            {
+                "label": "Umm al-Quwain",
+                "value": "Umm al-Quwain",
+                "country_code": "AE",
+                "state_code": "UQ",
+                "country_id": 231
+            }
+        ]
+    },
+ 
+    "Yemen": {
+        "id": 245,
+        "name": "Yemen",
+        "label": "Yemen",
+        "value": "Yemen",
+        "states": [
+            {
+                "label": "'Adan",
+                "value": "'Adan",
+                "country_code": "YE",
+                "state_code": "AD",
+                "country_id": 245
+            },
+            {
+                "label": "'Amran",
+                "value": "'Amran",
+                "country_code": "YE",
+                "state_code": "AM",
+                "country_id": 245
+            },
+            {
+                "label": "Abyan",
+                "value": "Abyan",
+                "country_code": "YE",
+                "state_code": "AB",
+                "country_id": 245
+            },
+            {
+                "label": "Al Bayda'",
+                "value": "Al Bayda'",
+                "country_code": "YE",
+                "state_code": "BA",
+                "country_id": 245
+            },
+            {
+                "label": "Al Hudaydah",
+                "value": "Al Hudaydah",
+                "country_code": "YE",
+                "state_code": "HU",
+                "country_id": 245
+            },
+            {
+                "label": "Al Jawf",
+                "value": "Al Jawf",
+                "country_code": "YE",
+                "state_code": "JA",
+                "country_id": 245
+            },
+            {
+                "label": "Al Mahrah",
+                "value": "Al Mahrah",
+                "country_code": "YE",
+                "state_code": "MR",
+                "country_id": 245
+            },
+            {
+                "label": "Al Mahwit",
+                "value": "Al Mahwit",
+                "country_code": "YE",
+                "state_code": "MW",
+                "country_id": 245
+            },
+            {
+                "label": "Amanat Al Asimah",
+                "value": "Amanat Al Asimah",
+                "country_code": "YE",
+                "state_code": "SA",
+                "country_id": 245
+            },
+            {
+                "label": "Dhamar",
+                "value": "Dhamar",
+                "country_code": "YE",
+                "state_code": "DH",
+                "country_id": 245
+            },
+            {
+                "label": "Hadhramaut",
+                "value": "Hadhramaut",
+                "country_code": "YE",
+                "state_code": "HD",
+                "country_id": 245
+            },
+            {
+                "label": "Hajjah",
+                "value": "Hajjah",
+                "country_code": "YE",
+                "state_code": "HJ",
+                "country_id": 245
+            },
+            {
+                "label": "Ibb",
+                "value": "Ibb",
+                "country_code": "YE",
+                "state_code": "IB",
+                "country_id": 245
+            },
+            {
+                "label": "Lahij",
+                "value": "Lahij",
+                "country_code": "YE",
+                "state_code": "LA",
+                "country_id": 245
+            },
+            {
+                "label": "Ma'rib",
+                "value": "Ma'rib",
+                "country_code": "YE",
+                "state_code": "MA",
+                "country_id": 245
+            },
+            {
+                "label": "Raymah",
+                "value": "Raymah",
+                "country_code": "YE",
+                "state_code": "RA",
+                "country_id": 245
+            },
+            {
+                "label": "Saada",
+                "value": "Saada",
+                "country_code": "YE",
+                "state_code": "SD",
+                "country_id": 245
+            },
+            {
+                "label": "Sana'a",
+                "value": "Sana'a",
+                "country_code": "YE",
+                "state_code": "SN",
+                "country_id": 245
+            },
+            {
+                "label": "Shabwah",
+                "value": "Shabwah",
+                "country_code": "YE",
+                "state_code": "SH",
+                "country_id": 245
+            },
+            {
+                "label": "Socotra",
+                "value": "Socotra",
+                "country_code": "YE",
+                "state_code": "SU",
+                "country_id": 245
+            },
+            {
+                "label": "Ta'izz",
+                "value": "Ta'izz",
+                "country_code": "YE",
+                "state_code": "TA",
+                "country_id": 245
+            }
+        ]
+    }
+}
