@@ -995,7 +995,7 @@ const WebinarVerifyMAIL = (props) => {
                             The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
-                          {(localStorageUserId != 'z2TunmZQf3QwCsICFTLGGQ==' && getSmartListData?.length !== 0 && typeOfHcp == 1) && (
+                          {(getSmartListData?.length !== 0 && typeOfHcp == 1) && (
                             <div className="smartlist-view email_box_outer new-smartlist">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">

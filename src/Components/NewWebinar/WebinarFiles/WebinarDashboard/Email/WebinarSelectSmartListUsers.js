@@ -209,7 +209,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
-    if (typeOfHcp == 1 && localStorageUserId != 'z2TunmZQf3QwCsICFTLGGQ==') {
+    if (typeOfHcp == 1 ) {
       navigate("/webinar/email/selectSmartList", {
         state: { typeOfHcp: typeOfHcp, thisEventToggled: thisEventToggled },
       });
