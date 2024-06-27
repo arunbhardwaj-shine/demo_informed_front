@@ -188,9 +188,11 @@ const NewReadersReview = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setAppliedFilter({'IRT mandatory training': ["Yes"]});
-      setFilterObject({'IRT mandatory training': ["Yes"]});
-      setApifilterObject({'IRT mandatory training': ["Yes"]});
+      setFilterObject({});
+      setApifilterObject({});
+      // setAppliedFilter({'IRT mandatory training': ["Yes"]});
+      // setFilterObject({'IRT mandatory training': ["Yes"]});
+      // setApifilterObject({'IRT mandatory training': ["Yes"]});
     } else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
       setAppliedFilter({ "contact Type": ["HCP"] });
       setFilterObject({});
@@ -1581,6 +1583,7 @@ const NewReadersReview = () => {
         try {
           let body = {
             readerId: userId,
+            irt:1,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {

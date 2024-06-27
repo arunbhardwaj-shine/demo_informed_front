@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
-import { getCampaignId, getEmailData } from "../../actions";
+import { getCampaignId, getEmailData, getSearched,getSelected } from "../../actions";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -64,6 +64,7 @@ const CreateEmail = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
+  const { state } = useLocation();
   const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
@@ -98,6 +99,10 @@ const CreateEmail = (props) => {
         ? props.getDraftData.description
         : ""
   );
+  const [manualEmailDescription, setManualEmailDescription] = useState(
+    state_object?.emailDescription ?? props.getDraftData?.description ?? ""
+  );
+
   const [emailCreator, setEmailCreator] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -106,6 +111,9 @@ const CreateEmail = (props) => {
       : props.getDraftData
         ? props.getDraftData.creator
         : ""
+  );
+  const [manualEmailCreator, setManualEmailCreator] = useState(
+    state_object?.emailCreator ?? props.getDraftData?.creator ?? ""
   );
   const [counter, setCounter] = useState(0);
   const [modalCounter, setModalCounter] = useState(0);
@@ -118,6 +126,9 @@ const CreateEmail = (props) => {
         ? props.getDraftData.campaign
         : ""
   );
+  const [manualEmailCampaign, setManualEmailCampaign] = useState(
+    state_object?.emailCampaign ?? props.getDraftData?.campaign ?? ""
+  );
   const [emailSubject, setEmailSubject] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -126,6 +137,9 @@ const CreateEmail = (props) => {
       : props.getDraftData
         ? props.getDraftData.subject
         : ""
+  );
+  const [manualEmailSubject, setManualEmailSubject] = useState(
+    state_object?.emailSubject ?? props.getDraftData?.subject ?? ""
   );
   const [templateId, setTemplateId] = useState(
     state_object != null &&
@@ -175,6 +189,10 @@ const CreateEmail = (props) => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [selectedListId, setSelectedListId] = useState(0);
+
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+  );
 
   const [hpc, setHpc] = useState([
     {
@@ -449,9 +467,13 @@ const CreateEmail = (props) => {
     ) {
       if (props.getDraftData !== null) {
         setEmailDescription(props.getDraftData.description);
+        setManualEmailDescription(props.getDraftData.description);
         setEmailCreator(props.getDraftData.creator);
+        setManualEmailCreator(props.getDraftData.creator);
         setemailCampaign(props.getDraftData.campaign);
+        setManualEmailCampaign(props.getDraftData.campaign);
         setEmailSubject(props.getDraftData.subject);
+        setManualEmailSubject(props.getDraftData.subject);
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
@@ -822,11 +844,17 @@ const CreateEmail = (props) => {
       : props.getDraftData.campaign;
 
     if (typeof campaign !== "undefined" && campaign !== "") {
-      console.log(props.getDraftData);
+      // console.log(props.getDraftData);
 
       let up_temp = template;
       if (editorRef.current) {
         up_temp = editorRef.current.getContent();
+      }
+
+      let redirectPath = "/EmailList";
+ 
+      if (irtRoleObj?.IRTFlag) {
+        redirectPath = "/IRTRole";
       }
 
       const body = {
@@ -866,7 +894,8 @@ const CreateEmail = (props) => {
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              redirect: "/EmailList",
+              // redirect: "/EmailList",
+              redirect: redirectPath
             });
             // toast.success("Draft saved");
           } else {
@@ -881,6 +910,41 @@ const CreateEmail = (props) => {
       event.preventDefault();
       toast.error("Plese select Email Campaign first");
     }
+  };
+
+  const templateIRTClicked = (template, e) => {
+    const div = document.querySelector("img.select_mm");
+
+    if (div) {
+      div.classList.remove("select_mm");
+    }
+    const templateDescriptions = {
+      "E-Mail IRT: Site User": "IRT Training Site User",
+      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+    };
+    setEmailDescription(manualEmailDescription ? manualEmailDescription : templateDescriptions[template?.name])
+
+    const templateSubject = {
+      "E-Mail IRT: Site User": "IRT Training Site User",
+      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+    };
+    setEmailSubject(manualEmailSubject ? manualEmailSubject : templateSubject[template?.name])
+
+    const templateCampaign = {
+      "E-Mail IRT: Site User": "IRT Training Site User",
+      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+    };
+    setemailCampaign(manualEmailCampaign ? manualEmailCampaign : templateCampaign[template?.name])
+    setEmailCreator(manualEmailCreator ? manualEmailCreator : 'LEX')
+    setTemplateId(template.id);
+    templateIdRef.current = template?.id;
+
+    setTemplateName(template.name);
+    setTemplate(template.source_code);
+    e.target.classList.toggle("select_mm");
   };
 
   const templateClicked = (template, e) => {
@@ -914,21 +978,43 @@ const CreateEmail = (props) => {
 
     if (validator.allValid()) {
       // console.log(PdfSelected);
-      props.getEmailData({
-        //uniqueId: uniqueId,
-        status: getIsApprovedStatus,
-        emailDescription: emailDescription,
-        emailCreator: emailCreator,
-        emailCampaign: emailCampaign,
-        emailSubject: emailSubject,
-        templateId: templateId,
-        tags: tags,
-        template: template,
-        PdfSelected: PdfSelected,
-        campaign_id: campaign_id_st,
-      });
+      if(irtRoleObj?.IRTFlag){
+        let existingObj = {
+          status: getIsApprovedStatus,
+          emailDescription: emailDescription,
+          emailCreator: emailCreator,
+          emailCampaign: emailCampaign,
+          emailSubject: emailSubject,
+          templateId: templateId,
+          tags: tags,
+          template: template,
+          PdfSelected: PdfSelected,
+          campaign_id: campaign_id_st,
+        };
 
-      navigate("/SelectHCP");
+        const mergedObject = { ...existingObj, ...irtRoleObj };
+        props.getEmailData(mergedObject);
+        props.getSelected(null)
+        props.getSearched(null)
+        navigate("/VerifyHCP", {
+          state: {IrtObj:irtRoleObj,NextFlag:1},
+        });
+      }else{
+        props.getEmailData({
+          //uniqueId: uniqueId,
+          status: getIsApprovedStatus,
+          emailDescription: emailDescription,
+          emailCreator: emailCreator,
+          emailCampaign: emailCampaign,
+          emailSubject: emailSubject,
+          templateId: templateId,
+          tags: tags,
+          template: template,
+          PdfSelected: PdfSelected,
+          campaign_id: campaign_id_st,
+        });
+        navigate("/SelectHCP");
+      }
     } else {
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
@@ -937,7 +1023,7 @@ const CreateEmail = (props) => {
 
   const approvedClicked = async (e) => {
     let ab = getIsApprovedStatus;
-    console.log(ab);
+    // console.log(ab);
     if (getIsApprovedStatus === 3) {
       await setIsApprovedStatus(2);
       ab = 2;
@@ -1165,9 +1251,9 @@ const CreateEmail = (props) => {
     //console.log(new_atg);
   };
 
-  const emailDescriptionChange = (e) => {
-    setEmailDescription(e.target.value);
-  };
+  // const emailDescriptionChange = (e) => {
+  //   setEmailDescription(e.target.value);
+  // };
 
   const emailCreatorChange = (e) => {
     setEmailCreator(e.target.value);
@@ -1345,7 +1431,7 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -1517,7 +1603,7 @@ const CreateEmail = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        console.log(data);
+        // console.log(data);
         if (
           data.email == "" ||
           data?.institution_type == "" ||
@@ -1655,7 +1741,7 @@ const CreateEmail = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
+      // console.log(formData);
 
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -2168,6 +2254,18 @@ const CreateEmail = (props) => {
     setAddListOpen(true);
   }
 
+  const handleBackClick = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+
+  const handleSelectUsers = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -2177,26 +2275,34 @@ const CreateEmail = (props) => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/EmailArticleSelect">Back</Link>
+                    <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
+                      {/* <Link to="/EmailArticleSelect">Back</Link> */} Back
                     </button>
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                    <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    <li className="active" onClick={handleSelectUsers}>
+                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                      Select Content
                     </li>
                     <li className="active active-main">
                       <a href="">Create Your Email</a>
                     </li>
-                    <li className="">
+                    {/* <li className="">
                       <a href="">
                         {localStorage.getItem("user_id") == userId
                           ? "Select Users"
                           : "Select HCPs"}
                       </a>
-                    </li>
+                    </li> */}
+                     {!irtRoleObj?.IRTFlag && (
+                        <li className="">
+                          <a href="">
+                            {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}
+                          </a>
+                        </li>
+                      )}
                     <li className="">
                       <a href="">Verify your list</a>
                     </li>
@@ -2208,14 +2314,14 @@ const CreateEmail = (props) => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <button
-                      className="btn btn-primary btn-bordered move-draft"
+                      className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
                       onClick={saveAsDraft}
                     >
                       Save As Draft
                     </button>
 
                     <button
-                      className="btn btn-primary btn-filled next"
+                      className="btn btn-primary btn-filled next"  state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
                       onClick={nextClicked}
                       disabled={
                         typeof emailSubject == "undefined" ||
@@ -2257,7 +2363,8 @@ const CreateEmail = (props) => {
                           <div
                             key={index}
                             className="item"
-                            onClick={(e) => templateClicked(template, e)}
+                            // onClick={(e) => templateClicked(template, e)}
+                            onClick={(e) => irtRoleObj?.IRTFlag ? templateIRTClicked(template, e) : templateClicked(template, e)}
                           >
                             <img
                               id={"template_dyn" + index}
@@ -2306,7 +2413,11 @@ const CreateEmail = (props) => {
                             </label>
 
                             <input
-                              onChange={(e) => emailDescriptionChange(e)}
+                              // onChange={(e) => emailDescriptionChange(e)}
+                              onChange={(e) => {
+                                setEmailDescription(e?.target?.value);
+                                setManualEmailDescription(e?.target?.value)
+                            }}
                               type="text"
                               className={
                                 validator?.message(
@@ -2332,7 +2443,11 @@ const CreateEmail = (props) => {
                             </label>
 
                             <input
-                              onChange={(e) => emailCreatorChange(e)}
+                              // onChange={(e) => emailCreatorChange(e)}
+                              onChange={(e) => {
+                                setEmailCreator(e?.target?.value);
+                                setManualEmailCreator(e?.target?.value)
+                            }}
                               type="text"
                               className={
                                 validator.message(
@@ -2384,7 +2499,11 @@ const CreateEmail = (props) => {
                               }
                               id="email-campaign"
                               value={emailCampaign}
-                              onChange={changeEmailCampaign}
+                              // onChange={changeEmailCampaign}
+                              onChange={(e) => {
+                                setemailCampaign(e?.target?.value);
+                                setManualEmailCampaign(e?.target?.value)
+                            }}
                             />
                             {validator.message(
                               "emailCampaign",
@@ -2446,7 +2565,11 @@ const CreateEmail = (props) => {
                                 : "form-control"
                             }
                             id="email-subject"
-                            onChange={(e) => emailSubjectChanged(e)}
+                            // onChange={(e) => emailSubjectChanged(e)}
+                            onChange={(e) => {
+                              setEmailSubject(e?.target?.value);
+                              setManualEmailSubject(e?.target?.value)
+                          }}
                             value={emailSubject}
                           />
                           {validationError?.emailSubject ? (
@@ -4281,4 +4404,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getCampaignId: getCampaignId,
+  getSelected,
+  getSearched
 })(CreateEmail);

@@ -19,21 +19,21 @@
         "value": "",
         "color": "#001489"
     },
-    
+   
     "eventStartTime": {
         "title": "Event Start Time",
         "type": "time",
         "value": "",
         "color": "#001489"
     },
-
+ 
     "speakerName": {
         "title": "Speaker Name",
         "type": "text",
         "value": "Guy Young ",
         "color": "#001489"
     },
-    
+   
     "eventDateDetails": {
         "title": "Event Date Details",
         "type": "textArea",
@@ -79,7 +79,7 @@
     }
 },
 "body": [
-    
+   
     {
         "label": "I also consent to:",
         "inputType": "checkbox",
@@ -1050,8 +1050,274 @@
         ]
     },
 
+    {"templateId": 8,
+    "templateName": "Octapharma 1",
+    "pageTitle": "Welcome to the webinar",
+    "bodyText": "",
+    "headerImageUrl": "",
+    "footerImageUrl": "",
+    "labelColor": "#001489",
+    "optionColor": "#0053a0",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
+    "backgroundColor": "",
+    "eventDetails": {
+        "eventStartDate": {
+            "title": "Event Start Date",
+            "type": "date",
+            "value": "",
+            "color": "#001489"
+        },
+        
+        "eventStartTime": {
+            "title": "Event Start Time",
+            "type": "time",
+            "value": "",
+            "color": "#001489"
+        },
+
+        "speakerName": {
+            "title": "Speaker Name",
+            "type": "text",
+            "value": "by Jacob Flindt",
+            "color": "#0053a0"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "textArea",
+            "value": "Monday, July 8, 2024 <br/> 16:00 - 18:00 PM CET",
+            "color": "#0053a0"
+        
+        },
+        "pageTitle": {
+            "title": "Registration Title",
+            "type": "textArea",
+            "value": "Welcome to the webinar",
+            "color": "#0053a0"
+        },
+        "SubTitle": {
+            "title": "Sub Title",
+            "type": "textArea",
+            "value": "Management of haemophilia A with inhibitors: <br/> A regional web-workshop",
+            "color": "#39b6ac"
+        },
+        "SubHeading": {
+            "title": "Sub Heading",
+            "type": "textArea",
+            "value": "This webinar is for Health Care Professionals only.<br/> To register please fill in all your details below.",
+            "color": "#0053a0"
+        },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": " This webinar is for healthcare professionals only. Please review the product information before prescribing Haemophilia A and inhibitors products.",
+            "color": "#001489"
+        },
+        "Message": {
+            "title": "Thanks Message",
+            "type": "textArea",
+            "value": "Thank you for registering!",
+            "color":  "#001489"
+        }
+    },
+    "body": [
+        
+        {
+            "label": "I also consent to:",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "My activity being tracked on this webinar page*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Being contacted by Octapharma",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Receive future materials from the Octapharma Digital Library",
+                    "extension": [],
+                    "checked": ""
+                }
+                
+            ],
+            "extension": "",
+            "name": "consent"
+        },
+        
+        {
+            "name": "country",
+            "label": "Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "yes"
+        }
+    ]
+    },
+
+    {"templateId": 9,
+    "templateName": "Octapharma 2",
+    "pageTitle": "Welcome to the",
+    "bodyText": "",
+    "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/D0oKkYfUHCnLwV3aiWfq02eTBpSoQ7JSsXKICXbm.png",
+    "footerImageUrl": "",
+    "labelColor": "#001489",
+    "optionColor": "#0053a0",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
+    "backgroundColor": "",
+    "eventDetails": {
+        "eventStartDate": {
+            "title": "Event Start Date",
+            "type": "date",
+            "value": "",
+            "color": "#001489"
+        },
+        
+        "eventStartTime": {
+            "title": "Event Start Time",
+            "type": "time",
+            "value": "",
+            "color": "#001489"
+        },
+
+        "speakerName": {
+            "title": "Speaker Name",
+            "type": "text",
+            "value": "by Jacob Flindt",
+            "color": "#0053a0"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "textArea",
+            "value": "Monday, July 8, 2024 <br/> 16:00 - 18:00 PM CET",
+            "color": "#0053a0"
+        
+        },
+        "pageTitle": {
+            "title": "Registration Title",
+            "type": "textArea",
+            "value": "Welcome to the",
+            "color": "#0053a0"
+        },
+        "SubTitle": {
+            "title": "Sub Title",
+            "type": "textArea",
+            "value": "PUP Management Workshop",
+            "color": "#39b6ac"
+        },
+        "SubHeading": {
+            "title": "Sub Heading",
+            "type": "textArea",
+            "value": "This workshop is for Health Care Professionals only.",
+            "color": "#0053a0"
+        },
+        "SubText": {
+            "title": "Sub Text",
+            "type": "textArea",
+            "value": "To register please fill in all your details below.",
+            "color": "#0053a0"
+        },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": "354_HAEREG_WFH2024<br/>Date of preparation: June 2024",
+            "color": "#001489"
+        },
+        "Message": {
+            "title": "Thanks Message",
+            "type": "textArea",
+            "value": "Thank you for registering!",
+            "color":  "#001489"
+        }
+    },
+    "body": [
+        
+        {
+            "label": "I also consent to:",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "My activity being tracked on this webinar page*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Being contacted by Octapharma",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Receive future materials from the Octapharma Digital Library",
+                    "extension": [],
+                    "checked": ""
+                }
+                
+            ],
+            "extension": "",
+            "name": "consent"
+        },
+        
+        {
+            "name": "country",
+            "label": "Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "yes"
+        }
+    ]
+    },
+
     {
-        "templateId": 8,
+        "templateId": 10,
         "templateName": "Default Template",
         "pageTitle": "To register please select and fill in all your details below.",
         "bodyText": "This meeting is for healthcare professionals only.",
@@ -1241,7 +1507,7 @@
     },
     
     {
-        "templateId": 9,
+        "templateId": 11,
         "templateName": "Default Template",
         "pageTitle": "To register please select and fill in all your details below.",
         "bodyText": "This meeting is for healthcare professionals only.",

@@ -7,12 +7,13 @@ import { ToastContainer, toast } from 'react-toastify'
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { loader } from '../../loader';
-const SurveyData = () => {
+const Check8SurveyData = () => {
   const [data, setData] = useState([])
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(false)
   const accordionRefs = useRef([]);
   useEffect(() => {
+  
     getSurveyData()
   }, [])
 
@@ -160,12 +161,12 @@ const SurveyData = () => {
           "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
 
           // "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
-          "6. Would you be interested in participating in any of the following 8CHECK activities": 
-          item?.survey_data?.interested_in_8check_activities?.length > 0 
-           ? item.survey_data.interested_in_8check_activities.length === 1
-             ? item.survey_data.interested_in_8check_activities[0]
-             : item.survey_data.interested_in_8check_activities.join(", ")
-           : "N/A"
+         "6. Would you be interested in participating in any of the following 8CHECK activities": 
+         item?.survey_data?.interested_in_8check_activities?.length > 0 
+          ? item.survey_data.interested_in_8check_activities.length === 1
+            ? item.survey_data.interested_in_8check_activities[0]
+            : item.survey_data.interested_in_8check_activities.join(", ")
+          : "N/A"
         };
       })
       
@@ -265,10 +266,10 @@ const SurveyData = () => {
     }
     document.body.removeChild(textArea);
   };
-
+ 
 
   return (<>
-    {/* <ToastContainer
+    <ToastContainer
       position="top-right"
       autoClose={5000}
       hideProgressBar={false}
@@ -278,16 +279,18 @@ const SurveyData = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-    /> */}
-    {/* <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div> */}
-    <Col className="right-sidebar custom-change ">
-      {/* <meta
+    />
+    <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div>
+    {/* <Col className="right-sidebar custom-change "> */}
+      <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
-      /> */}
+      />
+      <div className='survey_result'>
+
+
       <div className="custom-container">
         <Row>
-          <Col>
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data | <span>{data?.length}</span></h4>
@@ -349,6 +352,7 @@ const SurveyData = () => {
 
                   {data?.map((item, index) => {
                     return (<>
+                   
                       <Accordion
                       key={index}
                         activeKey={openAccordionIndex === index ? '0' : null}                        
@@ -368,7 +372,9 @@ const SurveyData = () => {
                           <Accordion.Body>
                             {openAccordionIndex === index && (
                               <>
+                              
                                 {Object.keys(item?.survey_data)?.length ? (
+                                
                                   <div className='main'>
                                     <div className='survey-data'>
                                       <h6>Location:</h6>
@@ -446,6 +452,7 @@ const SurveyData = () => {
                                           : item.survey_data.interested_in_8check_activities.join(", ")
                                         : "N/A"}
                                     </p>
+
                                     </div>
                                   </div>
                                 ) : (
@@ -467,10 +474,10 @@ const SurveyData = () => {
               </>
                 : apiCallStatus ? <div className='no_found'><h3 style={{ color: "#004A89" }}>No Data Found</h3></div> : ""}
             </div>
-          </Col>
         </Row>
       </div>
-    </Col>
+      </div>
+    {/* </Col> */}
   </>)
 }
-export default SurveyData
+export default Check8SurveyData
