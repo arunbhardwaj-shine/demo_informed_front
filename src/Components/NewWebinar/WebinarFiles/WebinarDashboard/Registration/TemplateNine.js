@@ -242,11 +242,17 @@ export default function TemplateNine({ children, formData }) {
                 </Col>
               </Row>
             </div> */}
-            <div className="footer-sec">
-              <span>
-              This webinar is for healthcare professionals only. Please review the product information before prescribing Haemophilia A and inhibitors products.
-              </span>
-            </div>
+            <div className="footer-text">
+              <p
+                style={{
+                  color: formData?.content?.eventDetails?.footerText?.color,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.footerText?.value,
+                }}
+              >
+              </p>
+          </div>
           </div>
         </div>
       </div>

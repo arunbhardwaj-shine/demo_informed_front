@@ -1111,6 +1111,12 @@
             "value": "This webinar is for Health Care Professionals only.<br/> To register please fill in all your details below.",
             "color": "#0053a0"
         },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": " This webinar is for healthcare professionals only. Please review the product information before prescribing Haemophilia A and inhibitors products.",
+            "color": "#5D7682"
+        },
         "Message": {
             "title": "Thanks Message",
             "type": "textArea",
@@ -1240,6 +1246,12 @@
             "type": "textArea",
             "value": "To register please fill in all your details below.",
             "color": "#0053a0"
+        },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": "354_HAEREG_WFH2024<br/>Date of preparation: June 2024",
+            "color": "#5D7682"
         },
         "Message": {
             "title": "Thanks Message",
