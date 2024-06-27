@@ -1561,6 +1561,7 @@ const NewReaders = () => {
         try {
           let body = {
             readerId: userId,
+            irt:0,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {

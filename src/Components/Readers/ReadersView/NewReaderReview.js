@@ -1581,6 +1581,7 @@ const NewReadersReview = () => {
         try {
           let body = {
             readerId: userId,
+            irt:1,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {
