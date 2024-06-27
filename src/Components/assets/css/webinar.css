@@ -5270,7 +5270,8 @@ font-size: 16px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.16);
 }
 .octapharma-one .footer {
-  padding: 0px 0;
+  padding: 30px 30px 10px;
+  margin: 0px 0 0;
 }
 .octapharma-one .footer-sec {
   margin: 20px 0 0 0;
@@ -5282,7 +5283,13 @@ font-size: 16px;
 .octapharma-one .consent-form .split-button-dropup>div:nth-child(3) {
   border-radius: 10px;
   padding: 7px 18px;
+}
+.octapharma-one form#registration_form {
+  margin-top: 14px;
+}
 
+.octapharma-one .footer-text p {
+  font-size: 12px;
 }
 /**Octapharma1 template end**/
 /**Octapharma2 template**/
@@ -5340,9 +5347,9 @@ font-size: 16px;
   content: "";
   border-bottom: 7px solid #39b6ac;
   position: absolute;
-  width: calc(100% + 120px);
+  width: calc(100% + 60px);
   bottom: -30px;
-  left: -60px;
+  left: -30px;
 }
 
 .octapharma-two .consent-form-list.attend-sec li .checkmark {
@@ -5427,7 +5434,7 @@ font-size: 16px;
 }
 
 .octapharma-two .footer {
-  padding: 20px 60px 20px;
+  padding: 20px 30px 20px;
   background: transparent;
 }
 
