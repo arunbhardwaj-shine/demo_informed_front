@@ -42,7 +42,7 @@ const template = {
   6:['logo','templateOne','templateTwo'],
   7:['header'],
   8:[],
-  9:['logo'],
+  9:['header'],
   10:['logo','header','footer'],
   11:['logo','header','footer'],
 }

@@ -57,7 +57,7 @@ export default function TemplateNine({ children, formData }) {
   return (
     <>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-      <div className="wrapper octapharma-one">
+      <div className="wrapper octapharma-two">
         <div
           className="octapharma_event"
           style={{ background: `${formData?.content?.backgroundColor}` }}
@@ -81,6 +81,8 @@ export default function TemplateNine({ children, formData }) {
             >
               {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
             </h4> 
+
+            <img  src={`${formData?.content?.headerImageUrl?formData?.content?.headerImageUrl:""}`}alt="" />
 
             <h4
               style={{
