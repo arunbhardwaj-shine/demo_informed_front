@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import axios from "axios";
-import { getDraftData, getEmailData } from "../../actions";
+import { getDraftData, getEmailData,getSearched,getSelected  } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
@@ -18,7 +18,9 @@ import { Col, Row } from "react-bootstrap";
 import moment from "moment";
 
 const EmailList = (props) => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const { state } = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -35,7 +37,7 @@ const EmailList = (props) => {
   const [ctrName, setCTRName] = useState("");
   const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
+  
   const [submiHandle, setSubmiHandle] = useState("");
   const [getreference, setReference] = useState("");
   const [campaign_id, setCampaignId] = useState("");
@@ -65,7 +67,14 @@ const EmailList = (props) => {
   const [isActive, setIsActive] = useState({});
   const [functionParameter, setFunctionParameter] = useState({
 
-  })
+  });
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
+  );
+  const [filter, setFilter] = useState(
+    state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
+  );
+  // const [filter, setFilter] = useState(initialFilterProp || {});
 
   const [options_ch, setOptions_ch] = useState({
     chart: {
@@ -244,11 +253,14 @@ const EmailList = (props) => {
       loader('show');
       const body = {
         user_id: localStorage.getItem("user_id"),
+        flag:irtRoleObj?.IRTFlag,
+        id:irtRoleObj?.pdfId
       };
       await axios
         .post(`emailapi/get_campaign_list_filter`, body)
         .then((res) => {
-          setFilterData(res?.data?.response?.filter);
+          setFilterData(res?.data?.response?.filter?res?.data?.response?.filter:{});
+         
           getData("initial");
         })
         .catch((err) => {
@@ -381,7 +393,10 @@ const EmailList = (props) => {
       });
 
     //console.log(props);
-    navigate("/" + route);
+    // navigate("/" + route);
+    navigate("/" + route, {
+      state: {IrtObj:irtRoleObj},
+    });
     //  }
   };
 
@@ -394,10 +409,12 @@ const EmailList = (props) => {
   //   data.subject,
   //   data.tags;
 
+  
+
   useEffect(() => {
-    // getData("initial");
+    console.log('Fetching data for path:', location.pathname);
     getCampaignFiltereData();
-  }, []);
+  }, [location.pathname]);
 
   const showDeleteButtons = () => {
     if (deletestatus) {
@@ -407,10 +424,21 @@ const EmailList = (props) => {
     }
   };
 
-  const createNewEmail = () => {
+  const createNewEmail = async() => {
     props.getDraftData(null);
+    props.getSelected(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
+    props.getSearched(null)
+    if([3968,3970,4521].includes(irtRoleObj?.pdfId)){
+      await navigateRole(irtRoleObj?.pdfId);
+      // console.log(irtRoleObj?.pdfId,'irtRoleObj?.pdfId');
+    }else{
+      navigate("/EmailArticleSelect", {
+        state: {IrtObj:irtRoleObj},
+      });
+    }
+    
   };
 
   const showConfirmationPopup = (id) => {
@@ -823,21 +851,56 @@ const EmailList = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
+  const navigateRole = async(pdfId) => {
+    try{
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        pdf_id: pdfId,
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`emailapi/get_rd_campaign_data`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            let campaign_data = res?.data?.response?.data;
+            props.getEmailData(campaign_data);
+          } else {
+            toast.warning(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+        });
+      navigate("/VerifyHCP", {
+        state: {IrtObj:irtRoleObj,NextFlag:1},
+      });
+    }catch(err){
+      loader("hide");
+      console.log(err,'err');
+    }
+  }
+
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
-        <div className="custom-container">
+    {
+      console.log(location.pathname)
+    }
+      <Col className="right-sidebar custom-change" key={location.pathname}>
+        <div className="custom-container" key={location.pathname}>
           <Row>
             <div className="top-header sticky">
-              <div className="page-title">{/* <h2>Email</h2> */}</div>
+              <div className="page-title"> {irtRoleObj?.IRTFlag ?<h2>{irtRoleObj?.siteRole}</h2>:<h2>Emails</h2>}</div>
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
-                      type="text"
-                      placeholder="Search"
+                      type="search"
+                      placeholder="Search by campaign or creator"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}
@@ -1387,9 +1450,11 @@ const EmailList = (props) => {
                   !deletestatus && (
                     <div className="email_box_block">
                       <div className="email-block-add">
-                        <Link to="/EmailArticleSelect" onClick={createNewEmail}>
-                          <img src={path_image + "add-button.svg"} alt="" />
-                        </Link>
+                        {/* <Link to="/EmailArticleSelect" onClick={createNewEmail}> */}
+                          <button onClick={createNewEmail}>
+                            <img src={path_image + "add-button.svg"} alt="" />
+                          </button>
+                        {/* </Link> */}
                         <p>Create New Email</p>
                       </div>
                     </div>
@@ -1398,6 +1463,7 @@ const EmailList = (props) => {
                 {SendListData.length > 0 ? (
                   SendListData.map((data) => {
                     return (
+                      <>
                       <div className="email_box_block">
                         <div
                           className={
@@ -1448,6 +1514,34 @@ const EmailList = (props) => {
                                         <th>List</th>
                                         <td>{data.smart_list_name}</td>
                                       </tr>
+                                      {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                                      <tr>
+                                        <th>Site</th>
+                                      <td>
+                                        {data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length > 0 && data?.unique_site_numbers.filter(item => item).length <= 10 
+                                          ? data?.unique_site_numbers.filter(item => item).join(', ') 
+                                          : 'N/A'}
+                                      </td>
+
+                                      </tr>
+                                      {/* <tr>
+                                        <th>IRTs</th>
+                                        <td>
+                                        {data?.unique_site_names && data?.unique_site_names.filter(item => item).length > 0 && data?.unique_site_names.filter(item => item).length <= 10 
+                                          ? data?.unique_site_names.filter(item => item).join(', ') 
+                                          : 'N/A'}
+                                        </td>
+                                      </tr> */}
+                                      <tr>
+                                        <th>IRTs</th>
+                                      <td>
+                                        {data?.unique_user_types && data?.unique_user_types.filter(item => item).length > 0 && data?.unique_user_types.filter(item => item).length <= 10 
+                                          ? data?.unique_user_types.filter(item => item).join(', ') 
+                                          : 'N/A'}
+                                      </td>
+                                      </tr>
+                                      </>):''}
                                     </tbody>
                                   </table>
                                 </div>
@@ -1695,6 +1789,7 @@ const EmailList = (props) => {
                           </div>
                         </div>
                       </div>
+                      </>
                     );
                   })
                 ) : (
@@ -2778,4 +2873,6 @@ export default connect(mapStateToProps, {
   getDraftData: getDraftData,
   getSelectedSmartListData: getSelectedSmartListData,
   getEmailData: getEmailData,
+  getSelected,
+  getSearched
 })(EmailList);

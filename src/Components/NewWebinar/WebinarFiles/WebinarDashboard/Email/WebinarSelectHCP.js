@@ -45,21 +45,39 @@ const WebinarSelectHCP = (props) => {
       ? props?.getWebinarDraftData?.campaign_id
       : 0;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
-  const userIdArray =
-    ["iSnEsKu5gB/DRlycxB6G4g==", "B7SHpAc XDXSH NXkN0rdQ==", "UbCJcnLM9fe HsRMgX8c1A==", "wW0geGtDPvig5gF 6KbJrg==", "z2TunmZQf3QwCsICFTLGGQ==", "qDgwPdToP05Kgzc g2VjIQ=="];
+  // const userIdArray =
+  //   ["iSnEsKu5gB/DRlycxB6G4g==", "B7SHpAc XDXSH NXkN0rdQ==", "UbCJcnLM9fe HsRMgX8c1A==", "wW0geGtDPvig5gF 6KbJrg==", "z2TunmZQf3QwCsICFTLGGQ==", "qDgwPdToP05Kgzc g2VjIQ=="];
+  const userIdArray =  ["iSnEsKu5gB/DRlycxB6G4g=="];
   const currentUserId = localStorageUserId
-  const sendOptions = [
-    { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`, tooltipMessage: "Everyone from your CRM" },
-    { id: 4, navigateUrl: "/webinar/email/selectSmartListUsers", label: "US list", alt: "US List", value: "US List", imageUrl: `${path_image}us-list.svg` },
-    { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg`, tooltipMessage: "HCPs who HAVE registered to this event" },
-    { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`, tooltipMessage: "The remaining who have NOT yet registered" },
-    { id: 2, navigateUrl: "/webinar/email/verifyHCP", 
-    label: currentUserId == userId ? "Single User" : "Single HCP",
-     alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
-    { id: 1, navigateUrl: "/webinar/email/selectSmartList", 
-    label: "Group of HCPs", 
-    alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
-  ];
+  let sendOptions = [];
+  if(currentUserId == "iSnEsKu5gB/DRlycxB6G4g=="){
+    sendOptions = [
+      { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`, tooltipMessage: "Everyone from your CRM" },
+      { id: 4, navigateUrl: "/webinar/email/selectSmartListUsers", label: "US list", alt: "US List", value: "US List", imageUrl: `${path_image}us-list.svg` },
+      { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg`, tooltipMessage: "HCPs who HAVE registered to this event" },
+      { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`, tooltipMessage: "The remaining who have NOT yet registered" },
+      { id: 2, navigateUrl: "/webinar/email/verifyHCP", 
+      label: currentUserId == userId ? "Single User" : "Single HCP",
+       alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+      { id: 1, navigateUrl: "/webinar/email/selectSmartList", 
+      label: "Group of HCPs", 
+      alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+    ];
+  }else if(currentUserId == "z2TunmZQf3QwCsICFTLGGQ=="){
+    sendOptions = [
+      { id: 2, navigateUrl: "/webinar/email/selectSmartList", label: "IBU HCPs",alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "IBU HCPs - Find or upload a new individual HCP (or a few)" },
+      { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: "Internal HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+    ];
+  }else{
+    sendOptions = [
+      { id: 2, navigateUrl: "/webinar/email/verifyHCP", 
+        label: currentUserId == userId ? "Single User" : "Single HCP",
+         alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+        { id: 1, navigateUrl: "/webinar/email/selectSmartList", 
+        label: "Group of HCPs", 
+        alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+    ];
+  }
 
   const [typeOfHcp, setTypeOfHcp] = useState(null)
 
@@ -190,9 +208,15 @@ const WebinarSelectHCP = (props) => {
     }
 
     if (selected == 1 || selected == 2) {
-      navigate(url, {
-        state: { typeOfHcp: selected, flag: 2, thisEventToggled: location?.state?.thisEventToggled },
-      });
+      if(localStorageUserId == 'z2TunmZQf3QwCsICFTLGGQ=='){
+        let endpoint = selected == 1 ? ENDPOINT.OWN_USERS_LISTING : ENDPOINT.IBU_USERS_LISTING;
+        const body = { eventId: eventId };
+        await fetchDataAndNavigate(endpoint, body, selected);
+      }else{
+        navigate(url, {
+          state: { typeOfHcp: selected, flag: 2, thisEventToggled: location?.state?.thisEventToggled },
+        });
+      }
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
       switch (selected) {
@@ -308,34 +332,38 @@ const WebinarSelectHCP = (props) => {
               <div className="row">
                 <div className="send-option-list">
                   <h5>Do you want to send to</h5>
-                  <ul className='send-option-new'>
-                    {sendOptions?.filter((item) => {
-                      if (item.id == 1 || item.id == 2) {
-                        return false
-                      }
-                      return true
+                  {
+                    localStorage.getItem('user_id') != 'z2TunmZQf3QwCsICFTLGGQ==' ?
+                    <ul className='send-option-new'>
+                      {sendOptions?.filter((item) => {
+                        if (item.id == 1 || item.id == 2) {
+                          return false
+                        }
+                        return true
 
-                    })?.map(option => {
-                      if (option?.id == 4 && !userIdArray?.includes(currentUserId)) {
-                        return null
-                      } else {
-                        return (<>
-                          <li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
-                            <div
-                              className={templateId === option.id ? "send-option-img active" : "send-option-img"}
-                              onClick={(e) => handleInputChange(e, option?.id)}
-                            >
-                              <input type="radio" name="select-option-hcp" value={option?.value} />
-                              <img src={option?.imageUrl} alt={option.alt} />
-                            </div>
-                            <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage} title={option?.tooltipMessage} /></p>
-                          </li>
-                        </>)
-                      }
+                      })?.map(option => {
+                        if (option?.id == 4 && !userIdArray?.includes(currentUserId)) {
+                          return null
+                        } else {
+                          return (<>
+                            <li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
+                              <div
+                                className={templateId === option.id ? "send-option-img active" : "send-option-img"}
+                                onClick={(e) => handleInputChange(e, option?.id)}
+                              >
+                                <input type="radio" name="select-option-hcp" value={option?.value} />
+                                <img src={option?.imageUrl} alt={option.alt} />
+                              </div>
+                              <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage} title={option?.tooltipMessage} /></p>
+                            </li>
+                          </>)
+                        }
 
-                    }
-                    )}
-                  </ul>
+                      }
+                      )}
+                    </ul>
+                    : null
+                  }
                   <ul>
 
                     {sendOptions?.filter((item) => item.id == 1 || item.id == 2)?.map(option => {

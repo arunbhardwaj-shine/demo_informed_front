@@ -7,23 +7,27 @@ import {
   getCampaignId,
   getSelected,
   getSelectedSmartListData,
+  getSearched
 } from "../../actions";
 import axios from "axios";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getEmailData } from "../../actions";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
+import { postData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 var old_object = {};
 var selected_Data = [];
+var searched_Data=[]
 const VerifyHCP = (props) => {
   const [totalData, setTotalData] = useState({});
-
+  const { state } = useLocation();
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
@@ -60,7 +64,7 @@ const VerifyHCP = (props) => {
   const [sorting, setSorting] = useState(0);
   const [editable, setEditable] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
-  const [searchedUsers, setSearchedUsers] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState(searched_Data?searched_Data:[]);
   const [editableData, setEditableData] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
@@ -100,6 +104,10 @@ const VerifyHCP = (props) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
+
+  const [irtRoleObj,setIRTRoleObj] = useState(
+    typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+  );
 
   const axiosFun = async () => {
     try {
@@ -162,6 +170,9 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
+    // console.log("props-->",props)
+    // console.log("state-->",state)
+   
     if (
       typeof props !== "undefined" &&
       props !== null &&
@@ -198,6 +209,14 @@ const VerifyHCP = (props) => {
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
+    //  if(state?.NextFlag==1){
+    //    getRDMandatoryReaders()
+    //  }
+
+     if(irtRoleObj?.IRTFlag){
+      getRDMandatoryReaders()
+     }
+     
     }
 
     const getalCountry = async () => {
@@ -256,14 +275,66 @@ const VerifyHCP = (props) => {
     getalCountry();
   }, []);
 
+  const getRDMandatoryReaders=async ()=>{
+   
+      loader("show")
+      let body={
+        user_id:userId,
+        pdf_id:irtRoleObj?.pdfId      
+      }
+      // console.log("body-->",irtRoleObj)
+      // const response=await postData(ENDPOINT.GET_RD_MANDATORY_READERS,body)
+
+      await axios
+      .post(`distributes/get_rd_mandatory_readers`,body)
+      .then((res)=>{
+        // console.log("res-->",res)
+        if(res?.data?.status_code==200){
+          let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]
+          // console.log(searchedUserList,'searchedUserList');
+          // console.log(selectedHcp,'selectedHcp');
+
+          let selectedProfileIds = new Set();
+          if (selectedHcp.length > 0) {
+              selectedHcp.forEach(hcp => selectedProfileIds.add(hcp?.profile_user_id));
+          }
+
+          // Filter searchedUserList to remove objects with profile_ids present in selectedProfileIds
+          searchedUserList = searchedUserList.filter(user => !selectedProfileIds.has(user?.profile_user_id));
+
+          // console.log(searchedUserList,'searchedUserList');
+
+          setSearchedUsers(searchedUserList)
+          loader("hide")
+        }
+      }).catch((err)=> {
+        console.log(err);
+        loader("hide")
+      }) 
+  }
+
   const nextClicked = () => {
-    props.getSelected(selectedHcp);
-    navigate("/VerifyHcpMAIL", {
-      state: {
-        selectedHcp: selectedHcp,
-        removedHcp: "",
-      },
-    });
+   
+    if(irtRoleObj?.IRTFlag){
+      props.getSearched(searchedUsers);
+      props.getSelected(selectedHcp);
+      navigate("/VerifyHcpMAIL", {
+        state: {
+          selectedHcp: selectedHcp,
+          removedHcp: "",
+          IrtObj:irtRoleObj,
+          searchedUsers:searchedUsers
+        },
+      });
+    }else{
+      props.getSelected(selectedHcp);  
+      navigate("/VerifyHcpMAIL", {
+        state: {
+          selectedHcp: selectedHcp,
+          removedHcp: "",
+        },
+      });
+    }
   };
 
   const closeModal = () => {
@@ -289,6 +360,12 @@ const VerifyHCP = (props) => {
   };
 
   const addNewHcp = () => {
+    
+    let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
+    if(state?.IrtObj?.siteRole && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
+      setDefaultRole = irtRole?.[userRoleIndex]?.value;
+    }
     // $('#myModal').modal('show'
     // document.getElementById("tagsModal").modal('show');
     setIsOpen(true);
@@ -302,7 +379,7 @@ const VerifyHCP = (props) => {
         countryIndex: "",
         role:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ? irtRole?.[0]?.value
+            ? setDefaultRole
             : "",
         optIrt:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -318,8 +395,8 @@ const VerifyHCP = (props) => {
   const selectHcp = (index) => {
     let arr = [];
     arr = searchedUsers;
-    let added_user_id = arr[index].profile_user_id;
-    let prev_obj = selectedHcp.find((x) => x.profile_user_id === added_user_id);
+    let added_user_id = arr[index]?.profile_user_id;
+    let prev_obj = selectedHcp?.find((x) => x?.profile_user_id === added_user_id);
     if (typeof prev_obj == "undefined") {
       const removedArray = arr.splice(index, 1);
       setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
@@ -484,6 +561,13 @@ const VerifyHCP = (props) => {
   };
 
   const onIRTChange = (e, i) => {
+
+    let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
+		if(state?.IrtObj?.siteRole && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+		  const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
+		  setDefaultRole = irtRole?.[userRoleIndex]?.value;
+		}
+
     if (e == "") {
       const list = [...hpc];
       list[i].optIrt = "";
@@ -495,7 +579,7 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
+      list[i].role = e == "yes" ? setDefaultRole : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -801,6 +885,14 @@ const VerifyHCP = (props) => {
     });
 
     if (status.every((element) => element == "true")) {
+
+      let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
+      if(state?.IrtObj?.siteRole && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+        const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
+        setDefaultRole = irtRole?.[userRoleIndex]?.value;
+      }
+
+
       setHpc([
         ...hpc,
         {
@@ -812,7 +904,7 @@ const VerifyHCP = (props) => {
           countryIndex: "",
           role:
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ? irtRole?.[0]?.value
+              ? setDefaultRole
               : "",
           optIrt:
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -880,7 +972,12 @@ const VerifyHCP = (props) => {
   };
 
   const backClicked = () => {
-    navigate("/SelectHCP");
+    if(irtRoleObj?.IRTFlag){
+      navigate("/CreateEmail",{state: {IrtObj:irtRoleObj}})
+    }else{
+
+      navigate("/SelectHCP");
+    }
   };
 
   const searchHcp = async (e) => {
@@ -1044,9 +1141,12 @@ const VerifyHCP = (props) => {
           ? old_object.templateId
           : props.getDraftData.campaign_data.template_id,
         selectedHcp: selectedHcp,
+        searchedUsers:irtRoleObj?.IRTFlag?searchedUsers:[],
         list_selection: old_object?.selected
           ? old_object.selected
-          : props.getDraftData.campaign_data.list_selection,
+          : props.getDraftData?.campaign_data?.list_selection
+          ?props.getDraftData?.campaign_data?.list_selection
+          :"",
       },
 
       campaign_id: campaign_id_st,
@@ -1064,12 +1164,22 @@ const VerifyHCP = (props) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
           setSelectedHcp(selectedHcp);
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/EmailList",
-          });
+          if(irtRoleObj?.IRTFlag){
+            setSearchedUsers(searchedUsers)
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/IRTRole",
+            });
+          }else{
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+          }
         } else {
           toast.warning(res.data.message);
         }
@@ -1078,6 +1188,18 @@ const VerifyHCP = (props) => {
       .catch((err) => {
         toast.error("Something went wrong");
       });
+  };
+
+  const handleSelectUsers = () => {
+    navigate("/EmailArticleSelect", {
+      state: {IrtObj:irtRoleObj},
+    });
+  };
+ 
+  const handleCreateMail = () => {
+    navigate("/CreateEmail", {
+      state: {IrtObj:irtRoleObj},
+    });
   };
 
   return (
@@ -1099,11 +1221,13 @@ const VerifyHCP = (props) => {
                 </div>
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
-                    <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                  <li className="active" onClick={handleSelectUsers}>
+                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                      Select Content
                     </li>
-                    <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                    <li className="active" onClick={handleCreateMail}>
+                      {/* <Link to="/CreateEmail">Create Your Email</Link> */}
+                      Create Your Email
                     </li>
                     {/*
                   <li className="active">
@@ -1144,20 +1268,26 @@ const VerifyHCP = (props) => {
                 </div>
               </div>
             </div>
-
-            <div className="top-header">
-              <div className="page-title">
-                <h4>
-                  {localStorage.getItem("user_id") == userId
-                    ? "Search For User By:"
-                    : "Search For HCP By:"}
-                </h4>
-              </div>
-            </div>
+            
+            {
+              !irtRoleObj?.IRTFlag ? 
+                <div className="top-header">
+                  <div className="page-title">
+                    <h4>
+                      {localStorage.getItem("user_id") == userId
+                        ? "Search For User By:"
+                        : "Search For HCP By:"}
+                    </h4>
+                  </div>
+                </div>
+                : null
+            }
 
             <section className="search-hcp">
               <div className="form-search-hcp">
                 <form>
+                {
+                  !irtRoleObj?.IRTFlag ?
                   <div className="form-inline row justify-content-between align-items-center">
                     <div className="col-12 col-md-7">
                       <div className="row justify-content-between align-items-center">
@@ -1201,6 +1331,46 @@ const VerifyHCP = (props) => {
                       </button>
                     </div>
                   </div>
+                  : 
+                  <div className="form-inline">
+                     {localStorage.getItem("user_id") == userId
+                          ? <div className="d-flex justify-content-between align-items-end"><div className="select-irt">
+                              <h4>Select IRTs :</h4>
+                              <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
+                              </div>
+                              <div className="form-button d-flex justify-content-end align-items-center">
+                                <button
+                                  className="btn btn-primary btn-bordered"
+                                  type="button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#add_hcp"
+                                  onClick={addNewHcp}
+                                >
+                                  {localStorage.getItem("user_id") == userId
+                                    ? "Add User +"
+                                    : "Add HCP +"}
+                                </button>
+                              </div>
+                          </div>
+                          : 
+                          <div className="form-button d-flex justify-content-end align-items-center">
+                            <button
+                              className="btn btn-primary btn-bordered"
+                              type="button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#add_hcp"
+                              onClick={addNewHcp}
+                            >
+                              {localStorage.getItem("user_id") == userId
+                                ? "Add User +"
+                                : "Add HCP +"}
+                            </button>
+                          </div>
+                          }
+                    
+                  </div>
+                }  
+              
                 </form>
               </div>
               <div className="search-hcp-table">
@@ -1735,7 +1905,7 @@ const VerifyHCP = (props) => {
                           return (
                             <>
                               <tr>
-                                <td>{users?.name}</td>
+                                <td>{users?.name?users?.name:users?.first_name}</td>
                                 <td>{users?.email ? users?.email : "N/A"}</td>
                                 <td>{users?.bounce ? users?.bounce : "N/A"}</td>
                                 <td>
@@ -1834,9 +2004,9 @@ const VerifyHCP = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    {localStorage.getItem("user_id") == userId
+                    {/* {localStorage.getItem("user_id") == userId
                       ? "Selected Users"
-                      : "Selected HCPs"}
+                      : "Selected HCPs"} */}Selected HCPs
                     <span>| {selectedHcp?.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
@@ -3347,10 +3517,12 @@ const VerifyHCP = (props) => {
 const mapStateToProps = (state) => {
   old_object = state.getEmailData;
   selected_Data = state.getSelected;
+  searched_Data=state.getSearched;
   return state;
 };
 
 export default connect(mapStateToProps, {
   getEmailData,
   getSelected,
+  getSearched,
 })(VerifyHCP);
