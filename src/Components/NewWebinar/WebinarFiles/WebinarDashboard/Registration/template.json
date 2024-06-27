@@ -1115,7 +1115,7 @@
             "title": "Footer Text",
             "type": "textArea",
             "value": " This webinar is for healthcare professionals only. Please review the product information before prescribing Haemophilia A and inhibitors products.",
-            "color": "#5D7682"
+            "color": "#001489"
         },
         "Message": {
             "title": "Thanks Message",
