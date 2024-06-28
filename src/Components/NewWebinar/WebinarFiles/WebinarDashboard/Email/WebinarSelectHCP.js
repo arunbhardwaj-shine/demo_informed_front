@@ -65,8 +65,14 @@ const WebinarSelectHCP = (props) => {
     ];
   }else if(currentUserId == "z2TunmZQf3QwCsICFTLGGQ=="){
     sendOptions = [
-      { id: 2, navigateUrl: "/webinar/email/selectSmartList", label: "IBU HCPs",alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "IBU HCPs - List of all IBU readers from Mena region" },
-      { id: 1, navigateUrl: "/webinar/email/selectSmartList", label: "Internal HCPs", alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "List of all internal readers" }
+      { id: 3, navigateUrl: "/webinar/email/selectSmartList", label: "Internal HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "List of all internal readers" },
+      { id: 5, navigateUrl: "/webinar/email/selectSmartList", label: "IBU HCPs",alt: "IBU HCP", value: "IBU HCP", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "IBU HCPs - List of all IBU readers from Mena region" },
+      { id: 2, navigateUrl: "/webinar/email/verifyHCP", 
+        label: currentUserId == userId ? "Single User" : "Single HCP",
+         alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+      { id: 1, navigateUrl: "/webinar/email/selectSmartList", 
+      label: "Group of HCPs", 
+      alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
     ];
   }else{
     sendOptions = [
@@ -208,15 +214,15 @@ const WebinarSelectHCP = (props) => {
     }
 
     if (selected == 1 || selected == 2) {
-      if(localStorageUserId == 'z2TunmZQf3QwCsICFTLGGQ=='){
-        let endpoint = selected == 1 ? ENDPOINT.OWN_USERS_LISTING : ENDPOINT.IBU_USERS_LISTING;
-        const body = { eventId: eventId };
-        await fetchDataAndNavigate(endpoint, body, selected);
-      }else{
+      // if(localStorageUserId == 'z2TunmZQf3QwCsICFTLGGQ=='){
+      //   let endpoint = selected == 1 ? ENDPOINT.OWN_USERS_LISTING : ENDPOINT.IBU_USERS_LISTING;
+      //   const body = { eventId: eventId };
+      //   await fetchDataAndNavigate(endpoint, body, selected);
+      // }else{
         navigate(url, {
           state: { typeOfHcp: selected, flag: 2, thisEventToggled: location?.state?.thisEventToggled },
         });
-      }
+      // }
     } else if (selected == 3 || selected == 4 || selected == 5 || selected == 6) {
       let endpoint;
       switch (selected) {
@@ -235,6 +241,11 @@ const WebinarSelectHCP = (props) => {
         default:
           break
       }
+
+      if(localStorageUserId == 'z2TunmZQf3QwCsICFTLGGQ==' && (selected == 3 || selected == 5)){
+        endpoint = selected == 3 ? ENDPOINT.OWN_USERS_LISTING : ENDPOINT.IBU_USERS_LISTING;
+      }
+
       const body = { eventId: eventId };
       await fetchDataAndNavigate(endpoint, body, selected);
     }
@@ -333,7 +344,7 @@ const WebinarSelectHCP = (props) => {
                 <div className="send-option-list">
                   <h5>Do you want to send to</h5>
                   {
-                    localStorage.getItem('user_id') != 'z2TunmZQf3QwCsICFTLGGQ==' ?
+                    // localStorage.getItem('user_id') != 'z2TunmZQf3QwCsICFTLGGQ==' ?
                     <ul className='send-option-new'>
                       {sendOptions?.filter((item) => {
                         if (item.id == 1 || item.id == 2) {
@@ -346,7 +357,7 @@ const WebinarSelectHCP = (props) => {
                           return null
                         } else {
                           return (<>
-                            <li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
+                            <li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 && localStorageUserId != 'z2TunmZQf3QwCsICFTLGGQ==' ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
                               <div
                                 className={templateId === option.id ? "send-option-img active" : "send-option-img"}
                                 onClick={(e) => handleInputChange(e, option?.id)}
@@ -362,7 +373,7 @@ const WebinarSelectHCP = (props) => {
                       }
                       )}
                     </ul>
-                    : null
+                    // : null
                   }
                   <ul>
 
