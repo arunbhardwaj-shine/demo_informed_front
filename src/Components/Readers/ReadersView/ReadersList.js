@@ -187,11 +187,13 @@ const NewReaders = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ) {
       setAppliedFilter({});
       setFilterObject({});
       setApifilterObject({});
-    } else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+    }
+    
+    else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
       setAppliedFilter({ "contact Type": ["HCP"] });
       setFilterObject({});
       setApifilterObject({});
@@ -241,18 +243,26 @@ const NewReaders = () => {
         res?.data?.data?.defaultOwner && localStorage.getItem("user_id")!=="B7SHpAc XDXSH NXkN0rdQ=="
       ) {
        
-        setAppliedFilter({
-          ...appliedFilter,
-          ["Content Owners"]: [res?.data?.data?.defaultOwner],
-        });
-        setFilterObject({
-          ...filterObject,
-          ["Content Owners"]: [res?.data?.data?.defaultOwner],
-        });
-        setApifilterObject({
-          ...apifilterObject,
-          ["Content Owners"]: [res?.data?.data?.defaultOwner],
-        });
+       
+        if ( localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ) {
+          setAppliedFilter({});
+          setFilterObject({});
+          setApifilterObject({});
+        }else{
+          setAppliedFilter({
+            ...appliedFilter,
+            ["Content Owners"]: [res?.data?.data?.defaultOwner],
+          });
+          setFilterObject({
+            ...filterObject,
+            ["Content Owners"]: [res?.data?.data?.defaultOwner],
+          });
+          setApifilterObject({
+            ...apifilterObject,
+            ["Content Owners"]: [res?.data?.data?.defaultOwner],
+          });
+        }
+      
         setDefaultOwner(res?.data?.data?.defaultOwner);
       }
 
