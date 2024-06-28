@@ -306,7 +306,7 @@ const VerifyHcpMAIL = (props) => {
             : props.getDraftData.campaign_data.template_id,
           list_selection: props.getEmailData?.selected
             ? props.getEmailData.selected
-            : props.getDraftData.campaign_data.list_selection,
+            : props?.getDraftData?.campaign_data?.list_selection,
         },
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -342,12 +342,22 @@ const VerifyHcpMAIL = (props) => {
           .then((res) => {
             loader("hide");
             if (res.data.status_code === 200) {
-              popup_alert({
+
+              if(irtRoleObj?.IRTFlag){
+                // setSearchedUsers(searchedUsers)
+                popup_alert({
+                  visible: "show",
+                  message: "Your changes has been saved <br />successfully !",
+                  type: "success",
+                  redirect: "/IRTRole",
+                });
+              }else
+            {  popup_alert({
                 visible: "show",
                 message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
                 type: "success",
                 redirect: "/EmailList",
-              });
+              });}
             } else {
               popup_alert({
                 visible: "show",
