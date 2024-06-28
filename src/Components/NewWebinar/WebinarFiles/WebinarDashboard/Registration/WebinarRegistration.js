@@ -346,10 +346,17 @@ const defaultTemplateIds = [10];
 
       let tempId = newFormData?.templateId;
       if (tempId) {
+        // let templateListData = [...templateList];
+        // let tempData = templateListData[tempId - 1];
+        // templateListData[tempId - 1] = templateListData[0];
+        // templateListData[0] = tempData;
+
         let templateListData = [...templateList];
-        let tempData = templateListData[tempId - 1];
-        templateListData[tempId - 1] = templateListData[0];
+        let index = templateListData.findIndex((item)=>item.templateId==tempId);
+        let tempData = templateListData[index];
+        templateListData[index] = templateListData[0];
         templateListData[0] = tempData;
+
         if (!newFormData?.eventDetails) {
           tempData.eventDetails.eventStartDate.value = new Date(raw?.dateStart);
           tempData.eventDetails.eventEndDate.value = new Date(raw?.dateEnd);
