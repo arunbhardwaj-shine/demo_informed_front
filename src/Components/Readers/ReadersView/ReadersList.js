@@ -1909,9 +1909,21 @@ const NewReaders = () => {
 
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
+                            const filteredRoles =
+                            key === "role"
+                              ? filterdata[key].filter(
+                                  (item) =>
+                                    item === "All" ||
+                                       item === "Principal Investigator" ||
+                                       item === "Sub-Investigator" ||
+                                       item === "Study Coordinator" ||
+                                       item === "Study Nurse" ||
+                                       item === "Other"
+                                )
+                              : filterdata[key];
                             return (
                               <>
-                                {filterdata[key]?.length > 0 ? (
+                                {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
                                     className={
                                       key == "role" ? "card upper" : "card"
@@ -1924,8 +1936,8 @@ const NewReaders = () => {
 
                                     <Accordion.Body className="card-body">
                                       <ul>
-                                        {filterdata[key]?.length
-                                          ? filterdata[key]?.map(
+                                        {filteredRoles?.length
+                                          ? filteredRoles?.map(
                                               (item, index) => (
                                                 <li key={index}>
                                                   {item != "" ? (
@@ -2001,7 +2013,7 @@ const NewReaders = () => {
                                                               : item,
                                                             index,
                                                             key,
-                                                            [...filterdata[key]]
+                                                            [...filteredRoles]
                                                           )
                                                         }
                                                       />

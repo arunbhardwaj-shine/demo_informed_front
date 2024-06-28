@@ -918,6 +918,7 @@ const CreateEmail = (props) => {
     if (div) {
       div.classList.remove("select_mm");
     }
+    
     const templateDescriptions = {
       "E-Mail IRT: Site User": "IRT Training Site User",
       "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
@@ -926,9 +927,9 @@ const CreateEmail = (props) => {
     setEmailDescription(manualEmailDescription ? manualEmailDescription : templateDescriptions[template?.name])
 
     const templateSubject = {
-      "E-Mail IRT: Site User": "IRT Training Site User",
-      "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
-      "E-Mail IRT: Site Pharmacist (Unblinded)": "IRT Training_Site Pharmacist Unblinded",
+      "E-Mail IRT: Site User": "LEX-210 Mandatory IRT training blinded site user",
+      "E-mail IRT: Investigator": "LEX-210 Mandatory IRT training blinded Investigator",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "LEX-210 Mandatory IRT training unblinded site pharmacist",
     };
     setEmailSubject(manualEmailSubject ? manualEmailSubject : templateSubject[template?.name])
 

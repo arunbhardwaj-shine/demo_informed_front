@@ -65,7 +65,7 @@ const NewReadersReview = () => {
   let staticFilter = {
     status: ["Registered"],
     "contact Type": ["HCP"],
-    'IRT mandatory training': ["Yes"],
+    // 'IRT mandatory training': ["Yes"],
   };
   let exceptionCase = {
     "contact Type": ["HCP"],
@@ -1859,9 +1859,21 @@ const NewReadersReview = () => {
 
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
+                               const filteredRoles =
+                               key === "role"
+                                 ? filterdata[key].filter(
+                                     (item) =>
+                                       item === "All" ||
+                                       item === "Site User-Blinded" ||
+                                       item === "Investigator-Blinded" ||
+                                       item === "Site unblinded pharmacist"
+                                   )
+                                 : filterdata[key];
                             return (
+                              
                               <>
-                                {filterdata[key]?.length > 0 ? (
+                             
+                                {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
                                     className={
                                       key == "role" ? "card upper" : "card"
@@ -1874,8 +1886,8 @@ const NewReadersReview = () => {
 
                                     <Accordion.Body className="card-body">
                                       <ul>
-                                        {filterdata[key]?.length
-                                          ? filterdata[key]?.map(
+                                        {filteredRoles?.length
+                                          ? filteredRoles?.map(
                                               (item, index) => (
                                                 <li key={index}>
                                                   {item != "" ? (
@@ -1951,7 +1963,7 @@ const NewReadersReview = () => {
                                                               : item,
                                                             index,
                                                             key,
-                                                            [...filterdata[key]]
+                                                            [...filteredRoles]
                                                           )
                                                         }
                                                       />
