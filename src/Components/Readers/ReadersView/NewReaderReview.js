@@ -65,7 +65,7 @@ const NewReadersReview = () => {
   let staticFilter = {
     status: ["Registered"],
     "contact Type": ["HCP"],
-    // 'IRT mandatory training': ["Yes"],
+    'IRT mandatory training': ["Yes"],
   };
   let exceptionCase = {
     "contact Type": ["HCP"],
@@ -426,7 +426,18 @@ const NewReadersReview = () => {
           ...filterObject,
           status: ["Registered"],
         };
-      } else {
+      } 
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+        payload ={
+          status: ["Registered"],
+          "contact Type": ["HCP"],
+          'IRT mandatory training': ["Yes"],
+          ...data,
+          ...filterObject,
+        }
+      }
+      
+      else {
         payload = { ...data, ...filterObject };
       }
 
@@ -437,8 +448,8 @@ const NewReadersReview = () => {
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
-      // console.log("Response from CRM:", res);
-      // console.log("payload from CRM:",payload );
+      console.log("Response from CRM:", res);
+      console.log("payload from CRM:",payload );
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
@@ -1498,15 +1509,43 @@ const NewReadersReview = () => {
     }
   };
 
+  // const clearFilter = () => {
+  //   document.querySelectorAll("input")?.forEach((checkbox) => {
+  //     checkbox.checked = false;
+  //   });
+  //   obj = {};
+  //   setAppliedFilter({});
+
+  //   if (filterApplyflag > 0) {
+  //     let obj = {};
+  //     setFilterApplyflag(0);
+  //     setApifilterObject(obj);
+  //     setFilterObject(obj);
+  //     setReaderDataList([]);
+  //     getReaderListData(page, obj, search);
+  //     setSearch("");
+  //   }
+
+  //   if (originalFilterData?.role?.length) {
+  //     setFilterData({ ...filterdata, role: originalFilterData.role });
+  //   }
+  //   setShowFilter(false);
+  // };
+
   const clearFilter = () => {
+  
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
-    obj = {};
-    setAppliedFilter({});
-
+  
+    obj = { 'IRT mandatory training': ["Yes"] ,  status: ["Registered"],
+      "contact Type": ["HCP"],};
+    setAppliedFilter({ 'IRT mandatory training': ["Yes"] ,  status: ["Registered"],
+      "contact Type": ["HCP"],});
+  
     if (filterApplyflag > 0) {
-      let obj = {};
+      let obj = { 'IRT mandatory training': ["Yes"] ,  status: ["Registered"],
+        "contact Type": ["HCP"],};
       setFilterApplyflag(0);
       setApifilterObject(obj);
       setFilterObject(obj);
@@ -1514,10 +1553,13 @@ const NewReadersReview = () => {
       getReaderListData(page, obj, search);
       setSearch("");
     }
+  
 
     if (originalFilterData?.role?.length) {
       setFilterData({ ...filterdata, role: originalFilterData.role });
     }
+  
+
     setShowFilter(false);
   };
 

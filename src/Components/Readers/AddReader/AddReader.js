@@ -729,6 +729,7 @@ const ReaderAdd = () => {
                 : "dropdown-basic-button split-button-dropup"
             }
             isClearable
+            value={userDetail?.institution?.find((inst) => inst.label === "Study site")}
             onChange={(e) => handleChange(e?.value, "institution")}
           />
 
@@ -751,16 +752,18 @@ const ReaderAdd = () => {
               label: "Yes",
               value: "Yes",
             }}
-            value={
-              userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
-              -1
-                ? ""
-                : userDetail?.irt[
-                    userDetail?.irt.findIndex(
-                      (el) => el.value == userInputs?.irt
-                    )
-                  ]
-            }
+            // value={
+            //   userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
+            //   -1
+            //     ? ""
+            //     : userDetail?.irt[
+            //         userDetail?.irt.findIndex(
+            //           (el) => el.value == userInputs?.irt
+            //         )
+            //       ]
+            // }
+            value={userDetail?.irt?.find((inst) => inst.label === "Yes")}
+            // value={{ label: "Yes",value: "Yes",}}
             placeholder={
               localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 ? "Select IRT mandatory training"
