@@ -3339,22 +3339,47 @@ const FormField7 = ({
     //   placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
     // });
   }, [form])
+  // const handleFieldChange = (value, e = "") => {
+  //   const newData = { ...formFieldData };
+  //   if (form?.inputType === "datepicker") {
+  //     newData[label] = moment(value).format("YYYY-MM-DD");
+  //   } else if (form?.inputType === "checkbox") {
+  //     newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+  //     if (e.target.checked) {
+  //       newData[label] = [...newData[label], value];
+  //     } else {
+  //       newData[label] = newData[label].filter((item) => item !== value);
+  //     }
+  //   } else {
+  //     newData[label] = value;
+  //   }
+  //   setFormFieldData(newData);
+  // };
+
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
+  
     if (form?.inputType === "datepicker") {
       newData[label] = moment(value).format("YYYY-MM-DD");
     } else if (form?.inputType === "checkbox") {
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+  
       if (e.target.checked) {
         newData[label] = [...newData[label], value];
       } else {
         newData[label] = newData[label].filter((item) => item !== value);
+  
+        if (newData[label].length === 0) {
+          newData[label] = '';
+        }
       }
     } else {
       newData[label] = value;
     }
+  
     setFormFieldData(newData);
   };
+
 
   if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
