@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import "@inovua/reactdatagrid-community/index.css";
+import { getData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 const GetDetails = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -12,6 +14,29 @@ const GetDetails = () => {
     sortingOrder: 0,
   });
 
+
+  useEffect(() => {
+    getBlockedUsers()
+  }, [])
+
+
+  const getBlockedUsers = async () => {
+    try {
+
+      loader("show");
+      const data = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
+      setData(data)
+
+    } catch (error) {
+
+    }
+    finally {
+      loader("hide");
+
+    }
+
+
+  }
   const sortData = (field) => {
     let sortedData = [...data];
     const { sortingField, sortingOrder } = sortingState;
@@ -37,7 +62,7 @@ const GetDetails = () => {
   };
 
   const SortButton = ({ sortingState, field }) => (
-    <button className="btn btn-outline-primary" onClick={() => sortData(field)}>
+    <button className="btn btn-outline-primary">
       {sortingState.sortingField !== field ? (
         <img src={`${path_image}sort.svg`} alt="Sorting" />
       ) : sortingState.sortingOrder === 0 ? (
@@ -70,7 +95,7 @@ const GetDetails = () => {
                       <thead className="sticky-header">
                         <tr>
                           {headers.map((header, index) => (
-                            <th scope="col" key={index}>
+                            <th scope="col" key={index} onClick={() => sortData(header.sortKey)}>
                               {header.name}
                               {header.sortKey && (
                                 <div className="hcp-sort">
