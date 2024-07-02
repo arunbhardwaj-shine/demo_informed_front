@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
-import { getDraftData, getEmailData,getSearched,getSelected  } from "../../actions";
+import { getDraftData, getEmailData, getSearched, getSelected } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
@@ -37,7 +37,7 @@ const EmailList = (props) => {
   const [ctrName, setCTRName] = useState("");
   const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
-  
+
   const [submiHandle, setSubmiHandle] = useState("");
   const [getreference, setReference] = useState("");
   const [campaign_id, setCampaignId] = useState("");
@@ -68,7 +68,7 @@ const EmailList = (props) => {
   const [functionParameter, setFunctionParameter] = useState({
 
   });
-  const [irtRoleObj,setIRTRoleObj] = useState(
+  const [irtRoleObj, setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
   );
   const [filter, setFilter] = useState(
@@ -253,14 +253,14 @@ const EmailList = (props) => {
       loader('show');
       const body = {
         user_id: localStorage.getItem("user_id"),
-        flag:irtRoleObj?.IRTFlag,
-        id:irtRoleObj?.pdfId
+        flag: irtRoleObj?.IRTFlag,
+        id: irtRoleObj?.pdfId
       };
       await axios
         .post(`emailapi/get_campaign_list_filter`, body)
         .then((res) => {
-          setFilterData(res?.data?.response?.filter?res?.data?.response?.filter:{});
-         
+          setFilterData(res?.data?.response?.filter ? res?.data?.response?.filter : {});
+
           getData("initial");
         })
         .catch((err) => {
@@ -395,7 +395,7 @@ const EmailList = (props) => {
     //console.log(props);
     // navigate("/" + route);
     navigate("/" + route, {
-      state: {IrtObj:irtRoleObj},
+      state: { IrtObj: irtRoleObj },
     });
     //  }
   };
@@ -409,10 +409,9 @@ const EmailList = (props) => {
   //   data.subject,
   //   data.tags;
 
-  
+
 
   useEffect(() => {
-    console.log('Fetching data for path:', location.pathname);
     getCampaignFiltereData();
   }, [location.pathname]);
 
@@ -424,21 +423,21 @@ const EmailList = (props) => {
     }
   };
 
-  const createNewEmail = async() => {
+  const createNewEmail = async () => {
     props.getDraftData(null);
     props.getSelected(null);
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
     props.getSearched(null)
-    if([3968,3970,4521].includes(irtRoleObj?.pdfId)){
+    if ([3968, 3970, 4521].includes(irtRoleObj?.pdfId)) {
       await navigateRole(irtRoleObj?.pdfId);
       // console.log(irtRoleObj?.pdfId,'irtRoleObj?.pdfId');
-    }else{
+    } else {
       navigate("/EmailArticleSelect", {
-        state: {IrtObj:irtRoleObj},
+        state: { IrtObj: irtRoleObj },
       });
     }
-    
+
   };
 
   const showConfirmationPopup = (id) => {
@@ -828,7 +827,7 @@ const EmailList = (props) => {
 
     // If key is a string, split it into an array of keys
     // const keys = typeof key === 'string' ? key.split('.') : [key];
-    const keys=[key]
+    const keys = [key]
     const valueA = getNestedValue(a, keys);
     const valueB = getNestedValue(b, keys);
 
@@ -851,8 +850,8 @@ const EmailList = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
-  const navigateRole = async(pdfId) => {
-    try{
+  const navigateRole = async (pdfId) => {
+    try {
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: pdfId,
@@ -875,25 +874,23 @@ const EmailList = (props) => {
           toast.error("Something went wrong");
         });
       navigate("/VerifyHCP", {
-        state: {IrtObj:irtRoleObj,NextFlag:1},
+        state: { IrtObj: irtRoleObj, NextFlag: 1 },
       });
-    }catch(err){
+    } catch (err) {
       loader("hide");
-      console.log(err,'err');
+      console.log(err, 'err');
     }
   }
 
 
   return (
     <>
-    {
-      console.log(location.pathname)
-    }
+
       <Col className="right-sidebar custom-change" key={location.pathname}>
         <div className="custom-container" key={location.pathname}>
           <Row>
             <div className="top-header sticky">
-              <div className="page-title"> {irtRoleObj?.IRTFlag ?<h2>{irtRoleObj?.siteRole}</h2>:<h2>Emails</h2>}</div>
+              <div className="page-title"> {irtRoleObj?.IRTFlag ? <h2>{irtRoleObj?.siteRole}</h2> : <h2>Emails</h2>}</div>
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1451,9 +1448,9 @@ const EmailList = (props) => {
                     <div className="email_box_block">
                       <div className="email-block-add">
                         {/* <Link to="/EmailArticleSelect" onClick={createNewEmail}> */}
-                          <button onClick={createNewEmail}>
-                            <img src={path_image + "add-button.svg"} alt="" />
-                          </button>
+                        <button onClick={createNewEmail}>
+                          <img src={path_image + "add-button.svg"} alt="" />
+                        </button>
                         {/* </Link> */}
                         <p>Create New Email</p>
                       </div>
@@ -1464,68 +1461,68 @@ const EmailList = (props) => {
                   SendListData.map((data) => {
                     return (
                       <>
-                      <div className="email_box_block">
-                        <div
-                          className={
-                            "email_box " +
-                            ((data?.status == 5)
-                              ? "queue" :
-                              data.status == 1
-                                ? "approved"
-                                : data.status == 2
-                                  ? "email-draft"
-                                  : "draft-approved")
-                          }
-                        >
-                          <div className="mail-top-title">
+                        <div className="email_box_block">
+                          <div
+                            className={
+                              "email_box " +
+                              ((data?.status == 5)
+                                ? "queue" :
+                                data.status == 1
+                                  ? "approved"
+                                  : data.status == 2
+                                    ? "email-draft"
+                                    : "draft-approved")
+                            }
+                          >
+                            <div className="mail-top-title">
 
-                            <span>
-                              {(data?.status == 5)
-                                ? "Sending in queue" :
-                                data.status == 2 ? "Draft" : "Approved Draft"
-                              }
-                            </span>
-                          </div>
-                          <div className="mail-box-content">
-                            <div className="mail-box-content-top">
-                              <div className="mail-box-content-top-view">
-                                {
-                                  data?.resend_badge >= 2 ?
-                                    <div className="mail-resend" title="Resend Emails">
-                                      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
-                                      <span>{data?.resend_badge - 1}</span>
-                                    </div>
-                                    : null
+                              <span>
+                                {(data?.status == 5)
+                                  ? "Sending in queue" :
+                                  data.status == 2 ? "Draft" : "Approved Draft"
                                 }
-                                <h5>{data.subject}</h5>
-                                <p>{data.description}</p>
-                                <div className="mailbox-table">
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th>Campaign</th>
-                                        <td>{data.campaign}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Creator</th>
-                                        <td>{data.creator}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>List</th>
-                                        <td>{data.smart_list_name}</td>
-                                      </tr>
-                                      {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
-                                      <tr>
-                                        <th>Site</th>
-                                      <td>
-                                        {data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length > 0 && data?.unique_site_numbers.filter(item => item).length <= 10 
-                                          ? data?.unique_site_numbers.filter(item => item).join(', ') 
-                                          : 'N/A'}
-                                      </td>
+                              </span>
+                            </div>
+                            <div className="mail-box-content">
+                              <div className="mail-box-content-top">
+                                <div className="mail-box-content-top-view">
+                                  {
+                                    data?.resend_badge >= 2 ?
+                                      <div className="mail-resend" title="Resend Emails">
+                                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
+                                        <span>{data?.resend_badge - 1}</span>
+                                      </div>
+                                      : null
+                                  }
+                                  <h5>{data.subject}</h5>
+                                  <p>{data.description}</p>
+                                  <div className="mailbox-table">
+                                    <table>
+                                      <tbody>
+                                        <tr>
+                                          <th>Campaign</th>
+                                          <td>{data.campaign}</td>
+                                        </tr>
+                                        <tr>
+                                          <th>Creator</th>
+                                          <td>{data.creator}</td>
+                                        </tr>
+                                        <tr>
+                                          <th>List</th>
+                                          <td>{data.smart_list_name}</td>
+                                        </tr>
+                                        {localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                                            <tr>
+                                              <th>Site</th>
+                                              <td>
+                                                {data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length > 0 && data?.unique_site_numbers.filter(item => item).length <= 10
+                                                  ? data?.unique_site_numbers.filter(item => item).join(', ')
+                                                  : 'N/A'}
+                                              </td>
 
-                                      </tr>
-                                      {/* <tr>
+                                            </tr>
+                                            {/* <tr>
                                         <th>IRTs</th>
                                         <td>
                                         {data?.unique_site_names && data?.unique_site_names.filter(item => item).length > 0 && data?.unique_site_names.filter(item => item).length <= 10 
@@ -1533,278 +1530,278 @@ const EmailList = (props) => {
                                           : 'N/A'}
                                         </td>
                                       </tr> */}
-                                   {/* <tr>
+                                            {/* <tr>
   <th>IRTs</th>
   <td>
     {data?.unique_user_types ? data.unique_user_types.length : 0}
   </td>
 </tr> */}
 
-                                      </>):''}
-                                    </tbody>
-                                  </table>
+                                          </>) : ''}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div className="mailbox-tags">
+                                    <ul>
+                                      {data.tags != "" ? (
+                                        data.tags.map((tag) => {
+                                          return <li className="list1">{tag}</li>;
+                                        })
+                                      ) : (
+                                        <li className="list1">N/A</li>
+                                      )}
+                                    </ul>
+                                  </div>
+                                  <div className="mail-time">
+                                    <span>{data.created_at}</span>
+                                  </div>
                                 </div>
-                                <div className="mailbox-tags">
+                                <div className="mail-stats">
                                   <ul>
-                                    {data.tags != "" ? (
-                                      data.tags.map((tag) => {
-                                        return <li className="list1">{tag}</li>;
-                                      })
-                                    ) : (
-                                      <li className="list1">N/A</li>
-                                    )}
+                                    <li>
+                                      <div
+                                        className="mail-status irts"
+                                        title="Sent Emails"
+                                      >
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <circle cx="16" cy="16" r="15" stroke="#0066BE" stroke-width="2" stroke-linejoin="round" />
+                                          <path d="M15.6145 16.4772C17.9554 16.4772 19.8531 14.5795 19.8531 12.2386C19.8531 9.89768 17.9554 8 15.6145 8C13.2736 8 11.3759 9.89768 11.3759 12.2386C11.3759 14.5795 13.2736 16.4772 15.6145 16.4772Z" fill="#0066BE" />
+                                          <path fill-rule="evenodd" clip-rule="evenodd" d="M20.435 16.8549C20.5968 17.2276 20.6908 17.6837 20.7114 18.2114C21.2562 18.3359 21.6644 18.8232 21.6644 19.4057C21.6644 20.0819 21.1142 20.6325 20.438 20.6325C19.7619 20.6325 19.2117 20.0827 19.2117 19.4057C19.2117 18.8308 19.6107 18.3481 20.146 18.2167C20.1224 17.6925 19.9972 16.8952 19.4847 16.5019C19.2231 16.4338 18.954 16.3847 18.6779 16.3599C18.6574 17.2775 15.6237 19.5424 15.6237 19.5424C15.6237 19.5424 12.5893 17.2782 12.5688 16.3595C12.2623 16.3877 11.9638 16.4441 11.6756 16.5244C11.3013 16.8206 11.1079 17.3727 11.098 18.1748C11.208 18.238 11.2967 18.3367 11.3516 18.4558C11.7544 18.6462 12.1107 19.0467 12.383 19.6167C12.4286 19.7126 12.4344 19.8211 12.4008 19.9201C12.5642 20.3404 12.6575 20.8007 12.6575 21.1857C12.6575 21.727 12.6575 22.2384 12.0681 22.3693C12.0041 22.423 11.9246 22.452 11.8404 22.452H11.4464C11.2488 22.452 11.0881 22.2905 11.0881 22.0937L11.0892 22.0686C11.1026 21.8835 11.259 21.7354 11.4464 21.7354H11.8404C11.8804 21.7354 11.92 21.7427 11.9581 21.7556C11.982 21.7488 11.9897 21.7438 11.9897 21.7438C12.0338 21.6661 12.0338 21.3421 12.0338 21.1868C12.0338 20.8735 11.955 20.495 11.8176 20.1428C11.7464 20.1029 11.6889 20.0408 11.6531 19.9669C11.4144 19.467 11.0896 19.1438 10.8254 19.1438C10.5558 19.1438 10.2147 19.4929 9.97675 20.0119C9.93791 20.0971 9.86976 20.1657 9.786 20.2072C9.66188 20.5437 9.59373 20.8902 9.59373 21.1868C9.59373 21.3174 9.59373 21.6638 9.64361 21.7453C9.64361 21.7453 9.64376 21.7454 9.64398 21.7455L9.64435 21.7457C9.64728 21.7472 9.65918 21.7532 9.68625 21.7598C9.72699 21.7442 9.77077 21.7358 9.81456 21.7358H10.209C10.3914 21.7358 10.5437 21.8732 10.5646 22.0526L10.5665 22.0564L10.5673 22.0804C10.5673 22.292 10.4066 22.4531 10.209 22.4531H9.81494C9.73651 22.4531 9.66074 22.4272 9.59868 22.3792C9.37329 22.3374 9.21453 22.2376 9.11363 22.0758C8.99218 21.8797 8.96972 21.6235 8.96972 21.1872C8.96972 20.8045 9.05805 20.3644 9.21833 19.9441C9.19473 19.8542 9.20234 19.7602 9.24194 19.6749C9.4087 19.3098 9.62153 18.9976 9.85606 18.7707C9.98474 18.6466 10.1237 18.5468 10.2688 18.4733C10.3232 18.3462 10.4176 18.243 10.5326 18.1767C10.5387 17.6742 10.616 17.2398 10.7588 16.8823C9.12201 17.7107 8 19.4095 8 21.3711C8 23.8778 9.83131 24 12.2284 24C12.3577 24 12.4885 23.9996 12.6209 23.9993C12.7563 23.9989 12.8933 23.9985 13.0317 23.9985H18.2134C18.3516 23.9985 18.4883 23.9989 18.6235 23.9993C18.7559 23.9996 18.8868 24 19.0164 24C21.4139 24 23.2459 23.8778 23.2459 21.3711C23.2463 19.3894 22.1003 17.6753 20.435 16.8549ZM19.5848 21.901C19.5848 21.9665 19.5258 22.0194 19.4527 22.0194H18.7358V22.7364C18.7358 22.8091 18.6829 22.8689 18.6178 22.8689H17.9104C17.8453 22.8689 17.7924 22.8098 17.7924 22.7364V22.0194H17.0754C17.0031 22.0194 16.9437 21.9665 16.9437 21.901V21.194C16.9437 21.1285 17.0031 21.076 17.0754 21.076H17.7924V20.3587C17.7924 20.286 17.8453 20.2262 17.9104 20.2262H18.6178C18.6825 20.2262 18.7358 20.2852 18.7358 20.3587V21.076H19.4527C19.5258 21.076 19.5848 21.1285 19.5848 21.194V21.901Z" fill="#0066BE" />
+                                          <path d="M20.4377 19.9715C20.7501 19.9715 21.0034 19.7182 21.0034 19.4057C21.0034 19.0933 20.7501 18.84 20.4377 18.84C20.1252 18.84 19.8719 19.0933 19.8719 19.4057C19.8719 19.7182 20.1252 19.9715 20.4377 19.9715Z" fill="#0066BE" />
+                                        </svg>
+
+
+                                      </div>
+                                      <span>    {data?.unique_user_types ? data.unique_user_types.length : 0}
+                                      </span>
+                                    </li>
+                                    <li>
+                                      <div
+                                        className="mail-status mail_send"
+                                        title="Sent Emails"
+                                      >
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 16 16"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <g clipPath="url(#clip0_586_1145)">
+                                            <path
+                                              d="M9.52404 0.0444336C9.25621 0.125366 9.01122 0.27124 8.80846 0.473999L1.54639 7.73596C1.3396 7.94275 1.19666 8.18957 1.11719 8.45154L8.12279 7.05041L9.52404 0.0444336Z"
+                                              fill="#C8D1D9"
+                                            />
+                                            <path
+                                              d="M15.4959 4.72375L11.2462 0.473999C11.0314 0.259277 10.7691 0.108765 10.4826 0.03125L8.98073 7.54077C8.94362 7.72632 8.7986 7.87146 8.61305 7.90857L1.10341 9.41052C1.17958 9.69031 1.32692 9.95471 1.54628 10.1741L1.91957 10.5474L0.137222 12.3297C-0.0457611 12.5128 -0.0457611 12.8096 0.137344 12.9927C0.228897 13.0841 0.34877 13.1299 0.468765 13.1299C0.58876 13.1299 0.708633 13.0841 0.800186 12.9927L2.58253 11.2103L3.33961 11.9674L0.137222 15.1698C-0.0457611 15.3528 -0.0457611 15.6497 0.137344 15.8326C0.228897 15.9242 0.34877 15.97 0.468765 15.97C0.58876 15.97 0.708633 15.9242 0.800186 15.8326L4.00258 12.6302L4.75966 13.3875L2.97743 15.1698C2.79433 15.3528 2.79433 15.6497 2.97743 15.8326C3.06886 15.9242 3.18886 15.97 3.30885 15.97C3.42885 15.97 3.54872 15.9242 3.64027 15.8326L5.42262 14.0504L5.79591 14.4237C6.12062 14.7483 6.55348 14.9271 7.01491 14.9271C7.47633 14.9271 7.90932 14.7483 8.2339 14.4237L15.4959 7.16174C16.1681 6.4895 16.1681 5.39587 15.4959 4.72375Z"
+                                              fill="#C8D1D9"
+                                            />
+                                          </g>
+                                          <defs>
+                                            <clipPath id="clip0_586_1145">
+                                              <rect
+                                                width="16"
+                                                height="16"
+                                                fill="white"
+                                              />
+                                            </clipPath>
+                                          </defs>
+                                        </svg>
+                                      </div>
+                                      <span>{data.total_Sent}</span>
+                                    </li>
+                                    <li>
+                                      <div
+                                        className="mail-status mail_view"
+                                        title="Opened Emails"
+                                      >
+                                        <svg
+                                          width="14"
+                                          height="14"
+                                          viewBox="0 0 14 14"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M6.9998 8.43003L0.0498047 4.68503C0.143433 4.30746 0.382451 3.98218 0.714804 3.78003L6.7648 0.560029C6.83687 0.520642 6.91767 0.5 6.9998 0.5C7.08193 0.5 7.16274 0.520642 7.2348 0.560029L13.2598 3.76503C13.4298 3.86532 13.5782 3.99824 13.6967 4.15613C13.8151 4.31402 13.9011 4.49377 13.9498 4.68503L6.9998 8.43003Z"
+                                            fill="#C8D1D9"
+                                          />
+                                          <path
+                                            d="M4.8 8.37992L0 11.7399V5.79492L4.8 8.37992Z"
+                                            fill="#C8D1D9"
+                                          />
+                                          <path
+                                            d="M8.21499 8.91016L13.77 12.8002C13.6338 13.0138 13.4462 13.1899 13.2243 13.3122C13.0024 13.4345 12.7534 13.4991 12.5 13.5002H1.49998C1.24661 13.4991 0.997559 13.4345 0.775664 13.3122C0.553768 13.1899 0.366136 13.0138 0.22998 12.8002L5.78499 8.91016L6.76499 9.44016C6.8371 9.47941 6.91789 9.49997 6.99999 9.49997C7.08209 9.49997 7.16288 9.47941 7.23499 9.44016L8.21499 8.91016Z"
+                                            fill="#C8D1D9"
+                                          />
+                                          <path
+                                            d="M14.0002 5.79492V11.7399L9.2002 8.37992L14.0002 5.79492Z"
+                                            fill="#C8D1D9"
+                                          />
+                                        </svg>
+                                      </div>
+                                      <span>
+                                        {data.total_Opened_pr > 0
+                                          ? data.total_Opened_pr + "%"
+                                          : 0}{" "}
+                                      </span>
+                                    </li>
+                                    <li>
+                                      <div
+                                        className="mail-status mail_click"
+                                        title="CTR Clicks"
+                                      >
+                                        <svg
+                                          width="14"
+                                          height="16"
+                                          viewBox="0 0 14 16"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                            fill="#C8D1D9"
+                                          />
+                                          <path
+                                            d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                            fill="#C8D1D9"
+                                          />
+                                        </svg>
+                                      </div>
+                                      <span>
+                                        {data.total_Click_pr > 0
+                                          ? data.total_Click_pr + "%"
+                                          : 0}{" "}
+                                      </span>
+                                    </li>
                                   </ul>
                                 </div>
-                                <div className="mail-time">
-                                  <span>{data.created_at}</span>
-                                </div>
                               </div>
-                              <div className="mail-stats">
-                                <ul>
-                                  <li>
-                                    <div
-                                      className="mail-status irts"
-                                      title="Sent Emails"
-                                    >
-             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="16" cy="16" r="15" stroke="#0066BE" stroke-width="2" stroke-linejoin="round"/>
-<path d="M15.6145 16.4772C17.9554 16.4772 19.8531 14.5795 19.8531 12.2386C19.8531 9.89768 17.9554 8 15.6145 8C13.2736 8 11.3759 9.89768 11.3759 12.2386C11.3759 14.5795 13.2736 16.4772 15.6145 16.4772Z" fill="#0066BE"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M20.435 16.8549C20.5968 17.2276 20.6908 17.6837 20.7114 18.2114C21.2562 18.3359 21.6644 18.8232 21.6644 19.4057C21.6644 20.0819 21.1142 20.6325 20.438 20.6325C19.7619 20.6325 19.2117 20.0827 19.2117 19.4057C19.2117 18.8308 19.6107 18.3481 20.146 18.2167C20.1224 17.6925 19.9972 16.8952 19.4847 16.5019C19.2231 16.4338 18.954 16.3847 18.6779 16.3599C18.6574 17.2775 15.6237 19.5424 15.6237 19.5424C15.6237 19.5424 12.5893 17.2782 12.5688 16.3595C12.2623 16.3877 11.9638 16.4441 11.6756 16.5244C11.3013 16.8206 11.1079 17.3727 11.098 18.1748C11.208 18.238 11.2967 18.3367 11.3516 18.4558C11.7544 18.6462 12.1107 19.0467 12.383 19.6167C12.4286 19.7126 12.4344 19.8211 12.4008 19.9201C12.5642 20.3404 12.6575 20.8007 12.6575 21.1857C12.6575 21.727 12.6575 22.2384 12.0681 22.3693C12.0041 22.423 11.9246 22.452 11.8404 22.452H11.4464C11.2488 22.452 11.0881 22.2905 11.0881 22.0937L11.0892 22.0686C11.1026 21.8835 11.259 21.7354 11.4464 21.7354H11.8404C11.8804 21.7354 11.92 21.7427 11.9581 21.7556C11.982 21.7488 11.9897 21.7438 11.9897 21.7438C12.0338 21.6661 12.0338 21.3421 12.0338 21.1868C12.0338 20.8735 11.955 20.495 11.8176 20.1428C11.7464 20.1029 11.6889 20.0408 11.6531 19.9669C11.4144 19.467 11.0896 19.1438 10.8254 19.1438C10.5558 19.1438 10.2147 19.4929 9.97675 20.0119C9.93791 20.0971 9.86976 20.1657 9.786 20.2072C9.66188 20.5437 9.59373 20.8902 9.59373 21.1868C9.59373 21.3174 9.59373 21.6638 9.64361 21.7453C9.64361 21.7453 9.64376 21.7454 9.64398 21.7455L9.64435 21.7457C9.64728 21.7472 9.65918 21.7532 9.68625 21.7598C9.72699 21.7442 9.77077 21.7358 9.81456 21.7358H10.209C10.3914 21.7358 10.5437 21.8732 10.5646 22.0526L10.5665 22.0564L10.5673 22.0804C10.5673 22.292 10.4066 22.4531 10.209 22.4531H9.81494C9.73651 22.4531 9.66074 22.4272 9.59868 22.3792C9.37329 22.3374 9.21453 22.2376 9.11363 22.0758C8.99218 21.8797 8.96972 21.6235 8.96972 21.1872C8.96972 20.8045 9.05805 20.3644 9.21833 19.9441C9.19473 19.8542 9.20234 19.7602 9.24194 19.6749C9.4087 19.3098 9.62153 18.9976 9.85606 18.7707C9.98474 18.6466 10.1237 18.5468 10.2688 18.4733C10.3232 18.3462 10.4176 18.243 10.5326 18.1767C10.5387 17.6742 10.616 17.2398 10.7588 16.8823C9.12201 17.7107 8 19.4095 8 21.3711C8 23.8778 9.83131 24 12.2284 24C12.3577 24 12.4885 23.9996 12.6209 23.9993C12.7563 23.9989 12.8933 23.9985 13.0317 23.9985H18.2134C18.3516 23.9985 18.4883 23.9989 18.6235 23.9993C18.7559 23.9996 18.8868 24 19.0164 24C21.4139 24 23.2459 23.8778 23.2459 21.3711C23.2463 19.3894 22.1003 17.6753 20.435 16.8549ZM19.5848 21.901C19.5848 21.9665 19.5258 22.0194 19.4527 22.0194H18.7358V22.7364C18.7358 22.8091 18.6829 22.8689 18.6178 22.8689H17.9104C17.8453 22.8689 17.7924 22.8098 17.7924 22.7364V22.0194H17.0754C17.0031 22.0194 16.9437 21.9665 16.9437 21.901V21.194C16.9437 21.1285 17.0031 21.076 17.0754 21.076H17.7924V20.3587C17.7924 20.286 17.8453 20.2262 17.9104 20.2262H18.6178C18.6825 20.2262 18.7358 20.2852 18.7358 20.3587V21.076H19.4527C19.5258 21.076 19.5848 21.1285 19.5848 21.194V21.901Z" fill="#0066BE"/>
-<path d="M20.4377 19.9715C20.7501 19.9715 21.0034 19.7182 21.0034 19.4057C21.0034 19.0933 20.7501 18.84 20.4377 18.84C20.1252 18.84 19.8719 19.0933 19.8719 19.4057C19.8719 19.7182 20.1252 19.9715 20.4377 19.9715Z" fill="#0066BE"/>
-</svg>
-
-
-                                    </div>
-                                    <span>    {data?.unique_user_types ? data.unique_user_types.length : 0}
-                                    </span>
-                                  </li>
-                                  <li>
-                                    <div
-                                      className="mail-status mail_send"
-                                      title="Sent Emails"
-                                    >
-                                      <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <g clipPath="url(#clip0_586_1145)">
-                                          <path
-                                            d="M9.52404 0.0444336C9.25621 0.125366 9.01122 0.27124 8.80846 0.473999L1.54639 7.73596C1.3396 7.94275 1.19666 8.18957 1.11719 8.45154L8.12279 7.05041L9.52404 0.0444336Z"
-                                            fill="#C8D1D9"
-                                          />
-                                          <path
-                                            d="M15.4959 4.72375L11.2462 0.473999C11.0314 0.259277 10.7691 0.108765 10.4826 0.03125L8.98073 7.54077C8.94362 7.72632 8.7986 7.87146 8.61305 7.90857L1.10341 9.41052C1.17958 9.69031 1.32692 9.95471 1.54628 10.1741L1.91957 10.5474L0.137222 12.3297C-0.0457611 12.5128 -0.0457611 12.8096 0.137344 12.9927C0.228897 13.0841 0.34877 13.1299 0.468765 13.1299C0.58876 13.1299 0.708633 13.0841 0.800186 12.9927L2.58253 11.2103L3.33961 11.9674L0.137222 15.1698C-0.0457611 15.3528 -0.0457611 15.6497 0.137344 15.8326C0.228897 15.9242 0.34877 15.97 0.468765 15.97C0.58876 15.97 0.708633 15.9242 0.800186 15.8326L4.00258 12.6302L4.75966 13.3875L2.97743 15.1698C2.79433 15.3528 2.79433 15.6497 2.97743 15.8326C3.06886 15.9242 3.18886 15.97 3.30885 15.97C3.42885 15.97 3.54872 15.9242 3.64027 15.8326L5.42262 14.0504L5.79591 14.4237C6.12062 14.7483 6.55348 14.9271 7.01491 14.9271C7.47633 14.9271 7.90932 14.7483 8.2339 14.4237L15.4959 7.16174C16.1681 6.4895 16.1681 5.39587 15.4959 4.72375Z"
-                                            fill="#C8D1D9"
-                                          />
-                                        </g>
-                                        <defs>
-                                          <clipPath id="clip0_586_1145">
-                                            <rect
-                                              width="16"
-                                              height="16"
-                                              fill="white"
-                                            />
-                                          </clipPath>
-                                        </defs>
-                                      </svg>
-                                    </div>
-                                    <span>{data.total_Sent}</span>
-                                  </li>
-                                  <li>
-                                    <div
-                                      className="mail-status mail_view"
-                                      title="Opened Emails"
-                                    >
-                                      <svg
-                                        width="14"
-                                        height="14"
-                                        viewBox="0 0 14 14"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M6.9998 8.43003L0.0498047 4.68503C0.143433 4.30746 0.382451 3.98218 0.714804 3.78003L6.7648 0.560029C6.83687 0.520642 6.91767 0.5 6.9998 0.5C7.08193 0.5 7.16274 0.520642 7.2348 0.560029L13.2598 3.76503C13.4298 3.86532 13.5782 3.99824 13.6967 4.15613C13.8151 4.31402 13.9011 4.49377 13.9498 4.68503L6.9998 8.43003Z"
-                                          fill="#C8D1D9"
-                                        />
-                                        <path
-                                          d="M4.8 8.37992L0 11.7399V5.79492L4.8 8.37992Z"
-                                          fill="#C8D1D9"
-                                        />
-                                        <path
-                                          d="M8.21499 8.91016L13.77 12.8002C13.6338 13.0138 13.4462 13.1899 13.2243 13.3122C13.0024 13.4345 12.7534 13.4991 12.5 13.5002H1.49998C1.24661 13.4991 0.997559 13.4345 0.775664 13.3122C0.553768 13.1899 0.366136 13.0138 0.22998 12.8002L5.78499 8.91016L6.76499 9.44016C6.8371 9.47941 6.91789 9.49997 6.99999 9.49997C7.08209 9.49997 7.16288 9.47941 7.23499 9.44016L8.21499 8.91016Z"
-                                          fill="#C8D1D9"
-                                        />
-                                        <path
-                                          d="M14.0002 5.79492V11.7399L9.2002 8.37992L14.0002 5.79492Z"
-                                          fill="#C8D1D9"
-                                        />
-                                      </svg>
-                                    </div>
-                                    <span>
-                                      {data.total_Opened_pr > 0
-                                        ? data.total_Opened_pr + "%"
-                                        : 0}{" "}
-                                    </span>
-                                  </li>
-                                  <li>
-                                    <div
-                                      className="mail-status mail_click"
-                                      title="CTR Clicks"
-                                    >
-                                      <svg
-                                        width="14"
-                                        height="16"
-                                        viewBox="0 0 14 16"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                          fill="#C8D1D9"
-                                        />
-                                        <path
-                                          d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                          fill="#C8D1D9"
-                                        />
-                                      </svg>
-                                    </div>
-                                    <span>
-                                      {data.total_Click_pr > 0
-                                        ? data.total_Click_pr + "%"
-                                        : 0}{" "}
-                                    </span>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            {data.status == 1 ? (
-                              <div className="mailbox-buttons">
-                                {!deletestatus && (
-                                  <>
-                                    <div className="send_new">
-                                      <button
-                                        className="btn btn-primary btn-bordered send-new"
-                                        onClick={() =>
-                                          draftNavigate(
-                                            data.id,
-                                            data.pdf_id,
-                                            "SelectHCP",
-                                            data.campaign,
-                                            data.creator,
-                                            data.discription,
-                                            data.subject,
-                                            data.tags
-                                          )
-                                        }
-                                      >
-                                        Send New
-                                      </button>
-                                    </div>
-
-                                    <div className="mailbox-buttons-list">
-                                      {data.total_Opened_pr < 100 ? (
-                                        <button
-                                          className="btn btn-primary btn-bordered send"
-                                          onClick={(e) =>
-                                            showModal("resend", data.id)
-                                          }
-                                        >
-                                          Resend
-                                        </button>
-                                      ) : (
-                                        ""
-                                      )}
-
-                                      <button
-                                        className="btn btn-primary btn-filled edit"
-                                        onClick={(e) =>
-                                          showViewEmailModal(data.id)
-                                        }
-                                      >
-                                        View
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            ) :
-                              data.status == 5 ? (
-                                <div className="mailbox-buttons d-flex justify-content-end">
-                                  <button
-                                    className="btn btn-primary btn-filled edit"
-                                    onClick={(e) =>
-                                      showViewEmailModal(data.id)
-                                    }
-                                  >
-                                    View
-                                  </button>
-                                </div>
-                              ) : (
+                              {data.status == 1 ? (
                                 <div className="mailbox-buttons">
                                   {!deletestatus && (
-                                    <div className="mailbox-buttons-list">
-                                      {data.route_location == "VerifyMAIL" &&
-                                        data.pdf_id != 13 ? (
+                                    <>
+                                      <div className="send_new">
                                         <button
-                                          className="btn btn-primary send btn-bordered"
-                                          onClick={() => {
-                                            getEmailData(null);
-                                            draftEmailCampaign(data.id);
-                                            setDraftEmailSendStatus(
-                                              (getDraftEmailSendStatus) =>
-                                                !getDraftEmailSendStatus
-                                            );
-                                          }}
-                                        // onClick={(e) => showModal("send", data.id)
+                                          className="btn btn-primary btn-bordered send-new"
+                                          onClick={() =>
+                                            draftNavigate(
+                                              data.id,
+                                              data.pdf_id,
+                                              "SelectHCP",
+                                              data.campaign,
+                                              data.creator,
+                                              data.discription,
+                                              data.subject,
+                                              data.tags
+                                            )
+                                          }
                                         >
-                                          Send
+                                          Send New
                                         </button>
-                                      ) : (
-                                        ""
-                                      )}
-                                      <button
-                                        className="btn btn-primary edit btn-filled"
-                                        onClick={() => {
-                                          getEmailData(null);
-                                          // getSelectedSmartListData(null);
-                                          draftNavigate(
-                                            data.id,
-                                            data.pdf_id,
-                                            data.route_location,
-                                            data.campaign,
-                                            data.creator,
-                                            data.discription,
-                                            data.subject,
-                                            data.tags
-                                          );
-                                        }}
-                                      >
-                                        Edit
-                                      </button>
-                                    </div>
+                                      </div>
+
+                                      <div className="mailbox-buttons-list">
+                                        {data.total_Opened_pr < 100 ? (
+                                          <button
+                                            className="btn btn-primary btn-bordered send"
+                                            onClick={(e) =>
+                                              showModal("resend", data.id)
+                                            }
+                                          >
+                                            Resend
+                                          </button>
+                                        ) : (
+                                          ""
+                                        )}
+
+                                        <button
+                                          className="btn btn-primary btn-filled edit"
+                                          onClick={(e) =>
+                                            showViewEmailModal(data.id)
+                                          }
+                                        >
+                                          View
+                                        </button>
+                                      </div>
+                                    </>
                                   )}
                                 </div>
+                              ) :
+                                data.status == 5 ? (
+                                  <div className="mailbox-buttons d-flex justify-content-end">
+                                    <button
+                                      className="btn btn-primary btn-filled edit"
+                                      onClick={(e) =>
+                                        showViewEmailModal(data.id)
+                                      }
+                                    >
+                                      View
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="mailbox-buttons">
+                                    {!deletestatus && (
+                                      <div className="mailbox-buttons-list">
+                                        {data.route_location == "VerifyMAIL" &&
+                                          data.pdf_id != 13 ? (
+                                          <button
+                                            className="btn btn-primary send btn-bordered"
+                                            onClick={() => {
+                                              getEmailData(null);
+                                              draftEmailCampaign(data.id);
+                                              setDraftEmailSendStatus(
+                                                (getDraftEmailSendStatus) =>
+                                                  !getDraftEmailSendStatus
+                                              );
+                                            }}
+                                          // onClick={(e) => showModal("send", data.id)
+                                          >
+                                            Send
+                                          </button>
+                                        ) : (
+                                          ""
+                                        )}
+                                        <button
+                                          className="btn btn-primary edit btn-filled"
+                                          onClick={() => {
+                                            getEmailData(null);
+                                            // getSelectedSmartListData(null);
+                                            draftNavigate(
+                                              data.id,
+                                              data.pdf_id,
+                                              data.route_location,
+                                              data.campaign,
+                                              data.creator,
+                                              data.discription,
+                                              data.subject,
+                                              data.tags
+                                            );
+                                          }}
+                                        >
+                                          Edit
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              {deletestatus && (
+                                <div className="dlt_btn">
+                                  <button
+                                    onClick={(e) =>
+                                      showConfirmationPopup(data.id)
+                                    }
+                                  >
+                                    <img
+                                      src={path + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
                               )}
-                            {deletestatus && (
-                              <div className="dlt_btn">
-                                <button
-                                  onClick={(e) =>
-                                    showConfirmationPopup(data.id)
-                                  }
-                                >
-                                  <img
-                                    src={path + "delete.svg"}
-                                    alt="Delete Row"
-                                  />
-                                </button>
-                              </div>
-                            )}
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </>
                     );
                   })
@@ -1944,13 +1941,13 @@ const EmailList = (props) => {
                               {viewEmailData[0].docintel_link}
                             </a>
                           </td>
-                        </tr> 
+                        </tr>
                         <tr>
                           <th>IRTs </th>
                           <td>
-                          {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
-    ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
-    : 'N/A'}
+                            {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
+                              ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
+                              : 'N/A'}
 
                           </td>
                         </tr>
