@@ -35,6 +35,8 @@ const GetDetails = () => {
   };
 
   const handleBlockedChange = (e, index) => {
+    setShowModal(true);
+
     const updatedData = [...data];
     updatedData[index] = {
       ...updatedData[index],
@@ -128,7 +130,7 @@ const GetDetails = () => {
     { name: "IRT Role" },
     { name: "Country", sortKey: "country" },
     { name: "Site Number", sortKey: "siteNumber" },
-    { name: "Reminder" },
+    { name: "Blocked" },
   ];
 
   return (
@@ -173,8 +175,7 @@ const GetDetails = () => {
                               <td>{item.country}</td>
                               <td>{item.siteNumber}</td>
                               <td>
-                                <div className="form-group">
-                                  <fieldset id={`group${index}`}>
+                            
                                     <div className="switch">
                                       <label className="switch-light">
                                         <input
@@ -190,11 +191,10 @@ const GetDetails = () => {
                                           </span>
                                           <span className="switch-btn">Yes</span>
                                         </span>
-                                        <a className="btn"></a>
+                                        <a hrefclassName="btn"></a>
                                       </label>
                                     </div>
-                                  </fieldset>
-                                </div>
+                             
                               </td>
                             </tr>
                           ))
