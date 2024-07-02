@@ -65,7 +65,7 @@ const NewReadersReview = () => {
   let staticFilter = {
     status: ["Registered"],
     "contact Type": ["HCP"],
-    'IRT mandatory training': ["Yes"],
+    // 'IRT mandatory training': ["Yes"],
   };
   let exceptionCase = {
     "contact Type": ["HCP"],
@@ -299,7 +299,6 @@ const NewReadersReview = () => {
           search: search,
           "contact Type": ["HCP"],
           'IRT mandatory training': ["Yes"],
-
         };
       } else if (
         localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
@@ -1540,13 +1539,11 @@ const NewReadersReview = () => {
       checkbox.checked = false;
     });
   
-    obj = { 'IRT mandatory training': ["Yes"] ,  status: ["Registered"],
-      "contact Type": ["HCP"],};
-    setAppliedFilter({ 'IRT mandatory training': ["Yes"] ,  status: ["Registered"],
-      "contact Type": ["HCP"],});
+    obj = { status: ["Registered"],"contact Type": ["HCP"],};
+    setAppliedFilter({status: ["Registered"],"contact Type": ["HCP"],});
   
     if (filterApplyflag > 0) {
-      let obj = { 'IRT mandatory training': ["Yes"] ,  status: ["Registered"],
+      let obj = {  status: ["Registered"],
         "contact Type": ["HCP"],};
       setFilterApplyflag(0);
       setApifilterObject(obj);
