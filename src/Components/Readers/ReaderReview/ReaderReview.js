@@ -23,7 +23,7 @@ const ReaderLayout=()=>{
 
 const ReaderReview = () => {
   const { state } = useLocation();
-  console.log(state)
+  // console.log(state,'stateee')
   const navigate = useNavigate();
   const [field, setField] = useState([]);
   const [openNotes, setOpenNotes] = useState(false);
@@ -41,7 +41,7 @@ const ReaderReview = () => {
 
       loader("hide");
       // navigate("/readers-view");
-      if(state.status === '1'){
+      if(state?.data?.irt === 1){
         navigate("/new-readers-reviews")
       }else{
         navigate("/readers-view");
@@ -51,6 +51,7 @@ const ReaderReview = () => {
       loader("hide");
     }
   };
+  // console.log(state?.data?.irt,'state.status')
 
   return (
     <Col className="right-sidebar custom-change">
@@ -81,7 +82,7 @@ const ReaderReview = () => {
                     <button className="btn btn-primary btn-bordered back">
                       <Link
                       //  to="/readers-view"
-                       to={state.status === '1' ? "/new-readers-reviews": "/readers-view"  }
+                       to={state?.data?.irt === 1 ? "/new-readers-reviews": "/readers-view"  }
                        >Back</Link>
                     </button>
                   </div>
@@ -101,7 +102,7 @@ const ReaderReview = () => {
                   <Link
                     className="btn btn-primary btn-bordered move-draft"
                     // to="/readers-view"
-                    to={state.status === '1' ? "/new-readers-reviews": "/readers-view"  }
+                    to={state?.data?.irt === 1 ? "/new-readers-reviews": "/readers-view"  }
                   >
                     Close
                   </Link>
