@@ -344,8 +344,15 @@ const WebinarSelectHCP = (props) => {
                 <div className="send-option-list">
                   <h5>Do you want to send to</h5>
                   {
+                    sendOptions?.filter((item) => {
+                      if (item.id == 1 || item.id == 2) {
+                        return false
+                      }
+                      return true
+
+                    })?.length ?
                     // localStorage.getItem('user_id') != 'z2TunmZQf3QwCsICFTLGGQ==' ?
-                    <ul className='send-option-new'>
+                    (<ul className='send-option-new'>
                       {sendOptions?.filter((item) => {
                         if (item.id == 1 || item.id == 2) {
                           return false
@@ -372,8 +379,8 @@ const WebinarSelectHCP = (props) => {
 
                       }
                       )}
-                    </ul>
-                    // : null
+                    </ul>)
+                    : null
                   }
                   <ul>
 
