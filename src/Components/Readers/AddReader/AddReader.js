@@ -471,7 +471,6 @@ const ReaderAdd = () => {
   // };
 
   const handleChange = (e, isSelectedName) => {
-    console.log(userInputs);
     // selectedCategory.push(isSelectedName);
     setUpdateFlag(1);
     if (e?.target?.files?.length < 1) {
