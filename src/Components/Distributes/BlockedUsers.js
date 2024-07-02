@@ -2,56 +2,74 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import "@inovua/reactdatagrid-community/index.css";
-import { getData } from "../../axios/apiHelper";
+import { getData,postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { Modal } from "react-bootstrap";
 
 const GetDetails = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [sortingState, setSortingState] = useState({
     sortingCount: 0,
     sortingField: "",
     sortingOrder: 0,
   });
 
-  const [userBlocked, setUserBlocked] = useState({})
-
+  const [userBlocked, setUserBlocked] = useState({});
+  const [userToUnblock, setUserToUnblock] = useState(null);
 
   useEffect(() => {
-    getBlockedUsers()
-  }, [])
-
+    getBlockedUsers();
+  }, []);
 
   const getBlockedUsers = async () => {
     try {
       loader("show");
       const data = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
-      let blockedUsers = data?.data?.data
-      setData(blockedUsers)
-      console.log("Blocked Users Data:", data);
+      let blockedUsers = data?.data?.data;
+      setData(blockedUsers);
     } catch (error) {
-    }
-    finally {
+    } finally {
       loader("hide");
     }
-  }
-
-  const handleBlockedChange = (e, item) => {
-    const updatedData = data.map((user) => {
-      if (user?.id === item?.id) {
-        return { ...user, blocked: user?.blocked === 1 ? 0 : 1 };
-      }
-      return user;
-    });
-  
-    setData(updatedData);
   };
-  
+
+  const unBlockedUser = async () => {
+    try {
+      loader("show");
+      const userId = userToUnblock?.id; 
+      const response = await postData(`${ENDPOINT.UNBLOCKED_USERS}`);
+      setShowModal(false);
+      setUserToUnblock(null);
+      getBlockedUsers();
+    } catch (error) {
+      console.error("Error unblocking user:", error);
+      toast.error("Failed to unblock user");
+    } finally {
+      loader("hide");
+    }
+  };
+
+  const handleBlockedChange = (e, index) => {
+    const updatedData = [...data];
+    updatedData[index] = {
+      ...updatedData[index],
+      blocked: updatedData[index]?.blocked === 1 ? 0 : 1,
+    };
+    setData(updatedData);
+
+    if (updatedData[index].blocked === 0) {
+      setUserToUnblock(updatedData[index]); 
+      setShowModal(true);
+    }
+  };
 
   const sortData = (field) => {
     let sortedData = [...data];
     const { sortingField, sortingOrder } = sortingState;
-    const newSortingOrder = sortingField === field && sortingOrder === 0 ? 1 : 0;
+    const newSortingOrder =
+      sortingField === field && sortingOrder === 0 ? 1 : 0;
 
     sortedData.sort((a, b) => {
       if (a[field] === null) return newSortingOrder === 0 ? -1 : 1;
@@ -59,8 +77,12 @@ const GetDetails = () => {
 
       if (a[field] === b[field]) return 0;
       return a[field].toLowerCase() > b[field].toLowerCase()
-        ? newSortingOrder === 0 ? 1 : -1
-        : newSortingOrder === 0 ? -1 : 1;
+        ? newSortingOrder === 0
+          ? 1
+          : -1
+        : newSortingOrder === 0
+        ? -1
+        : 1;
     });
 
     setData(sortedData);
@@ -84,12 +106,13 @@ const GetDetails = () => {
   );
 
   const headers = [
-    { name: 'First name', sortKey: 'firstName' },
-    { name: 'Last name' },
-    { name: 'Email', sortKey: 'email' },
-    { name: 'Country', sortKey: 'country' },
-    { name: 'Site Number', sortKey: 'siteNumber' },
-    { name: 'Reminder' },
+    { name: "First name", sortKey: "firstName" },
+    { name: "Last name", sortKey: "lastName" },
+    { name: "Email", sortKey: "email" },
+    { name: "IRT Role" },
+    { name: "Country", sortKey: "country" },
+    { name: "Site Number", sortKey: "siteNumber" },
+    { name: "Reminder" },
   ];
 
   return (
@@ -105,7 +128,11 @@ const GetDetails = () => {
                       <thead className="sticky-header">
                         <tr>
                           {headers.map((header, index) => (
-                            <th scope="col" key={index} onClick={() => sortData(header.sortKey)}>
+                            <th
+                              scope="col"
+                              key={index}
+                              onClick={() => sortData(header.sortKey)}
+                            >
                               {header.name}
                               {header.sortKey && (
                                 <div className="hcp-sort">
@@ -120,31 +147,48 @@ const GetDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                      {typeof data != "undefined" && data.length > 0 ? (
+                        {typeof data != "undefined" && data.length > 0 ? (
                           data.map((item, index) => (
                             <>
-                                <tr
-                                  key={index}
-                                  // className={
-                                  //   item?.article_already_register == 1
-                                  //     ? "green"
-                                  //     : item?.already_email_sent == 1
-                                  //     ? "orange"
-                                  //     : ""
-                                  // }
-                                >
-                                  <td>{item.firstName}</td>
-                                  <td>{item.lastName}</td>
-                                  <td>{item.email}</td>
-                                  <td>{item.country}</td>
-                                  <td>{item.siteNumber}</td>
-                                  <td >
-                                  <input
+                              <tr key={index}>
+                                <td>{item.firstName}</td>
+                                <td>{item.lastName}</td>
+                                <td>{item.email}</td>
+                                <td>{item.role}</td>
+                                <td>{item.country}</td>
+                                <td>{item.siteNumber}</td>
+                                <td>
+                                  {/* <input
                                   type="checkbox"
                                   checked={item?.blocked === 1}
-                                  onChange={(e) => handleBlockedChange(e, item)}
-                                />
-                              </td>
+                                  onChange={(e) => handleBlockedChange(e, index)}
+                                /> */}
+
+                                  <div className="form-group">
+                                    <fieldset id={`group${index}`}>
+                                      <div className="switch">
+                                        <label className="switch-light">
+                                          <input
+                                            type="checkbox"
+                                            checked={item.blocked === 1}
+                                            onChange={(e) =>
+                                              handleBlockedChange(e, index)
+                                            }
+                                          />
+                                          <span>
+                                            <span className="switch-btn active">
+                                              No
+                                            </span>
+                                            <span className="switch-btn">
+                                              Yes
+                                            </span>
+                                          </span>
+                                          <a className="btn"></a>
+                                        </label>
+                                      </div>
+                                    </fieldset>
+                                  </div>
+                                </td>
                               </tr>
                             </>
                           ))
@@ -161,6 +205,42 @@ const GetDetails = () => {
                 </div>
               </div>
             </section>
+
+            <Modal
+              className="modal send-confirm registration-popup"
+              show={showModal}
+              centered
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+            >
+              <Modal.Header>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    setShowModal(false);
+                  }}
+                ></button>
+              </Modal.Header>
+              <Modal.Body>
+                <>
+                  <h4>Are you sure you wan't to block this user </h4>
+
+                  <div className="modal-buttons">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-bordered"
+                      onClick={() => {
+                       unBlockedUser()
+                      }}
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </>
+              </Modal.Body>
+            </Modal>
           </div>
         </div>
       </div>
