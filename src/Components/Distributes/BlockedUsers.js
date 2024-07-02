@@ -14,6 +14,8 @@ const GetDetails = () => {
     sortingOrder: 0,
   });
 
+  const [userBlocked, setUserBlocked] = useState({})
+
 
   useEffect(() => {
     getBlockedUsers()
@@ -22,25 +24,33 @@ const GetDetails = () => {
 
   const getBlockedUsers = async () => {
     try {
-
       loader("show");
       const data = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
-      setData(data)
-
+      let blockedUsers = data?.data?.data
+      setData(blockedUsers)
+      console.log("Blocked Users Data:", data);
     } catch (error) {
-
     }
     finally {
       loader("hide");
-
     }
-
-
   }
+
+  const handleBlockedChange = (e, item) => {
+    const updatedData = data.map((user) => {
+      if (user?.id === item?.id) {
+        return { ...user, blocked: user?.blocked === 1 ? 0 : 1 };
+      }
+      return user;
+    });
+  
+    setData(updatedData);
+  };
+  
+
   const sortData = (field) => {
     let sortedData = [...data];
     const { sortingField, sortingOrder } = sortingState;
-
     const newSortingOrder = sortingField === field && sortingOrder === 0 ? 1 : 0;
 
     sortedData.sort((a, b) => {
@@ -74,11 +84,11 @@ const GetDetails = () => {
   );
 
   const headers = [
-    { name: 'First name', sortKey: 'first_name' },
+    { name: 'First name', sortKey: 'firstName' },
     { name: 'Last name' },
     { name: 'Email', sortKey: 'email' },
     { name: 'Country', sortKey: 'country' },
-    { name: 'Site Number', sortKey: 'site_number' },
+    { name: 'Site Number', sortKey: 'siteNumber' },
     { name: 'Reminder' },
   ];
 
@@ -110,7 +120,41 @@ const GetDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {/* Render your data rows here */}
+                      {typeof data != "undefined" && data.length > 0 ? (
+                          data.map((item, index) => (
+                            <>
+                                <tr
+                                  key={index}
+                                  // className={
+                                  //   item?.article_already_register == 1
+                                  //     ? "green"
+                                  //     : item?.already_email_sent == 1
+                                  //     ? "orange"
+                                  //     : ""
+                                  // }
+                                >
+                                  <td>{item.firstName}</td>
+                                  <td>{item.lastName}</td>
+                                  <td>{item.email}</td>
+                                  <td>{item.country}</td>
+                                  <td>{item.siteNumber}</td>
+                                  <td >
+                                  <input
+                                  type="checkbox"
+                                  checked={item?.blocked === 1}
+                                  onChange={(e) => handleBlockedChange(e, item)}
+                                />
+                              </td>
+                              </tr>
+                            </>
+                          ))
+                        ) : (
+                          <tr className="data-not-found">
+                            <td colspan="6">
+                              <h4>No Data Found</h4>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
