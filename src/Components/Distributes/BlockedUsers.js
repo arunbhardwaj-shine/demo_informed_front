@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import "@inovua/reactdatagrid-community/index.css";
-import { getData,postData } from "../../axios/apiHelper";
+import { getData, postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { Modal } from "react-bootstrap";
 
@@ -15,10 +15,7 @@ const GetDetails = () => {
     sortingField: "",
     sortingOrder: 0,
   });
-
-  const [userBlocked, setUserBlocked] = useState({});
-  const [userToUnblock, setUserToUnblock] = useState(null);
-
+  const [userToUnblock, setUserToUnblock] = useState(null); 
   useEffect(() => {
     getBlockedUsers();
   }, []);
@@ -26,26 +23,12 @@ const GetDetails = () => {
   const getBlockedUsers = async () => {
     try {
       loader("show");
-      const data = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
-      let blockedUsers = data?.data?.data;
+      const response = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
+      const blockedUsers = response?.data?.data;
       setData(blockedUsers);
+      console.log("Blocked Users Data:", response);
     } catch (error) {
-    } finally {
-      loader("hide");
-    }
-  };
-
-  const unBlockedUser = async () => {
-    try {
-      loader("show");
-      const userId = userToUnblock?.id; 
-      const response = await postData(`${ENDPOINT.UNBLOCKED_USERS}`);
-      setShowModal(false);
-      setUserToUnblock(null);
-      getBlockedUsers();
-    } catch (error) {
-      console.error("Error unblocking user:", error);
-      toast.error("Failed to unblock user");
+      console.error("Error fetching blocked users:", error);
     } finally {
       loader("hide");
     }
@@ -61,7 +44,40 @@ const GetDetails = () => {
 
     if (updatedData[index].blocked === 0) {
       setUserToUnblock(updatedData[index]); 
-      setShowModal(true);
+    }
+  };
+
+  const unBlockedUser = async () => {
+    try {
+      loader("show");
+      const userId = userToUnblock?.id; 
+      const response = await postData(`${ENDPOINT.UNBLOCKED_USERS}`);
+      
+     
+      const updatedData = data.map((user) =>
+        user.id === userId ? { ...user, blocked: 0 } : user
+      );
+      setData(updatedData);
+  
+      toast.success("User unblocked successfully");
+      setShowModal(false);
+      setUserToUnblock(null);
+    } catch (error) {
+      console.error("Error unblocking user:", error);
+      toast.error("Failed to unblock user");
+    } finally {
+      loader("hide");
+    }
+  };
+  
+  const closeModal = () => {
+    setShowModal(false);
+    if (userToUnblock) {
+      const updatedData = data.map((user) =>
+        user.id === userToUnblock.id ? { ...user, blocked: 1 } : user
+      );
+      setData(updatedData);
+      setUserToUnblock(null);
     }
   };
 
@@ -98,9 +114,9 @@ const GetDetails = () => {
       {sortingState.sortingField !== field ? (
         <img src={`${path_image}sort.svg`} alt="Sorting" />
       ) : sortingState.sortingOrder === 0 ? (
-        <img src={`${path_image}sort-decending.svg`} alt="Sorting" />
+        <img src={`${path_image}sort-descending.svg`} alt="Sorting" />
       ) : (
-        <img src={`${path_image}sort-assending.svg`} alt="Sorting" />
+        <img src={`${path_image}sort-ascending.svg`} alt="Sorting" />
       )}
     </button>
   );
@@ -147,54 +163,44 @@ const GetDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {typeof data != "undefined" && data.length > 0 ? (
+                        {data.length > 0 ? (
                           data.map((item, index) => (
-                            <>
-                              <tr key={index}>
-                                <td>{item.firstName}</td>
-                                <td>{item.lastName}</td>
-                                <td>{item.email}</td>
-                                <td>{item.role}</td>
-                                <td>{item.country}</td>
-                                <td>{item.siteNumber}</td>
-                                <td>
-                                  {/* <input
-                                  type="checkbox"
-                                  checked={item?.blocked === 1}
-                                  onChange={(e) => handleBlockedChange(e, index)}
-                                /> */}
-
-                                  <div className="form-group">
-                                    <fieldset id={`group${index}`}>
-                                      <div className="switch">
-                                        <label className="switch-light">
-                                          <input
-                                            type="checkbox"
-                                            checked={item.blocked === 1}
-                                            onChange={(e) =>
-                                              handleBlockedChange(e, index)
-                                            }
-                                          />
-                                          <span>
-                                            <span className="switch-btn active">
-                                              No
-                                            </span>
-                                            <span className="switch-btn">
-                                              Yes
-                                            </span>
+                            <tr key={index}>
+                              <td>{item.firstName}</td>
+                              <td>{item.lastName}</td>
+                              <td>{item.email}</td>
+                              <td>{item.role}</td>
+                              <td>{item.country}</td>
+                              <td>{item.siteNumber}</td>
+                              <td>
+                                <div className="form-group">
+                                  <fieldset id={`group${index}`}>
+                                    <div className="switch">
+                                      <label className="switch-light">
+                                        <input
+                                          type="checkbox"
+                                          checked={item.blocked === 1}
+                                          onChange={(e) =>
+                                            handleBlockedChange(e, index)
+                                          }
+                                        />
+                                        <span>
+                                          <span className="switch-btn active">
+                                            No
                                           </span>
-                                          <a className="btn"></a>
-                                        </label>
-                                      </div>
-                                    </fieldset>
-                                  </div>
-                                </td>
-                              </tr>
-                            </>
+                                          <span className="switch-btn">Yes</span>
+                                        </span>
+                                        <a className="btn"></a>
+                                      </label>
+                                    </div>
+                                  </fieldset>
+                                </div>
+                              </td>
+                            </tr>
                           ))
                         ) : (
                           <tr className="data-not-found">
-                            <td colspan="6">
+                            <td colSpan="7">
                               <h4>No Data Found</h4>
                             </td>
                           </tr>
@@ -211,34 +217,27 @@ const GetDetails = () => {
               show={showModal}
               centered
               size="lg"
+              onHide={closeModal} 
               aria-labelledby="contained-modal-title-vcenter"
             >
               <Modal.Header>
                 <button
                   type="button"
                   className="btn-close"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    setShowModal(false);
-                  }}
+                  onClick={closeModal}
                 ></button>
               </Modal.Header>
               <Modal.Body>
-                <>
-                  <h4>Are you sure you wan't to block this user </h4>
-
-                  <div className="modal-buttons">
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-bordered"
-                      onClick={() => {
-                       unBlockedUser()
-                      }}
-                    >
-                      Yes
-                    </button>
-                  </div>
-                </>
+                <h4>Are you sure you want to unblock this user?</h4>
+                <div className="modal-buttons">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-bordered"
+                    onClick={unBlockedUser}
+                  >
+                    Yes
+                  </button>
+                </div>
               </Modal.Body>
             </Modal>
           </div>
@@ -249,3 +248,4 @@ const GetDetails = () => {
 };
 
 export default GetDetails;
+
