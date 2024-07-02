@@ -116,6 +116,7 @@ import SelectSmartList from "./Components/Emails/SelectSmartList";
 // import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import EmailStatss from "./Components/Distributes/EmailStatss";
+import BlockedUsers from "./Components/Distributes/BlockedUsers";
 import GetDetails from "./Components/Distributes/GetDetails";
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
 import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
@@ -808,6 +809,10 @@ const Routing = () => {
         <Route
           path="/EmailStatss"
           element={<LoginLayout component={EmailStatss} />}
+        />
+         <Route
+          path="/blocked-users"
+          element={<LoginLayout component={BlockedUsers} />}
         />
         <Route
           path="/bounced-email"
