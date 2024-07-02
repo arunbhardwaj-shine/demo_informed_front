@@ -116,9 +116,9 @@ const GetDetails = () => {
       {sortingState.sortingField !== field ? (
         <img src={`${path_image}sort.svg`} alt="Sorting" />
       ) : sortingState.sortingOrder === 0 ? (
-        <img src={`${path_image}sort-descending.svg`} alt="Sorting" />
+        <img src={`${path_image}sort-decending.svg`} alt="Sorting" />
       ) : (
-        <img src={`${path_image}sort-ascending.svg`} alt="Sorting" />
+        <img src={`${path_image}sort-assending.svg`} alt="Sorting" />
       )}
     </button>
   );
@@ -180,7 +180,7 @@ const GetDetails = () => {
                                       <label className="switch-light">
                                         <input
                                           type="checkbox"
-                                          checked={item.blocked === 1}
+                                          checked={item.blocked == 1}
                                           onChange={(e) =>
                                             handleBlockedChange(e, index)
                                           }
@@ -191,7 +191,7 @@ const GetDetails = () => {
                                           </span>
                                           <span className="switch-btn">Yes</span>
                                         </span>
-                                        <a hrefclassName="btn"></a>
+                                        <a className="btn"></a>
                                       </label>
                                     </div>
                              
