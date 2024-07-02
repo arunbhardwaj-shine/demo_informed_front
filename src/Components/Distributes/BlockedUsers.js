@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
-import "@inovua/reactdatagrid-community/index.css";
 import { getData, postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { Modal } from "react-bootstrap";
@@ -129,7 +128,7 @@ const GetDetails = () => {
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
-            <section className="search-hcp smart-list-view">
+           { data.length ? <section className="search-hcp smart-list-view">
               <div className="result-hcp-table">
                 <div className="selected-hcp-list">
                   <div className="table_xls">
@@ -156,7 +155,7 @@ const GetDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.length > 0 ? (
+                        {data.length  ? (
                           data.map((item, index) => (
                             <tr key={index}>
                               <td>{item.firstName}</td>
@@ -201,7 +200,7 @@ const GetDetails = () => {
                   </div>
                 </div>
               </div>
-            </section>
+            </section>:""}
 
             <Modal
               className="modal send-confirm registration-popup"
