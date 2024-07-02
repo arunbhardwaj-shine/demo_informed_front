@@ -365,6 +365,7 @@ const Header = () => {
                       window.location.pathname == "/ViewSmartList" ||
                       window.location.pathname == "/EditList" ||
                       window.location.pathname == "/EmailStatss" ||
+                      window.location.pathname == "/blocked-users" ||
                       window.location.pathname == "/bounced-email" ||
                       window.location.pathname == "/get-details"||
                       window.location.pathname == "/IRTRole"
