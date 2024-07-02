@@ -274,6 +274,8 @@ const WebinarSelectHCP = (props) => {
     setTemplateId(selectede);
     nextClicked(selectede);
   };
+  const filteredOptions = sendOptions?.filter((item) => item.id !== 1 && item.id !== 2) || [];
+
   return (<>
     <div className="col right-sidebar">
       <div className="custom-container">
@@ -344,43 +346,39 @@ const WebinarSelectHCP = (props) => {
                 <div className="send-option-list">
                   <h5>Do you want to send to</h5>
                   {
-                    sendOptions?.filter((item) => {
-                      if (item.id == 1 || item.id == 2) {
-                        return false
-                      }
-                      return true
-
-                    })?.length ?
-                    // localStorage.getItem('user_id') != 'z2TunmZQf3QwCsICFTLGGQ==' ?
-                    (<ul className='send-option-new'>
-                      {sendOptions?.filter((item) => {
-                        if (item.id == 1 || item.id == 2) {
-                          return false
+                  filteredOptions.length ? (
+                    <ul className="send-option-new">
+                      {filteredOptions.map((option) => {
+                        if (option.id === 4 && !userIdArray?.includes(currentUserId)) {
+                          return null;
                         }
-                        return true
-
-                      })?.map(option => {
-                        if (option?.id == 4 && !userIdArray?.includes(currentUserId)) {
-                          return null
-                        } else {
-                          return (<>
-                            <li key={option?.id} className={`${localStorage.getItem("inviteFlag") !== "1" && option.id === 5 && localStorageUserId != 'z2TunmZQf3QwCsICFTLGGQ==' ? "disabled" : ''} ${localStorage.getItem("registerFlag") !== "1" && option.id === 6 ? "disabled" : ''}`}>
-                              <div
-                                className={templateId === option.id ? "send-option-img active" : "send-option-img"}
-                                onClick={(e) => handleInputChange(e, option?.id)}
-                              >
-                                <input type="radio" name="select-option-hcp" value={option?.value} />
-                                <img src={option?.imageUrl} alt={option.alt} />
-                              </div>
-                              <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage} title={option?.tooltipMessage} /></p>
-                            </li>
-                          </>)
-                        }
-
-                      }
-                      )}
-                    </ul>)
-                    : null
+                  
+                        const isDisabled =
+                          (localStorage.getItem("inviteFlag") !== "1" && option.id === 5 && localStorageUserId !== 'z2TunmZQf3QwCsICFTLGGQ==') ||
+                          (localStorage.getItem("registerFlag") !== "1" && option.id === 6);
+                  
+                        return (
+                          <li key={option.id} className={isDisabled ? "disabled" : ""}>
+                            <div
+                              className={`send-option-img ${templateId === option.id ? "active" : ""}`}
+                              onClick={(e) => handleInputChange(e, option.id)}
+                            >
+                              <input type="radio" name="select-option-hcp" value={option.value} />
+                              <img src={option.imageUrl} alt={option.alt} />
+                            </div>
+                            <p>
+                              {option.label}{" "}
+                              <img
+                                src={`${path_image}info_circle_icon.svg`}
+                                alt={option.tooltipMessage}
+                                title={option.tooltipMessage}
+                              />
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : null
                   }
                   <ul>
 
