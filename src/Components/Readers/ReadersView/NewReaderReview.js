@@ -298,6 +298,8 @@ const NewReadersReview = () => {
           status: ["Registered"],
           search: search,
           "contact Type": ["HCP"],
+          'IRT mandatory training': ["Yes"],
+
         };
       } else if (
         localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
