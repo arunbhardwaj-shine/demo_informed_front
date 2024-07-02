@@ -15,7 +15,7 @@ const GetDetails = () => {
     sortingField: "",
     sortingOrder: 0,
   });
-  const [userToUnblock, setUserToUnblock] = useState(null); 
+  const [userToUnblock, setUserToUnblock] = useState(null);
   useEffect(() => {
     getBlockedUsers();
   }, []);
@@ -26,7 +26,6 @@ const GetDetails = () => {
       const response = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
       const blockedUsers = response?.data?.data;
       setData(blockedUsers);
-      console.log("Blocked Users Data:", response);
     } catch (error) {
       console.error("Error fetching blocked users:", error);
     } finally {
@@ -35,35 +34,27 @@ const GetDetails = () => {
   };
 
   const handleBlockedChange = (e, index) => {
-    setShowModal(true);
 
     const updatedData = [...data];
+    setShowModal(true);
     updatedData[index] = {
       ...updatedData[index],
       blocked: updatedData[index]?.blocked === 1 ? 0 : 1,
     };
     setData(updatedData);
-
-    if (updatedData[index].blocked === 0) {
-      setUserToUnblock(updatedData[index]); 
-    }
+    setUserToUnblock(updatedData[index]);
   };
 
   const unBlockedUser = async () => {
     try {
       loader("show");
-      const userId = userToUnblock?.id; 
-      const response = await postData(`${ENDPOINT.UNBLOCKED_USERS}`);
-      
-     
-      const updatedData = data.map((user) =>
-        user.id === userId ? { ...user, blocked: 0 } : user
-      );
-      setData(updatedData);
-  
-      toast.success("User unblocked successfully");
       setShowModal(false);
+
+      const userId = userToUnblock?.user_id;
+      await postData(`${ENDPOINT.UNBLOCKED_USERS}`, { userId, reminder: userToUnblock?.blocked === 1 ? 1 : 0 });
       setUserToUnblock(null);
+      toast.success("User unblocked successfully");
+
     } catch (error) {
       console.error("Error unblocking user:", error);
       toast.error("Failed to unblock user");
@@ -71,7 +62,7 @@ const GetDetails = () => {
       loader("hide");
     }
   };
-  
+
   const closeModal = () => {
     setShowModal(false);
     if (userToUnblock) {
@@ -99,8 +90,8 @@ const GetDetails = () => {
           ? 1
           : -1
         : newSortingOrder === 0
-        ? -1
-        : 1;
+          ? -1
+          : 1;
     });
 
     setData(sortedData);
@@ -175,26 +166,26 @@ const GetDetails = () => {
                               <td>{item.country}</td>
                               <td>{item.siteNumber}</td>
                               <td>
-                            
-                                    <div className="switch">
-                                      <label className="switch-light">
-                                        <input
-                                          type="checkbox"
-                                          checked={item.blocked == 1}
-                                          onChange={(e) =>
-                                            handleBlockedChange(e, index)
-                                          }
-                                        />
-                                        <span>
-                                          <span className="switch-btn active">
-                                            No
-                                          </span>
-                                          <span className="switch-btn">Yes</span>
-                                        </span>
-                                        <a className="btn"></a>
-                                      </label>
-                                    </div>
-                             
+
+                                <div className="switch">
+                                  <label className="switch-light">
+                                    <input
+                                      type="checkbox"
+                                      checked={item.blocked == 1}
+                                      onChange={(e) =>
+                                        handleBlockedChange(e, index,)
+                                      }
+                                    />
+                                    <span>
+                                      <span className="switch-btn active">
+                                        No
+                                      </span>
+                                      <span className="switch-btn">Yes</span>
+                                    </span>
+                                    <a className="btn"></a>
+                                  </label>
+                                </div>
+
                               </td>
                             </tr>
                           ))
@@ -217,7 +208,7 @@ const GetDetails = () => {
               show={showModal}
               centered
               size="lg"
-              onHide={closeModal} 
+              onHide={closeModal}
               aria-labelledby="contained-modal-title-vcenter"
             >
               <Modal.Header>
@@ -228,7 +219,7 @@ const GetDetails = () => {
                 ></button>
               </Modal.Header>
               <Modal.Body>
-                <h4>Are you sure you want to unblock this user?</h4>
+                <h4>Are you sure you want to {userToUnblock?.blocked === 0?"Un block":"Block"} this user?</h4>
                 <div className="modal-buttons">
                   <button
                     type="button"
