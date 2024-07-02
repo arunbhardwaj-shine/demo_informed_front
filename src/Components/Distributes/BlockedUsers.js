@@ -289,7 +289,8 @@ const GetDetails = () => {
                 </div>
               )}
             </div>
-            <section className="search-hcp smart-list-view">
+            {data.length > 0 ?
+           <section className="search-hcp smart-list-view">
               <div className="result-hcp-table">
                 <div className="selected-hcp-list">
                   <div className="table_xls">
@@ -359,7 +360,7 @@ const GetDetails = () => {
                   </div>
                 </div>
               </div>
-            </section>
+            </section>:""}
 
             <Modal
               className="modal send-confirm registration-popup"
