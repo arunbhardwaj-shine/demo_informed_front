@@ -2520,7 +2520,7 @@ form .input-group {
 }
 
 .send-option-list ul.send-option-new li {
-  margin: 0 auto;
+  margin: 0 10px;
 }
 
 .send-option-list ul.send-option-new li p {
@@ -2557,7 +2557,7 @@ form .input-group {
 }
 
 .send-option-list ul li {
-  margin: 0 42px;
+  margin: 0 24px;
   padding: 0;
   list-style: none;
 }

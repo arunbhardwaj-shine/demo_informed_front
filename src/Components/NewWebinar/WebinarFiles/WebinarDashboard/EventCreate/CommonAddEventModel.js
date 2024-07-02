@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import EventModelValidation from "./EventModelValidation";
 import { toast } from "react-toastify";
@@ -104,6 +104,7 @@ const CommonAddEventModel = ({
     speaker_email: "",
     meeting_type: "",
   });
+  let isMena = localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
   useEffect(() => {
     setIBUOptions(webinarDetail?.ibu);
     let uniqueTimeZone = []
@@ -1092,12 +1093,13 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
-                                Event Code <span>*</span>
+                                {isMena ? "Unique URL Code " :"Event Code"}
+                                 <span>*</span>
                               </label>
                               <input
                                 type="text"
                                 name="event_code"
-                                placeholder="Event code"
+                                placeholder={isMena ? "Enter Unique URL Code" : "Event Code"}
                                 className={error?.event_code ? "form-control error" : "form-control"}
                                 // className={
                                 //   error?.event_code
