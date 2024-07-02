@@ -680,7 +680,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              <li
+              {/* <li
                 className={
                   (location.pathname === "/blocked-users") &&
                     c_id == 0
@@ -724,7 +724,7 @@ const Sidebar = () => {
                   </svg>
                   <p>Blocked Users</p>
                 </Link>
-              </li>
+              </li> */}
 
               {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (
                 <li

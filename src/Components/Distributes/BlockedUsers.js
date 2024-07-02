@@ -1,94 +1,119 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
-import { Link, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
-import { popup_alert } from "../../popup_alert";
+import { getData,postData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { Modal } from "react-bootstrap";
 
 const GetDetails = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [data, setData] = useState([]);
-  const [sortingCount, setSortingCount] = useState(0);
-  const [sortingCountEmail, setSortingCountEmail] = useState(0);
-  const [sortingName, setSortingName] = useState(0);
-  const [sortingEmail, setSortingEmail] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [sortingState, setSortingState] = useState({
+    sortingCount: 0,
+    sortingField: "",
+    sortingOrder: 0,
+  });
 
-  const sortName = () => {
-    let normalArr = [];
-    normalArr = data;
-    console.log(sortingName);
-    if (sortingName === 0) {
-      normalArr.sort((a, b) => {
-        if (a.first_name === null) {
-          return -1;
-        }
-        if (b.first_name === null) {
-          return 1;
-        }
-        if (a.first_name === b.first_name) {
-          return 0;
-        }
-        return a.first_name.toLowerCase() > b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0;
-      });
-    } else {
-      normalArr.sort((a, b) => {
-        if (a.first_name === null) {
-          return 1;
-        }
-        if (b.first_name === null) {
-          return -1;
-        }
+  const [userBlocked, setUserBlocked] = useState({});
+  const [userToUnblock, setUserToUnblock] = useState(null);
 
-        if (a.first_name === b.first_name) {
-          return 0;
-        }
-        return a.first_name.toLowerCase() < b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0;
-      });
+  useEffect(() => {
+    getBlockedUsers();
+  }, []);
+
+  const getBlockedUsers = async () => {
+    try {
+      loader("show");
+      const data = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
+      let blockedUsers = data?.data?.data;
+      setData(blockedUsers);
+    } catch (error) {
+    } finally {
+      loader("hide");
     }
-    setSortingCountEmail(0);
-    setData(normalArr);
-    setSortingName(1 - sortingName);
-    setSortingCount(sortingCount + 1);
   };
 
-  const sortEmail = () => {
-    let normalArr = [];
-    normalArr = data;
-    if (sortingEmail === 0) {
-      normalArr.sort((a, b) =>
-        a.email.toLowerCase() > b.email.toLowerCase()
-          ? 1
-          : b.email.toLowerCase() > a.email.toLowerCase()
-          ? -1
-          : 0
-      );
-    } else {
-      normalArr.sort((a, b) =>
-        a.email.toLowerCase() < b.email.toLowerCase()
-          ? 1
-          : b.email.toLowerCase() < a.email.toLowerCase()
-          ? -1
-          : 0
-      );
+  const unBlockedUser = async () => {
+    try {
+      loader("show");
+      const userId = userToUnblock?.id; 
+      const response = await postData(`${ENDPOINT.UNBLOCKED_USERS}`);
+      setShowModal(false);
+      setUserToUnblock(null);
+      getBlockedUsers();
+    } catch (error) {
+      console.error("Error unblocking user:", error);
+      toast.error("Failed to unblock user");
+    } finally {
+      loader("hide");
     }
-
-    setSortingCount(0);
-
-    setData(normalArr);
-    setSortingEmail(1 - sortingEmail);
-    setSortingCountEmail(sortingCountEmail + 1);
   };
+
+  const handleBlockedChange = (e, index) => {
+    const updatedData = [...data];
+    updatedData[index] = {
+      ...updatedData[index],
+      blocked: updatedData[index]?.blocked === 1 ? 0 : 1,
+    };
+    setData(updatedData);
+
+    if (updatedData[index].blocked === 0) {
+      setUserToUnblock(updatedData[index]); 
+      setShowModal(true);
+    }
+  };
+
+  const sortData = (field) => {
+    let sortedData = [...data];
+    const { sortingField, sortingOrder } = sortingState;
+    const newSortingOrder =
+      sortingField === field && sortingOrder === 0 ? 1 : 0;
+
+    sortedData.sort((a, b) => {
+      if (a[field] === null) return newSortingOrder === 0 ? -1 : 1;
+      if (b[field] === null) return newSortingOrder === 0 ? 1 : -1;
+
+      if (a[field] === b[field]) return 0;
+      return a[field].toLowerCase() > b[field].toLowerCase()
+        ? newSortingOrder === 0
+          ? 1
+          : -1
+        : newSortingOrder === 0
+        ? -1
+        : 1;
+    });
+
+    setData(sortedData);
+    setSortingState({
+      sortingCount: sortingState.sortingCount + 1,
+      sortingField: field,
+      sortingOrder: newSortingOrder,
+    });
+  };
+
+  const SortButton = ({ sortingState, field }) => (
+    <button className="btn btn-outline-primary">
+      {sortingState.sortingField !== field ? (
+        <img src={`${path_image}sort.svg`} alt="Sorting" />
+      ) : sortingState.sortingOrder === 0 ? (
+        <img src={`${path_image}sort-decending.svg`} alt="Sorting" />
+      ) : (
+        <img src={`${path_image}sort-assending.svg`} alt="Sorting" />
+      )}
+    </button>
+  );
+
+  const headers = [
+    { name: "First name", sortKey: "firstName" },
+    { name: "Last name", sortKey: "lastName" },
+    { name: "Email", sortKey: "email" },
+    { name: "IRT Role" },
+    { name: "Country", sortKey: "country" },
+    { name: "Site Number", sortKey: "siteNumber" },
+    { name: "Reminder" },
+  ];
 
   return (
     <>
@@ -96,163 +121,75 @@ const GetDetails = () => {
         <div className="custom-container">
           <div className="row">
             <section className="search-hcp smart-list-view">
-             
               <div className="result-hcp-table">
-                
                 <div className="selected-hcp-list">
-               
                   <div className="table_xls">
                     <table className="table get-details" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
-                          <>
-                            <th scope="col">
-                              First name
-                              <div className="hcp-sort">
-                                {sortingCount == 0 ? (
-                                  <>
-                                    <button
-                                      className="btn btn-outline-primary"
-                                      onClick={sortName}
-                                    >
-                                      <img
-                                        src={path_image + "sort.svg"}
-                                        alt="Shorting"
-                                      />
-                                    </button>
-                                  </>
-                                ) : sortingName == 0 ? (
-                                  <>
-                                    <button
-                                      className="btn btn-outline-primary desc"
-                                      onClick={sortName}
-                                    >
-                                      <img
-                                        src={path_image + "sort-decending.svg"}
-                                        alt="Shorting"
-                                      />
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <button
-                                      className="btn btn-outline-primary asc"
-                                      onClick={sortName}
-                                    >
-                                      <img
-                                        src={path_image + "sort-assending.svg"}
-                                        alt="Shorting"
-                                      />
-                                    </button>
-                                  </>
-                                )}
-                              </div>
+                          {headers.map((header, index) => (
+                            <th
+                              scope="col"
+                              key={index}
+                              onClick={() => sortData(header.sortKey)}
+                            >
+                              {header.name}
+                              {header.sortKey && (
+                                <div className="hcp-sort">
+                                  <SortButton
+                                    sortingState={sortingState}
+                                    field={header.sortKey}
+                                  />
+                                </div>
+                              )}
                             </th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">
-                              Email
-                              <div className="hcp-sort">
-                                {sortingCountEmail == 0 ? (
-                                  <>
-                                    <button
-                                      className="btn btn-outline-primary"
-                                      onClick={sortEmail}
-                                    >
-                                      <img
-                                        src={path_image + "sort.svg"}
-                                        alt="Shorting"
-                                      />
-                                    </button>
-                                  </>
-                                ) : sortingEmail == 0 ? (
-                                  <>
-                                    <button
-                                      className="btn btn-outline-primary desc"
-                                      onClick={sortEmail}
-                                    >
-                                      <img
-                                        src={path_image + "sort-decending.svg"}
-                                        alt="Shorting"
-                                      />
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <button
-                                      className="btn btn-outline-primary asc"
-                                      onClick={sortEmail}
-                                    >
-                                      <img
-                                        src={path_image + "sort-assending.svg"}
-                                        alt="Shorting"
-                                      />
-                                    </button>
-                                  </>
-                                )}
-                              </div>
-                            </th>
-                            <th scope="col">Email read</th>
-                           
-                          </>
+                          ))}
                         </tr>
                       </thead>
-                      {/* <tbody>
+                      <tbody>
                         {typeof data != "undefined" && data.length > 0 ? (
                           data.map((item, index) => (
                             <>
-                              {item.email != "" ? (
-                                <tr
-                                  key={index}
-                                  className={
-                                    item?.article_already_register == 1
-                                      ? "green"
-                                      : item?.already_email_sent == 1
-                                      ? "orange"
-                                      : ""
-                                  }
-                                >
-                                  <td>{item.first_name}</td>
-                                  <td>{item.last_name}</td>
-                                  <td>{item.email}</td>
-                                  <td>{item.email_read}</td>
-                                  {item.article_open!=undefined ?<td>{item.article_open}</td>:heading.map((element)=> {
-                                    return <td>{item[element]!=undefined?item[element]:""}</td>
-                                  })}
-                                  <td>{item.article_register}</td>
-                                  {item?.all_read_info &&
-                                  item.all_read_info != ""
-                                    ? Object.keys(item.all_read_info).map(
-                                        (key) => (
-                                          <>
-                                            <td>
-                                              {
-                                                item.all_read_info[key]
-                                                  .article_read
-                                              }
-                                            </td>
-                                            <td>
-                                              {
-                                                item.all_read_info[key]
-                                                  .article_registered
-                                              }
-                                            </td>
-                                          </>
-                                        )
-                                      )
-                                    : ""}
-                                </tr>
-                              ) : (
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td className="removed_td centered">
-                                    Removed
-                                  </td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-                              )}
+                              <tr key={index}>
+                                <td>{item.firstName}</td>
+                                <td>{item.lastName}</td>
+                                <td>{item.email}</td>
+                                <td>{item.role}</td>
+                                <td>{item.country}</td>
+                                <td>{item.siteNumber}</td>
+                                <td>
+                                  {/* <input
+                                  type="checkbox"
+                                  checked={item?.blocked === 1}
+                                  onChange={(e) => handleBlockedChange(e, index)}
+                                /> */}
+
+                                  <div className="form-group">
+                                    <fieldset id={`group${index}`}>
+                                      <div className="switch">
+                                        <label className="switch-light">
+                                          <input
+                                            type="checkbox"
+                                            checked={item.blocked === 1}
+                                            onChange={(e) =>
+                                              handleBlockedChange(e, index)
+                                            }
+                                          />
+                                          <span>
+                                            <span className="switch-btn active">
+                                              No
+                                            </span>
+                                            <span className="switch-btn">
+                                              Yes
+                                            </span>
+                                          </span>
+                                          <a className="btn"></a>
+                                        </label>
+                                      </div>
+                                    </fieldset>
+                                  </div>
+                                </td>
+                              </tr>
                             </>
                           ))
                         ) : (
@@ -262,16 +199,53 @@ const GetDetails = () => {
                             </td>
                           </tr>
                         )}
-                      </tbody> */}
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </section>
+
+            <Modal
+              className="modal send-confirm registration-popup"
+              show={showModal}
+              centered
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+            >
+              <Modal.Header>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    setShowModal(false);
+                  }}
+                ></button>
+              </Modal.Header>
+              <Modal.Body>
+                <>
+                  <h4>Are you sure you wan't to block this user </h4>
+
+                  <div className="modal-buttons">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-bordered"
+                      onClick={() => {
+                       unBlockedUser()
+                      }}
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </>
+              </Modal.Body>
+            </Modal>
           </div>
         </div>
       </div>
     </>
   );
 };
+
 export default GetDetails;
