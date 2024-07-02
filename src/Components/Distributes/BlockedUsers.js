@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import { getData, postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { Modal } from "react-bootstrap";
+import { Accordion, Button, Modal } from "react-bootstrap";
 
 const GetDetails = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -15,6 +15,12 @@ const GetDetails = () => {
     sortingOrder: 0,
   });
   const [userToUnblock, setUserToUnblock] = useState(null);
+
+  const filterRef = useRef(null);
+  const buttonRef = useRef(null);
+  const [filterApplyflag, setFilterApplyFlag] = useState(0);
+  const [showfilter, setShowFilter] = useState(false);
+
   useEffect(() => {
     getBlockedUsers();
   }, []);
@@ -33,7 +39,6 @@ const GetDetails = () => {
   };
 
   const handleBlockedChange = (e, index) => {
-
     const updatedData = [...data];
     setShowModal(true);
     updatedData[index] = {
@@ -50,10 +55,16 @@ const GetDetails = () => {
       setShowModal(false);
 
       const userId = userToUnblock?.user_id;
-      await postData(`${ENDPOINT.UNBLOCKED_USERS}`, { userId, reminder: userToUnblock?.blocked === 1 ? 1 : 0 });
+      await postData(`${ENDPOINT.UNBLOCKED_USERS}`, {
+        userId,
+        reminder: userToUnblock?.blocked === 1 ? 1 : 0,
+      });
       setUserToUnblock(null);
-      toast.success("User unblocked successfully");
-
+      toast.success(
+        userToUnblock?.blocked === 0
+          ? "User unblocked successfully"
+          : "User blocked successfully"
+      );
     } catch (error) {
       console.error("Error unblocking user:", error);
       toast.error("Failed to unblock user");
@@ -89,8 +100,8 @@ const GetDetails = () => {
           ? 1
           : -1
         : newSortingOrder === 0
-          ? -1
-          : 1;
+        ? -1
+        : 1;
     });
 
     setData(sortedData);
@@ -122,6 +133,24 @@ const GetDetails = () => {
     { name: "Site Number", sortKey: "siteNumber" },
     { name: "Blocked" },
   ];
+
+  // const handleFilterChange = async (e, filterValue) => {
+  //   try {
+  //     loader("show");
+  //     const payload = {
+  //       filter: filterValue,
+  //     };
+  //     const response = await postData(`${ENDPOINT.FILTER_ENDPOINT}`, payload);
+
+     
+  //     setData(response?.data?.data); 
+  //   } catch (error) {
+  //     console.error("Error applying filter:", error);
+  //     toast.error("Failed to apply filter");
+  //   } finally {
+  //     loader("hide");
+  //   }
+  // };
 
   return (
     <>
@@ -165,14 +194,13 @@ const GetDetails = () => {
                               <td>{item.country}</td>
                               <td>{item.siteNumber}</td>
                               <td>
-
                                 <div className="switch">
                                   <label className="switch-light">
                                     <input
                                       type="checkbox"
                                       checked={item.blocked == 1}
                                       onChange={(e) =>
-                                        handleBlockedChange(e, index,)
+                                        handleBlockedChange(e, index)
                                       }
                                     />
                                     <span>
@@ -184,7 +212,6 @@ const GetDetails = () => {
                                     <a className="btn"></a>
                                   </label>
                                 </div>
-
                               </td>
                             </tr>
                           ))
@@ -218,7 +245,11 @@ const GetDetails = () => {
                 ></button>
               </Modal.Header>
               <Modal.Body>
-                <h4>Are you sure you want to {userToUnblock?.blocked === 0?"Un block":"Block"} this user?</h4>
+                <h4>
+                  Are you sure you want to{" "}
+                  {userToUnblock?.blocked === 0 ? "Unblock" : "Block"} this
+                  user?
+                </h4>
                 <div className="modal-buttons">
                   <button
                     type="button"
@@ -238,4 +269,3 @@ const GetDetails = () => {
 };
 
 export default GetDetails;
-
