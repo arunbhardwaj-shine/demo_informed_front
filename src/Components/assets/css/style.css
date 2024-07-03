@@ -1228,6 +1228,13 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .approved .mail-stats ul li .mail-status.mail_send svg path {
   fill: var(--light-violet);
 }
+.approved .mail-stats ul li .mail-status.irts {
+  border-color: #0066BE;
+}
+
+.approved .mail-stats ul li .mail-status.irts svg path {
+  fill:#0066BE;
+}
 
 .approved .mail-stats ul li .mail-status.mail_view {
   border-color: var(--yellow);
