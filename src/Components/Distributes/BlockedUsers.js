@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import "@inovua/reactdatagrid-community/index.css";
-import {  postData } from "../../axios/apiHelper";
+import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { Accordion, Button, Modal } from "react-bootstrap";
 
-const GetDetails = () => {
+const BlockedUsers = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState(null);
@@ -20,12 +20,12 @@ const GetDetails = () => {
 
   const filterRef = useRef(null);
   const buttonRef = useRef(null);
-  const [showfilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   const [userType, setUserType] = useState({
     label: "Blocked User",
     value: "blocked",
   });
-  const [filterApplyflag, setFilterApplyflag] = useState(1);
+  const [filterApplyFlag, setFilterApplyFlag] = useState(1);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -51,11 +51,7 @@ const GetDetails = () => {
   const handleBlockedChange = (e, index) => {
     const updatedData = [...data];
     setShowModal(true);
-    updatedData[index] = {
-      ...updatedData[index],
-      blocked: updatedData[index]?.blocked === 1 ? 0 : 1,
-    };
-    setData(updatedData);
+
     setUserToUnblock(updatedData[index]);
   };
 
@@ -69,6 +65,16 @@ const GetDetails = () => {
         userId,
         reminder: userToUnblock?.blocked === 1 ? 1 : 0,
       });
+      let index = originalData.findIndex((item) => item.user_id == userId)
+      if (index !== -1) {
+        const updatedData = [...data];
+        updatedData[index] = {
+          ...updatedData[index],
+          blocked: updatedData[index]?.blocked === 1 ? 0 : 1,
+        };
+        setData(updatedData);
+      }
+
       setUserToUnblock(null);
       toast.success(
         userToUnblock?.blocked === 0
@@ -85,14 +91,8 @@ const GetDetails = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    if (userToUnblock) {
-      const updatedData = data.map((user) =>
-        user.id === userToUnblock.id ? { ...user, blocked: 1 } : user
-      );
-      setData(updatedData);
-      setUserToUnblock(null);
-    }
-  };
+    setUserToUnblock(null);
+  }
 
   const sortData = (field) => {
     let sortedData = [...data];
@@ -110,8 +110,8 @@ const GetDetails = () => {
           ? 1
           : -1
         : newSortingOrder === 0
-        ? -1
-        : 1;
+          ? -1
+          : 1;
     });
 
     setData(sortedData);
@@ -150,28 +150,22 @@ const GetDetails = () => {
     setUserType({ label, value });
   };
 
-  // const applyFilter = (e) => {
-  //   e.preventDefault();
-  //   getBlockedUsers();
-  //   setShowFilter(false);
-  //   setFilterApplyflag(1);
-  // };
 
   const applyFilter = (e) => {
     e.preventDefault();
 
     getBlockedUsers();
-    setShowFilter(false); 
-    setFilterApplyflag(1);
+    setShowFilter(false);
+    setFilterApplyFlag(1);
   };
 
   const clearFilter = () => {
     setUserType({ label: "Blocked User", value: "blocked" });
-    setFilterApplyflag(0);
+    setFilterApplyFlag(0);
     getBlockedUsers();
     setShowFilter(false);
   };
-  
+
 
   const searchChange = (e) => {
     setShowFilter(false);
@@ -203,48 +197,48 @@ const GetDetails = () => {
     <>
       <div className="col right-sidebar">
         <div className="custom-container">
-       {originalData ? (  <div className="row">
-      
+          {originalData ? (<div className="row">
+
             <div
               className="filter-by nav-item dropdown d-flex justify-content-end"
               style={{ paddingRight: "0", margin: "0" }}
             >
-                  <div className="search-bar">
-                  <form className="d-flex" onSubmit={submitSearchHandler}>
-                    <input
-                      className="form-control me-2"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                      id="email_search"
-                      onFocus={() => setShowFilter(false)}
-                      onChange={(e) => searchChange(e)}
-                    />
-                    <button className="btn btn-outline" type="submit">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
-                          fill="#97B6CF"
-                        />
-                      </svg>
-                    </button>
-                  </form>
-                </div>
+              <div className="search-bar">
+                <form className="d-flex" onSubmit={submitSearchHandler}>
+                  <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    id="email_search"
+                    onFocus={() => setShowFilter(false)}
+                    onChange={(e) => searchChange(e)}
+                  />
+                  <button className="btn btn-outline" type="submit">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                        fill="#97B6CF"
+                      />
+                    </svg>
+                  </button>
+                </form>
+              </div>
               <button
                 ref={buttonRef}
                 className={`btn btn-secondary dropdown`}
                 type="button"
                 id="dropdownMenuButton2"
-                onClick={() => setShowFilter((showfilter) => !showfilter)}
+                onClick={() => setShowFilter((showFilter) => !showFilter)}
               >
                 Filter By
-                {showfilter ? (
+                {showFilter ? (
                   <svg
                     className="close-arrow"
                     width="13"
@@ -292,7 +286,7 @@ const GetDetails = () => {
                   </svg>
                 )}
               </button>
-              {showfilter && (
+              {showFilter && (
                 <div
                   ref={filterRef}
                   className="dropdown-menu filter-options"
@@ -355,7 +349,7 @@ const GetDetails = () => {
                 </div>
               )}
             </div>
-            {filterApplyflag == 1 ? (
+            {filterApplyFlag == 1 ? (
               <div className="apply-filter">
                 {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
@@ -395,7 +389,7 @@ const GetDetails = () => {
                       <thead className="sticky-header">
                         <tr>
                           {headers.map((header, index) => (
-                            <th style={{cursor:'pointer'}}
+                            <th style={{ cursor: 'pointer' }}
                               scope="col"
                               key={index}
                               onClick={() => sortData(header.sortKey)}
@@ -491,11 +485,11 @@ const GetDetails = () => {
                 </div>
               </Modal.Body>
             </Modal>
-          </div>):null}
+          </div>) : null}
         </div>
       </div>
     </>
   );
 };
 
-export default GetDetails;
+export default BlockedUsers;
