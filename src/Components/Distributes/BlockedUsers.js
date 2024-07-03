@@ -404,7 +404,7 @@ const GetDetails = () => {
                   </div>
                 </div>
               </div>
-            </section>
+            </section>:""}
 
             <Modal
               className="modal send-confirm registration-popup"
