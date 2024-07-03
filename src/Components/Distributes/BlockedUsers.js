@@ -188,7 +188,6 @@ const BlockedUsers = () => {
       item?.country?.toLowerCase().includes(search.toLowerCase())
     );
     setShowFilter(false);
-
     setData(searchData);
     loader("hide");
 
@@ -200,8 +199,8 @@ const BlockedUsers = () => {
           {originalData ? (<div className="row">
 
             <div
-              className="filter-by nav-item dropdown d-flex justify-content-end"
-              style={{ paddingRight: "0", margin: "0" }}
+              className="justify-content-end top-right-action"
+              style={{ marginRight: "20" }}
             >
               <div className="search-bar">
                 <form className="d-flex" onSubmit={submitSearchHandler}>
@@ -230,6 +229,8 @@ const BlockedUsers = () => {
                   </button>
                 </form>
               </div>
+
+              <div className="filter-by nav-item dropdown d-flex ">
               <button
                 ref={buttonRef}
                 className={`btn btn-secondary dropdown`}
@@ -348,6 +349,7 @@ const BlockedUsers = () => {
                   </div>
                 </div>
               )}
+              </div>
             </div>
             {filterApplyFlag == 1 ? (
               <div className="apply-filter">
@@ -361,11 +363,11 @@ const BlockedUsers = () => {
                       <div className="filter-div-list">
                         <div className="filter-result">
                           {userType.label}
-                          <img
+                          {/* <img
                             src={path_image + "filter-close.svg"}
                             onClick={clearFilter}
                             alt="Close-filter"
-                          />
+                          /> */}
                         </div>
                       </div>
                     </div>
