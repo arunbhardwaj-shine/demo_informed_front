@@ -7621,7 +7621,9 @@ header.top-0~div .search-hcp.smart-list-view .selected-hcp-list.new-hcp-list tab
 .search-hcp.smart-list-view table.get-details#table-to-xls thead.sticky-header {
   top: 14px;
 }
-
+.search-hcp.smart-list-view .blocked-user-list table.get-details#table-to-xls thead.sticky-header {
+  top: 0px;
+}
 .smart_list_names+.search-hcp.smart-list-view table#table-to-xls thead.sticky-header,
 .invitee table#table-to-xls thead.sticky-header {
   top: 74px;
@@ -8968,6 +8970,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 .smart-list-view .selected-hcp-list {
   max-width: 1057px;
   margin: 0 auto;
+}
+.smart-list-view .blocked-user-list {
+  max-width: 1157px;
 }
 
 .smart-list-view .selected-hcp-list.email_stats {

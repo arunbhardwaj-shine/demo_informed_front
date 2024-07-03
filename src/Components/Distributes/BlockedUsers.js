@@ -19,8 +19,12 @@ const GetDetails = () => {
 
   const filterRef = useRef(null);
   const buttonRef = useRef(null);
-  const [filterApplyflag, setFilterApplyFlag] = useState(0);
   const [showfilter, setShowFilter] = useState(false);
+  const [userType, setUserType] = useState({
+    label: "Blocked User",
+    value: "blocked",
+  });
+  const [filterApplyflag, setFilterApplyflag] = useState(1);
 
   useEffect(() => {
     getBlockedUsers();
@@ -29,7 +33,9 @@ const GetDetails = () => {
   const getBlockedUsers = async () => {
     try {
       loader("show");
-      const response = await getData(`${ENDPOINT.GET_BLOCKED_USERS}`);
+      const response = await postData(`${ENDPOINT.GET_BLOCKED_USERS}`, {
+        userType: userType.value,
+      });
       const blockedUsers = response?.data?.data;
       setData(blockedUsers);
     } catch (error) {
@@ -135,30 +141,46 @@ const GetDetails = () => {
     { name: "Blocked" },
   ];
 
-  // const handleFilterChange = async (e, filterValue) => {
-  //   try {
-  //     loader("show");
-  //     const payload = {
-  //       filter: filterValue,
-  //     };
-  //     const response = await postData(`${ENDPOINT.FILTER_ENDPOINT}`, payload);
+  const handleOnFilterChange = (event) => {
+    const { value } = event.target;
+    const label = event.target.getAttribute("data-label");
+    setUserType({ label, value });
+  };
 
-     
-  //     setData(response?.data?.data); 
-  //   } catch (error) {
-  //     console.error("Error applying filter:", error);
-  //     toast.error("Failed to apply filter");
-  //   } finally {
-  //     loader("hide");
-  //   }
+  // const applyFilter = (e) => {
+  //   e.preventDefault();
+  //   getBlockedUsers();
+  //   setShowFilter(false);
+  //   setFilterApplyflag(1);
   // };
+
+  const applyFilter = (e) => {
+    e.preventDefault();
+    if (userType.value !== "blocked") {
+      setUserType({ label: "Blocked User", value: "blocked" });
+    }
+    getBlockedUsers();
+    setShowFilter(false); 
+    setFilterApplyflag(1);
+  };
+
+  const clearFilter = () => {
+    setUserType({ label: "Blocked User", value: "blocked" });
+    setFilterApplyflag(0);
+    getBlockedUsers();
+    setShowFilter(false);
+  };
+  
 
   return (
     <>
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
-            <div className="filter-by nav-item dropdown">
+            <div
+              className="filter-by nav-item dropdown d-flex justify-content-end"
+              style={{ paddingRight: "0", margin: "0" }}
+            >
               <button
                 ref={buttonRef}
                 className={`btn btn-secondary dropdown
@@ -224,45 +246,36 @@ const GetDetails = () => {
                   aria-labelledby="dropdownMenuButton2"
                 >
                   <h4>Filter By</h4>
-                  <Accordion defaultActiveKey="0" flush>
+                  <Accordion defaultActiveKey="0">
                     <Accordion.Item className="card upper" eventKey="0">
                       <Accordion.Header className="card-header">
-                        Blocked User
+                        User Type
                       </Accordion.Header>
                       <Accordion.Body className="card-body">
                         <ul>
                           <li>
                             <label className="select-multiple-option">
                               <input
-                                type="checkbox"
-                                id="blockedUserFilter"
-                                value="Blocked User"
-                                checked={true}
-                                // onChange={(e) =>
-                                //   handleOnFilterChange(e, "Blocked User")
-                                // }
+                                type="radio"
+                                name="userType"
+                                value="blocked"
+                                data-label="Blocked User"
+                                checked={userType.value === "blocked"}
+                                onChange={handleOnFilterChange}
                               />
                               Blocked User
                               <span className="checkmark"></span>
                             </label>
                           </li>
-                        </ul>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item className="card" eventKey="1">
-                      <Accordion.Header className="card-header">
-                        All IRT
-                      </Accordion.Header>
-                      <Accordion.Body className="card-body">
-                        <ul>
                           <li>
                             <label className="select-multiple-option">
                               <input
-                                type="checkbox"
-                                id="blockedUserFilter"
-                                value="Blocked User"
-                                checked={true}
-                                // onChange={(e) => handleOnFilterChange(e, "Blocked User")}
+                                type="radio"
+                                name="userType"
+                                value="all"
+                                data-label="All IRT"
+                                checked={userType.value === "all"}
+                                onChange={handleOnFilterChange}
                               />
                               All IRT
                               <span className="checkmark"></span>
@@ -275,13 +288,13 @@ const GetDetails = () => {
                   <div className="filter-footer">
                     <Button
                       className="btn btn-primary btn-bordered"
-                      // onClick={clearFilter}
+                      onClick={clearFilter}
                     >
                       Clear
                     </Button>
                     <Button
                       className="btn btn-primary btn-filled"
-                      // onClick={applyFilter}
+                      onClick={applyFilter}
                     >
                       Apply
                     </Button>
@@ -289,15 +302,47 @@ const GetDetails = () => {
                 </div>
               )}
             </div>
+            {filterApplyflag == 1 ? (
+              <div className="apply-filter">
+                {/* <h6>Applied filters</h6> */}
+                <div className="filter-block">
+                  <div className="filter-block-left full">
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>User Type|</span>
+                      </div>
+                      <div className="filter-div-list">
+                        <div className="filter-result">
+                          {userType.label}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            onClick={clearFilter}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="clear-filter">
+                    <Button
+                      className="btn btn-outline-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Remove All
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <section className="search-hcp smart-list-view">
               <div className="result-hcp-table">
-                <div className="selected-hcp-list">
-                  <div className="table_xls">
+                <div className="selected-hcp-list blocked-user-list">
+                  <div className="table_xlss">
                     <table className="table get-details" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
                           {headers.map((header, index) => (
-                            <th
+                            <th style={{cursor:'pointer'}}
                               scope="col"
                               key={index}
                               onClick={() => sortData(header.sortKey)}
