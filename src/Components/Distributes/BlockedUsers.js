@@ -80,7 +80,7 @@ const BlockedUsers = () => {
       updateData(originalData, setOriginalData);
   
       setUserToUnblock(null);
-      toast.success(blocked === 1 ? "unblocked reminder for this successfully" : "blocked reminder for this successfully");
+      toast.success(blocked === 1 ? "unblocked reminders for this successfully" : "blocked reminders for this successfully");
     } catch (error) {
       console.error("Error unblocking user:", error);
       toast.error("Failed to unblock user");
@@ -465,7 +465,7 @@ const BlockedUsers = () => {
               <Modal.Body>
                 <h4>
                   Are you sure you want to{" "}
-                  {userToUnblock?.blocked === 1 ? "unblock reminder for" : "block reminder for"} this
+                  {userToUnblock?.blocked === 1 ? "unblock reminders for" : "block reminders for"} this
                   user?
                 </h4>
                 <div className="modal-buttons">
