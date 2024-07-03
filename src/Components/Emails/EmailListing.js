@@ -21,6 +21,7 @@ const EmailList = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const isRND= localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -1558,7 +1559,7 @@ const EmailList = (props) => {
                                 </div>
                                 <div className="mail-stats">
                                   <ul>
-                                    <li>
+                                  {  isRND &&<li>
                                       <div
                                         className="mail-status irts"
                                         title="IRTs"
@@ -1574,7 +1575,7 @@ const EmailList = (props) => {
                                       </div>
                                       <span>    {data?.unique_user_types ? data.unique_user_types.length : 0}
                                       </span>
-                                    </li>
+                                    </li>}
                                     <li>
                                       <div
                                         className="mail-status mail_send"

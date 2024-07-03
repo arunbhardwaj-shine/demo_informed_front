@@ -7,7 +7,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { Accordion, Button, Modal } from "react-bootstrap";
 
 const BlockedUsers = () => {
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -35,6 +35,7 @@ const BlockedUsers = () => {
   const getBlockedUsers = async () => {
     try {
       loader("show");
+      setSearch("");
       const response = await postData(`${ENDPOINT.GET_BLOCKED_USERS}`, {
         userType: userType.value,
       });
@@ -48,39 +49,38 @@ const BlockedUsers = () => {
     }
   };
 
-  const handleBlockedChange = (e, index) => {
-    const updatedData = [...data];
+  const handleBlockedChange = (e, item) => {
     setShowModal(true);
-
-    setUserToUnblock(updatedData[index]);
+    setUserToUnblock(item);
   };
 
   const unBlockedUser = async () => {
+    if (!userToUnblock) return;
+  
     try {
       loader("show");
       setShowModal(false);
-
-      const userId = userToUnblock?.user_id;
-      await postData(`${ENDPOINT.UNBLOCKED_USERS}`, {
-        userId,
-        reminder: userToUnblock?.blocked === 1 ? 1 : 0,
-      });
-      let index = originalData.findIndex((item) => item.user_id == userId)
-      if (index !== -1) {
-        const updatedData = [...data];
-        updatedData[index] = {
-          ...updatedData[index],
-          blocked: updatedData[index]?.blocked === 1 ? 0 : 1,
-        };
-        setData(updatedData);
-      }
-
+  
+      const { user_id: userId, blocked } = userToUnblock;
+      const newBlockedStatus = blocked === 1 ? 0 : 1;
+      const reminder = newBlockedStatus;
+  
+      await postData(`${ENDPOINT.UNBLOCKED_USERS}`, { userId, reminder });
+  
+      const updateData = (dataList, setDataList) => {
+        const index = dataList.findIndex((item) => item.user_id === userId);
+        if (index !== -1) {
+          const updatedData = [...dataList];
+          updatedData[index] = { ...updatedData[index], blocked: newBlockedStatus };
+          setDataList(updatedData);
+        }
+      };
+  
+      updateData(data, setData);
+      updateData(originalData, setOriginalData);
+  
       setUserToUnblock(null);
-      toast.success(
-        userToUnblock?.blocked === 0
-          ? "User unblocked successfully"
-          : "User blocked successfully"
-      );
+      toast.success(blocked === 1 ? "User unblocked successfully" : "User blocked successfully");
     } catch (error) {
       console.error("Error unblocking user:", error);
       toast.error("Failed to unblock user");
@@ -88,30 +88,25 @@ const BlockedUsers = () => {
       loader("hide");
     }
   };
+  
 
   const closeModal = () => {
     setShowModal(false);
     setUserToUnblock(null);
-  }
-
+  };
   const sortData = (field) => {
     let sortedData = [...data];
     const { sortingField, sortingOrder } = sortingState;
-    const newSortingOrder =
-      sortingField === field && sortingOrder === 0 ? 1 : 0;
+    const newSortingOrder = sortingField === field && sortingOrder === 0 ? 1 : 0;
 
     sortedData.sort((a, b) => {
-      if (a[field] === null) return newSortingOrder === 0 ? -1 : 1;
-      if (b[field] === null) return newSortingOrder === 0 ? 1 : -1;
+      const aValue = a[field]?.toLowerCase() || '';
+      const bValue = b[field]?.toLowerCase() || '';
 
-      if (a[field] === b[field]) return 0;
-      return a[field].toLowerCase() > b[field].toLowerCase()
-        ? newSortingOrder === 0
-          ? 1
-          : -1
-        : newSortingOrder === 0
-          ? -1
-          : 1;
+      if (aValue === bValue) return 0;
+      return aValue > bValue
+        ? newSortingOrder === 0 ? 1 : -1
+        : newSortingOrder === 0 ? -1 : 1;
     });
 
     setData(sortedData);
@@ -150,10 +145,8 @@ const BlockedUsers = () => {
     setUserType({ label, value });
   };
 
-
   const applyFilter = (e) => {
     e.preventDefault();
-
     getBlockedUsers();
     setShowFilter(false);
     setFilterApplyFlag(1);
@@ -166,13 +159,11 @@ const BlockedUsers = () => {
     setShowFilter(false);
   };
 
-
   const searchChange = (e) => {
+    setUserToUnblock(null)
     setShowFilter(false);
-
     setSearch(e?.target?.value);
-
-    if (e?.target?.value === "") {
+    if (e?.target?.value.trim() === "") {
       setData(originalData);
     }
   };
@@ -190,8 +181,8 @@ const BlockedUsers = () => {
     setShowFilter(false);
     setData(searchData);
     loader("hide");
-
   };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -210,6 +201,7 @@ const BlockedUsers = () => {
                     placeholder="Search"
                     aria-label="Search"
                     id="email_search"
+                    value={search}
                     onFocus={() => setShowFilter(false)}
                     onChange={(e) => searchChange(e)}
                   />
@@ -231,124 +223,124 @@ const BlockedUsers = () => {
               </div>
 
               <div className="filter-by nav-item dropdown d-flex ">
-              <button
-                ref={buttonRef}
-                className={`btn btn-secondary dropdown`}
-                type="button"
-                id="dropdownMenuButton2"
-                onClick={() => setShowFilter((showFilter) => !showFilter)}
-              >
-                Filter By
-                {showFilter ? (
-                  <svg
-                    className="close-arrow"
-                    width="13"
-                    height="12"
-                    viewBox="0 0 13 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      width="2.09896"
-                      height="15.1911"
-                      rx="1.04948"
-                      transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                      fill="#0066BE"
-                    />
-                    <rect
-                      width="2.09896"
-                      height="15.1911"
-                      rx="1.04948"
-                      transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                      fill="#0066BE"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="filter-arrow"
-                    width="16"
-                    height="14"
-                    viewBox="0 0 16 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                      fill="#97B6CF"
-                    ></path>
-                    <path
-                      d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                      fill="#97B6CF"
-                    ></path>
-                    <path
-                      d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                      fill="#97B6CF"
-                    ></path>
-                  </svg>
-                )}
-              </button>
-              {showFilter && (
-                <div
-                  ref={filterRef}
-                  className="dropdown-menu filter-options"
-                  aria-labelledby="dropdownMenuButton2"
+                <button
+                  ref={buttonRef}
+                  className={`btn btn-secondary dropdown`}
+                  type="button"
+                  id="dropdownMenuButton2"
+                  onClick={() => setShowFilter((showFilter) => !showFilter)}
                 >
-                  <h4>Filter By</h4>
-                  <Accordion defaultActiveKey="0">
-                    <Accordion.Item className="card upper" eventKey="0">
-                      <Accordion.Header className="card-header">
-                        User Type
-                      </Accordion.Header>
-                      <Accordion.Body className="card-body">
-                        <ul>
-                          <li>
-                            <label className="select-multiple-option">
-                              <input
-                                type="radio"
-                                name="userType"
-                                value="blocked"
-                                data-label="Blocked User"
-                                checked={userType.value === "blocked"}
-                                onChange={handleOnFilterChange}
-                              />
-                              Blocked User
-                              <span className="checkmark"></span>
-                            </label>
-                          </li>
-                          <li>
-                            <label className="select-multiple-option">
-                              <input
-                                type="radio"
-                                name="userType"
-                                value="all"
-                                data-label="All IRT"
-                                checked={userType.value === "all"}
-                                onChange={handleOnFilterChange}
-                              />
-                              All IRT
-                              <span className="checkmark"></span>
-                            </label>
-                          </li>
-                        </ul>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                  <div className="filter-footer">
-                    {/* <Button
+                  Filter By
+                  {showFilter ? (
+                    <svg
+                      className="close-arrow"
+                      width="13"
+                      height="12"
+                      viewBox="0 0 13 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        width="2.09896"
+                        height="15.1911"
+                        rx="1.04948"
+                        transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                        fill="#0066BE"
+                      />
+                      <rect
+                        width="2.09896"
+                        height="15.1911"
+                        rx="1.04948"
+                        transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                        fill="#0066BE"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="filter-arrow"
+                      width="16"
+                      height="14"
+                      viewBox="0 0 16 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                        fill="#97B6CF"
+                      ></path>
+                    </svg>
+                  )}
+                </button>
+                {showFilter && (
+                  <div
+                    ref={filterRef}
+                    className="dropdown-menu filter-options"
+                    aria-labelledby="dropdownMenuButton2"
+                  >
+                    <h4>Filter By</h4>
+                    <Accordion defaultActiveKey="0">
+                      <Accordion.Item className="card upper" eventKey="0">
+                        <Accordion.Header className="card-header">
+                          User Type
+                        </Accordion.Header>
+                        <Accordion.Body className="card-body">
+                          <ul>
+                            <li>
+                              <label className="select-multiple-option">
+                                <input
+                                  type="radio"
+                                  name="userType"
+                                  value="blocked"
+                                  data-label="Blocked User"
+                                  checked={userType.value === "blocked"}
+                                  onChange={handleOnFilterChange}
+                                />
+                                Blocked User
+                                <span className="checkmark"></span>
+                              </label>
+                            </li>
+                            <li>
+                              <label className="select-multiple-option">
+                                <input
+                                  type="radio"
+                                  name="userType"
+                                  value="all"
+                                  data-label="All IRT"
+                                  checked={userType.value === "all"}
+                                  onChange={handleOnFilterChange}
+                                />
+                                All IRT
+                                <span className="checkmark"></span>
+                              </label>
+                            </li>
+                          </ul>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                    <div className="filter-footer">
+                      {/* <Button
                       className="btn btn-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Clear
                     </Button> */}
-                    <Button
-                      className="btn btn-primary btn-filled"
-                      onClick={applyFilter}
-                    >
-                      Apply
-                    </Button>
+                      <Button
+                        className="btn btn-primary btn-filled"
+                        onClick={applyFilter}
+                      >
+                        Apply
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               </div>
             </div>
             {filterApplyFlag == 1 ? (
@@ -426,7 +418,7 @@ const BlockedUsers = () => {
                                       type="checkbox"
                                       checked={item.blocked == 1}
                                       onChange={(e) =>
-                                        handleBlockedChange(e, index)
+                                        handleBlockedChange(e, item)
                                       }
                                     />
                                     <span>
@@ -473,7 +465,7 @@ const BlockedUsers = () => {
               <Modal.Body>
                 <h4>
                   Are you sure you want to{" "}
-                  {userToUnblock?.blocked === 0 ? "Unblock" : "Block"} this
+                  {userToUnblock?.blocked === 1 ? "Unblock" : "Block"} this
                   user?
                 </h4>
                 <div className="modal-buttons">
