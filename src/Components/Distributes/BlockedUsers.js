@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import "@inovua/reactdatagrid-community/index.css";
-import { getData, postData } from "../../axios/apiHelper";
+import {  postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { Accordion, Button, Modal } from "react-bootstrap";
 
 const GetDetails = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [data, setData] = useState([]);
+  const [originalData, setOriginalData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [sortingState, setSortingState] = useState({
     sortingCount: 0,
@@ -25,6 +26,7 @@ const GetDetails = () => {
     value: "blocked",
   });
   const [filterApplyflag, setFilterApplyflag] = useState(1);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     getBlockedUsers();
@@ -38,6 +40,7 @@ const GetDetails = () => {
       });
       const blockedUsers = response?.data?.data;
       setData(blockedUsers);
+      setOriginalData(blockedUsers);
     } catch (error) {
       console.error("Error fetching blocked users:", error);
     } finally {
@@ -156,9 +159,7 @@ const GetDetails = () => {
 
   const applyFilter = (e) => {
     e.preventDefault();
-    if (userType.value !== "blocked") {
-      setUserType({ label: "Blocked User", value: "blocked" });
-    }
+
     getBlockedUsers();
     setShowFilter(false); 
     setFilterApplyflag(1);
@@ -172,20 +173,72 @@ const GetDetails = () => {
   };
   
 
+  const searchChange = (e) => {
+    setShowFilter(false);
+
+    setSearch(e?.target?.value);
+
+    if (e?.target?.value === "") {
+      setData(originalData);
+    }
+  };
+
+  const submitSearchHandler = (event) => {
+    event.preventDefault();
+    let searchData = originalData?.filter((item) =>
+      item?.firstName?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.lastName?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.siteNumber?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.role?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.country?.toLowerCase().includes(search.toLowerCase())
+    );
+    setShowFilter(false);
+
+    setData(searchData);
+    loader("hide");
+
+  };
   return (
     <>
       <div className="col right-sidebar">
         <div className="custom-container">
-          <div className="row">
+       {originalData ? (  <div className="row">
+      
             <div
               className="filter-by nav-item dropdown d-flex justify-content-end"
               style={{ paddingRight: "0", margin: "0" }}
             >
+                  <div className="search-bar">
+                  <form className="d-flex" onSubmit={submitSearchHandler}>
+                    <input
+                      className="form-control me-2"
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      id="email_search"
+                      onFocus={() => setShowFilter(false)}
+                      onChange={(e) => searchChange(e)}
+                    />
+                    <button className="btn btn-outline" type="submit">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
               <button
                 ref={buttonRef}
-                className={`btn btn-secondary dropdown
-                  
-                `}
+                className={`btn btn-secondary dropdown`}
                 type="button"
                 id="dropdownMenuButton2"
                 onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -286,12 +339,12 @@ const GetDetails = () => {
                     </Accordion.Item>
                   </Accordion>
                   <div className="filter-footer">
-                    <Button
+                    {/* <Button
                       className="btn btn-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Clear
-                    </Button>
+                    </Button> */}
                     <Button
                       className="btn btn-primary btn-filled"
                       onClick={applyFilter}
@@ -323,14 +376,14 @@ const GetDetails = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="clear-filter">
+                  {/* <div className="clear-filter">
                     <Button
                       className="btn btn-outline-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Remove All
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ) : null}
@@ -404,7 +457,7 @@ const GetDetails = () => {
                   </div>
                 </div>
               </div>
-            </section>:""}
+            </section>
 
             <Modal
               className="modal send-confirm registration-popup"
@@ -438,7 +491,7 @@ const GetDetails = () => {
                 </div>
               </Modal.Body>
             </Modal>
-          </div>
+          </div>):null}
         </div>
       </div>
     </>
