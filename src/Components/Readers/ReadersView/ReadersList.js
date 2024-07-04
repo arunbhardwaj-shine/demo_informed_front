@@ -3019,7 +3019,7 @@ const NewReaders = () => {
                                             </div>
                                           </div>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                           <h6 className="tab-content-title">
                                             IRT mandatory training
                                           </h6>
@@ -3059,7 +3059,7 @@ const NewReaders = () => {
                                               />
                                             </div>
                                           </div>
-                                        </li>
+                                        </li> */}
                                         <li>
                                           <h6 className="tab-content-title">
                                             IRT role
