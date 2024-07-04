@@ -1516,12 +1516,19 @@ const EmailList = (props) => {
                                           "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
                                             <tr>
                                               <th>Site</th>
-                                              <td>
+                                              {/* <td>
                                                 {data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length > 0 && data?.unique_site_numbers.filter(item => item).length <= 10
                                                   ? data?.unique_site_numbers.filter(item => item).join(', ')
                                                   : 'N/A'}
-                                              </td>
+                                              </td> */}
 
+                                                <td>
+                                                  {
+                                                    data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length === 0
+                                                      ? 'N/A'
+                                                      : data?.unique_site_numbers.filter(item => item).slice(0, 10).join(', ')
+                                                  }
+                                                </td>
                                             </tr>
                                             {/* <tr>
                                         <th>IRTs</th>

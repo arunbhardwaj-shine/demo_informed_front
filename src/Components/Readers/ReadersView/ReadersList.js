@@ -304,6 +304,8 @@ const NewReaders = () => {
           ...obj,
           status: ["Registered"],
           "contact Type": ["HCP"],
+          'IRT mandatory training': ["No"],
+
         };
       } else if (
         localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
@@ -422,7 +424,18 @@ const NewReaders = () => {
           ...filterObject,
           status: ["Registered"],
         };
-      } else {
+      }
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload = {
+          ...data,
+          ...obj,
+          status: ["Registered"],
+          "contact Type": ["HCP"],
+          'IRT mandatory training': ["No"],
+
+        };
+      }
+       else {
         payload = { ...data, ...filterObject };
       }
 
