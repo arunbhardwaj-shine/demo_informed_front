@@ -1791,8 +1791,16 @@ const NewReaders = () => {
                           "B7SHpAc XDXSH NXkN0rdQ=="?{
                             status: "Registered",
                             "contact Type": "HCP",
-                            "Content Owners":"All"
-                          }:{
+                            "Content Owners":"All",
+                            
+                          }:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?
+                          {
+                            status: "Registered",
+                            "contact Type": "HCP",
+                            'IRT mandatory training': ["No"]
+                          }
+                          :
+                          {
                             status: "Registered",
                             "contact Type": "HCP",
                           });
