@@ -20,7 +20,7 @@ const LibraryCreate = () => {
     },
   ];
 
-  if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="){
+  if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="){
       const newObj = [
         {
           image: `${path_image}sublink-icon1.svg`,
@@ -39,7 +39,7 @@ const LibraryCreate = () => {
   }
 
   if (
-    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
     localStorage.getItem("group_id") == "3"
   ) {
     const newObj = {

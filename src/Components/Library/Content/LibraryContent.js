@@ -178,7 +178,7 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -295,7 +295,7 @@ const LibraryContent = (props) => {
       otherObj[key] = [];
     }
 
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["Role"]) {
           delete newObj["Role"];
@@ -1540,7 +1540,7 @@ const LibraryContent = (props) => {
                                       </h6>
                                     </li>
                                     {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2457,7 +2457,7 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
                                         <Link
                                           to="/library-sublink"
                                           state={{ pdfid: data.id }}
@@ -2549,7 +2549,7 @@ const LibraryContent = (props) => {
                                     )}
                                     {localStorage.getItem("group_id") == "3" &&
                                       localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2565,7 +2565,7 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                                       localStorage.getItem("group_id") == "3" ? (
                                       <>
                                         {/*<li>
@@ -2605,7 +2605,7 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
