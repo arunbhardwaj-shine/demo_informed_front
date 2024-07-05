@@ -566,7 +566,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                           symbolHeight: 10,
                           itemDistance: 20,
                           lineWidth: 0,
-                          itemMarginBottom: -23, // Add itemMarginBottom to provide space between legend items
+                          itemMarginBottom: -20, // Add itemMarginBottom to provide space between legend items
                         },
 
                         tooltip: {
@@ -584,7 +584,7 @@ const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
                         },
                         series: [
                           {
-                            name: "Emails",
+                            name: "Number of registration",
                             data: pieChartData?.registeredOverTime?.seriesData,
                             color: "#874e9e",
                             marker: {

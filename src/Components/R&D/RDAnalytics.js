@@ -18,6 +18,10 @@ import SiteCompletion from "./SiteCompletion";
 import SiteEngagement from "./SiteEngagement";
 import PopularContent from "./PopularContent";
 import axios from 'axios';
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
+
 const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
   const [show, setShow] = useState();
@@ -714,6 +718,56 @@ const RDAnalytics = () => {
     element.click();
   };
 
+
+  const downloadExcelUsers = (data,tableName) => {
+    try {
+      data = data?.map((item, index) => {
+        let finalData = {};
+        finalData.Site = item?.site_number ? item?.site_number : "NA";
+        finalData.Email = item?.email ? item?.email.trim() : "NA";
+        finalData.Name = item?.username ? item?.username.trim() : "NA";
+        finalData.Country = item?.country ? item?.country : "NA";       
+        finalData.Role = item?.user_type ? item?.user_type : "NA";       
+        finalData.Training = item?.training_status ? item?.training_status : "NA";
+        finalData[`Last activity`] = item?.last_activity ? item?.last_activity : "NA";
+        finalData[`First email sent`] = item?.date_first_email_sent ? item?.date_first_email_sent : "NA";
+        finalData[`Last email sent`] = item?.date_last_email_sent ? item?.date_last_email_sent : "NA";
+        finalData[`Total reminders sent`] = item?.reminders_sent ? item?.reminders_sent : 0;
+        return finalData;
+      });
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      
+      // Set column widths dynamically based on the content
+      const columnWidths = data.reduce((acc, row) => {
+        Object.keys(row).forEach((key, index) => {
+          const value = row[key] ? row[key].toString() : '';
+          const width = Math.max(value.length, key.length) + 2;
+          acc[index] = Math.max(acc[index] || 0, width);
+        });
+        return acc;
+      }, []);
+  
+      worksheet['!cols'] = columnWidths.map(width => ({ wch: width }));
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+      saveAs(
+        blob,`${tableName}_.xls`
+      );
+    } catch (error) {
+      console.error(
+        "An error occurred while downloading the Excel file:",
+        error
+      );
+  }
+  };
   const handleExport = (tableName) => {
 
     const table = document.getElementById(tableName);
@@ -1196,7 +1250,9 @@ const RDAnalytics = () => {
                           </button>
                           <Button
                             title="Download stats"
-                            onClick={() => handleExport("individual_completion")}
+                            onClick={() => downloadExcelUsers(indidualCompletionTableData,"individual_completion")
+                              
+                            }
                           >
                             <svg
                               width="20"
