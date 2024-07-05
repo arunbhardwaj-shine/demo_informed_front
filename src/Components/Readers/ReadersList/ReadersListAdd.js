@@ -2118,7 +2118,7 @@ const ReadersListAdd = () => {
 
                               {(localStorage.getItem("user_id") !=
                                 "56Ek4feL/1A8mZgIKQWEqg=="
-                                &&localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
@@ -2174,7 +2174,7 @@ const ReadersListAdd = () => {
 
                               {(localStorage.getItem("user_id") !=
                                 "56Ek4feL/1A8mZgIKQWEqg=="
-                                &&localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
