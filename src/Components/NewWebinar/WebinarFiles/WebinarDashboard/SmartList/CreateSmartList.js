@@ -296,7 +296,7 @@ const CreateSmartList = () => {
       user_id == "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
       link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==" ) {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";

@@ -80,10 +80,10 @@ const WebinarSelectSmartListUsers = (props) => {
       country: "",
       countryIndex: "",
       role:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
           ? irtRole?.[0]?.value
           : "",
-      optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+      optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? "yes" : "",
       institutionType: "",
     },
   ]);
@@ -219,7 +219,7 @@ const WebinarSelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
       axiosFun();
     }
 
@@ -246,7 +246,7 @@ const WebinarSelectSmartListUsers = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -433,10 +433,10 @@ const WebinarSelectSmartListUsers = (props) => {
         country: "",
         countryIndex: "",
         role:
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
             ? irtRole?.[0]?.value
             : "",
-        optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+        optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? "yes" : "",
         institutionType: "",
       },
     ]);
@@ -544,7 +544,7 @@ const WebinarSelectSmartListUsers = (props) => {
       ).value;
 
       const contact_type_edit =
-        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
+        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
           ? document.getElementById("field_contact_type" + profile_user_id)
             .value
           : "";
@@ -605,7 +605,7 @@ const WebinarSelectSmartListUsers = (props) => {
           "field_index" + data?.profile_user_id
         ).value;
         const contact_type_edit =
-          localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
             ? document.getElementById(
               "field_contact_type" + data.profile_user_id
             ).value
@@ -676,10 +676,10 @@ const WebinarSelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         role:
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
             ? irtRole?.[0]?.value
             : "",
-        optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? "yes" : "",
+        optIrt: localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? "yes" : "",
         institutionType: "",
       },
     ]);
@@ -706,7 +706,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -742,7 +742,7 @@ const WebinarSelectSmartListUsers = (props) => {
       const status = body.data.map((data, index) => {
         if (
           data.first_name == "" &&
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
         ) {
           setValidationError({
             newHcpFirstName: "Please enter the first name",
@@ -751,7 +751,7 @@ const WebinarSelectSmartListUsers = (props) => {
           return "Please enter the First name";
         } else if (
           data.last_name == "" &&
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
         ) {
           setValidationError({
             newHcpLastName: "Please enter the last name",
@@ -767,7 +767,7 @@ const WebinarSelectSmartListUsers = (props) => {
           return "Please enter the email atleast";
         } else if (
           data.institution_type == "" &&
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
         ) {
           setValidationError({
             newHcpInstitution: "Please select Institution",
@@ -776,7 +776,7 @@ const WebinarSelectSmartListUsers = (props) => {
           return "Please select Institution";
         } else if (
           data.country == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ||
             localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           setValidationError({
@@ -1262,7 +1262,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -1457,13 +1457,13 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </span>
                                         </td>
                                         {localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<>
                                             <td>
                                               {user?.site_number ? user?.site_number : "N/A"}
                                             </td></>)}
                                         <td>
                                           {localStorage.getItem("user_id") ===
-                                            "56Ek4feL/1A8mZgIKQWEqg=="
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
@@ -1472,7 +1472,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : "N/A"}
                                         </td>
                                         {localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                           <td>
                                             {user?.user_type !== 0
                                               ? user.user_type
@@ -1683,7 +1683,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -1904,12 +1904,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                         )}
                                       </td>
                                       {localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<>
                                           <td>{reader?.site_number ? reader?.site_number : "N/A"}
                                           </td></>)}
                                       <td>
                                         {localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg=="
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                           ? reader.irt
                                             ? "Yes"
                                             : "No"
@@ -1919,7 +1919,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                       </td>
                                       <td>
                                         {localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                           <span>
                                             {reader.user_type !== 0
                                               ? reader.user_type
@@ -2131,7 +2131,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -2326,13 +2326,13 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </span>
                                         </td>
                                         {localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<>
                                             <td>
                                               {user?.site_number ? user?.site_number : "N/A"}
                                             </td></>)}
                                         <td>
                                           {localStorage.getItem("user_id") ===
-                                            "56Ek4feL/1A8mZgIKQWEqg=="
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
@@ -2341,7 +2341,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : "N/A"}
                                         </td>
                                         {localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                           <td>
                                             {user?.user_type !== 0
                                               ? user.user_type
@@ -2570,7 +2570,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   </th>
 
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -2798,12 +2798,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                             )}
                                           </td>
                                           {localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<>
                                               <td>{reader?.site_number ? reader?.site_number : "N/A"}
                                               </td></>)}
                                           <td>
                                             {localStorage.getItem("user_id") ===
-                                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                              "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                               ? reader?.irt
                                                 ? "Yes"
                                                 : "No"
@@ -2814,7 +2814,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                           
                                           <td>
                                             {localStorage.getItem("user_id") ===
-                                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                              "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                               <span>
                                                 {reader.user_type !== 0
                                                   ? reader?.user_type

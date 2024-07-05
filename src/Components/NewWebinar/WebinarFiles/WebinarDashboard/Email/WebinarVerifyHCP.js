@@ -105,11 +105,11 @@ const WebinarVerifyHCP = (props) => {
             country: "",
             countryIndex: "",
             role:
-                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                     ? "yes"
                     : "",
             institutionType: "",
@@ -218,7 +218,7 @@ const WebinarVerifyHCP = (props) => {
     };
 
     useEffect(() => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
             axiosFun();
         }
 
@@ -245,7 +245,7 @@ const WebinarVerifyHCP = (props) => {
                         });
                         setCountryall(arr);
 
-                        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+                        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
                             let investigator_type =
                                 res?.data?.response?.data?.investigator_type;
                             let newType = [];
@@ -329,11 +329,11 @@ const WebinarVerifyHCP = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                         ? "yes"
                         : "",
                 institutionType: "",
@@ -531,7 +531,7 @@ const WebinarVerifyHCP = (props) => {
             list[i].countryIndex = "";
             setHpc(list);
         } else {
-            if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
                 let consetValue = e?.value;
                 if (e.value == "B&H") {
                     consetValue = "Bosnia and Herzegovina";
@@ -623,7 +623,7 @@ const WebinarVerifyHCP = (props) => {
     const saveClicked = async () => {
         if (activeManual == "active") {
             const body_data = hpc?.map((data) => {
-                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
                     return {
                         first_name: data?.firstname,
                         last_name: data?.lastname,
@@ -655,7 +655,7 @@ const WebinarVerifyHCP = (props) => {
                 smart_list_id: "",
             };
             const status = body?.data?.map((data, index) => {
-                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
                     if (data?.first_name == "") {
                         setValidationError({
                             newHcpFirstName: "Please enter the first name",
@@ -684,7 +684,7 @@ const WebinarVerifyHCP = (props) => {
                     return "Please select the institution type";
                 }
                 if (
-                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||
+                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || 
                     localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="
                 ) {
                     if (data?.country == "") {
@@ -874,7 +874,7 @@ const WebinarVerifyHCP = (props) => {
 
     const addMoreHcp = () => {
         const status = hpc.map((data) => {
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
                 if (
                     data?.firstname == "" ||
                     data?.lastname == "" ||
@@ -906,18 +906,18 @@ const WebinarVerifyHCP = (props) => {
                     country: "",
                     countryIndex: "",
                     role:
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                             ? irtRole?.[0]?.value
                             : "",
                     optIrt:
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                             ? "yes"
                             : "",
                     institutionType: "",
                 },
             ]);
         } else {
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
                 toast.warning("Please input the required fields.");
             } else {
                 toast.warning("Please input the required fields.");
@@ -1470,7 +1470,7 @@ const WebinarVerifyHCP = (props) => {
                                                     </th>
 
                                                     {localStorageUserId ===
-                                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA=="  ? (
                                                         <>
                                                             <th scope="col" className="sort_option">
                                                                 <span onClick={() => handleSort('site_number')}>
@@ -1784,13 +1784,13 @@ const WebinarVerifyHCP = (props) => {
                                                                     {users?.country ? users?.country : "N/A"}
                                                                 </td>
                                                                 {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<>
                                                                     <td>
                                                                         {users?.site_number ? users?.site_number : "N/A"}
                                                                         </td></>)}
                                                                 <td>
                                                                     {localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                                                                         ? users?.irt
                                                                             ? "Yes"
                                                                             : "No"
@@ -1800,7 +1800,7 @@ const WebinarVerifyHCP = (props) => {
                                                                 </td>
                                                                 <td>
                                                                     {localStorageUserId ===
-                                                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
                                                                         ? users?.user_type!=0
                                                                             ? users?.user_type
                                                                             : "N/A"
@@ -2053,7 +2053,7 @@ const WebinarVerifyHCP = (props) => {
                                                     </th>
 
                                                     {localStorageUserId ===
-                                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA=="  ? (
                                                         <>
                                                             <th scope="col" className="sort_option">
                                                                 <span onClick={() => handleSort('site_number')}>
@@ -2504,7 +2504,7 @@ const WebinarVerifyHCP = (props) => {
                                                                 data?.company,
                                                                 data?.country,
                                                                 data?.first_name + " " + data?.last_name,
-                                                                localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" ? data?.user_type : data?.contact_type
+                                                                localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? data?.user_type : data?.contact_type
                                                             )
                                                         }
                                                     >
@@ -2522,20 +2522,20 @@ const WebinarVerifyHCP = (props) => {
                                                             )}
                                                         </td>
                                                         {localStorage.getItem("user_id") ==
-                                                            "56Ek4feL/1A8mZgIKQWEqg==" && (<>
+                                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<>
                                                                 <td>
                                                                     {data?.site_number ? data?.site_number : "N/A"}
                                                                 </td></>)}
                                                         <td>
                                                             {/* data?.ibu ? data?.ibu : "N/A" */}
-                                                            {localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                            {localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? (
                                                                 data?.irt ? "Yes" : "No"
                                                             ) : (
                                                                 data?.ibu ? data?.ibu : "N/A"
                                                             )}
                                                         </td>
                                                         <td>
-                                                            {localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                            {localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? (
                                                                 data?.user_type !== 0 ? data?.user_type : "N/A"
                                                             ) : (
                                                                 editable ? (
