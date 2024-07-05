@@ -438,7 +438,8 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
+              {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?
               <li
                 className={
                   location.pathname == "/IRTRole"||
@@ -679,7 +680,9 @@ const Sidebar = () => {
                   <p>Email Results</p>
                 </Link>
               </li>
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )
+              ? (
               <li
                 className={
                   (location.pathname === "/blocked-users") &&
@@ -967,8 +970,10 @@ const Sidebar = () => {
                   </Link>
                 </li>
               ) : null}
-              {localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" ? null : localStorage.getItem(
+              {(localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg==" 
+                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                ? null : localStorage.getItem(
                   "group_id"
                 ) == 2 ? null : (
                 <li
@@ -1026,8 +1031,10 @@ const Sidebar = () => {
                       </>
                     )} */}
                     {localStorage.getItem("group_id") == 3 ? (
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      (localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        ? (
                         <p>Topics</p>
                       ) : localStorage.getItem("user_id") ==
                         "B7SHpAc XDXSH NXkN0rdQ==" ? (
@@ -1240,7 +1247,9 @@ const Sidebar = () => {
             window.location.pathname == "/timeline-detail" ? (
             <ul>
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              ? (
                 <li
                   className={
                     location.pathname == "/new-readers-reviews" ||
@@ -1292,7 +1301,9 @@ const Sidebar = () => {
                   </svg>
                   <p>
                     {
-                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "IRT Non Mandatory" : "CRM"
+                      (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
+                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      ? "IRT Non Mandatory" : "CRM"
                     }</p>
                 </Link>
               </li>
@@ -1335,7 +1346,9 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              ? (
                 <li
                   className={
                     location.pathname == "/add-site" ||
@@ -2483,8 +2496,10 @@ const Sidebar = () => {
                                 <p>Content Analytics</p>
                               </Link>
                             </li>
-                            {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? null : localStorage.getItem(
+                            {(localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg=="
+                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                              ? null : localStorage.getItem(
                                 "group_id"
                               ) == 2 ? null : (
                               <li
@@ -3296,8 +3311,10 @@ const Sidebar = () => {
                             </li>
                           </ul>
                         ) : null
-                      ) : localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      ) : (localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        ? (
                         window.location.pathname == "/content-analytics" ||
                           window.location.pathname == "/feedback" ||
                           window.location.pathname == "/LEX-210-analytics" ? (
