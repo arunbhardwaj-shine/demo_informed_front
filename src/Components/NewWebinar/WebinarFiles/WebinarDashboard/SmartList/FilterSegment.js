@@ -50,6 +50,7 @@ const FilterSegment = (props) => {
   const [selectedTrialRegister, setSelectedTrialRegister] = useState("");
   const [showhidearticle, setShowHideArticle] = useState(0);
   const [getfilterdata, setFilterData] = useState();
+  const [allUserIds, setAllUserIds] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
   const [getpayload, setPayload] = useState(0);
   const [updateflag, setUpdateFlag] = useState([]);
@@ -233,7 +234,7 @@ const FilterSegment = (props) => {
         setFilterData(props.data);
         setApiFilterFlag(1);
       }
-
+      setAllUserIds(props?.allIds);
       let up = updateflag + 1;
       setUpdateFlag(up);
     }
@@ -1192,6 +1193,7 @@ const FilterSegment = (props) => {
             if(pageno == 1){
               setloadMorePage(true);
               setFilterData(res?.data?.response?.data);
+              setAllUserIds(res?.data?.response?.newData);
               // let total_count = res?.data?.response?.data?.length;
               let total_count = res?.data?.response?.list_count;
               setTotalLostCount(total_count);
@@ -1213,6 +1215,7 @@ const FilterSegment = (props) => {
           } else {
             setloadMorePage(false);
             setFilterData();
+            setAllUserIds();
             setLoadMoreFlag(false);
           }
           setApiFilterFlag(1);
@@ -1231,9 +1234,10 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
-  const sendDataToParent = (childData, flag,deleteUser) => {
+  const sendDataToParent = (childData, flag,idsarray = [],deleteUser = '') => {
     if (flag == "existing") {
       setFilterData(childData);
+      setAllUserIds(idsarray);
       if(deleteUser=="existingUser"){
         setTotalLostCount(totalLostCount-1)
       }      
@@ -1253,7 +1257,7 @@ const FilterSegment = (props) => {
 
   const createListWithFilters = (flag) => {
     setConfirmationPopupStatus(false);
-    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser, flag);
+    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser, flag, allUserIds);
   };
 
   const removeindividualfilter = (src, item) => {
@@ -3543,6 +3547,7 @@ const FilterSegment = (props) => {
                 listcount = {totalLostCount ? totalLostCount : 0}
                 ibu={props.ibu}
                 sendDataToParent={sendDataToParent}
+                allUsers={allUserIds}
               />
 
               {
