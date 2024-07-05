@@ -114,7 +114,7 @@ const LibraryEditListing = () => {
   const filterRef = useRef(null);
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -1108,7 +1108,7 @@ const LibraryEditListing = () => {
                                     </li>
 
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -1937,7 +1937,7 @@ const LibraryEditListing = () => {
                                     )}
 
                                     {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                                     localStorage.getItem("group_id") == "3" ? (
                                       <>
                                         {/*<li>
@@ -1977,7 +1977,7 @@ const LibraryEditListing = () => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
