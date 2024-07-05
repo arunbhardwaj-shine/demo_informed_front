@@ -59,6 +59,7 @@ const Table = (props, ref) => {
   const [email, setEmail] = useState(null);
   const [updateData, setUpdatedData] = useState(null);
   const [editList, setEditList] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
@@ -554,8 +555,8 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd, newReaders, flag) {
-        showFileInReadersList(dd, newReaders, flag);
+      createSmartList(dd, newReaders, flag,allUsersids=[]) {
+        showFileInReadersList(dd, newReaders, flag,allUsersids);
       },
     }),
     []
@@ -568,9 +569,9 @@ const Table = (props, ref) => {
     } else {
       setStorageState(false);
     }
-
     setUpdatedData(props.data);
     setEditList(props.data);
+    setAllUsers(props.allUsers);
     // if(typeof props.data != "undefined" && props.data.length > 0){
     // }
     if (typeof props.listId != "undefined" && props.listId != "") {
@@ -721,7 +722,7 @@ const Table = (props, ref) => {
           combine_data = [new_data, ...old_data];
           // console.log(combine_data);
           setEditList(combine_data);
-          props.sendDataToParent(combine_data, "existing");
+          props.sendDataToParent(combine_data, "existing",allUsers);
           setUpdatedData(combine_data);
           loader("hide");
         })
@@ -795,13 +796,19 @@ const Table = (props, ref) => {
     }
   };
 
-  const showFileInReadersList = async (fdata, newReaders, flag) => {
+  const showFileInReadersList = async (fdata, newReaders, flag, allUsersIds=[]) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
+      // console.log("excel create",allUsers);
       //for Normal flow
-      const profile_user_id_array = editList.map((data) => {
-        return data.profile_user_id;
-      });
+      // let profile_user_id_array = editList.map((data) => {
+      //   return data.profile_user_id;
+      // });
+
+      // if(profile_user_id_array?.length < allUsersIds.length){
+        let profile_user_id_array = allUsers;
+      // }
+      
 
       const new_user_id_array = getNewReaders.map((data) => {
         return data.profile_user_id;
@@ -817,15 +824,19 @@ const Table = (props, ref) => {
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
         ibu: typeof props?.ibu !== "undefined" && props?.ibu != "" ? props?.ibu : "",
       };
+
+      // console.log(body,'biody');
     } else if (
       typeof props != "undefined" &&
       props.hasOwnProperty("data") &&
       props.data.length > 0
     ) {
+      // console.log("excel create not");
       //Parent Child FLow
-      const profile_user_id_array = fdata?.map((data) => {
-        return data.profile_user_id;
-      });
+      // const profile_user_id_array = fdata?.map((data) => {
+      //   return data.profile_user_id;
+      // });
+      const profile_user_id_array = allUsersIds;
 
       const new_user_id_array = newReaders?.map((data) => {
         return data.profile_user_id;
@@ -1054,9 +1065,12 @@ const Table = (props, ref) => {
     setSaveOpen(false);
     setEditable(0);
     let vr = editList;
+    let alluser = allUsers;
     setEditList([]);
+    setAllUsers([]);
     setTimeout(() => {
       setEditList(vr);
+      setAllUsers(alluser);
       console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
@@ -1230,8 +1244,10 @@ const Table = (props, ref) => {
       return data.profile_user_id != profile_user_id;
     });
 
+    const newArray = allUsers?.filter(item => item !== profile_user_id);
+    setAllUsers(newArray);
     setEditList(filtered_list);
-    props.sendDataToParent(filtered_list, "existing");
+    props.sendDataToParent(filtered_list, "existing",newArray);
     popup_alert({
       visible: "show",
       message: "The HCP record has been deleted </br>successfully !",
@@ -1450,7 +1466,7 @@ const Table = (props, ref) => {
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-              props.sendDataToParent(old_data, "existing");
+              props.sendDataToParent(old_data, "existing",allUsers);
               setUpdatedData(old_data);
               setIsOpen(false);
               setIsOpenAdd(false);
@@ -1487,6 +1503,7 @@ const Table = (props, ref) => {
               toast.success("User added successfully");
 
               let old_data = editList;
+              let old_id_array = allUsers;
               let new_data = res.data.response.data;
               if (typeof getNewReaders != "undefined") {
                 let added_prev_readers_array = getNewReaders;
@@ -1504,7 +1521,7 @@ const Table = (props, ref) => {
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
-              props.sendDataToParent(old_data, "existing");
+              props.sendDataToParent(old_data, "existing",old_id_array);
               setUpdatedData(old_data);
             } else {
               toast.warning(res.data.message);
@@ -1582,7 +1599,7 @@ const Table = (props, ref) => {
               toast.success("User added successfully");
 
               let old_data = editList;
-
+              let old_id_array = allUsers;
               let new_data = res.data.response.data;
               if (typeof getNewReaders != "undefined") {
                 let added_prev_readers_array = getNewReaders;
@@ -1596,7 +1613,7 @@ const Table = (props, ref) => {
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-              props.sendDataToParent(old_data, "existing");
+              props.sendDataToParent(old_data, "existing",old_id_array);
               setUpdatedData(old_data);
               setIsOpen(false);
               setIsOpenAdd(false);
@@ -1631,6 +1648,7 @@ const Table = (props, ref) => {
               toast.success("User added successfully");
 
               let old_data = editList;
+              let old_id_array = allUsers;
               let new_data = res.data.response.data;
               if (typeof getNewReaders != "undefined") {
                 let added_prev_readers_array = getNewReaders;
@@ -1648,7 +1666,7 @@ const Table = (props, ref) => {
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
-              props.sendDataToParent(old_data, "existing");
+              props.sendDataToParent(old_data, "existing",old_id_array);
               setUpdatedData(old_data);
             } else {
               toast.warning(res.data.message);

@@ -255,7 +255,8 @@ const CreateSmartList = () => {
                 data: res.data.response.data,
                 smartListName: smartListName,
                 creator: creatorName,
-                ibu: customIbu
+                ibu: customIbu,
+                allids: res.data.response.newData,
               },
             });
             console.log(uploadOrDownloadCount);
@@ -300,7 +301,7 @@ const CreateSmartList = () => {
       user_id == "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
       link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==" || user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -326,7 +327,9 @@ const CreateSmartList = () => {
                     </li>
                     <li className="">
                       <a href="javascript:void(0)">
-                      {localStorage.getItem("user_id") == userId?" Select & Verify Your Users":" Select & Verify Your HCPs"}
+                      {(localStorage.getItem("user_id") == userId
+                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      ?" Select & Verify Your Users":" Select & Verify Your HCPs"}
                        </a>
                     </li>
                   </ul>
@@ -512,7 +515,9 @@ const CreateSmartList = () => {
                         </div>
 
                         <p>
-                          {localStorage.getItem("user_id") == userId?"Upload new Users":"Upload new HCPs"}
+                          {(localStorage.getItem("user_id") == userId
+                          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          ?"Upload new Users":"Upload new HCPs"}
                             </p>
                       </li>
                     </ul>
@@ -520,7 +525,9 @@ const CreateSmartList = () => {
                 </div>
                 <div className="download-sample">
                   <p>
-                  {localStorage.getItem("user_id") == userId?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
+                  {(localStorage.getItem("user_id") == userId
+                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                  ?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
 
 
                    </p>
