@@ -444,7 +444,9 @@ const ReaderEdit = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+  ) {
       axiosFun();
     }
     initalFun();
@@ -718,7 +720,8 @@ const ReaderEdit = () => {
 
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT mandatory training"
               : "IRT"}
           </Form.Label>
@@ -756,7 +759,8 @@ const ReaderEdit = () => {
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT role"
               : "Role"}{" "}
           </Form.Label>
@@ -806,7 +810,8 @@ const ReaderEdit = () => {
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "Study role"
               : "Sub Role"}{" "}
           </Form.Label>
@@ -1038,7 +1043,9 @@ const ReaderEdit = () => {
                         </Form.Group>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">
-                            Last name  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                            Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            ?<span>*</span>:null}
                           </Form.Label>
                           <input
                             type="text"
