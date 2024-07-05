@@ -850,7 +850,7 @@ const VerifyHcpMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">
@@ -1125,7 +1125,7 @@ const VerifyHcpMAIL = (props) => {
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
                       {localStorage.getItem("user_id") ===
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <>
                         <th scope="col">Site number</th>
                         <th scope="col">IRT mandatory training</th>
@@ -1160,10 +1160,10 @@ const VerifyHcpMAIL = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               {localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="&&(<><td>{rr?.site_number?rr?.site_number:"N/A"}</td></>)}
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="&&(<><td>{rr?.site_number?rr?.site_number:"N/A"}</td></>)}
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                     ? rr?.irt
                                       ? "Yes"
                                       : "No"
@@ -1172,7 +1172,7 @@ const VerifyHcpMAIL = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr.user_type != 0 ? rr.user_type : "N/A"
                                   : rr.contact_type
                                 }
