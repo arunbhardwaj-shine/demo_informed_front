@@ -13,6 +13,7 @@ const EditList = () => {
   const [creator, setCreator] = useState('');
   const [ibu, setIbu] = useState('');
   const [listcount, setListCount] = useState('');
+  const [allUserIds, setAllUserIds] = useState();
   const [pageNo, setPageNo] = useState(1);
   const queryParams = queryString.parse(window.location.search);
 
@@ -31,6 +32,7 @@ const EditList = () => {
       .then((res) => {
         if (res.data.response.data.length > 0) {
           setFilteredData(res.data.response.data);
+          setAllUserIds(res.data.response.newData);
           setSelectedFilter(res.data.response.selected_filters);
           setListName(res.data.response.smart_list_name);
           setCreator(res.data.response.creator_name);
@@ -79,6 +81,7 @@ const EditList = () => {
               listcount = {listcount}
               listId = {queryParams.listId}
               action="edit"
+              allIds = {allUserIds}
               />
             }
         </div>

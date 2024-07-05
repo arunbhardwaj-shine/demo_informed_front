@@ -9,6 +9,7 @@ const UploadExcel = (props) => {
   const { smartListName } = location.state;
   const { creator } = location.state;
   const { ibu } = location?.state ? location?.state : "";
+  const { allids } = location.state;
   const [listData, setlistData] = useState([]);
   const [isLoad, setisLoad] = useState(false);
   const [listCount, setlistCount] = useState(0);
@@ -45,7 +46,8 @@ const UploadExcel = (props) => {
                     creator={creator} 
                     sendDataToParent={sendDataToParent} 
                     ibu={ibu} 
-                    listcount = {listCount} 
+                    listcount = {listCount}
+                    allUsers = {allids} 
                 />
                 {
                   data > listData ?

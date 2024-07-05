@@ -255,7 +255,8 @@ const CreateSmartList = () => {
                 data: res.data.response.data,
                 smartListName: smartListName,
                 creator: creatorName,
-                ibu: customIbu
+                ibu: customIbu,
+                allids: res.data.response.newData,
               },
             });
             console.log(uploadOrDownloadCount);
