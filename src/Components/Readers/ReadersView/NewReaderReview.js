@@ -187,7 +187,7 @@ const NewReadersReview = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
       // setAppliedFilter({'IRT mandatory training': ["Yes"]});
@@ -291,7 +291,7 @@ const NewReadersReview = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -428,7 +428,7 @@ const NewReadersReview = () => {
           status: ["Registered"],
         };
       } 
-      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
         payload ={
           status: ["Registered"],
           "contact Type": ["HCP"],
@@ -497,7 +497,7 @@ const NewReadersReview = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -698,7 +698,7 @@ const NewReadersReview = () => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       let consent1 = {
         index: i,
         value: "",
@@ -1312,7 +1312,7 @@ const NewReadersReview = () => {
       let binded = "";
       let institute = "";
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1639,7 +1639,7 @@ const NewReadersReview = () => {
       }
     } else if (
       key == "change-tab" &&
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1780,8 +1780,10 @@ const NewReadersReview = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {(localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" 
+                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  ? (
                     <h4>
                       Total USER |{" "}
                       <span>{totalCountFlag ? totalCount : 0}</span>
@@ -2233,7 +2235,9 @@ const NewReadersReview = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.firstName} ${data?.lastName} ` :data?.firstName ? data?.firstName : data?.name}
+                            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            ?`${data?.firstName} ${data?.lastName} ` :data?.firstName ? data?.firstName : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2265,7 +2269,9 @@ const NewReadersReview = () => {
                                     ""
                                   )}
 
-                                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("group_id") == 3 ? 
+                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" 
+                                  &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                                  && localStorage.getItem("group_id") == 3 ? 
                                     (
                                       <>
                                       
@@ -2312,8 +2318,10 @@ const NewReadersReview = () => {
 
                                   
 
-                                  {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                  {(localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" 
+                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
                                       <li>
@@ -2805,8 +2813,10 @@ const NewReadersReview = () => {
                               <Tab eventKey="change-tab" title="Change">
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                      && change ? (
                                       <>
                                         {/*console.log(
                                         types.findIndex(

@@ -372,7 +372,7 @@ const ReadersListAdd = () => {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -408,7 +408,7 @@ const ReadersListAdd = () => {
 
             let arr = [];
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -447,7 +447,7 @@ const ReadersListAdd = () => {
               });
             });
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -535,7 +535,7 @@ const ReadersListAdd = () => {
             }
 
             setCountryall(arr);
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
@@ -604,10 +604,10 @@ const ReadersListAdd = () => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      userType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-      userTypeIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
-      siteIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-      siteIrtIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
+      userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )? irtRole?.[0]?.value : "",
+      userTypeIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+      siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+      siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
     },
   ]);
 
@@ -814,10 +814,10 @@ const ReadersListAdd = () => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        userType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-        userTypeIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
-        siteIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-        siteIrtIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
+        userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? irtRole?.[0]?.value : "",
+        userTypeIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+        siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+        siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
       },
     ]);
     setActiveManual("active");
@@ -1091,7 +1091,7 @@ const ReadersListAdd = () => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1134,7 +1134,7 @@ const ReadersListAdd = () => {
   const addMoreHcp = () => {
     console.log(hpc);
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         if (data.email == "" || data.firstname == "" || data.lastname == "" || data.country == "" || data.institute == "" || typeof (data.institute) == "undefined") {
           return "false";
         } else {
@@ -1159,14 +1159,14 @@ const ReadersListAdd = () => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-          userTypeIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
-          siteIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-          siteIrtIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
+          userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? irtRole?.[0]?.value : "",
+          userTypeIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+          siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+          siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast.");
@@ -1203,10 +1203,10 @@ const ReadersListAdd = () => {
       });
 
       const status = body_data.map((data) => {
-        if (data.firtName == "" && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (data.firtName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
           return "Please enter the first name";
         }
-        else if (data.lastName == "" && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        else if (data.lastName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
           return "Please enter the last name";
         }
 
@@ -1215,7 +1215,7 @@ const ReadersListAdd = () => {
         } else if (data.institute == "") {
           return "Please select Institution";
         }
-        else if (data.country == "" && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        else if (data.country == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
           return "Please select Country";
         }
         else if (data.email != "") {
@@ -1442,7 +1442,9 @@ const ReadersListAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header table-title">
                   <h4>
-                    {localStorage.getItem("user_id") == userId ? "  Uploaded Users" : "  Uploaded HCPs"}
+                    {(localStorage.getItem("user_id") == userId 
+                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    ? "  Uploaded Users" : "  Uploaded HCPs"}
 
                     <span> | {readersData.length}</span>
                   </h4>
@@ -1630,8 +1632,10 @@ const ReadersListAdd = () => {
                               </button>
                             </span>
                           </th>
-                          {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          {(localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg==" 
+                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            ? (
                             <>
                               <th scope="col" className="sort_option">
                                 <span onClick={() => handleSort('siteNumber')} >
@@ -1817,12 +1821,15 @@ const ReadersListAdd = () => {
                                   </span>
                                 )}
                               </td>
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.siteNumber ? item?.siteNumber : "N/A"}</td></>)}
+                              {(localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                && (<><td>{item?.siteNumber ? item?.siteNumber : "N/A"}</td></>)}
 
                               <td>
-                                {localStorage.getItem("user_id") ==
+                                {(localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                   ? item?.irt
                                     ? item.irt == "Yes" ? "Yes" : "No"
                                     : "No"
@@ -1832,8 +1839,10 @@ const ReadersListAdd = () => {
                               </td>
                               <td>
 
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                {(localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  ?
                                   item.role
                                   : editable ? (
                                     <EditContactType
@@ -1910,11 +1919,15 @@ const ReadersListAdd = () => {
                                     <span>{data.country}</span>
                                   )}
                                 </td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{data?.siteNumber ? data?.siteNumber : "N/A"}</td></>)}
+                                {(localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg==" 
+                                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  && (<><td>{data?.siteNumber ? data?.siteNumber : "N/A"}</td></>)}
                                 <td>
                                   {
-                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                    (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" 
+                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    ?
                                       data?.irt
                                         ? data.irt == "Yes" ? "Yes" : "No"
                                         : "No"
@@ -1926,7 +1939,9 @@ const ReadersListAdd = () => {
 
                                 <td>
                                   {
-                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                    (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" 
+                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    ?
                                       <span>{data?.role}</span>
                                       :
                                       editable ? (
@@ -1971,7 +1986,9 @@ const ReadersListAdd = () => {
       {/* add new hcps */}
 
 
-      {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? <Modal
+      {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      ? <Modal
         id="add_hcp"
         show={isOpenAdd}
         size="lg"
@@ -1986,7 +2003,8 @@ const ReadersListAdd = () => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId
+              {(localStorage.getItem("user_id") == userId
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? "Add New User +"
                 : "Add New HCP"}
             </h5>
@@ -2001,10 +2019,10 @@ const ReadersListAdd = () => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    userType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? irtRole?.[0]?.value : "",
-                    userTypeIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
-                    siteIrt: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-                    siteIrtIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? siteIrtAll?.indexOf(item => item?.value == "Yes") : "",
+                    userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? irtRole?.[0]?.value : "",
+                    userTypeIndex:( localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+                    siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+                    siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.indexOf(item => item?.value == "Yes") : "",
                   },
                 ]);
                 setActiveManual("active");
@@ -2032,8 +2050,10 @@ const ReadersListAdd = () => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     {
-                                      localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" ? <>First name  <span>*</span></> : "First Name"
+                                      (localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        ? <>First name  <span>*</span></> : "First Name"
                                     }
 
 
@@ -2052,8 +2072,10 @@ const ReadersListAdd = () => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     {
-                                      localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" ? <>Last name <span>*</span></> : "Last Name"
+                                      (localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" 
+                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        ? <>Last name <span>*</span></> : "Last Name"
                                     }
 
                                   </label>
@@ -2094,8 +2116,10 @@ const ReadersListAdd = () => {
                                 </div>
                               </div>
 
-                              {localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") !=
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                &&localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Contact type</label>
@@ -2148,8 +2172,10 @@ const ReadersListAdd = () => {
                                 </div>
                               ) : null}
 
-                              {localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") !=
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                &&localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Country</label>
@@ -2196,8 +2222,10 @@ const ReadersListAdd = () => {
                                 </div>
                               ) : null}
 
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg==" 
+                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <>
                                   <hr />
                                   <div className="col-12 col-md-6">
@@ -2372,8 +2400,10 @@ const ReadersListAdd = () => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Country {
-                                        localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                        (localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        && <span>*</span>
                                       }</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
@@ -2826,7 +2856,9 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId
+                                    {(localStorage.getItem("user_id") == userId
+                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>
@@ -2916,7 +2948,9 @@ const ReadersListAdd = () => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId ? "Add New User +" : "Add New HCP"}
+              {(localStorage.getItem("user_id") == userId 
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              ? "Add New User +" : "Add New HCP"}
             </h5>
             <button
               onClick={() => {
@@ -3099,7 +3133,9 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId ? "Add User +" : "Add HCP +"}
+                                    {(localStorage.getItem("user_id") == userId
+                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    ? "Add User +" : "Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

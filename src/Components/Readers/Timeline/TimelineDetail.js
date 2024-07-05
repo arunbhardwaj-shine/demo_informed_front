@@ -320,7 +320,7 @@ const TimelineDetail = (props) => {
                                 <th>Consent</th>
                                 <td>
                                   {
-                                    localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                    (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                                     timeLineData?.user?.lex_consent == 1 ?  'Full Consent' :   timeLineData?.user?.lex_consent == 0 ?"Limited Consnet":"N/A"
                                     :
                                     timeLineData?.user?.other_option
