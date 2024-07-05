@@ -56,7 +56,7 @@ const LoginLayout = ({ component: Component, ...rest }) => {
               <div className="container-fluid">
                 <div className="row">
                   <Sidebar />
-                  <Component {...rest} />
+                  <Component key={location.pathname} {...rest} />
                 </div>
               </div>
             </div>

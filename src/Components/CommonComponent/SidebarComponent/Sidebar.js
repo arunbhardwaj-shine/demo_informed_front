@@ -722,7 +722,7 @@ const Sidebar = () => {
                       fillOpacity="0.6"
                     />
                   </svg>
-                  <p>Blocked Users</p>
+                  <p>Blocked Reminders</p>
                 </Link>
               </li>
                  ) : null}

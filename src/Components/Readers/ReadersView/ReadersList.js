@@ -304,6 +304,8 @@ const NewReaders = () => {
           ...obj,
           status: ["Registered"],
           "contact Type": ["HCP"],
+          'IRT mandatory training': ["No"],
+
         };
       } else if (
         localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
@@ -422,7 +424,18 @@ const NewReaders = () => {
           ...filterObject,
           status: ["Registered"],
         };
-      } else {
+      }
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload = {
+          ...data,
+          ...obj,
+          status: ["Registered"],
+          "contact Type": ["HCP"],
+          'IRT mandatory training': ["No"],
+
+        };
+      }
+       else {
         payload = { ...data, ...filterObject };
       }
 
@@ -1778,8 +1791,16 @@ const NewReaders = () => {
                           "B7SHpAc XDXSH NXkN0rdQ=="?{
                             status: "Registered",
                             "contact Type": "HCP",
-                            "Content Owners":"All"
-                          }:{
+                            "Content Owners":"All",
+                            
+                          }:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?
+                          {
+                            status: "Registered",
+                            "contact Type": "HCP",
+                            'IRT mandatory training': ["No"]
+                          }
+                          :
+                          {
                             status: "Registered",
                             "contact Type": "HCP",
                           });
@@ -3006,7 +3027,7 @@ const NewReaders = () => {
                                             </div>
                                           </div>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                           <h6 className="tab-content-title">
                                             IRT mandatory training
                                           </h6>
@@ -3046,7 +3067,7 @@ const NewReaders = () => {
                                               />
                                             </div>
                                           </div>
-                                        </li>
+                                        </li> */}
                                         <li>
                                           <h6 className="tab-content-title">
                                             IRT role
