@@ -709,7 +709,7 @@ const WebinarSelectSmartList = (props) => {
                     </li>
                     <li className="active active-main">
                       <Link to="/webinar/email/selectSmartList">
-                        {localStorageUserId == userId
+                        {localStorageUserId == userId  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
                           ? "Select Users"
                           : "Select HCPs"}{" "}
                       </Link>
@@ -769,7 +769,7 @@ const WebinarSelectSmartList = (props) => {
 
                   <div className="create-smart-list">
                     <p>
-                      {localStorageUserId == userId
+                      {localStorageUserId == userId  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
                         ? `If you do not have a smart list for the Users group, you
                       can :`
                         : `If you do not have a smart list for the HCPs group, you
