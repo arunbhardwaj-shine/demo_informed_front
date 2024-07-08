@@ -620,7 +620,8 @@ const NewReadersReview = () => {
         key == "IRT mandatory training" ||
         key == "Blinded" ||
         key == "Content Owners" ||
-        key == "List"
+        key == "List"||
+        key=="Training"
       ) {
         if (key == "region") {
           newObj["country"] = [];
@@ -1953,7 +1954,8 @@ const NewReadersReview = () => {
                                                             "webinarRegistered" ||
                                                           key ==
                                                             "Registered For Webinar" ||
-                                                          key == "List"
+                                                          key == "List"||
+                                                          key == "Training"
                                                             ? "radio"
                                                             : "checkbox"
                                                         }
