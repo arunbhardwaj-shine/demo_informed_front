@@ -44,6 +44,7 @@ const IRTRole = () => {
   };
   
   const [roleData, setRoleData] = useState({});
+  let createdBy=localStorage.getItem("user_id")
 
   useEffect(() => {
     loader("show")
@@ -52,7 +53,7 @@ const IRTRole = () => {
 
   const fetchPieChartData = async () => {
     try {
-      let response = await getData('https://onesource.informed.pro/api/email-irt-count');
+      let response = await getData(`https://onesource.informed.pro/api/email-irt-count}?created_by=${createdBy}`);
       let result = response?.data?.data;
       let finalRoleData = {};
 

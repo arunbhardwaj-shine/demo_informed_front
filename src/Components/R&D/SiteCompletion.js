@@ -8,7 +8,7 @@ import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const SiteCompletion = ({ siteCompletionfn }) => {
+const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [sortSite, setSortSite] = useState(false);
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
@@ -77,7 +77,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   const initialFun = async () => {
     try {
-      const result = await getData(ENDPOINT.SITEREGISTER);
+      const result = await getData(`${ENDPOINT.SITEREGISTER}?created_by=${createdBy}`);
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
 
@@ -115,7 +115,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   const handleCheckboxClick = async (sort) => {
     try {
-      const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
+      const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort,created_by:createdBy });
 
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);

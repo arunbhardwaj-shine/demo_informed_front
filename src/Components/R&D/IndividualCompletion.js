@@ -8,7 +8,7 @@ import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const IndividualCompletion = ({ individualCompletionfn }) => {
+const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
   const [pieData, setPieData] = useState({});
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -89,7 +89,7 @@ const entering = (e) => {
 
   const getPieChartData = async () => {
     try {
-      const result = await getData(ENDPOINT.IRT_COUNT_GRAPH);
+      const result = await getData(`${ENDPOINT.IRT_COUNT_GRAPH}?created_by=${createdBy}`);
       setPieData({
         completed: result?.data?.data?.completed,
         notcompleted: result?.data?.data?.notcompleted,
