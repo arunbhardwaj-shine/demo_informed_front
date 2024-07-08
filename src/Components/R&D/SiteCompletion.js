@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { getData, postData } from "../../axios/apiInstanceHelper";
+import { getDataRd, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
@@ -77,7 +77,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
 
   const initialFun = async () => {
     try {
-      const result = await getData(`${ENDPOINT.SITEREGISTER}?created_by=${createdBy}`);
+      const result = await getDataRd(`${ENDPOINT.SITEREGISTER}`);
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
 

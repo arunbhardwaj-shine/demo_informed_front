@@ -8,7 +8,7 @@ import {
   Table,
   Tooltip,
 } from "react-bootstrap";
-import { getData, postData } from "../../axios/apiInstanceHelper";
+import { getData, postData,getDataRd } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
@@ -390,7 +390,7 @@ const RDAnalytics = () => {
         site_Completion: true,
       });
       if (!siteCompletionTableData) {
-        const result = await getData(`${ENDPOINT.SITE_REGISTRATION_LIST}?created_by=${createdBy}`);
+        const result = await getDataRd(`${ENDPOINT.SITE_REGISTRATION_LIST}`);
         setSiteCompletionTableData(result?.data?.data);
 
         site_Completion?.current?.focus();
@@ -892,7 +892,7 @@ const RDAnalytics = () => {
   const allEngagement = async () => {
     try {
       loader("show");
-      const response = await axios.get('https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement', {
+      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`, {
         responseType: 'blob',
       });
       // Create a blob and download the file

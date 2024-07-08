@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { getData, postData } from "../../axios/apiInstanceHelper";
+import { getData, postData,getDataRd } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
@@ -89,7 +89,7 @@ const entering = (e) => {
 
   const getPieChartData = async () => {
     try {
-      const result = await getData(`${ENDPOINT.IRT_COUNT_GRAPH}?created_by=${createdBy}`);
+      const result = await getDataRd(`${ENDPOINT.IRT_COUNT_GRAPH}`);
       setPieData({
         completed: result?.data?.data?.completed,
         notcompleted: result?.data?.data?.notcompleted,

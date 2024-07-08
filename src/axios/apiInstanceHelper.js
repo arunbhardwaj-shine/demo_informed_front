@@ -7,6 +7,9 @@ export const postData = (end_point, data) => {
 export const getData = (end_point) => {
   return axios.get(end_point);
 };
+export const getDataRd = (end_point) => {
+  return axios.get(end_point,{ 'headers': { 'created_by': localStorage.getItem("user_id")}});
+};
 export const postFormData = (end_point,data,config) => {
   return axios.post(end_point,data,config);
 };

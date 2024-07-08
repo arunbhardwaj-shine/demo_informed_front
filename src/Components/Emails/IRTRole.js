@@ -5,6 +5,8 @@ import { getData } from "../../axios/apiHelper";
 import { HighchartsReact } from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
+import { getDataRd } from "../../axios/apiInstanceHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 const IRTRole = () => {
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
@@ -44,7 +46,6 @@ const IRTRole = () => {
   };
   
   const [roleData, setRoleData] = useState({});
-  let createdBy=localStorage.getItem("user_id")
 
   useEffect(() => {
     loader("show")
@@ -53,7 +54,8 @@ const IRTRole = () => {
 
   const fetchPieChartData = async () => {
     try {
-      let response = await getData(`https://onesource.informed.pro/api/email-irt-count}?created_by=${createdBy}`);
+      let response = await getDataRd(`${ENDPOINT.EMAIL_COUNT_GRAPH}`);
+
       let result = response?.data?.data;
       let finalRoleData = {};
 
