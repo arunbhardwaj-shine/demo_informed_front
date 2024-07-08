@@ -1292,7 +1292,7 @@ const Sidebar = () => {
                   </svg>
                   <p>
                     {
-                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "IRT Non Mandatory" : "CRM"
+                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "Non Mandatory" : "CRM"
                     }</p>
                 </Link>
               </li>
