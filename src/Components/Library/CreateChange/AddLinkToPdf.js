@@ -1353,7 +1353,7 @@ const AddLinkToPdf = () => {
 
   const nextButtonClicked = async () => {
     try{
-      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
         navigate("/preview-content", {
           state: {
           pdfId: initFunData?.id,
