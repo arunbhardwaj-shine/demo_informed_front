@@ -463,7 +463,7 @@ const SelectSmartList = (props) => {
       user_id == "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
       link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==" || user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -617,7 +617,7 @@ const SelectSmartList = (props) => {
                     </li>
                     <li className="active active-main">
                       <Link to="/SelectSmartList">
-                        {localStorage.getItem("user_id") == userId
+                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? "Select Users"
                           : "Select HCPs"}{" "}
                       </Link>
@@ -675,7 +675,7 @@ const SelectSmartList = (props) => {
 
                   <div className="create-smart-list">
                     <p>
-                      {localStorage.getItem("user_id") == userId
+                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                         ? `If you do not have a smart list for the Users group, you
                       can :`
                         : `If you do not have a smart list for the HCPs group, you
@@ -1242,7 +1242,7 @@ const SelectSmartList = (props) => {
                         </button>
                       </th>
                       {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (<>
                           <th scope="col" className="sort_option">
                             <span onClick={() => handleSort("site_number")}>
                               Site number
@@ -1344,7 +1344,7 @@ const SelectSmartList = (props) => {
                         </th>
                       )}
                       {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <th scope="col" className="sort_option">
                           <span onClick={() => handleSort("user_type")}>
                             IRT role
@@ -1411,10 +1411,10 @@ const SelectSmartList = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
@@ -1425,7 +1425,7 @@ const SelectSmartList = (props) => {
 
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr.user_type != 0
                                     ? rr.user_type
                                     : "N/A"

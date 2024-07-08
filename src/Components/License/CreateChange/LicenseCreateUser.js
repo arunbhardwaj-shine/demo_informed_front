@@ -862,7 +862,7 @@ const LicenseCreateUser = () => {
                           topicButtonClicked(userDetail?.user[0]?.group_id)
                         }
                       >
-                        {localStorage.getItem("user_id") == userId
+                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? "Add User +"
                           : "Add HCP +"}
                       </button>

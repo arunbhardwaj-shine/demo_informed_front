@@ -48,7 +48,7 @@ const EmailArticleSelect = (props) => {
 
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
-    if (userId === "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (userId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setUpdateFlag(1);
     }
   }, []); 
@@ -57,7 +57,7 @@ const EmailArticleSelect = (props) => {
     let filterData = { ...filter };
     let data =  value?"":filterMandatory
     if (
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
+      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
       data
     ) {
       let obj = {
@@ -298,7 +298,7 @@ const EmailArticleSelect = (props) => {
                     {!irtRoleObj?.IRTFlag && (
                         <li className="">
                           <a href="">
-                            {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}
+                            {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Select Users" : "Select HCPs"}
                           </a>
                         </li>
                       )}
@@ -563,7 +563,7 @@ const EmailArticleSelect = (props) => {
                             )}
 
                           {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" &&
+                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                             filterdata.hasOwnProperty("mandatory_training") &&
                             filterdata.mandatory_training.length > 0 && (
                               <Accordion.Item className="card" eventKey="4">
@@ -708,7 +708,7 @@ const EmailArticleSelect = (props) => {
                       )}
 
                       {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" && filterMandatory ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && filterMandatory ? (
                         <div className="filter-div">
                           <div className="filter-div-title">
                             <span>IRT Mandatory Training |</span>

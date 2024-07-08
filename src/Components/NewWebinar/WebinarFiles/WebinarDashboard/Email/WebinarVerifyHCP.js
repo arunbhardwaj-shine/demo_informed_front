@@ -77,7 +77,7 @@ const WebinarVerifyHCP = (props) => {
     const [searchedUsers, setSearchedUsers] = useState([]);
     const [editableData, setEditableData] = useState([]);
     const [sortingCount, setSortingCount] = useState(0);
-    const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
     const navigate = useNavigate();
 
     const [selectedHcp, setSelectedHcp] = useState(

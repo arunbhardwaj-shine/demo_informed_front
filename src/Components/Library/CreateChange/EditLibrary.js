@@ -665,7 +665,7 @@ const getExistingVideos=async ()=>{
           },
         });
         loader("hide");
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -1428,7 +1428,7 @@ const getExistingVideos=async ()=>{
               ) : null}
             </div>
 
-            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (
+            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
               <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
                 <div className="form-group justify-content-end">
                   <label htmlFor="">Topics</label>
@@ -1747,7 +1747,7 @@ const getExistingVideos=async ()=>{
                         </li>
                       ) : null}
                       {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>
@@ -1910,7 +1910,7 @@ const getExistingVideos=async ()=>{
                       {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" &&
                       localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <div className="form-group">
                           <label htmlFor="">Author</label>
                           <input
@@ -2185,7 +2185,7 @@ const getExistingVideos=async ()=>{
                         <div className="form-group">
                           <label htmlFor="setasdraft4">
                             {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="
+                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                               ? "IRT mandatory training"
                               : "Mandatory"}
                           </label>
@@ -2197,7 +2197,7 @@ const getExistingVideos=async ()=>{
                                   name="group2"
                                   placeholder={
                                     localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                       ? "Select IRT mandatory training"
                                       : "Select IRT"
                                   }
@@ -2461,7 +2461,7 @@ const getExistingVideos=async ()=>{
                                   <div className="d-flex align-items-center justify-content-start w-100 mb-3">
                                     <label htmlFor="">
                                       {localStorage.getItem("user_id") !=
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                         ? "Chapter "
                                         : "File "}
                                       {i + 1} format
@@ -2515,7 +2515,7 @@ const getExistingVideos=async ()=>{
 
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                       ? "Chapter "
                                       : "File "}{" "}
                                     {i + 1} title<span>*</span>
@@ -2760,7 +2760,7 @@ const getExistingVideos=async ()=>{
                                 <div className="ebook-format">
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                       ? "Chapter "
                                       : "File "}{" "}
                                     title
@@ -2955,7 +2955,7 @@ const getExistingVideos=async ()=>{
                     </Col>
 
                     {localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                       <Col
                         className="d-flex justify-content-end align-items-start right-change"
                         md={6}
@@ -2987,7 +2987,7 @@ const getExistingVideos=async ()=>{
                      && (localStorage.getItem("user_id") ==
                         "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                         "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==") ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>

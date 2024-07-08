@@ -49,7 +49,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const [unSubscribedUsers, setUnSubscribedUsers] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");

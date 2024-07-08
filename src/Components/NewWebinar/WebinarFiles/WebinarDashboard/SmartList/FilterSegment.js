@@ -62,7 +62,7 @@ const FilterSegment = (props) => {
   const [loadMorePage, setloadMorePage] = useState(true);
   const [totalLostCount, setTotalLostCount] = useState(props?.listcount);
   const [dataFromComp, setDataFromComp] = useState(props?.action);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==")
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {

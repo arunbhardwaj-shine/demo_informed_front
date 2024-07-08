@@ -1687,7 +1687,7 @@ const WebinarCreateNewEmail = (props) => {
                                         </li>
                                         <li className="">
                                             <a href="javascript:void(0)">
-                                                {localStorageUserId == userId
+                                                {localStorageUserId == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </a>
