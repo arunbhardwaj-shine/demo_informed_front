@@ -292,7 +292,7 @@ const ContentDetail = (props) => {
                                       {localStorage.getItem("user_id") !=
                                         "iSnEsKu5gB/DRlycxB6G4g==" &&
                                       localStorage.getItem("user_id") !=
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                         <h6>
                                           <strong>Author | </strong>
                                           {data?.key_author
@@ -376,8 +376,8 @@ const ContentDetail = (props) => {
                               <div className="mail-recipt">
                                 <div className="row">
                                   {localStorage.getItem("group_id") != "3" ||
-                                  localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                  (localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
                                     <div className="col-12 col-md-4 mail-recipt-left">
                                       <h6>Who is involved</h6>
 
@@ -495,7 +495,7 @@ const ContentDetail = (props) => {
                                   ) : null}
 
                                   {localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                  "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <>
                                       <div className="col-12 col-md-4 mail-recipt-left">
                                         {localStorage.getItem("group_id") ==
@@ -554,7 +554,7 @@ const ContentDetail = (props) => {
                                                     localStorage.getItem(
                                                       "user_id"
                                                     ) !=
-                                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                                       <tr>
                                                         <th>Product</th>
                                                         <td>
@@ -570,7 +570,7 @@ const ContentDetail = (props) => {
                                                     {localStorage.getItem(
                                                       "user_id"
                                                     ) !=
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                                       <tr>
                                                         <th>Enabled</th>
                                                         <td>
@@ -661,7 +661,7 @@ const ContentDetail = (props) => {
                                                 {localStorage.getItem(
                                                   "user_id"
                                                 ) !=
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                                   <tr>
                                                     <th>ePrint type</th>
                                                     <td>
@@ -744,7 +744,7 @@ const ContentDetail = (props) => {
                                                 {localStorage.getItem(
                                                   "user_id"
                                                 ) !=
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                                   <tr>
                                                     <th>
                                                       Production notes for

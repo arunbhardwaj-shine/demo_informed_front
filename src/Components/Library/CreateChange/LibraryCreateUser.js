@@ -493,7 +493,7 @@ const LibraryCreateUser = () => {
         });
         loader("hide");
 
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -517,7 +517,7 @@ const LibraryCreateUser = () => {
             }
           }
         } else {
-          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
             if (
               userInputs?.docintelFormat == "video" ||
               userInputs?.docintelFormat == "Video"
