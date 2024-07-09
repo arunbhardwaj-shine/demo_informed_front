@@ -233,7 +233,7 @@ const NewReadersReview = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(ENDPOINT.READERSFILTER);
+      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}`);
       // console.log(res,'resres')
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
@@ -620,7 +620,8 @@ const NewReadersReview = () => {
         key == "IRT mandatory training" ||
         key == "Blinded" ||
         key == "Content Owners" ||
-        key == "List"
+        key == "List"||
+        key=="Training"
       ) {
         if (key == "region") {
           newObj["country"] = [];
@@ -2000,7 +2001,8 @@ const NewReadersReview = () => {
                                                             "webinarRegistered" ||
                                                           key ==
                                                             "Registered For Webinar" ||
-                                                          key == "List"
+                                                          key == "List"||
+                                                          key == "Training"
                                                             ? "radio"
                                                             : "checkbox"
                                                         }

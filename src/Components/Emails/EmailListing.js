@@ -279,9 +279,10 @@ const EmailList = (props) => {
     loader("show");
     const body = {
       user_id: localStorage.getItem("user_id"),
-      search: search,
+      search: page == 3 ? '' : search,
       filter: filter,
     };
+    page = page == 3 ? 1 : page;
     axios
       .post(`emailapi/getlist?page=` + page, body)
       .then((res) => {
@@ -334,6 +335,7 @@ const EmailList = (props) => {
   };
 
   const submitHandler = (event) => {
+    setloadmore(0);
     setShowFilter(false);
     getData("progress");
     setSubmiHandle(1);
@@ -344,7 +346,9 @@ const EmailList = (props) => {
   const searchChange = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
-      setSendListData(getoriginalsendlistdata);
+      setloadmore(0);
+      getData("progress",3);
+      // setSendListData(getoriginalsendlistdata);
     }
   };
 
@@ -486,6 +490,15 @@ const EmailList = (props) => {
           if (typeof updatedArray !== "undefined") {
             setSendListData(updatedArray);
           }
+
+          var newupdatedArray = getoriginalsendlistdata.filter(function (item) {
+            return item["id"] != deletecardid;
+          });
+          if (typeof newupdatedArray !== "undefined") {
+            setOriginalSendListData(newupdatedArray);
+          }
+
+          
           popup_alert({
             visible: "show",
             message: "The Email record has been deleted <br />successfully !",
@@ -639,6 +652,7 @@ const EmailList = (props) => {
   };
 
   const clearFilter = () => {
+    setloadmore(0);
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
@@ -659,6 +673,7 @@ const EmailList = (props) => {
   };
 
   const applyFilter = () => {
+    setloadmore(0);
     setFilterApply(true);
     getData("progress");
     setShowFilter(false);
@@ -667,6 +682,7 @@ const EmailList = (props) => {
   const removeindividualfilter = (src, item) => {
     // setRemoveFlag(true);
     loader("show");
+    setloadmore(0);
     if (src == "tag") {
       handleOnFilterTags(item);
     } else if (src == "campaign") {
@@ -769,7 +785,7 @@ const EmailList = (props) => {
   };
 
   const load_more = () => {
-    getData("initial", 2);
+    getData("progress", 2);
     setloadmore(1);
   };
 
