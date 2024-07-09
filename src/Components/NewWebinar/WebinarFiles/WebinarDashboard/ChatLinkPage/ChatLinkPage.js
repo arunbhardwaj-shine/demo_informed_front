@@ -1247,7 +1247,8 @@ const ChatLinkPage = () => {
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
-                                  style={{ color: formData?.textColor }}
+                                  // style={{ color: formData?.textColor }}
+                                  style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.nameLabel,
                                   }}
@@ -1287,7 +1288,8 @@ const ChatLinkPage = () => {
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
-                                  style={{ color: formData?.textColor }}
+                                  // style={{ color: formData?.textColor }}
+                                  style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.questionLabel,
                                   }}
@@ -1356,7 +1358,8 @@ const ChatLinkPage = () => {
                               </div>
                               <div className="copy-right-bottom-text">
                                 <p
-                                  style={{ color: formData?.textColor }}
+                                  // style={{ color: formData?.textColor }}
+                                  style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.footerText,
                                   }}
@@ -1392,7 +1395,8 @@ const ChatLinkPage = () => {
                           (
                             <div className="copy-right-bottom-text">
                               <p
-                                style={{ color: formData?.textColor }}
+                                // style={{ color: formData?.textColor }}
+                                style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
                                 dangerouslySetInnerHTML={{
                                   __html: formData?.footerText,
                                 }}

@@ -782,17 +782,17 @@
         "logoImageUrl":{
             "title": "Logo",
             "type": "file",
-            "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/TxjFvYLpSJmsH1KWjSgtnkILQS2BUkoYBnaUpzy9.png"
+            "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/eT7mpiybuo1SLl8SskSgv42ILgCZ2NUMW50aFuBC.png"
         },
         "textColor": {
             "title": "Text Color",
             "type": "color",
-            "value": "#233c7a"  
+            "value": "#ffff"  
         },
         "headerBackgroundColor": {
             "title": "Header Background",
             "type": "color",
-            "value": "#dbecea"  
+            "value": "#0062AE"  
         },
         "heading": {
             "title": "Header Text",
@@ -827,7 +827,7 @@
         "buttonColor": {
             "title": "Button Color",
             "type": "color",
-            "value": "#64b8b0"
+            "value": "#0062AE"
         },
         "footerText": {
             "title": "Footer Text",
