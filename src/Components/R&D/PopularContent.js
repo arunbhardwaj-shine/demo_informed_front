@@ -16,6 +16,7 @@ const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) 
   // const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
+  const [graphData, setGraphData] = useState([]);
   const [popularPieOptions, setPopularPieOptions] = useState({
     chart: {
       plotBackgroundColor: null,
@@ -102,7 +103,7 @@ const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) 
 
       // setMostPopularContentData(data.pdf_data);
       setMostPopularContentDataChild(data.pdf_data);
-
+setGraphData(data?.site_graph_data ||[])
       setPopularPieOptions({
         ...popularPieOptions,
         series: [
@@ -250,10 +251,12 @@ const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) 
                       </div>
                     </>
                   )}
-                  <HighchartsReact
+                 { graphData.length?<HighchartsReact
                     highcharts={Highcharts}
                     options={popularPieOptions}
-                  />
+                  />:<div className="no_found">
+                  <p>No Data Found</p>
+                </div>}
                   {/* <div className="rd-midbox-export">
                     <img
                       src={path_image + "arrow-export.svg"}
