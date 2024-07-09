@@ -635,7 +635,7 @@ const NewReaders = () => {
         } else {
           newObj[key]?.push(item);
           apifilterObject[key]?.push(item);
-          if (data?.length - 1 == newObj[key]?.length) {
+          if (data?.length - 1 == newObj[key]?.length && key!="site") {
             newObj[key]?.push("All");
             apifilterObject[key]?.push("All");
           }
