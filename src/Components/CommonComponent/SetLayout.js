@@ -71,7 +71,8 @@ const SetLayout = () => {
     if (title == "Library") {
       navigate("/library-content");
     } else if (title == "CRM") {
-       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+       (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+       ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
         ? navigate("/new-readers-reviews")
         :
         navigate("/readers-view");
@@ -83,7 +84,8 @@ const SetLayout = () => {
           ? navigate("/totalhcp")
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
-            : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? navigate("/LEX-210-analytics")
               : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
                 ? navigate("/totalhcp")
@@ -120,7 +122,7 @@ const SetLayout = () => {
       // navigate("/license-content");
       navigate("/license-content");
     } else if (title == "Q&A/SURVEY") {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         window.open(
           "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
           localStorage.getItem("user_id"),

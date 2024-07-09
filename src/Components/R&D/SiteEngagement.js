@@ -13,6 +13,7 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
+  let createdBy=localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188
 
   const [rdSiteOptions, setRdSiteOptions] = useState({
     chart: {
@@ -81,7 +82,7 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
 
   const getRdSiteChartData = async () => {
     try {
-      const result = await getData(ENDPOINT.RD_SITE_ENGAGEMENT);
+      const result = await getData(`${ENDPOINT.RD_SITE_ENGAGEMENT}?uid=${createdBy}`);
       const data = result?.data?.data;
       // setTotalRdSiteNumber(result?.data?.total_content);
       setTotalRdSiteNumber(result?.data?.engeged_users);

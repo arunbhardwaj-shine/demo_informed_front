@@ -28,7 +28,7 @@ export const LibraryEditValidation = (data) => {
         !item?.chapterTitle
       ) {
         if (!error?.chapter?.[index]) {
-          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") {
             error.chapter = {
               ...error.chapter,
               [index]: "Chapter is required",
@@ -45,7 +45,7 @@ export const LibraryEditValidation = (data) => {
     data?.pdfChapter?.forEach((item, index) => {
       if (  (item.hasOwnProperty("uploadFile") && item?.uploadFile == "")||!item?.chapterTitle) {
         if (!error?.pdfChapter?.[index]) {
-          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") {
             error.pdfChapter = {
               ...error.pdfChapter,
               [index]: "Chapter is required",

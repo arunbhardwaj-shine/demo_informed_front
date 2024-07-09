@@ -626,7 +626,7 @@ const VerifyMAIL = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
+                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                     {/*
@@ -1248,7 +1248,7 @@ const VerifyMAIL = (props) => {
                       </th>
 
                       {localStorage.getItem("user_id") ===
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <>
                           <th scope="col">IRT mandatory training</th>
                           <th scope="col">IRT role</th>
@@ -1305,7 +1305,7 @@ const VerifyMAIL = (props) => {
                               <td>{rr.country}</td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"

@@ -76,7 +76,7 @@ const NewReaders = () => {
     staticFilter = {
       status: ["Registered"],
       "contact Type": ["HCP"],
-      "Content Owners":["All"]
+      "Content Owners": ["All"]
     };
   }
   const [appliedFilter, setAppliedFilter] = useState(
@@ -173,7 +173,7 @@ const NewReaders = () => {
   const [resetDataId, setResetDataId] = useState();
   const [instituteValue, setInstitute] = useState([]);
 
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -187,21 +187,24 @@ const NewReaders = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ) {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
+      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    ) {
       setAppliedFilter({});
       setFilterObject({});
       setApifilterObject({});
     }
-    
+
     else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
       setAppliedFilter({ "contact Type": ["HCP"] });
       setFilterObject({});
       setApifilterObject({});
-    } 
-    else if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
-      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"] });
-      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"]  });
-      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"]  });
+    }
+    else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
+      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
     }
     else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -240,15 +243,15 @@ const NewReaders = () => {
 
       if (
         res?.data?.data?.data["Content Owners"]?.length &&
-        res?.data?.data?.defaultOwner && localStorage.getItem("user_id")!=="B7SHpAc XDXSH NXkN0rdQ=="
+        res?.data?.data?.defaultOwner && localStorage.getItem("user_id") !== "B7SHpAc XDXSH NXkN0rdQ=="
       ) {
-       
-       
-        if ( localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==" ) {
+
+
+        if (localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==") {
           setAppliedFilter({});
           setFilterObject({});
           setApifilterObject({});
-        }else{
+        } else {
           setAppliedFilter({
             ...appliedFilter,
             ["Content Owners"]: [res?.data?.data?.defaultOwner],
@@ -262,7 +265,7 @@ const NewReaders = () => {
             ["Content Owners"]: [res?.data?.data?.defaultOwner],
           });
         }
-      
+
         setDefaultOwner(res?.data?.data?.defaultOwner);
       }
 
@@ -298,7 +301,7 @@ const NewReaders = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -425,7 +428,7 @@ const NewReaders = () => {
           status: ["Registered"],
         };
       }
-      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -435,7 +438,7 @@ const NewReaders = () => {
 
         };
       }
-       else {
+      else {
         payload = { ...data, ...filterObject };
       }
 
@@ -444,7 +447,7 @@ const NewReaders = () => {
         responseType: "blob",
       });
       console.log("Response from CRM:", res);
-      console.log("payload from CRM:",payload );
+      console.log("payload from CRM:", payload);
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
@@ -483,7 +486,7 @@ const NewReaders = () => {
   const submitHandler = (event) => {
     setReaderDataList([]);
     setTotalCountFlag(false);
-  setSubmitSearch(search)
+    setSubmitSearch(search)
     getReaderListData(page, filterObject, search);
     event.preventDefault();
     return false;
@@ -491,7 +494,7 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -635,7 +638,7 @@ const NewReaders = () => {
         } else {
           newObj[key]?.push(item);
           apifilterObject[key]?.push(item);
-          if (data?.length - 1 == newObj[key]?.length) {
+          if (data?.length - 1 == newObj[key]?.length && key !="site") {
             newObj[key]?.push("All");
             apifilterObject[key]?.push("All");
           }
@@ -692,7 +695,7 @@ const NewReaders = () => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       let consent1 = {
         index: i,
         value: "",
@@ -1122,7 +1125,7 @@ const NewReaders = () => {
     setChangeUpdateFlag(changeUpdateFlag);
   };
   const handleTimeLine = (data) => {
-    localStorage.setItem('irt_sec',0);
+    localStorage.setItem('irt_sec', 0);
     localStorage.setItem("myData", data);
     window.open("/timeline-detail");
     // navigate("/timeline-detail");
@@ -1306,7 +1309,7 @@ const NewReaders = () => {
       let binded = "";
       let institute = "";
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1584,7 +1587,7 @@ const NewReaders = () => {
         try {
           let body = {
             readerId: userId,
-            irt:0,
+            irt: 0,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {
@@ -1599,7 +1602,8 @@ const NewReaders = () => {
       }
     } else if (
       key == "change-tab" &&
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1739,71 +1743,77 @@ const NewReaders = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                    <h4>
-                      Total USER |{" "}
-                      <span>{totalCountFlag ? totalCount : 0}</span>
-                    </h4>
-                  ) : (
-                    <h4>
-                      Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
-                    </h4>
-                  )}
+                  {(localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg=="
+                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    ? (
+                      <h4>
+                        Total USER |{" "}
+                        <span>{totalCountFlag ? totalCount : 0}</span>
+                      </h4>
+                    ) : (
+                      <h4>
+                        Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
+                      </h4>
+                    )}
 
-                  {( 
+                  {(
                     submitSearch.trim() === "" &&
-                    ((Object.keys(filterObject)?.length == 2 &&
-                    localStorage.getItem("user_id") !=
-                      "B7SHpAc XDXSH NXkN0rdQ=="&&
-                      filterObject?.["status"] == "Registered" &&
-                      filterObject?.["contact Type"] == "HCP") ||
-                    (Object.keys(filterObject)?.length == 3 &&
-                      filterObject?.["status"]?.includes("Registered") &&
-                      filterObject?.["contact Type"]?.includes("HCP") &&
-                      filterObject?.["Content Owners"]?.includes(
-                        defaultOwner
-                      )) ||
-                      (Object.keys(filterObject)?.length == 3&&
-                      localStorage.getItem("user_id") ==
-                      "B7SHpAc XDXSH NXkN0rdQ=="&&
-                      filterObject?.["status"]?.includes("Registered") &&
-                      filterObject?.["contact Type"]?.includes("HCP")&&
-                        filterObject?.["Content Owners"]?.includes(
-                        "All"
-                      ))||
-                    (localStorage.getItem("user_id") ==
-                      "b3APser7L8OELDIG8ee2HQ==" &&
-                      (Object.keys(filterObject)?.length == 0 ||
-                        (Object.keys(filterObject)?.length <= 1 &&
-                          filterObject?.["contact Type"]?.includes("HCP")))) ||
-                    (localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" &&
-                      Object.keys(filterObject)?.length <= 0))
+                      ((Object.keys(filterObject)?.length == 2 &&
+                        localStorage.getItem("user_id") !=
+                        "B7SHpAc XDXSH NXkN0rdQ==" &&
+                        filterObject?.["status"] == "Registered" &&
+                        filterObject?.["contact Type"] == "HCP") ||
+                        (Object.keys(filterObject)?.length == 3 &&
+                          filterObject?.["status"]?.includes("Registered") &&
+                          filterObject?.["contact Type"]?.includes("HCP") &&
+                          filterObject?.["Content Owners"]?.includes(
+                            defaultOwner
+                          )) ||
+                        (Object.keys(filterObject)?.length == 3 &&
+                          localStorage.getItem("user_id") ==
+                          "B7SHpAc XDXSH NXkN0rdQ==" &&
+                          filterObject?.["status"]?.includes("Registered") &&
+                          filterObject?.["contact Type"]?.includes("HCP") &&
+                          filterObject?.["Content Owners"]?.includes(
+                            "All"
+                          )) ||
+                        (localStorage.getItem("user_id") ==
+                          "b3APser7L8OELDIG8ee2HQ==" &&
+                          (Object.keys(filterObject)?.length == 0 ||
+                            (Object.keys(filterObject)?.length <= 1 &&
+                              filterObject?.["contact Type"]?.includes("HCP")))) ||
+                        ((localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                          &&
+                          Object.keys(filterObject)?.length <= 0))
                       ? true
-                      : false 
-                 ) ? (
+                      : false
+                  ) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={() => {
                           Refresh(localStorage.getItem("user_id") ==
-                          "B7SHpAc XDXSH NXkN0rdQ=="?{
+                            "B7SHpAc XDXSH NXkN0rdQ==" ? {
                             status: "Registered",
                             "contact Type": "HCP",
-                            "Content Owners":"All",
-                            
-                          }:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?
-                          {
-                            status: "Registered",
-                            "contact Type": "HCP",
-                            'IRT mandatory training': ["No"]
-                          }
-                          :
-                          {
-                            status: "Registered",
-                            "contact Type": "HCP",
-                          });
+                            "Content Owners": "All",
+
+                          } : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                            || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            ?
+                            {
+                              status: "Registered",
+                              "contact Type": "HCP",
+                              'IRT mandatory training': ["No"]
+                            }
+                            :
+                            {
+                              status: "Registered",
+                              "contact Type": "HCP",
+                            });
                         }}
                       >
                         <svg
@@ -1815,7 +1825,7 @@ const NewReaders = () => {
                           xmlns="http://www.w3.org/2000/svg"
                           // xmlns:xlink="http://www.w3.org/1999/xlink"
                           viewBox="0 0 383.748 383.748"
-                          // xml:space="preserve"
+                        // xml:space="preserve"
                         >
                           <g>
                             <path
@@ -1873,7 +1883,7 @@ const NewReaders = () => {
                       ref={buttonRef}
                       className={
                         Object.keys(apifilterObject)?.length &&
-                        filterApplyflag == 1
+                          filterApplyflag == 1
                           ? "btn btn-secondary dropdown filter_applied"
                           : "btn btn-secondary dropdown"
                       }
@@ -1941,17 +1951,17 @@ const NewReaders = () => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             const filteredRoles =
-                            key === "role"
-                              ? filterdata[key].filter(
+                              key === "role"
+                                ? filterdata[key].filter(
                                   (item) =>
                                     item === "All" ||
-                                       item === "Principal Investigator" ||
-                                       item === "Sub-Investigator" ||
-                                       item === "Study Coordinator" ||
-                                       item === "Study Nurse" ||
-                                       item === "Other"
+                                    item === "Principal Investigator" ||
+                                    item === "Sub-Investigator" ||
+                                    item === "Study Coordinator" ||
+                                    item === "Study Nurse" ||
+                                    item === "Other"
                                 )
-                              : filterdata[key];
+                                : filterdata[key];
                             return (
                               <>
                                 {filteredRoles?.length > 0 ? (
@@ -1969,101 +1979,101 @@ const NewReaders = () => {
                                       <ul>
                                         {filteredRoles?.length
                                           ? filteredRoles?.map(
-                                              (item, index) => (
-                                                <li key={index}>
-                                                  {item != "" ? (
-                                                    <label className="select-multiple-option">
-                                                      <input
-                                                        type={
-                                                          key == "status" ||
+                                            (item, index) => (
+                                              <li key={index}>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type={
+                                                        key == "status" ||
                                                           key ==
-                                                            "Content Owners" ||
+                                                          "Content Owners" ||
                                                           key ==
-                                                            "contact Type" ||
+                                                          "contact Type" ||
                                                           key == "userAction" ||
                                                           key == "Blinded" ||
                                                           key == "IRT" ||
                                                           key ==
-                                                            "IRT mandatory training" ||
+                                                          "IRT mandatory training" ||
                                                           key == "region" ||
                                                           key == "RTR?" ||
                                                           key ==
-                                                            "Business Unit" ||
+                                                          "Business Unit" ||
                                                           key ==
-                                                            "webinarRegistered" ||
+                                                          "webinarRegistered" ||
                                                           key ==
-                                                            "Registered For Webinar" ||
+                                                          "Registered For Webinar" ||
                                                           key == "List"
-                                                            ? "radio"
-                                                            : "checkbox"
-                                                        }
-                                                        id={`custom-checkbox-tags-${index}`}
-                                                        value={
-                                                          typeof item ==
+                                                          ? "radio"
+                                                          : "checkbox"
+                                                      }
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={
+                                                        typeof item ==
                                                           "object"
-                                                            ? item?.title
-                                                            : item
-                                                        }
-                                                        name={key}
-                                                        checked={
-                                                          typeof item ==
+                                                          ? item?.title
+                                                          : item
+                                                      }
+                                                      name={key}
+                                                      checked={
+                                                        typeof item ==
                                                           "object"
-                                                            ? appliedFilter[
-                                                                key
-                                                              ]?.includes(
-                                                                item.id
-                                                              )
-                                                              ? true
-                                                              : false
-                                                            : appliedFilter[
-                                                                key
-                                                              ]?.includes(item)
+                                                          ? appliedFilter[
+                                                            key
+                                                          ]?.includes(
+                                                            item.id
+                                                          )
                                                             ? true
                                                             : false
-                                                        }
-                                                        // defaultChecked={
-                                                        //   key == "contactType" &&
-                                                        //   item == "HCP"
-                                                        //     ? true
-                                                        //     : filterObject?.hasOwnProperty(
-                                                        //         key
-                                                        //       )
-                                                        //     ? filterObject[
-                                                        //         key
-                                                        //       ]?.indexOf(item) !==
-                                                        //       -1
-                                                        //     : false
-                                                        // }
+                                                          : appliedFilter[
+                                                            key
+                                                          ]?.includes(item)
+                                                            ? true
+                                                            : false
+                                                      }
+                                                      // defaultChecked={
+                                                      //   key == "contactType" &&
+                                                      //   item == "HCP"
+                                                      //     ? true
+                                                      //     : filterObject?.hasOwnProperty(
+                                                      //         key
+                                                      //       )
+                                                      //     ? filterObject[
+                                                      //         key
+                                                      //       ]?.indexOf(item) !==
+                                                      //       -1
+                                                      //     : false
+                                                      // }
 
-                                                        onChange={(e) =>
-                                                          handleOnFilterChange(
-                                                            e,
-                                                            typeof item ==
-                                                              "object"
-                                                              ? item.id
-                                                              : item,
-                                                            index,
-                                                            key,
-                                                            [...filteredRoles]
-                                                          )
-                                                        }
-                                                      />
-                                                      {typeof item == "object"
-                                                        ? item?.title
-                                                        : item}
-                                                      {/* {key == "draft" &&
+                                                      onChange={(e) =>
+                                                        handleOnFilterChange(
+                                                          e,
+                                                          typeof item ==
+                                                            "object"
+                                                            ? item.id
+                                                            : item,
+                                                          index,
+                                                          key,
+                                                          [...filteredRoles]
+                                                        )
+                                                      }
+                                                    />
+                                                    {typeof item == "object"
+                                                      ? item?.title
+                                                      : item}
+                                                    {/* {key == "draft" &&
                                                       typeof item  == "string" && item == "0"
                                                       ? "live"
                                                       : key == "draft" &&  typeof item  == "string" &&
                                                         item == "1"
                                                       ? "draft" &&  typeof item  == "string"
                                                       : item} */}
-                                                      <span className="checkmark"></span>
-                                                    </label>
-                                                  ) : null}
-                                                </li>
-                                              )
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
                                             )
+                                          )
                                           : null}
                                       </ul>
                                     </Accordion.Body>
@@ -2213,20 +2223,20 @@ const NewReaders = () => {
                                           {key == "draft" && item == "0"
                                             ? "live"
                                             : key == "draft" && item == "1"
-                                            ? "draft"
-                                            : key == "Registered For Title"
-                                            ? filterdata?.[
-                                                "Registered For Title"
-                                              ]?.find(
-                                                (element) => element.id == item
-                                              )?.title
-                                            : key == "site"
-                                            ? filterdata?.[
-                                                "site"
-                                              ]?.find(
-                                                (element) => element.id == item
-                                              )?.title  
-                                            : item}
+                                              ? "draft"
+                                              : key == "Registered For Title"
+                                                ? filterdata?.[
+                                                  "Registered For Title"
+                                                ]?.find(
+                                                  (element) => element.id == item
+                                                )?.title
+                                                : key == "site"
+                                                  ? filterdata?.[
+                                                    "site"
+                                                  ]?.find(
+                                                    (element) => element.id == item
+                                                  )?.title
+                                                  : item}
                                           <img
                                             src={
                                               path_image + "filter-close.svg"
@@ -2347,7 +2357,9 @@ const NewReaders = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.first_name} ${data?.last_name} ` :data?.first_name ? data?.first_name : data?.name}
+                              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? `${data?.first_name} ${data?.last_name} ` : data?.first_name ? data?.first_name : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2379,56 +2391,60 @@ const NewReaders = () => {
                                     ""
                                   )}
 
-                                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("group_id") == 3 ? 
+                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+                                    && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                                    && localStorage.getItem("group_id") == 3 ?
                                     (
                                       <>
-                                      
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Country
-                                        </h6>
-                                        <h6>
-                                          {data?.country
-                                            ? data?.country == "B&H"
-                                              ? "Bosnia and Herzegovina"
-                                              : data?.country
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Consent Country
-                                        </h6>
-                                        <h6>
-                                          {consetCountry?.[data?.id]
-                                            ? consetCountry?.[data?.id] ==
-                                              "B&H"
-                                              ? "Bosnia and Herzegovina"
-                                              : consetCountry?.[data?.id]
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
+
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Country
+                                          </h6>
+                                          <h6>
+                                            {data?.country
+                                              ? data?.country == "B&H"
+                                                ? "Bosnia and Herzegovina"
+                                                : data?.country
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Consent Country
+                                          </h6>
+                                          <h6>
+                                            {consetCountry?.[data?.id]
+                                              ? consetCountry?.[data?.id] ==
+                                                "B&H"
+                                                ? "Bosnia and Herzegovina"
+                                                : consetCountry?.[data?.id]
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
                                       </>
-                                    ) : 
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Country
-                                        </h6>
-                                        <h6>
-                                          {data?.country
-                                            ? data?.country == "B&H"
-                                              ? "Bosnia and Herzegovina"
-                                              : data?.country
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                    }
+                                    ) :
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Country
+                                      </h6>
+                                      <h6>
+                                        {data?.country
+                                          ? data?.country == "B&H"
+                                            ? "Bosnia and Herzegovina"
+                                            : data?.country
+                                          : "N/A"}
+                                      </h6>
+                                    </li>
+                                  }
 
-                                  
 
-                                  {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" &&
-                                  localStorage.getItem("group_id") == "3" ? (
+
+                                  {(localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    &&
+                                    localStorage.getItem("group_id") == "3" ? (
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -2483,7 +2499,7 @@ const NewReaders = () => {
                                         </h6>
                                         <h6>
                                           {data?.siteNumber &&
-                                          data?.siteNumber != 0
+                                            data?.siteNumber != 0
                                             ? data?.siteNumber
                                             : "N/A"}
                                         </h6>
@@ -2639,11 +2655,11 @@ const NewReaders = () => {
                                                 (el) => el.userId == data?.id
                                               ) !== -1
                                                 ? emailStats[
-                                                    emailStats.findIndex(
-                                                      (el) =>
-                                                        el.userId == data?.id
-                                                    )
-                                                  ]?.emailSent
+                                                  emailStats.findIndex(
+                                                    (el) =>
+                                                      el.userId == data?.id
+                                                  )
+                                                ]?.emailSent
                                                 : "Loading"
                                             }
                                           />
@@ -2674,11 +2690,11 @@ const NewReaders = () => {
                                                 (el) => el.userId == data?.id
                                               ) !== -1
                                                 ? emailStats[
-                                                    emailStats.findIndex(
-                                                      (el) =>
-                                                        el.userId == data?.id
-                                                    )
-                                                  ]?.emailOpen
+                                                  emailStats.findIndex(
+                                                    (el) =>
+                                                      el.userId == data?.id
+                                                  )
+                                                ]?.emailOpen
                                                 : "Loading"
                                             }
                                           />
@@ -2712,10 +2728,10 @@ const NewReaders = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentDeliverd
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.contentDeliverd
                                             : "Loading"
                                         }
                                       />
@@ -2745,10 +2761,10 @@ const NewReaders = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.rtr
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.rtr
                                             : "Loading"
                                         }
                                       />
@@ -2778,10 +2794,10 @@ const NewReaders = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.qr
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.qr
                                             : "Loading"
                                         }
                                       />
@@ -2811,10 +2827,10 @@ const NewReaders = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.go
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.go
                                             : "Loading"
                                         }
                                       />
@@ -2844,10 +2860,10 @@ const NewReaders = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentOpening
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.contentOpening
                                             : "Loading"
                                         }
                                       />
@@ -2879,11 +2895,11 @@ const NewReaders = () => {
                                               (el) => el.userId == data?.id
                                             ) !== -1
                                               ? emailStats[
-                                                  emailStats.findIndex(
-                                                    (el) =>
-                                                      el.userId == data?.id
-                                                  )
-                                                ]?.LastActivity
+                                                emailStats.findIndex(
+                                                  (el) =>
+                                                    el.userId == data?.id
+                                                )
+                                              ]?.LastActivity
                                               : "Loading"
                                           }
                                         />
@@ -2918,8 +2934,10 @@ const NewReaders = () => {
                               <Tab eventKey="change-tab" title="Change">
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                      && change ? (
                                       <>
                                         {/*console.log(
                                         types.findIndex(
@@ -3006,11 +3024,11 @@ const NewReaders = () => {
                                                 options={institutionData}
                                                 defaultValue={
                                                   institutionData?.[
-                                                    institutionData.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        data?.institute
-                                                    )
+                                                  institutionData.findIndex(
+                                                    (el) =>
+                                                      el.value ==
+                                                      data?.institute
+                                                  )
                                                   ]
                                                 }
                                                 onChange={(e) =>
@@ -3079,24 +3097,24 @@ const NewReaders = () => {
                                                   (el) => el.index == data.id
                                                 )?.length
                                                   ? changeIRTType.filter(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )?.[0]?.value
+                                                    (el) =>
+                                                      el.index == data.id
+                                                  )?.[0]?.value
                                                   : data?.irt == "Yes"
-                                                  ? true
-                                                  : false
+                                                    ? true
+                                                    : false
                                               ) ? (
                                                 <Select
                                                   options={change?.userIrtRoles}
                                                   value={
                                                     selectedRole[index] !=
                                                       undefined &&
-                                                    selectedRole[index] != true
+                                                      selectedRole[index] != true
                                                       ? selectedRole[index]
                                                       : selectedRole[index] ==
                                                         true
-                                                      ? null
-                                                      : // change
+                                                        ? null
+                                                        : // change
                                                         //     ?.userIrtRoles?.[0]
                                                         change?.userIrtRoles.find(
                                                           (roleObj) =>
@@ -3122,12 +3140,12 @@ const NewReaders = () => {
                                                   value={
                                                     selectedRole[index] !=
                                                       undefined &&
-                                                    selectedRole[index] != true
+                                                      selectedRole[index] != true
                                                       ? selectedRole[index]
                                                       : selectedRole[index] ==
                                                         true
-                                                      ? null
-                                                      : change?.role.find(
+                                                        ? null
+                                                        : change?.role.find(
                                                           (roleObj) =>
                                                             roleObj.value ===
                                                             data?.role
@@ -3160,27 +3178,27 @@ const NewReaders = () => {
                                                   (el) => el.index == data.id
                                                 )?.length
                                                   ? changeIRTType.filter(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )?.[0]?.value
+                                                    (el) =>
+                                                      el.index == data.id
+                                                  )?.[0]?.value
                                                   : data?.irt == "Yes"
-                                                  ? true
-                                                  : false
+                                                    ? true
+                                                    : false
                                               ) ? (
                                                 <Select
                                                   ref={defaultCountry}
                                                   options={irtCountry}
                                                   value={
                                                     selectedCountry[index] !==
-                                                    undefined
+                                                      undefined
                                                       ? selectedCountry[index]
                                                       : data?.country === "B&H"
-                                                      ? countryAll.find(
+                                                        ? countryAll.find(
                                                           (el) =>
                                                             el.value ===
                                                             "Bosnia and Herzegovina"
                                                         )
-                                                      : irtCountry.find(
+                                                        : irtCountry.find(
                                                           (el) =>
                                                             el.value ===
                                                             data?.country
@@ -3204,15 +3222,15 @@ const NewReaders = () => {
                                                   options={countryAll}
                                                   value={
                                                     selectedCountry[index] !==
-                                                    undefined
+                                                      undefined
                                                       ? selectedCountry[index]
                                                       : data?.country === "B&H"
-                                                      ? countryAll.find(
+                                                        ? countryAll.find(
                                                           (el) =>
                                                             el.value ===
                                                             "Bosnia and Herzegovina"
                                                         )
-                                                      : countryAll.find(
+                                                        : countryAll.find(
                                                           (el) =>
                                                             el.value ===
                                                             data?.country
@@ -3249,19 +3267,19 @@ const NewReaders = () => {
                                                 value={
                                                   selectedSiteNumber[index] !=
                                                     undefined &&
-                                                  selectedSiteNumber[index] !=
+                                                    selectedSiteNumber[index] !=
                                                     true
                                                     ? selectedSiteNumber[index]
                                                     : selectedSiteNumber[
-                                                        index
-                                                      ] == true
-                                                    ? null
-                                                    : change?.siteNumber[
-                                                        change?.siteNumber.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteNumber?.toLowerCase()
-                                                        )
+                                                      index
+                                                    ] == true
+                                                      ? null
+                                                      : change?.siteNumber[
+                                                      change?.siteNumber.findIndex(
+                                                        (el) =>
+                                                          el.label.toLowerCase() ===
+                                                          data?.siteNumber?.toLowerCase()
+                                                      )
                                                       ]
                                                 }
                                                 onChange={(event) =>
@@ -3296,18 +3314,18 @@ const NewReaders = () => {
                                                 value={
                                                   selectedSiteName[index] !=
                                                     undefined &&
-                                                  selectedSiteName[index] !=
+                                                    selectedSiteName[index] !=
                                                     true
                                                     ? selectedSiteName[index]
                                                     : selectedSiteName[index] ==
                                                       true
-                                                    ? null
-                                                    : change?.siteName[
-                                                        change?.siteName.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteName?.toLowerCase()
-                                                        )
+                                                      ? null
+                                                      : change?.siteName[
+                                                      change?.siteName.findIndex(
+                                                        (el) =>
+                                                          el.label.toLowerCase() ===
+                                                          data?.siteName?.toLowerCase()
+                                                      )
                                                       ]
                                                 }
                                                 placeholder="Select Site Name"
@@ -3338,11 +3356,11 @@ const NewReaders = () => {
                                                 options={types}
                                                 defaultValue={
                                                   types[
-                                                    types.findIndex(
-                                                      (el) =>
-                                                        el.label.toLowerCase() ==
-                                                        data?.user_status?.toLowerCase()
-                                                    )
+                                                  types.findIndex(
+                                                    (el) =>
+                                                      el.label.toLowerCase() ==
+                                                      data?.user_status?.toLowerCase()
+                                                  )
                                                   ]
                                                 }
                                                 onChange={(event) =>
@@ -3365,17 +3383,17 @@ const NewReaders = () => {
                                                 options={countryAll}
                                                 defaultValue={
                                                   countryAll[
-                                                    data?.country == "B&H"
-                                                      ? countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            "Bosnia and Herzegovina"
-                                                        )
-                                                      : countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            data?.country
-                                                        )
+                                                  data?.country == "B&H"
+                                                    ? countryAll.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        "Bosnia and Herzegovina"
+                                                    )
+                                                    : countryAll.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        data?.country
+                                                    )
                                                   ]
                                                 }
                                                 onChange={(event) =>

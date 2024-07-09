@@ -150,8 +150,10 @@ const ReaderReview = () => {
                         <th className="tab-content-title">Primary email </th>
                         <td>{readerData?.email ? readerData?.email : "N/A"}</td>
                       </tr>
-                      {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      ? (
                         <>
                           <tr>
                             <th className="tab-content-title">
@@ -218,8 +220,10 @@ const ReaderReview = () => {
                           {readerData?.country ? readerData?.country : "N/A"}
                         </td>
                       </tr>
-                      {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      ? (
                         <>
                           <tr>
                             <th className="tab-content-title">IRT role</th>
@@ -312,8 +316,10 @@ const ReaderReview = () => {
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
-                      {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      ? (
                         <>
                           <tr>
                             <th className="tab-content-title">Site number</th>

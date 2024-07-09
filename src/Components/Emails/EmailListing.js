@@ -1582,7 +1582,7 @@ const EmailList = (props) => {
                                 </div>
                                 <div className="mail-stats">
                                   <ul>
-                                  {  isRND &&<li>
+                                  {  isRND  &&<li>
                                       <div
                                         className="mail-status irts"
                                         title="IRTs"
@@ -1966,15 +1966,19 @@ const EmailList = (props) => {
                             </a>
                           </td>
                         </tr>
-                        <tr>
-                          <th>IRTs </th>
-                          <td>
-                            {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
-                              ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
-                              : 'N/A'}
+                        {
+                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 
+                          <tr>
+                            <th>IRTs </th>
+                            <td>
+                              {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
+                                ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
+                                : 'N/A'}
 
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                          : null
+                        }
                       </tbody>
                     </table>
                   </div>
@@ -2632,7 +2636,7 @@ const EmailList = (props) => {
 
                         </th>
                         {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (<>
                             <th scope="col" className="sort_option">
                               <span onClick={(e) => userSort(e, "site_number")}>
                                 Site number
@@ -2803,10 +2807,10 @@ const EmailList = (props) => {
                                   </span>{" "}
                                 </td>
                                 {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
                                 <td>
                                   {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                     ? item.irt
                                       ? "Yes"
                                       : "No"
@@ -2848,10 +2852,10 @@ const EmailList = (props) => {
                                                 </span>
                                               </td>
                                               {localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
                                               <td>
                                                 {localStorage.getItem("user_id") ==
-                                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                                   ? item.irt
                                                     ? "Yes"
                                                     : "No"

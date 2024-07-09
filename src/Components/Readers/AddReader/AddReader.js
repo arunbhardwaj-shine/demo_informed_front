@@ -268,7 +268,7 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setAddReaderInputs({
         ...userInputs,
         role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
@@ -431,7 +431,7 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     initalFun();
@@ -700,7 +700,7 @@ const ReaderAdd = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
 
-    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -752,7 +752,8 @@ const ReaderAdd = () => {
 
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT mandatory training"
               : "IRT"}
           </Form.Label>
@@ -775,7 +776,8 @@ const ReaderAdd = () => {
             // value={userDetail?.irt?.find((inst) => inst.label === "Yes")}
             // value={{ label: "Yes",value: "Yes",}}
             placeholder={
-              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? "Select IRT mandatory training"
                 : "Select IRT"
             }
@@ -794,7 +796,8 @@ const ReaderAdd = () => {
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT role"
               : "Role"}
           </Form.Label>
@@ -856,14 +859,16 @@ const ReaderAdd = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {" "}
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "Study role"
               : "Sub Role"}{" "}
           </Form.Label>
           <Select
             options={userDetail?.sub_role}
             placeholder={
-              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? "Select Study Role"
                 : "Select Role"
             }
@@ -1137,7 +1142,9 @@ const ReaderAdd = () => {
                     </Form.Group>
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">
-                        Last name  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? <span>*</span> : null}
+                        Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        ? <span>*</span> : null}
                       </Form.Label>
                       <input
                         type="text"

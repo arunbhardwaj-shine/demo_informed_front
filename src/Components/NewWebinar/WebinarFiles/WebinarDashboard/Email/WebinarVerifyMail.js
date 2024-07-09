@@ -73,7 +73,7 @@ const WebinarVerifyMAIL = (props) => {
 
 
   const [getpdfdata, setPdfData] = useState([]);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==")
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
@@ -1203,7 +1203,7 @@ const WebinarVerifyMAIL = (props) => {
                       <th scope="col">Country</th>
 
                       {localStorageUserId ===
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <>
                           <th scope="col">Site number</th>
                           <th scope="col">IRT mandatory training</th>
@@ -1239,10 +1239,10 @@ const WebinarVerifyMAIL = (props) => {
                               <td>{rr?.bounce}</td>
                               <td>{rr?.country}</td>
                               {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                                "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
                                 {localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
@@ -1251,7 +1251,7 @@ const WebinarVerifyMAIL = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+                                {localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr?.user_type != 0 ? rr?.user_type : "N/A"
                                   : rr?.contact_type
                                 }

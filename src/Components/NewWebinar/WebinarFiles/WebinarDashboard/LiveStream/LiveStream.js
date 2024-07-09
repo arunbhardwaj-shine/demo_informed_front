@@ -798,7 +798,7 @@ const LiveStream = () => {
         // finalData.ID = item?.id;
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+        if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
           finalData.SiteNumber = item?.site_number ? item?.site_number : "N/A";
         }else{
           finalData.Email = item?.email ? item?.email.trim() : "N/A";
@@ -992,7 +992,9 @@ useEffect(() => {
                                         <div className="live-stream-hcp">
                                           <h4>
                                             {item?.send_by == 1
-                                              ? localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
+                                              ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
+                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                              ? "LEX-210" : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1182,7 +1184,9 @@ useEffect(() => {
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
                                             {item?.send_by == 1
-                                              ? localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
+                                              ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
+                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                              ? "LEX-210" : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1368,7 +1372,9 @@ useEffect(() => {
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
                                             {item?.send_by == 1
-                                              ? localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ? "LEX-210" : "Octapharma"
+                                              ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
+                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                              ? "LEX-210" : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1712,7 +1718,9 @@ useEffect(() => {
                                           <div className="hcp-detail-list">
                                             <ul>
                                               {
-                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                                 
+                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                ?
                                                   <li>
                                                     <span>Site Number</span>
                                                     {item?.site_number != 0 ? item?.site_number : 'N/A'}
@@ -2068,7 +2076,9 @@ useEffect(() => {
                                           <div className="hcp-detail-list">
                                             <ul>
                                               {
-                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
+                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                ?
                                                   <li>
                                                     <span>Site Number</span>
                                                     {item?.site_number != 0 ? item?.site_number : 'N/A'}
@@ -2431,7 +2441,9 @@ useEffect(() => {
                                                 {item?.email}
                                               </li> */}
                                               {
-                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
+                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                ?
                                                   <li>
                                                     <span>Site Number</span>
                                                     {item?.site_number != 0 ? item?.site_number : 'N/A'}

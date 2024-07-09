@@ -8,7 +8,7 @@ import {
   Table,
   Tooltip,
 } from "react-bootstrap";
-import { getData, postData } from "../../axios/apiInstanceHelper";
+import { getData, postData,getDataRd } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
@@ -99,6 +99,7 @@ const RDAnalytics = () => {
   const top_content = useRef(null);
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  let createdBy=localStorage.getItem("user_id")
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClick = (event) => {
     setIsActive((current) => !current);
@@ -120,6 +121,7 @@ const RDAnalytics = () => {
         ) {
           const result = await postData(ENDPOINT.MOST_POPULAR_PAGE_CONTENT, {
             pdf_id: pdf_id,
+            created_by:createdBy
           });
           const data = result?.data?.data;
           setMostPopularContentPageData((prevData) => ({
@@ -152,6 +154,7 @@ const RDAnalytics = () => {
       ) {
         const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
           pdf_id: pdf_id,
+          created_by:createdBy
         });
 
         const data = result?.data?.data?.site_data;
@@ -282,7 +285,8 @@ const RDAnalytics = () => {
       // setTrainingCertificate("");
       if(Object.keys(filterdata?.site_number)?.length==0){
         let body={
-          user_id:localStorage.getItem('user_id')
+          // user_id:localStorage.getItem('user_id')
+          user_id:createdBy
         }        
         const response=await postData("https://webinar.docintel.app/lmn/api/distributes/filters_list",body)
         
@@ -295,7 +299,7 @@ const RDAnalytics = () => {
       });
       }
       if (!indidualCompletionTableData) {
-        const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION);
+        const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION,{created_by:createdBy});
         setIndividualCompletionTableData(result?.data?.data);
         setIndividualCompletionTableDataBackup(result?.data?.data);
         individual_Completion?.current?.focus();
@@ -321,6 +325,7 @@ const RDAnalytics = () => {
         let body = {
           user_id: id,
           training_status_code: statusCode,
+          created_by:createdBy
         };
         const result = await postData(
           ENDPOINT.TRAINING_COMPLETION_DROPDOWN,
@@ -351,6 +356,7 @@ const RDAnalytics = () => {
             user_id: userId,
             pdf_id: pdfId,
             file_type: fileType,
+            created_by:createdBy
           };
           const result = await postData(
             ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
@@ -384,7 +390,7 @@ const RDAnalytics = () => {
         site_Completion: true,
       });
       if (!siteCompletionTableData) {
-        const result = await getData(ENDPOINT.SITE_REGISTRATION_LIST);
+        const result = await getDataRd(`${ENDPOINT.SITE_REGISTRATION_LIST}`);
         setSiteCompletionTableData(result?.data?.data);
 
         site_Completion?.current?.focus();
@@ -418,7 +424,7 @@ const RDAnalytics = () => {
 
       setIsContentSiteAccordionOpen([]);
       setIsContentPageAccordionOpen([]);
-      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT_DROPDOWN);
+      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT_DROPDOWN,{created_by:createdBy});
       const data = result?.data?.data;
       setMostPopularContentData(data.pdf_data);
       setTimeout(() => {
@@ -886,7 +892,7 @@ const RDAnalytics = () => {
   const allEngagement = async () => {
     try {
       loader("show");
-      const response = await axios.get('https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement', {
+      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`, {
         responseType: 'blob',
       });
       // Create a blob and download the file
@@ -1107,7 +1113,8 @@ const RDAnalytics = () => {
       setSortBy('site_number');
       setSortOrder('desc');
       let obj = {
-        "sync":1
+        "sync":1,
+        created_by:createdBy
       };
       const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION,obj);
       const hadData = response?.data?.data || [];
@@ -1167,10 +1174,11 @@ const RDAnalytics = () => {
                     <Col md={6} lg={4}>
                       <IndividualCompletion
                         individualCompletionfn={individualCompletion}
+                        createdBy={createdBy}
                       />
                     </Col>
                     <Col md={6} lg={8}>
-                      <SiteCompletion siteCompletionfn={siteCompletion} />
+                      <SiteCompletion siteCompletionfn={siteCompletion} createdBy={createdBy}/>
                     </Col>
                     <Col md={12} lg={12}>
                       <SiteEngagement
@@ -1186,6 +1194,7 @@ const RDAnalytics = () => {
                     mostPopularContentFn={mostPopularContent}
                     // setMostPopularContentData={setMostPopularContentData}
                     topContentTableFn={topContentTableFn}
+                    createdBy={createdBy}
                   />
                 </Col>
               </Row>

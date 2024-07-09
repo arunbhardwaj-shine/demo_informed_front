@@ -134,7 +134,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
             list[i].countryIndex = "";
             setHpc(list);
         } else {
-            if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
                 let consetValue = e?.value;
                 if (e.value == "B&H") {
                     consetValue = "Bosnia and Herzegovina";
@@ -232,7 +232,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         const status = hpc?.map((data) => {
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
             if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == "") {
               return "false";
             }else if(data?.email!=""){
@@ -273,18 +273,20 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
               contact_type: "",
               country: "",
               role:
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                   ? irtRole?.[0]?.value
                   : "",
               optIrt:
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                   ? "yes"
                   : "",
               institutionType: "",
             },
           ]);
         } else {
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
             toast.warning("Please input the required fields.");
           } else {
             toast.warning("Please input the valid email");
@@ -333,8 +335,10 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                      && (
                                         <span>*</span>
                                       )}{" "}
                                   </label>
@@ -363,8 +367,10 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                      && (
                                         <span>*</span>
                                       )}
                                   </label>
@@ -418,8 +424,10 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                 </div>
                               </div>
 
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") ===
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -606,7 +614,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                   <label htmlFor="">
                                     Country{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") && (
                                         <span>*</span>
                                       )}
@@ -751,7 +759,9 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                 </div>
                               </div>*/}
                               {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+                                ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -830,7 +840,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId
+                                    {(localStorage.getItem("user_id") == userId||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>

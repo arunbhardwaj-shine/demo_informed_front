@@ -358,7 +358,7 @@ const PreviewContent = () => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                     <Link
                       className="btn btn-bordered btn btn-primary"
                       to="/library-create"
@@ -409,7 +409,7 @@ const PreviewContent = () => {
                         </li>
                       ) : null}
                       {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>
@@ -429,7 +429,7 @@ const PreviewContent = () => {
                         </li>
                       ) : null}
                       {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>

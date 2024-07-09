@@ -36,7 +36,8 @@ const SelectSmartListCountryUsers = (props) => {
     const [removedReaders, setRemovedReaders] = useState([]);
     const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
     const [reRender, setReRender] = useState(0);
-    const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+    // const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
     const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");
@@ -512,7 +513,8 @@ const SelectSmartListCountryUsers = (props) => {
             ).value;
 
             const contact_type_edit =
-                localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+            &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
                     : "";
@@ -818,7 +820,8 @@ const SelectSmartListCountryUsers = (props) => {
                     "field_index" + data.profile_user_id
                 ).value;
                 const contact_type_edit =
-                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+                    (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+                    &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                         ? document.getElementById(
                             "field_contact_type" + data.profile_user_id
                         ).value
@@ -1336,8 +1339,9 @@ const SelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                             <td>
                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                {localStorage.getItem("user_id") ==
+                                                                {(localStorage.getItem("user_id") ==
                                                                     "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                     ? rr?.irt
                                                                         ? "Yes"
                                                                         : "No"
@@ -1345,8 +1349,10 @@ const SelectSmartListCountryUsers = (props) => {
                                                                         ? rr.ibu
                                                                         : "N/A"}
                                                             </td>
-                                                            {localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                            {(localStorage.getItem("user_id") ==
+                                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                ? (
                                                                 <td>
                                                                     {rr?.user_type != 0 ? rr.user_type : "N/A"}
                                                                 </td>
@@ -1570,8 +1576,10 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                     }
                                                                                 </td>
                                                                                 <td>
-                                                                                    {localStorage.getItem("user_id") ==
-                                                                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                                    {(localStorage.getItem("user_id") ==
+                                                                                        "56Ek4feL/1A8mZgIKQWEqg==" 
+                                                                                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                        ? (
                                                                                         <span>
                                                                                             {readers.user_type != 0
                                                                                                 ? readers?.user_type
@@ -1673,8 +1681,10 @@ const SelectSmartListCountryUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         First name{" "}
-                                                                        {localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                                                        {(localStorage.getItem("user_id") ==
+                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
+                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                            && (
                                                                                 <span>*</span>
                                                                             )}{" "}
                                                                     </label>
@@ -1703,8 +1713,10 @@ const SelectSmartListCountryUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         Last name{" "}
-                                                                        {localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                                                        {(localStorage.getItem("user_id") ==
+                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
+                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                            && (
                                                                                 <span>*</span>
                                                                             )}{" "}
                                                                     </label>

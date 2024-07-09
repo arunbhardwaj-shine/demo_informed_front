@@ -207,7 +207,7 @@ const SelectHCP = (props) => {
   };
 
   useEffect(() => {
-    if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+    if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
       checkMandatoryContent();
     }
   },[]);
@@ -363,7 +363,7 @@ const SelectHCP = (props) => {
                         </div>
 
                         <p>
-                          {localStorage.getItem("user_id") == userId
+                          {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                             ? "Group of Users"
                             : "Group of HCPs"}{" "}
                         </p>
@@ -390,7 +390,7 @@ const SelectHCP = (props) => {
                           />
                         </div>
                         <p>
-                          {localStorage.getItem("user_id") == userId
+                          {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                             ? "Single User"
                             : "Single HCP"}{" "}
                         </p>
