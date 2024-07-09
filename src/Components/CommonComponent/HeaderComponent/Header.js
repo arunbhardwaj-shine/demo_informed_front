@@ -311,6 +311,7 @@ const Header = () => {
                       window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
                       window.location.pathname == "/LEX-210-analytics" ||
+                      window.location.pathname == "/trial-analytics" ||
                       window.location.pathname == "/feedback" ||
                       window.location.pathname == "/content-analytics" ||  window.location.pathname == "/survey/survey-data" 
                       ? "nav-item active active-main"
@@ -336,10 +337,12 @@ const Header = () => {
                           : localStorage.getItem("user_id") ==
                             "iSnEsKu5gB/DRlycxB6G4g=="
                             ? "/octalatch-totalhcp"
-                            : (localStorage.getItem("user_id") ==
+                            : localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
-                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                               ? "/LEX-210-analytics"
+                              :
+                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" 
+                              ? "/trial-analytics"
                               : "/content-analytics"
                     }
                     

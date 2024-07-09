@@ -308,6 +308,11 @@ const Routing = () => {
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
         />
+
+        <Route
+          path="/trial-analytics"
+          element={<LoginLayout component={RDAnalytics} />}
+        />
         <Route
           path="/user-listing"
           element={<LoginLayout component={RDListing} />}
