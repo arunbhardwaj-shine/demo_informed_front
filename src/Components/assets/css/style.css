@@ -4829,7 +4829,9 @@ form#add_hcp_form .row:not(:first-child) {
 .dropdown-menu.filter-options .card-header .accordion-button:after {
   display: none;
 }
-
+.dropdown-menu.filter-options .accordion .card .card-header button{
+  border-radius: 30px;
+}
 .dropdown-menu.filter-options .accordion .card .collapse,
 .dropdown-menu.filter-options .accordion .card .collapsing {
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -4849,7 +4851,7 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 0;
   overflow-y: auto;
   max-height: 240px;
-  min-height: 20px;
+  min-height: 50px;
 }
 
 .dropdown-menu.filter-options .accordion .card ul li,
