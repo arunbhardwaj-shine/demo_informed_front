@@ -391,7 +391,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
