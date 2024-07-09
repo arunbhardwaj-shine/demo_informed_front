@@ -893,7 +893,7 @@ const MarketingReadersList = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
