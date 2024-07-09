@@ -1881,11 +1881,15 @@ const RDAnalytics = () => {
                                         <img
                                           src={path_image + "certificate.png"}
                                           alt="Certificate"
+
+
                                           onClick={(event) =>
+                                          {  if(createdBy=="sNl1hra39QmFk9HwvXETJA==") return
+
                                             downloadCertificate(
                                               item?.certificate_link,
                                               event
-                                            )
+                                            )}
                                           }
                                         />
                                       </div>
@@ -2098,10 +2102,12 @@ const RDAnalytics = () => {
                                                                   onClick={(
                                                                     event
                                                                   ) =>
+                                                                    {
+                                                                      if(createdBy=="sNl1hra39QmFk9HwvXETJA==") return
                                                                     downloadCertificate(
                                                                       item?.pdf_link,
                                                                       event
-                                                                    )
+                                                                    )}
                                                                   }
                                                                 >
                                                                   <svg

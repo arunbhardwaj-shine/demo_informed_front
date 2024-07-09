@@ -449,8 +449,7 @@ const NewReadersReview = () => {
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
-      console.log("Response from CRM:", res);
-      console.log("payload from CRM:",payload );
+      
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
