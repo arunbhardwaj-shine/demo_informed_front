@@ -772,6 +772,70 @@
     }
    
     }
-    }
+    },
+
+    { 
+        "templateId": 13,
+        "templateName": "Default Template",
+        
+       "fieldData":{ 
+        "logoImageUrl":{
+            "title": "Logo",
+            "type": "file",
+            "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/TxjFvYLpSJmsH1KWjSgtnkILQS2BUkoYBnaUpzy9.png"
+        },
+        "textColor": {
+            "title": "Text Color",
+            "type": "color",
+            "value": "#233c7a"  
+        },
+        "headerBackgroundColor": {
+            "title": "Header Background",
+            "type": "color",
+            "value": "#dbecea"  
+        },
+        "heading": {
+            "title": "Header Text",
+            "type": "text",
+            "value": "Write your question here!"
+        },
+        "nameLabel": {
+            "title": "Name Label",
+            "type": "text",
+            "value": "Name"
+        },
+        "namePlaceholder": {
+            "title": "Name Placeholder",
+            "type": "text",
+            "value": "Write your name"
+        },
+        "questionLabel": {
+            "title": "Question Label",
+            "type": "text",
+            "value": "Your question"
+        },
+        "questionPlaceholder": {
+            "title": "Question Placeholder",
+            "type": "text",
+            "value": "Write your question"
+        },
+        "buttonText": {
+            "title": "Button Text",
+            "type": "text",
+            "value": "SEND"
+        },
+        "buttonColor": {
+            "title": "Button Color",
+            "type": "color",
+            "value": "#64b8b0"
+        },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "text",
+            "value": "Preparation date: xx xxx 2024"
+        }
+        
+        }
+        }
 
     ]
