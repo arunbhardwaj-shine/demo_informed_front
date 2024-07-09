@@ -665,7 +665,7 @@ const getExistingVideos=async ()=>{
           },
         });
         loader("hide");
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -1428,7 +1428,7 @@ const getExistingVideos=async ()=>{
               ) : null}
             </div>
 
-            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
               <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change flex-column">
                 <div className="form-group justify-content-end">
                   <label htmlFor="">Topics</label>

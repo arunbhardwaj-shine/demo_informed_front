@@ -54,7 +54,7 @@ export const createContent = (data, fileCheck, groupId = 2, retailer = 0) => {
     data.pdfChapter?.forEach((item, index) => {
       if (!item.uploadFile) {
         if (!error?.pdfChapter?.[index]) {
-          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") {
+          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
             error.pdfChapter = {
               ...error.pdfChapter,
               [index]: "Chapter is required",
