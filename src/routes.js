@@ -576,8 +576,8 @@ const Routing = () => {
           path="/spc-create"
           element={<LoginLayout component={SpcCreate} />}
         />
-        {localStorage.getItem("user_id") ==
-          "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+        {(localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? null : (
           <Route
             path="/products"
             element={<LoginLayout component={Products} />}

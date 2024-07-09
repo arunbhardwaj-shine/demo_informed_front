@@ -344,7 +344,7 @@ const ContentAnalytics = () => {
           <Row>
             {localStorage.getItem("group_id") == 2 ||
             (localStorage.getItem("group_id") == 3 &&
-              localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") ? (
+              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")) ? (
               ""
             ) : (
               <div className="top-header content_analytic">

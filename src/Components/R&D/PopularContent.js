@@ -8,7 +8,7 @@ import HighchartsReact from "highcharts-react-official";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const PopularContent = ({ mostPopularContentFn, topContentTableFn }) => {
+const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) => {
   const [pieData, setPieData] = useState({});
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
     useState([]);
@@ -97,7 +97,7 @@ const PopularContent = ({ mostPopularContentFn, topContentTableFn }) => {
 
   const getMostPopularData = async () => {
     try {
-      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT);
+      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT,{created_by:createdBy});
       const data = result?.data?.data;
 
       // setMostPopularContentData(data.pdf_data);

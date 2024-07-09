@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { getData, postData } from "../../axios/apiInstanceHelper";
+import { getDataRd, postData } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const SiteCompletion = ({ siteCompletionfn }) => {
+const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [sortSite, setSortSite] = useState(false);
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
@@ -77,7 +77,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   const initialFun = async () => {
     try {
-      const result = await getData(ENDPOINT.SITEREGISTER);
+      const result = await getDataRd(`${ENDPOINT.SITEREGISTER}`);
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
 
@@ -115,7 +115,7 @@ const SiteCompletion = ({ siteCompletionfn }) => {
 
   const handleCheckboxClick = async (sort) => {
     try {
-      const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort });
+      const result = await postData(ENDPOINT.SITEREGISTERSORT, { sort: sort,created_by:createdBy });
 
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);

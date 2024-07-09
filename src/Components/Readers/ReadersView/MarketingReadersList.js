@@ -274,7 +274,7 @@ const MarketingReadersList = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -851,7 +851,7 @@ const MarketingReadersList = () => {
       }
     } else if (
       key == "change-tab" &&
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1030,8 +1030,10 @@ const MarketingReadersList = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {(localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg=="
+                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  ? (
                     <h4>
                       Total USER |{" "}
                       <span>{totalCountFlag ? totalCount : 0}</span>

@@ -203,11 +203,13 @@ const CreateEmail = (props) => {
       country: "",
       countryIndex: "",
       role:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
       optIRT:
-        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? "yes"
           : "",
       institutionType: "",
@@ -287,7 +289,7 @@ const CreateEmail = (props) => {
 
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -315,7 +317,7 @@ const CreateEmail = (props) => {
                 label: label,
               });
             });
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -367,7 +369,7 @@ const CreateEmail = (props) => {
     let siteContent = 0;
     if (
       pdf_id == 14 &&
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
     ) {
       siteContent = 1;
       content_included = 0;
@@ -391,7 +393,9 @@ const CreateEmail = (props) => {
 
 
         setTimeout(function () {
-          if (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
+          if ((localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
+          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+          && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
             let div_img = '';
             if (pdf_id == '3968') {
               div_img = document.querySelector('[data-id="template_dyn_data_id554"]');
@@ -529,7 +533,7 @@ const CreateEmail = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         if (
           data?.email == "" ||
           data?.lastname == "" ||
@@ -568,18 +572,20 @@ const CreateEmail = (props) => {
           country: "",
           countryIndex: "",
           optIRT:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? "yes"
               : "",
           role:
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
           institutionType: "",
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -1356,11 +1362,13 @@ const CreateEmail = (props) => {
         country: "",
         countryIndex: "",
         role:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
         optIRT:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
         institutionType: "",
@@ -1508,7 +1516,7 @@ const CreateEmail = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1571,7 +1579,7 @@ const CreateEmail = (props) => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -1611,11 +1619,12 @@ const CreateEmail = (props) => {
           ((data?.last_name == "" ||
             data?.first_name == "" ||
             data?.country == "") &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="))
         ) {
           if (
             data.first_name == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ) {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1625,7 +1634,8 @@ const CreateEmail = (props) => {
           }
           if (
             data.last_name == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ) {
             setValidationError({
               newHcpLastName: "Please enter the last name",
@@ -1652,7 +1662,7 @@ const CreateEmail = (props) => {
 
           if (
             data.country == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ) {
             setValidationError({
               newHcpCountry: "Please select the country",
@@ -1661,7 +1671,7 @@ const CreateEmail = (props) => {
             return;
           }
 
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
             if (data.institution_type == "") {
               setValidationError({
                 newHcpInstitution: "Please enter the institution ",
@@ -2300,7 +2310,7 @@ const CreateEmail = (props) => {
                      {!irtRoleObj?.IRTFlag && (
                         <li className="">
                           <a href="">
-                            {localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}
+                            {(localStorage.getItem("user_id") == userId ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? "Select Users" : "Select HCPs"}
                           </a>
                         </li>
                       )}
@@ -3053,8 +3063,10 @@ const CreateEmail = (props) => {
                                 Email | <span>{data.email}</span>
                               </p>
 
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") ===
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <p className="send-hcp-box-title">
                                   {" "}
                                   Role |{" "}
@@ -3414,13 +3426,15 @@ const CreateEmail = (props) => {
                     country: "",
                     countryIndex: "",
                     role:
-                      localStorage.getItem("user_id") ==
+                      (localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                         ? irtRole?.[0]?.value
                         : "",
                     optIRT:
-                      localStorage.getItem("user_id") ==
+                      (localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                         ? "yes"
                         : "",
                     institutionType: "",
@@ -3453,8 +3467,10 @@ const CreateEmail = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                      && (
                                         <span>*</span>
                                       )}{" "}
                                   </label>
@@ -3483,8 +3499,10 @@ const CreateEmail = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                      && (
                                         <span>*</span>
                                       )}
                                   </label>
@@ -3538,8 +3556,10 @@ const CreateEmail = (props) => {
                                 </div>
                               </div>
 
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") ===
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3726,7 +3746,7 @@ const CreateEmail = (props) => {
                                   <label htmlFor="">
                                     Country{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") && (
                                         <span>*</span>
                                       )}
@@ -3870,8 +3890,10 @@ const CreateEmail = (props) => {
                                   )}
                                 </div>
                               </div>*/}
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorage.getItem("user_id") ===
+                                "56Ek4feL/1A8mZgIKQWEqg==" 
+                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3950,7 +3972,8 @@ const CreateEmail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId
+                                    {(localStorage.getItem("user_id") == userId
+                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>
@@ -4225,8 +4248,10 @@ const CreateEmail = (props) => {
                         </button>
                       </th>
 
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {(localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" 
+                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        ? (
                         <><th scope="col">Site number</th>
                           <th scope="col">IRT mandatory training</th>
                           <th scope="col">IRT role</th>
@@ -4281,11 +4306,12 @@ const CreateEmail = (props) => {
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                              {(localStorage.getItem("user_id") ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
-                                {localStorage.getItem("user_id") ==
+                                {(localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
@@ -4295,8 +4321,9 @@ const CreateEmail = (props) => {
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") ==
+                                {(localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
+                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                   ? rr?.user_type != 0
                                     ? rr?.user_type
                                     : "N/A"

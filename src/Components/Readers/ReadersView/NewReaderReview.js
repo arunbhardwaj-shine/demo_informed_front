@@ -187,7 +187,7 @@ const NewReadersReview = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
       // setAppliedFilter({'IRT mandatory training': ["Yes"]});
@@ -291,7 +291,7 @@ const NewReadersReview = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -428,7 +428,7 @@ const NewReadersReview = () => {
           status: ["Registered"],
         };
       } 
-      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
         payload ={
           status: ["Registered"],
           "contact Type": ["HCP"],
@@ -497,7 +497,7 @@ const NewReadersReview = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -699,7 +699,7 @@ const NewReadersReview = () => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       let consent1 = {
         index: i,
         value: "",
@@ -1313,7 +1313,7 @@ const NewReadersReview = () => {
       let binded = "";
       let institute = "";
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1640,7 +1640,7 @@ const NewReadersReview = () => {
       }
     } else if (
       key == "change-tab" &&
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1781,8 +1781,10 @@ const NewReadersReview = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {(localStorage.getItem("user_id") ==
+                  "56Ek4feL/1A8mZgIKQWEqg==" 
+                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  ? (
                     <h4>
                       Total USER |{" "}
                       <span>{totalCountFlag ? totalCount : 0}</span>
@@ -1793,6 +1795,51 @@ const NewReadersReview = () => {
                       Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                     </h4>
                   )}
+                     { (
+                    <div className="refresh-button">
+                      <button
+                        className={refreshFlag ? "refresh-rotate" : "refresh"}
+                        onClick={async () => {
+                          setRefreshFlag(true);
+
+                          let createdBy=localStorage.getItem("user_id")
+                          let obj = {
+                            "sync":1,
+                            created_by:createdBy
+                          };
+                          const response = await postData("https://onesource.informed.pro/api/training-completion-cron",obj);
+                          const hadData = response?.data?.data || [];
+                          setRefreshFlag(false);
+
+                        }}
+                      >
+                        <svg
+                          fill="#fff"
+                          height="800px"
+                          width="800px"
+                          version="1.1"
+                          id="Layer_1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          // xmlns:xlink="http://www.w3.org/1999/xlink"
+                          viewBox="0 0 383.748 383.748"
+                        // xml:space="preserve"
+                        >
+                          <g>
+                            <path
+                              d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+		C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+		L2.081,34.641v113.365h113.91L62.772,95.042z"
+                            />
+                            <path
+                              d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+		c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+		c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"
+                            />
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+                  ) }
 
                 </div>
                 <div className="top-right-action library_content_view">
@@ -2235,7 +2282,9 @@ const NewReadersReview = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.firstName} ${data?.lastName} ` :data?.firstName ? data?.firstName : data?.name}
+                            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            ?`${data?.firstName} ${data?.lastName} ` :data?.firstName ? data?.firstName : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2267,7 +2316,9 @@ const NewReadersReview = () => {
                                     ""
                                   )}
 
-                                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("group_id") == 3 ? 
+                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" 
+                                  &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                                  && localStorage.getItem("group_id") == 3 ? 
                                     (
                                       <>
                                       
@@ -2314,8 +2365,10 @@ const NewReadersReview = () => {
 
                                   
 
-                                  {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" &&
+                                  {(localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" 
+                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
                                       <li>
@@ -2807,8 +2860,10 @@ const NewReadersReview = () => {
                               <Tab eventKey="change-tab" title="Change">
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                      && change ? (
                                       <>
                                         {/*console.log(
                                         types.findIndex(

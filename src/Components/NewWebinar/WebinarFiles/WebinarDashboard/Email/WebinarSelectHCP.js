@@ -22,7 +22,7 @@ const WebinarSelectHCP = (props) => {
   ? switch_account_detail?.user_id
   : localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
   const { eventIdContext, handleEventId } = useSidebar()
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(

@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { getData, postData } from "../../axios/apiInstanceHelper";
+import { getData, postData,getDataRd } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { loader } from "../../loader";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const IndividualCompletion = ({ individualCompletionfn }) => {
+const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
   const [pieData, setPieData] = useState({});
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -89,7 +89,7 @@ const entering = (e) => {
 
   const getPieChartData = async () => {
     try {
-      const result = await getData(ENDPOINT.IRT_COUNT_GRAPH);
+      const result = await getDataRd(`${ENDPOINT.IRT_COUNT_GRAPH}`);
       setPieData({
         completed: result?.data?.data?.completed,
         notcompleted: result?.data?.data?.notcompleted,

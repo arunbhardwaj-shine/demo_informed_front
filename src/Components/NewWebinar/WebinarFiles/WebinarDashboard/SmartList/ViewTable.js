@@ -114,7 +114,7 @@ const ViewTable = (props) => {
   }, [props.data?.length]);
 
   useEffect(() => {
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -150,7 +150,7 @@ const ViewTable = (props) => {
 
             let arr = [];
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -189,7 +189,7 @@ const ViewTable = (props) => {
               });
             });
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -274,7 +274,7 @@ const ViewTable = (props) => {
             }
 
             setCountryall(arr);
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
@@ -342,11 +342,11 @@ const ViewTable = (props) => {
       country: "",
       countryIndex: "",
       userType:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
       userTypeIndex:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
       subUserType: "",
       siteNumber: "",
       subUserTypeIndex: "",
@@ -362,11 +362,11 @@ const ViewTable = (props) => {
       siteName: "",
       siteNameIndex: "",
       siteIrt:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
           : "",
       siteIrtIndex:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
       // siteIrtAll
@@ -414,19 +414,19 @@ const ViewTable = (props) => {
         country: "",
         countryIndex: "",
         userType:
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
         userTypeIndex:
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? 0
             : "",
         siteIrt:
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
             : "",
         siteIrtIndex:
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
         siteDetails: [
@@ -669,7 +669,7 @@ const ViewTable = (props) => {
           data.email == "" ||
           data.institute == "" ||
           typeof data.institute == "undefined") &&
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
       ) {
         return "false";
       } else if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
@@ -697,11 +697,11 @@ const ViewTable = (props) => {
           country: "",
           countryIndex: "",
           userType:
-            localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
           userTypeIndex:
-            localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? 0
               : "",
           subUserType: "",
@@ -719,11 +719,11 @@ const ViewTable = (props) => {
           sitePostCodeIndex: "",
           siteCityIndex: "",
           siteIrt:
-            localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
               : "",
           siteIrtIndex:
-            localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
         },
@@ -781,7 +781,7 @@ const ViewTable = (props) => {
           "field_index" + data.profile_user_id
         ).value;
         const contact_type_edit =
-          localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="&&localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
             ? document.getElementById(
               "field_contact_type" + data.profile_user_id
             ).value
@@ -984,7 +984,7 @@ const ViewTable = (props) => {
         "field_country" + profile_user_id
       ).value;
       const contact_type_edit =
-        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg=="&&localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
           ? document.getElementById("field_contact_type" + profile_user_id)
             .value
           : "";
@@ -1282,7 +1282,7 @@ const ViewTable = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1487,12 +1487,14 @@ const ViewTable = (props) => {
       const status = body.data.map((data) => {
         if (
           data.first_name == "" &&
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
         ) {
           return "Please enter the First name";
         } else if (
           data.last_name == "" &&
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
         ) {
           return "Please enter the Last name";
         } else if (data.email == "") {
@@ -1500,12 +1502,12 @@ const ViewTable = (props) => {
           return "Please enter the email atleast";
         } else if (
           data.institution_type == "" &&
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
         ) {
           return "Please select Institution";
         } else if (
           data.country == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="||
             localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           return "Please select country";
@@ -1940,8 +1942,8 @@ const ViewTable = (props) => {
                     </span>
                   </th>
 
-                  {localStorageUserId ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {(localStorageUserId ==
+                    "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
                     <>
                       <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('site_number')}>
@@ -2125,12 +2127,13 @@ const ViewTable = (props) => {
                       )}
                     </td>
 
-                    {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" && (<><td>{item?.site_number}</td></>)}
+                    {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")&& (<><td>{item?.site_number}</td></>)}
 
                     <td>
-                      {localStorageUserId ==
+                      {(localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? item?.irt
                           ? "Yes"
                           : "No"
@@ -2139,8 +2142,10 @@ const ViewTable = (props) => {
                           : "N/A"}
                     </td>
                     <td>
-                      {localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {(localStorageUserId ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                        ? (
                         <span>
                           {item.user_type != 0 ? item.user_type : "N/A"}
                         </span>
@@ -2246,12 +2251,15 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" && (<><td id="field_site_number">{item?.site_number}</td></>)}
+                    {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                      ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                      && (<><td id="field_site_number">{item?.site_number}</td></>)}
                     <td id="field_business_unit">
                       {/*item.ibu*/}
-                      {localStorageUserId ==
+                      {(localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? item?.irt
                           ? "Yes"
                           : "No"
@@ -2260,8 +2268,10 @@ const ViewTable = (props) => {
                           : "N/A"}
                     </td>
                     <td id="field_interest">
-                      {localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      {(localStorageUserId ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                        ? (
                         <span>
                           {item.user_type != 0 ? item.user_type : "N/A"}
                         </span>
@@ -2401,7 +2411,7 @@ const ViewTable = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorageUserId == userId
+              {(localStorageUserId == userId||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                 ? "Add New User +"
                 : "Add New HCP"}
             </h5>
@@ -2416,25 +2426,29 @@ const ViewTable = (props) => {
                     contact_type: "",
                     country: "",
                     userType:
-                      localStorageUserId ==
+                      (localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? irtRole?.[0]?.value
                         : "",
                     userTypeIndex:
-                      localStorageUserId ==
+                     (localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? 0
                         : "",
                     countryIndex: "",
                     siteIrt:
-                      localStorageUserId ==
+                      (localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? siteIrtAll?.find((item) => item?.value == "Yes")
                           ?.value
                         : "",
                     siteIrtIndex:
-                      localStorageUserId ==
+                      (localStorageUserId ==
                         "56Ek4feL/1A8mZgIKQWEqg=="
+                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                         : "",
                   },
@@ -2464,8 +2478,10 @@ const ViewTable = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name{" "}
-                                    {localStorageUserId ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                    {(localStorageUserId ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                      && (
                                         <span>*</span>
                                       )}{" "}
                                   </label>
@@ -2483,8 +2499,10 @@ const ViewTable = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name{" "}
-                                    {localStorageUserId ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                    {(localStorageUserId ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                      && (
                                         <span>*</span>
                                       )}
                                   </label>
@@ -2525,8 +2543,10 @@ const ViewTable = (props) => {
                                 </div>
                               </div>
 
-                              {localStorageUserId !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorageUserId !=
+                                "56Ek4feL/1A8mZgIKQWEqg==" 
+                                ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Contact type</label>
@@ -2579,8 +2599,10 @@ const ViewTable = (props) => {
                                 </div>
                               ) : null}
 
-                              {localStorageUserId !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorageUserId !=
+                                "56Ek4feL/1A8mZgIKQWEqg==" 
+                                &&localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Country
@@ -2633,8 +2655,10 @@ const ViewTable = (props) => {
                                 </div>
                               ) : null}
 
-                              {localStorageUserId ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              {(localStorageUserId ==
+                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                ? (
                                 <>
                                   <hr />
                                   <div className="col-12 col-md-6">
@@ -2780,8 +2804,10 @@ const ViewTable = (props) => {
                                     <div className="form-group">
                                       <label for="">
                                         Country{" "}
-                                        {localStorageUserId ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        {(localStorageUserId ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" 
+                                          ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                          && (
                                             <span>*</span>
                                           )}
                                       </label>
@@ -3236,7 +3262,7 @@ const ViewTable = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {localStorageUserId == userId
+                                    {(localStorageUserId == userId||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>

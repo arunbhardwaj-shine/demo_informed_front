@@ -274,7 +274,9 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link" 
-                  to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/new-readers-reviews":"/readers-view"}
+                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    ?"/new-readers-reviews":"/readers-view"}
                   // to={"/readers-view"} 
                   >
                     CRM
@@ -334,8 +336,9 @@ const Header = () => {
                           : localStorage.getItem("user_id") ==
                             "iSnEsKu5gB/DRlycxB6G4g=="
                             ? "/octalatch-totalhcp"
-                            : localStorage.getItem("user_id") ==
+                            : (localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
+                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                               ? "/LEX-210-analytics"
                               : "/content-analytics"
                     }

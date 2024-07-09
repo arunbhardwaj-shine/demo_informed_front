@@ -517,7 +517,7 @@ const LibraryCreateUser = () => {
             }
           }
         } else {
-          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
+          if (localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
             if (
               userInputs?.docintelFormat == "video" ||
               userInputs?.docintelFormat == "Video"
@@ -1270,7 +1270,7 @@ const LibraryCreateUser = () => {
               ) : null}
             </div>
 
-            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (
+            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="  ? (
               <>
                 <div className="col-12 col-md-6 d-flex justify-content- align-items-start right-change flex-column">
                   <div className="form-group justify-content-end ">
@@ -1567,13 +1567,13 @@ const LibraryCreateUser = () => {
                     {(localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==") && userInputs?.allowVideo ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
                     ) : null}
                     {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                       <li className="">
                         <a href="">Edit Consent Option</a>
                       </li>
@@ -1740,7 +1740,7 @@ const LibraryCreateUser = () => {
                     {localStorage.getItem("user_id") !=
                       "iSnEsKu5gB/DRlycxB6G4g==" &&
                       localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                       <div className="form-group">
                         <label htmlFor="">Author</label>
                         <input
@@ -1921,7 +1921,7 @@ const LibraryCreateUser = () => {
                       <div className="form-group">
                         <label htmlFor="setasdraft4">
                           {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="
+                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                             ? "Irt mandatory training"
                             : "Mandatory"}
                         </label>
@@ -2167,7 +2167,7 @@ const LibraryCreateUser = () => {
                                   <div className="d-flex align-items-center justify-content-start w-100 mb-3">
                                     <label htmlFor="">
                                       {localStorage.getItem("user_id") !=
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
                                         ? "Chapter "
                                         : "File "}
                                       {i + 1} format
@@ -2229,7 +2229,7 @@ const LibraryCreateUser = () => {
                                 }
                                 <label htmlFor="">
                                   {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
                                     ? "Chapter "
                                     : "File "}
                                   {i + 1} title <span>*</span>
@@ -2439,7 +2439,7 @@ const LibraryCreateUser = () => {
                               <div className="ebook-format">
                                 <label htmlFor="">
                                   {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
                                     ? "Chapter "
                                     : "File "}{" "}
                                   title
@@ -2553,8 +2553,7 @@ const LibraryCreateUser = () => {
                     </div>
                   </Col>
 
-                  {localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {localStorage.getItem("user_id") !="56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                     <Col
                       md={6}
                       className="d-flex justify-content-end align-items-start right-change"
@@ -2583,7 +2582,7 @@ const LibraryCreateUser = () => {
                      && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==") ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
