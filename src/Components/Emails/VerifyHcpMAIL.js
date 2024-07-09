@@ -850,7 +850,7 @@ const VerifyHcpMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (
+                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">

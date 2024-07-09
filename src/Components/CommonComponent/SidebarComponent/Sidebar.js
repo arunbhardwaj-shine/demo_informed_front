@@ -438,8 +438,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?
+              {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==")?
               <li
                 className={
                   location.pathname == "/IRTRole"||

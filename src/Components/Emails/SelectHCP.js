@@ -397,7 +397,7 @@ const SelectHCP = (props) => {
                       </li>
 
                       {
-                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && isContentMandatory
+                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && isContentMandatory
                         ?
                         <li>
                           <div

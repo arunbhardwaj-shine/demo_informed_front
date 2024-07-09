@@ -1106,7 +1106,7 @@ const EmailList = (props) => {
                             </Accordion.Item>
                           )}
                         {
-                          localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?
+                          localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' ?
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
                                 Campaign
@@ -1513,7 +1513,7 @@ const EmailList = (props) => {
                                           <td>{data.smart_list_name}</td>
                                         </tr>
                                         {localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (<>
+                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
                                             <tr>
                                               <th>Site</th>
                                               {/* <td>
@@ -1566,7 +1566,7 @@ const EmailList = (props) => {
                                 </div>
                                 <div className="mail-stats">
                                   <ul>
-                                  {  isRND|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="  &&<li>
+                                  {  isRND  &&<li>
                                       <div
                                         className="mail-status irts"
                                         title="IRTs"
@@ -1950,15 +1950,19 @@ const EmailList = (props) => {
                             </a>
                           </td>
                         </tr>
-                        <tr>
-                          <th>IRTs </th>
-                          <td>
-                            {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
-                              ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
-                              : 'N/A'}
+                        {
+                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 
+                          <tr>
+                            <th>IRTs </th>
+                            <td>
+                              {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
+                                ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
+                                : 'N/A'}
 
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                          : null
+                        }
                       </tbody>
                     </table>
                   </div>
