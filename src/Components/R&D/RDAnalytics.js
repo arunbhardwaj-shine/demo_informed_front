@@ -8,6 +8,7 @@ import {
   Table,
   Tooltip,
 } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import { getData, postData,getDataRd } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
@@ -25,6 +26,7 @@ import { saveAs } from "file-saver";
 const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
   const [show, setShow] = useState();
+  const location=useLocation()
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [chartOptions, setChartOptions] = useState();
   const [rdSiteData, setRdSiteData] = useState();
@@ -1146,7 +1148,12 @@ const RDAnalytics = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <h2>LEX-210</h2>
+                <h2>
+                  {
+                    location.pathname == '/LEX-210-analytics' ? "LEX-210" : "Trial Analytics"
+                  }
+                  
+                </h2>
               </div>
               <Button onClick={allEngagement} title="Download Site Engagements" className="download">
                 <svg
