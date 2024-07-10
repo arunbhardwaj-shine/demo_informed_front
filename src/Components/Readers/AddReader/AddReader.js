@@ -700,8 +700,10 @@ const ReaderAdd = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
 
-    if (user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
+      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
     }
