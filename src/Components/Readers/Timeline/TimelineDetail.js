@@ -960,6 +960,91 @@ const TimelineDetail = (props) => {
                                 </div>
                               ): null}
 
+                              {details?.action == "Webinar New mail received" || details?.action == "Webinar New Mail received" ? (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head received">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "email-received.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Webinar Email Sent</h6> 
+                                        
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                        {
+                                              details?.title && details?.title == "Webinar sample"?"":<tr>
+                                              <th className="device-title">
+                                               Event Title
+                                              </th>
+                                             
+                                              <td className="device-name">
+                                                { details?.title === null ||
+                                                details?.title === ""
+                                                  ? "New mail received"
+                                                  : details?.title}
+                                              </td>
+                                            </tr>
+                                         }
+                                         
+                                          <tr>
+                                            <th className="device-title">
+                                              Subject
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.event_mail_subject != ""
+                                                ? 
+                                                details?.event_mail_subject
+                                                : "N/A"}
+                                            </td>
+                                          </tr>
+                                          {/* <tr>
+                                            <th className="device-title">
+                                              Device
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : details?.device_used}
+                                            </td>
+                                          </tr> */}
+                                              <tr>
+                                       
+
+                                            <th className="device-title">
+                                              Email Opened
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.event_mail_read == 1?"Yes":"No"}
+                                            </td>
+                                           </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              ): null}
+
                               {details?.action &&
                                 details.action.includes("shared") && (
                                   <div className="timeline-box">
