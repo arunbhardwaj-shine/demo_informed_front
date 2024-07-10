@@ -938,7 +938,11 @@ const ReadersListAdd = () => {
       // console.log(new_obj);
       await postData(ENDPOINT.INSERTBULKREADERS, new_obj);
       loader("hide");
-      navigate("/readers-view");
+      if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA=="){
+        navigate("/new-readers-reviews");
+      }else{
+        navigate("/readers-view");
+      }
     } catch (err) {
       console.log(err);
       loader("hide");
