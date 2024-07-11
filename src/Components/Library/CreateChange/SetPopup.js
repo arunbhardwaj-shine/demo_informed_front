@@ -995,7 +995,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                   <Row>
                     {templateClickedd && isOnline == false ? (
                       <Editor
-                        apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                        apiKey="emle9g4bqzbv09m9b50osd3nam70fsb5p1xhrhlr06bdl93o"
                         onInit={(evt, editor) => (editorRef.current = editor)}
                         initialValue={template}
                         init={{
