@@ -705,11 +705,12 @@ const ReaderEdit = () => {
             className={
               error?.institution
                 ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup"
+                : "dropdown-basic-button split-button-dropup disabled"
             }
             isClearable
-            onChange={(e) => handleChange(e?.value, "institution")}
-          />
+            // onChange={(e) => handleChange(e?.value, "institution")}
+            isDisabled
+                      />
 
           {error?.institution ? (
             <div className="login-validation">{error?.institution}</div>
@@ -746,10 +747,12 @@ const ReaderEdit = () => {
             className={
               error?.irt
                 ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup"
+                : "dropdown-basic-button split-button-dropup disabled"
             }
             isClearable
-            onChange={(e) => handleChange(e?.value, "irt")}
+            // onChange={(e) => handleChange(e?.value, "irt")}
+            isDisabled
+
           />
           {error?.irt ? (
             <div className="login-validation">{error?.irt}</div>
