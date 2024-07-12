@@ -127,10 +127,10 @@ const ReaderEdit = () => {
     institution: "",
   });
   const institutionData = [
-    {
-      label: "Study site",
-      value: "Study site",
-    },
+    // {
+    //   label: "Study site",
+    //   value: "Study site",
+    // },
     {
       label: "Premier Research",
       value: "Premier Research",
@@ -179,7 +179,7 @@ const ReaderEdit = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -445,8 +445,8 @@ const ReaderEdit = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-  ) {
+      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    ) {
       axiosFun();
     }
     initalFun();
@@ -600,7 +600,7 @@ const ReaderEdit = () => {
           ? e?.target?.files
             ? e?.target?.files
             : e
-          : e?.target?.value?e?.target?.value:"",
+          : e?.target?.value ? e?.target?.value : "",
       });
     }
   };
@@ -639,11 +639,10 @@ const ReaderEdit = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${
-            userInputs?.countryCode?.label
+          primary_phone: `${userInputs?.countryCode?.label
               ? userInputs?.countryCode?.label
               : userInputs?.countryCode
-          }-informed-${userInputs?.primary_phone}`,
+            }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
           province: userInputs?.province?.trim(),
@@ -671,7 +670,6 @@ const ReaderEdit = () => {
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-        console.log(state);
         navigate("/reader-review", {
           state: {
             data: data,
@@ -690,7 +688,7 @@ const ReaderEdit = () => {
   const RDAccount = () => {
     return (
       <>
-        <Form.Group className="form-group">
+        {userInputs?.irt != 1 ? <><Form.Group className="form-group">
           <Form.Label htmlFor="">
             Institution <span>*</span>
           </Form.Label>
@@ -705,7 +703,7 @@ const ReaderEdit = () => {
             className={
               error?.institution
                 ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup"
+                : "dropdown-basic-button split-button-dropup "
             }
             isClearable
             onChange={(e) => handleChange(e?.value, "institution")}
@@ -718,55 +716,59 @@ const ReaderEdit = () => {
           )}
         </Form.Group>
 
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-              ? "IRT mandatory training"
-              : "IRT"}
-          </Form.Label>
-          <Select
-            options={userDetail?.irt}
-            defaultValue={{
-              label: userInputs?.irt,
-              value: userInputs?.irt,
-            }}
-            value={
-              userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
-              -1
-                ? ""
-                : userDetail?.irt[
-                    userDetail?.irt.findIndex(
-                      (el) => el.value == userInputs?.irt
-                    )
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                ? "IRT mandatory training"
+                : "IRT"}
+            </Form.Label>
+            <Select
+              options={userDetail?.irt}
+              defaultValue={{
+                label: userInputs?.irt,
+                value: userInputs?.irt,
+              }}
+              value={
+                userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
+                  -1
+                  ? ""
+                  : userDetail?.irt[
+                  userDetail?.irt.findIndex(
+                    (el) => el.value == userInputs?.irt
+                  )
                   ]
-            }
-            placeholder="Select IRT"
-            name="irt"
-            className={
-              error?.irt
-                ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup"
-            }
-            isClearable
-            onChange={(e) => handleChange(e?.value, "irt")}
-          />
-          {error?.irt ? (
-            <div className="login-validation">{error?.irt}</div>
-          ) : (
-            ""
-          )}
-        </Form.Group>
+              }
+              placeholder="Select IRT"
+              name="irt"
+              className={
+                error?.irt
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup disabled"
+              }
+              isClearable
+              // onChange={(e) => handleChange(e?.value, "irt")}
+              isDisabled
+
+            />
+            {error?.irt ? (
+              <div className="login-validation">{error?.irt}</div>
+            ) : (
+              ""
+            )}
+          </Form.Group> 
+          
+          </>:null}
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT role"
               : "Role"}{" "}
           </Form.Label>
 
           {userInputs?.irt &&
-          (userInputs.irt == 1 || userInputs.irt == "Yes") ? (
+            (userInputs.irt == 1 || userInputs.irt == "Yes") ? (
             <Select
               options={userDetail?.userIrtRoles}
               placeholder="Select role"
@@ -777,10 +779,10 @@ const ReaderEdit = () => {
                 ) == -1
                   ? userDetail?.userIrtRoles[0]
                   : userDetail?.userIrtRoles[
-                      userDetail?.userIrtRoles.findIndex(
-                        (el) => el.value == userInputs?.role
-                      )
-                    ]
+                  userDetail?.userIrtRoles.findIndex(
+                    (el) => el.value == userInputs?.role
+                  )
+                  ]
               }
               className="dropdown-basic-button split-button-dropup"
               isClearable
@@ -795,10 +797,10 @@ const ReaderEdit = () => {
                 ) == -1
                   ? userDetail?.role[4]
                   : userDetail?.role[
-                      userDetail?.role.findIndex(
-                        (el) => el.value == userInputs?.role
-                      )
-                    ]
+                  userDetail?.role.findIndex(
+                    (el) => el.value == userInputs?.role
+                  )
+                  ]
               }
               placeholder="Select role"
               name="role"
@@ -811,7 +813,7 @@ const ReaderEdit = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "Study role"
               : "Sub Role"}{" "}
           </Form.Label>
@@ -863,7 +865,7 @@ const ReaderEdit = () => {
             Country <span>*</span>
           </Form.Label>
           {userInputs?.irt &&
-          (userInputs?.irt == 1 || userInputs?.irt == "Yes") ? (
+            (userInputs?.irt == 1 || userInputs?.irt == "Yes") ? (
             <>
               <Select
                 options={irtCountry}
@@ -873,10 +875,10 @@ const ReaderEdit = () => {
                   ) == -1
                     ? ""
                     : irtCountry[
-                        irtCountry?.findIndex(
-                          (e) => e.value == userInputs?.country
-                        )
-                      ]
+                    irtCountry?.findIndex(
+                      (e) => e.value == userInputs?.country
+                    )
+                    ]
                 }
                 // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
                 placeholder="Select country"
@@ -895,13 +897,13 @@ const ReaderEdit = () => {
               options={countryAll}
               value={
                 countryAll?.findIndex((e) => e.value == userInputs?.country) ==
-                -1
+                  -1
                   ? ""
                   : countryAll[
-                      countryAll?.findIndex(
-                        (e) => e.value == userInputs?.country
-                      )
-                    ]
+                  countryAll?.findIndex(
+                    (e) => e.value == userInputs?.country
+                  )
+                  ]
               }
               // defaultValue={{label:userInputs?.country,value:userInputs?.country}}
               placeholder="Select country"
@@ -1044,8 +1046,8 @@ const ReaderEdit = () => {
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">
                             Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                            ?<span>*</span>:null}
+                              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                              ? <span>*</span> : null}
                           </Form.Label>
                           <input
                             type="text"
@@ -1059,7 +1061,7 @@ const ReaderEdit = () => {
                             placeholder="Last name"
                             onChange={(e) => handleChange(e)}
                           />
-                           {error?.lastName ? (
+                          {error?.lastName ? (
                             <div className="login-validation">
                               {error?.lastName}
                             </div>
@@ -1083,7 +1085,7 @@ const ReaderEdit = () => {
                             name="email"
                             ref={emailRef}
                             defaultValue={userInputs?.email}
-                            // onInput={(e) => handleChange(e)}
+                          // onInput={(e) => handleChange(e)}
                           />
                           {error?.email ? (
                             <div className="login-validation">
@@ -1099,8 +1101,8 @@ const ReaderEdit = () => {
                     )}
 
                     {groupId == 2 ||
-                    (groupId == 3 && flag == 0) ||
-                    (groupId == 3 && flag == 0 && pharmaData == 1) ? (
+                      (groupId == 3 && flag == 0) ||
+                      (groupId == 3 && flag == 0 && pharmaData == 1) ? (
                       <>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Alternative email </Form.Label>
@@ -1239,11 +1241,11 @@ const ReaderEdit = () => {
                                   ) == -1
                                     ? ""
                                     : userDetail?.siteNumber[
-                                        userDetail?.siteNumber.findIndex(
-                                          (el) =>
-                                            el.value == userInputs?.siteNumber
-                                        )
-                                      ]
+                                    userDetail?.siteNumber.findIndex(
+                                      (el) =>
+                                        el.value == userInputs?.siteNumber
+                                    )
+                                    ]
                                 }
                                 placeholder="Select Site Number"
                                 name="siteNumber"
@@ -1274,11 +1276,11 @@ const ReaderEdit = () => {
                                   ) == -1
                                     ? ""
                                     : userDetail?.siteName[
-                                        userDetail?.siteName.findIndex(
-                                          (el) =>
-                                            el.value == userInputs?.siteName
-                                        )
-                                      ]
+                                    userDetail?.siteName.findIndex(
+                                      (el) =>
+                                        el.value == userInputs?.siteName
+                                    )
+                                    ]
                                 }
                                 placeholder="Select Site Name "
                                 name="siteName"
@@ -1301,7 +1303,7 @@ const ReaderEdit = () => {
                     {userInputs ? (
                       <>
                         {groupId == 2 ||
-                        (groupId == 3 && flag == 0 && pharmaData == 0) ? (
+                          (groupId == 3 && flag == 0 && pharmaData == 0) ? (
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Province</Form.Label>
                             <Select
@@ -1348,14 +1350,14 @@ const ReaderEdit = () => {
                                 value={
                                   userInputs?.hospital
                                     ? {
-                                        label: userInputs?.hospital,
-                                        value: userInputs?.hospital,
-                                      }
+                                      label: userInputs?.hospital,
+                                      value: userInputs?.hospital,
+                                    }
                                     : Object.keys(
-                                        userInputs?.hospitalData || {}
-                                      )?.length
-                                    ? userInputs.hospitalData
-                                    : ""
+                                      userInputs?.hospitalData || {}
+                                    )?.length
+                                      ? userInputs.hospitalData
+                                      : ""
                                 }
                                 className="dropdown-basic-button split-button-dropup"
                                 isClearable
@@ -1416,7 +1418,7 @@ const ReaderEdit = () => {
                             </Form.Group>
 
                             {groupId == 2 ||
-                            (groupId == 3 && flag == 0 && pharmaData == 0) ? (
+                              (groupId == 3 && flag == 0 && pharmaData == 0) ? (
                               <>
                                 <Form.Group className="form-group margin-added">
                                   <Form.Label htmlFor="">Discipline</Form.Label>
@@ -1462,10 +1464,10 @@ const ReaderEdit = () => {
                                   defaultValue={
                                     userDetail?.ibu?.length
                                       ? userDetail?.ibu[
-                                          userDetail?.ibu?.findIndex(
-                                            (el) => el.value == userInputs?.ibu
-                                          )
-                                        ]
+                                      userDetail?.ibu?.findIndex(
+                                        (el) => el.value == userInputs?.ibu
+                                      )
+                                      ]
                                       : ""
                                   }
                                   placeholder="Select Bussiness Unit"
@@ -1567,7 +1569,7 @@ const ReaderEdit = () => {
                     {groupId == 3 && flag == 0 && pharmaData == 0 ? (
                       <>
                         {localStorage.getItem("user_id") !=
-                        "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                          "iSnEsKu5gB/DRlycxB6G4g==" ? (
                           <Form.Group className="form-group">
                             <Form.Label htmlFor="">Select User Type</Form.Label>
                             <Select
