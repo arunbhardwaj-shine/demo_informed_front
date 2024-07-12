@@ -345,7 +345,7 @@ const LicenseContentDetail = (props) => {
                                             commonModelFun();
                                             setQr({
                                               ...qrState,
-                                              value: data?.docintelLink,
+                                              value: data?.docintelLink+`~QRcode`,
                                             });
                                           }}
                                         >
