@@ -1591,7 +1591,7 @@ const LicenseContent = (props) => {
                                           commonModelFun();
                                           setQr({
                                             ...qrState,
-                                            value: data?.docintelLink,
+                                            value: data?.docintelLink+`~QRcode`,
                                           });
                                         }}
                                         className="footer-btn"

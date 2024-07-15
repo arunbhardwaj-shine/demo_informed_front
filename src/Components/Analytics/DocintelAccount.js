@@ -85,7 +85,7 @@ const DocintelAccount = ({ data, tabType }) => {
                       tabType == 'content-type' ? 
                       "This content led to registration among HCPs in these countries."
                       :
-                      "The numbers are based on Read-Through-Rate (RTR), indicating how many HCPs have read this content."
+                      "The numbers are based on Registration Read-Through-Rate (RTR), indicating how many HCPs have read this content."
                     }
                     </p></div>
                   <Row>
