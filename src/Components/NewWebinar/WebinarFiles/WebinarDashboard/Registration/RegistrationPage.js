@@ -400,7 +400,8 @@ const RegistrationPage = ({ prevData,type }) => {
 
   const ValidateFormData = () => {
     const errors = {};
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventParam  = urlParams.get('event');
     formData?.content?.body?.forEach((form) => {
       const label = form?.name?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
@@ -419,6 +420,19 @@ const RegistrationPage = ({ prevData,type }) => {
           delete errors[label];
         }
       }
+
+      if(eventParam == 'Alandisland'){
+        if(label == 'consent'){
+          const customlabel = document.querySelector('label[for="consent0"]');
+          const labelHtml = customlabel?.textContent;
+          if(!fieldValue?.includes(labelHtml)){
+            errors[label] = `This field is required.`;
+          }else{
+            delete errors[label];
+          }
+        }
+      }
+
     });
 
     setFormErrors(errors);
