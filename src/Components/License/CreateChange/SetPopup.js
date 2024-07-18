@@ -943,7 +943,8 @@ const SetPopup = (props) => {
                   <Row>
                     {templateClickedd && isOnline == false ? (
                       <Editor
-                        apiKey="emle9g4bqzbv09m9b50osd3nam70fsb5p1xhrhlr06bdl93o"
+                        apiKey="gpl"
+                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
                         onInit={(evt, editor) => (editorRef.current = editor)}
                         initialValue={template}
                         init={{
