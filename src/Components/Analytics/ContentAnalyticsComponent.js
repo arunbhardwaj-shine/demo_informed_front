@@ -239,7 +239,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               value={selectedData?.rtr}
               color="#956ca7"
               limit={agreed_limit}
-              label="User With RTR"
+              label={data.linkType == 'Sunshine' ? "Registered User With RTR" : data.linkType == 'Offline' ? "Unique Registered and Unique IP User With RTR" : "User With RTR"}
               pdf_id={data?.id}
               tooltip="Number of Unique Readers spend time on pdf."
             />
