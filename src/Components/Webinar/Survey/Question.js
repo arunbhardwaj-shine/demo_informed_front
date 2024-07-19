@@ -385,7 +385,7 @@ function Question(props) {
                     </>
                 )}
               </Form.Group>
-              <div className="speaker-detail comment d-flex align-items-center">
+           {  !(answerType === "INPUT") ? <div className="speaker-detail comment d-flex align-items-center">
                 <div className="speaker-comment">
                     <Form.Group>
                       <Form.Label>Include Comment:</Form.Label>
@@ -407,7 +407,7 @@ function Question(props) {
                           type="radio"
                           value="no"
                           name="group2"
-                          defaultChecked={
+                          checked={
                             addComment != 1 ? true : false
                           }
                           onClick={
@@ -420,7 +420,7 @@ function Question(props) {
                       </fieldset>
                     </Form.Group>
                     </div>
-                  </div>
+                  </div>:null}
             
               <div className="speaker-detail d-flex align-items-center">
                 <div className="speaker-name">
