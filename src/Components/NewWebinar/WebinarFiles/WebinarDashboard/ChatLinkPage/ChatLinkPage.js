@@ -478,7 +478,7 @@ const ChatLinkPage = () => {
     try {
       let link = "";
       if (eventData?.eventId > 402) {
-        link = `https://events.docintel.app/event?evnt=${eventData?.eventCode}`;
+        link = `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`;
       } else {
         link = `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`;
       }
@@ -605,7 +605,7 @@ const ChatLinkPage = () => {
   const generateQRUrl = () => {
     // Generate the QR code URL based on your logic
     const url =  eventData?.eventId > 402
-    ? `https://events.docintel.app/event?evnt=${eventData?.eventCode}`
+    ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
     : `${window.location.host}/event?evnt=${eventData?.eventCode}`; 
     return url;
   };
@@ -736,7 +736,7 @@ const ChatLinkPage = () => {
                     // href={`${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`}
                     href={
                       eventData?.eventId > 402
-                        ? `https://events.docintel.app/event?evnt=${eventData?.eventCode}`
+                        ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
                         : `${window.location.host}/event?evnt=${eventData?.eventCode}`
                     }
                     onClick={(e) => {
