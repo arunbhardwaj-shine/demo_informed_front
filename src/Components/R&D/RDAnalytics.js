@@ -76,7 +76,7 @@ const RDAnalytics = () => {
   const [trainingStatus, setTrainingStatus] = useState([]);
   const [siteRole, setSiteRole] = useState([]);
   const [filterdata, setFilterData] = useState({
-    'training_status': ['Complete', 'Ignored', 'Not yet', 'Started'],
+    'training_status': ['Complete', 'Ignored', 'Started'],
     'user_type': ['Site User-Blinded', 'Investigator-Blinded', 'Site unblinded pharmacist'],
     'site_number':[]
    
@@ -1814,7 +1814,7 @@ const RDAnalytics = () => {
                                       : item?.training_status_code == "1"
                                         ? "Started"
                                         : item?.training_status_code == "2"
-                                          ? "Not yet"
+                                          ? "Ignored"
                                           : item?.training_status_code == "3"
                                             ? "Ignored"
                                             : null}
@@ -2451,7 +2451,7 @@ const RDAnalytics = () => {
                                                       ? "Completed"
                                                       : data?.training_status_code ==
                                                         "1"
-                                                        ? "Not yet"
+                                                        ? "Ignored"
                                                         : null}
                                                   </td>
                                                 </tr>
@@ -3253,7 +3253,7 @@ const RDAnalytics = () => {
                                                     ? "Completed"
                                                     : data?.training_status_code ==
                                                       "1"
-                                                    ? "Not yet"
+                                                    ? "Ignored"
                                                     : null} */}
                                     Training status
                                   </td>

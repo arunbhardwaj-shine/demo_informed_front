@@ -383,6 +383,8 @@ export default function PollListing({ eventIdContext }) {
     //     { answerError: "", colorError: "" },
     //   ];
     // }
+    updatedQuestions[key].questionData.addComment = 0;
+
     setQuestions(updatedQuestions);
   };
   const handleAddCommentChange = (e, key) => {
