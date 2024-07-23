@@ -258,6 +258,7 @@ const Header = () => {
                 <li
                   className={
                     window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews" ||
+                    window.location.pathname == "/IRT-Mandatory" ||
                       window.location.pathname == "/readers-list" ||
                       window.location.pathname == "/reader-add" ||
                       window.location.pathname == "/reader-edit" ||
@@ -274,8 +275,9 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link" 
-                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
-                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+                    ?"/IRT-Mandatory"
+                    :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                     ?"/new-readers-reviews":"/readers-view"}
                   // to={"/readers-view"} 
                   >
