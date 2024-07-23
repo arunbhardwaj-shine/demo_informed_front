@@ -129,15 +129,15 @@ const IRTRole = () => {
                   <div className="irt-status">
                     <div className="started">
                       <p>Started</p>
-                      <div className="irt-value">{Math.floor(role.notcompleted_percentage)}%</div>
+                      <div className="irt-value"><span></span>{Math.floor(role.notcompleted_percentage)}%</div>
                     </div>
                     <div className="completed">
                       <p>Completed</p>
-                      <div className="irt-value">{Math.floor(role.completed_percentage)}%</div>
+                      <div className="irt-value"><span></span>{Math.floor(role.completed_percentage)}%</div>
                     </div>
                     <div className="ignored">
                       <p>Ignored</p>
-                      <div className="irt-value">{Math.floor(role.pending_percentage || 0)}%</div>
+                      <div className="irt-value"><span></span>{Math.floor(role.pending_percentage || 0)}%</div>
                     </div>
                     <div className="bar-chart">
                       {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) && (
