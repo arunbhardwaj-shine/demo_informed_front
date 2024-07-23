@@ -1008,11 +1008,16 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
   const nextClicked = (id) => {
     props.getEmailData({ PdfSelected: id });
   };
-  console.log(location?.state?.data,'statestate')
 
   const handleEdit = () => {
     navigate("/library-edit-listing", {
       state: { data: "edit",title :title }
+    });
+  };
+
+  const handleCreate = () => {
+    navigate("/library-create-user", {
+      state: { flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" }
     });
   };
 
@@ -1044,15 +1049,20 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
 
                     <>
                     <div className="action-btn-add">
-                      <Link to={'/library-create-user'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link>
+                      {/* <Link to={'/library-create-user'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link> */}
                       {/* <Link  
                       to={{pathname: '/library-edit-listing', state: { data:  "edit" }}}
                        className="btn-white" onClick={() => handleEdit()}>Edit Content <img src={path_image + "edit-button.svg"} alt="" /></Link> */}
 
-<button className="btn-white" onClick={handleEdit}>
-      Edit Content
-      <img src={`${path_image}edit-button.svg`} alt="" />
-    </button>
+                    <button className="btn-dashed" onClick={handleCreate}>
+                      Add Content
+                        <img src={`${path_image}edit-button.svg`} alt="" />
+                      </button>
+
+                  <button className="btn-white" onClick={handleEdit}>
+                        Edit Content
+                        <img src={`${path_image}edit-button.svg`} alt="" />
+                      </button>
                     </div>
                     </>
                     ): null}
