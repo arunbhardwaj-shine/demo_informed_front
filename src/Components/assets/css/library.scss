@@ -860,6 +860,25 @@
 .library_create {
   @include library_create;
 
+  &.library-mandatory {
+    min-height: 67vh;
+    align-items: center;
+    .library_create-box{
+      min-height: 166px;
+      .create-library-img{
+        img{
+          width:40px;
+        }
+      } 
+      .create-library-content{
+        h3{
+          margin:20px 0 0;
+        }
+      } 
+    } 
+
+  }
+
   &.landing-layout {
     max-width: 1240px;
     min-height: 90.9vh;
@@ -1613,17 +1632,18 @@ ul.tab-mail-list.data span.total-left small {
       .split-button-dropup {
         max-width: 331px;
         width: 100%;
-        &.selectcountry{
+
+        &.selectcountry {
           >div {
             &:nth-child(4) {
               max-height: 120px;
-        
+
               >div {
                 max-height: 100px;
+              }
+            }
+          }
         }
-      }
-      }
-    }
 
         &.addval {
           button {
@@ -13897,7 +13917,8 @@ img.change-password-image {
             line-height: 18px;
             color: $dark-blue;
             padding: 5px 10px 16px 15px;
-            &:nth-child(2){
+
+            &:nth-child(2) {
               width: 320px;
             }
 
@@ -14840,15 +14861,17 @@ table#site_engagement thead.sticky-header {
           }
         }
       }
-      .search-bar{
-        button{
+
+      .search-bar {
+        button {
           border: 0;
           background: transparent;
           filter: none;
-          &:hover{
-            svg{
-              path{
-                fill:#97B6CF;
+
+          &:hover {
+            svg {
+              path {
+                fill: #97B6CF;
               }
             }
           }
@@ -14992,7 +15015,7 @@ table#site_engagement thead.sticky-header {
                 fill: $white;
               }
             }
-            
+
           }
         }
 
@@ -20451,7 +20474,11 @@ table {
     /**8check survey end**/
 
     /**survey data**/
-    .survey_result{background: $white;min-height: 100vh;}
+    .survey_result {
+      background: $white;
+      min-height: 100vh;
+    }
+
     .survey_data {
       background: rgba(0, 102, 190, 0.03);
       border-radius: 20px;
@@ -21651,11 +21678,12 @@ table {
     .form-group {
       margin: 0px 0 0;
       align-items: flex-start;
-      &.state{
-            .btn-bordered{
-              padding: 15px 14px;
-            }
-          }
+
+      &.state {
+        .btn-bordered {
+          padding: 15px 14px;
+        }
+      }
 
       label {
         padding: 0px 5px 0 0;
@@ -22694,6 +22722,20 @@ table {
   min-height: 80.9vh;
   align-items: center;
 
+  &.irt_mandatory {
+    gap: 90px 0;
+    min-height: initial;
+    margin: 85px auto 0;
+
+    .irt-create {
+      &.col {
+        .irt-status {
+          padding: 16px 0 16px;
+        }
+      }
+    }
+  }
+
   .irt-create {
     &.col {
       background: #ffffff;
@@ -22793,6 +22835,7 @@ table {
             }
           }
         }
+
         p {
           font-size: 14px;
           font-weight: 400;
@@ -23616,25 +23659,28 @@ table {
 
   .irt_create_role {
     max-width: 1200px;
-      .irt-create
-      {
-        &.col {
-          max-width: 335px;
-          .irt-create-upper{
-            h3 {
-              font-size:22px;
-            }
-            .count-number {
-                font-size: 20px;
-            }
-          } 
-          .irt-status{
-            p {
-                font-size: 13px;
-            }
-          } 
+
+    .irt-create {
+      &.col {
+        max-width: 335px;
+
+        .irt-create-upper {
+          h3 {
+            font-size: 22px;
+          }
+
+          .count-number {
+            font-size: 20px;
+          }
+        }
+
+        .irt-status {
+          p {
+            font-size: 13px;
+          }
+        }
       }
-      }
+    }
 
   }
 
@@ -24612,32 +24658,37 @@ table {
   .rd-full-explain .rd-training-block table.registration-view tbody td {
     padding: 10px;
   }
-    .irt_create_role {
+
+  .irt_create_role {
     max-width: 1100px;
-      .irt-create
-      {
-        &.col {
-          padding:16px 16px 10px;
-          max-width: 295px;
-          .irt-create-upper{
-            h3 {
-              font-size:20px;
-              &:after {
-                  width: calc(100% + 32px);
-                  left: -16px;
-              }
+
+    .irt-create {
+      &.col {
+        padding: 16px 16px 10px;
+        max-width: 295px;
+
+        .irt-create-upper {
+          h3 {
+            font-size: 20px;
+
+            &:after {
+              width: calc(100% + 32px);
+              left: -16px;
             }
-            .count-number {
-                font-size: 18px;
-            }
-          } 
-          .irt-status{
-            p {
-                font-size: 13px;
-            }
-          } 
+          }
+
+          .count-number {
+            font-size: 18px;
+          }
+        }
+
+        .irt-status {
+          p {
+            font-size: 13px;
+          }
+        }
       }
-      }
+    }
 
   }
 }
