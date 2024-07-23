@@ -379,9 +379,10 @@
                     overflow-y: auto;
                     height: 100%;
                     max-height: 150px;
+                    color: $primary-color;
 
                     div {
-                      color: $primary-color;
+                      // color: $primary-color;
                       font-size: 14px;
                       line-height: 17px;
                       padding: 0.3rem 1rem;
@@ -818,9 +819,17 @@
         overflow-y: auto;
         height: 100%;
         max-height: 290px;
+        color: $dark-blue;
+        font-size: 15px;
+          // line-height: 17px;
+          // padding: 0.3rem 1rem;
+          // border-radius: 15px;
+          cursor: pointer;
+          word-break: break-word;
+          white-space: normal;
 
         div {
-          color: $dark-blue;
+          // color: $dark-blue;
           font-size: 15px;
           line-height: 17px;
           padding: 0.3rem 1rem;
