@@ -2806,8 +2806,9 @@ const EmailList = (props) => {
                                     {item?.country ? item.country : "N/A"}
                                   </span>{" "}
                                 </td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                {(localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                   && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                 <td>
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -2851,8 +2852,9 @@ const EmailList = (props) => {
                                                   {item?.country ? item.country : "N/A"}
                                                 </span>
                                               </td>
-                                              {localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                              {(localStorage.getItem("user_id") ==
+                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") 
+                                                && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                               <td>
                                                 {localStorage.getItem("user_id") ==
                                                   "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
