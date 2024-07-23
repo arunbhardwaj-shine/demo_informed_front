@@ -224,7 +224,7 @@ const Header = () => {
                     window.location.pathname == "/library-create-pharma" ||
                       window.location.pathname == "/library-delete" ||
                       window.location.pathname == "/library-campaign" ||
-                      window.location.pathname == "/library-content" ||
+                      window.location.pathname == "/library-content" ||  window.location.pathname == "/library-mandatory" ||
                       window.location.pathname == "/library-create" ||
                       window.location.pathname == "/library-edit" ||
                       window.location.pathname == "/library-sublink" ||
@@ -251,7 +251,10 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" to={"/library-content"} >
+                  <Link className="nav-link" 
+                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==")
+                    ?"/library-mandatory" : "/library-content"}
+                  >
                     LIBRARY
                   </Link>
                 </li>

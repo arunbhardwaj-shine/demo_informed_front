@@ -330,6 +330,10 @@ const Routing = () => {
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
+         <Route
+          path="/library-mandatory-content"
+          element={<LoginLayout component={LibraryContent} />}
+        />
         <Route
           path="/library-mandatory"
           element={<LoginLayout component={MandatoryContent} />}
