@@ -9040,7 +9040,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .smart-list-view .selected-hcp-list#analytics-hcp-table table thead.sticky-header th {
-  background: transparent;
+  background: #fbfcfd;
 }
 
 .green-box .box,
