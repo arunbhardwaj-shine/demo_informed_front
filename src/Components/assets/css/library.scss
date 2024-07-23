@@ -4977,6 +4977,55 @@ section.verify_email.content_details {
         }
       }
     }
+    @media (max-width:1450px){
+      .action-btn-add{
+        margin-right: 15px;
+        gap: 0 15px;
+        a{
+          padding: 9px 18px;  
+        }
+
+      }
+    }
+     @media (max-width:1365px){
+      .action-btn-add{
+        a{
+          padding: 6px 18px; 
+          height: 36px;
+          font-size: 13px; 
+        }
+
+      }
+    }
+    @media (max-width:1199px){
+      .action-btn-add{
+        margin-right: 5px;
+        a{
+          height: 32px;
+          img{
+            width:16px;
+          }
+        }
+
+      }
+      .search-bar{
+       form{
+       &.d-flex{
+        button {
+          padding: 2px;
+        }
+      }
+    }
+  }
+  .top-right-action {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.filter-by, .clear-search {
+    margin-left: 5px;
+}
+    }
   }
 }
 
