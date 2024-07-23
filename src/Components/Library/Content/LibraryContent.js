@@ -128,6 +128,8 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const navigate = useNavigate();
+  const { title } = location.state || {};
+  console.log(location,'ghfgh')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -223,9 +225,27 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
 
   const applyFilters = async () => {
     try {
+      let irt = "";
+      let role = "";
+      if (title === "Site User-Blinded") {
+        irt = "Yes"
+        role = "Site User-Blinded";
+      } else if (title === "Investigator-Blinded") {
+        irt = "Yes"
+        role = "Investigator-Blinded";
+      } else if (title === "Site Unblinded Pharmacist") {
+        irt = "Yes"
+        role = "Site unblinded pharmacist";
+      }
+      else{
+        irt = "No"
+        role = "";
+      }
       loader("show");
       const res = await postData(ENDPOINT.FILTERS, {
         user_id: localStorage.getItem("user_id"),
+        "IRT mandatory training": [irt],
+        Role: [role]
       });
 
       if (res?.data?.data) {
@@ -476,10 +496,27 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
 
   const getLibraryData = async (page, obj, search, load = 0) => {
     try {
+      // console.log(title,'title')
       loader("show");
       setIsLoaded(false);
       if (load) {
         setPageAll(true);
+      }
+      let irt = "";
+      let role = "";
+      if (title === "Site User-Blinded") {
+        irt = "Yes"
+        role = "Site User-Blinded";
+      } else if (title === "Investigator-Blinded") {
+        irt = "Yes"
+        role = "Investigator-Blinded";
+      } else if (title === "Site Unblinded Pharmacist") {
+        irt = "Yes"
+        role = "Site unblinded pharmacist";
+      }
+      else{
+        irt = "No"
+        role = "";
       }
       setApiCallStatus(false);
       let data = {
@@ -489,6 +526,8 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
         search: search,
         type: type,
         limit: limit,
+        "IRT mandatory training": [irt],
+        Role: [role]
       };
       let body = { ...data, ...obj };
 
@@ -969,6 +1008,13 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
   const nextClicked = (id) => {
     props.getEmailData({ PdfSelected: id });
   };
+  console.log(location?.state?.data,'statestate')
+
+  const handleEdit = () => {
+    navigate("/library-edit-listing", {
+      state: { data: "edit",title :title }
+    });
+  };
 
   return (
     <>
@@ -982,7 +1028,16 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
             <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">
-                  <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
+              {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                      location?.pathname === "/library-mandatory-content" ? (
+                        <h2>{title}</h2>
+                      ) : (
+                        <h2>Non Mandatory</h2>
+                      )
+                    ) : (
+                      ""
+                    )}
+                   <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
                 </div>
                 <div className="top-right-action">
                   {localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ?(
@@ -990,7 +1045,14 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                     <>
                     <div className="action-btn-add">
                       <Link to={'/library-create-user'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link>
-                      <Link to={'/library-edit-listing'} className="btn-white">Edit Content <img src={path_image + "edit-button.svg"} alt="" /></Link>
+                      {/* <Link  
+                      to={{pathname: '/library-edit-listing', state: { data:  "edit" }}}
+                       className="btn-white" onClick={() => handleEdit()}>Edit Content <img src={path_image + "edit-button.svg"} alt="" /></Link> */}
+
+<button className="btn-white" onClick={handleEdit}>
+      Edit Content
+      <img src={`${path_image}edit-button.svg`} alt="" />
+    </button>
                     </div>
                     </>
                     ): null}
