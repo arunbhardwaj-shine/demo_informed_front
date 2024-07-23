@@ -34,6 +34,7 @@ const EmailList = (props) => {
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
     useState(false);
   const [readerDetailsData, setReaderDetailsData] = useState([]);
+  const [readerDetailsCount, setReaderDetailsCount] = useState(0);
   const [detailPopupName, setDetailPopupName] = useState("");
   const [ctrName, setCTRName] = useState("");
   const [popupHeadingColor, setPopupHeadingColor] = useState("");
@@ -820,6 +821,7 @@ const EmailList = (props) => {
             let temporaryUsers = [...readerDetailsData, ...res?.data?.response?.data];
             setReaderDetailsData(temporaryUsers);
           }
+          setReaderDetailsCount(res?.data?.response?.count || 0);
           setReaderDetailsPopupStatus(true);
         } else {
           loader("hide");
@@ -2806,8 +2808,9 @@ const EmailList = (props) => {
                                     {item?.country ? item.country : "N/A"}
                                   </span>{" "}
                                 </td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                {(localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                   && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                 <td>
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -2851,8 +2854,9 @@ const EmailList = (props) => {
                                                   {item?.country ? item.country : "N/A"}
                                                 </span>
                                               </td>
-                                              {localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                              {(localStorage.getItem("user_id") ==
+                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") 
+                                                && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                               <td>
                                                 {localStorage.getItem("user_id") ==
                                                   "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -2899,7 +2903,7 @@ const EmailList = (props) => {
                       ) : null}
                     </tbody>
                   </table>
-                  {readerDetailsData.length >= 50 && functionParameter?.page == 1 &&
+                  {readerDetailsCount >= 50 && functionParameter?.page == 1 &&
                     (<div className="text-center load_more">
                       <button className="btn btn-primary btn-filled" onClick={() => getReaderData(functionParameter?.type, functionParameter?.name, functionParameter?.color_code, functionParameter?.dynamic_name, 2)}>
                         Load All
