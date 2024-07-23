@@ -72,6 +72,7 @@ import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReade
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import NewReaderReview from "./Components/Readers/ReadersView/NewReaderReview";
+import IRTMandatory from "./Components/Readers/ReadersView/IRTMandatory";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
@@ -223,6 +224,7 @@ import AnalyticsEvent from "./Components/NewWebinar/WebinarFiles/WebinarDashboar
 import InformedSurveyData from "./Components/survey/InformedSurveyData";
 import IRTRole from "./Components/Emails/IRTRole";
 import Check8SurveyData from "./Components/survey/Check8SurveyData";
+import MandatoryContent from "./Components/Library/Content/MandatoryContent";
 
 let platform = 0;
 let show = 0;
@@ -327,6 +329,10 @@ const Routing = () => {
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
+        />
+        <Route
+          path="/library-mandatory"
+          element={<LoginLayout component={MandatoryContent} />}
         />
         <Route exact path="/Webinar" element={<Layout />}>
           <Route exact path="poll-question" element={<PollQuestion />} />
@@ -470,6 +476,10 @@ const Routing = () => {
         <Route
           path="/new-readers-reviews"
           element={<LoginLayout component={NewReaderReview} />}
+        />
+        <Route
+          path="/IRT-mandatory"
+          element={<LoginLayout component={IRTMandatory} />}
         />
         <Route
           path="/reader-review"
