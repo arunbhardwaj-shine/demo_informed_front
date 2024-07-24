@@ -1849,7 +1849,7 @@ const NewReadersReview = () => {
 
                 </div>
                 <div className="top-right-action library_content_view">
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&!state?.siteRole?.includes("all")) ?
                     <div className="search-bar">
                       <button onClick={()=>navigate("/reader-add",{state:state})} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></button>
 
@@ -2451,6 +2451,18 @@ const NewReadersReview = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
+                                      {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Status
+                                        </h6>
+                                        <h6>
+                                          {data?.status
+                                            ? data?.status
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      :null}
                                     </>
                                   ) : (
                                     <>
@@ -3124,7 +3136,7 @@ const NewReadersReview = () => {
                                                 }
                                                 value={
                                                   selectedSiteNumber[index] !=
-                                                    "undefined" &&
+                                                    undefined &&
                                                     selectedSiteNumber[index] !=
                                                     true
                                                     ? selectedSiteNumber[index]
@@ -3133,7 +3145,7 @@ const NewReadersReview = () => {
                                                     ] == true
                                                       ? null
                                                       : change?.siteNumber[
-                                                      change?.siteNumber?.findIndex(
+                                                      change?.siteNumber.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteNumber?.toLowerCase()
@@ -3171,7 +3183,7 @@ const NewReadersReview = () => {
                                                 }
                                                 value={
                                                   selectedSiteName[index] !=
-                                                    "undefined" &&
+                                                    undefined &&
                                                     selectedSiteName[index] !=
                                                     true
                                                     ? selectedSiteName[index]
@@ -3179,7 +3191,7 @@ const NewReadersReview = () => {
                                                       true
                                                       ? null
                                                       : change?.siteName[
-                                                      change?.siteName?.findIndex(
+                                                      change?.siteName.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteName?.toLowerCase()

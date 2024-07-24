@@ -689,7 +689,7 @@ const ReaderEdit = () => {
   const RDAccount = () => {
     return (
       <>
-        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+        {!state?.siteRole ? (<>
           {userInputs?.irt != 1 ? <>
             <Form.Group className="form-group">
               <Form.Label htmlFor="">
@@ -834,7 +834,7 @@ const ReaderEdit = () => {
             />
           </Form.Group>
         </>)
-          : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          :( localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&state?.siteRole)
             ?
             <Form.Group className="form-group">
               <Form.Label htmlFor="">
@@ -970,11 +970,12 @@ const ReaderEdit = () => {
   };
 
   const backButtonClicked=(e)=>{
-    e.preventDefault()     
+    e.preventDefault()   
+
         if(state?.siteRole){
           navigate("/new-readers-reviews", {state: { siteRole: state.siteRole }})
         }else{
-          navigate("/new-readers-reviews")
+          navigate("/readers-view")
         }
       }
 
