@@ -389,7 +389,7 @@ const LicenseContent = (props) => {
       }      setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
 
-        if (res?.data?.data?.library?.length >= 24) {
+        if (res?.data?.data?.library?.length >= 24 && type!="rest") {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
