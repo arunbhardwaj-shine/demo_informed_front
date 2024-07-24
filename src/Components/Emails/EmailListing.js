@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-import { Link, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import axios from "axios";
 import { getDraftData, getEmailData, getSearched, getSelected } from "../../actions";
 import { connect } from "react-redux";
@@ -27,11 +27,9 @@ const EmailList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
-  const queryParams = queryString.parse(window.location.search);
 
   const [SendListData, setSendListData] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
     useState(false);
@@ -42,7 +40,6 @@ const EmailList = (props) => {
   const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
 
-  const [submiHandle, setSubmiHandle] = useState("");
   const [getreference, setReference] = useState("");
   const [campaign_id, setCampaignId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +47,6 @@ const EmailList = (props) => {
   const [viewEmailData, setviewEmailData] = useState();
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
-  const [verificationpopup, setVerificationPopup] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
   const [filtertags, setFilterTags] = useState([]);
@@ -59,7 +55,6 @@ const EmailList = (props) => {
   const [filterrole, setFilterRole] = useState([]);
   const [filtercampaign, setFilterCampaigns] = useState([]);
   const [updateflag, setUpdateFlag] = useState([]);
-  const [removeFlag, setRemoveFlag] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
@@ -72,9 +67,9 @@ const EmailList = (props) => {
   const [functionParameter, setFunctionParameter] = useState({
 
   });
-  const [irtRoleObj, setIRTRoleObj] = useState(
+  const irtRoleObj=
     typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
-  );
+
   const [filter, setFilter] = useState(
     state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
   );
@@ -319,7 +314,6 @@ const EmailList = (props) => {
 
             // setFilterData(res.data.response.data.filter);
           }
-          setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
           setSendListData([]);
         } else {
@@ -364,7 +358,6 @@ const EmailList = (props) => {
     setloadmore(0);
     setShowFilter(false);
     getData("progress");
-    setSubmiHandle(1);
     event.preventDefault();
     return false;
   };
@@ -484,18 +477,6 @@ const EmailList = (props) => {
     setConfirmationPopup(false);
   };
 
-  // const showVerificationPopup = () => {
-  //   hideConfirmationModal();
-  //   if(verificationpopup){
-  //     setVerificationPopup(false);
-  //   }else{
-  //     setVerificationPopup(true);
-  //   }
-  // }
-
-  // const hideVerificationPopup = () => {
-  //   setVerificationPopup(false);
-  // }
 
   const deleteEmail = () => {
     hideConfirmationModal();

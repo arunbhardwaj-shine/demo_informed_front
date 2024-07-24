@@ -1,57 +1,38 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-
-import { getCampaignId, getEmailData } from "../../actions";
-import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
+import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
-
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
-import { getSelectedSmartListData } from "../../actions";
-import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select, { createFilter } from "react-select";
-import { ProgressBar } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { saveNewTemplate } from "../CommonComponent/Validations";
 import html2canvas from 'html2canvas';
-import domtoimage from "dom-to-image";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 
-var dxr = 0;
 var state_object = {};
 const TemplateBuilder = (props) => {
   const editorRef = useRef(null);
   const ref = useRef(null);
-
-  let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
+  const [isFilterApiCalled, setIsFilterApiCalled] = useState(false);
 
-  const navigate = useNavigate();
-  const [SendListData, setSendListData] = useState([]);
   const [newTemplateNamee, setNewTemplateNamee] = useState("");
-  const [UserData, setUserData] = useState([]);
   const [newTemplateClicked, setNewTemplateClicked] = useState(false);
-  const location = useLocation();
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [totalData, setTotalData] = useState({});
-  const [uniqueId, setUniqueId] = useState("");
   const [templateType, setTemplateType] = useState();
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [newTemplateContent, setNewTemplateContent] = useState("");
@@ -61,43 +42,28 @@ const TemplateBuilder = (props) => {
   const [getsearch, setSearch] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [selectedIbu, setSelectedIbu] = useState("");
-  const PdfSelected = "";
   const [newTemplateName, setNewTemplateName] = useState("");
-  const [manualReRender, setManualReRender] = useState(0);
-  const campaign_id = "";
   const [selectedFile, setSelectedFile] = useState(null);
-  const [activeExcel, setActiveExcel] = useState("");
-  const [addFileReRender, setAddFileReRender] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
-  const [plainTemplateClickedd, setPlainTemplateClicked] = useState(false);
-  const [linkTemplateClickedd, setLinkTemplateClicked] = useState(false);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+
+  const userId= "56Ek4feL/1A8mZgIKQWEqg==";
   const [templateList, setTemplateList] = useState([]);
   const [editableTemplate, setEdiatbleTemplate] = useState(false);
   const [template, setTemplate] = useState("");
-  var [selectedCountry, setSelectedCountry] = useState("");
-  const [readers, setReaders] = useState([]);
-  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
+  // const [readers, setReaders] = useState([]);
   const [templateSaving, setTemplateSaving] = useState("");
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [getTemplateIbu, setTemplateIbu] = useState([]);
   const [counter, setCounter] = useState(0);
-  const [modalCounter, setModalCounter] = useState(0);
   const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState();
   const linkingPayload = useRef();
   const templateIdRef = useRef();
   const [templateName, setTemplateName] = useState("");
-  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
-  const [tagClickedFirst, setTagClickedFirst] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+
   const [isOpen_send, setIsOpensend] = useState(false);
-  const [showConfirmation, setshowConfirmation] = useState(false);
-  const [allTags, setAllTags] = useState({});
-  const [newTag, setNewTag] = useState("");
-  const [tagsReRender, setTagsReRender] = useState(0);
-  const [tagsCounter, setTagsCounter] = useState(0);
+  const [showConfirmation, setshowConfirmation] = useState(false); 
   const [countryOption, setCountryOption] = useState(0);
   const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
@@ -108,11 +74,10 @@ const TemplateBuilder = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
-  const [optIRT, setoptIRT] = useState([
+  const optIRT=[
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
-  ]);
-  const [message, setMessage] = useState("");
+  ];
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [name, setName] = useState("");
@@ -120,14 +85,10 @@ const TemplateBuilder = (props) => {
   const [email, setEmail] = useState("");
   const [editClicked, setEditClicked] = useState(true);
   const [selectedHcp, setSelectedHcp] = useState([]);
-  const slidePrev = () => setActiveIndex(activeIndex - 1);
-  const slideNext = () => setActiveIndex(activeIndex + 1);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
-  const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
 
-  const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
   const [selectedListId, setSelectedListId] = useState(0);
   const [ibuList, setIbuList] = useState([]);
@@ -152,23 +113,17 @@ const TemplateBuilder = (props) => {
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
-  const linkCount = useRef(1);
 
   const [addListOpen, setAddListOpen] = useState(false);
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
-
-  const [getReaderDetails, setReaderDetails] = useState({});
-  const [getSmartListName, setSmartListName] = useState("");
-  const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSmartListId, setSmartListId] = useState(0);
   const [templateClickedd, setTemplateClicked] = useState(false);
   const [validationError, setValidationError] = useState({});
-  const [selectType, setSelectType] = useState([
+  const selectType=[
     { label: "Article", value: "Placeholder" },
     { label: "Pure text", value: "Puretext" },
-  ]);
+  ];
   const [userTemplateType, setUserTemplateType] = useState(
     selectType[0]?.value
   );
@@ -179,7 +134,6 @@ const TemplateBuilder = (props) => {
   });
   const [error, setError] = useState({});
 
-  const newArr = [];
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -191,7 +145,6 @@ const TemplateBuilder = (props) => {
 
   useEffect(() => {
     getTemplateListData(0, "All", "", userTemplateType);
-    getSmartListData(0);
   }, []);
 
   const filterConfig = {
@@ -220,26 +173,24 @@ const TemplateBuilder = (props) => {
       });
   };
 
-  useEffect(() => {
-    loader("show");
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-      axiosFun();
-    }
-    const getalCountry = async () => {
+  const getalCountry = async () => {
+    if(!isFilterApiCalled){
+      loader("show");
+
       const body = {
         user_id: localStorage.getItem("user_id"),
         language: "",
         ibu: "",
       };
-
+  
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
             let country = res.data.response.data.country;
-
+  
             let arr = [];
-
+  
             Object.entries(country).map(([index, item]) => {
               let label = item;
               if (index == "B&H") {
@@ -250,9 +201,9 @@ const TemplateBuilder = (props) => {
                 label: label,
               });
             });
-
+  
             setCountryall(arr);
-
+  
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
@@ -276,16 +227,31 @@ const TemplateBuilder = (props) => {
               setIrtRole(newIrtType);
             }
             setTotalData(res.data.response.data);
-          }
+            loader("hide");
+            setIsFilterApiCalled(true)
 
+          }
+  
           // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
-        });
-    };
+          loader("hide");
 
-    getalCountry();
+        });
+        
+    }
+      
+   
+  };
+  useEffect(() => {
+    loader("show");
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      axiosFun();
+    }
+   
+
+    // getalCountry();
   }, []);
   const axiosFun = async () => {
     try {
@@ -428,34 +394,7 @@ const TemplateBuilder = (props) => {
     loader("hide");
   };
 
-  // useEffect(() => {
 
-  // }, [selectedHcp]);
-
-  useEffect(() => {
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const getAllTags = async () => {
-      await axios
-        .post(`emailapi/get_tags`, body)
-        .then((res) => {
-          setAllTags(res?.data?.response?.data);
-
-          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-          // loader("hide");
-          // }
-        })
-        .catch((err) => {
-          loader("hide");
-          console.log(err);
-        });
-    };
-    getAllTags();
-    // getCampaignData();
-  }, []);
 
   const getSelectedTemplateSource = (dd) => {
     if (
@@ -644,22 +583,6 @@ const TemplateBuilder = (props) => {
     setTemplate();
   };
 
-  const plainTemplateClicked = (e) => {
-    e.preventDefault();
-    setPlainTemplateClicked(true);
-    setLinkTemplateClicked(false);
-  };
-
-  const linkTemplateClicked = (e) => {
-    e.preventDefault();
-    setLinkTemplateClicked(true);
-    setPlainTemplateClicked(false);
-  };
-
-  const onFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
   const addClicked = (e) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
@@ -672,7 +595,7 @@ const TemplateBuilder = (props) => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            setReaders(res.data.response.data);
+            // setReaders(res.data.response.data);
 
             res.data.response.data.map((data) => {
               let prev_obj = selectedHcp.find((x) => x.email === data.email);
@@ -818,9 +741,7 @@ const TemplateBuilder = (props) => {
     setEmail(e.target.value);
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+
 
   const templateNameChange = (e) => {
     setNewTemplateName(e.target.value);
@@ -914,6 +835,7 @@ const TemplateBuilder = (props) => {
   };
 
   const addNewContactClicked = () => {
+    getalCountry();
     setIsOpenAdd(true);
     setIsOpensend(false);
     setValidationError({});
@@ -936,7 +858,6 @@ const TemplateBuilder = (props) => {
       },
     ]);
     setActiveManual("active");
-    setActiveExcel("");
   };
 
   const responsive = {
@@ -975,21 +896,7 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const addFile = (e) => {
-    const addfile_btn = document.getElementById("add_file_btn");
-    if (document.querySelector("#add_file_btn .active") !== null) {
-      addfile_btn.classList.remove("active");
-    } else {
-      addfile_btn.classList.add("active");
-    }
-    document.querySelector("#add_hcp_btn").classList.remove("active");
-
-    e.preventDefault();
-    setActiveExcel("active");
-    setActiveManual("");
-    setAddFileReRender(addFileReRender + 1);
-  };
-
+  
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
     const list = [...hpc];
@@ -1084,50 +991,6 @@ const TemplateBuilder = (props) => {
     setHpc(list);
   };
 
-  const getCountrySelected = (e) => {
-    // const { value } = e.target;
-
-    setSelectedCountry(e);
-
-    const value = e;
-    // const list = [...hpc];
-  };
-
-  // const onCountryChange = (e, i) => {
-  //   const value = e;
-  //   const list = [...hpc];
-  //   const name = hpc[i].country;
-  //   list[i].country = value;
-  //   if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-  //     let consetValue = value;
-  //     if (value == "B&H") {
-  //       consetValue = "Bosnia and Herzegovina";
-  //     }
-  //     const matchingKeys = Object.entries(totalData.site_country_data)
-  //       .filter(([key, value]) => {
-  //         return value == consetValue;
-  //       })
-  //       .map(([key, value]) => key);
-
-  //     const filteredSiteNames = matchingKeys.map((key) => ({
-  //       label: totalData.site_data[key],
-  //       value: totalData.site_data[key],
-  //     }));
-  //     const siteNumbers = matchingKeys.map((key) => ({
-  //       label: key,
-  //       value: key,
-  //     }));
-  //     list[i].siteNumberIndex = "";
-  //     list[i].siteNameIndex = "";
-  //     list[i].siteName = "";
-  //     list[i].siteNumber = "";
-
-  //     setSiteNumberAll(siteNumbers);
-  //     setSiteNameAll(filteredSiteNames);
-  //   }
-  //   setHpc(list);
-  // };
-
   const onCountryChange = (e, i) => {
     if (e == null) {
       const list = [...hpc];
@@ -1175,20 +1038,6 @@ const TemplateBuilder = (props) => {
     setCounterFlag(counterFlag + 1);
   };
 
-  const addHcp = (e) => {
-    const addhcp_btn = document.getElementById("add_hcp_btn");
-    if (document.querySelector("#add_hcp_btn .active") !== null) {
-      addhcp_btn.classList.remove("active");
-    } else {
-      addhcp_btn.classList.add("active");
-    }
-    document.querySelector("#add_file_btn").classList.remove("active");
-
-    e.preventDefault();
-    setActiveExcel("");
-    setActiveManual("active");
-    setManualReRender(manualReRender + 1);
-  };
 
   const handleSelect = (data, e) => {
     setSmartListId(data.id);
@@ -1355,7 +1204,6 @@ const TemplateBuilder = (props) => {
               loader("hide");
               setIsOpenAdd(false);
               setActiveManual("active");
-              setActiveExcel("");
               setSelectedFile(null);
               setIsOpensend(true);
             } else {
@@ -1366,7 +1214,6 @@ const TemplateBuilder = (props) => {
           .catch((err) => {
             console.log("something went wrong");
           });
-        setIsOpen(false);
       } else {
         toast.error("Please add a excel file");
       }
@@ -1390,17 +1237,12 @@ const TemplateBuilder = (props) => {
     return false;
   };
 
-  const hideTemplatePopup = () => {
-    setTemplatePopup(false);
-  };
-
   const clickNewTemplate = () => {
     if (
       typeof templateId != "undefined" &&
       templateId != "" &&
       templateId != 0
     ) {
-      setTemplatePopup(false);
       setNewTemplatePopup(true);
     } else {
       toast.warning("Template not selected.");
@@ -1485,7 +1327,6 @@ const TemplateBuilder = (props) => {
           toast.error("Something went wrong");
         });
       setNewTemplatePopup(false);
-      setTemplatePopup(false);
       // } else {
       //   toast.warning("Please enter template name.");
       // }
@@ -1548,53 +1389,12 @@ const TemplateBuilder = (props) => {
           toast.error("Something went wrong");
         });
       setNewTemplatePopup(false);
-      setTemplatePopup(false);
     } else {
       toast.warning("Please enter template name.");
     }
   };
 
-  const downloadFile = () => {
-    let link = document.createElement("a");
-    link.href = "https://webinar.informed.pro/sample.xlsx";
-    link.setAttribute("download", "file.xlsx");
-    document.body.appendChild(link);
-    link.download = "";
-    link.click();
-    document.body.removeChild(link);
-  };
 
-  const showMoreInfo = (e) => {
-    e.preventDefault();
-    setShowLessInfo(!showLessInfo);
-  };
-  const openSmartListPopup = async (smart_list_id) => {
-    setShowLessInfo(true);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      list_id: smart_list_id,
-      show_specific: 1,
-    };
-    loader("show");
-    await axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        if (res.data.status_code == 200) {
-          setAddListOpen(false);
-          setReaderDetails(res.data.response.data);
-          setSmartListName(res.data.response.smart_list_name);
-          setSmartListPopupStatus(true);
-        } else {
-          toast.warning(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        toast.warning("Something went wrong");
-        loader("hide");
-      });
-  };
 
   const handleScroll = (ev) => {
     // if (ev.target.scrollTop > 20) {
@@ -1610,8 +1410,6 @@ const TemplateBuilder = (props) => {
 
   const closeCreateNewTemplateClicked = (event) => {
     setNewTemplateClicked(false);
-    setPlainTemplateClicked(false);
-    setLinkTemplateClicked(false);
   };
 
   const handleSmartListPopupScroll = (ev) => {
@@ -1733,7 +1531,6 @@ const TemplateBuilder = (props) => {
             toast.error("Something went wrong");
           });
         setNewTemplatePopup(false);
-        setTemplatePopup(false);
       }
     } else {
       toast.warning("Template not selected.");
@@ -1850,7 +1647,6 @@ const TemplateBuilder = (props) => {
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
 
-            setProgress(parseInt(event.loaded / event.total));
             setPercent(parseInt(percentComplete));
           }
         });
@@ -1870,7 +1666,7 @@ const TemplateBuilder = (props) => {
               tox.style.opacity = 1;
               aux.style.opacity = 1;
 
-              setProgress(0);
+          
               setPercent(0);
             }
           } else {
@@ -1892,89 +1688,6 @@ const TemplateBuilder = (props) => {
       return null;
     }
   };
-  // const addTracking = function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(".tox-dialog__header");
-  //       const closeButton = header.querySelector('[aria-label="Close"]');
-  //       let text = header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon = document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-  //         );
-  //         uploadIcon.style.display = "none";
-  //         let newButton = document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button");
-  //         newButton.classList.add("tox-button--icon");
-  //         newButton.classList.add("tox-button--naked");
-  //         newButton.classList.add("track");
-  //         newButton.onclick = function () {
-  //           if (templateIdRef.current == "") {
-  //             alert("Please select the template first before adding the link");
-  //             return;
-  //           }
-  //           // alert(templateId);
-  //           let firstToxControlWrap = document.querySelector(
-  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //           );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-  //           let slugValue = prompt("Enter a slug value");
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let payload = {
-  //             slug_value: slugValue,
-  //             template_id: templateIdRef.current,
-  //             url_code: `clicked_track_doc_${currentTimestamp}`,
-  //           };
-  //           linkingPayload.current = payload;
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-  //           var saveButton = document.querySelector(
-  //             '.tox-button[title="Save"]'
-  //           );
-
-  //           saveButton.addEventListener("click", function () {
-  //             let link = `https://onesource.informed.pro/api/track-links`;
-
-  //             axios
-  //               .post(link, payload)
-  //               .then((res) => {
-  //                 console.log("done");
-  //               })
-  //               .catch((err) => {
-  //                 loader("hide");
-  //                 console.log(err);
-  //               });
-  //           });
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       } else if (text.innerText == "Insert/Edit Media") {
-  //         document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-  //         ).innerText += " (Max size: 1GB)";
-  //       }
-  //     }
-  //   });
-  // };
 
   
   const addTracking = function (editor) {
@@ -3048,7 +2761,12 @@ const TemplateBuilder = (props) => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => setAddListOpen(true)}
+                      onClick={() => {
+                        if(!smartListData.length){
+                          getSmartListData(0);
+                        } 
+                         setAddListOpen(true)
+                        }}
                     >
                       Add Smart List +
                     </button>
@@ -3197,7 +2915,6 @@ const TemplateBuilder = (props) => {
                   },
                 ]);
                 setActiveManual("active");
-                setActiveExcel("");
               }}
               type="button"
               className="btn-close"
