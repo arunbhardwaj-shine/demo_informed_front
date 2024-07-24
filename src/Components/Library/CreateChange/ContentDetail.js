@@ -226,6 +226,17 @@ const ContentDetail = (props) => {
     }
   }
 
+  const handleClickClose = () => {
+    const path =
+      location?.state?.flag === "mandatory"
+        ? "/library-mandatory-content"
+        : location?.state?.flag === "Non-mandatory"
+        ? "/library-content"
+        : "/library-content";
+  
+    navigate(path);
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -257,7 +268,8 @@ const ContentDetail = (props) => {
                     </Link>
                     <button
                       className="btn btn-primary btn-bordered next"
-                      onClick={() => navigate("/library-content")}
+                      onClick={handleClickClose}
+                      // onClick={() => navigate("/library-content")}
                     >
                       Close
                     </button>
