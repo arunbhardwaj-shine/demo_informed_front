@@ -686,7 +686,7 @@ const getExistingVideos=async ()=>{
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: state?.pdfid, isEdit: 1,
+                state: { pdfId: state?.pdfid, isEdit: 1, title : location?.state?.title,
                   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : ''}
@@ -1775,6 +1775,11 @@ const getExistingVideos=async ()=>{
                             ? "/library-content"
                             : "/library-create"
                         }
+                        state={{ 
+                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                          ? (location?.state?.title)
+                          : '' 
+                        }}
                       >
                         Cancel
                       </Link>

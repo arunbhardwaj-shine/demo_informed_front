@@ -399,7 +399,7 @@ const LibraryCreateUser = () => {
         }else{
           Role = hcpClickedFirst?.length ? hcpClickedFirst : [];
         }
-          console.log(Role,'Role');
+          // console.log(Role,'Role');
           formData.append("trail_user_type", JSON.stringify(Role))
           // let Role = [];
        
@@ -584,7 +584,7 @@ const LibraryCreateUser = () => {
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 ,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : '' },
               });
@@ -1678,6 +1678,12 @@ const LibraryCreateUser = () => {
                           ? "/library-content"
                           : "/library-create"
                       }
+                     
+                       state={{ 
+                        title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                        ? (location?.state?.title)
+                        : '' 
+                      }}
                     >
                       Cancel
                     </Link>

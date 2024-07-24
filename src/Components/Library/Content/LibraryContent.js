@@ -514,16 +514,18 @@ const LibraryContent = (props) => {
       }
       let irt = "";
       let role = "";
-      if (title === "Site User-Blinded") {
-        irt = "Yes"
-        role = "Site User-Blinded";
-      } else if (title === "Investigator-Blinded") {
-        irt = "Yes"
-        role = "Investigator-Blinded";
-      } else if (title === "Site Unblinded Pharmacist") {
-        irt = "Yes"
-        role = "Site unblinded pharmacist";
-      }
+        if (title === "Site User-Blinded") {
+          irt = "Yes"
+          role = "Site User-Blinded";
+        } else if (title === "Investigator-Blinded") {
+          irt = "Yes"
+          role = "Investigator-Blinded";
+        } else if (title === "Site Unblinded Pharmacist") {
+          irt = "Yes"
+          role = "Site unblinded pharmacist";
+        }
+     
+    
       else {
         irt = "No"
         role = "";
@@ -1034,7 +1036,7 @@ const LibraryContent = (props) => {
 
   const handleCreate = () => {
     navigate("/library-create-user", {
-      state: { flag: location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory", title }
+      state: { flag: location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory", title :title }
     });
   };
 
