@@ -294,7 +294,7 @@ const LicenseEditListing = () => {
     }
   };
 
-  const getLibraryData = async (page, obj, search, load = 0) => {
+  const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       setIsLoaded(false);
       if (load == 0) {
@@ -1085,8 +1085,8 @@ const LicenseEditListing = () => {
                   libraryData?.map((data, index) => {
                     return (
                       <>
-                        <div className="doc-content-main-box col">
-                          <div className="doc-content-header">
+                        <div className="doc-content-main-box col" key={data.id}>
+                        <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
                                 <img
@@ -2115,13 +2115,15 @@ const LicenseEditListing = () => {
               </>
             </div>
             <div className="load_more">
-            {(isLoaded == true || libraryData.length >= 24) ? (
+            {(isLoaded == true ) ? (
                 <Button
                   className="btn btn-primary btn-filled"
                   onClick={async () => {
-                    await getLibraryData(page + 1, filterObject, "");
+                    await getLibraryData(page + 1, filterObject, "",0,"rest");
                   }}                >
+                  
                   Load More
+
                 </Button>
               ) : null}
             </div>

@@ -357,7 +357,7 @@ const LicenseContent = (props) => {
     }
   };
 
-  const getLibraryData = async (page, obj, search, load = 0) => {
+  const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       setIsLoaded(false);
       if (load == 0) {
@@ -389,7 +389,7 @@ const LicenseContent = (props) => {
       }      setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
 
-        if (res?.data?.data?.library?.length > 24) {
+        if (res?.data?.data?.library?.length >= 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
@@ -1329,8 +1329,8 @@ const LicenseContent = (props) => {
                   libraryData?.map((data, index) => {
                     return (
                       <>
-                        <div className="doc-content-main-box col">
-                          <div className="doc-content-header">
+                        <div className="doc-content-main-box col" key={data.id}>
+                        <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
                                 <img
@@ -2525,11 +2525,11 @@ const LicenseContent = (props) => {
             </div>
 
             <div className="load_more">
-            {(isLoaded == true || libraryData.length >= 24) ? (
+            {(isLoaded == true) ? (
                 <Button
                   className="btn btn-primary btn-filled"
                   onClick={async () => {
-                    await getLibraryData(page + 1, filterObject, "");
+                    await getLibraryData(page + 1, filterObject, "",0,"rest");
                   }}                >
                   Load More
                 </Button>
