@@ -242,11 +242,21 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
         role = "";
       }
       loader("show");
-      const res = await postData(ENDPOINT.FILTERS, {
+      let payload = {
         user_id: localStorage.getItem("user_id"),
-        "IRT mandatory training": [irt],
-        Role: [role]
-      });
+      };
+      
+      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload["IRT mandatory training"] = [irt];
+        payload.Role = [role];
+      }
+
+      const res = await postData(ENDPOINT.FILTERS, 
+        // user_id: localStorage.getItem("user_id"),
+        // "IRT mandatory training": [irt],
+        // Role: [role]
+        payload
+      );
 
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
@@ -526,12 +536,19 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
         search: search,
         type: type,
         limit: limit,
-        "IRT mandatory training": [irt],
-        Role: [role]
       };
-      let body = { ...data, ...obj };
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        obj = {
+          "IRT mandatory training": [irt],
+          Role: [role]
+        };
+      }
+      // let body = { ...data, ...obj };
+      let body = { ...data, filter:obj };
+
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
+      // const res = await postData(ENDPOINT.LIBRARY, body);
 
       setTotalLibraryRecord(res?.data?.data?.library);
 
@@ -1017,7 +1034,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
 
   const handleCreate = () => {
     navigate("/library-create-user", {
-      state: { flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" }
+      state: { flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" ,title}
     });
   };
 
