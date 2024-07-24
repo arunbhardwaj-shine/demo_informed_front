@@ -1329,7 +1329,7 @@ const LicenseContent = (props) => {
                   libraryData?.map((data, index) => {
                     return (
                       <>
-                        <div className="doc-content-main-box col" key={data.id}>
+                        <div className="doc-content-main-box col" >
                         <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
