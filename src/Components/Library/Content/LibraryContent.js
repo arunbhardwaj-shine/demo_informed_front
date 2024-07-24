@@ -129,7 +129,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
   const filterRef = useRef(null);
   const navigate = useNavigate();
   const { title } = location.state || {};
-  console.log(location,'ghfgh')
+  // console.log(location.state,'flag')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -1028,7 +1028,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
 
   const handleEdit = () => {
     navigate("/library-edit-listing", {
-      state: { data: "edit",title :title }
+      state: { data: "edit",title :title , flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" }
     });
   };
 

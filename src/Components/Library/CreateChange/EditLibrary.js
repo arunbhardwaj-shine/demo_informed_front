@@ -51,6 +51,8 @@ const EditLibrary = () => {
     "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
+  const location = useLocation();
+  // console.log(location,'locationhtyh')
   const [updateflag, setupdateFlag] = useState(0);
   const [ebookVideoType, setEbookVideoType] = useState([
     {
@@ -684,7 +686,10 @@ const getExistingVideos=async ()=>{
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: state?.pdfid, isEdit: 1 },
+                state: { pdfId: state?.pdfid, isEdit: 1,
+                  flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                  ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                  : ''}
               });
             }
           }
@@ -1762,7 +1767,14 @@ const getExistingVideos=async ()=>{
                     <div className="header-btn">
                       <Link
                         className="btn btn-primary btn-bordered move-draft"
-                        to="/library-create"
+                        // to="/library-create"
+                        to={
+                          location?.state?.flag === "mandatory"
+                            ? "/library-mandatory-content"
+                            : location?.state?.flag === "Non-mandatory"
+                            ? "/library-content"
+                            : "/library-create"
+                        }
                       >
                         Cancel
                       </Link>
@@ -2180,59 +2192,57 @@ const getExistingVideos=async ()=>{
                         </>
                       ) : null}
 
-                      {userDetail?.user?.[0]?.flag == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3 ? (
-                        <div className="form-group">
-                          <label htmlFor="setasdraft4">
-                            {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                              ? "IRT mandatory training"
-                              : "Mandatory"}
-                          </label>
-                          <fieldset id="group2">
-                            <div className="switch">
-                              <label className="switch-light">
-                                <input
-                                  type="checkbox"
-                                  name="group2"
-                                  placeholder={
-                                    localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                                      ? "Select IRT mandatory training"
-                                      : "Select IRT"
-                                  }
-                                  id="setasdraft4"
-                                  defaultChecked={
-                                    userInputs?.reader_mandatory ? true : false
-                                  }
-                                  onChange={(e) => {
-                                    handleChange(
-                                      e.target?.checked,
-                                      "reader_mandatory"
-                                    );
-                                  }}
-                                />
-                                <span>
-                                  <span
-                                    className={`switch-btn ${
-                                      userInputs?.draft == 0 ? " Active" : ""
-                                    }`}
-                                  >
-                                    No
-                                  </span>
-                                  <span
-                                    className={`switch-btn ${
-                                      userInputs?.draft == 1 ? " Active" : ""
-                                    }`}
-                                  >
-                                    Yes
-                                  </span>
-                                </span>
-                                <a className="btn"></a>
+                      {userDetail?.user?.[0]?.flag == 1 && userDetail?.user?.[0]?.group_id == 3 ? (
+                        <>
+                          {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <div className="form-group">
+                              <label htmlFor="setasdraft4">
+                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
+                                localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                  ? "IRT mandatory training"
+                                  : "Mandatory"}
                               </label>
+                              <fieldset id="group2">
+                                <div className="switch">
+                                  <label className="switch-light">
+                                    <input
+                                      type="checkbox"
+                                      name="group2"
+                                      placeholder={
+                                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
+                                        localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                          ? "Select IRT mandatory training"
+                                          : "Select IRT"
+                                      }
+                                      id="setasdraft4"
+                                      defaultChecked={userInputs?.reader_mandatory ? true : false}
+                                      onChange={(e) => {
+                                        handleChange(e.target?.checked, "reader_mandatory");
+                                      }}
+                                    />
+                                    <span>
+                                      <span
+                                        className={`switch-btn ${
+                                          userInputs?.draft == 0 ? " Active" : ""
+                                        }`}
+                                      >
+                                        No
+                                      </span>
+                                      <span
+                                        className={`switch-btn ${
+                                          userInputs?.draft == 1 ? " Active" : ""
+                                        }`}
+                                      >
+                                        Yes
+                                      </span>
+                                    </span>
+                                    <a className="btn"></a>
+                                  </label>
+                                </div>
+                              </fieldset>
                             </div>
-                          </fieldset>
-                        </div>
+                          ) : null}
+                        </>
                       ) : null}
 
                       {userDetail?.user?.[0]?.flag == 1 &&
@@ -2298,7 +2308,7 @@ const getExistingVideos=async ()=>{
                         </div>
                       ) : null}
 
-                      {userDetail?.user?.[0]?.flag == 1 &&
+                      {location.state?.flag !== 'mandatory' && userDetail?.user?.[0]?.flag == 1 &&
                       userInputs?.reader_mandatory == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">

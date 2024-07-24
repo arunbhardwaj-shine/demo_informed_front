@@ -39,7 +39,7 @@ const LibraryCreateUser = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const location = useLocation();
-  console.log(location,'locationnnn')
+ 
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: new Date(
       moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
@@ -297,6 +297,7 @@ const LibraryCreateUser = () => {
   };
 
   const nextButtonClicked = async (e) => {
+    
     if (userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo") {
       userInputs.chapter = chapter;
     } else if (userInputs?.docintelFormat == "pdfSpc") {
@@ -360,23 +361,74 @@ const LibraryCreateUser = () => {
         if (
           userDetail?.user?.[0]?.group_id == 3 &&
           userDetail?.user?.[0]?.flag == 1
-        ) {
+        ) 
+        {
+
+        let mandatoryValue;
+       
+        if (location?.state?.flag === 'Non-mandatory') {
+          mandatoryValue = false;
+        } else if (location?.state?.flag === 'mandatory') {
+          mandatoryValue = true;
+        } else {
+          mandatoryValue = userInputs?.mandatory ? JSON.stringify(userInputs?.mandatory) : JSON.stringify(false);
+        }
+
           formData.append("blindType", userInputs?.blindType);
           formData.append("trial", userInputs?.trial);
-          formData.append(
-            "mandatory",
-            userInputs?.mandatory
-              ? JSON.stringify(userInputs?.mandatory)
-              : JSON.stringify(false)
-          );
+          // formData.append(
+          //   "mandatory",
+          //   userInputs?.mandatory
+          //     ? JSON.stringify(userInputs?.mandatory)
+          //     : JSON.stringify(false)
+          // );
+          formData.append("mandatory", JSON.stringify(mandatoryValue));
+
+        
+          let Role ;
+       
+          // if (location?.state?.title  === "Site User-Blinded") {
+          //   Role = ["Site User-Blinded"];
+          // } else if (location?.state?.title === "Investigator-Blinded") {
+          //   Role = ["Investigator-Blinded"];
+          // } else if (location?.state?.title === "Site Unblinded Pharmacist") {
+          //   Role = ["Site unblinded pharmacist"];
+          // }
+
+          if (location?.state?.flag === 'mandatory') {
+            if (location?.state?.title  === "Site User-Blinded") {
+              Role = ["Site User-Blinded"];
+            } else if (location?.state?.title === "Investigator-Blinded") {
+              Role = ["Investigator-Blinded"];
+            } else if (location?.state?.title === "Site Unblinded Pharmacist") {
+              Role = ["Site unblinded pharmacist"];
+            }
+          } else {
+            Role = hcpIrtClickedFirst?.length
+            ? JSON.stringify(hcpIrtClickedFirst)
+            : "";
+          }
+         
+          // if (location?.state?.flag === 'mandatory') {
+          //   Role =  JSON.stringify(Role)
+          // } else {
+          //   Role = hcpIrtClickedFirst?.length
+          //   ? JSON.stringify(hcpIrtClickedFirst)
+          //   : "";
+          // }
+         
+          // console.log(Role,'role')
+          // console.log(location.state?.title ,'location.state?.title ')
 
           userInputs?.mandatory
-            ? formData.append(
-              "trail_user_type",
-              hcpIrtClickedFirst?.length
-                ? JSON.stringify(hcpIrtClickedFirst)
-                : ""
-            )
+            ? 
+            // formData.append(
+            //   "trail_user_type",
+            //   hcpIrtClickedFirst?.length
+            //     ? JSON.stringify(hcpIrtClickedFirst)
+            //     : ""
+            // )
+            formData.append("trail_user_type", JSON.stringify(Role))
             : formData.append(
               "trail_user_type",
               hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
@@ -514,7 +566,9 @@ const LibraryCreateUser = () => {
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 ,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                  ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                  : '' },
               });
             }
           }
@@ -1590,7 +1644,14 @@ const LibraryCreateUser = () => {
                   <div className="header-btn">
                     <Link
                       className="btn btn-primary btn-bordered move-draft"
-                      to="/library-create"
+                      // to="/library-create"
+                      to={
+                        location?.state?.flag === "mandatory"
+                          ? "/library-mandatory-content"
+                          : location?.state?.flag === "Non-mandatory"
+                          ? "/library-content"
+                          : "/library-create"
+                      }
                     >
                       Cancel
                     </Link>
@@ -1920,7 +1981,10 @@ const LibraryCreateUser = () => {
 
                     {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
-                      <div className="form-group">
+                        <>
+                        {localStorage.getItem("user_id") !==
+                        "56Ek4feL/1A8mZgIKQWEqg=="  ? 
+                        <div className="form-group">
                         <label htmlFor="setasdraft4">
                           {localStorage.getItem("user_id") ==
                             "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -1957,9 +2021,14 @@ const LibraryCreateUser = () => {
                           </div>
                         </fieldset>
                       </div>
+                      :''
+                      
+                      }
+                     
+                      </>
                     ) : null}
 
-                    {userDetail?.user?.[0]?.flag == 1 &&
+                    {location.state?.flag !== 'mandatory' && userDetail?.user?.[0]?.flag == 1 &&
                       (!userInputs?.mandatory || userInputs?.mandatory == 0) &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
@@ -2017,8 +2086,8 @@ const LibraryCreateUser = () => {
                       </div>
                     ) : null}
 
-                    {userDetail?.user?.[0]?.flag == 1 &&
-                      userInputs?.mandatory == 1 &&
+                    { location.state?.flag !== 'mandatory' && userDetail?.user?.[0]?.flag == 1 &&
+                      userInputs?.mandatory == 1 && 
                       userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
                         <label htmlFor="">IRT role</label>
