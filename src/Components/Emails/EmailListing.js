@@ -246,7 +246,6 @@ const EmailList = (props) => {
           };
     
           for (const [key, value] of Object.entries(replacements)) {
-            console.table([key,value]);
             template = template.replace(new RegExp(key, 'g'), value);
           }
         getSpecificKeyData[0].template = template
