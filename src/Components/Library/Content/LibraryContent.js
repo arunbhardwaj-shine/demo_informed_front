@@ -490,12 +490,9 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
-      let body = { ...data, ...obj };
-
-      const res = await postData(ENDPOINT.LIBRARY, body);
-
+      let body = { ...data,filter:obj };
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       setTotalLibraryRecord(res?.data?.data?.library);
-
       let apiData = [];
       if (res?.data?.data?.library?.length) {
         const totalData =
