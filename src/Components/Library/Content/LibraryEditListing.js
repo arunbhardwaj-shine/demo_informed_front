@@ -85,6 +85,7 @@ const LibraryEditListing = () => {
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const { title } = location.state || {};
+  // console.log(location?.state?.flag,'location.state')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -152,10 +153,35 @@ const LibraryEditListing = () => {
 
   const applyFilters = async () => {
     try {
+      let irt = "";
+      let role = "";
+      if (title === "Site User-Blinded") {
+        irt = "Yes"
+        role = "Site User-Blinded";
+      } else if (title === "Investigator-Blinded") {
+        irt = "Yes"
+        role = "Investigator-Blinded";
+      } else if (title === "Site Unblinded Pharmacist") {
+        irt = "Yes"
+        role = "Site unblinded pharmacist";
+      }
+      else{
+        irt = "No"
+        role = "";
+      }
       loader("show");
-      const res = await postData(ENDPOINT.FILTERS, {
+      let payload = {
         user_id: localStorage.getItem("user_id"),
-      });
+      };
+      
+      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload["IRT mandatory training"] = [irt];
+        payload.Role = [role];
+      }
+      const res = await postData(ENDPOINT.FILTERS, 
+        // user_id: localStorage.getItem("user_id"),
+        payload
+      );
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
         setAllTags(res?.data?.data?.tags);
@@ -628,8 +654,14 @@ const LibraryEditListing = () => {
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
                   // to="/library-create"
-                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==")
-                    ?"/library-content" : "/library-create"}
+                  to={
+                    location?.state?.flag === "mandatory"
+                      ? "/library-mandatory-content"
+                      : location?.state?.flag === "Non-mandatory"
+                      ? "/library-content"
+                      : "/library-create"
+                  }
+                  
                 >
                   <svg
                     width="14"
@@ -1003,7 +1035,12 @@ const LibraryEditListing = () => {
                               <div className="dlt_btn">
                                 <Link
                                   to="/library-edit"
-                                  state={{ pdfid: data.id }}
+                                  state={{ pdfid: data.id , 
+
+                                    flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                    ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                    : '' 
+                                  }}
                                   className="footer-btn"
                                 >
                                   <button>

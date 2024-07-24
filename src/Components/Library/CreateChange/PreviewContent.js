@@ -78,6 +78,8 @@ const PreviewContent = () => {
   const [userInputs, setUserInputs] = useState({});
   const [updateFlag, setUpdateFlag] = useState(0);
   const [apiCallBackFlag, setApiCallBackFlag] = useState(0);
+  const location = useLocation();
+  console.log(location,'publish page')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
     const [isKey, setIsKey] = useState(0);
@@ -337,7 +339,10 @@ const PreviewContent = () => {
         } else {
           setPublishStatus(true);
           navigate("/content-detail", {
-            state: { pdfId: articleId,isEdit: isEdit },
+            state: { pdfId: articleId,isEdit: isEdit ,
+              flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+              ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+              : ''},
           });
         }
         setApiCallBackFlag(apiCallBackFlag + 1);
@@ -361,7 +366,20 @@ const PreviewContent = () => {
                   "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                     <Link
                       className="btn btn-bordered btn btn-primary"
-                      to="/library-create"
+                      // to="/library-create"
+                      to={
+                        location?.state?.flag === "mandatory"
+                          ? "/library-mandatory-content"
+                          : location?.state?.flag === "Non-mandatory"
+                          ? "/library-content"
+                          : "/library-create"
+                      }
+                      // state={{ pdfid: data.id , 
+
+                      //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      //   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                      //   : '' 
+                      // }}
                     >
                       Back
                     </Link>
