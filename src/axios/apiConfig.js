@@ -1,6 +1,6 @@
 //const NEW_VERSION = "new-version";
 export const ENDPOINT = {
-  LIBRARY: `/library/get-library-data`,
+  LIBRARY: `/library/get-library`,
   FILTERS: `/library/library-filter`,
   DELETE: `library/delete-library`,
   RENEWLICENSE: `library//renew-license`,
