@@ -314,23 +314,17 @@ const LicenseEditListing = () => {
 
       let body = { ...data, ...obj };
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
-      setTotalLibraryRecord(res?.data?.data?.library);
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
+      let allData = [...totalLibraryRecord, ...res?.data?.data?.library]
+      setTotalLibraryRecord(allData);
 
-      let apiData = [];
       if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
-
         if (res?.data?.data?.library?.length > 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(apiData);
+      setLibraryData(allData);
 
       // if (totalCount != res?.data?.data?.total) {
       //   setCount(res?.data?.data?.total);
@@ -2115,11 +2109,12 @@ const LicenseEditListing = () => {
               </>
             </div>
             <div className="load_more">
-              {isLoaded == true ? (
+            {(isLoaded == true || libraryData.length >= 24) ? (
                 <Button
                   className="btn btn-primary btn-filled"
-                  onClick={loadMoreClicked}
-                >
+                  onClick={async () => {
+                    await getLibraryData(page + 1, filterObject, "");
+                  }}                >
                   Load More
                 </Button>
               ) : null}

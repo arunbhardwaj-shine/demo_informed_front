@@ -377,52 +377,25 @@ const LicenseContent = (props) => {
 
       let body = { ...data, ...obj };
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
 
-      setTotalLibraryRecord(res?.data?.data?.library);
-
-      let apiData = [];
+      let allData = [...totalLibraryRecord, ...res?.data?.data?.library]
+      setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
 
         if (res?.data?.data?.library?.length > 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(apiData);
+      setLibraryData(allData);
 
-      // if (totalCount != res?.data?.data?.total) {
-      //   setCount(res?.data?.data?.total);
-      // }
-
-      // let total_results = 0;
-      // if (libraryData?.length) {
-      //   total_results = res?.data?.data?.library.length + libraryData.length;
-      //   if (res?.data?.data?.library) {
-      //     setLibraryData((oldArray) => [
-      //       ...oldArray,
-      //       ...res?.data?.data?.library,
-      //     ]);
-      //   }
-      // } else {
-      //   total_results = res?.data?.data?.library.length;
-      //   setLibraryData(res?.data?.data?.library);
-      // }
-
-      // if (res?.data?.data?.total > total_results) {
-      //   setIsLoaded(true);
-      // } else {
-      //   setIsLoaded(false);
-      // }
-
+      
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
+      setPage(page);
+
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -2546,11 +2519,12 @@ const LicenseContent = (props) => {
             </div>
 
             <div className="load_more">
-              {isLoaded == true ? (
+            {(isLoaded == true || libraryData.length >= 24) ? (
                 <Button
                   className="btn btn-primary btn-filled"
-                  onClick={loadMoreClicked}
-                >
+                  onClick={async () => {
+                    await getLibraryData(page + 1, filterObject, "");
+                  }}                >
                   Load More
                 </Button>
               ) : null}

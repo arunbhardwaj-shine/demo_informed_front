@@ -48,18 +48,16 @@ const LibraryContent = (props) => {
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
   ]);
-  const [statusOptions, setStatusOptions] = useState([
+  const statusOptions=[
     { label: "Sold", value: "sold" },
     { label: "Unsold", value: "unsold" }
-  ])
-  const [pageAllClicked, setPageAllClicked] = useState(false);
+  ]
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
-  const [noData, setNoData] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [opening_details, setOpeningDetails] = useState([]);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -69,24 +67,23 @@ const LibraryContent = (props) => {
   const [pdftagsid, setpdftagsid] = useState();
   const [appliedFilter, setAppliedFilter] = useState({});
   const [otherFilter, setOtherFilter] = useState({});
-  const [userId, setUserId] = useState();
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
-  const [irtData, setIrtData] = useState([
-    "All",
+  const irtData = 
+    ["All",
     "Site User-Blinded",
     "Investigator-Blinded",
     "Site unblinded pharmacist",
-  ]);
-  const [roleData, setRoleData] = useState([
+  ]
+  const roleData=[
     "All",
     "Principal Investigator",
     "Sub-Investigator",
     "Study Coordinator",
     "Study Nurse",
     "Other",
-  ]);
+  ];
 
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
@@ -96,7 +93,7 @@ const LibraryContent = (props) => {
   });
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
-  const [type, setType] = useState("");
+  const type="";
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
   const [newTag, setNewTag] = useState("");
@@ -256,25 +253,25 @@ const LibraryContent = (props) => {
     }
   };
 
-  const loadMoreClicked = () => {
-    loader("show");
-    let sp = page + 1;
-    let totalRecord = loadData.limit * sp;
-    let newData = [];
+  // const loadMoreClicked = async() => {
+  //   let sp = page + 1;
+  //    let data=await getLibraryData(sp, filterObject, "");
+  //    console.log(data);
 
-    if (totalLibraryRecord?.length >= totalRecord) {
-      newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
-      setLoadData({ ...loadData, nextLimit: totalRecord });
-    } else {
-      newData = totalLibraryRecord.slice(loadData.nextLimit);
-      setIsLoaded(false);
-    }
+  //   let totalRecord = loadData.limit * sp;
+  //   let newData = [];
 
-    setLibraryData((oldArray) => [...oldArray, ...newData]);
-    setPage(sp);
+  //   if (data?.length >= totalRecord) {
+  //     newData = data.slice(loadData.nextLimit, totalRecord);
+  //     setLoadData({ ...loadData, nextLimit: totalRecord });
+  //   } else {
+  //     newData = data.slice(loadData.nextLimit);
+  //     setIsLoaded(false);
+  //   }
 
-    loader("hide");
-  };
+  //   setLibraryData((oldArray) => [...oldArray, ...newData]);
+  //   setPage(sp);
+  // };
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -378,7 +375,6 @@ const LibraryContent = (props) => {
 
   const tabClicked = async (event, id) => {
     setFlag(0);
-    setUserId(id);
 
     if (event == "data-tab") {
       let index = opening_details.findIndex((el) => el.pdfId == id);
@@ -490,27 +486,24 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
-      let body = { ...data,filter:obj };
+      let body = { ...data, filter: obj };
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
-      setTotalLibraryRecord(res?.data?.data?.library);
-      let apiData = [];
+      let allData = [...totalLibraryRecord, ...res?.data?.data?.library]
+      setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
-
         if (res?.data?.data?.library?.length > 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(apiData);
+      setLibraryData(allData);
 
       setPageAll(false);
       setApiCallStatus(true);
+      setPage(page);
+
       loader("hide");
+      return [...totalLibraryRecord, ...res?.data?.data?.library]
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -519,12 +512,9 @@ const LibraryContent = (props) => {
 
   const searchChange = (e) => {
     setIsLoaded(false);
-    setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setLibraryData([]);
-      setPageAllClicked(false);
-
       getLibraryData(page, filterObject, "");
     }
   };
@@ -971,9 +961,9 @@ const LibraryContent = (props) => {
     <>
       <Col className="right-sidebar custom-change">
         <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-      />
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <div className="custom-container">
           <Row>
             <div className="top-sticky">
@@ -1651,7 +1641,7 @@ const LibraryContent = (props) => {
                                           );
                                           setQr({
                                             ...qrState,
-                                            value: data?.docintelLink+`~QRcode`,
+                                            value: data?.docintelLink + `~QRcode`,
                                           });
                                         }}
                                         className="footer-btn"
@@ -2631,18 +2621,18 @@ const LibraryContent = (props) => {
 
                                     {
                                       localStorage.getItem('user_id') == 'iSnEsKu5gB/DRlycxB6G4g=='
-                                      ?
+                                        ?
                                         <li>
                                           <h6 className="tab-content-title">
                                             <img className="library_go" src={path_image + "library_move.svg"} />
                                           </h6>
                                           <h6>
                                             {
-                                              data?.sync_onesource  ? "Yes" : "No"
+                                              data?.sync_onesource ? "Yes" : "No"
                                             }
                                           </h6>
                                         </li>
-                                      : null
+                                        : null
                                     }
 
                                     {/*
@@ -2690,10 +2680,12 @@ const LibraryContent = (props) => {
                 ) : null}
 
                 <div className="load_more">
-                  {isLoaded == true ? (
+                  {(isLoaded == true || libraryData.length >= 24) ? (
                     <Button
                       className="btn btn-primary btn-filled"
-                      onClick={loadMoreClicked}
+                      onClick={async () => {
+                        await getLibraryData(page + 1, filterObject, "");
+                      }}
                     >
                       Load More
                     </Button>
