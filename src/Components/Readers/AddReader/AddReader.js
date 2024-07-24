@@ -717,6 +717,7 @@ const ReaderAdd = () => {
   const RDAccount = () => {
     return (
       <>
+      {localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="?(<>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Institution <span>*</span>
@@ -880,6 +881,7 @@ const ReaderAdd = () => {
             onChange={(e) => handleChange(e?.value, "sub_role")}
           />
         </Form.Group>
+        </>):null}
         {/* <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Blind Type<span>*</span>{" "}

@@ -43,7 +43,7 @@ import {
 
 const LibraryContent = (props) => {
   //-----All States-----//
-const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ? '#8A4E9C':'#0066be'
+  const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? '#8A4E9C' : '#0066be'
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
@@ -237,7 +237,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
         irt = "Yes"
         role = "Site unblinded pharmacist";
       }
-      else{
+      else {
         irt = "No"
         role = "";
       }
@@ -245,13 +245,13 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
       let payload = {
         user_id: localStorage.getItem("user_id"),
       };
-      
+
       if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==") {
         payload["IRT mandatory training"] = [irt];
         payload.Role = [role];
       }
 
-      const res = await postData(ENDPOINT.FILTERS, 
+      const res = await postData(ENDPOINT.FILTERS,
         // user_id: localStorage.getItem("user_id"),
         // "IRT mandatory training": [irt],
         // Role: [role]
@@ -524,7 +524,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
         irt = "Yes"
         role = "Site unblinded pharmacist";
       }
-      else{
+      else {
         irt = "No"
         role = "";
       }
@@ -545,7 +545,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
         };
       }
       // let body = { ...data, ...obj };
-      let body = { ...data, filter:obj };
+      let body = { ...data, filter: obj };
 
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       // const res = await postData(ENDPOINT.LIBRARY, body);
@@ -1034,7 +1034,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
 
   const handleCreate = () => {
     navigate("/library-create-user", {
-      state: { flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" ,title}
+      state: { flag: location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory", title }
     });
   };
 
@@ -1042,47 +1042,67 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
     <>
       <Col className="right-sidebar custom-change">
         <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-      />
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <div className="custom-container">
           <Row>
             <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">
-              {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                      location?.pathname === "/library-mandatory-content" ? (
+                  {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    location?.pathname === "/library-mandatory-content" ? (
+                      <>
+                        <Link className="btn btn-primary btn-bordered back-btn"
+                          // to="/library-create"
+                          to="/library-mandatory"
+                        >
+                          <svg
+                            width="14"
+                            height="24"
+                            viewBox="0 0 14 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
+                        </Link>
                         <h2>{title}</h2>
-                      ) : (
-                        <h2>Non Mandatory</h2>
-                      )
+
+                      </>
                     ) : (
-                      ""
-                    )}
-                   <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
+                      <h2>Non Mandatory</h2>
+                    )
+                  ) : (
+                    ""
+                  )}
+                  <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
                 </div>
-                <div className="top-right-action">
-                  {localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ?(
+                <div className="top-right-action flex-wrap">
+                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
 
                     <>
-                    <div className="action-btn-add">
-                      {/* <Link to={'/library-create-user'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link> */}
-                      {/* <Link  
+                      <div className="action-btn-add">
+                        {/* <Link to={'/library-create-user'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link> */}
+                        {/* <Link  
                       to={{pathname: '/library-edit-listing', state: { data:  "edit" }}}
                        className="btn-white" onClick={() => handleEdit()}>Edit Content <img src={path_image + "edit-button.svg"} alt="" /></Link> */}
 
-                    <button className="btn-dashed" onClick={handleCreate}>
-                      Add Content
-                        <img src={`${path_image}edit-button.svg`} alt="" />
-                      </button>
+                        <Button className="btn-dashed" onClick={handleCreate}>
+                          Add Content
+                          <img src={`${path_image}add-icon.png`} alt="" />
+                        </Button>
 
-                  <button className="btn-white" onClick={handleEdit}>
-                        Edit Content
-                        <img src={`${path_image}edit-button.svg`} alt="" />
-                      </button>
-                    </div>
+                        <Button className="btn-white" onClick={handleEdit}>
+                          Edit Content
+                          <img src={`${path_image}edit-button.svg`} alt="" />
+                        </Button>
+                      </div>
                     </>
-                    ): null}
+                  ) : null}
 
                   <div className="search-bar">
                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1302,7 +1322,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                           Cancel
                         </button>
                       ) : (
-                        
+
                         <button
                           className="btn btn-outline-primary"
                           title="Delete "
@@ -1321,23 +1341,23 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                             />
                             <path
                               d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z"
-                             fill={deletButtonColor}
+                              fill={deletButtonColor}
                             />
                             <path
                               d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z"
-                             fill={deletButtonColor}
+                              fill={deletButtonColor}
                             />
                             <path
                               d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z"
-                             fill={deletButtonColor}
+                              fill={deletButtonColor}
                             />
                             <path
                               d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z"
-                             fill={deletButtonColor}
+                              fill={deletButtonColor}
                             />
                             <path
                               d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z"
-                             fill={deletButtonColor}
+                              fill={deletButtonColor}
                             />
                           </svg>
                         </button>
@@ -1754,7 +1774,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                           );
                                           setQr({
                                             ...qrState,
-                                            value: data?.docintelLink+`~QRcode`,
+                                            value: data?.docintelLink + `~QRcode`,
                                           });
                                         }}
                                         className="footer-btn"
@@ -2618,7 +2638,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                           </h6>
                                           <h6>
                                             {data?.cost_center &&
-                                              data?.cost_center != 0
+                                              data?.cost_center !== 0
                                               ? data.cost_center
                                               : "N/A"}
                                           </h6>
@@ -2647,9 +2667,9 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                           */}
                                       </>
                                     )}
-                                    {localStorage.getItem("group_id") == "3" &&
-                                      localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {localStorage.getItem("group_id") === "3" &&
+                                      localStorage.getItem("user_id") !==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2664,9 +2684,9 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                       </>
                                     ) : null}
 
-                                    {localStorage.getItem("user_id") ==
+                                    {localStorage.getItem("user_id") ===
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
-                                      localStorage.getItem("group_id") == "3" ? (
+                                      localStorage.getItem("group_id") === "3" ? (
                                       <>
                                         {/*<li>
                                             <h6 className="tab-content-title">
@@ -2693,7 +2713,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                             {data?.trail_user_type
                                               ? typeof data?.trail_user_type ==
                                                 "string" &&
-                                                data?.trail_user_type != ""
+                                                data?.trail_user_type !== ""
                                                 ? JSON.parse(
                                                   data?.trail_user_type
                                                 ).join(", ")
@@ -2704,7 +2724,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                       </>
                                     ) : null}
 
-                                    {localStorage.getItem("user_id") !=
+                                    {localStorage.getItem("user_id") !==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
@@ -2733,19 +2753,19 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                     ) : null}
 
                                     {
-                                      localStorage.getItem('user_id') == 'iSnEsKu5gB/DRlycxB6G4g=='
-                                      ?
+                                      localStorage.getItem('user_id') === 'iSnEsKu5gB/DRlycxB6G4g=='
+                                        ?
                                         <li>
                                           <h6 className="tab-content-title">
                                             <img className="library_go" src={path_image + "library_move.svg"} />
                                           </h6>
                                           <h6>
                                             {
-                                              data?.sync_onesource  ? "Yes" : "No"
+                                              data?.sync_onesource ? "Yes" : "No"
                                             }
                                           </h6>
                                         </li>
-                                      : null
+                                        : null
                                     }
 
                                     {/*
@@ -2765,7 +2785,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                                       <h6>{data?.uploadedDate}</h6>
                                     </li>
 
-                                    {localStorage.getItem("group_id") == "2" ? (
+                                    {localStorage.getItem("group_id") === "2" ? (
                                       <li>
                                         <h6 className="tab-content-title">
                                           Expiration date
@@ -2793,7 +2813,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                 ) : null}
 
                 <div className="load_more">
-                  {isLoaded == true ? (
+                  {isLoaded === true ? (
                     <Button
                       className="btn btn-primary btn-filled"
                       onClick={loadMoreClicked}
@@ -2803,7 +2823,7 @@ const deletButtonColor=  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWE
                   ) : null}
                 </div>
 
-                {pageAll == true ? (
+                {pageAll === true ? (
                   <div
                     className="load_more"
                     style={{
