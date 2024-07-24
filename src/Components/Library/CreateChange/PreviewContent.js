@@ -79,7 +79,7 @@ const PreviewContent = () => {
   const [updateFlag, setUpdateFlag] = useState(0);
   const [apiCallBackFlag, setApiCallBackFlag] = useState(0);
   const location = useLocation();
-  console.log(location,'publish page')
+  // console.log(location,'publish page')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
     const [isKey, setIsKey] = useState(0);
@@ -339,7 +339,7 @@ const PreviewContent = () => {
         } else {
           setPublishStatus(true);
           navigate("/content-detail", {
-            state: { pdfId: articleId,isEdit: isEdit ,
+            state: { pdfId: articleId,isEdit: isEdit , title : location?.state?.title,
               flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
               ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
               : ''},
@@ -374,12 +374,11 @@ const PreviewContent = () => {
                           ? "/library-content"
                           : "/library-create"
                       }
-                      // state={{ pdfid: data.id , 
-
-                      //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                      //   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                      //   : '' 
-                      // }}
+                      state={{ 
+                        title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                        ? (location?.state?.title)
+                        : '' 
+                      }}
                     >
                       Back
                     </Link>

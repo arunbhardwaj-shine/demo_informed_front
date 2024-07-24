@@ -234,8 +234,16 @@ const ContentDetail = (props) => {
         ? "/library-content"
         : "/library-content";
   
-    navigate(path);
+    navigate(path, {
+      state: { 
+        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" 
+          ? location?.state?.title 
+          : ''
+      }
+      
+    });
   };
+  
 
   return (
     <>
@@ -259,9 +267,10 @@ const ContentDetail = (props) => {
                           ? "/library-content"
                           : "/library-edit"
                       }
-                      state={{ pdfid: state?.pdfId,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                         : ''  }}
+                      
                       className="btn btn-primary btn-bordered move-draft"
                     >
                       Edit
