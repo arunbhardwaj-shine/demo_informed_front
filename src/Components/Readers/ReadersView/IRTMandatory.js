@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getData } from "../../../axios/apiHelper";
 import { HighchartsReact } from "highcharts-react-official";
 import Highcharts from "highcharts";
@@ -182,13 +182,14 @@ const IRTMandatory = ()  => {
                     </div>
                   </div>
               </Col>
-              <div className="irt_mandatory-block">
+              <div className="irt_mandatory-block w-100">
                 <div className="irt_mandatory-listing">
-                  <div className="">
+                  <div className="irt_mandatory-section">
                       <h3>Site User-Blinded</h3>
                       <div className="d-flex align-items-center irt-content-preview">
                         <div className="count-number">203</div>
-                        <img src={path_image+""} alt=""/>
+                        <img src={path_image+"site-user-blinded-circle.svg"} alt=""/>
+                        <div className="d-flex mandatory-section">
                         <Col className="new">
                           <p>New</p>
                           <div className="irt-value"><span>&nbsp;</span>30%</div>
@@ -213,6 +214,126 @@ const IRTMandatory = ()  => {
                           <p>Ignored</p>
                           <div className="irt-value"><span>&nbsp;</span>4%</div>
                         </Col>
+                        <div>
+                          <Link to="#">
+                            <img src={path_image +"right-arrow.svg"} alt=""/>
+                          </Link>
+                        </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div className="irt_mandatory-section">
+                      <h3>Investigator-Blinded</h3>
+                      <div className="d-flex align-items-center irt-content-preview">
+                        <div className="count-number">203</div>
+                        <img src={path_image+"investigator-blinded-circle.svg"} alt=""/>
+                        <div className="d-flex mandatory-section">
+                        <Col className="new">
+                          <p>New</p>
+                          <div className="irt-value"><span>&nbsp;</span>30%</div>
+                        </Col>
+                        <Col className="invited">
+                          <p>Invited</p>
+                          <div className="irt-value"><span>&nbsp;</span>10%</div>
+                        </Col>
+                        <Col className="started">
+                          <p>Started</p>
+                          <div className="irt-value"><span>&nbsp;</span>20%</div>
+                        </Col>
+                        <Col className="completed">
+                          <p>Completed</p>
+                          <div className="irt-value"><span>&nbsp;</span>60%</div>
+                        </Col>
+                        <Col className="not-completed">
+                          <p>Not Completed</p>
+                          <div className="irt-value"><span>&nbsp;</span>5%</div>
+                        </Col>
+                        <Col className="ignored">
+                          <p>Ignored</p>
+                          <div className="irt-value"><span>&nbsp;</span>4%</div>
+                        </Col>
+                        <div>
+                          <Link to="#">
+                            <img src={path_image +"right-arrow.svg"} alt=""/>
+                          </Link>
+                        </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div className="irt_mandatory-section">
+                      <h3>Site Unblinded Pharmacist</h3>
+                      <div className="d-flex align-items-center irt-content-preview">
+                        <div className="count-number">203</div>
+                        <img src={path_image+"site-unblinded-pharmacist-circle.svg"} alt=""/>
+                        <div className="d-flex align-items-center mandatory-section">
+                        <Col className="new">
+                          <p>New</p>
+                          <div className="irt-value"><span>&nbsp;</span>30%</div>
+                        </Col>
+                        <Col className="invited">
+                          <p>Invited</p>
+                          <div className="irt-value"><span>&nbsp;</span>10%</div>
+                        </Col>
+                        <Col className="started">
+                          <p>Started</p>
+                          <div className="irt-value"><span>&nbsp;</span>20%</div>
+                        </Col>
+                        <Col className="completed">
+                          <p>Completed</p>
+                          <div className="irt-value"><span>&nbsp;</span>60%</div>
+                        </Col>
+                        <Col className="not-completed">
+                          <p>Not Completed</p>
+                          <div className="irt-value"><span>&nbsp;</span>5%</div>
+                        </Col>
+                        <Col className="ignored">
+                          <p>Ignored</p>
+                          <div className="irt-value"><span>&nbsp;</span>4%</div>
+                        </Col>
+                        <div>
+                          <Link to="#">
+                            <img src={path_image +"right-arrow.svg"} alt=""/>
+                          </Link>
+                        </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div className="irt_mandatory-section">
+                      <h3>All IRTs</h3>
+                      <div className="d-flex align-items-center irt-content-preview">
+                        <div className="count-number">435</div>
+                        <img src={path_image+"all-irt-circle.svg"} alt=""/>
+                        <div className="d-flex align-items-center mandatory-section">
+                          <Col className="new">
+                            <p>New</p>
+                            <div className="irt-value"><span>&nbsp;</span>30%</div>
+                          </Col>
+                          <Col className="invited">
+                            <p>Invited</p>
+                            <div className="irt-value"><span>&nbsp;</span>10%</div>
+                          </Col>
+                          <Col className="started">
+                            <p>Started</p>
+                            <div className="irt-value"><span>&nbsp;</span>20%</div>
+                          </Col>
+                          <Col className="completed">
+                            <p>Completed</p>
+                            <div className="irt-value"><span>&nbsp;</span>60%</div>
+                          </Col>
+                          <Col className="not-completed">
+                            <p>Not Completed</p>
+                            <div className="irt-value"><span>&nbsp;</span>5%</div>
+                          </Col>
+                          <Col className="ignored">
+                            <p>Ignored</p>
+                            <div className="irt-value"><span>&nbsp;</span>4%</div>
+                          </Col>
+                          <div>
+                          <Link to="#">
+                            <img src={path_image +"right-arrow.svg"} alt=""/>
+                          </Link>
+                        </div>
+                        </div>
                       </div>
                   </div>
                 </div>
