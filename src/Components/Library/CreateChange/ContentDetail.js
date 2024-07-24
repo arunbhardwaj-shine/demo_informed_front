@@ -46,6 +46,8 @@ const ContentDetail = (props) => {
   const [isEdit, setIsEdit] = useState(
     typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
   );
+  const location = useLocation();
+  // console.log(location,'content details')
 
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
@@ -224,6 +226,17 @@ const ContentDetail = (props) => {
     }
   }
 
+  const handleClickClose = () => {
+    const path =
+      location?.state?.flag === "mandatory"
+        ? "/library-mandatory-content"
+        : location?.state?.flag === "Non-mandatory"
+        ? "/library-content"
+        : "/library-content";
+  
+    navigate(path);
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -238,15 +251,25 @@ const ContentDetail = (props) => {
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
                     <Link
-                      to="/library-edit"
-                      state={{ pdfid: state?.pdfId }}
+                      // to="/library-edit"
+                      to={
+                        location?.state?.flag === "mandatory"
+                          ? "/library-mandatory-content"
+                          : location?.state?.flag === "Non-mandatory"
+                          ? "/library-content"
+                          : "/library-edit"
+                      }
+                      state={{ pdfid: state?.pdfId,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                        ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                        : ''  }}
                       className="btn btn-primary btn-bordered move-draft"
                     >
                       Edit
                     </Link>
                     <button
                       className="btn btn-primary btn-bordered next"
-                      onClick={() => navigate("/library-content")}
+                      onClick={handleClickClose}
+                      // onClick={() => navigate("/library-content")}
                     >
                       Close
                     </button>

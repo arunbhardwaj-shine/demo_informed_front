@@ -15,6 +15,7 @@ const Sidebar = () => {
   let c_id = 0;
   let webinar_c_id = 0;
   const location = useLocation();
+  // console.log(location?.state?.flag,'location.stateflag')
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -784,14 +785,14 @@ const Sidebar = () => {
             window.location.pathname == "/library-add-link" ||
             window.location.pathname == "/edit-Consent-Options" ||
             window.location.pathname == "/library-create-pharma" ||
-            window.location.pathname == "/library-edit-listing" ||
+            window.location.pathname == "/library-edit-listing" || 
             window.location.pathname == "/content-detail" ? (
             <ul>
 
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                  <li
                  className={
-                   location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content"  ? "active" : "side_li"
+                   location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory"? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" :'' ) ? "active" : "side_li"
                  }
                >
                  <Link to={"/library-mandatory"}>
@@ -814,7 +815,7 @@ const Sidebar = () => {
 
               <li
                 className={
-                  location.pathname == "/library-content" ? "active" : "side_li"
+                  location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && location?.state?.flag === "Non-mandatory"?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" :'')    ? "active" : "side_li"
                 }
               >
                 <Link to={"/library-content"}>
@@ -836,7 +837,8 @@ const Sidebar = () => {
 
              
 
-              <li
+              {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ?
+                <li
                 className={
                   (location.pathname == "/library-create" ||
                     location.pathname == "/library-edit" ||
@@ -897,7 +899,7 @@ const Sidebar = () => {
 
                   <p>Create &amp; Change</p>
                 </Link>
-              </li>
+              </li>: ''}
 
               {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" ||
                 localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg==" ||
@@ -1132,10 +1134,10 @@ const Sidebar = () => {
             window.location.pathname == "/license/renew" ? (
             <ul>
 
-{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                  <li
                  className={
-                   location.pathname == "/library-content" ? "active" : "side_li"
+                   location.pathname == "/library-content" || location.pathname == "/license-edit-listing" || location.pathname == "/library-edit" ? "active" : "side_li"
                  }
                >
                  <Link to={"/library-content"}>
