@@ -12,7 +12,7 @@ import {
   Tabs,
   Tooltip,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Select from "react-select";
 import {
   postData,
@@ -26,8 +26,6 @@ import { toast } from "react-toastify";
 import { Spinner } from "react-activity";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
-import { Time } from "highcharts";
-import TimelineDetail from "../Timeline/TimelineDetail";
 import axios from "axios";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -35,6 +33,9 @@ const NewReadersReview = () => {
   let obj = {};
   const limit = 24;
   const navigate = useNavigate();
+  const { state } = useLocation()
+  
+  const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
@@ -67,25 +68,10 @@ const NewReadersReview = () => {
     "contact Type": ["HCP"],
     // 'IRT mandatory training': ["Yes"],
   };
-  let exceptionCase = {
-    "contact Type": ["HCP"],
-  };
-  if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-    staticFilter = {};
-  }
-  if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
-    staticFilter = {
-      status: ["Registered"],
-      "contact Type": ["HCP"],
-      "Content Owners":["All"]
-    };
-  }
-  const [appliedFilter, setAppliedFilter] = useState(
-    localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
-      ? exceptionCase
-      : staticFilter
-  );
-  // const [appliedFilter, setAppliedFilter] = useState();
+
+
+
+  const [appliedFilter, setAppliedFilter] = useState(staticFilter);
   const [filterObject, setFilterObject] = useState(staticFilter);
   const [apifilterObject, setApifilterObject] = useState(staticFilter);
 
@@ -106,7 +92,6 @@ const NewReadersReview = () => {
   const [totalCountFlag, setTotalCountFlag] = useState(true);
 
   const [filterdata, setFilterData] = useState({
-    // Status: ["Registered", "Unregistered"],
   });
   const [originalFilterData, setOriginalFilterData] = useState({
     role: "",
@@ -115,25 +100,14 @@ const NewReadersReview = () => {
 
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
-  // const [types, setTypes] = useState([
-  //   { value: "0", label: "HCP" },
-  //   { value: "1", label: "Staff User" },
-  //   { value: "3", label: "Test User" },
-  //   { value: "4", label: "Competitor" },
-  // ]);
+
   let types = [
     { value: "0", label: "HCP" },
     { value: "1", label: "Staff User" },
     { value: "3", label: "Test User" },
     { value: "4", label: "Competitor" },
   ];
-  if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-    types.push({
-      value: "5",
-      label: "Pharma",
-    });
-  }
-  //
+
   const [irtData, setIrtData] = useState([
     "All",
     "Site User-Blinded",
@@ -163,6 +137,7 @@ const NewReadersReview = () => {
     "Study Nurse",
     "Other",
   ]);
+  const [changeBlockReminderType,setBlockReminder]=useState([])
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -173,7 +148,7 @@ const NewReadersReview = () => {
   const [resetDataId, setResetDataId] = useState();
   const [instituteValue, setInstitute] = useState([]);
 
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -187,7 +162,7 @@ const NewReadersReview = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
       // setAppliedFilter({'IRT mandatory training': ["Yes"]});
@@ -197,11 +172,11 @@ const NewReadersReview = () => {
       setAppliedFilter({ "contact Type": ["HCP"] });
       setFilterObject({});
       setApifilterObject({});
-    } 
-    else if(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="){
-      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"] });
-      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"]  });
-      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"],"Content Owners":["All"]  });
+    }
+    else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
+      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
     }
     else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -241,9 +216,9 @@ const NewReadersReview = () => {
 
       if (
         res?.data?.data?.data["Content Owners"]?.length &&
-        res?.data?.data?.defaultOwner && localStorage.getItem("user_id")!=="B7SHpAc XDXSH NXkN0rdQ=="
+        res?.data?.data?.defaultOwner && localStorage.getItem("user_id") !== "B7SHpAc XDXSH NXkN0rdQ=="
       ) {
-       
+
         setAppliedFilter({
           ...appliedFilter,
           ["Content Owners"]: [res?.data?.data?.defaultOwner],
@@ -291,7 +266,7 @@ const NewReadersReview = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -300,7 +275,18 @@ const NewReadersReview = () => {
           "contact Type": ["HCP"],
           'IRT mandatory training': ["Yes"],
         };
-      } else if (
+      } else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload = {
+          ...data,
+          ...obj,
+          status: ["Registered"],
+          search: search,
+          "contact Type": ["HCP"],
+          'IRT mandatory training': ["Yes"],
+          'role': role
+        };
+      }
+      else if (
         localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
       ) {
         payload = {
@@ -311,7 +297,7 @@ const NewReadersReview = () => {
           search: search,
         };
       } else {
-        payload = { ...data, ...obj, search};
+        payload = { ...data, ...obj, search };
       }
 
 
@@ -321,6 +307,7 @@ const NewReadersReview = () => {
       setInstitute([])
       setChangeSiteNumberType([])
       setChangeSiteNameType([])
+      setBlockReminder([])
 
       // const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       const res = await postData(ENDPOINT.PROFILES_READER, payload);
@@ -362,7 +349,7 @@ const NewReadersReview = () => {
       let total_results = 0;
       if (page != 1) {
         total_results =
-        res?.data?.data?.result?.length + readerDataList?.length;
+          res?.data?.data?.result?.length + readerDataList?.length;
         setReaderDataList((oldArray) => [
           ...oldArray,
           ...res?.data?.data?.result,
@@ -377,12 +364,6 @@ const NewReadersReview = () => {
         setReaderDataList(res?.data?.data?.result);
         setConsetCountry(res?.data?.data?.otherCountry);
       }
-
-      // if ( total_results <= res?.data?.data?.total) {
-      //   setIsLoaded(false);
-      //  } else {
-      //   setIsLoaded(true);
-      // }
 
       if (
         parseInt(res?.data?.data?.total) > total_results &&
@@ -427,17 +408,26 @@ const NewReadersReview = () => {
           ...filterObject,
           status: ["Registered"],
         };
-      } 
-      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
-        payload ={
+      }
+      else if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        payload = {
           status: ["Registered"],
           "contact Type": ["HCP"],
           'IRT mandatory training': ["Yes"],
           ...data,
           ...filterObject,
         }
+      } else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        payload = {
+          status: ["Registered"],
+          "contact Type": ["HCP"],
+          'IRT mandatory training': ["Yes"],
+          "role": role,
+          ...data,
+          ...filterObject,
+        }
       }
-      
+
       else {
         payload = { ...data, ...filterObject };
       }
@@ -449,7 +439,7 @@ const NewReadersReview = () => {
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
-      
+
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
@@ -496,7 +486,7 @@ const NewReadersReview = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -619,8 +609,8 @@ const NewReadersReview = () => {
         key == "IRT mandatory training" ||
         key == "Blinded" ||
         key == "Content Owners" ||
-        key == "List"||
-        key=="Training"
+        key == "List" ||
+        key == "Training"
       ) {
         if (key == "region") {
           newObj["country"] = [];
@@ -641,7 +631,7 @@ const NewReadersReview = () => {
         } else {
           newObj[key]?.push(item);
           apifilterObject[key]?.push(item);
-          if (data?.length - 1 == newObj[key]?.length && key !="site") {
+          if (data?.length - 1 == newObj[key]?.length && key != "site") {
             newObj[key]?.push("All");
             apifilterObject[key]?.push("All");
           }
@@ -689,6 +679,27 @@ const NewReadersReview = () => {
       </OverlayTrigger>
     );
   }
+  const onBlockReminderChange=(checked,id,index)=>{
+    const consetValue = checked==true?1:0;
+    const consent = {
+      index: id,
+      value: consetValue,
+    };
+    const found = changeBlockReminderType.some((el) => el.index === id);
+
+    if (!found) {
+      setBlockReminder((oldArray) => [...oldArray, consent]);
+    } else {
+      setBlockReminder((oldArray) =>
+        oldArray.map((el) =>
+          el.index === id ? { ...el, value: consetValue } : el
+        )
+      );
+    }
+    changeUpdateFlag.push(id);
+    setChangeUpdateFlag(changeUpdateFlag);
+
+  }
   const onCountryChange = (e, i, index) => {
     setSelectedCountry((prev) => {
       const newSelectedSiteNumber = [...prev];
@@ -698,7 +709,7 @@ const NewReadersReview = () => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       let consent1 = {
         index: i,
         value: "",
@@ -1129,7 +1140,7 @@ const NewReadersReview = () => {
   };
   const handleTimeLine = (data) => {
     // window.open("/timeline-detail");
-    localStorage.setItem('irt_sec',1);
+    localStorage.setItem('irt_sec', 1);
     localStorage.setItem("myData", data);
     window.open("/timeline-detail");
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
@@ -1311,8 +1322,9 @@ const NewReadersReview = () => {
       let country = "";
       let binded = "";
       let institute = "";
+      let blockReminder=""
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1332,17 +1344,17 @@ const NewReadersReview = () => {
 
         if (irtIndex !== -1) {
           irt = changeIRTType[irtIndex]?.value;
-        }else{
+        } else {
           const irtindex = readerDataList.findIndex(
             (el) => el.id === reader_id
           );
           irt = readerDataList[irtindex]?.irt == "Yes" ? 1 : 0;
         }
-        console.log(irt,'irt');
+        console.log(irt, 'irt');
         const countryIndex = changeCountry.findIndex(
           (el) => el.index === reader_id
         );
-        console.log(changeCountry,countryIndex)
+        console.log(changeCountry, countryIndex)
         if (countryIndex !== -1) {
           country = changeCountry[index]?.value;
         } else {
@@ -1398,6 +1410,18 @@ const NewReadersReview = () => {
           siteName = readerDataList[siteNameIndex]?.siteName;
         }
 
+        const blockReminderIndex = changeBlockReminderType.findIndex(
+          (el) => el.index === reader_id
+        );
+
+        if (blockReminderIndex !== -1) {
+          blockReminder = changeBlockReminderType[blockReminderIndex]?.value;
+        } else {
+          const blockReminderIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          blockReminder = readerDataList[blockReminderIndex]?.blockReminder;
+        }
         if (
           country !== "" &&
           (type !== "" ||
@@ -1419,6 +1443,7 @@ const NewReadersReview = () => {
             institute: institute,
             siteNumber: siteNumber,
             siteName: siteName,
+            blockReminder:blockReminder
           };
         } else {
           toast.warning("Please select country.");
@@ -1442,6 +1467,7 @@ const NewReadersReview = () => {
           };
         }
       }
+      console.log("body-->",body)
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
@@ -1475,6 +1501,9 @@ const NewReadersReview = () => {
         if (institute !== "") {
           readerDataList[libDataIndex].institution = institute;
         }
+      if (blockReminder !== "") {
+            readerDataList[libDataIndex].blockReminder = blockReminder;
+          }
 
         const newData = readerDataList;
         setReaderDataList(newData);
@@ -1487,64 +1516,32 @@ const NewReadersReview = () => {
           redirect: "",
         });
       } else {
-        // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-        //   if (institute == "") {
-        //     toast.warning("Please select insitute value");
-        //   } else {
-        //     toast.warning("Nothing to update.");
-        //   }
-        // }
-        // else {
-        //   toast.warning("Nothing to update.");
-        // }
+        
         toast.warning("Nothing to update.");
       }
 
-      // const changeUpdateFlag = changeUpdateFlag.map((id, index) => {
-      //   return id != reader_id;
-      // });
-      // setChangeUpdateFlag(changeUpdateFlag);
+    
     } catch (err) {
       console.log("err", err);
       loader("hide");
     }
   };
 
-  // const clearFilter = () => {
-  //   document.querySelectorAll("input")?.forEach((checkbox) => {
-  //     checkbox.checked = false;
-  //   });
-  //   obj = {};
-  //   setAppliedFilter({});
-
-  //   if (filterApplyflag > 0) {
-  //     let obj = {};
-  //     setFilterApplyflag(0);
-  //     setApifilterObject(obj);
-  //     setFilterObject(obj);
-  //     setReaderDataList([]);
-  //     getReaderListData(page, obj, search);
-  //     setSearch("");
-  //   }
-
-  //   if (originalFilterData?.role?.length) {
-  //     setFilterData({ ...filterdata, role: originalFilterData.role });
-  //   }
-  //   setShowFilter(false);
-  // };
 
   const clearFilter = () => {
-  
+
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
-  
-    obj = { status: ["Registered"],"contact Type": ["HCP"],};
-    setAppliedFilter({status: ["Registered"],"contact Type": ["HCP"],});
-  
+
+    obj = { status: ["Registered"], "contact Type": ["HCP"], };
+    setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], });
+
     if (filterApplyflag > 0) {
-      let obj = {  status: ["Registered"],
-        "contact Type": ["HCP"],};
+      let obj = {
+        status: ["Registered"],
+        "contact Type": ["HCP"],
+      };
       setFilterApplyflag(0);
       setApifilterObject(obj);
       setFilterObject(obj);
@@ -1552,12 +1549,12 @@ const NewReadersReview = () => {
       getReaderListData(page, obj, search);
       setSearch("");
     }
-  
+
 
     if (originalFilterData?.role?.length) {
       setFilterData({ ...filterdata, role: originalFilterData.role });
     }
-  
+
 
     setShowFilter(false);
   };
@@ -1624,7 +1621,7 @@ const NewReadersReview = () => {
         try {
           let body = {
             readerId: userId,
-            irt:1,
+            irt: 1,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {
@@ -1639,7 +1636,7 @@ const NewReadersReview = () => {
       }
     } else if (
       key == "change-tab" &&
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1653,15 +1650,15 @@ const NewReadersReview = () => {
       //   all: res?.data?.data?.siteName,
       // }));
       let consetValue = country;
-      const filteredData = res?.data?.data?.sideData.filter(
+      const filteredData = res?.data?.data?.sideData?.filter(
         (item) => item.country === consetValue
       );
 
-      const siteNumbers = filteredData.map((item) => ({
+      const siteNumbers = filteredData?.map((item) => ({
         label: item.site_number,
         value: item.site_number,
       }));
-      const siteNames = filteredData.map((item) => ({
+      const siteNames = filteredData?.map((item) => ({
         label: item.site_name,
         value: item.site_name,
       }));
@@ -1681,7 +1678,7 @@ const NewReadersReview = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -1778,35 +1775,44 @@ const NewReadersReview = () => {
         <div className="custom-container">
           <Row>
             <div className="top-sticky">
+              {state?.siteRole ?
+                <div className="page-title">  <h2>{state?.siteRole}</h2> </div> : ""}
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {(localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" 
-                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                  ? (
-                    <h4>
-                      Total USER |{" "}
-                      <span>{totalCountFlag ? totalCount : 0}</span>
-                      {/* <span>{readerDataList?.length}</span> */}
-                    </h4>
-                  ) : (
-                    <h4>
-                      Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
-                    </h4>
-                  )}
-                     { (
+                  {localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg==" ?
+                    (
+                      <h4>
+                        Total IRTs |{" "}
+                        <span>{totalCountFlag ? totalCount : 0}</span>
+                        {/* <span>{readerDataList?.length}</span> */}
+                      </h4>
+                    )
+                    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      ? (
+                        <h4>
+                          Total USER |{" "}
+                          <span>{totalCountFlag ? totalCount : 0}</span>
+                          {/* <span>{readerDataList?.length}</span> */}
+                        </h4>
+                      ) : (
+                        <h4>
+                          Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
+                        </h4>
+                      )}
+                  {(
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
                         onClick={async () => {
                           setRefreshFlag(true);
 
-                          let createdBy=localStorage.getItem("user_id")
+                          let createdBy = localStorage.getItem("user_id")
                           let obj = {
-                            "sync":1,
-                            created_by:createdBy
+                            "sync": 1,
+                            created_by: createdBy
                           };
-                          const response = await postData("https://onesource.informed.pro/api/training-completion-cron",obj);
+                          const response = await postData("https://onesource.informed.pro/api/training-completion-cron", obj);
                           const hadData = response?.data?.data || [];
                           setRefreshFlag(false);
 
@@ -1838,10 +1844,41 @@ const NewReadersReview = () => {
                         </svg>
                       </button>
                     </div>
-                  ) }
+                  )}
 
                 </div>
                 <div className="top-right-action library_content_view">
+                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                    <div className="search-bar">
+                      <Link to={'/reader-add'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link>
+
+                    </div> : null}
+                  <div className="clear-search">
+                    <button
+                      className="btn print"
+                      title="Download stats"
+                      onClick={() => {
+                        getDownloadData(page, obj, search);
+                      }}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                          fill="#0066BE"
+                        />
+                        <path
+                          d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                          fill="#0066BE"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                   <div className="search-bar">
                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                       <input
@@ -1880,7 +1917,7 @@ const NewReadersReview = () => {
                       ref={buttonRef}
                       className={
                         Object.keys(apifilterObject)?.length &&
-                        filterApplyflag == 1
+                          filterApplyflag == 1
                           ? "btn btn-secondary dropdown filter_applied"
                           : "btn btn-secondary dropdown"
                       }
@@ -1947,20 +1984,20 @@ const NewReadersReview = () => {
 
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
-                               const filteredRoles =
-                               key === "role"
-                                 ? filterdata[key].filter(
-                                     (item) =>
-                                       item === "All" ||
-                                       item === "Site User-Blinded" ||
-                                       item === "Investigator-Blinded" ||
-                                       item === "Site unblinded pharmacist"
-                                   )
-                                 : filterdata[key];
+                            const filteredRoles =
+                              key === "role"
+                                ? filterdata[key].filter(
+                                  (item) =>
+                                    item === "All" ||
+                                    item === "Site User-Blinded" ||
+                                    item === "Investigator-Blinded" ||
+                                    item === "Site unblinded pharmacist"
+                                )
+                                : filterdata[key];
                             return (
-                              
+
                               <>
-                             
+
                                 {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
                                     className={
@@ -1976,102 +2013,102 @@ const NewReadersReview = () => {
                                       <ul>
                                         {filteredRoles?.length
                                           ? filteredRoles?.map(
-                                              (item, index) => (
-                                                <li key={index}>
-                                                  {item != "" ? (
-                                                    <label className="select-multiple-option">
-                                                      <input
-                                                        type={
-                                                          key == "status" ||
+                                            (item, index) => (
+                                              <li key={index}>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type={
+                                                        key == "status" ||
                                                           key ==
-                                                            "Content Owners" ||
+                                                          "Content Owners" ||
                                                           key ==
-                                                            "contact Type" ||
+                                                          "contact Type" ||
                                                           key == "userAction" ||
                                                           key == "Blinded" ||
                                                           key == "IRT" ||
                                                           key ==
-                                                            "IRT mandatory training" ||
+                                                          "IRT mandatory training" ||
                                                           key == "region" ||
                                                           key == "RTR?" ||
                                                           key ==
-                                                            "Business Unit" ||
+                                                          "Business Unit" ||
                                                           key ==
-                                                            "webinarRegistered" ||
+                                                          "webinarRegistered" ||
                                                           key ==
-                                                            "Registered For Webinar" ||
-                                                          key == "List"||
+                                                          "Registered For Webinar" ||
+                                                          key == "List" ||
                                                           key == "Training"
-                                                            ? "radio"
-                                                            : "checkbox"
-                                                        }
-                                                        id={`custom-checkbox-tags-${index}`}
-                                                        value={
-                                                          typeof item ==
+                                                          ? "radio"
+                                                          : "checkbox"
+                                                      }
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={
+                                                        typeof item ==
                                                           "object"
-                                                            ? item?.title
-                                                            : item
-                                                        }
-                                                        name={key}
-                                                        checked={
-                                                          typeof item ==
+                                                          ? item?.title
+                                                          : item
+                                                      }
+                                                      name={key}
+                                                      checked={
+                                                        typeof item ==
                                                           "object"
-                                                            ? appliedFilter[
-                                                                key
-                                                              ]?.includes(
-                                                                item.id
-                                                              )
-                                                              ? true
-                                                              : false
-                                                            : appliedFilter[
-                                                                key
-                                                              ]?.includes(item)
+                                                          ? appliedFilter[
+                                                            key
+                                                          ]?.includes(
+                                                            item.id
+                                                          )
                                                             ? true
                                                             : false
-                                                        }
-                                                        // defaultChecked={
-                                                        //   key == "contactType" &&
-                                                        //   item == "HCP"
-                                                        //     ? true
-                                                        //     : filterObject?.hasOwnProperty(
-                                                        //         key
-                                                        //       )
-                                                        //     ? filterObject[
-                                                        //         key
-                                                        //       ]?.indexOf(item) !==
-                                                        //       -1
-                                                        //     : false
-                                                        // }
+                                                          : appliedFilter[
+                                                            key
+                                                          ]?.includes(item)
+                                                            ? true
+                                                            : false
+                                                      }
+                                                      // defaultChecked={
+                                                      //   key == "contactType" &&
+                                                      //   item == "HCP"
+                                                      //     ? true
+                                                      //     : filterObject?.hasOwnProperty(
+                                                      //         key
+                                                      //       )
+                                                      //     ? filterObject[
+                                                      //         key
+                                                      //       ]?.indexOf(item) !==
+                                                      //       -1
+                                                      //     : false
+                                                      // }
 
-                                                        onChange={(e) =>
-                                                          handleOnFilterChange(
-                                                            e,
-                                                            typeof item ==
-                                                              "object"
-                                                              ? item.id
-                                                              : item,
-                                                            index,
-                                                            key,
-                                                            [...filteredRoles]
-                                                          )
-                                                        }
-                                                      />
-                                                      {typeof item == "object"
-                                                        ? item?.title
-                                                        : item}
-                                                      {/* {key == "draft" &&
+                                                      onChange={(e) =>
+                                                        handleOnFilterChange(
+                                                          e,
+                                                          typeof item ==
+                                                            "object"
+                                                            ? item.id
+                                                            : item,
+                                                          index,
+                                                          key,
+                                                          [...filteredRoles]
+                                                        )
+                                                      }
+                                                    />
+                                                    {typeof item == "object"
+                                                      ? item?.title
+                                                      : item}
+                                                    {/* {key == "draft" &&
                                                       typeof item  == "string" && item == "0"
                                                       ? "live"
                                                       : key == "draft" &&  typeof item  == "string" &&
                                                         item == "1"
                                                       ? "draft" &&  typeof item  == "string"
                                                       : item} */}
-                                                      <span className="checkmark"></span>
-                                                    </label>
-                                                  ) : null}
-                                                </li>
-                                              )
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
                                             )
+                                          )
                                           : null}
                                       </ul>
                                     </Accordion.Body>
@@ -2100,32 +2137,7 @@ const NewReadersReview = () => {
                     )}
                   </div>
 
-                  <div className="clear-search">
-                    <button
-                      className="btn print"
-                      title="Download stats"
-                      onClick={() => {
-                        getDownloadData(page, obj, search);
-                      }}
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                          fill="#0066BE"
-                        />
-                        <path
-                          d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                          fill="#0066BE"
-                        />
-                      </svg>
-                    </button>
-                  </div>
+
 
                   <div className="clear-search">
                     {deletestatus ? (
@@ -2178,7 +2190,7 @@ const NewReadersReview = () => {
                     )}
                   </div>
                 </div>
-                
+
               </div>
               {Object.keys(filterObject)?.length && filterApplyflag == 1 ? (
                 <div className="apply-filter">
@@ -2222,20 +2234,20 @@ const NewReadersReview = () => {
                                           {key == "draft" && item == "0"
                                             ? "live"
                                             : key == "draft" && item == "1"
-                                            ? "draft"
-                                            : key == "Registered For Title"
-                                            ? filterdata?.[
-                                                "Registered For Title"
-                                              ]?.find(
-                                                (element) => element.id == item
-                                              )?.title
-                                            : key == "site"
-                                            ? filterdata?.[
-                                                "site"
-                                              ]?.find(
-                                                (element) => element.id == item
-                                              )?.title  
-                                            : item}
+                                              ? "draft"
+                                              : key == "Registered For Title"
+                                                ? filterdata?.[
+                                                  "Registered For Title"
+                                                ]?.find(
+                                                  (element) => element.id == item
+                                                )?.title
+                                                : key == "site"
+                                                  ? filterdata?.[
+                                                    "site"
+                                                  ]?.find(
+                                                    (element) => element.id == item
+                                                  )?.title
+                                                  : item}
                                           <img
                                             src={
                                               path_image + "filter-close.svg"
@@ -2267,23 +2279,23 @@ const NewReadersReview = () => {
                   </div>
                 </div>
               ) : null}
-              
+
             </div>
 
             <div className="library-content-box-layuot readerlist d-flex">
 
               {readerDataList?.length || updateflag ? (
-                 readerDataList.map((data, index) => {
-                
+                readerDataList.map((data, index) => {
+
                   return (
                     <>
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                            ?`${data?.firstName} ${data?.lastName} ` :data?.firstName ? data?.firstName : data?.name}
+                              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? `${data?.firstName} ${data?.lastName} ` : data?.firstName ? data?.firstName : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2315,60 +2327,60 @@ const NewReadersReview = () => {
                                     ""
                                   )}
 
-                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" 
-                                  &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
-                                  && localStorage.getItem("group_id") == 3 ? 
+                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+                                    && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                                    && localStorage.getItem("group_id") == 3 ?
                                     (
                                       <>
-                                      
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Country
-                                        </h6>
-                                        <h6>
-                                          {data?.country
-                                            ? data?.country == "B&H"
-                                              ? "Bosnia and Herzegovina"
-                                              : data?.country
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Consent Country
-                                        </h6>
-                                        <h6>
-                                          {consetCountry?.[data?.id]
-                                            ? consetCountry?.[data?.id] ==
-                                              "B&H"
-                                              ? "Bosnia and Herzegovina"
-                                              : consetCountry?.[data?.id]
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      </>
-                                    ) : 
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Country
-                                        </h6>
-                                        <h6>
-                                          {data?.country
-                                            ? data?.country == "B&H"
-                                              ? "Bosnia and Herzegovina"
-                                              : data?.country
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                    }
 
-                                  
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Country
+                                          </h6>
+                                          <h6>
+                                            {data?.country
+                                              ? data?.country == "B&H"
+                                                ? "Bosnia and Herzegovina"
+                                                : data?.country
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Consent Country
+                                          </h6>
+                                          <h6>
+                                            {consetCountry?.[data?.id]
+                                              ? consetCountry?.[data?.id] ==
+                                                "B&H"
+                                                ? "Bosnia and Herzegovina"
+                                                : consetCountry?.[data?.id]
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                      </>
+                                    ) :
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Country
+                                      </h6>
+                                      <h6>
+                                        {data?.country
+                                          ? data?.country == "B&H"
+                                            ? "Bosnia and Herzegovina"
+                                            : data?.country
+                                          : "N/A"}
+                                      </h6>
+                                    </li>
+                                  }
+
+
 
                                   {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" 
-                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                     &&
-                                  localStorage.getItem("group_id") == "3" ? (
+                                    localStorage.getItem("group_id") == "3" ? (
                                     <>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -2423,7 +2435,7 @@ const NewReadersReview = () => {
                                         </h6>
                                         <h6>
                                           {data?.siteNumber &&
-                                          data?.siteNumber != 0
+                                            data?.siteNumber != 0
                                             ? data?.siteNumber
                                             : "N/A"}
                                         </h6>
@@ -2580,11 +2592,11 @@ const NewReadersReview = () => {
                                                 (el) => el.userId == data?.id
                                               ) !== -1
                                                 ? emailStats[
-                                                    emailStats.findIndex(
-                                                      (el) =>
-                                                        el.userId == data?.id
-                                                    )
-                                                  ]?.emailSent
+                                                  emailStats.findIndex(
+                                                    (el) =>
+                                                      el.userId == data?.id
+                                                  )
+                                                ]?.emailSent
                                                 : "Loading"
                                             }
                                           />
@@ -2615,11 +2627,11 @@ const NewReadersReview = () => {
                                                 (el) => el.userId == data?.id
                                               ) !== -1
                                                 ? emailStats[
-                                                    emailStats.findIndex(
-                                                      (el) =>
-                                                        el.userId == data?.id
-                                                    )
-                                                  ]?.emailOpen
+                                                  emailStats.findIndex(
+                                                    (el) =>
+                                                      el.userId == data?.id
+                                                  )
+                                                ]?.emailOpen
                                                 : "Loading"
                                             }
                                           />
@@ -2653,10 +2665,10 @@ const NewReadersReview = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentDeliverd
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.contentDeliverd
                                             : "Loading"
                                         }
                                       />
@@ -2686,10 +2698,10 @@ const NewReadersReview = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.rtr
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.rtr
                                             : "Loading"
                                         }
                                       />
@@ -2719,10 +2731,10 @@ const NewReadersReview = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.qr
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.qr
                                             : "Loading"
                                         }
                                       />
@@ -2752,10 +2764,10 @@ const NewReadersReview = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.go
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.go
                                             : "Loading"
                                         }
                                       />
@@ -2785,10 +2797,10 @@ const NewReadersReview = () => {
                                             (el) => el.userId == data?.id
                                           ) !== -1
                                             ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentOpening
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              )
+                                            ]?.contentOpening
                                             : "Loading"
                                         }
                                       />
@@ -2820,11 +2832,11 @@ const NewReadersReview = () => {
                                               (el) => el.userId == data?.id
                                             ) !== -1
                                               ? emailStats[
-                                                  emailStats.findIndex(
-                                                    (el) =>
-                                                      el.userId == data?.id
-                                                  )
-                                                ]?.LastActivity
+                                                emailStats.findIndex(
+                                                  (el) =>
+                                                    el.userId == data?.id
+                                                )
+                                              ]?.LastActivity
                                               : "Loading"
                                           }
                                         />
@@ -2844,13 +2856,7 @@ const NewReadersReview = () => {
                                     >
                                       See timeline
                                     </button>
-                                    {/* <Link
-                                      className="btn btn-primary btn-bordered"
-                                      to="/timeline-detail"
-                                      state={{ readerId: data?.id }}
-                                    >
-                                      See time line
-                                    </Link> */}
+                                 
                                   </div>
                                 </div>
                               </div>
@@ -2860,85 +2866,46 @@ const NewReadersReview = () => {
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" 
-                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                       && change ? (
                                       <>
-                                        {/*console.log(
-                                        types.findIndex(
-                                          (el) =>
-                                          el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                        ))*/}
-                                        {/*<li>
-                                          <h6 className="tab-content-title">
-                                            User Status
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={types}
-                                                defaultValue={
-                                                  types[
-                                                    types.findIndex(
-                                                      (el) =>
-                                                        el.label.toLowerCase() ==
-                                                        data?.user_status?.toLowerCase()
-                                                    )
-                                                  ]
-                                                }
-                                                onChange={(event) =>
-                                                  onUserChange(event, data.id)
-                                                }
-                                                id={"user_type_" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Blinded
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-
-                                              options={change?.blind_type}
-
-                                              value={
-                                                  changeBlindedType?.[
-                                                    changeBlindedType.findIndex(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )
-                                                  ]?.value == "blinded"
-                                                    ? change?.blind_type[0]
-                                                    : changeBlindedType?.[
-                                                        changeBlindedType.findIndex(
-                                                          (el) =>
-                                                            el.index == data.id
-                                                        )
-                                                      ]?.value == "unblinded"
-                                                    ? change?.blind_type[1]
-                                                    : data?.binded === "Yes"
-                                                    ? change?.blind_type[0]
-                                                    : change?.blind_type[1]
-                                                }
-                                                onChange={(event) =>
-                                                  onBlindedChange(
-                                                    event,
-                                                    data.id
-                                                  )
-                                                }
-                                                id={"blinded_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>*/}
+                                   
+                                        {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                       
+                                          <li>
+                                             
+                                            <h6 className="tab-content-title">
+                                              Block reminders
+                                            </h6>
+                                            <fieldset id="group2">
+                                              <div className="switch">
+                                                <label className="switch-light">
+                                                  <input
+                                                    type="checkbox"
+                                                    value="value1"
+                                                    name="group2"
+                                                    id="setasdraft5"
+                                                    defaultChecked={data?.blockReminder == 1?true : false}
+                                                    // checked={changeBlockReminderType[index]?.value == true?true : false}
+                                                  onChange={(e) => {
+                                                    onBlockReminderChange(e.target?.checked, data.id,
+                                                      index);
+                                                  }}
+                                                  />
+                                                  <span>
+                                                    <span className="switch-btn active">
+                                                      No
+                                                    </span>
+                                                    <span className="switch-btn ">Yes</span>
+                                                  </span>
+                                                  <a className="btn"></a>
+                                                </label>
+                                              </div>
+                                            </fieldset>
+                                          </li>
+                                          : null}
+                                          {localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="?
                                         <li>
                                           <h6 className="tab-content-title">
                                             Institution
@@ -2949,11 +2916,11 @@ const NewReadersReview = () => {
                                                 options={institutionData}
                                                 defaultValue={
                                                   institutionData?.[
-                                                    institutionData.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        data?.institution
-                                                    )
+                                                  institutionData.findIndex(
+                                                    (el) =>
+                                                      el.value ==
+                                                      data?.institution
+                                                  )
                                                   ]
                                                 }
                                                 onChange={(e) =>
@@ -2970,128 +2937,93 @@ const NewReadersReview = () => {
                                             </div>
                                           </div>
                                         </li>
-                                        {/* <li>
-                                          <h6 className="tab-content-title">
-                                            IRT mandatory training
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={change?.irt}
-                                                value={
-                                                  changeIRTType?.[
-                                                    changeIRTType.findIndex(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )
-                                                  ]?.value == 1
-                                                    ? change?.irt[0]
-                                                    : changeIRTType?.[
-                                                        changeIRTType.findIndex(
-                                                          (el) =>
-                                                            el.index == data.id
-                                                        )
-                                                      ]?.value == 0
-                                                    ? change?.irt[1]
-                                                    : data?.irt === "Yes"
-                                                    ? change?.irt[0]
-                                                    : change?.irt[1]
-                                                }
-                                                onChange={(event) => {
-                                                  onIrtChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  );
-                                                }}
-                                                id={"irt_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li> */}
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            IRT role
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              {(
-                                                changeIRTType.filter(
-                                                  (el) => el.index == data.id
-                                                )?.length
-                                                  ? changeIRTType.filter(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )?.[0]?.value
-                                                  : data?.irt == "Yes"
-                                                  ? true
-                                                  : false
-                                              ) ? (
-                                                <Select
-                                                  options={change?.userIrtRoles}
-                                                  value={
-                                                    selectedRole[index] !=
-                                                      undefined &&
-                                                    selectedRole[index] != true
-                                                      ? selectedRole[index]
-                                                      : selectedRole[index] ==
-                                                        true
-                                                      ? null
-                                                      : // change
-                                                        //     ?.userIrtRoles?.[0]
-                                                        change?.userIrtRoles.find(
-                                                          (roleObj) =>
-                                                            roleObj.value ===
-                                                            data?.role
-                                                        )
-                                                  }
-                                                  onChange={(event) =>
-                                                    onRoleChange(
-                                                      event,
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  }
-                                                  id={"role_" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                  placeholder="Select Role"
-                                                />
-                                              ) : (
-                                                <Select
-                                                  options={change?.role}
-                                                  value={
-                                                    selectedRole[index] !=
-                                                      undefined &&
-                                                    selectedRole[index] != true
-                                                      ? selectedRole[index]
-                                                      : selectedRole[index] ==
-                                                        true
-                                                      ? null
-                                                      : change?.role.find(
-                                                          (roleObj) =>
-                                                            roleObj.value ===
-                                                            data?.role
-                                                        )
-                                                  }
-                                                  onChange={(event) =>
-                                                    onRoleChange(
-                                                      event,
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  }
-                                                  id={"role_" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                  placeholder="Select Role"
-                                                />
-                                              )}
-                                            </div>
-                                          </div>
-                                        </li>
+                                        :null}
+                                    {(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    ||(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&state?.siteRole?.includes("all")))
+                                    ?
+                                    <li>
+                                    <h6 className="tab-content-title">
+                                      IRT role
+                                    </h6>
+                                    <div className="select-dropdown-wrapper">
+                                      <div className="select">
+                                        {(
+                                          changeIRTType.filter(
+                                            (el) => el.index == data.id
+                                          )?.length
+                                            ? changeIRTType.filter(
+                                              (el) =>
+                                                el.index == data.id
+                                            )?.[0]?.value
+                                            : data?.irt == "Yes"
+                                              ? true
+                                              : false
+                                        ) ? (
+                                          <Select
+                                            options={change?.userIrtRoles}
+                                            value={
+                                              selectedRole[index] !=
+                                                undefined &&
+                                                selectedRole[index] != true
+                                                ? selectedRole[index]
+                                                : selectedRole[index] ==
+                                                  true
+                                                  ? null
+                                                  : // change
+                                                  //     ?.userIrtRoles?.[0]
+                                                  change?.userIrtRoles.find(
+                                                    (roleObj) =>
+                                                      roleObj.value ===
+                                                      data?.role
+                                                  )
+                                            }
+                                            onChange={(event) =>
+                                              onRoleChange(
+                                                event,
+                                                data.id,
+                                                index
+                                              )
+                                            }
+                                            id={"role_" + data?.id}
+                                            className="dropdown-basic-button split-button-dropup"
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        ) : (
+                                          <Select
+                                            options={change?.role}
+                                            value={
+                                              selectedRole[index] !=
+                                                undefined &&
+                                                selectedRole[index] != true
+                                                ? selectedRole[index]
+                                                : selectedRole[index] ==
+                                                  true
+                                                  ? null
+                                                  : change?.role.find(
+                                                    (roleObj) =>
+                                                      roleObj.value ===
+                                                      data?.role
+                                                  )
+                                            }
+                                            onChange={(event) =>
+                                              onRoleChange(
+                                                event,
+                                                data.id,
+                                                index
+                                              )
+                                            }
+                                            id={"role_" + data?.id}
+                                            className="dropdown-basic-button split-button-dropup"
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
+                                  </li>
+                                    :null}
+                                       
                                         <li>
                                           <h6 className="tab-content-title">
                                             Country
@@ -3103,27 +3035,27 @@ const NewReadersReview = () => {
                                                   (el) => el.index == data.id
                                                 )?.length
                                                   ? changeIRTType.filter(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )?.[0]?.value
+                                                    (el) =>
+                                                      el.index == data.id
+                                                  )?.[0]?.value
                                                   : data?.irt == "Yes"
-                                                  ? true
-                                                  : false
+                                                    ? true
+                                                    : false
                                               ) ? (
                                                 <Select
                                                   ref={defaultCountry}
                                                   options={irtCountry}
                                                   value={
                                                     selectedCountry[index] !==
-                                                    undefined
+                                                      undefined
                                                       ? selectedCountry[index]
                                                       : data?.country === "B&H"
-                                                      ? countryAll.find(
+                                                        ? countryAll.find(
                                                           (el) =>
                                                             el.value ===
                                                             "Bosnia and Herzegovina"
                                                         )
-                                                      : irtCountry.find(
+                                                        : irtCountry.find(
                                                           (el) =>
                                                             el.value ===
                                                             data?.country
@@ -3147,15 +3079,15 @@ const NewReadersReview = () => {
                                                   options={countryAll}
                                                   value={
                                                     selectedCountry[index] !==
-                                                    undefined
+                                                      undefined
                                                       ? selectedCountry[index]
                                                       : data?.country === "B&H"
-                                                      ? countryAll.find(
+                                                        ? countryAll.find(
                                                           (el) =>
                                                             el.value ===
                                                             "Bosnia and Herzegovina"
                                                         )
-                                                      : countryAll.find(
+                                                        : countryAll.find(
                                                           (el) =>
                                                             el.value ===
                                                             data?.country
@@ -3191,20 +3123,20 @@ const NewReadersReview = () => {
                                                 }
                                                 value={
                                                   selectedSiteNumber[index] !=
-                                                    undefined &&
-                                                  selectedSiteNumber[index] !=
+                                                    "undefined" &&
+                                                    selectedSiteNumber[index] !=
                                                     true
                                                     ? selectedSiteNumber[index]
                                                     : selectedSiteNumber[
-                                                        index
-                                                      ] == true
-                                                    ? null
-                                                    : change?.siteNumber[
-                                                        change?.siteNumber.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteNumber?.toLowerCase()
-                                                        )
+                                                      index
+                                                    ] == true
+                                                      ? null
+                                                      : change?.siteNumber[
+                                                      change?.siteNumber?.findIndex(
+                                                        (el) =>
+                                                          el.label.toLowerCase() ===
+                                                          data?.siteNumber?.toLowerCase()
+                                                      )
                                                       ]
                                                 }
                                                 onChange={(event) =>
@@ -3238,19 +3170,19 @@ const NewReadersReview = () => {
                                                 }
                                                 value={
                                                   selectedSiteName[index] !=
-                                                    undefined &&
-                                                  selectedSiteName[index] !=
+                                                    "undefined" &&
+                                                    selectedSiteName[index] !=
                                                     true
                                                     ? selectedSiteName[index]
                                                     : selectedSiteName[index] ==
                                                       true
-                                                    ? null
-                                                    : change?.siteName[
-                                                        change?.siteName.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteName?.toLowerCase()
-                                                        )
+                                                      ? null
+                                                      : change?.siteName[
+                                                      change?.siteName?.findIndex(
+                                                        (el) =>
+                                                          el.label.toLowerCase() ===
+                                                          data?.siteName?.toLowerCase()
+                                                      )
                                                       ]
                                                 }
                                                 placeholder="Select Site Name"
@@ -3281,11 +3213,11 @@ const NewReadersReview = () => {
                                                 options={types}
                                                 defaultValue={
                                                   types[
-                                                    types.findIndex(
-                                                      (el) =>
-                                                        el.label.toLowerCase() ==
-                                                        data?.user_status?.toLowerCase()
-                                                    )
+                                                  types.findIndex(
+                                                    (el) =>
+                                                      el.label.toLowerCase() ==
+                                                      data?.user_status?.toLowerCase()
+                                                  )
                                                   ]
                                                 }
                                                 onChange={(event) =>
@@ -3308,17 +3240,17 @@ const NewReadersReview = () => {
                                                 options={countryAll}
                                                 defaultValue={
                                                   countryAll[
-                                                    data?.country == "B&H"
-                                                      ? countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            "Bosnia and Herzegovina"
-                                                        )
-                                                      : countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            data?.country
-                                                        )
+                                                  data?.country == "B&H"
+                                                    ? countryAll.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        "Bosnia and Herzegovina"
+                                                    )
+                                                    : countryAll.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        data?.country
+                                                    )
                                                   ]
                                                 }
                                                 onChange={(event) =>
@@ -3375,7 +3307,7 @@ const NewReadersReview = () => {
                             ) : (
                               ""
                             )}
-                           
+
                           </Tabs>
                         </div>
                       </div>
