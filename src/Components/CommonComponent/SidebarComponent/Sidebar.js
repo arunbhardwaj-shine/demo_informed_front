@@ -1336,6 +1336,7 @@ const Sidebar = () => {
                 <li
                   className={
                     location.pathname == "/IRT-Mandatory" ||location.pathname == "/new-readers-reviews" ||
+                    location.pathname =="/reader-add"||location.pathname=="/reader-edit"||
                     (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
                       ? "active"
                       : "side_li"
