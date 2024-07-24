@@ -2801,7 +2801,10 @@ form .input-group {
   background: var(--white);
   padding-top: 7px;
 }
-
+#chart-description.webinar-emails-statss {
+  background: transparent;
+  padding-top: 0px;
+}
 .search-hcp-table table,
 .selected-hcp-list table,
 .result-hcp-table .table,
@@ -3001,10 +3004,13 @@ form .input-group {
 .search-hcp-table table tr td:first-child,
 .selected-hcp-list table tr td:first-child,
 .result-hcp-table .table tbody tr td:first-child,
-.survey_data_accordion_heading table tbody tr td:first-child {
+.survey_data_accordion_heading table tbody .view td:first-child
+{
   border-radius: 13px 0 0 13px;
 }
-
+.survey_data_accordion_heading table tbody .view.show td:first-child{
+  border-radius: 13px 0 0 0px;
+}
 .search-hcp-table table tr td:last-child,
 .selected-hcp-list table tr td:last-child,
 .search-hcp-table table tr td:last-child,
@@ -3012,13 +3018,15 @@ form .input-group {
   border-radius: 0px 13px 13px 0px;
   padding: 10px 10px;
 }
-
+.survey_data_accordion_heading table tbody tr{
+  box-shadow: 0px 3px 6px rgba(0, 102, 190, 0.2);
+}
 .survey_data_accordion_heading table tbody td:last-child {
   border-radius: 0px 9px 9px 0px;
   padding-right: 44px;
 }
 
-.survey_data_accordion_heading table tbody .view.show td:first-child {
+.survey_data_accordion_heading table tbody .view.show td:last-child {
   border-radius: 13px 0 0 0;
 }
 
@@ -3026,7 +3034,7 @@ form .input-group {
   border-radius: 0px 13px 0 0;
 }
 
-.survey_data_accordion_heading table tbody tr.fold {
+.survey_data_accordion_heading table tbody tr.fold:last-child {
   border-radius: 0 0 13px 13px;
 }
 
@@ -3050,8 +3058,10 @@ form .input-group {
 .survey_data_accordion_heading table tbody .fold.show {
   border-radius: 0 0;
 }
-
-.survey_data_accordion_heading table tbody tr.fold td {
+.survey_data_accordion_heading table tbody tr.fold, .survey_data_accordion_heading table tbody tr.fold td {
+  border-radius: 0;
+}
+.survey_data_accordion_heading table tbody tr.fold:first-child td {
   border-radius: 0 0 9px 9px;
   border-top: 0.5px dashed var(--skyblue);
   padding-right: 16px;

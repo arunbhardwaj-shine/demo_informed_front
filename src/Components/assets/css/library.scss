@@ -170,11 +170,17 @@
               border-radius: 20px 20px 0 0;
 
               &:before {
-                background: $white;
+                background: inherit;
                 left: 0;
-                top: 0;
-                height: 50px;
-                border-radius: 20px 20px 0 0;
+                top: auto;
+                height: 22px;
+                border-radius: 0;
+                content: "";
+                position: absolute;
+                width:30px;
+                display: block;
+                bottom:-14px;
+
               }
             }
           }
@@ -184,11 +190,16 @@
               border-radius: 20px 20px 0 0;
 
               &:after {
-                background: $white;
+                background: inherit;
                 right: 0;
-                top: 0;
-                height: 50px;
-                border-radius: 20px;
+                top: auto;
+                height: 22px;
+                border-radius: 0px;
+                bottom:-14px;
+                content: "";
+                position: absolute;
+                width:30px;
+                display: block;
               }
             }
           }
@@ -13882,6 +13893,8 @@ img.change-password-image {
   }
 
   &.webinar-emails-statss {
+    padding:0;
+    background: transparent;
     .rd-training-block {
       padding: 24px;
 
@@ -14988,7 +15001,7 @@ table#site_engagement thead.sticky-header {
   .rd-training-block {
     .rd-training-block-right {
       button {
-        padding: 10px;
+        padding: 8px;
 
         &:hover {
           background: $primary-color;
