@@ -488,7 +488,14 @@ const LibraryContent = (props) => {
       };
       let body = { ...data, filter: obj };
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
-      let allData = [...totalLibraryRecord, ...res?.data?.data?.library]
+      let allData =[]
+      if(page==1){
+        allData =res?.data?.data?.library
+
+      }else{
+         allData = [...totalLibraryRecord, ...res?.data?.data?.library]
+
+      }
       setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
         if (res?.data?.data?.library?.length > 24) {
