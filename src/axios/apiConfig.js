@@ -1,6 +1,6 @@
 //const NEW_VERSION = "new-version";
 export const ENDPOINT = {
-  LIBRARY: `/library/get-library`,
+  LIBRARY: `/library/get-library-data`,
   FILTERS: `/library/library-filter`,
   DELETE: `library/delete-library`,
   RENEWLICENSE: `library//renew-license`,
@@ -222,7 +222,8 @@ export const ENDPOINT = {
   OWN_USERS_LISTING:"/webinarEmail/own-internal-users",
   GET_BLOCKED_USERS:"/email/get-blocked-users",
   UNBLOCKED_USERS:"email/unblock-user",
-LIBRARY_CONTENT : `/library/get-library-data`,
- 
+  GET_CAMPAIGN_TEMPLATE: "email/get-campaign-template",
+  LIBRARY_CONTENT : `/library/get-library-data`,
+
 
 };
