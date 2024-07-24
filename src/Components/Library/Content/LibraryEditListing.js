@@ -84,6 +84,7 @@ const LibraryEditListing = () => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
+  const { title } = location.state || {};
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -302,6 +303,22 @@ const LibraryEditListing = () => {
       } else {
         setPageAll(true);
       }
+      let irt = "";
+      let role = "";
+      if (title === "Site User-Blinded") {
+        irt = "Yes"
+        role = "Site User-Blinded";
+      } else if (title === "Investigator-Blinded") {
+        irt = "Yes"
+        role = "Investigator-Blinded";
+      } else if (title === "Site Unblinded Pharmacist") {
+        irt = "Yes"
+        role = "Site unblinded pharmacist";
+      }
+      else{
+        irt = "No"
+        role = "";
+      }
       setApiCallStatus(false);
       let data = {
         user_id: localStorage.getItem("user_id"),
@@ -310,6 +327,8 @@ const LibraryEditListing = () => {
         search: search,
         type: type,
         limit: limit,
+        "IRT mandatory training": [irt],
+        Role: [role]
       };
 
       let body = { ...data, ...obj };
@@ -608,7 +627,9 @@ const LibraryEditListing = () => {
               <div className="page-title d-flex">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
-                  to="/library-create"
+                  // to="/library-create"
+                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==")
+                    ?"/library-content" : "/library-create"}
                 >
                   <svg
                     width="14"

@@ -379,9 +379,10 @@
                     overflow-y: auto;
                     height: 100%;
                     max-height: 150px;
+                    color: $primary-color;
 
                     div {
-                      color: $primary-color;
+                      // color: $primary-color;
                       font-size: 14px;
                       line-height: 17px;
                       padding: 0.3rem 1rem;
@@ -818,9 +819,17 @@
         overflow-y: auto;
         height: 100%;
         max-height: 290px;
+        color: $dark-blue;
+        font-size: 15px;
+        // line-height: 17px;
+        // padding: 0.3rem 1rem;
+        // border-radius: 15px;
+        cursor: pointer;
+        word-break: break-word;
+        white-space: normal;
 
         div {
-          color: $dark-blue;
+          // color: $dark-blue;
           font-size: 15px;
           line-height: 17px;
           padding: 0.3rem 1rem;
@@ -863,19 +872,22 @@
   &.library-mandatory {
     min-height: 67vh;
     align-items: center;
-    .library_create-box{
+
+    .library_create-box {
       min-height: 166px;
-      .create-library-img{
-        img{
-          width:40px;
+
+      .create-library-img {
+        img {
+          width: 40px;
         }
-      } 
-      .create-library-content{
-        h3{
-          margin:20px 0 0;
+      }
+
+      .create-library-content {
+        h3 {
+          margin: 20px 0 0;
         }
-      } 
-    } 
+      }
+    }
 
   }
 
@@ -4941,6 +4953,133 @@ section.verify_email.content_details {
   padding-left: 8px;
   padding-right: 8px;
   background: transparent;
+
+  .top-right-action {
+    .action-btn-add {
+      margin-right: 24px;
+      @include flex-middle;
+      gap: 0 22px;
+
+      button {
+        padding: 9px 24px;
+        border-radius: 30px;
+        @include flex-middle;
+        font-size: 14px;
+        color: #0066BE;
+        height: 40px;
+        gap: 10px;
+        background: transparent;
+
+        &.btn-dashed {
+          border: 1px dashed $primary-color;
+
+          &:hover {
+            color: $white;
+            background: $primary-color;
+
+            img {
+              filter: brightness(0) invert(1);
+            }
+          }
+        }
+
+        &.btn-white {
+          box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+          background: $white;
+          border: 0;
+
+          &:hover {
+            color: $white;
+            background: $primary-color;
+
+            img {
+              filter: brightness(0) invert(1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width:1450px) {
+    .top-right-action {
+      .action-btn-add {
+        margin-right: 15px;
+        gap: 0 15px;
+
+        button {
+          padding: 9px 18px;
+        }
+      }
+    }
+  }
+
+  @media (max-width:1365px) {
+    .top-right-action {
+      .action-btn-add {
+        button {
+          padding: 6px 18px;
+          height: 36px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  @media (max-width:1199px) {
+    .top-right-action {
+      justify-content: flex-end;
+      gap: 10px;
+
+      .action-btn-add {
+        margin-right: 5px;
+        flex: 0 0 100%;
+        justify-content: flex-end;
+
+        button {
+          height: 32px;
+          padding: 6px 10px;
+
+          img {
+            width: 16px;
+          }
+        }
+
+      }
+
+      .search-bar {
+        form {
+          &.d-flex {
+            button {
+              padding: 2px;
+            }
+          }
+        }
+      }
+    }
+
+    .filter-by,
+    .clear-search {
+      margin-left: 5px;
+    }
+  }
+
+  @media (max-width:767px) {
+    .top-right-action {
+
+      .action-btn-add {
+        button {
+          height: 30px;
+          padding: 5px 10px;
+
+          img {
+            width: 14px;
+          }
+        }
+
+      }
+    }
+  }
 }
 
 .top-header.content_analytic {
@@ -4972,7 +5111,6 @@ section.verify_email.content_details {
 .rd-analytics-content .no_found {
   min-height: 260px;
 }
-
 
 .send-confirm .modal-body .modal-buttons {
   justify-content: space-evenly;
@@ -12252,6 +12390,8 @@ svg.pencil_icon {
   .top-header {
     padding-left: 10px;
     padding-right: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .create-change-content.register-page {
