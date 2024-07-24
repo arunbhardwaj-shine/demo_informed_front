@@ -312,7 +312,7 @@ const LicenseEditListing = () => {
         license: 1,
       };
 
-      let body = { ...data, ...obj };
+      let body = { ...data, filter: obj };
 
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       let allData = [...totalLibraryRecord, ...res?.data?.data?.library]
