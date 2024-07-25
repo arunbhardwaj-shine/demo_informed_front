@@ -251,7 +251,7 @@ const ContentDetail = (props) => {
       
     });
   };
-  console.log('content deyails')
+  // console.log('content deyails')
 
   return (
     <>

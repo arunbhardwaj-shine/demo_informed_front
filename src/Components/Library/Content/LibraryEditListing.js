@@ -174,7 +174,13 @@ const LibraryEditListing = () => {
       
       if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==") {
         payload["IRT mandatory training"] = [irt];
-        payload.Role = [role];
+        // payload.Role = [role];
+      }
+
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (location?.state?.flag === 'mandatory') {
+          payload.Role = [role];
+        }
       }
       const res = await postData(ENDPOINT.FILTERS, 
         // user_id: localStorage.getItem("user_id"),
@@ -362,8 +368,14 @@ const LibraryEditListing = () => {
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
         staticFilters = {
           "IRT mandatory training": [irt],
-          Role: [role]
+          // Role: [role]
         };
+      }
+  
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (location?.state?.flag === 'mandatory') {
+          staticFilters.Role = [role];
+        }
       }
      
     let mergedRoles = obj.Role ? [...obj.Role, ...staticFilters.Role] : staticFilters.Role;
