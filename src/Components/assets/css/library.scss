@@ -22889,7 +22889,7 @@ table {
       }
     }
 
-    
+
   }
 
   .irt-create {
@@ -23001,6 +23001,7 @@ table {
     }
   }
 }
+
 .irt_mandatory-block {
   .irt_mandatory-listing {
     max-width: 1208px;
@@ -23025,29 +23026,33 @@ table {
         min-width: 356px;
         padding-right: 22px;
       }
-      .irt-content-preview{
-        flex:1 1;
-        padding:0 0 0 16px;
+
+      .irt-content-preview {
+        flex: 1 1;
+        padding: 0 0 0 16px;
         position: relative;
-        &:before{
+
+        &:before {
           content: "";
           position: absolute;
-          left:0;
-          top:-12px;
-          border-left:1px dashed #0066BE;
-          width:1px;
-          height:calc(100% + 24px);
+          left: 0;
+          top: -12px;
+          border-left: 1px dashed #0066BE;
+          width: 1px;
+          height: calc(100% + 24px);
         }
       }
-      .count-number{
+
+      .count-number {
         font-size: 24px;
         color: rgba(0, 74, 137, 0.5);
         margin-right: 16px;
       }
+
       .mandatory-section {
         gap: 10px 32px;
-        flex:1 1;
-        padding:0px 0 0 16px;
+        flex: 1 1;
+        padding: 0px 0 0 16px;
         align-items: center;
 
         .col {
@@ -23066,59 +23071,72 @@ table {
               border-radius: 50%;
               width: 8px;
               height: 8px;
-              
+
             }
           }
-          &.new{
-            p{
-              color:#8A4E9C;
+
+          &.new {
+            p {
+              color: #8A4E9C;
             }
-              span {
-                background: #8A4E9C;
-              }
+
+            span {
+              background: #8A4E9C;
+            }
           }
-          &.invited{
-            p{
-              color:#0066BE;
+
+          &.invited {
+            p {
+              color: #0066BE;
             }
+
             span {
               background: #0066BE;
             }
-        }
-        &.started{
-          p{
-            color:#FAC755;
           }
-          span {
-            background: #FAC755;
+
+          &.started {
+            p {
+              color: #FAC755;
+            }
+
+            span {
+              background: #FAC755;
+            }
           }
-      }
-      &.completed{
-        
-        p{
-          color:#39CABC;
-        }
-        span {
-          background: #39CABC;
-        }
-    }
-    &.not-completed{
-      min-width:96px;
-      p{
-        color:#FF9534;
-      }
-      span {
-        background: #FF9534;
-      }
-  }
-  &.ignored{
-    p{
-      color:#F58289;
-    }
-    span {
-      background: #F58289;
-    }
-}
+
+          &.completed {
+
+            p {
+              color: #39CABC;
+            }
+
+            span {
+              background: #39CABC;
+            }
+          }
+
+          &.not-completed {
+            min-width: 96px;
+
+            p {
+              color: #FF9534;
+            }
+
+            span {
+              background: #FF9534;
+            }
+          }
+
+          &.ignored {
+            p {
+              color: #F58289;
+            }
+
+            span {
+              background: #F58289;
+            }
+          }
         }
       }
     }
