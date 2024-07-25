@@ -2553,7 +2553,13 @@ const LibraryContent = (props) => {
                                       </Button> */}
                                     <Link
                                       to="/library-edit"
-                                      state={{ pdfid: data.id }}
+                                      // state={{ pdfid: data.id }}
+                                      state={{ pdfid: data.id ,  title : location?.state?.title,
+
+                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                        ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                        : '' 
+                                      }}
                                       className="footer-btn"
                                     >
                                       Edit link
@@ -2573,7 +2579,13 @@ const LibraryContent = (props) => {
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
                                         <Link
                                           to="/library-sublink"
-                                          state={{ pdfid: data.id }}
+                                          // state={{ pdfid: data.id }}
+                                          state={{ pdfid: data.id ,  title : location?.state?.title,
+
+                                            flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                            ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                            : '' 
+                                          }}
                                           className="footer-btn"
                                         >
                                           New sublink

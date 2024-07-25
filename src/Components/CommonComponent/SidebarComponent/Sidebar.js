@@ -792,7 +792,7 @@ const Sidebar = () => {
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                  <li
                  className={
-                   location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory"? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" :'' ) ? "active" : "side_li"
+                   location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory"? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'' ) ? "active" : "side_li"
                  }
                >
                  <Link to={"/library-mandatory"}>
@@ -831,7 +831,7 @@ const Sidebar = () => {
 
               <li
                 className={
-                  location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && location?.state?.flag === "Non-mandatory"?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" :'')    ? "active" : "side_li"
+                  location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && location?.state?.flag === "Non-mandatory"?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
                 }
               >
                 <Link to={"/library-content"}>
