@@ -729,7 +729,10 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   fill-opacity: 1;
   fill: var(--light-blue);
 }
-
+.sidebar-menu ul li.active>a svg path.svg-white,
+.sidebar-menu ul li:hover>a svg path.svg-white {
+  fill: #F5F5F5;
+}
 .active-subLink .sidebar-menu ul li.active.sub-links>a svg path {
   fill: #dbe8f5;
 }
