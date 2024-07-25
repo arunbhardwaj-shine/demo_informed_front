@@ -357,7 +357,7 @@ const LicenseContent = (props) => {
     }
   };
 
-  const getLibraryData = async (page, obj, search, load = 0) => {
+  const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       setIsLoaded(false);
       if (load == 0) {
@@ -375,54 +375,33 @@ const LicenseContent = (props) => {
         license: 1,
       };
 
-      let body = { ...data, ...obj };
+      let body = { ...data, filter: obj };
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
 
-      setTotalLibraryRecord(res?.data?.data?.library);
+      let allData =[]
+      if(page==1){
+        allData =res?.data?.data?.library
 
-      let apiData = [];
+      }else{
+         allData = [...totalLibraryRecord, ...res?.data?.data?.library]
+
+      }      setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
 
-        if (res?.data?.data?.library?.length > 24) {
+        if (res?.data?.data?.library?.length >= 24 && type!="rest") {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(apiData);
+      setLibraryData(allData);
 
-      // if (totalCount != res?.data?.data?.total) {
-      //   setCount(res?.data?.data?.total);
-      // }
-
-      // let total_results = 0;
-      // if (libraryData?.length) {
-      //   total_results = res?.data?.data?.library.length + libraryData.length;
-      //   if (res?.data?.data?.library) {
-      //     setLibraryData((oldArray) => [
-      //       ...oldArray,
-      //       ...res?.data?.data?.library,
-      //     ]);
-      //   }
-      // } else {
-      //   total_results = res?.data?.data?.library.length;
-      //   setLibraryData(res?.data?.data?.library);
-      // }
-
-      // if (res?.data?.data?.total > total_results) {
-      //   setIsLoaded(true);
-      // } else {
-      //   setIsLoaded(false);
-      // }
-
+      
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
+      setPage(page);
+
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -1350,8 +1329,8 @@ const LicenseContent = (props) => {
                   libraryData?.map((data, index) => {
                     return (
                       <>
-                        <div className="doc-content-main-box col">
-                          <div className="doc-content-header">
+                        <div className="doc-content-main-box col" >
+                        <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
                                 <img
@@ -2546,11 +2525,12 @@ const LicenseContent = (props) => {
             </div>
 
             <div className="load_more">
-              {isLoaded == true ? (
+            {(isLoaded == true) ? (
                 <Button
                   className="btn btn-primary btn-filled"
-                  onClick={loadMoreClicked}
-                >
+                  onClick={async () => {
+                    await getLibraryData(page + 1, filterObject, "",0,"rest");
+                  }}                >
                   Load More
                 </Button>
               ) : null}

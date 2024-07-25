@@ -5,15 +5,13 @@ import { postData, updateConsent, updateTags } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
-import CommonModel from "../../../Model/CommonModel";
-import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
   Accordion,
   Col,
   Row,
-  Modal,
   Tab,
   Tabs,
   ProgressBar,
@@ -85,7 +83,7 @@ const LibraryEditListing = () => {
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const { title } = location.state || {};
-  // console.log(location?.state?.flag,'location.state')
+  // console.log(location,'edit')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -321,7 +319,7 @@ const LibraryEditListing = () => {
     }
   };
 
-  const getLibraryData = async (page, obj, search, load = 0) => {
+  const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       setIsLoaded(false);
       if (load == 0) {
@@ -353,31 +351,45 @@ const LibraryEditListing = () => {
         search: search,
         type: type,
         limit: limit,
-        "IRT mandatory training": [irt],
-        Role: [role]
       };
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        obj = {
+          "IRT mandatory training": [irt],
+          Role: [role]
+        };
+      }
+      let staticFilters = {};
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        staticFilters = {
+          "IRT mandatory training": [irt],
+          Role: [role]
+        };
+      }
+      // let body = { ...data, filter: obj };
+      let body = { ...data, filter: { ...obj, ...staticFilters } };
 
-      let body = { ...data, ...obj };
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
+      let allData =[]
+      if(page==1){
+        allData =res?.data?.data?.library
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
-      setTotalLibraryRecord(res?.data?.data?.library);
+      }else{
+         allData = [...totalLibraryRecord, ...res?.data?.data?.library]
 
-      let apiData = [];
+      }    
+      
+      setTotalLibraryRecord(allData);  
       if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
-
-        if (res?.data?.data?.library?.length > 24) {
+        if (res?.data?.data?.library?.length >= 24 && type!="rest") {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(apiData);
+      setLibraryData(allData);
       setPageAll(false);
       setApiCallStatus(true);
+      setPage(page);
+
     } catch (err) {
       console.log("err");
     } finally {
@@ -661,6 +673,20 @@ const LibraryEditListing = () => {
                       ? "/library-content"
                       : "/library-create"
                   }
+                  state={{ 
+                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    // ? (location?.state?.title)
+                    // : '' 
+
+                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                      ? "mandatory"
+                      : location?.state?.flag === "Non-mandatory"
+                      ? "Non-mandatory" : '') :'',
+                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      ? (location?.state?.title)
+                      : ''
+                
+                  }}
                   
                 >
                   <svg
@@ -1003,8 +1029,8 @@ const LibraryEditListing = () => {
                   libraryData?.map((data, index) => {
                     return (
                       <>
-                        <div className="doc-content-main-box col">
-                          <div className="doc-content-header">
+                        <div className="doc-content-main-box col" >
+                        <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
                                 <img
@@ -2123,11 +2149,12 @@ const LibraryEditListing = () => {
               </>
             </div>
             <div className="load_more">
-              {isLoaded == true ? (
+            {(isLoaded == true ) ? (
                 <Button
                   className="btn btn-primary btn-filled"
-                  onClick={loadMoreClicked}
-                >
+                  onClick={async () => {
+                    await getLibraryData(page + 1, filterObject, "",0,"rest");
+                  }}                >
                   Load More
                 </Button>
               ) : null}

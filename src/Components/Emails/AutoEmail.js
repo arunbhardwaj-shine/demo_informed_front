@@ -5,12 +5,11 @@ import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
+import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { popup_alert } from "../../popup_alert";
 import Select, { createFilter } from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
@@ -27,10 +26,10 @@ const AutoEmail = () => {
   const [tempLang, setTempLang] = useState(0);
   const [templates, setTemplates] = useState([]);
   const [countryall, setCountryall] = useState([]);
+  const [isFilterApiCalled, setIsFilterApiCalled] = useState(false);
   const [templateClicked, setTemplateClicked] = useState(false);
   const [sourceCode, setSourceCode] = useState("");
   const [indexClicked, setIndexClicked] = useState();
-  const [indexClickedReminder, setIndexClickedReminder] = useState();
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [activeManual, setActiveManual] = useState("active");
@@ -42,7 +41,6 @@ const AutoEmail = () => {
   const [reRender, setReRender] = useState(0);
   const [getSmartListId, setSmartListId] = useState(0);
   const [addListOpen, setAddListOpen] = useState(false);
-  const [activeExcel, setActiveExcel] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [selectedHcp, setSelectedHcp] = useState([]);
   const [email, setEmail] = useState("");
@@ -51,30 +49,24 @@ const AutoEmail = () => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
 
-  const [hide, setHide] = useState(false);
-  const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [selectedListId, setSelectedListId] = useState(0);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+  const userId="56Ek4feL/1A8mZgIKQWEqg==";
 
-  const [getTemplateLanguage, setTemplateLanguage] = useState([
+  const getTemplateLanguage=[
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
-  ]);
-  const [readers, setReaders] = useState([]);
+  ];
 
-  const [getReaderDetails, setReaderDetails] = useState({});
   const [totalData, setTotalData] = useState({});
-  const [getSmartListName, setSmartListName] = useState("");
-  const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [validationError, setValidationError] = useState({});
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
-  const [optIRT, setoptIRT] = useState([
+  const optIRT=[
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
-  ]);
+  ];
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -96,16 +88,14 @@ const AutoEmail = () => {
   const [irtCountry, setIRTCountry] = useState([]);
 
   const editorRef = useRef(null);
-  const ref = useRef(null);
   const templateIdRef=useRef(null)
   const linkingPayload=useRef(null)
-  let file_name = useRef("");
   const filterConfig = {
     matchFrom: "start",
   };
 
   useEffect(() => {
-    getSmartListData(0);
+    // getSmartListData(0);
   }, []);
 
   useEffect(() => {
@@ -118,74 +108,82 @@ const AutoEmail = () => {
     getTemplateListData();
   }, [language]);
 
+  const getalCountry = async () => {
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      language: "",
+      ibu: "",
+    };
+
+    if(!isFilterApiCalled){
+      loader("show")
+      await axios
+      .post(`distributes/filters_list`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          let country = res.data.response.data.country;
+
+          let arr = [];
+
+          Object.entries(country).map(([index, item]) => {
+            let label = item;
+            if (index == "B&H") {
+              label = "Bosnia and Herzegovina";
+            }
+            arr.push({
+              value: item,
+              label: label,
+            });
+          });
+
+          setCountryall(arr);
+
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            let investigator_type =
+              res?.data?.response?.data?.investigator_type;
+            let newType = [];
+            Object.keys(investigator_type)?.map((item, i) => {
+              newType.push({ label: item, value: item });
+            });
+            let irt_inverstigator_type =
+              res?.data?.response?.data?.irt_inverstigator_type;
+            let newIrtType = [];
+            Object.keys(irt_inverstigator_type)?.map((item, i) => {
+              newIrtType.push({ label: item, value: item });
+            });
+            setRole(newType);
+            setIrtRole(newIrtType);
+
+            let institution_type =
+              res?.data?.response?.data?.institution_type;
+
+            let newInstitution = [];
+            Object.keys(institution_type)?.map((item, i) => {
+              newInstitution.push({ label: item, value: item });
+            });
+
+            setInstitutionType(newInstitution);
+          }
+          setTotalData(res.data.response.data);
+          setIsFilterApiCalled(true)
+          loader("hide")
+
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      loader("hide")
+        
+      });
+    }
+  };
   useEffect(() => {
     loader("show");
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
-    const getalCountry = async () => {
-      const body = {
-        user_id: localStorage.getItem("user_id"),
-        language: "",
-        ibu: "",
-      };
+   
 
-      await axios
-        .post(`distributes/filters_list`, body)
-        .then((res) => {
-          if (res.data.status_code == 200) {
-            let country = res.data.response.data.country;
-
-            let arr = [];
-
-            Object.entries(country).map(([index, item]) => {
-              let label = item;
-              if (index == "B&H") {
-                label = "Bosnia and Herzegovina";
-              }
-              arr.push({
-                value: item,
-                label: label,
-              });
-            });
-
-            setCountryall(arr);
-
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-              let investigator_type =
-                res?.data?.response?.data?.investigator_type;
-              let newType = [];
-              Object.keys(investigator_type)?.map((item, i) => {
-                newType.push({ label: item, value: item });
-              });
-              let irt_inverstigator_type =
-                res?.data?.response?.data?.irt_inverstigator_type;
-              let newIrtType = [];
-              Object.keys(irt_inverstigator_type)?.map((item, i) => {
-                newIrtType.push({ label: item, value: item });
-              });
-              setRole(newType);
-              setIrtRole(newIrtType);
-
-              let institution_type =
-                res?.data?.response?.data?.institution_type;
-
-              let newInstitution = [];
-              Object.keys(institution_type)?.map((item, i) => {
-                newInstitution.push({ label: item, value: item });
-              });
-
-              setInstitutionType(newInstitution);
-            }
-            setTotalData(res.data.response.data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
-    getalCountry();
   }, []);
   const axiosFun = async () => {
     try {
@@ -245,22 +243,9 @@ const AutoEmail = () => {
       setApproveClicked(false);
     }
 
-    setIndexClickedReminder();
     setTemplateName(template.name);
   };
 
-  const viewReminderClicked = (template, index) => {
-    setEmailSubject("");
-    setEmailDescription("");
-    setApproveClicked(false);
-    setTemplateClicked(true);
-    setSourceCode(template.source_code);
-    setIndexClickedReminder(index);
-    setTemplateId(template.id);
-    templateIdRef.current=template?.id
-    setTemplateName(template.name);
-    setIndexClicked();
-  };
 
   const searchChange = (e) => {
     setSearch(e.target.value);
@@ -343,7 +328,9 @@ const AutoEmail = () => {
     }
   };
 
-  const addNewContactClicked = () => {
+  const addNewContactClicked =async () => {
+    await getalCountry();
+
     setIsOpenAdd(true);
     setIsOpensend(false);
     setHpc([
@@ -365,7 +352,7 @@ const AutoEmail = () => {
       },
     ]);
     setActiveManual("active");
-    setActiveExcel("");
+    
   };
 
   const selectHcp = (index) => {
@@ -490,7 +477,6 @@ const AutoEmail = () => {
       let site_name_value = getSiteData[e.value];
       const value = e.value;
       const list = [...hpc];
-      const name = hpc[i].siteNumber;
       list[i].siteNumber = value;
       list[i].siteName = site_name_value;
       let snameindex = siteNameAll.findIndex(
@@ -520,7 +506,6 @@ const AutoEmail = () => {
 
       const list = [...hpc];
 
-      const name = hpc[i].siteName;
 
       list[i].siteName = value;
 
@@ -619,7 +604,7 @@ const AutoEmail = () => {
     } else {
       const value = e?.value;
       const list = [...hpc];
-      const name = hpc[i].institutionType;
+      // const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
       if (e?.value == "Study site") {
@@ -628,7 +613,7 @@ const AutoEmail = () => {
         const value = e?.value;
         const list = [...hpc];
         console.log("list else", list);
-        const name = hpc[i].institutionType;
+        // const name = hpc[i].institutionType;
         list[i].institutionType = value;
         setHpc(list);
         if (e?.value == "Study site") {
@@ -653,7 +638,7 @@ const AutoEmail = () => {
     } else {
       const value = e;
       const list = [...hpc];
-      const name = hpc[i].optIrt;
+      // const name = hpc[i].optIrt;
       list[i].optIrt = value;
       list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
       list[i].country = "";
@@ -672,47 +657,11 @@ const AutoEmail = () => {
   const onContactTypeChange = (e, i) => {
     const value = e;
     const list = [...hpc];
-    const name = hpc[i].contact_type;
+    // const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
   };
 
-  // const onCountryChange = (e, i) => {
-  //   const value = e;
-  //   const list = [...hpc];
-  //   const name = hpc[i].country;
-  //   list[i].country = value;
-
-  //   if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-  //     let consetValue = value;
-  //     if (value == "B&H") {
-  //       consetValue = "Bosnia and Herzegovina";
-  //     }
-
-  //     const matchingKeys = Object.entries(totalData.site_country_data)
-  //       .filter(([key, value]) => {
-  //         return value == consetValue;
-  //       })
-  //       .map(([key, value]) => key);
-
-  //     const filteredSiteNames = matchingKeys.map((key) => ({
-  //       label: totalData.site_data[key],
-  //       value: totalData.site_data[key],
-  //     }));
-  //     const siteNumbers = matchingKeys.map((key) => ({
-  //       label: key,
-  //       value: key,
-  //     }));
-  //     list[i].siteNumberIndex = "";
-  //     list[i].siteNameIndex = "";
-  //     list[i].siteName = "";
-  //     list[i].siteNumber = "";
-  //     setSiteNumberAll(siteNumbers);
-  //     setSiteNameAll(filteredSiteNames);
-  //   }
-  //   setHpc(list);
-
-  // };
 
   const onCountryChange = (e, i) => {
     if (e == null) {
@@ -742,7 +691,7 @@ const AutoEmail = () => {
       }
       const value = e.value;
       const list = [...hpc];
-      const name = hpc[i].country;
+      // const name = hpc[i].country;
       list[i].country = value;
 
       let index = countryall.findIndex((x) => x.value === value);
@@ -890,12 +839,15 @@ const AutoEmail = () => {
       filter: "",
     };
     loader("show");
+    
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
         setSmartListData(res.data.response.data);
         if (flag == 0) {
           setPrevSmartListData(res.data.response.data);
+          loader("hide");
+
         } else {
           loader("hide");
         }
@@ -903,20 +855,12 @@ const AutoEmail = () => {
       .catch((err) => {
         loader("hide");
         console.log(err);
-      });
+      })
   };
   const handleSelect = (data, e) => {
     setSmartListId(data.id);
   };
 
-  // const addMoreHcp = () => {
-  //   const status = hpc.map((data) => {
-  //     if (data.email == "") {
-  //       return "false";
-  //     } else {
-  //       return "true";
-  //     }
-  //   });
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
@@ -971,32 +915,7 @@ const AutoEmail = () => {
     }
   };
 
-  const openSmartListPopup = async (smart_list_id) => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      list_id: smart_list_id,
-      show_specific: 1,
-    };
-    loader("show");
-    await axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        if (res.data.status_code == 200) {
-          setAddListOpen(false);
-          setReaderDetails(res.data.response.data);
-          setSmartListName(res.data.response.smart_list_name);
-          setSmartListPopupStatus(true);
-        } else {
-          toast.warning(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        toast.warning("Something went wrong");
-        loader("hide");
-      });
-  };
+
 
   const addClicked = (e) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
@@ -1010,7 +929,7 @@ const AutoEmail = () => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            setReaders(res.data.response.data);
+            // setReaders(res.data.response.data);
 
             res.data.response.data.map((data) => {
               let prev_obj = selectedHcp.find((x) => x.email === data.email);
@@ -1079,101 +998,13 @@ const AutoEmail = () => {
     }
   };
 
-  const approveClicked = async (e) => {
-    e.preventDefault();
-
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      pdf_id: "3487",
-      description: emailDescription,
-      creator: "",
-      campaign_name: "",
-      subject: emailSubject,
-      route_location: "AutoEmail",
-      tags: [],
-      campaign_data: {
-        templateId: templateId,
-      },
-      campaign_id: "",
-      status: 3,
-      approved_page: 1,
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/save_draft`, body)
-      .then((res) => {
-        loader("hide");
-
-        if (res.data.status_code === 200) {
-          setApproveClicked(true);
-          toast.success("Approved Draft saved");
-        } else {
-          toast.warning(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error("Somwthing went wrong");
-      });
-  };
-
+ 
   const changeLanguage = (e) => {
     setLanguage(e.value);
     setTemplateClicked(false);
     setIndexClicked();
   };
 
-  // const addTracking = function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(".tox-dialog__header");
-  //       const closeButton = header.querySelector('[aria-label="Close"]');
-  //       let text = header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon = document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-  //         );
-  //         uploadIcon.style.display = "none";
-  //         let newButton = document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button");
-  //         newButton.classList.add("tox-button--icon");
-  //         newButton.classList.add("tox-button--naked");
-  //         newButton.classList.add("track");
-  //         newButton.onclick = function () {
-  //           let firstToxControlWrap = document.querySelector(
-  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //           );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       }
-  //     }
-  //   });
-  // };
 
   
   const addTracking = function (editor) {
@@ -1715,7 +1546,7 @@ const AutoEmail = () => {
                                 },
                               }}
                               onEditorChange={(content) => {
-                                setTemplateSaving(content);
+                                // setTemplateSaving(content);
                               }}
                             />
                           ) : (
@@ -1802,7 +1633,7 @@ const AutoEmail = () => {
                                 },
                               }}
                               onEditorChange={(content) => {
-                                setTemplateSaving(content);
+                                // setTemplateSaving(content);
                               }}
                             />
                           )}
@@ -1889,7 +1720,11 @@ const AutoEmail = () => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => setAddListOpen(true)}
+                      onClick={() => {
+                        if(!smartListData.length){
+                          getSmartListData(0);
+                        }
+                        setAddListOpen(true)}}
                     >
                       Add Smart List +
                     </button>
@@ -2039,7 +1874,7 @@ const AutoEmail = () => {
                 ]);
                 // document.querySelector("#file-4").value = "";
                 setActiveManual("active");
-                setActiveExcel("");
+                
               }}
               type="button"
               className="btn-close"

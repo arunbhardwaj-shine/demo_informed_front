@@ -236,9 +236,17 @@ const ContentDetail = (props) => {
   
     navigate(path, {
       state: { 
-        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" 
-          ? location?.state?.title 
-          : ''
+        // title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" 
+        //   ? location?.state?.title 
+        //   : ''
+
+          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+            ? "mandatory"
+            : location?.state?.flag === "Non-mandatory"
+            ? "Non-mandatory" : '') :'',
+            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+            ? (location?.state?.title)
+            : ''
       }
       
     });
@@ -262,9 +270,9 @@ const ContentDetail = (props) => {
                       // to="/library-edit"
                       to={
                         location?.state?.flag === "mandatory"
-                          ? "/library-mandatory-content"
+                          ? "/library-edit"
                           : location?.state?.flag === "Non-mandatory"
-                          ? "/library-content"
+                          ? "/library-edit"
                           : "/library-edit"
                       }
                       state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 

@@ -11,7 +11,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate} from "react-router-dom";
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -45,7 +45,7 @@ const LibrarySublink = () => {
   const [newLink, setLink] = useState({
     delivery: "",
   });
-
+  const location = useLocation();
   const [types, setTypes] = useState([
     { value: "Online ", label: "Online Offer" },
   ]);
@@ -344,7 +344,28 @@ const LibrarySublink = () => {
               <div className="page-title d-flex">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
-                  to="/library-create"
+                  // to="/library-create"
+                  to={
+                    location?.state?.flag === "mandatory"
+                      ? "/library-mandatory-content"
+                      : location?.state?.flag === "Non-mandatory"
+                      ? "/library-content"
+                      : "/library-create"
+                  }
+                  state={{ 
+                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    // ? (location?.state?.title)
+                    // : '' 
+
+                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                      ? "mandatory"
+                      : location?.state?.flag === "Non-mandatory"
+                      ? "Non-mandatory" : '') :'',
+                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      ? (location?.state?.title)
+                      : ''
+                 
+                  }}
                 >
                   <svg
                     width="14"

@@ -222,6 +222,9 @@ export const ENDPOINT = {
   IBU_USERS_LISTING:"/webinarEmail/ibu-users",
   OWN_USERS_LISTING:"/webinarEmail/own-internal-users",
   GET_BLOCKED_USERS:"/email/get-blocked-users",
-  UNBLOCKED_USERS:"email/unblock-user"
+  UNBLOCKED_USERS:"email/unblock-user",
+  GET_CAMPAIGN_TEMPLATE: "email/get-campaign-template",
+  LIBRARY_CONTENT : `/library/get-library-data`,
+
 
 };

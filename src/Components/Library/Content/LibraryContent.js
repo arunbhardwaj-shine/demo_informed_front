@@ -48,18 +48,16 @@ const LibraryContent = (props) => {
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
   ]);
-  const [statusOptions, setStatusOptions] = useState([
+  const statusOptions=[
     { label: "Sold", value: "sold" },
     { label: "Unsold", value: "unsold" }
-  ])
-  const [pageAllClicked, setPageAllClicked] = useState(false);
+  ]
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
-  const [noData, setNoData] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [opening_details, setOpeningDetails] = useState([]);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -69,24 +67,23 @@ const LibraryContent = (props) => {
   const [pdftagsid, setpdftagsid] = useState();
   const [appliedFilter, setAppliedFilter] = useState({});
   const [otherFilter, setOtherFilter] = useState({});
-  const [userId, setUserId] = useState();
   const [filterObject, setFilterObject] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
-  const [irtData, setIrtData] = useState([
-    "All",
+  const irtData = 
+    ["All",
     "Site User-Blinded",
     "Investigator-Blinded",
     "Site unblinded pharmacist",
-  ]);
-  const [roleData, setRoleData] = useState([
+  ]
+  const roleData=[
     "All",
     "Principal Investigator",
     "Sub-Investigator",
     "Study Coordinator",
     "Study Nurse",
     "Other",
-  ]);
+  ];
 
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian"],
@@ -96,7 +93,7 @@ const LibraryContent = (props) => {
   });
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
-  const [type, setType] = useState("");
+  const type="";
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
   const [newTag, setNewTag] = useState("");
@@ -129,6 +126,8 @@ const LibraryContent = (props) => {
   const filterRef = useRef(null);
   const navigate = useNavigate();
   const { title } = location.state || {};
+
+
   // console.log(location.state,'flag')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
@@ -227,16 +226,18 @@ const LibraryContent = (props) => {
     try {
       let irt = "";
       let role = "";
-      if (title === "Site User-Blinded") {
-        irt = "Yes"
-        role = "Site User-Blinded";
-      } else if (title === "Investigator-Blinded") {
-        irt = "Yes"
-        role = "Investigator-Blinded";
-      } else if (title === "Site Unblinded Pharmacist") {
-        irt = "Yes"
-        role = "Site unblinded pharmacist";
-      }
+    
+        if (location?.state?.flag === 'mandatory' && title === "Site User-Blinded") {
+          irt = "Yes"
+          role = "Site User-Blinded";
+        } else if (location?.state?.flag === 'mandatory' && title === "Investigator-Blinded") {
+          irt = "Yes"
+          role = "Investigator-Blinded";
+        } else if (location?.state?.flag === 'mandatory' && title === "Site Unblinded Pharmacist") {
+          irt = "Yes"
+          role = "Site unblinded pharmacist";
+        }
+   
       else {
         irt = "No"
         role = "";
@@ -286,25 +287,25 @@ const LibraryContent = (props) => {
     }
   };
 
-  const loadMoreClicked = () => {
-    loader("show");
-    let sp = page + 1;
-    let totalRecord = loadData.limit * sp;
-    let newData = [];
+  // const loadMoreClicked = async() => {
+  //   let sp = page + 1;
+  //    let data=await getLibraryData(sp, filterObject, "");
+  //    console.log(data);
 
-    if (totalLibraryRecord?.length >= totalRecord) {
-      newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
-      setLoadData({ ...loadData, nextLimit: totalRecord });
-    } else {
-      newData = totalLibraryRecord.slice(loadData.nextLimit);
-      setIsLoaded(false);
-    }
+  //   let totalRecord = loadData.limit * sp;
+  //   let newData = [];
 
-    setLibraryData((oldArray) => [...oldArray, ...newData]);
-    setPage(sp);
+  //   if (data?.length >= totalRecord) {
+  //     newData = data.slice(loadData.nextLimit, totalRecord);
+  //     setLoadData({ ...loadData, nextLimit: totalRecord });
+  //   } else {
+  //     newData = data.slice(loadData.nextLimit);
+  //     setIsLoaded(false);
+  //   }
 
-    loader("hide");
-  };
+  //   setLibraryData((oldArray) => [...oldArray, ...newData]);
+  //   setPage(sp);
+  // };
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -408,7 +409,6 @@ const LibraryContent = (props) => {
 
   const tabClicked = async (event, id) => {
     setFlag(0);
-    setUserId(id);
 
     if (event == "data-tab") {
       let index = opening_details.findIndex((el) => el.pdfId == id);
@@ -503,8 +503,7 @@ const LibraryContent = (props) => {
       setDeleteStatus(true);
     }
   };
-
-  const getLibraryData = async (page, obj, search, load = 0) => {
+  const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       // console.log(title,'title')
       loader("show");
@@ -514,18 +513,18 @@ const LibraryContent = (props) => {
       }
       let irt = "";
       let role = "";
-        if (title === "Site User-Blinded") {
+
+        if (location?.state?.flag === 'mandatory' && title === "Site User-Blinded") {
           irt = "Yes"
           role = "Site User-Blinded";
-        } else if (title === "Investigator-Blinded") {
+        } else if (location?.state?.flag === 'mandatory' && title === "Investigator-Blinded") {
           irt = "Yes"
           role = "Investigator-Blinded";
-        } else if (title === "Site Unblinded Pharmacist") {
+        } else if (location?.state?.flag === 'mandatory' && title === "Site Unblinded Pharmacist") {
           irt = "Yes"
           role = "Site unblinded pharmacist";
         }
-     
-    
+  
       else {
         irt = "No"
         role = "";
@@ -539,39 +538,46 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
+      // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      //   obj = {
+      //     "IRT mandatory training": [irt],
+      //     Role: [role]
+      //   };
+      // }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-        obj = {
-          "IRT mandatory training": [irt],
-          Role: [role]
-        };
-      }
-      // let body = { ...data, ...obj };
-      let body = { ...data, filter: obj };
-
+    let staticFilters = {};
+    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      staticFilters = {
+        "IRT mandatory training": [irt],
+        Role: [role]
+      };
+    }
+      // let body = { ...data, filter: obj };
+      let body = { ...data, filter: { ...obj, ...staticFilters } };
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
-      // const res = await postData(ENDPOINT.LIBRARY, body);
+      let allData =[]
+      if(page==1){
+        allData =res?.data?.data?.library
 
-      setTotalLibraryRecord(res?.data?.data?.library);
+      }else{
+         allData = [...totalLibraryRecord, ...res?.data?.data?.library]
 
-      let apiData = [];
+      }
+      setTotalLibraryRecord(allData);
       if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
-
-        if (res?.data?.data?.library?.length > 24) {
+        if (res?.data?.data?.library?.length >= 24 && type!="rest") {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-      setLibraryData(apiData);
+      setLibraryData(allData);
 
       setPageAll(false);
       setApiCallStatus(true);
+      setPage(page);
+
       loader("hide");
+      return [...totalLibraryRecord, ...res?.data?.data?.library]
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -580,12 +586,9 @@ const LibraryContent = (props) => {
 
   const searchChange = (e) => {
     setIsLoaded(false);
-    setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setLibraryData([]);
-      setPageAllClicked(false);
-
       getLibraryData(page, filterObject, "");
     }
   };
@@ -1039,6 +1042,7 @@ const LibraryContent = (props) => {
       state: { flag: location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory", title :title }
     });
   };
+
 
   return (
     <>
@@ -1498,7 +1502,7 @@ const LibraryContent = (props) => {
                   libraryData?.map((data, index) => {
                     return (
                       <>
-                        <div className="doc-content-main-box col">
+                        <div className="doc-content-main-box col" >
                           <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
@@ -2562,7 +2566,12 @@ const LibraryContent = (props) => {
                                       </Button> */}
                                     <Link
                                       to="/library-edit"
-                                      state={{ pdfid: data.id }}
+                                      // state={{ pdfid: data.id }}
+                                      state={{ pdfid: data.id ,  title : location?.state?.title,
+                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                        ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                        : '' 
+                                      }}
                                       className="footer-btn"
                                     >
                                       Edit link
@@ -2582,7 +2591,12 @@ const LibraryContent = (props) => {
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
                                         <Link
                                           to="/library-sublink"
-                                          state={{ pdfid: data.id }}
+                                          // state={{ pdfid: data.id }}
+                                          state={{ pdfid: data.id ,  title : location?.state?.title,
+                                            flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                            ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                            : '' 
+                                          }}
                                           className="footer-btn"
                                         >
                                           New sublink
@@ -2818,7 +2832,9 @@ const LibraryContent = (props) => {
                   {isLoaded === true ? (
                     <Button
                       className="btn btn-primary btn-filled"
-                      onClick={loadMoreClicked}
+                      onClick={async () => {
+                        await getLibraryData(page + 1, filterObject, "",0,"rest");
+                      }}
                     >
                       Load More
                     </Button>

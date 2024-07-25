@@ -316,6 +316,7 @@ const getExistingVideos=async ()=>{
     is_file_name_exists: 1,
   };
   const response = await postData(ENDPOINT.LIBRARY, requestBody);
+  // const response = await postData(ENDPOINT.LIBRARY_CONTENT, requestBody);
   const hadData = response?.data?.data?.library || [];
   const pdfObj = hadData
     .map((item) => ({
@@ -1776,9 +1777,16 @@ const getExistingVideos=async ()=>{
                             : "/library-create"
                         }
                         state={{ 
-                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                          ? (location?.state?.title)
-                          : '' 
+                          // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                          // ? (location?.state?.title)
+                          // : '' 
+                          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                            ? "mandatory"
+                            : location?.state?.flag === "Non-mandatory"
+                            ? "Non-mandatory" : '') :'',
+                            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                            ? (location?.state?.title)
+                            : ''
                         }}
                       >
                         Cancel
