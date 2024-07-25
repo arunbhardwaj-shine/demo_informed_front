@@ -766,7 +766,7 @@ const ReaderEdit = () => {
             <Form.Label htmlFor="">
               {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                ? "IRT role"
+                ? "IRT role" 
                 : "Role"}{" "}
             </Form.Label>
 
@@ -840,7 +840,7 @@ const ReaderEdit = () => {
               <Form.Label htmlFor="">
                 {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                   || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                  ? "IRT role"
+                  ? (<>IRT role <span>*</span></>)
                   : "Role"}{" "}
               </Form.Label>
 
@@ -988,6 +988,7 @@ const ReaderEdit = () => {
               <Row className="justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
+                    {localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="?
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
                       // to="/readers-view"
@@ -1006,6 +1007,7 @@ const ReaderEdit = () => {
                         />
                       </svg>
                     </Link>
+                    :null}
                     {/* <button className="btn btn-primary btn-bordered back">
                       <Link to="/readers-view">Back</Link>
                     </button> */}

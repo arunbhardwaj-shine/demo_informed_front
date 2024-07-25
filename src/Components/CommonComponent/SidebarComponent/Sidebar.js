@@ -1325,6 +1325,7 @@ const Sidebar = () => {
             window.location.pathname == "/site-listing" || 
             window.location.pathname == "/new-readers-reviews" ||
             window.location.pathname == "/IRT-Mandatory" ||
+            window.location.pathname=="/mandatory-reader-edit"||
             window.location.pathname == "/timeline-detail" ? (
             <ul>
 

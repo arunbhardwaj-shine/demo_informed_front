@@ -34,8 +34,8 @@ const NewReadersReview = () => {
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
-  console.log("state-->",state)
-  
+  console.log("state-->", state)
+
   const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
@@ -65,24 +65,18 @@ const NewReadersReview = () => {
   ];
   const [totalCount, setCount] = useState(0);
   let staticFilter = {
-    status: ["Registered"],
-    "contact Type": ["HCP"],
-    // 'IRT mandatory training': ["Yes"],
+    // status: ["Registered"],
+    // "contact Type": ["HCP"],
   };
-
-
-
   const [appliedFilter, setAppliedFilter] = useState(staticFilter);
   const [filterObject, setFilterObject] = useState(staticFilter);
   const [apifilterObject, setApifilterObject] = useState(staticFilter);
-
   const [filterApplyflag, setFilterApplyflag] = useState(1);
   const [pageAll, setPageAll] = useState(false);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [siteNumber, setSiteNumber] = useState([]);
   const [siteName, setSiteName] = useState([]);
   const [changeUpdateFlag, setChangeUpdateFlag] = useState([]);
-
   const [countryAll, setCountryAll] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
   const defaultCountry = useRef(null);
@@ -138,7 +132,7 @@ const NewReadersReview = () => {
     "Study Nurse",
     "Other",
   ]);
-  const [changeBlockReminderType,setBlockReminder]=useState([])
+  const [changeBlockReminderType, setBlockReminder] = useState([])
 
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -161,29 +155,42 @@ const NewReadersReview = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
+  let tooltipObj = {
+    "New": "IRT hasn't started the training yet(no training content sent to)",
+    "Invited": "IRT has recieved the training email",
+    "Started": "IRT has started the training but is not finished yet",
+    "Completed": "IRT has completed the training and recieved the certificate",
+    "Ignored": "IRT ignored the training",
+    "Not Completed": "IRT started the training and didn't complete it even after all the email reminders"
+  }
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       setFilterObject({});
       setApifilterObject({});
       // setAppliedFilter({'IRT mandatory training': ["Yes"]});
       // setFilterObject({'IRT mandatory training': ["Yes"]});
       // setApifilterObject({'IRT mandatory training': ["Yes"]});
-    } else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-      setAppliedFilter({ "contact Type": ["HCP"] });
+    } else if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
-    }
-    else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
-      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    }
-    else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
-      setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
-      setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
     }
+    // else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+    //   setAppliedFilter({ "contact Type": ["HCP"] });
+    //   setFilterObject({});
+    //   setApifilterObject({});
+    // }
+    // else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
+    //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+    //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+    //   setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
+    // }
+    // else {
+    //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
+    //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
+    //   setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
+    // }
 
     getFilters();
     getReaderListData(page, filterObject, search);
@@ -209,8 +216,7 @@ const NewReadersReview = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}`);
-      // console.log(res,'resres')
+      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${role == '' ? 'all' : null}`);
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
@@ -300,7 +306,6 @@ const NewReadersReview = () => {
       } else {
         payload = { ...data, ...obj, search };
       }
-
 
       setChangeRoleType([])
       setChangeIRTType([])
@@ -680,8 +685,8 @@ const NewReadersReview = () => {
       </OverlayTrigger>
     );
   }
-  const onBlockReminderChange=(checked,id,index)=>{
-    const consetValue = checked==true?1:0;
+  const onBlockReminderChange = (checked, id, index) => {
+    const consetValue = checked == true ? 1 : 0;
     const consent = {
       index: id,
       value: consetValue,
@@ -1323,7 +1328,7 @@ const NewReadersReview = () => {
       let country = "";
       let binded = "";
       let institute = "";
-      let blockReminder=""
+      let blockReminder = ""
 
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         const roleIndex = changeRoleType.findIndex(
@@ -1444,7 +1449,7 @@ const NewReadersReview = () => {
             institute: institute,
             siteNumber: siteNumber,
             siteName: siteName,
-            blockReminder:blockReminder
+            blockReminder: blockReminder
           };
         } else {
           toast.warning("Please select country.");
@@ -1468,7 +1473,7 @@ const NewReadersReview = () => {
           };
         }
       }
-      console.log("body-->",body)
+      console.log("body-->", body)
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
@@ -1502,9 +1507,9 @@ const NewReadersReview = () => {
         if (institute !== "") {
           readerDataList[libDataIndex].institution = institute;
         }
-      if (blockReminder !== "") {
-            readerDataList[libDataIndex].blockReminder = blockReminder;
-          }
+        if (blockReminder !== "") {
+          readerDataList[libDataIndex].blockReminder = blockReminder;
+        }
 
         const newData = readerDataList;
         setReaderDataList(newData);
@@ -1517,11 +1522,11 @@ const NewReadersReview = () => {
           redirect: "",
         });
       } else {
-        
+
         toast.warning("Nothing to update.");
       }
 
-    
+
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -1776,8 +1781,9 @@ const NewReadersReview = () => {
         <div className="custom-container">
           <Row>
             <div className="top-sticky">
-              {state?.siteRole ?
-                <div className="page-title">  <h2>{state?.siteRole}</h2> </div> : ""}
+              {localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg==" ?
+                <div className="page-title">  <h2>{state?.siteRole ? state?.siteRole : "All IRTs"}</h2> </div> : ""}
               <div className="top-header reader_list">
                 <div className="page-title">
                   {localStorage.getItem("user_id") ==
@@ -1801,59 +1807,65 @@ const NewReadersReview = () => {
                           Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                         </h4>
                       )}
-                  {(
-                    <div className="refresh-button">
-                      <button
-                        className={refreshFlag ? "refresh-rotate" : "refresh"}
-                        onClick={async () => {
-                          setRefreshFlag(true);
+                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                    {(
+                      <div className="refresh-button">
+                        <button
+                          className={refreshFlag ? "refresh-rotate" : "refresh"}
+                          onClick={async () => {
+                            setRefreshFlag(true);
 
-                          let createdBy = localStorage.getItem("user_id")
-                          let obj = {
-                            "sync": 1,
-                            created_by: createdBy
-                          };
-                          const response = await postData("https://onesource.informed.pro/api/training-completion-cron", obj);
-                          const hadData = response?.data?.data || [];
-                          setRefreshFlag(false);
+                            let createdBy = localStorage.getItem("user_id")
+                            let obj = {
+                              "sync": 1,
+                              created_by: createdBy
+                            };
+                            const response = await postData("https://onesource.informed.pro/api/training-completion-cron", obj);
+                            const hadData = response?.data?.data || [];
+                            setRefreshFlag(false);
 
-                        }}
-                      >
-                        <svg
-                          fill="#fff"
-                          height="800px"
-                          width="800px"
-                          version="1.1"
-                          id="Layer_1"
-                          xmlns="http://www.w3.org/2000/svg"
-                          // xmlns:xlink="http://www.w3.org/1999/xlink"
-                          viewBox="0 0 383.748 383.748"
-                        // xml:space="preserve"
+                          }}
                         >
-                          <g>
-                            <path
-                              d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+                          <svg
+                            fill="#fff"
+                            height="800px"
+                            width="800px"
+                            version="1.1"
+                            id="Layer_1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            // xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 383.748 383.748"
+                          // xml:space="preserve"
+                          >
+                            <g>
+                              <path
+                                d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
 		C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
 		L2.081,34.641v113.365h113.91L62.772,95.042z"
-                            />
-                            <path
-                              d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+                              />
+                              <path
+                                d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
 		c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
 		c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"
-                            />
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  )}
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </>)
+                    : null}
 
                 </div>
                 <div className="top-right-action library_content_view">
-                  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&!state?.siteRole?.includes("all")) ?
-                    <div className="search-bar">
-                      <button onClick={()=>navigate("/reader-add",{state:state})} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></button>
+                  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && state?.siteRole) ?
+                    <div className="action-btn-add">
+                      <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
+                        Add Content <img src={path_image + "add-icon.png"} alt="" />
+                      </Button>
 
-                    </div> : null}
+                     </div> 
+                    : null}
                   <div className="clear-search">
                     <button
                       className="btn print"
@@ -2007,7 +2019,7 @@ const NewReadersReview = () => {
                                     eventKey={index}
                                   >
                                     <Accordion.Header className="card-header">
-                                      {key}
+                                      {key == "Training" ? "Status" : key}
                                     </Accordion.Header>
 
                                     <Accordion.Body className="card-body">
@@ -2067,19 +2079,7 @@ const NewReadersReview = () => {
                                                             ? true
                                                             : false
                                                       }
-                                                      // defaultChecked={
-                                                      //   key == "contactType" &&
-                                                      //   item == "HCP"
-                                                      //     ? true
-                                                      //     : filterObject?.hasOwnProperty(
-                                                      //         key
-                                                      //       )
-                                                      //     ? filterObject[
-                                                      //         key
-                                                      //       ]?.indexOf(item) !==
-                                                      //       -1
-                                                      //     : false
-                                                      // }
+
 
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
@@ -2097,13 +2097,7 @@ const NewReadersReview = () => {
                                                     {typeof item == "object"
                                                       ? item?.title
                                                       : item}
-                                                    {/* {key == "draft" &&
-                                                      typeof item  == "string" && item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&  typeof item  == "string" &&
-                                                        item == "1"
-                                                      ? "draft" &&  typeof item  == "string"
-                                                      : item} */}
+
                                                     <span className="checkmark"></span>
                                                   </label>
                                                 ) : null}
@@ -2204,7 +2198,7 @@ const NewReadersReview = () => {
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
-                                  <span>{key} |</span>
+                                  <span>{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && key == "Training" ? "Status" : key} |</span>
                                 </div>
                                 <div className="filter-div-list">
                                   {filterObject[key]?.includes("All") ? (
@@ -2292,12 +2286,22 @@ const NewReadersReview = () => {
                     <>
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
-                          <div className="doc-content">
+                          <div className="doc-content d-flex justify-content-between w-100">
                             <h4>
                               {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                 ? `${data?.firstName} ${data?.lastName} ` : data?.firstName ? data?.firstName : data?.name}
                             </h4>
+                          {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
+                          <div>
+                            <img 
+                            style={{width:'24px'}}
+                              src={path_image + "certificate.png"}
+                              alt="Certificate"
+                              
+                            />
+                          </div>
+                          :null}
                           </div>
                         </div>
                         <div className="tabs-data">
@@ -2374,31 +2378,32 @@ const NewReadersReview = () => {
                                       </h6>
                                     </li>
                                   }
-
-
-
                                   {(localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                     || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                     &&
                                     localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Institution
-                                        </h6>
-                                        <h6>
-                                          {data?.institution
-                                            ? data?.institution
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          IRT mandatory training
-                                        </h6>
-                                        <h6>{data?.irt ? data?.irt : "N/A"}</h6>
-                                      </li>
+                                      {localStorage.getItem("user_id") !==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? (<>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Institution
+                                            </h6>
+                                            <h6>
+                                              {data?.institution
+                                                ? data?.institution
+                                                : "N/A"}
+                                            </h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              IRT mandatory training
+                                            </h6>
+                                            <h6>{data?.irt ? data?.irt : "N/A"}</h6>
+                                          </li>
+                                        </>) : null}
                                       <li>
                                         <h6 className="tab-content-title">
                                           IRT role
@@ -2411,25 +2416,6 @@ const NewReadersReview = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
-
-                                      {/*<li>
-                                          <h6 className="tab-content-title">
-                                            Blind Type
-                                          </h6>
-                                          <h6>
-                                            {data?.binded == "Yes"
-                                              ? "Blinded"
-                                              : data?.binded == "No"
-                                              ? "Unblinded"
-                                              : data?.binded
-                                              ? data?.binded
-                                                  ?.charAt(0)
-                                                  ?.toUpperCase() +
-                                                data?.binded?.slice(1)
-                                              : "N/A"}
-                                          </h6>
-                                        </li>*/}
-
                                       <li>
                                         <h6 className="tab-content-title">
                                           Site number
@@ -2451,18 +2437,33 @@ const NewReadersReview = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
-                                      {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Status
-                                        </h6>
-                                        <h6>
-                                          {data?.status
-                                            ? data?.status
-                                            : "N/A"}
-                                        </h6>
-                                      </li>
-                                      :null}
+                                      {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Status
+                                          </h6>
+                                          <h6>
+                                            {data?.status
+                                              ? (<>{data?.status}
+
+                                                <LinkWithTooltip
+                                                  tooltip={tooltipObj[data?.status]}
+                                                  href="#"
+                                                >
+                                                  {" "}
+                                                  <img
+                                                    src={
+                                                      path_image +
+                                                      "info_circle_icon.svg"
+                                                    }
+                                                    alt="refresh-btn"
+                                                  />
+                                                </LinkWithTooltip>
+                                              </>)
+                                              : "N/A"}
+                                          </h6>
+                                        </li>
+                                        : null}
                                     </>
                                   ) : (
                                     <>
@@ -2520,20 +2521,12 @@ const NewReadersReview = () => {
                                       ) : (
                                         ""
                                       )}
-                                      {/* <li>
-                                        <h6 className="tab-content-title">
-                                          Last Activity
-                                        </h6>
-                                        <h6>
-                                          {data?.last_activity
-                                            ? data?.last_activity
-                                            : "N/A"}
-                                        </h6>
-                                      </li> */}
+                                     
                                     </>
                                   )}
                                 </ul>
                               </div>
+
                               <div className="data-main-footer-sec">
                                 {deletestatus ? (
                                   <div className="dlt_btn">
@@ -2554,11 +2547,18 @@ const NewReadersReview = () => {
                                   </div>
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner">
-                                    <div className="footer-btn d-flex justify-content-end">
+                                    <div className="footer-btn d-flex justify-content-end">                                 
+                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="New"?
+                                    <Link
+                                      className="btn btn-primary btn-filled"                        
+                                    >
+                                      Start Training
+                                    </Link>
+                                    :null}
                                       <Link
-                                        to="/reader-edit"
+                                        to={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "/mandatory-reader-edit" : "/reader-edit"}
                                         className="btn btn-primary btn-filled"
-                                        state={{ id: data?.id, status: '1',siteRole:state?.siteRole }}
+                                        state={{ id: data?.id, status: '1', siteRole: state?.siteRole }}
                                       >
                                         Edit
                                       </Link>
@@ -2869,7 +2869,7 @@ const NewReadersReview = () => {
                                     >
                                       See timeline
                                     </button>
-                                 
+
                                   </div>
                                 </div>
                               </div>
@@ -2883,11 +2883,10 @@ const NewReadersReview = () => {
                                       || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                       && change ? (
                                       <>
-                                   
-                                        {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
-                                       
+
+                                        {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && data?.status == "Started") ?
+
                                           <li>
-                                             
                                             <h6 className="tab-content-title">
                                               Block reminders
                                             </h6>
@@ -2899,12 +2898,12 @@ const NewReadersReview = () => {
                                                     value="value1"
                                                     name="group2"
                                                     id="setasdraft5"
-                                                    defaultChecked={data?.blockReminder == 1?true : false}
-                                                    
-                                                  onChange={(e) => {
-                                                    onBlockReminderChange(e.target?.checked, data.id,
-                                                      index);
-                                                  }}
+                                                    defaultChecked={data?.blockReminder == 1 ? true : false}
+
+                                                    onChange={(e) => {
+                                                      onBlockReminderChange(e.target?.checked, data.id,
+                                                        index);
+                                                    }}
                                                   />
                                                   <span>
                                                     <span className="switch-btn active">
@@ -2918,125 +2917,125 @@ const NewReadersReview = () => {
                                             </fieldset>
                                           </li>
                                           : null}
-                                          {localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="?
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Institution
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={institutionData}
-                                                defaultValue={
-                                                  institutionData?.[
-                                                  institutionData.findIndex(
-                                                    (el) =>
-                                                      el.value ==
-                                                      data?.institution
-                                                  )
-                                                  ]
-                                                }
-                                                onChange={(e) =>
-                                                  institutionFun(
-                                                    e,
-                                                    data.id,
-                                                    index
-                                                  )
-                                                }
-                                                id={"irt_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
+                                        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Institution
+                                            </h6>
+                                            <div className="select-dropdown-wrapper">
+                                              <div className="select">
+                                                <Select
+                                                  options={institutionData}
+                                                  defaultValue={
+                                                    institutionData?.[
+                                                    institutionData.findIndex(
+                                                      (el) =>
+                                                        el.value ==
+                                                        data?.institution
+                                                    )
+                                                    ]
+                                                  }
+                                                  onChange={(e) =>
+                                                    institutionFun(
+                                                      e,
+                                                      data.id,
+                                                      index
+                                                    )
+                                                  }
+                                                  id={"irt_type" + data?.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                />
+                                              </div>
                                             </div>
-                                          </div>
-                                        </li>
-                                        :null}
-                                    {(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                                    ||(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="))
-                                    ?
-                                    <li>
-                                    <h6 className="tab-content-title">
-                                      IRT role
-                                    </h6>
-                                    <div className="select-dropdown-wrapper">
-                                      <div className="select">
-                                        {(
-                                          changeIRTType.filter(
-                                            (el) => el.index == data.id
-                                          )?.length
-                                            ? changeIRTType.filter(
-                                              (el) =>
-                                                el.index == data.id
-                                            )?.[0]?.value
-                                            : data?.irt == "Yes"
-                                              ? true
-                                              : false
-                                        ) ? (
-                                          <Select
-                                            options={change?.userIrtRoles}
-                                            value={
-                                              selectedRole[index] !=
-                                                undefined &&
-                                                selectedRole[index] != true
-                                                ? selectedRole[index]
-                                                : selectedRole[index] ==
-                                                  true
-                                                  ? null
-                                                  : // change
-                                                  //     ?.userIrtRoles?.[0]
-                                                  change?.userIrtRoles.find(
-                                                    (roleObj) =>
-                                                      roleObj.value ===
-                                                      data?.role
-                                                  )
-                                            }
-                                            onChange={(event) =>
-                                              onRoleChange(
-                                                event,
-                                                data.id,
-                                                index
-                                              )
-                                            }
-                                            id={"role_" + data?.id}
-                                            className="dropdown-basic-button split-button-dropup"
-                                            isClearable
-                                            placeholder="Select Role"
-                                          />
-                                        ) : (
-                                          <Select
-                                            options={change?.role}
-                                            value={
-                                              selectedRole[index] !=
-                                                undefined &&
-                                                selectedRole[index] != true
-                                                ? selectedRole[index]
-                                                : selectedRole[index] ==
-                                                  true
-                                                  ? null
-                                                  : change?.role.find(
-                                                    (roleObj) =>
-                                                      roleObj.value ===
-                                                      data?.role
-                                                  )
-                                            }
-                                            onChange={(event) =>
-                                              onRoleChange(
-                                                event,
-                                                data.id,
-                                                index
-                                              )
-                                            }
-                                            id={"role_" + data?.id}
-                                            className="dropdown-basic-button split-button-dropup"
-                                            isClearable
-                                            placeholder="Select Role"
-                                          />
-                                        )}
-                                      </div>
-                                    </div>
-                                  </li>
-                                    :null}
-                                       
+                                          </li>
+                                          : null}
+                                        {(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                          || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="))
+                                          ?
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              IRT role
+                                            </h6>
+                                            <div className="select-dropdown-wrapper">
+                                              <div className="select">
+                                                {(
+                                                  changeIRTType.filter(
+                                                    (el) => el.index == data.id
+                                                  )?.length
+                                                    ? changeIRTType.filter(
+                                                      (el) =>
+                                                        el.index == data.id
+                                                    )?.[0]?.value
+                                                    : data?.irt == "Yes"
+                                                      ? true
+                                                      : false
+                                                ) ? (
+                                                  <Select
+                                                    options={change?.userIrtRoles}
+                                                    value={
+                                                      selectedRole[index] !=
+                                                        undefined &&
+                                                        selectedRole[index] != true
+                                                        ? selectedRole[index]
+                                                        : selectedRole[index] ==
+                                                          true
+                                                          ? null
+                                                          : // change
+                                                          //     ?.userIrtRoles?.[0]
+                                                          change?.userIrtRoles.find(
+                                                            (roleObj) =>
+                                                              roleObj.value ===
+                                                              data?.role
+                                                          )
+                                                    }
+                                                    onChange={(event) =>
+                                                      onRoleChange(
+                                                        event,
+                                                        data.id,
+                                                        index
+                                                      )
+                                                    }
+                                                    id={"role_" + data?.id}
+                                                    className="dropdown-basic-button split-button-dropup"
+                                                    isClearable
+                                                    placeholder="Select Role"
+                                                  />
+                                                ) : (
+                                                  <Select
+                                                    options={change?.role}
+                                                    value={
+                                                      selectedRole[index] !=
+                                                        undefined &&
+                                                        selectedRole[index] != true
+                                                        ? selectedRole[index]
+                                                        : selectedRole[index] ==
+                                                          true
+                                                          ? null
+                                                          : change?.role.find(
+                                                            (roleObj) =>
+                                                              roleObj.value ===
+                                                              data?.role
+                                                          )
+                                                    }
+                                                    onChange={(event) =>
+                                                      onRoleChange(
+                                                        event,
+                                                        data.id,
+                                                        index
+                                                      )
+                                                    }
+                                                    id={"role_" + data?.id}
+                                                    className="dropdown-basic-button split-button-dropup"
+                                                    isClearable
+                                                    placeholder="Select Role"
+                                                  />
+                                                )}
+                                              </div>
+                                            </div>
+                                          </li>
+                                          : null}
+
                                         <li>
                                           <h6 className="tab-content-title">
                                             Country
