@@ -625,6 +625,53 @@ const TimelineDetail = (props) => {
                                     </div>
                                   )}
 
+
+                                {(details?.action.includes('Certificate of training')) && (
+                                  <div className="timeline-box">
+                                    <div className="timeline_date">
+                                      {details?.date == moment("1970-01-01").format("DD MMM YYYY") ? "N/A" : details?.date}
+                                    </div>
+                                    <div className="timeline-block">
+                                      <div className="timeline-block-head read">
+                                        <div className="timeline-block-title">
+                                          <div className="timeline-block-img">
+                                            <img
+                                              src={
+                                                path_image + "certificate-mini-icon.svg"
+                                              }
+                                              alt=""
+                                            />
+                                          </div>
+                                          <h6>Certificate Issued</h6>
+                                        </div>
+                                        <div className="timeline-time-view">
+                                          <div className="timeline-time">
+                                            {details?.time}
+                                          </div>
+                                          |
+                                          <div className="timeline-timezone">
+                                            {details?.timezone}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="timeline-article d-flex">
+                                        <div className="timeline-article-image">
+                                          <img
+                                            src={path_image + "certificate-cover.png"}
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="timeline-article-detail">
+                                          <div className="timeline-title">
+                                            {/* <p>{details?.action}</p> */}
+                                            <p>{timeLineData?.user?.name} at Site {timeLineData?.user?.site_number} have received their certificate for training</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}  
+
                                 {details?.action ==
                                   "Checked Library in Docintel app" && (
                                     <div className="timeline-box">
