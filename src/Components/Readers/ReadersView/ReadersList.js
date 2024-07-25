@@ -1951,7 +1951,10 @@ const NewReaders = () => {
                           {Object.keys(filterdata)?.map(function (key, index) {
                             const filteredRoles =
                               key === "role"
-                                ? filterdata[key].filter(
+                                ? localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+                                ?filterdata[key]
+                                :
+                                filterdata[key].filter(
                                   (item) =>
                                     item === "All" ||
                                     item === "Principal Investigator" ||
@@ -1960,7 +1963,8 @@ const NewReaders = () => {
                                     item === "Study Nurse" ||
                                     item === "Other"
                                 )
-                                : filterdata[key];
+                                : 
+                                filterdata[key];
                             return (
                               <>
                                 {filteredRoles?.length > 0 ? (

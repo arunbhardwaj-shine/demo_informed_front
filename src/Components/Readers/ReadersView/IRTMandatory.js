@@ -113,7 +113,7 @@ const IRTMandatory = ()  => {
             </div>
           </div>
           <div className="irt_mandatory irt_create_role d-flex flex-wrap">
-           {Object.keys(roleData).map((roleKey) => {
+           {/* {Object.keys(roleData).map((roleKey) => {
               const role = roleData[roleKey]; 
                return ( 
                 <Col className="irt-create">
@@ -122,9 +122,7 @@ const IRTMandatory = ()  => {
                       <div className="count-number">{role?.total}</div>
                       <img src={path_image + "site-user-blinded.svg"} alt="" />
                     </div>
-                    {/* <div>
-                      <h3>Site User-Blinded</h3>
-                    </div> */}
+                   
                      <div 
                      onClick={() => navigateToEmailList( role?.user_role)}
                      >
@@ -145,7 +143,7 @@ const IRTMandatory = ()  => {
                       <div className="irt-value"><span>&nbsp;</span>{Math.floor(role?.pending_percentage || 0)}%</div>
                     </div>
                     <div className="bar-chart">
-                        {/* <img src={path_image + "irt-dummy-pie.png"} alt=""/> */}
+                        
                         {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) && (
                         <HighchartsReact highcharts={Highcharts} options={role.pieChartOptions} />
                       )}
@@ -181,10 +179,10 @@ const IRTMandatory = ()  => {
                         <img src={path_image + "irt-dummy-pie.png"} alt=""/>
                     </div>
                   </div>
-              </Col>
+              </Col> */}
               <div className="irt_mandatory-block w-100">
                 <div className="irt_mandatory-listing">
-                  <div className="irt_mandatory-section">
+                  <div className="irt_mandatory-section"  onClick={() => navigateToEmailList("Site User-Blinded")}>
                       <h3>Site User-Blinded</h3>
                       <div className="d-flex align-items-center irt-content-preview">
                         <div className="count-number">203</div>
@@ -222,7 +220,7 @@ const IRTMandatory = ()  => {
                         </div>
                       </div>
                   </div>
-                  <div className="irt_mandatory-section">
+                  <div className="irt_mandatory-section" onClick={() => navigateToEmailList("Investigator-Blinded")}>
                       <h3>Investigator-Blinded</h3>
                       <div className="d-flex align-items-center irt-content-preview">
                         <div className="count-number">203</div>
@@ -260,7 +258,7 @@ const IRTMandatory = ()  => {
                         </div>
                       </div>
                   </div>
-                  <div className="irt_mandatory-section">
+                  <div className="irt_mandatory-section" onClick={() => navigateToEmailList("Site Unblinded Pharmacist")}>
                       <h3>Site Unblinded Pharmacist</h3>
                       <div className="d-flex align-items-center irt-content-preview">
                         <div className="count-number">203</div>
@@ -298,7 +296,7 @@ const IRTMandatory = ()  => {
                         </div>
                       </div>
                   </div>
-                  <div className="irt_mandatory-section">
+                  <div className="irt_mandatory-section" onClick={() => navigateToEmailList("")}>
                       <h3>All IRTs</h3>
                       <div className="d-flex align-items-center irt-content-preview">
                         <div className="count-number">435</div>
