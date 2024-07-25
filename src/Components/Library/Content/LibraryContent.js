@@ -126,6 +126,8 @@ const LibraryContent = (props) => {
   const filterRef = useRef(null);
   const navigate = useNavigate();
   const { title } = location.state || {};
+
+
   // console.log(location.state,'flag')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
@@ -224,16 +226,18 @@ const LibraryContent = (props) => {
     try {
       let irt = "";
       let role = "";
-      if (title === "Site User-Blinded") {
-        irt = "Yes"
-        role = "Site User-Blinded";
-      } else if (title === "Investigator-Blinded") {
-        irt = "Yes"
-        role = "Investigator-Blinded";
-      } else if (title === "Site Unblinded Pharmacist") {
-        irt = "Yes"
-        role = "Site unblinded pharmacist";
-      }
+    
+        if (location?.state?.flag === 'mandatory' && title === "Site User-Blinded") {
+          irt = "Yes"
+          role = "Site User-Blinded";
+        } else if (location?.state?.flag === 'mandatory' && title === "Investigator-Blinded") {
+          irt = "Yes"
+          role = "Investigator-Blinded";
+        } else if (location?.state?.flag === 'mandatory' && title === "Site Unblinded Pharmacist") {
+          irt = "Yes"
+          role = "Site unblinded pharmacist";
+        }
+   
       else {
         irt = "No"
         role = "";
@@ -499,7 +503,6 @@ const LibraryContent = (props) => {
       setDeleteStatus(true);
     }
   };
-
   const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       // console.log(title,'title')
@@ -510,18 +513,18 @@ const LibraryContent = (props) => {
       }
       let irt = "";
       let role = "";
-        if (title === "Site User-Blinded") {
+
+        if (location?.state?.flag === 'mandatory' && title === "Site User-Blinded") {
           irt = "Yes"
           role = "Site User-Blinded";
-        } else if (title === "Investigator-Blinded") {
+        } else if (location?.state?.flag === 'mandatory' && title === "Investigator-Blinded") {
           irt = "Yes"
           role = "Investigator-Blinded";
-        } else if (title === "Site Unblinded Pharmacist") {
+        } else if (location?.state?.flag === 'mandatory' && title === "Site Unblinded Pharmacist") {
           irt = "Yes"
           role = "Site unblinded pharmacist";
         }
-     
-    
+  
       else {
         irt = "No"
         role = "";
@@ -1031,7 +1034,7 @@ const LibraryContent = (props) => {
     });
   };
 
-  // console.log(location?.state,'content')
+  console.log(location,'content')
 
   return (
     <>

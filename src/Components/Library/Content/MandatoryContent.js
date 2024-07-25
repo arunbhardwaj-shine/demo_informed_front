@@ -28,8 +28,9 @@ function MandatoryContent() {
   };
 
   const navigateToLibraryList = (title) => {
-    navigate("/library-mandatory-content", { state: { title } });
+    navigate("/library-mandatory-content", { state: { title, flag: "mandatory" } });
   };
+  
 
   return (
     <>

@@ -1424,6 +1424,7 @@ const LibraryCreateUser = () => {
       console.log("err", err);
     }
   };
+  // console.log(location,'craete')
 
   const LimitAgreed = () => {
     return (
@@ -1680,9 +1681,18 @@ const LibraryCreateUser = () => {
                       }
                      
                        state={{ 
-                        title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                        ? (location?.state?.title)
-                        : '' 
+                        // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                        // ? (location?.state?.title)
+                        // : '' 
+
+                        flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(
+                          location?.state?.flag === "mandatory"
+                          ? "mandatory"
+                          : location?.state?.flag === "Non-mandatory"
+                          ? "Non-mandatory" : '') :'',
+                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                          ? (location?.state?.title)
+                          : '' 
                       }}
                     >
                       Cancel

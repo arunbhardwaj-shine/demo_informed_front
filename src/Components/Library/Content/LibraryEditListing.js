@@ -83,7 +83,7 @@ const LibraryEditListing = () => {
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const { title } = location.state || {};
-  // console.log(location?.state?.flag,'location.state')
+  // console.log(location,'edit')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -666,9 +666,18 @@ const LibraryEditListing = () => {
                       : "/library-create"
                   }
                   state={{ 
-                    title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                    ? (location?.state?.title)
-                    : '' 
+                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    // ? (location?.state?.title)
+                    // : '' 
+
+                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                      ? "mandatory"
+                      : location?.state?.flag === "Non-mandatory"
+                      ? "Non-mandatory" : '') :'',
+                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      ? (location?.state?.title)
+                      : ''
+                
                   }}
                   
                 >
