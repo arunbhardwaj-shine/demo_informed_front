@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-import { Link, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import axios from "axios";
 import { getDraftData, getEmailData, getSearched, getSelected } from "../../actions";
 import { connect } from "react-redux";
@@ -16,30 +16,30 @@ import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
 import { Col, Row } from "react-bootstrap";
 import moment from "moment";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { getData as getApiData } from "../../axios/apiHelper";
 
 const EmailList = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const isRND= localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" 
+  const isRND = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
-  const queryParams = queryString.parse(window.location.search);
 
   const [SendListData, setSendListData] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
     useState(false);
   const [readerDetailsData, setReaderDetailsData] = useState([]);
+  const [readerDetailsCount, setReaderDetailsCount] = useState(0);
   const [detailPopupName, setDetailPopupName] = useState("");
   const [ctrName, setCTRName] = useState("");
   const [popupHeadingColor, setPopupHeadingColor] = useState("");
   const [search, setSearch] = useState("");
 
-  const [submiHandle, setSubmiHandle] = useState("");
   const [getreference, setReference] = useState("");
   const [campaign_id, setCampaignId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +47,6 @@ const EmailList = (props) => {
   const [viewEmailData, setviewEmailData] = useState();
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
-  const [verificationpopup, setVerificationPopup] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
   const [filtertags, setFilterTags] = useState([]);
@@ -56,7 +55,6 @@ const EmailList = (props) => {
   const [filterrole, setFilterRole] = useState([]);
   const [filtercampaign, setFilterCampaigns] = useState([]);
   const [updateflag, setUpdateFlag] = useState([]);
-  const [removeFlag, setRemoveFlag] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
@@ -69,9 +67,9 @@ const EmailList = (props) => {
   const [functionParameter, setFunctionParameter] = useState({
 
   });
-  const [irtRoleObj, setIRTRoleObj] = useState(
+  const irtRoleObj=
     typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
-  );
+
   const [filter, setFilter] = useState(
     state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
   );
@@ -197,8 +195,15 @@ const EmailList = (props) => {
     };
   }, []);
 
-  const showViewEmailModal = (data) => {
+  const showViewEmailModal = async (data) => {
     let id = data;
+    loader('show');
+    const response = await getApiData(
+      `${ENDPOINT.GET_CAMPAIGN_TEMPLATE}?id=${id}`
+    );
+    let template = response.data.data
+
+
     if (typeof SendListData !== "undefined") {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
       let valueupdate = options_ch;
@@ -225,13 +230,29 @@ const EmailList = (props) => {
           valueupdate.series[0].data.push(obj);
         });
       }
-
+      if (getSpecificKeyData.length) {
+        if (template) {  
+          const replacements = {
+            '###pdftitle###': getSpecificKeyData[0].pdf_title,
+            '###title###': getSpecificKeyData[0].pdf_title,
+            '###subPdfTitle###': getSpecificKeyData[0].pdf_sub_title,
+            '###subtitle###': getSpecificKeyData[0].pdf_sub_title,
+            '###coverpath###': getSpecificKeyData[0].cover,
+          };
+    
+          for (const [key, value] of Object.entries(replacements)) {
+            template = template.replace(new RegExp(key, 'g'), value);
+          }
+        getSpecificKeyData[0].template = template
+      }}
       setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);
     }
     hideModal();
     setviewEmailModal(true);
     setCampaignId(id);
+    loader('hide');
+
   };
   const hideEmailModal = () => {
     setviewEmailModal(false);
@@ -293,7 +314,6 @@ const EmailList = (props) => {
 
             // setFilterData(res.data.response.data.filter);
           }
-          setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
           setSendListData([]);
         } else {
@@ -338,7 +358,6 @@ const EmailList = (props) => {
     setloadmore(0);
     setShowFilter(false);
     getData("progress");
-    setSubmiHandle(1);
     event.preventDefault();
     return false;
   };
@@ -347,7 +366,7 @@ const EmailList = (props) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
       setloadmore(0);
-      getData("progress",3);
+      getData("progress", 3);
       // setSendListData(getoriginalsendlistdata);
     }
   };
@@ -458,18 +477,6 @@ const EmailList = (props) => {
     setConfirmationPopup(false);
   };
 
-  // const showVerificationPopup = () => {
-  //   hideConfirmationModal();
-  //   if(verificationpopup){
-  //     setVerificationPopup(false);
-  //   }else{
-  //     setVerificationPopup(true);
-  //   }
-  // }
-
-  // const hideVerificationPopup = () => {
-  //   setVerificationPopup(false);
-  // }
 
   const deleteEmail = () => {
     hideConfirmationModal();
@@ -498,7 +505,7 @@ const EmailList = (props) => {
             setOriginalSendListData(newupdatedArray);
           }
 
-          
+
           popup_alert({
             visible: "show",
             message: "The Email record has been deleted <br />successfully !",
@@ -820,6 +827,7 @@ const EmailList = (props) => {
             let temporaryUsers = [...readerDetailsData, ...res?.data?.response?.data];
             setReaderDetailsData(temporaryUsers);
           }
+          setReaderDetailsCount(res?.data?.response?.count || 0);
           setReaderDetailsPopupStatus(true);
         } else {
           loader("hide");
@@ -1538,13 +1546,13 @@ const EmailList = (props) => {
                                                   : 'N/A'}
                                               </td> */}
 
-                                                <td>
-                                                  {
-                                                    data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length === 0
-                                                      ? 'N/A'
-                                                      : data?.unique_site_numbers.filter(item => item).slice(0, 10).join(', ')
-                                                  }
-                                                </td>
+                                              <td>
+                                                {
+                                                  data?.unique_site_numbers && data?.unique_site_numbers.filter(item => item).length === 0
+                                                    ? 'N/A'
+                                                    : data?.unique_site_numbers.filter(item => item).slice(0, 10).join(', ')
+                                                }
+                                              </td>
                                             </tr>
                                             {/* <tr>
                                         <th>IRTs</th>
@@ -1582,7 +1590,7 @@ const EmailList = (props) => {
                                 </div>
                                 <div className="mail-stats">
                                   <ul>
-                                  {  isRND  &&<li>
+                                    {isRND && <li>
                                       <div
                                         className="mail-status irts"
                                         title="IRTs"
@@ -1967,17 +1975,17 @@ const EmailList = (props) => {
                           </td>
                         </tr>
                         {
-                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 
-                          <tr>
-                            <th>IRTs </th>
-                            <td>
-                              {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
-                                ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
-                                : 'N/A'}
+                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                            <tr>
+                              <th>IRTs </th>
+                              <td>
+                                {viewEmailData[0]?.unique_user_types && viewEmailData[0]?.unique_user_types.filter(item => item).length > 0
+                                  ? viewEmailData[0]?.unique_user_types.filter(item => item).join(', ')
+                                  : 'N/A'}
 
-                            </td>
-                          </tr>
-                          : null
+                              </td>
+                            </tr>
+                            : null
                         }
                       </tbody>
                     </table>
@@ -2806,8 +2814,9 @@ const EmailList = (props) => {
                                     {item?.country ? item.country : "N/A"}
                                   </span>{" "}
                                 </td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                {(localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                   && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                 <td>
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -2851,8 +2860,9 @@ const EmailList = (props) => {
                                                   {item?.country ? item.country : "N/A"}
                                                 </span>
                                               </td>
-                                              {localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                                              {(localStorage.getItem("user_id") ==
+                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") 
+                                                && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                               <td>
                                                 {localStorage.getItem("user_id") ==
                                                   "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -2899,7 +2909,7 @@ const EmailList = (props) => {
                       ) : null}
                     </tbody>
                   </table>
-                  {readerDetailsData.length >= 50 && functionParameter?.page == 1 &&
+                  {readerDetailsCount >= 50 && functionParameter?.page == 1 &&
                     (<div className="text-center load_more">
                       <button className="btn btn-primary btn-filled" onClick={() => getReaderData(functionParameter?.type, functionParameter?.name, functionParameter?.color_code, functionParameter?.dynamic_name, 2)}>
                         Load All
