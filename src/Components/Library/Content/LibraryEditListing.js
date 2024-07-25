@@ -352,12 +352,12 @@ const LibraryEditListing = () => {
         type: type,
         limit: limit,
       };
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-        obj = {
-          "IRT mandatory training": [irt],
-          Role: [role]
-        };
-      }
+      // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      //   obj = {
+      //     "IRT mandatory training": [irt],
+      //     Role: [role]
+      //   };
+      // }
       let staticFilters = {};
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
         staticFilters = {
