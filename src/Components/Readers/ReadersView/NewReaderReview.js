@@ -156,12 +156,12 @@ const NewReadersReview = () => {
   const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
   let tooltipObj = {
-    "New": "NEW: IRT hasn't started the training yet(no training content sent to)",
-    "Invited": "Invited: IRT has recieved the training email",
-    "Started": "Started: IRT has started the training but is not finished yet",
-    "Completed": "Completed: IRT has completed the training and recieved the certificate",
-    "Ignored": "Ignored: IRT ignored the training",
-    "Not Completed": "Not Completed: IRT started the training and didn't complete it even after all the email reminders"
+    "New": "IRT hasn't started the training yet(no training content sent to)",
+    "Invited": "IRT has recieved the training email",
+    "Started": "IRT has started the training but is not finished yet",
+    "Completed": "IRT has completed the training and recieved the certificate",
+    "Ignored": "IRT ignored the training",
+    "Not Completed": "IRT started the training and didn't complete it even after all the email reminders"
   }
 
   useEffect(() => {
@@ -1859,12 +1859,13 @@ const NewReadersReview = () => {
                 </div>
                 <div className="top-right-action library_content_view">
                   {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && state?.siteRole) ?
-                    <div className="search-bar">
+                    <div className="action-btn-add">
                       <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
                         Add Content <img src={path_image + "add-icon.png"} alt="" />
                       </Button>
 
-                    </div> : null}
+                     </div> 
+                    : null}
                   <div className="clear-search">
                     <button
                       className="btn print"
@@ -2285,12 +2286,22 @@ const NewReadersReview = () => {
                     <>
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
-                          <div className="doc-content">
+                          <div className="doc-content d-flex justify-content-between w-100">
                             <h4>
                               {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                 ? `${data?.firstName} ${data?.lastName} ` : data?.firstName ? data?.firstName : data?.name}
                             </h4>
+                          {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
+                          <div>
+                            <img 
+                            style={{width:'24px'}}
+                              src={path_image + "certificate.png"}
+                              alt="Certificate"
+                              
+                            />
+                          </div>
+                          :null}
                           </div>
                         </div>
                         <div className="tabs-data">
@@ -2367,9 +2378,6 @@ const NewReadersReview = () => {
                                       </h6>
                                     </li>
                                   }
-
-
-
                                   {(localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                     || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
@@ -2408,25 +2416,6 @@ const NewReadersReview = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
-
-                                      {/*<li>
-                                          <h6 className="tab-content-title">
-                                            Blind Type
-                                          </h6>
-                                          <h6>
-                                            {data?.binded == "Yes"
-                                              ? "Blinded"
-                                              : data?.binded == "No"
-                                              ? "Unblinded"
-                                              : data?.binded
-                                              ? data?.binded
-                                                  ?.charAt(0)
-                                                  ?.toUpperCase() +
-                                                data?.binded?.slice(1)
-                                              : "N/A"}
-                                          </h6>
-                                        </li>*/}
-
                                       <li>
                                         <h6 className="tab-content-title">
                                           Site number
@@ -2458,7 +2447,7 @@ const NewReadersReview = () => {
                                               ? (<>{data?.status}
 
                                                 <LinkWithTooltip
-                                                  tooltip={tooltipObj[data?.status]}                        
+                                                  tooltip={tooltipObj[data?.status]}
                                                   href="#"
                                                 >
                                                   {" "}
@@ -2532,20 +2521,12 @@ const NewReadersReview = () => {
                                       ) : (
                                         ""
                                       )}
-                                      {/* <li>
-                                        <h6 className="tab-content-title">
-                                          Last Activity
-                                        </h6>
-                                        <h6>
-                                          {data?.last_activity
-                                            ? data?.last_activity
-                                            : "N/A"}
-                                        </h6>
-                                      </li> */}
+                                     
                                     </>
                                   )}
                                 </ul>
                               </div>
+
                               <div className="data-main-footer-sec">
                                 {deletestatus ? (
                                   <div className="dlt_btn">
@@ -2566,9 +2547,16 @@ const NewReadersReview = () => {
                                   </div>
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner">
-                                    <div className="footer-btn d-flex justify-content-end">
+                                    <div className="footer-btn d-flex justify-content-end">                                 
+                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="New"?
+                                    <Link
+                                      className="btn btn-primary btn-filled"                        
+                                    >
+                                      Start Training
+                                    </Link>
+                                    :null}
                                       <Link
-                                        to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/mandatory-reader-edit":"/reader-edit"}
+                                        to={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "/mandatory-reader-edit" : "/reader-edit"}
                                         className="btn btn-primary btn-filled"
                                         state={{ id: data?.id, status: '1', siteRole: state?.siteRole }}
                                       >
@@ -2896,7 +2884,7 @@ const NewReadersReview = () => {
                                       && change ? (
                                       <>
 
-                                        {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&& data?.status=="Started") ?
+                                        {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && data?.status == "Started") ?
 
                                           <li>
                                             <h6 className="tab-content-title">
