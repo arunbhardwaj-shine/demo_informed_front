@@ -1034,7 +1034,6 @@ const LibraryContent = (props) => {
     });
   };
 
-  console.log(location,'content')
 
   return (
     <>
