@@ -834,7 +834,15 @@ const Sidebar = () => {
                   location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && location?.state?.flag === "Non-mandatory"?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
                 }
               >
-                <Link to={"/library-content"}>
+                <Link 
+                  to={"/library-content"}
+                    state={{
+                      flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      ?  "Non-mandatory" 
+                      : '' 
+                    }}
+                
+                >
                   <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
                     <path
                       fillRule="evenodd"

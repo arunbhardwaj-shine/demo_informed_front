@@ -1031,6 +1031,8 @@ const LibraryContent = (props) => {
     });
   };
 
+  // console.log(location?.state,'content')
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -2555,7 +2557,6 @@ const LibraryContent = (props) => {
                                       to="/library-edit"
                                       // state={{ pdfid: data.id }}
                                       state={{ pdfid: data.id ,  title : location?.state?.title,
-
                                         flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                         : '' 
@@ -2581,7 +2582,6 @@ const LibraryContent = (props) => {
                                           to="/library-sublink"
                                           // state={{ pdfid: data.id }}
                                           state={{ pdfid: data.id ,  title : location?.state?.title,
-
                                             flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                                             ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                             : '' 
