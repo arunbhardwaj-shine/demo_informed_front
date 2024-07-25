@@ -661,6 +661,11 @@ const LibraryEditListing = () => {
                       ? "/library-content"
                       : "/library-create"
                   }
+                  state={{ 
+                    title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    ? (location?.state?.title)
+                    : '' 
+                  }}
                   
                 >
                   <svg
