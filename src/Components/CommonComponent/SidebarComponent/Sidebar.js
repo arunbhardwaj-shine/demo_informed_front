@@ -15,7 +15,7 @@ const Sidebar = () => {
   let c_id = 0;
   let webinar_c_id = 0;
   const location = useLocation();
-  console.log(location?.state?.flag,'location.stateflag')
+  // console.log(location?.state?.flag,'location.stateflag')
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
