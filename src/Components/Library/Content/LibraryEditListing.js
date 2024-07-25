@@ -358,7 +358,15 @@ const LibraryEditListing = () => {
           Role: [role]
         };
       }
-      let body = { ...data, filter: obj };
+      let staticFilters = {};
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        staticFilters = {
+          "IRT mandatory training": [irt],
+          Role: [role]
+        };
+      }
+      // let body = { ...data, filter: obj };
+      let body = { ...data, filter: { ...obj, ...staticFilters } };
 
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       let allData =[]
