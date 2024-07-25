@@ -1336,6 +1336,7 @@ const Sidebar = () => {
                 <li
                   className={
                     location.pathname == "/IRT-Mandatory" ||location.pathname == "/new-readers-reviews" ||
+                    location.pathname =="/reader-add"||location.pathname=="/mandatory-reader-edit"||
                     (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
                       ? "active"
                       : "side_li"
@@ -1363,8 +1364,9 @@ const Sidebar = () => {
 
               <li
                 className={
-                  location.pathname == "/readers-view" ||
-                    location.pathname == "/timeline-detail"  && localStorage.getItem('irt_sec') != 1
+                  (location.pathname == "/readers-view" 
+                  ||(location.pathname=="/reader-edit" && localStorage.getItem('user_id')=="56Ek4feL/1A8mZgIKQWEqg==")||
+                    location.pathname == "/timeline-detail"  && localStorage.getItem('irt_sec') != 1)
                     ? "active"
                     : "side_li"
                 }

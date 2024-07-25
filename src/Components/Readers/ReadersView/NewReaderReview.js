@@ -34,6 +34,7 @@ const NewReadersReview = () => {
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
+  console.log("state-->",state)
   
   const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
   const [search, setSearch] = useState("");
@@ -1848,9 +1849,9 @@ const NewReadersReview = () => {
 
                 </div>
                 <div className="top-right-action library_content_view">
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&!state?.siteRole?.includes("all")) ?
                     <div className="search-bar">
-                      <Link to={'/reader-add'} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></Link>
+                      <button onClick={()=>navigate("/reader-add",{state:state})} className="btn-dashed">Add Content <img src={path_image + "add-icon.png"} alt="" /></button>
 
                     </div> : null}
                   <div className="clear-search">
@@ -2450,6 +2451,18 @@ const NewReadersReview = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
+                                      {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Status
+                                        </h6>
+                                        <h6>
+                                          {data?.status
+                                            ? data?.status
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      :null}
                                     </>
                                   ) : (
                                     <>
@@ -2545,7 +2558,7 @@ const NewReadersReview = () => {
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-filled"
-                                        state={{ id: data?.id, status: '1' }}
+                                        state={{ id: data?.id, status: '1',siteRole:state?.siteRole }}
                                       >
                                         Edit
                                       </Link>
@@ -2887,7 +2900,7 @@ const NewReadersReview = () => {
                                                     name="group2"
                                                     id="setasdraft5"
                                                     defaultChecked={data?.blockReminder == 1?true : false}
-                                                    // checked={changeBlockReminderType[index]?.value == true?true : false}
+                                                    
                                                   onChange={(e) => {
                                                     onBlockReminderChange(e.target?.checked, data.id,
                                                       index);
@@ -2939,7 +2952,7 @@ const NewReadersReview = () => {
                                         </li>
                                         :null}
                                     {(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                                    ||(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&state?.siteRole?.includes("all")))
+                                    ||(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="))
                                     ?
                                     <li>
                                     <h6 className="tab-content-title">
@@ -3123,7 +3136,7 @@ const NewReadersReview = () => {
                                                 }
                                                 value={
                                                   selectedSiteNumber[index] !=
-                                                    "undefined" &&
+                                                    undefined &&
                                                     selectedSiteNumber[index] !=
                                                     true
                                                     ? selectedSiteNumber[index]
@@ -3132,7 +3145,7 @@ const NewReadersReview = () => {
                                                     ] == true
                                                       ? null
                                                       : change?.siteNumber[
-                                                      change?.siteNumber?.findIndex(
+                                                      change?.siteNumber.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteNumber?.toLowerCase()
@@ -3170,7 +3183,7 @@ const NewReadersReview = () => {
                                                 }
                                                 value={
                                                   selectedSiteName[index] !=
-                                                    "undefined" &&
+                                                    undefined &&
                                                     selectedSiteName[index] !=
                                                     true
                                                     ? selectedSiteName[index]
@@ -3178,7 +3191,7 @@ const NewReadersReview = () => {
                                                       true
                                                       ? null
                                                       : change?.siteName[
-                                                      change?.siteName?.findIndex(
+                                                      change?.siteName.findIndex(
                                                         (el) =>
                                                           el.label.toLowerCase() ===
                                                           data?.siteName?.toLowerCase()

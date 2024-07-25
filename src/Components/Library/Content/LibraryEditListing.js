@@ -353,13 +353,20 @@ const LibraryEditListing = () => {
         search: search,
         type: type,
         limit: limit,
-        "IRT mandatory training": [irt],
-        Role: [role]
       };
 
-      let body = { ...data, ...obj };
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        obj = {
+          "IRT mandatory training": [irt],
+          Role: [role]
+        };
+      }
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
+      // let body = { ...data, ...obj };
+      let body = { ...data, filter: obj };
+
+      // const res = await postData(ENDPOINT.LIBRARY, body);
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       setTotalLibraryRecord(res?.data?.data?.library);
 
       let apiData = [];
@@ -661,6 +668,11 @@ const LibraryEditListing = () => {
                       ? "/library-content"
                       : "/library-create"
                   }
+                  state={{ 
+                    title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    ? (location?.state?.title)
+                    : '' 
+                  }}
                   
                 >
                   <svg
@@ -1035,7 +1047,7 @@ const LibraryEditListing = () => {
                               <div className="dlt_btn">
                                 <Link
                                   to="/library-edit"
-                                  state={{ pdfid: data.id , 
+                                  state={{ pdfid: data.id ,  title : location?.state?.title,
 
                                     flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                                     ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")

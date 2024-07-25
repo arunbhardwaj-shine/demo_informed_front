@@ -31,6 +31,7 @@ const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
+  console.log("state-->", state)
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
   const [pharmaData, setPharmaData] = useState();
@@ -153,7 +154,7 @@ const ReaderAdd = () => {
     product: "",
     province: "",
     repContact: "",
-    role: "",
+    role: state?.siteRole ? state?.siteRole : "",
     siteName: "",
     siteNumber: "",
     speciality: "",
@@ -229,7 +230,7 @@ const ReaderAdd = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -268,7 +269,7 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setAddReaderInputs({
         ...userInputs,
         role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
@@ -431,7 +432,7 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     initalFun();
@@ -683,10 +684,11 @@ const ReaderAdd = () => {
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-
+        console.log("state?.siteRole--->", state?.siteRole)
         navigate("/reader-review", {
           state: {
             data: data,
+            siteRole: state?.siteRole ? state?.siteRole : null
           },
         });
       } catch (err) {
@@ -702,7 +704,7 @@ const ReaderAdd = () => {
 
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    } else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -717,171 +719,173 @@ const ReaderAdd = () => {
   const RDAccount = () => {
     return (
       <>
-      {localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="?(<>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            Institution <span>*</span>
-          </Form.Label>
-          <Select
-            options={userDetail?.institution}
-            placeholder={"Select Institution"}
-            name="institution"
-            className={
-              error?.institution
-                ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup disabled"
-            }
-            isDisabled
-            isClearable
-            value={
-              userDetail?.institution.findIndex((el) => el.value == userInputs?.institution) ==
-                -1
-                ? ""
-                : userDetail?.institution[
-                userDetail?.institution.findIndex(
-                  (el) => el.value == userInputs?.institution
-                )
-                ]
-            }
+        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">
+              Institution <span>*</span>
+            </Form.Label>
+            <Select
+              options={userDetail?.institution}
+              placeholder={"Select Institution"}
+              name="institution"
+              className={
+                error?.institution
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup disabled"
+              }
+              isDisabled
+              isClearable
+              value={
+                userDetail?.institution.findIndex((el) => el.value == userInputs?.institution) ==
+                  -1
+                  ? ""
+                  : userDetail?.institution[
+                  userDetail?.institution.findIndex(
+                    (el) => el.value == userInputs?.institution
+                  )
+                  ]
+              }
             //  onChange={(e) => handleChange(e?.value, "institution")}
-          />
+            />
 
-          {error?.institution ? (
-            <div className="login-validation">{error?.institution}</div>
-          ) : (
-            ""
-          )}
-        </Form.Group>
+            {error?.institution ? (
+              <div className="login-validation">{error?.institution}</div>
+            ) : (
+              ""
+            )}
+          </Form.Group>
 
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-              ? "IRT mandatory training"
-              : "IRT"}
-          </Form.Label>
-          <Select
-            options={userDetail?.irt}
-            defaultValue={{
-              label: "Yes",
-              value: "Yes",
-            }}
-            value={
-              userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
-                -1
-                ? ""
-                : userDetail?.irt[
-                userDetail?.irt.findIndex(
-                  (el) => el.value == userInputs?.irt
-                )
-                ]
-            }
-            // value={userDetail?.irt?.find((inst) => inst.label === "Yes")}
-            // value={{ label: "Yes",value: "Yes",}}
-            placeholder={
-              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                ? "Select IRT mandatory training"
-                : "Select IRT"
-            }
-            name="irt"
-            className={
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                ? "IRT mandatory training"
+                : "IRT"}
+            </Form.Label>
+            <Select
+              options={userDetail?.irt}
+              defaultValue={{
+                label: "Yes",
+                value: "Yes",
+              }}
+              value={
+                userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
+                  -1
+                  ? ""
+                  : userDetail?.irt[
+                  userDetail?.irt.findIndex(
+                    (el) => el.value == userInputs?.irt
+                  )
+                  ]
+              }
+              // value={userDetail?.irt?.find((inst) => inst.label === "Yes")}
+              // value={{ label: "Yes",value: "Yes",}}
+              placeholder={
+                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  ? "Select IRT mandatory training"
+                  : "Select IRT"
+              }
+              name="irt"
+              className={
 
-              error?.irt
-                ? "dropdown-basic-button split-button-dropup error"
-                : "dropdown-basic-button split-button-dropup disabled "
-            }
-            isClearable
-            isDisabled
+                error?.irt
+                  ? "dropdown-basic-button split-button-dropup error"
+                  : "dropdown-basic-button split-button-dropup disabled "
+              }
+              isClearable
+              isDisabled
 
             // onChange={(e) => handleChange(e?.value, "irt")}
-          />
-        </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-              ? "IRT role"
-              : "Role"}
-          </Form.Label>
+            />
+          </Form.Group>
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                ? "IRT role"
+                : "Role"}
+            </Form.Label>
 
-          {userInputs?.irt && userInputs.irt == 1 ? (
-            <>
-              <Select
-                options={userDetail?.userIrtRoles}
-                placeholder="Select Role"
-                name="role"
-                // defaultValue={userDetail?.userIrtRoles[0]}
-                className="dropdown-basic-button split-button-dropup"
-                value={
-                  userDetail?.userIrtRoles.findIndex(
-                    (el) => el.value == userInputs?.role
-                  ) == -1
-                    ? userDetail?.userIrtRoles[0]
-                    : userDetail?.userIrtRoles[
+            {userInputs?.irt && userInputs.irt == 1 ? (
+              <>
+                <Select
+                  options={userDetail?.userIrtRoles}
+                  placeholder="Select Role"
+                  name="role"
+                  // defaultValue={userDetail?.userIrtRoles[0]}
+                  className="dropdown-basic-button split-button-dropup"
+                  value={
                     userDetail?.userIrtRoles.findIndex(
                       (el) => el.value == userInputs?.role
-                    )
-                    ]
-                }
-                isClearable
-                onChange={(e) => handleChange(e?.value, "role")}
-              />
-            </>
-          ) : userInputs.irt == 0 ? (
-            <>
-              <Select
-                options={userDetail?.role}
-                placeholder="Select Role"
-                name="role"
-                className="dropdown-basic-button split-button-dropup"
-                value={
-                  userDetail?.role.findIndex(
-                    (el) => el.value == userInputs?.role
-                  ) == -1
-                    ? userDetail?.role[4]
-                    : userDetail?.role[
+                    ) == -1
+                      ? userDetail?.userIrtRoles[0]
+                      : userDetail?.userIrtRoles[
+                      userDetail?.userIrtRoles.findIndex(
+                        (el) => el.value == userInputs?.role
+                      )
+                      ]
+                  }
+                  isClearable
+                  onChange={(e) => handleChange(e?.value, "role")}
+                />
+              </>
+            ) : userInputs.irt == 0 ? (
+              <>
+                <Select
+                  options={userDetail?.role}
+                  placeholder="Select Role"
+                  name="role"
+                  className="dropdown-basic-button split-button-dropup"
+                  value={
                     userDetail?.role.findIndex(
                       (el) => el.value == userInputs?.role
-                    )
-                    ]
-                }
-                isClearable
-                onChange={(e) => handleChange(e?.value, "role")}
-              />
-            </>
-          ) : (
-            <>
-              <Select
-                className="dropdown-basic-button split-button-dropup"
-                placeholder="Select Role"
-              />
-            </>
-          )}
-        </Form.Group>
-        <Form.Group className="form-group">
-          <Form.Label htmlFor="">
-            {" "}
-            {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-              ? "Study role"
-              : "Sub Role"}{" "}
-          </Form.Label>
-          <Select
-            options={userDetail?.sub_role}
-            placeholder={
-              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                ? "Select Study Role"
-                : "Select Role"
-            }
-            name="sub_role"
-            className="dropdown-basic-button split-button-dropup"
-            isClearable
-            onChange={(e) => handleChange(e?.value, "sub_role")}
-          />
-        </Form.Group>
-        </>):null}
+                    ) == -1
+                      ? userDetail?.role[4]
+                      : userDetail?.role[
+                      userDetail?.role.findIndex(
+                        (el) => el.value == userInputs?.role
+                      )
+                      ]
+                  }
+                  isClearable
+                  onChange={(e) => handleChange(e?.value, "role")}
+                />
+              </>
+            ) : (
+              <>
+                <Select
+                  className="dropdown-basic-button split-button-dropup"
+                  placeholder="Select Role"
+                />
+              </>
+            )}
+          </Form.Group>
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">
+              {" "}
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                ? "Study role"
+                : "Sub Role"}{" "}
+            </Form.Label>
+            <Select
+              options={userDetail?.sub_role}
+              placeholder={
+                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  ? "Select Study Role"
+                  : "Select Role"
+              }
+              name="sub_role"
+              className="dropdown-basic-button split-button-dropup"
+              isClearable
+              onChange={(e) => handleChange(e?.value, "sub_role")}
+            />
+          </Form.Group>
+        </>) : null}
+
+
         {/* <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Blind Type<span>*</span>{" "}
@@ -1022,6 +1026,17 @@ const ReaderAdd = () => {
       </>
     );
   };
+
+  const backButtonClicked=(e)=>{
+    e.preventDefault()     
+        if(state?.siteRole){
+          navigate("/new-readers-reviews", {state: { siteRole: state.siteRole }})
+        }else{
+          navigate("/new-readers-reviews")
+        }
+      }
+  
+  
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1075,7 +1090,14 @@ const ReaderAdd = () => {
                     >
                       Cancel
                     </Link> */}
-
+                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
+                    <button
+                      className="btn btn-primary btn-bordered move-draft"
+                      onClick={(e) => backButtonClicked(e)}
+                    >
+                      Cancel
+                    </button>
+                    :null}
                     <button
                       className="btn btn-primary btn-filled next"
                       onClick={nextButtonClicked}
@@ -1147,8 +1169,8 @@ const ReaderAdd = () => {
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">
                         Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                        ? <span>*</span> : null}
+                          || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                          ? <span>*</span> : null}
                       </Form.Label>
                       <input
                         type="text"

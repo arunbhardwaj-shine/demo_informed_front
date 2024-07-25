@@ -132,6 +132,7 @@ const LibraryCreateUser = () => {
   ];
 
   const [ePrintType, setePrintType] = useState([]);
+  const { title } = location.state || {};
 
   const [chapterSelect, setChapterSelect] = useState("");
   const [videoSelect, setVideoSelect] = useState("");
@@ -384,8 +385,23 @@ const LibraryCreateUser = () => {
           // );
           formData.append("mandatory", JSON.stringify(mandatoryValue));
 
-        
-          let Role ;
+          let Role = [];
+          if (location?.state?.flag === 'mandatory') {
+          if (location?.state?.title  === "Site User-Blinded") {
+            Role = ["Site User-Blinded"];
+          } else if (location?.state?.title === "Investigator-Blinded") {
+            Role = ["Investigator-Blinded"];
+          } else if (location?.state?.title === "Site Unblinded Pharmacist") {
+            Role = ["Site unblinded pharmacist"];
+          }else{
+            Role = hcpIrtClickedFirst?.length ? hcpIrtClickedFirst : [];
+          }
+        }else{
+          Role = hcpClickedFirst?.length ? hcpClickedFirst : [];
+        }
+          // console.log(Role,'Role');
+          formData.append("trail_user_type", JSON.stringify(Role))
+          // let Role = [];
        
           // if (location?.state?.title  === "Site User-Blinded") {
           //   Role = ["Site User-Blinded"];
@@ -395,19 +411,21 @@ const LibraryCreateUser = () => {
           //   Role = ["Site unblinded pharmacist"];
           // }
 
-          if (location?.state?.flag === 'mandatory') {
-            if (location?.state?.title  === "Site User-Blinded") {
-              Role = ["Site User-Blinded"];
-            } else if (location?.state?.title === "Investigator-Blinded") {
-              Role = ["Investigator-Blinded"];
-            } else if (location?.state?.title === "Site Unblinded Pharmacist") {
-              Role = ["Site unblinded pharmacist"];
-            }
-          } else {
-            Role = hcpIrtClickedFirst?.length
-            ? JSON.stringify(hcpIrtClickedFirst)
-            : "";
-          }
+          // if (location?.state?.flag === 'mandatory') {
+          //   if (location?.state?.title  === "Site User-Blinded") {
+          //     Role.push("Site User-Blinded");
+          //   } else if (location?.state?.title === "Investigator-Blinded") {
+          //     Role.push("Investigator-Blinded");
+          //   } else if (location?.state?.title === "Site Unblinded Pharmacist") {
+          //     Role.push("Site unblinded pharmacist");
+          //   }
+          //   console.log(Role,'role');
+          // } else {
+            // Role = hcpIrtClickedFirst?.length
+            // ? JSON.stringify(hcpIrtClickedFirst)
+            // : "";
+          //   Role.push(hcpIrtClickedFirst);
+          // }
          
           // if (location?.state?.flag === 'mandatory') {
           //   Role =  JSON.stringify(Role)
@@ -417,22 +435,22 @@ const LibraryCreateUser = () => {
           //   : "";
           // }
          
-          // console.log(Role,'role')
+          // console.log(Role,'role',hcpClickedFirst,'hcpClickedFirst')
           // console.log(location.state?.title ,'location.state?.title ')
 
-          userInputs?.mandatory
-            ? 
+          // userInputs?.mandatory
+          //   ? 
             // formData.append(
             //   "trail_user_type",
             //   hcpIrtClickedFirst?.length
             //     ? JSON.stringify(hcpIrtClickedFirst)
             //     : ""
             // )
-            formData.append("trail_user_type", JSON.stringify(Role))
-            : formData.append(
-              "trail_user_type",
-              hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
-            );
+            // formData.append("trail_user_type", JSON.stringify(Role))
+            // : formData.append(
+            //   "trail_user_type",
+            //   hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
+            // );
         }
 
         if (userDetail?.user?.[0]?.group_id == 3 &&
@@ -566,7 +584,7 @@ const LibraryCreateUser = () => {
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 ,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : '' },
               });
@@ -760,7 +778,15 @@ const LibraryCreateUser = () => {
          is_file_name_exists: 1,
 
       };
+      // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      //   obj = {
+      //     "IRT mandatory training": [irt],
+      //     Role: [role]
+      //   };
+      // }
+      // let body = { ...requestBody, filter: obj };
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
+      // const response = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       const hadData = response?.data?.data?.library || [];
       const pdfObj = hadData
         .map((item) => ({
@@ -1652,6 +1678,12 @@ const LibraryCreateUser = () => {
                           ? "/library-content"
                           : "/library-create"
                       }
+                     
+                       state={{ 
+                        title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                        ? (location?.state?.title)
+                        : '' 
+                      }}
                     >
                       Cancel
                     </Link>

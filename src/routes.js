@@ -474,6 +474,10 @@ const Routing = () => {
           element={<LoginLayout component={ReaderLayout} />}
         />
         <Route
+          path="/mandatory-reader-edit"
+          element={<LoginLayout component={ReaderLayout} />}
+        />
+        <Route
           path="/reader-add"
           element={<LoginLayout component={ReaderAdd} />}
         />

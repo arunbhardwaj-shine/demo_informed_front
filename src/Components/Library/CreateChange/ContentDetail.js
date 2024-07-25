@@ -226,6 +226,25 @@ const ContentDetail = (props) => {
     }
   }
 
+  const handleClickClose = () => {
+    const path =
+      location?.state?.flag === "mandatory"
+        ? "/library-mandatory-content"
+        : location?.state?.flag === "Non-mandatory"
+        ? "/library-content"
+        : "/library-content";
+  
+    navigate(path, {
+      state: { 
+        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" 
+          ? location?.state?.title 
+          : ''
+      }
+      
+    });
+  };
+  
+
   return (
     <>
       <div className="col right-sidebar">
@@ -248,16 +267,18 @@ const ContentDetail = (props) => {
                           ? "/library-content"
                           : "/library-edit"
                       }
-                      state={{ pdfid: state?.pdfId,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                         : ''  }}
+                      
                       className="btn btn-primary btn-bordered move-draft"
                     >
                       Edit
                     </Link>
                     <button
                       className="btn btn-primary btn-bordered next"
-                      onClick={() => navigate("/library-content")}
+                      onClick={handleClickClose}
+                      // onClick={() => navigate("/library-content")}
                     >
                       Close
                     </button>
