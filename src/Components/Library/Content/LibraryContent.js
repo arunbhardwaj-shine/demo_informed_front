@@ -552,8 +552,16 @@ const LibraryContent = (props) => {
         Role: [role]
       };
     }
-      // let body = { ...data, filter: obj };
-      let body = { ...data, filter: { ...obj, ...staticFilters } };
+    // let mergedRoles = obj.Role ? [...obj.Role, ...staticFilters.Role] : staticFilters.Role;
+    let mergedRoles = obj.Role ? [...obj.Role, ...(staticFilters.Role || [])] : (staticFilters.Role || []);
+
+    mergedRoles = [...new Set(mergedRoles)];
+
+    let body = { 
+      ...data, filter: { ...obj, ...staticFilters, Role: mergedRoles  } 
+    };
+
+      // let body = { ...data, filter: { ...obj, ...staticFilters } };
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       let allData =[]
       if(page==1){
@@ -1043,6 +1051,7 @@ const LibraryContent = (props) => {
     });
   };
 
+  console.log('librray content')
 
   return (
     <>
@@ -2567,7 +2576,9 @@ const LibraryContent = (props) => {
                                     <Link
                                       to="/library-edit"
                                       // state={{ pdfid: data.id }}
-                                      state={{ pdfid: data.id ,  title : location?.state?.title,
+                                      state={{ pdfid: data.id , 
+                                        // title : location?.state?.title,
+                                        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
                                         flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                         : '' 
@@ -2592,7 +2603,9 @@ const LibraryContent = (props) => {
                                         <Link
                                           to="/library-sublink"
                                           // state={{ pdfid: data.id }}
-                                          state={{ pdfid: data.id ,  title : location?.state?.title,
+                                          state={{ pdfid: data.id ,  
+                                            // title : location?.state?.title,
+                                            title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
                                             flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                                             ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                             : '' 

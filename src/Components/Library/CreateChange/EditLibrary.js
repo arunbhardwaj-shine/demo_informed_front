@@ -674,7 +674,13 @@ const getExistingVideos=async ()=>{
             userInputs?.docintelFormat == "Video"
           ) {
             navigate("/content-detail", {
-              state: { pdfId: state?.pdfid },
+              // state: { pdfId: state?.pdfid },
+              state: { pdfId: state?.pdfid , 
+                // title : location?.state?.title,
+                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
+                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                : ''},
             });
           }else {
             if (userInputs?.allow_video) {
@@ -687,7 +693,9 @@ const getExistingVideos=async ()=>{
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: state?.pdfid, isEdit: 1, title : location?.state?.title,
+                state: { pdfId: state?.pdfid, isEdit: 1, 
+                  // title : location?.state?.title,
+                  title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
                   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : ''}

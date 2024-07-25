@@ -301,7 +301,13 @@ const PreviewContent = () => {
           } else {
             setPublishStatus(true);
             navigate("/content-detail", {
-              state: { pdfId: articleId,isEdit: isEdit },
+              // state: { pdfId: articleId,isEdit: isEdit },
+              state: { pdfId: articleId,isEdit: isEdit , 
+                // title : location?.state?.title,
+                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
+                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                : ''},
             });
           }
           setPdfData(pdfData);
@@ -332,14 +338,22 @@ const PreviewContent = () => {
           } else {
             setPublishStatus(true);
             navigate("/content-detail", {
-              state: { pdfId: articleId,isEdit: isEdit },
+              // state: { pdfId: articleId,isEdit: isEdit },
+              state: { pdfId: articleId,isEdit: isEdit , 
+                // title : location?.state?.title,
+                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
+                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                : ''},
             });
           }
           setPdfData(pdfData);
         } else {
           setPublishStatus(true);
           navigate("/content-detail", {
-            state: { pdfId: articleId,isEdit: isEdit , title : location?.state?.title,
+            state: { pdfId: articleId,isEdit: isEdit , 
+              // title : location?.state?.title,
+              title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
               flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
               ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
               : ''},

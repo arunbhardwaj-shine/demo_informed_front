@@ -571,7 +571,18 @@ const LibraryCreateUser = () => {
             userInputs?.docintelFormat == "Video"
           ) {
             navigate("/content-detail", {
-              state: { pdfId: res?.data?.data?.pdfId },
+              // state: { pdfId: res?.data?.data?.pdfId },
+              state:{ 
+                pdfId: res?.data?.data?.pdfId,
+                flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                  ? "mandatory"
+                  : location?.state?.flag === "Non-mandatory"
+                  ? "Non-mandatory" : '') :'',
+                  title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                  ? (location?.state?.title)
+                  : ''
+            
+              }
             });
           } else {
             if(userInputs?.allowVideo){
