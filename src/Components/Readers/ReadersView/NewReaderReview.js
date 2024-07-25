@@ -34,15 +34,12 @@ const NewReadersReview = () => {
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
-  console.log("state-->", state)
-
   const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
   const [consetCountry, setConsetCountry] = useState({});
   const [isFlag, setFlag] = useState(0);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const institutionData = [
@@ -64,16 +61,12 @@ const NewReadersReview = () => {
     },
   ];
   const [totalCount, setCount] = useState(0);
-  let staticFilter = {
-    // status: ["Registered"],
-    // "contact Type": ["HCP"],
-  };
-  const [appliedFilter, setAppliedFilter] = useState(staticFilter);
-  const [filterObject, setFilterObject] = useState(staticFilter);
-  const [apifilterObject, setApifilterObject] = useState(staticFilter);
+ 
+  const [appliedFilter, setAppliedFilter] = useState({});
+  const [filterObject, setFilterObject] = useState({});
+  const [apifilterObject, setApifilterObject] = useState({});
   const [filterApplyflag, setFilterApplyflag] = useState(1);
   const [pageAll, setPageAll] = useState(false);
-  const [pageAllClicked, setPageAllClicked] = useState(false);
   const [siteNumber, setSiteNumber] = useState([]);
   const [siteName, setSiteName] = useState([]);
   const [changeUpdateFlag, setChangeUpdateFlag] = useState([]);
@@ -85,7 +78,6 @@ const NewReadersReview = () => {
   const [selectedSiteNumber, setSelectedSiteNumber] = useState([]);
   const [selectedRole, setSelectedRole] = useState([]);
   const [totalCountFlag, setTotalCountFlag] = useState(true);
-
   const [filterdata, setFilterData] = useState({
   });
   const [originalFilterData, setOriginalFilterData] = useState({
@@ -133,7 +125,6 @@ const NewReadersReview = () => {
     "Other",
   ]);
   const [changeBlockReminderType, setBlockReminder] = useState([])
-
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [statsFlag, setStatsFlag] = useState(0);
@@ -142,7 +133,6 @@ const NewReadersReview = () => {
   const [deletestatus, setDeleteStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
   const [instituteValue, setInstitute] = useState([]);
-
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -153,7 +143,6 @@ const NewReadersReview = () => {
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
   let tooltipObj = {
     "New": "IRT hasn't started the training yet(no training content sent to)",
@@ -168,30 +157,11 @@ const NewReadersReview = () => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       setFilterObject({});
       setApifilterObject({});
-      // setAppliedFilter({'IRT mandatory training': ["Yes"]});
-      // setFilterObject({'IRT mandatory training': ["Yes"]});
-      // setApifilterObject({'IRT mandatory training': ["Yes"]});
     } else if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
     }
-    // else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-    //   setAppliedFilter({ "contact Type": ["HCP"] });
-    //   setFilterObject({});
-    //   setApifilterObject({});
-    // }
-    // else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
-    //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    //   setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    // }
-    // else {
-    //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
-    //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
-    //   setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
-    // }
-
     getFilters();
     getReaderListData(page, filterObject, search);
 
@@ -220,7 +190,6 @@ const NewReadersReview = () => {
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
-
       if (
         res?.data?.data?.data["Content Owners"]?.length &&
         res?.data?.data?.defaultOwner && localStorage.getItem("user_id") !== "B7SHpAc XDXSH NXkN0rdQ=="
@@ -252,7 +221,6 @@ const NewReadersReview = () => {
 
   const getReaderListData = async (page, obj, search, load = 0) => {
     try {
-      // setTotalCountFlag(false);
       setIsLoaded(false);
       if (load == 0) {
         setTotalCountFlag(false);
@@ -314,8 +282,6 @@ const NewReadersReview = () => {
       setChangeSiteNumberType([])
       setChangeSiteNameType([])
       setBlockReminder([])
-
-      // const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       const res = await postData(ENDPOINT.PROFILES_READER, payload);
       if (spcFlag == 0) {
         let body = {
@@ -350,7 +316,6 @@ const NewReadersReview = () => {
           setCount(res?.data?.data?.total);
         }
       }
-      // setCount(res?.data?.data?.total);
 
       let total_results = 0;
       if (page != 1) {
@@ -437,11 +402,6 @@ const NewReadersReview = () => {
       else {
         payload = { ...data, ...filterObject };
       }
-
-      // let payload = { ...data, ...filterObject };
-      // const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
-      //   responseType: "blob",
-      // });
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
@@ -459,7 +419,6 @@ const NewReadersReview = () => {
   };
 
   const loadMoreClicked = () => {
-    // setPageAllClicked(true);
     let sp = page + 1;
     getReaderListData(sp, filterObject, search, 1);
     if (isFlag == 1) {
@@ -468,15 +427,12 @@ const NewReadersReview = () => {
       setPage(sp);
     }
   };
-
   const searchChange = (e) => {
     setSearch(e?.target?.value);
     setFlag(0);
 
     if (e?.target?.value === "") {
       setReaderDataList([]);
-      // setPageAllClicked(false);
-
       getReaderListData(page, filterObject, "");
     }
   };
@@ -484,7 +440,6 @@ const NewReadersReview = () => {
   const submitHandler = (event) => {
     setReaderDataList([]);
     setTotalCountFlag(false);
-
     getReaderListData(page, filterObject, search);
     event.preventDefault();
     return false;
