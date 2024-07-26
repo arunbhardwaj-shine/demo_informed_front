@@ -12,6 +12,7 @@ const IRTMandatory = ()  => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289' ];
     const navigate = useNavigate();
+    const [apiCallStatus, setApiCallStatus] = useState(false);
     const pieOptions = {
       chart: {
         type: "pie",
@@ -55,13 +56,10 @@ const IRTMandatory = ()  => {
   
     const fetchPieChartData = async () => {
       try {
-        let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);
-  
-  
+        let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);   
         let result = response?.data?.data;
         console.log("result--->",result)
-        let finalRoleData = {};
-  
+        let finalRoleData = {};  
         Object.keys(result).forEach((roleKey) => {
           const roleInfo = result[roleKey];
           const pieChartData = [
@@ -92,13 +90,13 @@ const IRTMandatory = ()  => {
           };
         });
   
-        setRoleData(finalRoleData);
+        setRoleData(finalRoleData);        
       } catch (error) {
         console.error("Error fetching pie chart data:", error);
       }
       finally{
-        loader("hide")
-  
+        setApiCallStatus(true)
+        loader("hide")  
       }
     };
     const navigateToEmailList = ( role) => {
@@ -119,10 +117,9 @@ const IRTMandatory = ()  => {
               <h2>IRTs</h2>
             </div>
           </div>
-          <div className="irt_mandatory irt_create_role d-flex flex-wrap">
-           
-              {console.log("role data-->",roleData)}
-              {Object.keys(roleData)?.map((roleKey,index)=>{
+          <div className="irt_mandatory irt_create_role d-flex flex-wrap">          
+              
+              {Object.keys(roleData)?.length? Object.keys(roleData)?.map((roleKey,index)=>{
 
                  const role = roleData[roleKey];
                  return(
@@ -171,7 +168,13 @@ const IRTMandatory = ()  => {
              </div>
              </div>
              )
-              })}
+              }):
+              apiCallStatus ? (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              ) :null
+              }
           </div>
         </Row>
       </div>
