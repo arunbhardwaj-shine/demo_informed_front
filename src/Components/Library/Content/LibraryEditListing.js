@@ -383,9 +383,8 @@ const LibraryEditListing = () => {
     mergedRoles = [...new Set(mergedRoles)];
 
     let body = { 
-      ...data, filter: { ...obj, ...staticFilters, Role: mergedRoles  } 
+      ...data, filter: { ...obj, ...staticFilters } 
     };
-
       // let body = { ...data, filter: { ...obj, ...staticFilters } };
 
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
