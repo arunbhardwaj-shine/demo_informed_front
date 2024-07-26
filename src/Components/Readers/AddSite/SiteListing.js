@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row, Button, Modal } from "react-bootstrap";
+import React, { useEffect, useState, useRef } from "react";
+import { Accordion, Col, Row, Button, Modal } from "react-bootstrap";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { deleteData, getData } from "../../../axios/apiHelper";
 import { useNavigate } from 'react-router-dom';
 import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SiteListing = () => {
     const navigate = useNavigate();
@@ -16,6 +19,12 @@ const SiteListing = () => {
     const [sortNumber, setSortNumber] = useState(0);
     const [sortingCountDate, setSortingCountDate] = useState(0);
     const [sortingCount, setSortingCount] = useState(0);
+    const [otherFilter, setOtherFilter] = useState({});
+    const [sortBy, setSortBy] = useState('site_number'); // Initial sort key
+    const [sortOrder, setSortOrder] = useState('desc');
+    const [editFlag, setEditFlag] = useState(false);
+    const [deletestatus, setDeleteStatus] = useState(false);
+    const [filter, setFilter] = useState("");
 
     // const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState("");
@@ -30,6 +39,15 @@ const SiteListing = () => {
     const [resetDataId, setResetDataId] = useState();
     const [confirmationpopup, setConfirmationPopup] = useState(false);
     const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
+
+    const [showfilter, setShowFilter] = useState(false);
+    const [filterObject, setFilterObject] = useState({});
+    const [filterdata, setFilterData] = useState({});
+    const [appliedFilter, setAppliedFilter] = useState({})
+    const [forceRender, setForceRender] = useState(false);
+    const [filterApplyflag, setFilterApplyflag] = useState(0);
+    const buttonRef = useRef(null);
+    const filterRef = useRef(null);
 
 
       const [popupMessage, setPopupMessage] = useState({
@@ -67,9 +85,10 @@ const SiteListing = () => {
         try {
             loader("show");
             const response = await getData(ENDPOINT.READERLISTING);
-            const listingData = response.data.data;
+            const listingData = response?.data?.data?.result;
             setListingDataSite(listingData);
             setMainListingDataSite(listingData);
+            setFilterData(response?.data?.data?.filter);
             loader("hide");
         } catch (error) {
             console.log(error);
@@ -101,43 +120,9 @@ const SiteListing = () => {
     const searchChange = (e) => {
         setSearch(e.target.value.trim());
         if (e.target.value === "") {
-            setSearch("");
-            setListingDataSite(mainListingDataSite);
+            applyFilter(1);
         }
     };
-
-    const sortSiteNumber = () => {
-        let normalArr = [];
-        normalArr = listingDataSite;
-        let sortedData;
-        if (sortNumber === 0) {
-            sortedData = normalArr.sort((a, b) => {
-                const [a1, a2] = a.site_number.split("-").map(Number);
-                const [b1, b2] = b.site_number.split("-").map(Number);
-                if (a1 < b1) return -1;
-                if (a1 > b1) return 1;
-                if (a2 < b2) return -1;
-                if (a2 > b2) return 1;
-                return 0;
-            });
-        } else {
-            sortedData = normalArr.sort((a, b) => {
-                const [a1, a2] = a.site_number.split("-").map(Number);
-                const [b1, b2] = b.site_number.split("-").map(Number);
-                if (a1 > b1) return -1;
-                if (a1 < b1) return 1;
-                if (a2 > b2) return -1;
-                if (a2 < b2) return 1;
-                return 0;
-            });
-        }
-
-        setSortingCount(0);
-        setListingDataSite(sortedData);
-        setSortNumber(1 - sortNumber);
-        setSortingCountDate(sortingCountDate + 1);
-    };
-
 
     const handleEdit = (item) => {
         navigate("/edit-site",{state: { siteId: item?.id} });
@@ -166,6 +151,212 @@ const SiteListing = () => {
         }
     };
 
+    const handleSort = (key) => {
+        setSortBy(key);
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    };
+
+    const sortData = (data, key, order) => {
+        return data.sort((a, b) => {
+          const valueA = a[key];
+          const valueB = b[key];
+    
+          // Handle different data types (numbers, strings)
+          if (typeof valueA === 'number' && typeof valueB === 'number') {
+            return order === 'asc' ? valueA - valueB : valueB - valueA;
+          } else {
+            return order === 'asc'
+              ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+              : valueB?.localeCompare(valueA);
+          }
+        });
+    };
+
+    const EnableEditSite = () => {
+        setEditFlag(editFlag => !editFlag);
+    };
+    
+    const handleCreate = () => {
+        navigate("/add-site");
+    };
+
+    const showDeleteButtons = () => {
+        setDeleteStatus(deletestatus => !deletestatus);
+    };
+
+    const downloadExcel = () => {
+
+        const data = listingDataSite?.map((item, index) => {
+            let finalData = {};
+            finalData.Number = item?.site_number ? item?.site_number.trim() : "N/A";
+            finalData.Name = item?.site_name ? item?.site_name.trim() : "N/A";
+            finalData.Address = item?.site_address ? item?.site_address.trim() : "N/A";
+            finalData.City = item?.site_city ? item?.site_city.trim() : "N/A";
+            finalData.Country = item?.site_country ? item?.site_country : "N/A";
+            return finalData;
+        });
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        const excelBuffer = XLSX.write(workbook, {
+            bookType: "xlsx",
+            type: "array",
+        });
+        const blob = new Blob([excelBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+        });
+        saveAs(blob,`site.xlsx`);
+    }
+
+    const clearFilter = () => {
+        document.querySelectorAll("input")?.forEach((checkbox) => {
+            checkbox.checked = false;
+          });
+          setOtherFilter({});
+          setAppliedFilter({});
+      
+          if (Object.keys(filterObject)?.length) {
+            setFilterObject({});
+            setListingDataSite(mainListingDataSite);
+            setSearch(''); 
+          } 
+          setShowFilter(false);
+          setForceRender(!forceRender);
+    }
+
+    const applyFilter = (flag=0) => {
+        setFilterApplyflag(1);
+        setListingDataSite([]);
+        setFilterObject(appliedFilter);
+        const hasAllNonEmptyValues = Object.keys(otherFilter).every(key => {
+        const value = filter[key];
+        if (Array.isArray(value)) {
+            return value.length > 0;
+        }
+        return value !== null && value !== undefined && value !== '';
+        });
+        
+        if (!hasAllNonEmptyValues || search.length != 0) {
+        const data = mainListingDataSite.filter(item => {
+            const matchesFilters = Object.keys(otherFilter).every(key => {
+            if (Array.isArray(otherFilter[key])) {
+                return otherFilter[key].some(value => {
+                if (typeof value === 'string') {
+                    return item[key] && item[key].includes(value);
+                } else if (typeof value === 'number') {
+                    return item[key] === value;
+                }
+                return false;
+                });
+            }
+            return true;
+            });
+            
+            // Check if the item matches the search term (name or email)
+            if(flag == 1){
+                return matchesFilters;
+            }else{
+                const matchesSearch = item?.site_name.toLowerCase().includes(search?.toLowerCase());
+                return matchesFilters && matchesSearch;
+            }
+
+        });
+        setListingDataSite(data);
+        } else {
+            setListingDataSite(mainListingDataSite);
+        }
+        setShowFilter(false);
+    }
+
+    const handleOnFilterChange = (e, item, index, key, data = []) => {
+        let newObj = JSON.parse(JSON.stringify(appliedFilter));
+        let otherObj = JSON.parse(JSON.stringify(otherFilter));
+
+        if (!newObj[key]) {
+            newObj[key] = [];
+        }
+        if (!otherObj[key]) {
+            otherObj[key] = [];
+        }
+
+
+        if (e?.target?.checked == true) {
+            if (key == "Country" || key == "City") {
+                newObj[key] = [];
+                newObj[key]?.push(item);
+                otherObj[key] = [];
+                otherObj[key]?.push(item);
+            } else {
+                if (item == "All") {
+                    newObj[key] = ["All"];
+                    otherObj[key] = data;
+                } else {
+                    newObj[key]?.push(item);
+                    otherObj[key]?.push(item);
+
+                    if (data?.length - 1 == newObj[key]?.length) {
+                        newObj[key]?.push("All");
+                        otherObj[key]?.push(item);
+                    }
+                }
+            }
+        } else {
+            if (item == "All") {
+                newObj[key] = [];
+                otherObj[key] = [];
+            } else {
+                if (newObj[key].includes("All")) {
+                    newObj[key] = newObj[key].filter((item) => item != "All");
+                    otherObj[key] = otherObj[key].filter((item) => item != "All");
+                }
+                const index = newObj[key]?.indexOf(item);
+                if (index > -1) {
+                    newObj[key]?.splice(index, 1);
+                    if (newObj[key]?.length == 0) {
+                        delete otherObj[key];
+                        delete newObj[key];
+                    }
+                }
+            }
+
+            const otherIndex = otherObj[key]?.indexOf(item);
+            if (otherIndex > -1) {
+                otherObj[key]?.splice(otherIndex, 1);
+                if (otherObj[key]?.length == 0) {
+                    delete otherObj[key];
+                }
+                newObj[key] = otherObj[key];
+            }
+        }
+        setOtherFilter(otherObj);
+        setAppliedFilter(newObj);
+        setForceRender(!forceRender);
+    };
+
+    const removeindividualfilter = (key, item) => {
+        let old_object = filterObject;
+        let otherFilterObj = otherFilter;
+        const index = old_object[key]?.indexOf(item);
+        if (index > -1) {
+          if (old_object[key].includes("All")) {
+            const allIndex = old_object[key]?.indexOf("All");
+            old_object[key]?.splice(allIndex, 1);
+            delete otherFilterObj[key];
+          }
+          old_object[key]?.splice(index, 1);
+          otherFilterObj[key]?.splice(index, 1);
+    
+          if (old_object[key]?.length == 0) {
+            delete old_object[key];
+            delete otherFilterObj[key];
+          }
+        }
+        setAppliedFilter(old_object);
+        setOtherFilter(otherFilterObj);
+        setFilterObject(old_object);
+        applyFilter()
+        
+    };
 
     return (
         <div className="right-sidebar">
@@ -179,8 +370,9 @@ const SiteListing = () => {
             <section className="search-hcp smart-list-view">
                 <div className="result-hcp-table">
                     <div className="table-title">
+                        <h2>Sites</h2>
                         <h4>
-                            Total Result <span>| {listingDataSite?.length}</span>
+                            Total Sites <span>| {listingDataSite?.length}</span>
                         </h4>
                         <div className="search-bar">
                             <form
@@ -190,7 +382,7 @@ const SiteListing = () => {
                                 <input
                                     className="form-control me-2"
                                     type="search"
-                                    placeholder="Search"
+                                    placeholder="Search By Name"
                                     aria-label="Search"
                                     onChange={(e) => searchChange(e)}
                                 />
@@ -215,75 +407,469 @@ const SiteListing = () => {
                                 ) : null}
                             </form>
                         </div>
+
+                         {/* Start Filter code */}
+                        <div
+                            className={
+                            showfilter
+                                ? "filter-by nav-item dropdown highlight"
+                                : "filter-by nav-item dropdown"
+                            }
+                        >
+                            <button
+                            ref={buttonRef}
+                            className={
+                                Object.keys(filterObject).length > 0
+                                ? "btn btn-secondary dropdown filter_applied"
+                                : "btn btn-secondary dropdown"
+                            }
+                            type="button"
+                            id="dropdownMenuButton2"
+                            onClick={() => setShowFilter((showfilter) => !showfilter)}
+                            >
+                            Filter By
+                            {showfilter ? (
+                                <svg
+                                className="close-arrow"
+                                width="13"
+                                height="12"
+                                viewBox="0 0 13 12"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                >
+                                <rect
+                                    width="2.09896"
+                                    height="15.1911"
+                                    rx="1.04948"
+                                    transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                                    fill="#0066BE"
+                                />
+                                <rect
+                                    width="2.09896"
+                                    height="15.1911"
+                                    rx="1.04948"
+                                    transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                                    fill="#0066BE"
+                                />
+                                </svg>
+                            ) : (
+                                <svg
+                                className="filter-arrow"
+                                width="16"
+                                height="14"
+                                viewBox="0 0 16 14"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                >
+                                <path
+                                    d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                                    fill="#97B6CF"
+                                />
+                                <path
+                                    d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                                    fill="#97B6CF"
+                                />
+                                <path
+                                    d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                                    fill="#97B6CF"
+                                />
+                                </svg>
+                            )}
+                            </button>
+                            {showfilter && (
+                            <div
+                                ref={filterRef}
+                                className="dropdown-menu filter-options"
+                                aria-labelledby="dropdownMenuButton2"
+                            >
+                                <h4>Filter By</h4>
+
+                                <Accordion defaultActiveKey="0" flush>
+                                {Object.keys(filterdata)?.map(function (key, index) {
+                                    return (
+                                    <>
+                                        {filterdata[key]?.length ? (
+                                        <Accordion.Item
+                                            className="card"
+                                            eventKey={index}
+                                        >
+                                            <Accordion.Header className="card-header">
+                                            {key === 'site_country' ? "Country" : "City"}
+                                            </Accordion.Header>
+                                            <Accordion.Body className="card-body">
+                                            <ul>
+                                                {filterdata[key]?.length
+                                                ? filterdata[key]?.map(
+                                                    (item, index) => (
+                                                    <li>
+                                                        {item != "" ? (
+                                                        <label className="select-multiple-option">
+                                                            <input
+                                                            type="checkbox"
+                                                            id={`custom-checkbox-${key}_${index}`}
+                                                            value={item}
+                                                            name={key}
+                                                            checked={
+                                                                otherFilter[
+                                                                key
+                                                                ]?.includes(item)
+                                                                ? true
+                                                                : false
+                                                            }
+                                                            onChange={(e) =>
+                                                                handleOnFilterChange(
+                                                                e,
+                                                                item,
+                                                                index,
+                                                                key,
+                                                                [...filterdata[key]]
+                                                                )
+                                                            }
+                                                            />
+                                                               {item} 
+                                                            <span className="checkmark"></span>
+                                                        </label>
+                                                        ) : null}
+                                                    </li>
+                                                    )
+                                                )
+                                                : null}
+                                            </ul>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        ) : null}
+                                    </>
+                                    );
+                                })}
+                                </Accordion>
+
+                                <div className="filter-footer">
+                                <button
+                                    className="btn btn-primary btn-bordered"
+                                    onClick={clearFilter}
+                                >
+                                    Clear
+                                </button>
+                                <button
+                                    className="btn btn-primary btn-filled"
+                                    onClick={applyFilter}
+                                >
+                                    Apply
+                                </button>
+                                </div>
+                            </div>
+                            )}
+                        </div>
+                         {/* End Filter code */}
+
+
+
+
+
+
+
+
+                        {
+                            !editFlag ? 
+                            <>
+                                {deletestatus ? (
+                                <button
+                                className="btn btn-outline-primary cancel"
+                                title="Cancel delete"
+                                onClick={(e) => showDeleteButtons()}
+                                >
+                                Cancel
+                                    </button>
+                                ) : (        
+                                    <button
+                                    className="btn btn-outline-primary"
+                                    title="Delete "
+                                    onClick={(e) => showDeleteButtons()}
+                                    >
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                        d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z"
+                                        fill="#8A4E9C"
+                                        />
+                                        <path
+                                        d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z"
+                                        fill="#8A4E9C"
+                                        />
+                                        <path
+                                        d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z"
+                                        fill="#8A4E9C"
+                                        />
+                                        <path
+                                        d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z"
+                                        fill="#8A4E9C"
+                                        />
+                                        <path
+                                        d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z"
+                                        fill="#8A4E9C"
+                                        />
+                                        <path
+                                        d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z"
+                                        fill="#8A4E9C"
+                                        />
+                                    </svg>
+                                    </button>
+                                )}
+                            </>
+                            : null
+                        }
                     </div>
+
+                    {Object.keys(filterObject)?.length !== 0 &&
+                          filterApplyflag > 0 ? (
+                          <div className="apply-filter">
+                            <div className="filter-block">
+                              <div className="filter-block-left full">
+                                {Object.keys(filterObject)?.map((key, index) => {
+                                  return (
+                                    <>
+                                      {filterObject[key]?.length ? (
+                                        <div className="filter-div">
+                                          <div className="filter-div-title">
+                                            <span>{key == "site_country" ? "Country" : key == "site_city" ? "City" : key} |</span>
+                                          </div>
+
+                                          <div className="filter-div-list">
+                                            {filterObject[key]?.map((item, index) => (
+                                              <div
+                                                className={
+                                                  key == "Role"
+                                                    ? "filter-result upper"
+                                                    : "filter-result"
+                                                }
+                                              >
+                                                {item}
+                                                <img
+                                                  src={path_image + "filter-close.svg"}
+                                                  onClick={() =>
+                                                    removeindividualfilter(key, item)
+                                                  }
+                                                  alt="Close-filter"
+                                                />
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      ) : null}
+                                    </>
+                                  );
+                                })}
+                              </div>
+                              <div className="clear-filter">
+                                <button
+                                  className="btn btn-outline-primary btn-bordered"
+                                  onClick={clearFilter}
+                                >
+                                  Remove All
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
+
+
+
+
+
                     <div
                         className="selected-hcp-list search_view"
                         id="analytics-hcp-table"
                     >
                         <div className="table_xls search_view">
-                            <div className="smart-list-btns">
-                                <div className="top-right-action">
+                            {/* <div className="smart-list-btns"> */}
+                                <div className="top-right-action flex-wrap">
+                                    <Button className="btn-dashed" onClick={handleCreate}>
+                                        Add Site
+                                        <img src={`${path_image}add-icon.png`} alt="" />
+                                    </Button>
 
+                                    
+                                    <Button className={deletestatus ? "btn-white disabled" : "btn-white"} onClick={EnableEditSite}>
+                                        {
+                                            editFlag ? "Cancel" :
+                                            <>
+                                                Edit Site
+                                                <img src={`${path_image}edit-button.svg`} alt="" />
+                                            </>
+                                        }
+                                    </Button>
                                 </div>
-                            </div>
+
+                                <button
+                                    className="btn print"
+                                    title="Download stats"
+                                    onClick={() => {
+                                    downloadExcel();
+                                    }}
+                                >
+                                    <svg
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                    <path
+                                        d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                                        fill="#0066BE"
+                                    />
+                                    <path
+                                        d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                                        fill="#0066BE"
+                                    />
+                                    </svg>
+                                </button>
+                            {/* </div> */}
                         </div>
+
                         <div className="table_xls">
                             <table className="table">
                                 <thead className="sticky-header">
                                     <tr>
                                         {/*<th scope="col">ID</th>*/}
-                                        <th scope="col">Site number
-                                            <div className="hcp-sort">
-                                                {sortingCountDate == 0 ? (
-                                                    <>
-                                                        <button
-                                                            className="btn btn-outline-primary"
-                                                            onClick={sortSiteNumber}
-                                                        >
-                                                            <img
-                                                                src={path_image + "sort.svg"}
-                                                                alt="Shorting"
-                                                            />
-                                                        </button>
-                                                    </>
-                                                ) : sortNumber == 0 ? (
-                                                    <>
-                                                        <button
-                                                            className="btn btn-outline-primary desc"
-                                                            onClick={sortSiteNumber}
-                                                        >
-                                                            <img
-                                                                src={path_image + "sort-decending.svg"}
-                                                                alt="Shorting"
-                                                            />
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <button
-                                                            className="btn btn-outline-primary asc"
-                                                            onClick={sortSiteNumber}
-                                                        >
-                                                            <img
-                                                                src={path_image + "sort-assending.svg"}
-                                                                alt="Shorting"
-                                                            />
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </div>
+                                        <th scope="col" className="sort_option">
+                                            <span onClick={() => handleSort('site_number')} >
+                                                Number
+                                                <button
+                                                    className={`event_sort_btn ${sortBy == "site_number" ?
+                                                    sortOrder == "asc"
+                                                        ? "svg_asc"
+                                                        : "svg_active"
+                                                    : ""
+                                                    }`}
+                                                    onClick={() => handleSort('site_number')}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                    <g clipPath="url(#clip0_3722_6611)">
+                                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_3722_6611">
+                                                        <rect width="8" height="8" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                            
                                         </th>
-                                        <th scope="col">Site name</th>
-                                        <th scope="col">Site address</th>
-                                        <th scope="col">Site city</th>
-                                        <th scope="col">Site country</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" className="sort_option">
+                                            <span onClick={() => handleSort('site_name')} >
+                                                Name
+                                                <button
+                                                    className={`event_sort_btn ${sortBy == "site_name" ?
+                                                    sortOrder == "asc"
+                                                        ? "svg_asc"
+                                                        : "svg_active"
+                                                    : ""
+                                                    }`}
+                                                    onClick={() => handleSort('site_name')}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                    <g clipPath="url(#clip0_3722_6611)">
+                                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_3722_6611">
+                                                        <rect width="8" height="8" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </th>
+                                        <th scope="col" className="sort_option">
+                                            <span onClick={() => handleSort('site_address')} >
+                                                Address
+                                                <button
+                                                    className={`event_sort_btn ${sortBy == "site_address" ?
+                                                    sortOrder == "asc"
+                                                        ? "svg_asc"
+                                                        : "svg_active"
+                                                    : ""
+                                                    }`}
+                                                    onClick={() => handleSort('site_address')}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                    <g clipPath="url(#clip0_3722_6611)">
+                                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_3722_6611">
+                                                        <rect width="8" height="8" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </th>
+                                        <th scope="col" className="sort_option">
+                                            <span onClick={() => handleSort('site_city')} >
+                                                City
+                                                <button
+                                                    className={`event_sort_btn ${sortBy == "site_city" ?
+                                                    sortOrder == "asc"
+                                                        ? "svg_asc"
+                                                        : "svg_active"
+                                                    : ""
+                                                    }`}
+                                                    onClick={() => handleSort('site_city')}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                    <g clipPath="url(#clip0_3722_6611)">
+                                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_3722_6611">
+                                                        <rect width="8" height="8" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </th>
+                                        <th scope="col" className="sort_option">
+                                            <span onClick={() => handleSort('site_country')} >
+                                                Country
+                                                <button
+                                                    className={`event_sort_btn ${sortBy == "site_country" ?
+                                                    sortOrder == "asc"
+                                                        ? "svg_asc"
+                                                        : "svg_active"
+                                                    : ""
+                                                    }`}
+                                                    onClick={() => handleSort('site_country')}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                    <g clipPath="url(#clip0_3722_6611)">
+                                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_3722_6611">
+                                                        <rect width="8" height="8" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                </button>
+                                            </span>            
+                                        </th>
+                                        {/* <th scope="col">Action</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         listingDataSite.length > 0 ? (
-                                            listingDataSite.map((item, index) => (
+                                                sortData(listingDataSite, sortBy, sortOrder)?.map((item, index) => (
                                                 <>
                                                     <tr key={item.id}>
                                                         {
@@ -295,10 +881,21 @@ const SiteListing = () => {
                                                         <td> {item?.site_address}</td>
                                                         <td> {item?.site_city}</td>
                                                         <td> {item?.site_country}</td>
-                                                        <td>
+                                                        {
+                                                            editFlag || deletestatus ? 
+                                                            <td className="delete_row" colSpan="12" onClick={() => deletestatus ? showConfirmationPopup(item) : handleEdit(item)}>
+                                                                {
+                                                                    deletestatus ?
+                                                                        <img src={path_image + "delete.svg"} alt="Delete Row"/>
+                                                                    :
+                                                                        <img src={path_image + "edit-white.svg"} alt="Delete Row"/>
+                                                                }
+                                                            </td> : null
+                                                        }
+                                                        {/* <td>
                                                             <Button onClick={() => handleEdit(item)} className="btn-bordered"> Edit </Button>
                                                             <Button onClick={() => showConfirmationPopup(item)} className="btn-bordered"> Delete </Button>
-                                                        </td>
+                                                        </td> */}
                                                     </tr>
                                                 </>
                                             ))
