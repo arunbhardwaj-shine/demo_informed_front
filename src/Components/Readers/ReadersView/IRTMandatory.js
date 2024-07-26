@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { getData } from "../../../axios/apiHelper";
 import { HighchartsReact } from "highcharts-react-official";
@@ -10,13 +10,13 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 
 const IRTMandatory = ()  => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const colors = ["#986CA5","#004A89",'#FFBE2C', "#39CABC", "#FFCACD",'#f58289',"#DECBE3" ];
+    const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289' ];
     const navigate = useNavigate();
     const pieOptions = {
       chart: {
         type: "pie",
-        height: 100,
-        width: 100,
+        height: 105,
+        width: 105,
       },
       title: {
         text: "",
@@ -161,12 +161,10 @@ const IRTMandatory = ()  => {
                      <p>Ignored</p>
                      <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)?(((role?.ignored/role?.all))*100).toFixed(2):0}%</div>
                    </Col>
-                   <div>
-                     <Link to="/new-readers-reviews">
+                    <Button onClick={()=>navigateToEmailList(roleKey)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
                       
-                     </Link>
-                   </div>
+                    </Button>
                    </div>
                  </div>
              </div>

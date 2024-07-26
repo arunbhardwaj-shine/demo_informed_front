@@ -22877,7 +22877,7 @@ table {
   align-items: center;
 
   &.irt_mandatory {
-    gap: 90px 0;
+    gap: 15px 0;
     min-height: initial;
     margin: 85px auto 0;
 
@@ -23044,7 +23044,7 @@ table {
       }
 
       .count-number {
-        font-size: 24px;
+        font-size: 26px;
         color: rgba(0, 74, 137, 0.5);
         margin-right: 16px;
       }
@@ -23136,6 +23136,14 @@ table {
             span {
               background: #F58289;
             }
+          }
+          .irt_mandatory-link{
+            background: transparent;
+            width:auto;
+            min-width: initial;
+            height:auto;
+            border: 0;
+            padding:0;
           }
         }
       }
