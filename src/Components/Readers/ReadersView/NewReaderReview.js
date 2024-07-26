@@ -2420,7 +2420,7 @@ const NewReadersReview = () => {
                                           <h6 className="tab-content-title">
                                             Status
                                           </h6>
-                                          <h6>
+                                          <h6 className={`${data?.staus}`}>
                                             {data?.status
                                               ? (<>{data?.status}
 
@@ -2526,7 +2526,7 @@ const NewReadersReview = () => {
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner">
                                     <div className="footer-btn d-flex justify-content-end">                                 
-                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="New"?
+                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
                                     <Link
                                       className="btn btn-primary btn-filled"                        
                                     >
