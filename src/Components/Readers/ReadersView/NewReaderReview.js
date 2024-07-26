@@ -2420,7 +2420,7 @@ const NewReadersReview = () => {
                                           <h6 className="tab-content-title">
                                             Status
                                           </h6>
-                                          <h6>
+                                          <h6 className={`${data?.staus}`}>
                                             {data?.status
                                               ? (<>{data?.status}
 
