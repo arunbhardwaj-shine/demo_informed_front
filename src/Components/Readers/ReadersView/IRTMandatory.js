@@ -13,11 +13,45 @@ const IRTMandatory = ()  => {
     const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289' ];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
+    const images={
+      0:"IRT-doctor.svg",
+      1:"site-user-blinded",
+      2:"investigator-blinded",
+      3:"blinded-pharmacist"
+    }
     const pieOptions = {
       chart: {
         type: "pie",
+        custom: {},
         height: 105,
         width: 105,
+        // events: {
+        //   load() {
+        //     let innerSize = this.userOptions.plotOptions.pie.innerSize,
+        //       chart = this;
+        //     chart.myImage = this.renderer.image('https://informed.pro/componentAssets/images/IRT-doctor.svg',30,30,
+        //       // this.chartWidth / 2 - innerSize / 2,
+        //       // this.plotTop + this.plotSizeY / 2 - innerSize / 2,
+        //       innerSize,
+        //       innerSize).add();
+        //   },
+          
+        //   redraw() {
+        //     let chart = this,
+        //       innerSize = this.userOptions.plotOptions.pie.innerSize;
+    
+        //     if (chart.myImage) {
+        //       chart.myImage.attr({
+        //         // x: chart.chartWidth / 10 - innerSize / 10,
+        //         // y: chart.plotTop + chart.plotSizeY / 10 - innerSize / 10
+        //         x:41,
+        //         y:36,
+        //         height:24,
+        //         width:24,
+        //       });
+        //     }
+        //   }
+        // }
       },
       title: {
         text: "",
@@ -37,12 +71,20 @@ const IRTMandatory = ()  => {
       legend: {
         verticalAlign: "bottom",
       },
+      // plotOptions: {
+      //   pie: {
+      //     dataLabels: {
+      //       enabled: false, 
+      //     },
+      //   },
+      // },
       plotOptions: {
         pie: {
+          innerSize: 100,
           dataLabels: {
-            enabled: false, 
-          },
-        },
+            enabled: false
+          }
+        }
       },
       series: [],
     };
@@ -60,7 +102,7 @@ const IRTMandatory = ()  => {
         let result = response?.data?.data;
         console.log("result--->",result)
         let finalRoleData = {};  
-        Object.keys(result).forEach((roleKey) => {
+        Object.keys(result).forEach((roleKey,index) => {
           const roleInfo = result[roleKey];
           const pieChartData = [
             {
@@ -78,9 +120,16 @@ const IRTMandatory = ()  => {
               innerSize: "60%",
             },
           ];
+
+          const events= updatingChartImage(index)
+          console.log("events-->",events)
   
           const newPieOptions = {
             ...pieOptions,
+            chart:{
+              ...pieOptions.chart,
+              events:events
+            },
             series: pieChartData,
           };
   
@@ -99,6 +148,32 @@ const IRTMandatory = ()  => {
         loader("hide")  
       }
     };
+
+    function updatingChartImage(index){
+     const events= {
+        load() {
+          let innerSize = this.userOptions.plotOptions.pie.innerSize,
+            chart = this;
+          // chart.myImage = this.renderer.image('https://informed.pro/componentAssets/images/IRT-doctor.svg',30,30,
+          chart.myImage = this.renderer.image(path_image+images[index],41,36,24,24).add();
+        },
+        
+        redraw() {
+          let chart = this,
+            innerSize = this.userOptions.plotOptions.pie.innerSize;
+  
+          if (chart.myImage) {
+            chart.myImage.attr({
+              x:41,
+              y:36,
+              height:24,
+              width:24,
+            });
+          }
+        }
+      } 
+      return events
+    }
     const navigateToEmailList = ( role) => {
       console.log("role-->",role)
   
