@@ -668,7 +668,7 @@ const getExistingVideos=async ()=>{
           },
         });
         loader("hide");
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -677,8 +677,8 @@ const getExistingVideos=async ()=>{
               // state: { pdfId: state?.pdfid },
               state: { pdfId: state?.pdfid , 
                 // title : location?.state?.title,
-                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                 : ''},
             });
@@ -695,8 +695,8 @@ const getExistingVideos=async ()=>{
               navigate("/preview-content", {
                 state: { pdfId: state?.pdfid, isEdit: 1, 
                   // title : location?.state?.title,
-                  title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                  flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                  title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                  flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : ''}
               });
@@ -1788,11 +1788,11 @@ const getExistingVideos=async ()=>{
                           // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                           // ? (location?.state?.title)
                           // : '' 
-                          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
                             ? "mandatory"
                             : location?.state?.flag === "Non-mandatory"
                             ? "Non-mandatory" : '') :'',
-                            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                             ? (location?.state?.title)
                             : ''
                         }}
@@ -1943,7 +1943,7 @@ const getExistingVideos=async ()=>{
                       {localStorage.getItem("user_id") !=
                         "iSnEsKu5gB/DRlycxB6G4g==" &&
                       localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                         <div className="form-group">
                           <label htmlFor="">Author</label>
                           <input
@@ -2215,7 +2215,7 @@ const getExistingVideos=async ()=>{
 
                       {userDetail?.user?.[0]?.flag == 1 && userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
-                          {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&  localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA=="? (
                             <div className="form-group">
                               <label htmlFor="setasdraft4">
                                 {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||

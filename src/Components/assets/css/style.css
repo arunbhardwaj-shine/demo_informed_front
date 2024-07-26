@@ -3594,6 +3594,38 @@ h5 {
   padding: 6px;
   background: var(--light-blue);
 }
+.selected-hcp-list table tr td.delete_row .img,
+.result-hcp-table .table tbody tr td.delete_row .img {
+  border-radius: 30px;
+  padding: 6px;
+  background: var(--light-blue);
+  position: absolute;
+  right: -10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: -12px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.selected-hcp-list table tr td.delete_row .img img,
+.result-hcp-table .table tbody tr td.delete_row .img img{
+  border-radius: 0px;
+  background: transparent;
+  position: static;
+  padding: 0;
+  width:auto;
+  height:auto;
+}
+.selected-hcp-list table tr td.delete_row:hover .img img, .result-hcp-table .table tbody tr td.delete_row:hover .img img{
+  background: transparent;
+}
+.selected-hcp-list table tr td.delete_row:hover .img, .result-hcp-table .table tbody tr td.delete_row:hover .img{
+  background: var(--dark-blue);
+}
 
 table tr td.delete_row img,
 table tr:hover td.delete_row img {
