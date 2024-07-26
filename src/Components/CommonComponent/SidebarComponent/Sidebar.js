@@ -15,7 +15,7 @@ const Sidebar = () => {
   let c_id = 0;
   let webinar_c_id = 0;
   const location = useLocation();
-  // console.log(location?.state?.flag,'location.stateflag')
+  console.log(location?.state?.flag,'location.stateflag')
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -789,7 +789,7 @@ const Sidebar = () => {
             window.location.pathname == "/content-detail" ? (
             <ul>
 
-            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" ?
                  <li
                  className={
                    location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory"? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'' ) ? "active" : "side_li"
@@ -830,9 +830,26 @@ const Sidebar = () => {
               }
 
               <li
+                // className={
+                //   location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
+                // }
                 className={
-                  location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
-                }
+                  location.pathname === "/library-content" ||
+                  (
+                      (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || 
+                      localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") && 
+                      location?.state?.flag === "Non-mandatory" &&
+                      (
+                          location.pathname === "/library-edit-listing" || 
+                          location.pathname === "/library-edit" || 
+                          location.pathname === "/library-create-user" || 
+                          location.pathname === "/preview-content" || 
+                          location.pathname === "/content-detail" || 
+                          location.pathname === "/library-sublink"
+                      )
+                  ) ? "active" : "side_li"
+              }
+              
               >
                 <Link 
                   to={"/library-content"}
@@ -843,8 +860,8 @@ const Sidebar = () => {
                     // }}
 
                     state={{
-                      title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? "Non-mandatory" : '',
-                      flag: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? "Non-mandatory" : ''
+                      title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : '',
+                      flag: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : ''
                     }}
                 
                 >
@@ -860,13 +877,13 @@ const Sidebar = () => {
                       fill="rgba(0, 102, 190, 0.6)"
                     />
                   </svg>
-                  <p>{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 'Non Mandatory' : 'Content' }</p>
+                  <p>{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" ? 'Non Mandatory' : 'Content' }</p>
                 </Link>
               </li>
 
              
 
-              {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ?
+              {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" ?
                 <li
                 className={
                   (location.pathname == "/library-create" ||
