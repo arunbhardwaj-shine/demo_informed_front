@@ -3032,7 +3032,42 @@ form.product-unit button {
     }
   }
 }
+.smart-list-view{
+  .site-listing {
+    padding: 25px 8px 10px;
+    &#analytics-hcp-table{
+      max-width: 100%;
+      margin: 0 auto;
+      h4{
 
+      }
+      .table_xls{
+        max-width: 100%;
+        .table{
+          max-width: 100%;
+          thead{
+            tr{
+              th{
+
+              }
+            }
+          }
+          tbody{
+            tr{
+              td{
+                padding:23px 11px;
+                &.delete_row{
+                  
+                }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
+} 
 .sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
   padding: 0;
   // overflow-y: auto;
