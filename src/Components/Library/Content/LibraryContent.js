@@ -544,13 +544,7 @@ const LibraryContent = (props) => {
         type: type,
         limit: limit,
       };
-      // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-      //   obj = {
-      //     "IRT mandatory training": [irt],
-      //     Role: [role]
-      //   };
-      // }
-
+    
     let staticFilters = {};
     if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
       staticFilters = {
@@ -565,16 +559,18 @@ const LibraryContent = (props) => {
       }
     }
 
-    // let mergedRoles = obj.Role ? [...obj.Role, ...staticFilters.Role] : staticFilters.Role;
     let mergedRoles = obj.Role ? [...obj.Role, ...(staticFilters.Role || [])] : (staticFilters.Role || []);
 
     mergedRoles = [...new Set(mergedRoles)];
 
+    // let body = { 
+    //   ...data, filter: { ...obj, ...staticFilters, Role: mergedRoles  } 
+    // };
+
     let body = { 
-      ...data, filter: { ...obj, ...staticFilters, Role: mergedRoles  } 
+      ...data, filter: { ...obj, ...staticFilters } 
     };
 
-      // let body = { ...data, filter: { ...obj, ...staticFilters } };
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       let allData =[]
       if(page==1){
