@@ -189,7 +189,6 @@ const NewReadersReview = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      console.log("role-->",role)
       const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${state?.siteRole == 'All IRTs' ? 'all' : null}`);
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
@@ -2421,7 +2420,7 @@ const NewReadersReview = () => {
                                           <h6 className="tab-content-title">
                                             Status
                                           </h6>
-                                          <h6 className={`${data?.staus}`}>
+                                          <h6 className={data?.status}>
                                             {data?.status
                                               ? (<>{data?.status}
 
