@@ -399,7 +399,6 @@ const LibraryCreateUser = () => {
         }else{
           Role = hcpClickedFirst?.length ? hcpClickedFirst : [];
         }
-          // console.log(Role,'Role');
           formData.append("trail_user_type", JSON.stringify(Role))
           // let Role = [];
        

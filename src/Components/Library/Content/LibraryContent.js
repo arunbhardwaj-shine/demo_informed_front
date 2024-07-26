@@ -2755,7 +2755,7 @@ const LibraryContent = (props) => {
                                             {data?.trail_user_type
                                               ? typeof data?.trail_user_type ==
                                                 "string" &&
-                                                data?.trail_user_type !== ""
+                                                data?.trail_user_type !== "" && data?.trail_user_type !== "[]"
                                                 ? JSON.parse(
                                                   data?.trail_user_type
                                                 ).join(", ")
