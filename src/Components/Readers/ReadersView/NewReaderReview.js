@@ -34,7 +34,7 @@ const NewReadersReview = () => {
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
-  const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
+  
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
@@ -101,6 +101,7 @@ const NewReadersReview = () => {
     "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
+  const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ?state?.siteRole=="All IRTs"?irtData: [state?.siteRole] : [])
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -186,7 +187,7 @@ const NewReadersReview = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${role == '' ? 'all' : null}`);
+      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${role == 'All IRTs' ? 'all' : null}`);
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
