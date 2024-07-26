@@ -52,7 +52,7 @@ const EditLibrary = () => {
     "Site unblinded pharmacist",
   ]);
   const location = useLocation();
-  console.log(location,'locationhtyh')
+  // console.log(location,'locationhtyh')
   const [updateflag, setupdateFlag] = useState(0);
   const [ebookVideoType, setEbookVideoType] = useState([
     {

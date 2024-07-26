@@ -83,7 +83,7 @@ const LibraryEditListing = () => {
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const { title } = location.state || {};
-  console.log(location,'edit')
+  // console.log(location,'edit')
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
