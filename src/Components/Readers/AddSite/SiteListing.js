@@ -899,14 +899,14 @@ const SiteListing = () => {
                                                     </tr>
                                                 </>
                                             ))
-                                        ) : isLoaded ? (
+                                        ) :  (
 
                                             <tr className="data-not-found">
                                                 <td colSpan="12">
                                                     <h4>No Data Found</h4>
                                                 </td>
                                             </tr>
-                                        ) : null}
+                                        ) }
                                 </tbody>
                                 <CommonConfirmModel
                                     show={confirmationpopup}
