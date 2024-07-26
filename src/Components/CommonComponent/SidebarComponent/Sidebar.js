@@ -836,10 +836,15 @@ const Sidebar = () => {
               >
                 <Link 
                   to={"/library-content"}
-                    state={{title : "Non-mandatory" ,
-                      flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                      ?  "Non-mandatory" 
-                      : '' 
+                    // state={{title : "Non-mandatory" ,
+                    //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    //   ?  "Non-mandatory" 
+                    //   : '' 
+                    // }}
+
+                    state={{
+                      title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? "Non-mandatory" : '',
+                      flag: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? "Non-mandatory" : ''
                     }}
                 
                 >
