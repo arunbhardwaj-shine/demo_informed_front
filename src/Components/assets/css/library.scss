@@ -421,7 +421,25 @@
           @include h6;
           color: $dark-blue;
           margin: 0;
-          word-break: break-all;
+          word-break: break-word;
+          &.Ignored{
+            color:#F58289;
+          }
+          &.Completed{
+            color:#39CABC;
+          }
+          &.Started{
+            color:#FAC755;
+          }
+          &.New{
+            color:#8A4E9C;
+          }
+          &.Invited{
+             color:#0066BE;
+          }
+          &.Not.Completed{
+             color:#FF9534;
+          }
         }
 
         h6.tab-content-title {
@@ -2125,6 +2143,7 @@ ul.tab-mail-list.tag a {
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .data-main-footer-sec .invest .footer-btn a.btn{
   font-size: 14px;
   font-weight: 500;
+  line-height: 1.2;
 }
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .data-main-footer-sec .invest .footer-btn a.btn-filled{
   min-width: 141px;
@@ -3057,7 +3076,7 @@ form.product-unit button {
               td{
                 padding:23px 11px;
                 &.delete_row{
-                  
+
                 }
               }
             }
