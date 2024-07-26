@@ -34,15 +34,14 @@ const NewReadersReview = () => {
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
-  console.log("state-->", state)
-
+  const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? '#8A4E9C' : '#0066be'
   const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
+  
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
   const [consetCountry, setConsetCountry] = useState({});
   const [isFlag, setFlag] = useState(0);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const institutionData = [
@@ -64,16 +63,12 @@ const NewReadersReview = () => {
     },
   ];
   const [totalCount, setCount] = useState(0);
-  let staticFilter = {
-    // status: ["Registered"],
-    // "contact Type": ["HCP"],
-  };
-  const [appliedFilter, setAppliedFilter] = useState(staticFilter);
-  const [filterObject, setFilterObject] = useState(staticFilter);
-  const [apifilterObject, setApifilterObject] = useState(staticFilter);
+ 
+  const [appliedFilter, setAppliedFilter] = useState({});
+  const [filterObject, setFilterObject] = useState({});
+  const [apifilterObject, setApifilterObject] = useState({});
   const [filterApplyflag, setFilterApplyflag] = useState(1);
   const [pageAll, setPageAll] = useState(false);
-  const [pageAllClicked, setPageAllClicked] = useState(false);
   const [siteNumber, setSiteNumber] = useState([]);
   const [siteName, setSiteName] = useState([]);
   const [changeUpdateFlag, setChangeUpdateFlag] = useState([]);
@@ -85,7 +80,6 @@ const NewReadersReview = () => {
   const [selectedSiteNumber, setSelectedSiteNumber] = useState([]);
   const [selectedRole, setSelectedRole] = useState([]);
   const [totalCountFlag, setTotalCountFlag] = useState(true);
-
   const [filterdata, setFilterData] = useState({
   });
   const [originalFilterData, setOriginalFilterData] = useState({
@@ -109,6 +103,7 @@ const NewReadersReview = () => {
     "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
+  // const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ?state?.siteRole=="All IRTs"?irtData: [state?.siteRole] : [])
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -133,7 +128,6 @@ const NewReadersReview = () => {
     "Other",
   ]);
   const [changeBlockReminderType, setBlockReminder] = useState([])
-
   const [showfilter, setShowFilter] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [statsFlag, setStatsFlag] = useState(0);
@@ -142,7 +136,6 @@ const NewReadersReview = () => {
   const [deletestatus, setDeleteStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
   const [instituteValue, setInstitute] = useState([]);
-
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -153,7 +146,6 @@ const NewReadersReview = () => {
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
   let tooltipObj = {
     "New": "IRT hasn't started the training yet(no training content sent to)",
@@ -168,30 +160,11 @@ const NewReadersReview = () => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       setFilterObject({});
       setApifilterObject({});
-      // setAppliedFilter({'IRT mandatory training': ["Yes"]});
-      // setFilterObject({'IRT mandatory training': ["Yes"]});
-      // setApifilterObject({'IRT mandatory training': ["Yes"]});
     } else if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
     }
-    // else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-    //   setAppliedFilter({ "contact Type": ["HCP"] });
-    //   setFilterObject({});
-    //   setApifilterObject({});
-    // }
-    // else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
-    //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    //   setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
-    // }
-    // else {
-    //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
-    //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
-    //   setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
-    // }
-
     getFilters();
     getReaderListData(page, filterObject, search);
 
@@ -216,11 +189,11 @@ const NewReadersReview = () => {
   const getFilters = async () => {
     try {
       loader("show");
-      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${role == '' ? 'all' : null}`);
+      console.log("role-->",role)
+      const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${state?.siteRole == 'All IRTs' ? 'all' : null}`);
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
-
       if (
         res?.data?.data?.data["Content Owners"]?.length &&
         res?.data?.data?.defaultOwner && localStorage.getItem("user_id") !== "B7SHpAc XDXSH NXkN0rdQ=="
@@ -252,7 +225,6 @@ const NewReadersReview = () => {
 
   const getReaderListData = async (page, obj, search, load = 0) => {
     try {
-      // setTotalCountFlag(false);
       setIsLoaded(false);
       if (load == 0) {
         setTotalCountFlag(false);
@@ -273,7 +245,8 @@ const NewReadersReview = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        console.log("obj-->",obj)
         payload = {
           ...data,
           ...obj,
@@ -282,16 +255,10 @@ const NewReadersReview = () => {
           "contact Type": ["HCP"],
           'IRT mandatory training': ["Yes"],
         };
-      } else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        payload = {
-          ...data,
-          ...obj,
-          status: ["Registered"],
-          search: search,
-          "contact Type": ["HCP"],
-          'IRT mandatory training': ["Yes"],
-          'role': role
-        };
+        if(!Object.keys(obj)?.includes("role")){
+          payload.role=role
+        }
+        
       }
       else if (
         localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
@@ -314,8 +281,6 @@ const NewReadersReview = () => {
       setChangeSiteNumberType([])
       setChangeSiteNameType([])
       setBlockReminder([])
-
-      // const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
       const res = await postData(ENDPOINT.PROFILES_READER, payload);
       if (spcFlag == 0) {
         let body = {
@@ -350,7 +315,6 @@ const NewReadersReview = () => {
           setCount(res?.data?.data?.total);
         }
       }
-      // setCount(res?.data?.data?.total);
 
       let total_results = 0;
       if (page != 1) {
@@ -437,11 +401,6 @@ const NewReadersReview = () => {
       else {
         payload = { ...data, ...filterObject };
       }
-
-      // let payload = { ...data, ...filterObject };
-      // const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
-      //   responseType: "blob",
-      // });
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
@@ -459,7 +418,6 @@ const NewReadersReview = () => {
   };
 
   const loadMoreClicked = () => {
-    // setPageAllClicked(true);
     let sp = page + 1;
     getReaderListData(sp, filterObject, search, 1);
     if (isFlag == 1) {
@@ -468,15 +426,12 @@ const NewReadersReview = () => {
       setPage(sp);
     }
   };
-
   const searchChange = (e) => {
     setSearch(e?.target?.value);
     setFlag(0);
 
     if (e?.target?.value === "") {
       setReaderDataList([]);
-      // setPageAllClicked(false);
-
       getReaderListData(page, filterObject, "");
     }
   };
@@ -484,7 +439,6 @@ const NewReadersReview = () => {
   const submitHandler = (event) => {
     setReaderDataList([]);
     setTotalCountFlag(false);
-
     getReaderListData(page, filterObject, search);
     event.preventDefault();
     return false;
@@ -1781,87 +1735,37 @@ const NewReadersReview = () => {
         <div className="custom-container">
           <Row>
             <div className="top-sticky">
+              <div className="top-header">
               {localStorage.getItem("user_id") ==
                 "56Ek4feL/1A8mZgIKQWEqg==" ?
-                <div className="page-title">  <h2>{state?.siteRole ? state?.siteRole : "All IRTs"}</h2> </div> : ""}
-              <div className="top-header reader_list">
-                <div className="page-title">
-                  {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ?
-                    (
-                      <h4>
-                        Total IRTs |{" "}
-                        <span>{totalCountFlag ? totalCount : 0}</span>
-                        {/* <span>{readerDataList?.length}</span> */}
-                      </h4>
-                    )
-                    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                      ? (
-                        <h4>
-                          Total USER |{" "}
-                          <span>{totalCountFlag ? totalCount : 0}</span>
-                          {/* <span>{readerDataList?.length}</span> */}
-                        </h4>
-                      ) : (
-                        <h4>
-                          Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
-                        </h4>
-                      )}
-                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
-                    {(
-                      <div className="refresh-button">
-                        <button
-                          className={refreshFlag ? "refresh-rotate" : "refresh"}
-                          onClick={async () => {
-                            setRefreshFlag(true);
-
-                            let createdBy = localStorage.getItem("user_id")
-                            let obj = {
-                              "sync": 1,
-                              created_by: createdBy
-                            };
-                            const response = await postData("https://onesource.informed.pro/api/training-completion-cron", obj);
-                            const hadData = response?.data?.data || [];
-                            setRefreshFlag(false);
-
-                          }}
-                        >
-                          <svg
-                            fill="#fff"
-                            height="800px"
-                            width="800px"
-                            version="1.1"
-                            id="Layer_1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            // xmlns:xlink="http://www.w3.org/1999/xlink"
-                            viewBox="0 0 383.748 383.748"
-                          // xml:space="preserve"
-                          >
-                            <g>
-                              <path
-                                d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
-		C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
-		L2.081,34.641v113.365h113.91L62.772,95.042z"
-                              />
-                              <path
-                                d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
-		c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
-		c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"
-                              />
-                            </g>
-                          </svg>
-                        </button>
-                      </div>
-                    )}
-                  </>)
-                    : null}
-
-                </div>
-                <div className="top-right-action library_content_view">
+                (<>
+                <div className="page-title">               
+                  <Link
+                    className="btn btn-primary btn-bordered back-btn"
+                    to="/IRT-Mandatory"
+                  >
+                    <svg
+                      width="14"
+                      height="24"
+                      viewBox="0 0 14 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                        fill="#97B6CF"
+                      />
+                    </svg>
+                  </Link>                                 
+                  <h2>{state?.siteRole ? state?.siteRole : "All IRTs"}</h2> </div>
+                </>)
+                 : ""}
+              
+                <div className="top-right-action irt-blinded flex-wrap">
                   {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && state?.siteRole) ?
                     <div className="action-btn-add">
                       <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
-                        Add Content <img src={path_image + "add-icon.png"} alt="" />
+                        Add IRT <img src={path_image + "add-irt.png"} alt="" />
                       </Button>
 
                      </div> 
@@ -2158,27 +2062,27 @@ const NewReadersReview = () => {
                         >
                           <path
                             d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z"
-                            fill="#0066BE"
+                            fill={deletButtonColor}
                           />
                           <path
                             d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z"
-                            fill="#0066BE"
+                            fill={deletButtonColor}
                           />
                           <path
                             d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z"
-                            fill="#0066BE"
+                            fill={deletButtonColor}
                           />
                           <path
                             d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z"
-                            fill="#0066BE"
+                            fill={deletButtonColor}
                           />
                           <path
                             d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z"
-                            fill="#0066BE"
+                            fill={deletButtonColor}
                           />
                           <path
                             d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z"
-                            fill="#0066BE"
+                            fill={deletButtonColor}
                           />
                         </svg>
                       </button>
@@ -2186,7 +2090,9 @@ const NewReadersReview = () => {
                   </div>
                 </div>
 
-              </div>
+              {/* </div> */}
+            </div>
+              
               {Object.keys(filterObject)?.length && filterApplyflag == 1 ? (
                 <div className="apply-filter">
                   {/* <h6>Applied filters</h6> */}
@@ -2278,7 +2184,80 @@ const NewReadersReview = () => {
             </div>
 
             <div className="library-content-box-layuot readerlist d-flex">
+            <div className="site-irt w-100">
+                <div className="page-title">
+                  {localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg==" ?
+                    (
+                      <h4>
+                        Total IRTs |{" "}
+                        <span>{totalCountFlag ? totalCount : 0}</span>
+                        {/* <span>{readerDataList?.length}</span> */}
+                     </h4>
+                    )
+                    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      ? (
+                        <h4>
+                          Total USER |{" "}
+                          <span>{totalCountFlag ? totalCount : 0}</span>
+                          {/* <span>{readerDataList?.length}</span> */}
+                        </h4>
+                      ) : (
+                        <h4>
+                          Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
+                        </h4>
+                      )}
+                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                    {(
+                      <div className="refresh-button">
+                        <button
+                          className={refreshFlag ? "refresh-rotate" : "refresh"}
+                          onClick={async () => {
+                            setRefreshFlag(true);
 
+                            let createdBy = localStorage.getItem("user_id")
+                            let obj = {
+                              "sync": 1,
+                              created_by: createdBy
+                            };
+                            const response = await postData("https://onesource.informed.pro/api/training-completion-cron", obj);
+                            const hadData = response?.data?.data || [];
+                            setRefreshFlag(false);
+
+                          }}
+                        >
+                          <svg
+                            fill="#fff"
+                            height="800px"
+                            width="800px"
+                            version="1.1"
+                            id="Layer_1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            // xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 383.748 383.748"
+                          // xml:space="preserve"
+                          >
+                            <g>
+                              <path
+                                d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+		C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+		L2.081,34.641v113.365h113.91L62.772,95.042z"
+                              />
+                              <path
+                                d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+		c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+		c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </>)
+                    : null}
+
+                </div> 
+              </div>
               {readerDataList?.length || updateflag ? (
                 readerDataList.map((data, index) => {
 
@@ -2442,7 +2421,7 @@ const NewReadersReview = () => {
                                           <h6 className="tab-content-title">
                                             Status
                                           </h6>
-                                          <h6>
+                                          <h6 className={`${data?.staus}`}>
                                             {data?.status
                                               ? (<>{data?.status}
 
@@ -2547,8 +2526,8 @@ const NewReadersReview = () => {
                                   </div>
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner">
-                                    <div className="footer-btn d-flex justify-content-end">                                 
-                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="New"?
+                                    <div className="footer-btn d-flex justify-content-between">                                 
+                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
                                     <Link
                                       className="btn btn-primary btn-filled"                        
                                     >
@@ -2557,7 +2536,7 @@ const NewReadersReview = () => {
                                     :null}
                                       <Link
                                         to={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "/mandatory-reader-edit" : "/reader-edit"}
-                                        className="btn btn-primary btn-filled"
+                                        className="btn btn-primary btn-bordered"
                                         state={{ id: data?.id, status: '1', siteRole: state?.siteRole }}
                                       >
                                         Edit

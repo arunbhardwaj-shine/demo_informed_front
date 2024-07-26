@@ -204,9 +204,6 @@ export const ENDPOINT = {
   ANALYTIC_ATTENDEES_DATA:"/webinarEmail/get-attendees-data",
   ANALYTIC_ATTENDEES_DROPDOWN_DATA:"/webinarEmail/get-attendees-dropdown-data",
   ANALYTIC_EVENT_LISTING:"/webinarEmail/get-attendees-dropdown-data",
-
-
-
   WEBINAR_SWITCH_USER:"/webinar/switch-user",
   WEBINAR_EVENT_STATS:"/webinar/download-stats",
   WEBINAR_EVENT_REGION_PIECHART_STATS:"/webinar/download-event-region-piechart-stats",
@@ -218,13 +215,11 @@ export const ENDPOINT = {
   MANDATORY_READERS:"/reader/mandatory-readers",
   GET_RD_MANDATORY_READERS:"https://webinar.docintel.app/lmn/api/distributes/get_rd_mandatory_readers",
   EMAIL_COUNT_GRAPH: "/email-irt-count",
-
   IBU_USERS_LISTING:"/webinarEmail/ibu-users",
   OWN_USERS_LISTING:"/webinarEmail/own-internal-users",
   GET_BLOCKED_USERS:"/email/get-blocked-users",
   UNBLOCKED_USERS:"email/unblock-user",
   GET_CAMPAIGN_TEMPLATE: "email/get-campaign-template",
   LIBRARY_CONTENT : `/library/get-library-data`,
-
-
+  IRT_COUNT_BY_CATEGORY:"/irt-count-by-category",
 };

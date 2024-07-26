@@ -453,10 +453,6 @@ const ReaderEdit = () => {
     initialReaderFun();
   }, []);
 
-  // useEffect(() => {
-  //   changeSiteData();
-  // }, [userDetail?.sideData]);
-
   const changeSiteData = () => {
     if (typeof userDetail?.sideData !== "undefined") {
       let newSite = [],
@@ -478,7 +474,7 @@ const ReaderEdit = () => {
         siteNumber: newSiteNumber,
       });
     } else {
-      console.log("-- im here inside changes");
+      
     }
   };
 
@@ -1008,9 +1004,7 @@ const ReaderEdit = () => {
                       </svg>
                     </Link>
                     :null}
-                    {/* <button className="btn btn-primary btn-bordered back">
-                      <Link to="/readers-view">Back</Link>
-                    </button> */}
+                   
                   </div>
                 </Col>
                 <Col md="9">
