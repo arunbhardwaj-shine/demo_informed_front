@@ -304,8 +304,8 @@ const PreviewContent = () => {
               // state: { pdfId: articleId,isEdit: isEdit },
               state: { pdfId: articleId,isEdit: isEdit , 
                 // title : location?.state?.title,
-                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="  ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                 : ''},
             });
@@ -341,8 +341,8 @@ const PreviewContent = () => {
               // state: { pdfId: articleId,isEdit: isEdit },
               state: { pdfId: articleId,isEdit: isEdit , 
                 // title : location?.state?.title,
-                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" 
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                 : ''},
             });
@@ -353,8 +353,8 @@ const PreviewContent = () => {
           navigate("/content-detail", {
             state: { pdfId: articleId,isEdit: isEdit , 
               // title : location?.state?.title,
-              title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-              flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+              title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+              flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
               ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
               : ''},
           });
@@ -393,11 +393,11 @@ const PreviewContent = () => {
                         // ? (location?.state?.title)
                         // : '' 
 
-                        flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                        flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
                           ? "mandatory"
                           : location?.state?.flag === "Non-mandatory"
                           ? "Non-mandatory" : '') :'',
-                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                           ? (location?.state?.title)
                           : ''
                       

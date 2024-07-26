@@ -177,7 +177,7 @@ const LibraryEditListing = () => {
         // payload.Role = [role];
       }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -365,14 +365,14 @@ const LibraryEditListing = () => {
       //   };
       // }
       let staticFilters = {};
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
         staticFilters = {
           "IRT mandatory training": [irt],
           // Role: [role]
         };
       }
   
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
         if (location?.state?.flag === 'mandatory') {
           staticFilters.Role = [role];
         }
@@ -697,11 +697,11 @@ const LibraryEditListing = () => {
                     // ? (location?.state?.title)
                     // : '' 
 
-                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
                       ? "mandatory"
                       : location?.state?.flag === "Non-mandatory"
                       ? "Non-mandatory" : '') :'',
-                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                       ? (location?.state?.title)
                       : ''
                 
@@ -1082,8 +1082,8 @@ const LibraryEditListing = () => {
                                   to="/library-edit"
                                   state={{ pdfid: data.id ,  
                                     // title : location?.state?.title,
-                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                                    flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                    flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                                     ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                     : '' 
                                   }}

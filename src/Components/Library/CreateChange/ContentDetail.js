@@ -240,11 +240,11 @@ const ContentDetail = (props) => {
         //   ? location?.state?.title 
         //   : ''
 
-          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
             ? "mandatory"
             : location?.state?.flag === "Non-mandatory"
             ? "Non-mandatory" : '') :'',
-            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
             ? (location?.state?.title)
             : ''
       }
@@ -275,7 +275,7 @@ const ContentDetail = (props) => {
                           ? "/library-edit"
                           : "/library-edit"
                       }
-                      state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                         : ''  }}
                       

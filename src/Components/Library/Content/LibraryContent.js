@@ -43,7 +43,7 @@ import {
 
 const LibraryContent = (props) => {
   //-----All States-----//
-  const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? '#8A4E9C' : '#0066be'
+  const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? '#8A4E9C' : '#0066be'
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
@@ -247,12 +247,12 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
       };
 
-      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==" || payload.user_id === "sNl1hra39QmFk9HwvXETJA==") {
         payload["IRT mandatory training"] = [irt];
         // payload.Role = [role];
       }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -546,14 +546,14 @@ const LibraryContent = (props) => {
       };
     
     let staticFilters = {};
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
       staticFilters = {
         "IRT mandatory training": [irt],
         // Role: [role]
       };
     }
 
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
       if (location?.state?.flag === 'mandatory') {
         staticFilters.Role = [role];
       }
@@ -1074,7 +1074,7 @@ const LibraryContent = (props) => {
             <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? (
                     location?.pathname === "/library-mandatory-content" ? (
                       <>
                         <Link className="btn btn-primary btn-bordered back-btn"
@@ -1106,7 +1106,7 @@ const LibraryContent = (props) => {
                   <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
                 </div>
                 <div className="top-right-action flex-wrap">
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
 
                     <>
                       <div className="action-btn-add">
@@ -2587,8 +2587,8 @@ const LibraryContent = (props) => {
                                       // state={{ pdfid: data.id }}
                                       state={{ pdfid: data.id , 
                                         // title : location?.state?.title,
-                                        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                                        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
                                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                         : '' 
                                       }}
@@ -2608,17 +2608,17 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
                                         <Link
                                           to="/library-sublink"
-                                          // state={{ pdfid: data.id }}
-                                          state={{ pdfid: data.id ,  
-                                            // title : location?.state?.title,
-                                            title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ? location?.state?.title : '',
-                                            flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                                            ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                                            : '' 
-                                          }}
+                                          state={{ pdfid: data.id }}
+                                          // state={{ pdfid: data.id ,  
+                                          //   // title : location?.state?.title,
+                                          //   title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                          //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+                                          //   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                          //   : '' 
+                                          // }}
                                           className="footer-btn"
                                         >
                                           New sublink

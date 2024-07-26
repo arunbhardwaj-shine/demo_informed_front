@@ -564,7 +564,7 @@ const LibraryCreateUser = () => {
         });
         loader("hide");
 
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==") {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -573,11 +573,11 @@ const LibraryCreateUser = () => {
               // state: { pdfId: res?.data?.data?.pdfId },
               state:{ 
                 pdfId: res?.data?.data?.pdfId,
-                flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="  ?(location?.state?.flag === "mandatory"
                   ? "mandatory"
                   : location?.state?.flag === "Non-mandatory"
                   ? "Non-mandatory" : '') :'',
-                  title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                  title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                   ? (location?.state?.title)
                   : ''
             
@@ -594,7 +594,7 @@ const LibraryCreateUser = () => {
               });
             }else{
               navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : '' },
               });
@@ -1695,12 +1695,12 @@ const LibraryCreateUser = () => {
                         // ? (location?.state?.title)
                         // : '' 
 
-                        flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(
+                        flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(
                           location?.state?.flag === "mandatory"
                           ? "mandatory"
                           : location?.state?.flag === "Non-mandatory"
                           ? "Non-mandatory" : '') :'',
-                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                           ? (location?.state?.title)
                           : '' 
                       }}
@@ -2035,7 +2035,8 @@ const LibraryCreateUser = () => {
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
                         {localStorage.getItem("user_id") !==
-                        "56Ek4feL/1A8mZgIKQWEqg=="  ? 
+                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !==
+                        "sNl1hra39QmFk9HwvXETJA=="  ? 
                         <div className="form-group">
                         <label htmlFor="setasdraft4">
                           {localStorage.getItem("user_id") ==
