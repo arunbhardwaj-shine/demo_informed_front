@@ -14,10 +14,10 @@ const IRTMandatory = ()  => {
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
     const images={
-      0:"IRT-doctor.svg",
-      1:"site-user-blinded",
-      2:"investigator-blinded",
-      3:"blinded-pharmacist"
+      0:"site-user-blinded.svg", 
+      1:"investigator-blinded.svg",
+      2:"blinded-pharmacist.svg",
+      3:"IRT-doctor.svg"
     }
     const pieOptions = {
       chart: {
@@ -25,33 +25,6 @@ const IRTMandatory = ()  => {
         custom: {},
         height: 105,
         width: 105,
-        // events: {
-        //   load() {
-        //     let innerSize = this.userOptions.plotOptions.pie.innerSize,
-        //       chart = this;
-        //     chart.myImage = this.renderer.image('https://informed.pro/componentAssets/images/IRT-doctor.svg',30,30,
-        //       // this.chartWidth / 2 - innerSize / 2,
-        //       // this.plotTop + this.plotSizeY / 2 - innerSize / 2,
-        //       innerSize,
-        //       innerSize).add();
-        //   },
-          
-        //   redraw() {
-        //     let chart = this,
-        //       innerSize = this.userOptions.plotOptions.pie.innerSize;
-    
-        //     if (chart.myImage) {
-        //       chart.myImage.attr({
-        //         // x: chart.chartWidth / 10 - innerSize / 10,
-        //         // y: chart.plotTop + chart.plotSizeY / 10 - innerSize / 10
-        //         x:41,
-        //         y:36,
-        //         height:24,
-        //         width:24,
-        //       });
-        //     }
-        //   }
-        // }
       },
       title: {
         text: "",
@@ -71,13 +44,6 @@ const IRTMandatory = ()  => {
       legend: {
         verticalAlign: "bottom",
       },
-      // plotOptions: {
-      //   pie: {
-      //     dataLabels: {
-      //       enabled: false, 
-      //     },
-      //   },
-      // },
       plotOptions: {
         pie: {
           innerSize: 100,
@@ -154,7 +120,6 @@ const IRTMandatory = ()  => {
         load() {
           let innerSize = this.userOptions.plotOptions.pie.innerSize,
             chart = this;
-          // chart.myImage = this.renderer.image('https://informed.pro/componentAssets/images/IRT-doctor.svg',30,30,
           chart.myImage = this.renderer.image(path_image+images[index],41,36,24,24).add();
         },
         
@@ -175,9 +140,6 @@ const IRTMandatory = ()  => {
       return events
     }
     const navigateToEmailList = ( role) => {
-      console.log("role-->",role)
-  
-      // localStorage.setItem("IRTFlag", 1);
       navigate("/new-readers-reviews", { state: {siteRole: role } });
     };
 
@@ -204,7 +166,6 @@ const IRTMandatory = ()  => {
                  <h3>{roleKey}</h3>
                  <div className="d-flex align-items-center irt-content-preview">
                    <div className="count-number">{role?.all}</div>
-                   {/* <img src={path_image+"site-user-blinded-circle.svg"} alt=""/> */}
                    {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) && (
                         <HighchartsReact highcharts={Highcharts} options={role.pieChartOptions} />
                       )}
