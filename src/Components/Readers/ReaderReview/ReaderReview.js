@@ -247,7 +247,7 @@ const ReaderReview = () => {
                               </td>
                             </tr>
 
-                            <tr>
+                            {/* <tr>
                               <th className="tab-content-title">Study role</th>
                               <td>
                                 {readerData?.sub_role
@@ -266,7 +266,7 @@ const ReaderReview = () => {
                                   readerData?.blind_type?.slice(1)
                                   : "N/A"}
                               </td>
-                            </tr>
+                            </tr> */}
                           </>
                         ) :
                         localStorage.getItem("user_id") !==
