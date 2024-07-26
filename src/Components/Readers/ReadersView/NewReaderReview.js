@@ -2525,8 +2525,8 @@ const NewReadersReview = () => {
                                     </button>
                                   </div>
                                 ) : !data?.ipFlag ? (
-                                  <div className="data-main-footer-sec-inner">
-                                    <div className="footer-btn d-flex justify-content-between">                                 
+                                  <div className="data-main-footer-sec-inner invest">
+                                    <div className="footer-btn d-flex justify-content-end">                                 
                                     {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
                                     <Link
                                       className="btn btn-primary btn-filled"                        
