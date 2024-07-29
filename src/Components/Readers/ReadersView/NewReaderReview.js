@@ -350,6 +350,7 @@ const NewReadersReview = () => {
       setTotalCountFlag(true);
       loader("hide");
     } catch (err) {
+      setApiCallStatus(true);
       console.log(err);
       loader("hide");
     }
@@ -2519,7 +2520,9 @@ const NewReadersReview = () => {
                                     </Link>
                                     :null}
                                       <Link
-                                        to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )? "/mandatory-reader-edit" : "/reader-edit"}
+                                        to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                          ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )
+                                          ? "/mandatory-reader-edit" : "/reader-edit"}
                                         className="btn btn-primary btn-bordered"
                                         state={{ id: data?.id, status: '1', siteRole: state?.siteRole }}
                                       >

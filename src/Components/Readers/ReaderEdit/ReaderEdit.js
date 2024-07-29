@@ -830,7 +830,7 @@ const ReaderEdit = () => {
             />
           </Form.Group>
         </>)
-          :( localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="&&state?.siteRole)
+          :( (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")&&state?.siteRole)
             ?
             <Form.Group className="form-group">
               <Form.Label htmlFor="">
@@ -984,7 +984,7 @@ const ReaderEdit = () => {
               <Row className="justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
-                    {localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="?
+                    {(localStorage.getItem("user_id")!=="56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")?
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
                       // to="/readers-view"
@@ -1022,7 +1022,7 @@ const ReaderEdit = () => {
                     {/* <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
                     </button> */}
-                    {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                       <button
                         className="btn btn-primary btn-bordered move-draft"
                         onClick={(e) => backButtonClicked(e)}
