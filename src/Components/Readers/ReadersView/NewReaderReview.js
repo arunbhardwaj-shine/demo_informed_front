@@ -34,8 +34,8 @@ const NewReadersReview = () => {
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
-  const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? '#8A4E9C' : '#0066be'
-  const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
+  const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
+  // const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : [])
   
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
@@ -103,7 +103,7 @@ const NewReadersReview = () => {
     "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
-  // const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ?state?.siteRole=="All IRTs"?irtData: [state?.siteRole] : [])
+  const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : irtData)
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -157,13 +157,9 @@ const NewReadersReview = () => {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
       setApifilterObject({});
-    } else if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-      setFilterObject({});
-      setApifilterObject({});
-      setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
     }
     getFilters();
     getReaderListData(page, filterObject, search);
@@ -255,6 +251,7 @@ const NewReadersReview = () => {
           'IRT mandatory training': ["Yes"],
         };
         if(!Object.keys(obj)?.includes("role")){
+          console.log("role--->",role)
           payload.role=role
         }
         
@@ -353,6 +350,7 @@ const NewReadersReview = () => {
       setTotalCountFlag(true);
       loader("hide");
     } catch (err) {
+      setApiCallStatus(true);
       console.log(err);
       loader("hide");
     }
@@ -378,15 +376,7 @@ const NewReadersReview = () => {
           status: ["Registered"],
         };
       }
-      else if (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-        payload = {
-          status: ["Registered"],
-          "contact Type": ["HCP"],
-          'IRT mandatory training': ["Yes"],
-          ...data,
-          ...filterObject,
-        }
-      } else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+       else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           status: ["Registered"],
           "contact Type": ["HCP"],
@@ -1735,8 +1725,8 @@ const NewReadersReview = () => {
           <Row>
             <div className="top-sticky">
               <div className="top-header">
-              {localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" ?
+              {(localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                 (<>
                 <div className="page-title">               
                   <Link
@@ -1761,7 +1751,7 @@ const NewReadersReview = () => {
                  : ""}
               
                 <div className="top-right-action irt-blinded flex-wrap">
-                  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && state?.siteRole) ?
+                  {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole) ?
                     <div className="action-btn-add">
                       <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
                         Add IRT <img src={path_image + "add-irt.png"} alt="" />
@@ -2103,7 +2093,8 @@ const NewReadersReview = () => {
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
-                                  <span>{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && key == "Training" ? "Status" : key} |</span>
+                                  <span>{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                   && key == "Training" ? "Status" : key} |</span>
                                 </div>
                                 <div className="filter-div-list">
                                   {filterObject[key]?.includes("All") ? (
@@ -2185,8 +2176,8 @@ const NewReadersReview = () => {
             <div className="library-content-box-layuot readerlist d-flex">
             <div className="site-irt w-100">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ?
+                  {(localStorage.getItem("user_id") ==
+                    "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                     (
                       <h4>
                         Total IRTs |{" "}
@@ -2194,19 +2185,12 @@ const NewReadersReview = () => {
                         {/* <span>{readerDataList?.length}</span> */}
                      </h4>
                     )
-                    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                      ? (
-                        <h4>
-                          Total USER |{" "}
-                          <span>{totalCountFlag ? totalCount : 0}</span>
-                          {/* <span>{readerDataList?.length}</span> */}
-                        </h4>
-                      ) : (
+                    : (
                         <h4>
                           Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                         </h4>
                       )}
-                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ? (<>
                     {(
                       <div className="refresh-button">
                         <button
@@ -2270,7 +2254,7 @@ const NewReadersReview = () => {
                                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                 ? `${data?.firstName} ${data?.lastName} ` : data?.firstName ? data?.firstName : data?.name}
                             </h4>
-                          {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
+                          {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")&&data?.status=="Completed"?
                           <div>
                             <img 
                             style={{width:'24px'}}
@@ -2362,8 +2346,8 @@ const NewReadersReview = () => {
                                     &&
                                     localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                      {localStorage.getItem("user_id") !==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                      {(localStorage.getItem("user_id") !==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==")
                                         ? (<>
                                           <li>
                                             <h6 className="tab-content-title">
@@ -2415,7 +2399,8 @@ const NewReadersReview = () => {
                                             : "N/A"}
                                         </h6>
                                       </li>
-                                      {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                      {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                                         <li>
                                           <h6 className="tab-content-title">
                                             Status
@@ -2526,7 +2511,8 @@ const NewReadersReview = () => {
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner invest">
                                     <div className="footer-btn d-flex justify-content-end">                                 
-                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
+                                    {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    &&data?.status=="Completed"?
                                     <Link
                                       className="btn btn-primary btn-filled"                        
                                     >
@@ -2534,7 +2520,9 @@ const NewReadersReview = () => {
                                     </Link>
                                     :null}
                                       <Link
-                                        to={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "/mandatory-reader-edit" : "/reader-edit"}
+                                        to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                          ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )
+                                          ? "/mandatory-reader-edit" : "/reader-edit"}
                                         className="btn btn-primary btn-bordered"
                                         state={{ id: data?.id, status: '1', siteRole: state?.siteRole }}
                                       >
@@ -2862,7 +2850,8 @@ const NewReadersReview = () => {
                                       && change ? (
                                       <>
 
-                                        {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" && data?.status == "Started") ?
+                                        {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                         && data?.status == "Started") ?
 
                                           <li>
                                             <h6 className="tab-content-title">
@@ -2895,7 +2884,8 @@ const NewReadersReview = () => {
                                             </fieldset>
                                           </li>
                                           : null}
-                                        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                        {(localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") 
+                                        ?
                                           <li>
                                             <h6 className="tab-content-title">
                                               Institution

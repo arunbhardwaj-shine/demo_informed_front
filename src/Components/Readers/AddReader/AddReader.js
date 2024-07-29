@@ -719,7 +719,7 @@ const ReaderAdd = () => {
   const RDAccount = () => {
     return (
       <>
-        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ? (<>
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
               Institution <span>*</span>
@@ -1090,7 +1090,7 @@ const ReaderAdd = () => {
                     >
                       Cancel
                     </Link> */}
-                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?
+                    {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?
                     <button
                       className="btn btn-primary btn-bordered move-draft"
                       onClick={(e) => backButtonClicked(e)}
