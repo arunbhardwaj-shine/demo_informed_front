@@ -6248,6 +6248,9 @@ input.viewer-toolbar-current-page-input {
 
   .library-content-box-layuot {
     padding: 0 30px;
+    &.readerlist{
+      padding: 0 18px; 
+    }
     .site-irt{
       margin:0 0 10px;
     }
@@ -6278,6 +6281,12 @@ input.viewer-toolbar-current-page-input {
 }
 
 }
+
+.top-right-action{
+    .search-bar{
+      margin-left: 22px;
+    }
+  }
 @media screen and (max-width:1440px) {
   .top-right-action.irt-blinded .search-bar, .top-right-action.irt-blinded .filter-by, .top-right-action.irt-blinded .clear-search {
     margin-left: 12px;
