@@ -22978,7 +22978,7 @@ table {
   &.irt_mandatory {
     gap: 15px 0;
     min-height: initial;
-    margin: 85px auto 0;
+    margin: 85px auto 15px;
 
     .irt-create {
       &.col {
@@ -23145,7 +23145,8 @@ table {
       .count-number {
         font-size: 26px;
         color: rgba(0, 74, 137, 0.5);
-        margin-right: 16px;
+        margin-right: 5px;
+        min-width: 59px;
       }
 
       .mandatory-section {
@@ -23256,8 +23257,9 @@ table {
   .irt_mandatory-listing {
     .irt_mandatory-section {
       h3 {
-        min-width: 290px;
+        min-width: 285px;
         font-size: 22px;
+        padding-right: 12px;
       }
 
       .irt-content-preview {
@@ -23290,11 +23292,12 @@ table {
 
       .count-number {
         font-size: 23px;
-        margin-right: 10px;
+        margin-right: 5px;
+        min-width: 57px;
       }
 
       .mandatory-section {
-        gap: 10px 15px;
+        gap: 10px 10px;
         .col{ p {
           font-size: 13px;
       }
@@ -23302,6 +23305,11 @@ table {
       }
     }
     }
+    }
+    .irt_create_role{
+      &.irt_mandatory {
+        margin: 35px auto 15px;
+      }
     }
   }
 
