@@ -6248,6 +6248,9 @@ input.viewer-toolbar-current-page-input {
 
   .library-content-box-layuot {
     padding: 0 30px;
+    &.readerlist{
+      padding: 0 18px; 
+    }
     .site-irt{
       margin:0 0 10px;
     }
