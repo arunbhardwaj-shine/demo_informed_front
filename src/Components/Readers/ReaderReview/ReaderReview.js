@@ -23,9 +23,7 @@ const ReaderLayout = () => {
 
 const ReaderReview = () => {
   const { state } = useLocation();
-  console.log("state--->", state)
   const navigate = useNavigate();
-  const [field, setField] = useState([]);
   const [openNotes, setOpenNotes] = useState(false);
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}

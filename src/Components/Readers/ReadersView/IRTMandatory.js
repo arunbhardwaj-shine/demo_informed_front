@@ -192,7 +192,7 @@ const IRTMandatory = ()  => {
                      <p>Ignored</p>
                      <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)?(((role?.ignored/role?.all))*100).toFixed(2):0}%</div>
                    </Col>
-                    <Button onClick={()=>navigateToEmailList(roleKey)} className="irt_mandatory-link default">
+                    <Button onClick={()=>navigateToEmailList(roleKey=="All IRTs"?"":roleKey)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
                       
                     </Button>
