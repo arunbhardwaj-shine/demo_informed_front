@@ -2568,7 +2568,7 @@ const NewReadersReview = (props) => {
                                       ?
                                       <Button
                                         onClick={() => createNewEmail(data?.id)}
-                                        className="btn btn-primary btn-filled"                        
+                                        className="btn-filled"
                                       >
                                         Start Training
                                       </Button>
