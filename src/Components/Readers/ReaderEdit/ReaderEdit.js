@@ -309,6 +309,7 @@ const ReaderEdit = () => {
           : hasData?.data?.data?.userType,
         irt: hasData?.data?.data?.irt == "Yes" ? 1 : 0,
       });
+      console.log(hasData?.data?.data?.role,'datataaa')
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -1010,7 +1011,9 @@ const ReaderEdit = () => {
                 <Col md="9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">Edit CRM</a>
+                      <a href="">{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        ?`Edit ${userInputs?.role}`
+                      :" Edit CRM"}</a>
                     </li>
                     <li className="">
                       <a href="">Review &amp; approve</a>
