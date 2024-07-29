@@ -104,7 +104,7 @@ const NewReadersReview = (props) => {
     "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
-  const [role, setRole] = useState((state != "undefined" && state?.siteRole != "") ? [state?.siteRole] : irtData)
+  const [role, setRole] = useState((state != "undefined" && state?.siteRole != ""&& state?.siteRole != "All IRTs") ? [state?.siteRole] : irtData)
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
