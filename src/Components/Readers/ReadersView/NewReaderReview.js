@@ -1803,7 +1803,7 @@ const NewReadersReview = (props) => {
                  : ""}
               
                 <div className="top-right-action irt-blinded flex-wrap">
-                  {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole) ?
+                  {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole!=="All IRTs" && state?.siteRole!=="") ?
                     <div className="action-btn-add">
                       <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
                         Add IRT <img src={path_image + "add-irt.png"} alt="" />
