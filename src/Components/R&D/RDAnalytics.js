@@ -76,7 +76,14 @@ const RDAnalytics = () => {
   const [trainingStatus, setTrainingStatus] = useState([]);
   const [siteRole, setSiteRole] = useState([]);
   const [filterdata, setFilterData] = useState({
-    'training_status': ['Complete', 'Ignored', 'Started'],
+    'training_status_code': [
+     {"id":1, 'title': 'New'},
+     {"id":2, 'title': 'Completed'},
+     {"id":3, 'title': 'Invited'},
+     {"id":4, 'title': 'Ignored'},
+     {"id":5, 'title': 'Started'},
+     {"id":6, 'title': 'Not Completed'}
+    ],
     'user_type': ['Site User-Blinded', 'Investigator-Blinded', 'Site unblinded pharmacist'],
     'site_number':[]
    
@@ -1053,7 +1060,7 @@ const RDAnalytics = () => {
 
     if (e?.target?.checked == true) {
       if (
-        key == "training_status" ||
+        key == "training_status_code" ||
         key == "user_type" ||
         key == "site_number"
        
@@ -1138,6 +1145,44 @@ const RDAnalytics = () => {
     setSearchTerm(e.target.value);
     if (e.target.value === "") {
       applyFilter(1);
+    }
+  };
+
+  const getStatusColor = (code) => {
+    switch (code) {
+      case 1:
+        return "#8A4E9C";       // Color for "New"
+      case 2:
+        return "#39CABC";      // Color for "Completed"
+      case 3:
+        return "#0066BE";     // Color for "Invited"
+      case 4:
+        return "#f58289";        // Color for "Ignored"
+      case 5:
+        return "#FAC755";     // Color for "Started"
+      case 6:
+        return "#FF9534";      // Color for "Not Completed"
+      default:
+        return "#f58289";       // Default color
+    }
+  };
+  
+  const getStatusText = (code) => {
+    switch (code) {
+      case 1:
+        return "New";
+      case 2:
+        return "Completed";
+      case 3:
+        return "Invited";
+      case 4:
+        return "Ignored";
+      case 5:
+        return "Started";
+      case 6:
+        return "Not Completed";
+      default:
+        return "Ignored";
     }
   };
 
@@ -1339,7 +1384,7 @@ const RDAnalytics = () => {
                                       {filterObject[key]?.length ? (
                                         <div className="filter-div">
                                           <div className="filter-div-title">
-                                            <span>{key == "training_status" ? "Training" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
+                                            <span>{key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
                                           </div>
 
                                           <div className="filter-div-list">
@@ -1351,10 +1396,8 @@ const RDAnalytics = () => {
                                                     : "filter-result"
                                                 }
                                               >
-                                                {key == "draft" && item == "0"
-                                                  ? "live"
-                                                  : key == "draft" && item == "1"
-                                                    ? "draft"
+                                                {key == "training_status_code"
+                                                    ? getStatusText(item)
                                                     : item}
                                                 <img
                                                   src={path_image + "filter-close.svg"}
@@ -1470,7 +1513,7 @@ const RDAnalytics = () => {
                     eventKey={index}
                   >
                     <Accordion.Header className="card-header">
-                      {key == "training_status" ? "Training" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
+                      {key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
                     </Accordion.Header>
 
                     <Accordion.Body className="card-body">
@@ -1483,7 +1526,7 @@ const RDAnalytics = () => {
                                   <label className="select-multiple-option">
                                     <input
                                       type="radio"
-                                      id={`custom-checkbox-tags-${index}`}
+                                      id={`custom-checkbox-${item}-${index}`}
                                       value={
                                         typeof item ==
                                           "object"
@@ -1701,7 +1744,7 @@ const RDAnalytics = () => {
                           </th>
                           <th scope="col" className="sort_option">
                             <span onClick={() => handleSort('training_status')} >
-                              Training
+                              Status
                               <button
                                 className={`event_sort_btn ${sortBy == "training_status" ?
                                   sortOrder == "asc"
@@ -1798,26 +1841,8 @@ const RDAnalytics = () => {
                                     {item?.user_type ? item?.user_type : "NA"}
                                   </td>
 
-                                  <td
-                                    className={
-                                      item?.training_status_code == 0
-                                        ? "complete"
-                                        : item?.training_status_code == 1
-                                          ? "started"
-                                          : item?.training_status == "completed"
-                                            ? "complete"
-                                            : "not_yet"
-                                    }
-                                  >
-                                    {item?.training_status_code == "0"
-                                      ? "Complete"
-                                      : item?.training_status_code == "1"
-                                        ? "Started"
-                                        : item?.training_status_code == "2"
-                                          ? "Ignored"
-                                          : item?.training_status_code == "3"
-                                            ? "Ignored"
-                                            : null}
+                                  <td style={{ color: getStatusColor(item?.training_status_code) }} >
+                                    {getStatusText(item?.training_status_code)}
                                   </td>
 
                                   <td>

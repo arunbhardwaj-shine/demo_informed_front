@@ -110,21 +110,21 @@ const entering = (e) => {
               color: colors[0],
             },
             {
-              name: "Started",
+              name: "Not Completed",
               y: result?.data?.data?.notcompleted
                 ? result?.data?.data?.notcompleted
                 : 0,
 
-              color: '#FFBE2C',
-            },
-            {
-              name: "Ignored",
-              y: result?.data?.data?.pending
-                ? result?.data?.data?.pending
-                : 0,
-
               color: '#f58289',
             },
+            // {
+            //   name: "Ignored",
+            //   y: result?.data?.data?.pending
+            //     ? result?.data?.data?.pending
+            //     : 0,
+
+            //   color: '#f58289',
+            // },
           ],
         },
       ];
