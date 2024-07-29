@@ -27,9 +27,11 @@ import { Spinner } from "react-activity";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import axios from "axios";
+import { connect } from "react-redux";
+import { getEmailData, getDraftData, getSelectedSmartListData,getSelected } from "../../../actions";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const NewReadersReview = () => {
+const NewReadersReview = (props) => {
   let obj = {};
   const limit = 24;
   const navigate = useNavigate();
@@ -245,7 +247,6 @@ const NewReadersReview = () => {
       };
       let payload = {};
      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-        console.log("obj-->",obj)
         payload = {
           ...data,
           ...obj,
@@ -1724,6 +1725,58 @@ const NewReadersReview = () => {
     }
   };
 
+  const createNewEmail = async(user_id) => {
+    let pdfid = 0;
+    let irtRoleObj = {};
+    if(state?.siteRole == 'Investigator-Blinded'){
+      pdfid = 4521;
+      irtRoleObj = {pdfId: 4521, IRTFlag: 1, siteRole: 'Investigator-Blinded'}
+    }else if(state?.siteRole == 'Site User-Blinded'){
+      pdfid = 3968;
+      irtRoleObj = {pdfId: 3968, IRTFlag: 1, siteRole: 'Site User-Blinded'};
+    }else if(state?.siteRole == 'Site unblinded pharmacist'){
+      pdfid = 3970;
+      irtRoleObj = {pdfId: 3970, IRTFlag: 1, siteRole: 'Site Unblinded Pharmacist'}
+    }
+
+    if(pdfid != 0){
+      try {
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          pdf_id: pdfid,
+        };
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`emailapi/get_rd_campaign_data`, body)
+          .then((res) => {
+            if (res.data.status_code == 200) {
+              let campaign_data = res?.data?.response?.data;
+              const selectedHcp = [{
+                'profile_user_id': user_id,
+              }];
+              console.log(campaign_data,'campaign_data',selectedHcp,'selectedHcp');
+              props.getEmailData(campaign_data);
+              props.getSelected(selectedHcp);
+            } else {
+              toast.warning(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            loader("hide");
+            toast.error("Something went wrong");
+          });
+        navigate("/VerifyHCP", {
+          state: { IrtObj: irtRoleObj, NextFlag: 1 },
+        });
+      } catch (err) {
+        loader("hide");
+        console.log(err, 'err');
+      }
+    }
+  }
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -2526,12 +2579,13 @@ const NewReadersReview = () => {
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner invest">
                                     <div className="footer-btn d-flex justify-content-end">                                 
-                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="Completed"?
-                                    <Link
+                                    {localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="&&data?.status=="New"?
+                                    <Button
+                                      onClick={() => createNewEmail(data?.id)}
                                       className="btn btn-primary btn-filled"                        
                                     >
                                       Start Training
-                                    </Link>
+                                    </Button>
                                     :null}
                                       <Link
                                         to={localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "/mandatory-reader-edit" : "/reader-edit"}
@@ -3349,4 +3403,16 @@ const NewReadersReview = () => {
   );
 };
 
-export default NewReadersReview;
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps, {
+  getDraftData: getDraftData,
+  getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
+  getSelected : getSelected,
+})(NewReadersReview);
+
+// export default NewReadersReview;
