@@ -423,7 +423,7 @@
           margin: 0;
           word-break: break-word;
           &.Ignored{
-            color:#F58289;
+            color:$light-pink;
           }
           &.Completed{
             color:#39CABC;
@@ -432,10 +432,10 @@
             color:#FAC755;
           }
           &.New{
-            color:#8A4E9C;
+            color:$voilet;
           }
           &.Invited{
-             color:#0066BE;
+             color:$primary-color;
           }
           &.Not.Completed{
              color:#FF9534;
@@ -695,7 +695,7 @@
             flex: 0 0 auto;
 
             span {
-              color: #70899E;
+              color: $dark-gray;
             }
           }
         }
@@ -5044,7 +5044,7 @@ section.verify_email.content_details {
         border-radius: 30px;
         @include flex-middle;
         font-size: 14px;
-        color: #0066BE;
+        color: $primary-color;
         height: 40px;
         gap: 10px;
         background: transparent;
@@ -6081,7 +6081,7 @@ input.viewer-toolbar-current-page-input {
       #renewModal {
         width: calc(40% - 12px);
         border-radius: 20px;
-        border: 1px dashed #70899E;
+        border: 1px dashed $dark-gray;
         padding: 16px;
         margin: 0;
 
@@ -13957,7 +13957,7 @@ img.change-password-image {
 
       .registration {
         p {
-          color: #F58289;
+          color: $light-pink;
         }
       }
 
@@ -13971,7 +13971,7 @@ img.change-password-image {
         }
 
         p {
-          color: #70899E;
+          color: $dark-gray;
           font-size: 18px;
           font-weight: 500;
         }
@@ -14050,7 +14050,7 @@ img.change-password-image {
         margin: 0 0 9px;
 
         &.email-date {
-          color: #70899E;
+          color: $dark-gray;
           font-size: 16px;
           margin: 0;
 
@@ -14941,7 +14941,7 @@ table#site_engagement thead.sticky-header {
 
             tbody {
               td {
-                color: #70899E;
+                color: $dark-gray;
                 font-size: 12px;
                 vertical-align: middle;
 
@@ -14954,7 +14954,7 @@ table#site_engagement thead.sticky-header {
                 }
 
                 span {
-                  color: #70899E;
+                  color: $dark-gray;
                   font-size: 12px;
                   margin-top: 4px;
                   display: block;
@@ -14997,7 +14997,7 @@ table#site_engagement thead.sticky-header {
         }
 
         .regi-title {
-          color: #F58289;
+          color: $light-pink;
         }
 
         .regi-hcp {
@@ -15058,7 +15058,7 @@ table#site_engagement thead.sticky-header {
           padding: 0 6px 0 24px;
 
           h6 {
-            color: #70899E;
+            color: $dark-gray;
             font-size: 14px;
             font-weight: 500;
             line-height: 20px;
@@ -15485,7 +15485,7 @@ table#site_engagement thead.sticky-header {
           }
 
           td {
-            color: #70899E;
+            color: $dark-gray;
             font-size: 13px;
             font-weight: 400;
             padding: 16px;
@@ -15637,7 +15637,7 @@ table {
                     box-shadow: none;
 
                     td {
-                      color: #70899E;
+                      color: $dark-gray;
                       font-size: 13px;
                       font-weight: 400;
                       padding: 8px 16px;
@@ -15663,7 +15663,7 @@ table {
           position: relative;
 
           td {
-            color: #70899e;
+            color: $dark-gray;
             font-size: 13px;
             font-weight: 400;
             padding: 15px 16px;
@@ -15941,7 +15941,7 @@ table {
 
   .analytics-events-inset {
     border-radius: 20px;
-    background: #FFF;
+    background: $white;
     box-shadow: 0px 3px 10px 0px rgba(0, 102, 190, 0.20);
     padding: 12px;
     gap: 5px;
@@ -15954,7 +15954,7 @@ table {
       gap: 16px;
 
       p {
-        color: #70899E;
+        color: $dark-gray;
         font-size: 16px;
       }
 
@@ -15985,7 +15985,7 @@ table {
 
         .events-boxes-shadow {
           border-radius: 15px;
-          background: #FFF;
+          background: $white;
           box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.24);
           padding: 7px 0px 4px;
           height: 100%;
@@ -16014,7 +16014,7 @@ table {
 
           &.qa-poll-box {
             p {
-              color: #F58289;
+              color: $light-pink;
             }
           }
 
@@ -16044,7 +16044,7 @@ table {
             }
 
             p {
-              color: #70899E;
+              color: $dark-gray;
               font-size: 16px;
               font-weight: 500;
               margin: 0;
@@ -16120,7 +16120,7 @@ table {
 
           .accordion-header {
             button {
-              background: #fff url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+              background: $white url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
               background-size: 16px;
               transition: all 0.2s ease-out 0s;
               background-origin: content-box;
@@ -16137,7 +16137,7 @@ table {
       .accordion-item {
         border: 0;
         margin: 0 0 14px;
-        background: #ffffff;
+        background: $white;
         box-shadow: 0px 0px 6px rgba(0, 102, 190, 0.24);
         border-radius: 9px;
 
@@ -16200,7 +16200,7 @@ table {
                   font-weight: 500;
                   font-size: 14px;
                   line-height: 15px;
-                  color: #0066BE;
+                  color: $primary-color;
                   display: inline-flex;
                   align-items: center;
                   margin: 0 0 0 1px;
@@ -22810,7 +22810,7 @@ table {
         font-size: 16px;
         font-weight: 400;
         line-height: normal;
-        color: #70899E;
+        color: $dark-gray;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -22881,7 +22881,7 @@ table {
         }
 
         span {
-          color: #70899E;
+          color: $dark-gray;
           font-size: 24px;
           font-weight: 500;
           line-height: normal;
@@ -22899,7 +22899,7 @@ table {
           }
 
           small {
-            color: #70899E;
+            color: $dark-gray;
             font-size: 16px;
             font-style: normal;
             font-weight: 400;
@@ -22993,7 +22993,7 @@ table {
 
   .irt-create {
     &.col {
-      background: #ffffff;
+      background: $white;
       border-radius: 20px;
       position: relative;
       flex: 0 0 33.3%;
@@ -23016,14 +23016,14 @@ table {
         }
 
         h3 {
-          color: #0066BE;
+          color: $primary-color;
           font-weight: 500;
           text-align: center;
           display: block;
           margin: 20px 0 36px;
 
           &:after {
-            border-bottom: 1px dashed #0066BE;
+            border-bottom: 1px dashed $primary-color;
             position: absolute;
             content: "";
             bottom: 0;
@@ -23081,12 +23081,12 @@ table {
 
         .ignored {
           p {
-            color: #F58289;
+            color: $light-pink;
           }
 
           .irt-value {
             span {
-              background: #F58289;
+              background: $light-pink;
             }
           }
         }
@@ -23112,7 +23112,7 @@ table {
     flex-direction: column;
 
     .irt_mandatory-section {
-      background: #fff;
+      background: $white;
       border-radius: 9px;
       padding: 4px 24px;
       display: flex;
@@ -23120,7 +23120,7 @@ table {
       box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.2);
 
       h3 {
-        color: #0066BE;
+        color: $primary-color;
         font-weight: 500;
         min-width: 356px;
         padding-right: 22px;
@@ -23137,7 +23137,7 @@ table {
           position: absolute;
           left: 0;
           top: -4px;
-          border-left: 1px dashed #0066BE;
+          border-left: 1px dashed $primary-color;
           width: 1px;
           height: calc(100% + 8px);
         }
@@ -23178,21 +23178,21 @@ table {
 
           &.new {
             p {
-              color: #8A4E9C;
+              color: $voilet;
             }
 
             span {
-              background: #8A4E9C;
+              background: $voilet;
             }
           }
 
           &.invited {
             p {
-              color: #0066BE;
+              color: $primary-color;
             }
 
             span {
-              background: #0066BE;
+              background: $primary-color;
             }
           }
 
@@ -23231,11 +23231,11 @@ table {
 
           &.ignored {
             p {
-              color: #F58289;
+              color: $light-pink;
             }
 
             span {
-              background: #F58289;
+              background: $light-pink;
             }
           }
           
