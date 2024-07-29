@@ -172,6 +172,12 @@ const ReaderEdit = () => {
     province: [],
   });
 
+  const [irtData, setIrtData] = useState([
+    "Site User-Blinded",
+    "Investigator-Blinded",
+    "Site unblinded pharmacist",
+  ]);
+
   const handleModelFun = (e) => {
     setNewProduct({ label: e?.target?.name, value: e?.target?.value });
   };
@@ -1012,8 +1018,8 @@ const ReaderEdit = () => {
                   <ul className="tabnav-link">
                     <li className="active active-main">
                       <a href="">{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                        ?`Edit ${userInputs?.role}`
-                      :" Edit CRM"}</a>
+                        ?`Edit ${irtData?.includes(userInputs?.role)? userInputs?.role : "CRM" }`
+                      :"Edit CRM"}</a>
                     </li>
                     <li className="">
                       <a href="">Review &amp; approve</a>
