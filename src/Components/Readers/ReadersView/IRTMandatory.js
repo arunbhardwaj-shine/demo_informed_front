@@ -66,7 +66,6 @@ const IRTMandatory = ()  => {
       try {
         let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);   
         let result = response?.data?.data;
-        console.log("result--->",result)
         let finalRoleData = {};  
         Object.keys(result).forEach((roleKey,index) => {
           const roleInfo = result[roleKey];
@@ -88,7 +87,6 @@ const IRTMandatory = ()  => {
           ];
 
           const events= updatingChartImage(index)
-          console.log("events-->",events)
   
           const newPieOptions = {
             ...pieOptions,

@@ -118,7 +118,7 @@ const VerifyHCP = (props) => {
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
-        let label = item;
+        let label = item
         if (index == "B&H") {
           label = "Bosnia and Herzegovina";
         }
@@ -294,18 +294,18 @@ const VerifyHCP = (props) => {
         if(res?.data?.status_code==200){
           let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]
           // console.log(searchedUserList,'searchedUserList');
-          // console.log(selectedHcp,'selectedHcp');
 
           let selectedProfileIds = new Set();
           if (selectedHcp.length > 0) {
-              selectedHcp.forEach(hcp => selectedProfileIds.add(hcp?.profile_user_id));
+              selectedHcp.forEach(hcp => selectedProfileIds.add(Number(hcp?.profile_user_id)));
           }
-
           // Filter searchedUserList to remove objects with profile_ids present in selectedProfileIds
-          searchedUserList = searchedUserList.filter(user => !selectedProfileIds.has(user?.profile_user_id));
-
+          searchedUserList = searchedUserList.filter(user => !selectedProfileIds.has(Number(user?.profile_user_id)));
           // console.log(searchedUserList,'searchedUserList');
-
+          if (selectedProfileIds?.size > 0) {
+            let valuesArray = Array.from(selectedProfileIds);
+            updateReader(valuesArray,2);
+          }
           setSearchedUsers(searchedUserList)
           loader("hide")
         }
@@ -1163,7 +1163,7 @@ const VerifyHCP = (props) => {
         : props.getDraftData.source_code,
       status: 2,
     };
-
+    // console.log(body,'body')
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
