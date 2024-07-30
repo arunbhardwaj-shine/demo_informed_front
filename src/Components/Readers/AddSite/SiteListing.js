@@ -1186,9 +1186,12 @@ const SiteListing = () => {
                                                         <td> {item?.site_address}</td>
                                                         <td> {item?.site_city}</td>
                                                         <td> {item?.site_country}</td>
+                                                        <td className="delete_row" >
                                                         {
-                                                            editFlag || deletestatus ? 
-                                                            <td className="delete_row" colSpan="12" onClick={() => deletestatus ? showConfirmationPopup(item) : handleEdit(item)}>
+                                                                editFlag || deletestatus ? 
+                                                                <div onClick={() => deletestatus ? showConfirmationPopup(item) : handleEdit(item)}>
+
+                                                               
                                                                 {
                                                                     deletestatus ?
                                                                     <div className="img"> 
@@ -1197,8 +1200,9 @@ const SiteListing = () => {
                                                                     <div className="img"> 
                                                                         <img style={{width:'17px'}} src={path_image + "edit-white.svg"} alt="Delete Row"/></div>
                                                                 }
-                                                            </td> : null
-                                                        }
+                                                                 </div>: null
+                                                            }
+                                                            </td> 
                                                         {/* <td>
                                                             <Button onClick={() => handleEdit(item)} className="btn-bordered"> Edit </Button>
                                                             <Button onClick={() => showConfirmationPopup(item)} className="btn-bordered"> Delete </Button>
