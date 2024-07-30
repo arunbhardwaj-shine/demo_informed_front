@@ -381,7 +381,7 @@ const SiteListing = () => {
                         <Button className="btn-dashed" onClick={handleCreate}>
                             Add Site <img src={`${path_image}add-icon.png`} alt="" />
                         </Button>  
-                        <Button className={deletestatus ? "btn-white disabled" : "btn-white"} onClick={EnableEditSite}>
+                        <Button className={deletestatus ? "btn-white disabled" : editFlag ?  "btn-white cancel" : "btn-white"} onClick={EnableEditSite}>
                             {
                                 editFlag ? "Cancel" :
                                 <>
