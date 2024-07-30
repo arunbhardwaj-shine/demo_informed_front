@@ -125,6 +125,7 @@ const LibraryContent = (props) => {
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  const searchInputRef = useRef(null);
   const navigate = useNavigate();
   const { title } = location.state || {};
 
@@ -443,6 +444,8 @@ const LibraryContent = (props) => {
     setConfirmationPopup(false);
   };
 
+ 
+
   const clearFilter = () => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
@@ -454,7 +457,8 @@ const LibraryContent = (props) => {
     if (Object.keys(filterObject)?.length) {
       setFilterObject({});
       setLibraryData([]);
-      getLibraryData(1, {}, search);
+      // getLibraryData(1, {}, search);
+      getLibraryData(1, {}, ""); 
       setPage(1);
       setSearch("");
     }
@@ -464,6 +468,9 @@ const LibraryContent = (props) => {
 
     setShowFilter(false);
     setForceRender(!forceRender);
+    if (searchInputRef.current) {
+      searchInputRef.current.value = '';
+    }
   };
 
   const applyFilter = (e) => {
@@ -1138,6 +1145,7 @@ const LibraryContent = (props) => {
                         aria-label="Search"
                         id="email_search"
                         onChange={(e) => searchChange(e)}
+                        ref={searchInputRef}
                       />
                       <button className="btn-outline-success" type="submit">
                         <svg
