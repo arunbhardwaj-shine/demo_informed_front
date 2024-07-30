@@ -94,9 +94,9 @@ const AutoEmail = () => {
     matchFrom: "start",
   };
 
-  useEffect(() => {
-    // getSmartListData(0);
-  }, []);
+  // useEffect(() => {
+  //   // getSmartListData(0);
+  // }, []);
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -1724,7 +1724,8 @@ const AutoEmail = () => {
                         if(!smartListData.length){
                           getSmartListData(0);
                         }
-                        setAddListOpen(true)}}
+                        setAddListOpen(true)}
+                      }
                     >
                       Add Smart List +
                     </button>

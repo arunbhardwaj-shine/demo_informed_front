@@ -39,7 +39,7 @@ const EditList = () => {
           setIbu(res?.data?.response?.ibu);
           setListCount(res?.data?.response?.list_count);
           getfilterlist();
-        }
+      }
       })
       .catch((err) => {
         console.log(err);
