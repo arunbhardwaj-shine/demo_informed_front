@@ -315,7 +315,7 @@ const ReaderEdit = () => {
           : hasData?.data?.data?.userType,
         irt: hasData?.data?.data?.irt == "Yes" ? 1 : 0,
       });
-      console.log(hasData?.data?.data?.role,'datataaa')
+      // console.log(hasData?.data?.data?.role,'datataaa')
       loader("hide");
     } catch (err) {
       console.log(err);
@@ -790,6 +790,7 @@ const ReaderEdit = () => {
                     )
                     ]
                 }
+               
                 className="dropdown-basic-button split-button-dropup"
                 isClearable
                 onChange={(e) => handleChange(e?.value, "role")}
@@ -797,16 +798,32 @@ const ReaderEdit = () => {
             ) : (
               <Select
                 options={userDetail?.role}
+                // value={
+                //   userDetail?.role.findIndex(
+                //     (el) => el.value == userInputs?.role
+                //   ) == -1
+                //     ? userDetail?.role[4]
+                //     : userDetail?.role[
+                //     userDetail?.role.findIndex(
+                //       (el) => el.value == userInputs?.role
+                //     )
+                //     ]
+                // }
+
                 value={
-                  userDetail?.role.findIndex(
-                    (el) => el.value == userInputs?.role
-                  ) == -1
-                    ? userDetail?.role[4]
-                    : userDetail?.role[
-                    userDetail?.role.findIndex(
-                      (el) => el.value == userInputs?.role
-                    )
-                    ]
+                  userInputs?.role === "0" || userInputs?.role === 0
+                    ? null 
+                    : userDetail?.role.findIndex(
+                        (el) => el.value == userInputs?.role
+                      ) == -1
+                    ? 
+                    userDetail?.role[4]
+                    :
+                     userDetail?.role[
+                        userDetail?.role.findIndex(
+                          (el) => el.value == userInputs?.role
+                        )
+                      ]
                 }
                 placeholder="Select role"
                 name="role"
