@@ -792,7 +792,7 @@ const Sidebar = () => {
               {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ?
                 <li
                   className={
-                    location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory" ? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit" || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" : '') ? "active" : "side_li"
+                    location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory" ? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit" || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" || location.pathname == "/library-add-link" : '') ? "active" : "side_li"
                   }
                 >
                   <Link to={"/library-mandatory"}>
@@ -846,6 +846,7 @@ const Sidebar = () => {
                         location.pathname === "/preview-content" ||
                         location.pathname === "/content-detail" ||
                         location.pathname === "/library-sublink"
+                        || location.pathname == "/library-add-link"
                       )
                     ) ? "active" : "side_li"
                 }

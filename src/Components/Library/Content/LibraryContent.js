@@ -93,6 +93,7 @@ const LibraryContent = (props) => {
     Role: "",
   });
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [editstatus, setEditStatus] = useState(false);
   const [page, setPage] = useState(1);
   const type="";
   const [showfilter, setShowFilter] = useState(false);
@@ -125,6 +126,7 @@ const LibraryContent = (props) => {
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  const searchInputRef = useRef(null);
   const navigate = useNavigate();
   const { title } = location.state || {};
 
@@ -443,6 +445,8 @@ const LibraryContent = (props) => {
     setConfirmationPopup(false);
   };
 
+ 
+
   const clearFilter = () => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
@@ -454,7 +458,8 @@ const LibraryContent = (props) => {
     if (Object.keys(filterObject)?.length) {
       setFilterObject({});
       setLibraryData([]);
-      getLibraryData(1, {}, search);
+      // getLibraryData(1, {}, search);
+      getLibraryData(1, {}, ""); 
       setPage(1);
       setSearch("");
     }
@@ -464,6 +469,9 @@ const LibraryContent = (props) => {
 
     setShowFilter(false);
     setForceRender(!forceRender);
+    if (searchInputRef.current) {
+      searchInputRef.current.value = '';
+    }
   };
 
   const applyFilter = (e) => {
@@ -887,7 +895,10 @@ const LibraryContent = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        toast.error("Topic already in list."): toast.error("Tag already in list.");
+       } 
+      
     }
   };
 
@@ -911,7 +922,10 @@ const LibraryContent = (props) => {
   const addTag = async () => {
     try {
       if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-        toast.error("Please input a tag");
+       {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        toast.error("Please input a topic"): toast.error("Please input a tag");
+       } 
+        
       } else {
         loader("show");
         const hadData = await postData(ENDPOINT.ADD_TAGS, {
@@ -945,7 +959,9 @@ const LibraryContent = (props) => {
             tags: newTag,
           };
         } else {
-          toast.error("Tag already in list.");
+          {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+            toast.error("Topic already in list."): toast.error("Tag already in list.");
+           } 
         }
         setNewTag("");
         setTagsCounter(tagsCounter + 1);
@@ -1050,9 +1066,14 @@ const LibraryContent = (props) => {
   };
 
   const handleEdit = () => {
-    navigate("/library-edit-listing", {
-      state: { data: "edit",title :title , flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" }
-    });
+    // navigate("/library-edit-listing", {
+    //   state: { data: "edit",title :title , flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" }
+    // });
+    if (editstatus) {
+      setEditStatus(false);
+    } else {
+      setEditStatus(true);
+    }
   };
 
   const handleCreate = () => {
@@ -1121,9 +1142,19 @@ const LibraryContent = (props) => {
                           <img src={`${path_image}add-icon.png`} alt="" />
                         </Button>
 
-                        <Button className="btn-white" onClick={handleEdit}>
-                          Edit Content
-                          <img src={`${path_image}edit-button.svg`} alt="" />
+                        <Button 
+                        // className="btn-white"
+                        className={deletestatus ? "btn-white disabled" : editstatus ?  "btn-white cancel" : "btn-white"}
+                         onClick={handleEdit}>
+                          {/* Edit Content
+                          <img src={`${path_image}edit-button.svg`} alt="" /> */}
+                            {
+                                editstatus ? "Cancel" :
+                                <>
+                                    Edit Site
+                                    <img src={`${path_image}edit-button.svg`} alt="" />
+                                </>
+                            }
                         </Button>
                       </div>
                     </>
@@ -1138,6 +1169,7 @@ const LibraryContent = (props) => {
                         aria-label="Search"
                         id="email_search"
                         onChange={(e) => searchChange(e)}
+                        ref={searchInputRef}
                       />
                       <button className="btn-outline-success" type="submit">
                         <svg
@@ -1336,7 +1368,8 @@ const LibraryContent = (props) => {
                     )}
                   </div>
 
-                  {location?.state?.data !== "edit" ? (
+                
+                  {location?.state?.data !== "edit" && editstatus == false ? (
                     <div className="clear-search">
                       {deletestatus ? (
                         <button
@@ -1388,7 +1421,8 @@ const LibraryContent = (props) => {
                         </button>
                       )}
                     </div>
-                  ) : null}
+                  ) : null
+                  }
 
                   {location?.state?.data == "edit" ? (
                     <div className="clear-search">
@@ -1576,6 +1610,30 @@ const LibraryContent = (props) => {
                                 </button>
                               </div>
                             ) : null}
+
+                              {(localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") && location?.state?.data == "edit" || editstatus ? (
+                              <div className="dlt_btn">
+                                <Link
+                                  to="/library-edit"
+                                  state={{ pdfid: data.id ,  
+                                    // title : location?.state?.title,
+                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                    flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                                    ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                    : '' 
+                                  }}
+                                  className="footer-btn"
+                                >
+                                  <button>
+                                    <img
+                                      src={path_image + "edit-white.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </Link>
+                              </div>
+                            ) : null}
+
                           </div>
                           <div className={`tabs-data ${isRDAccount?"rd":""}`}>
                             <Tabs
@@ -1750,7 +1808,7 @@ const LibraryContent = (props) => {
                                 </div>
 
                                 {location?.state?.data != "edit" &&
-                                  deletestatus == false ? (
+                                  deletestatus == false && editstatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div
                                       className={`footer-btn-wrapper ${[
@@ -1789,7 +1847,22 @@ const LibraryContent = (props) => {
                                         </a>
                                       )}
 
+
+                                    {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && localStorage.getItem("group_id") == 3 ? (
                                       <Button
+                                        className="footer-btn"
+                                        onClick={(e) =>
+                                          tagButtonClicked(data.id)
+                                        }
+                                      >
+                                        Topics
+                                      </Button>
+                                    ) : null}
+
+                                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?
+                      <Button
                                         onClick={(e) => {
                                           commonModelFun(
                                             e,
@@ -1804,7 +1877,7 @@ const LibraryContent = (props) => {
                                         className="footer-btn"
                                       >
                                         Download QR
-                                      </Button>
+                                      </Button>:''}
 
                                       <Link
                                         to="/CreateEmail"
@@ -2492,7 +2565,9 @@ const LibraryContent = (props) => {
                                   </div>
                                 </div>
                               </Tab>
-                              <Tab
+
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -2626,8 +2701,10 @@ const LibraryContent = (props) => {
                                       )}
                                   </div>
                                 </div>
-                              </Tab>
-                              <Tab
+                              </Tab>:""}
+
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2837,7 +2914,8 @@ const LibraryContent = (props) => {
                                     ) : null}
                                   </ul>
                                 </div>
-                              </Tab>
+                              </Tab>:''}
+
                             </Tabs>
                           </div>
                         </div>
@@ -2908,7 +2986,8 @@ const LibraryContent = (props) => {
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
+        { localStorage.getItem("user_id") ===
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Add Topics" : "Add Tags"}
           </h5>
           <button
             type="button"
@@ -2920,7 +2999,10 @@ const LibraryContent = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="select-tags">
-            <h6>Select Tag :</h6>
+            <h6>
+            { localStorage.getItem("user_id") ===
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Select Topic :" : "Select Tag :"}
+            </h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
                 {allTags?.length
@@ -2939,7 +3021,10 @@ const LibraryContent = (props) => {
           </div>
           <div className="selected-tags">
             <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
+             
+              { localStorage.getItem("user_id") ===
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Selected Topics" : "Selected Tag"}
+               <span> | {tagClickedFirst.length}</span>
             </h6>
 
             <div className="total-selected">
@@ -2963,7 +3048,11 @@ const LibraryContent = (props) => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">
+              { localStorage.getItem("user_id") ===
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "New Topic" : "New Tag"}
+
+              </label>
               <input
                 type="text"
                 className="form-control"

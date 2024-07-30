@@ -529,7 +529,9 @@ const LibraryEditListing = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        toast.error("Topic already in list."): toast.error("Tag already in list.");
+       } 
     }
   };
 
@@ -553,7 +555,9 @@ const LibraryEditListing = () => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        toast.error("Please input a topic"): toast.error("Please input a tag");
+       } 
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
@@ -578,7 +582,9 @@ const LibraryEditListing = () => {
           tags: newTag,
         };
       } else {
-        toast.error("Tag already in list.");
+        {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+          toast.error("Topic already in list."): toast.error("Tag already in list.");
+         } 
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -1921,7 +1927,8 @@ const LibraryEditListing = () => {
                                   </ul>
                                 </div>
                               </Tab>
-                              <Tab
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -1960,8 +1967,10 @@ const LibraryEditListing = () => {
                                     </div>
                                   </ul>
                                 </div>
-                              </Tab>
-                              <Tab
+                              </Tab>:''}
+
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2154,7 +2163,7 @@ const LibraryEditListing = () => {
                                     ) : null}
                                   </ul>
                                 </div>
-                              </Tab>
+                              </Tab>:''}
                             </Tabs>
                           </div>
                         </div>

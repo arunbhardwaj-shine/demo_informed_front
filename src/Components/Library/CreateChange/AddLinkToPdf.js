@@ -89,6 +89,8 @@ const AddLinkToPdf = () => {
     y: 0,
   });
   const [screenSize, setScreenSize] = useState(window.innerWidth)
+  const location = useLocation();
+  // console.log(location,'draftttt')
 
   let multiply_factor = 0;
 
@@ -1353,12 +1355,19 @@ const AddLinkToPdf = () => {
 
   const nextButtonClicked = async () => {
     try{
-      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="){
         navigate("/preview-content", {
           state: {
           pdfId: initFunData?.id,
           isEdit: isEdit,
           allowVideo: allowStateVideo,
+          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="  ?(location?.state?.flag === "mandatory"
+            ? "mandatory"
+            : location?.state?.flag === "Non-mandatory"
+            ? "Non-mandatory" : '') :'',
+            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+            ? (location?.state?.title)
+            : ''
           },
         });
       }else{
@@ -1387,7 +1396,24 @@ const AddLinkToPdf = () => {
                   "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                   <Link
                     className="btn btn-bordered btn btn-primary"
-                    to="/library-create"
+                    // to="/library-create"
+                    to={
+                      location?.state?.flag === "mandatory"
+                        ? "/library-mandatory-content"
+                        : location?.state?.flag === "Non-mandatory"
+                        ? "/library-content"
+                        : "/library-create"
+                    }
+                    state={{ 
+                      flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+                        ? "mandatory"
+                        : location?.state?.flag === "Non-mandatory"
+                        ? "Non-mandatory" : '') :'',
+                        title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                        ? (location?.state?.title)
+                        : ''
+                    
+                    }}
                   >
                     Back
                   </Link>
@@ -1405,7 +1431,7 @@ const AddLinkToPdf = () => {
               <ul className="tabnav-link">
                 {
                   <>
-                    <li className="">
+                    <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
                     {localStorage.getItem("user_id") ==
@@ -1416,7 +1442,7 @@ const AddLinkToPdf = () => {
                       </li>
                     ) : null}
                     {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                       <li
                         className={
                           localStorage.getItem("user_id") !=
