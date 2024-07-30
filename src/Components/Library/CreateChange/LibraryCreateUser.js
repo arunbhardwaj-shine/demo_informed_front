@@ -887,7 +887,9 @@ const LibraryCreateUser = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        toast.error("Topic already in list."): toast.error("Tag already in list.");
+       } 
     }
   };
   const hcpClicked = (dd) => {
@@ -943,7 +945,9 @@ const LibraryCreateUser = () => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        toast.error("Please input a topic"): toast.error("Please input a tag");
+       } 
     } else {
       loader("show");
       try {
@@ -978,7 +982,9 @@ const LibraryCreateUser = () => {
             tags: newTag,
           };
         } else {
-          toast.error("Tag already in list.");
+          {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+            toast.error("Topic already in list."): toast.error("Tag already in list.");
+           } 
         }
         setNewTag("");
         setTagsCounter(tagsCounter + 1);
@@ -2990,7 +2996,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="new-tag">
                 {" "}
-                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ=="
+                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
                   ? "New Topic"
                   : "New Tag"}{" "}
               </label>
