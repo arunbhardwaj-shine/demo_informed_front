@@ -1356,7 +1356,7 @@ const Sidebar = () => {
                   <li
                     className={
                       location.pathname == "/IRT-Mandatory" || location.pathname == "/new-readers-reviews" ||
-                        location.pathname == "/reader-add" || location.pathname == "/mandatory-reader-edit" ||
+                        location.pathname == "/reader-add" || location.pathname == "/mandatory-reader-edit" || location.pathname == "/readers-list" ||
                         window.location.pathname == "/reader-review" ||
                         (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
                         ? "active"

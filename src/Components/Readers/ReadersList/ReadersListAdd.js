@@ -939,7 +939,7 @@ const ReadersListAdd = () => {
       await postData(ENDPOINT.INSERTBULKREADERS, new_obj);
       loader("hide");
       if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA=="){
-        navigate("/new-readers-reviews");
+        navigate("/IRT-Mandatory");
       }else{
         navigate("/readers-view");
       }

@@ -31,7 +31,7 @@ const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log("state-->", state)
+  // console.log("state-->", state)
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
   const [pharmaData, setPharmaData] = useState();
@@ -272,7 +272,7 @@ const ReaderAdd = () => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setAddReaderInputs({
         ...userInputs,
-        role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
+        role: state?.siteRole ? state?.siteRole : hasData?.data?.data?.userIrtRoles?.[0]?.value,
         irt: 1,
       });
     }
@@ -682,9 +682,9 @@ const ReaderAdd = () => {
           userType: userInputs?.UserType,
           institute: userInputs?.institution,
         };
-        // await postData(ENDPOINT.READER_CREATE, data);
+        
         loader("hide");
-        console.log("state?.siteRole--->", state?.siteRole)
+        // console.log("state?.siteRole--->", state?.siteRole)
         navigate("/reader-review", {
           state: {
             data: data,
@@ -701,9 +701,16 @@ const ReaderAdd = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+        if(state?.siteRole == 'Site User-Blinded'){
+            link.href = "https://webinar.informed.pro/R_D_Site_User.xlsx";
+        }else if(state?.siteRole == 'Investigator-Blinded'){
+          link.href = "https://webinar.informed.pro/R_D_Investigator.xlsx";
+        }else if(state?.siteRole == 'Site unblinded pharmacist') {
+          link.href = "https://webinar.informed.pro/R_D_Pharmacist.xlsx";
+        }else{
+          link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+        }
     } else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
     } else {

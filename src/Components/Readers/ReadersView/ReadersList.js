@@ -2435,7 +2435,7 @@ const NewReaders = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          IRT mandatory training
+                                          IRT Training
                                         </h6>
                                         <h6>{data?.irt ? data?.irt : "N/A"}</h6>
                                       </li>

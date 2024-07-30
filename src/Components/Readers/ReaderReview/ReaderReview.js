@@ -36,14 +36,12 @@ const ReaderReview = () => {
       } else {
         await postData(ENDPOINT.READER_CREATE, readerData);
       }
-
       loader("hide");
       // navigate("/readers-view");
       if (state?.data?.irt === 1) {
         if (state?.siteRole) {
           navigate("/new-readers-reviews", { state: { siteRole: state?.siteRole } })
         } else {
-
           navigate("/new-readers-reviews")
         }
       } else {
@@ -170,7 +168,7 @@ const ReaderReview = () => {
                           <>
                             <tr>
                               <th className="tab-content-title">
-                                IRT mandatory training{" "}
+                                IRT Training
                               </th>
                               <td>
                                 {readerData?.irt || readerData?.irt == 0
@@ -233,15 +231,14 @@ const ReaderReview = () => {
                           {readerData?.country ? readerData?.country : "N/A"}
                         </td>
                       </tr>
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        
                         ? (
                           <>
                             <tr>
                               <th className="tab-content-title">IRT role</th>
                               <td>
-                                {readerData?.role ? readerData?.role : "N/A"}
+                                {readerData?.role && readerData?.role != '0'  ? readerData?.role : "N/A"}
                               </td>
                             </tr>
 
