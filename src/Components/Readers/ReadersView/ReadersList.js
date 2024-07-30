@@ -247,24 +247,19 @@ const NewReaders = () => {
       ) {
 
 
-        if (localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==") {
-          setAppliedFilter({});
-          setFilterObject({});
-          setApifilterObject({});
-        } else {
-          setAppliedFilter({
-            ...appliedFilter,
-            ["Content Owners"]: [res?.data?.data?.defaultOwner],
-          });
-          setFilterObject({
-            ...filterObject,
-            ["Content Owners"]: [res?.data?.data?.defaultOwner],
-          });
-          setApifilterObject({
-            ...apifilterObject,
-            ["Content Owners"]: [res?.data?.data?.defaultOwner],
-          });
-        }
+        setAppliedFilter({
+          ...appliedFilter,
+          ["Content Owners"]: [res?.data?.data?.defaultOwner],
+        });
+        setFilterObject({
+          ...filterObject,
+          ["Content Owners"]: [res?.data?.data?.defaultOwner],
+        });
+        setApifilterObject({
+          ...apifilterObject,
+          ["Content Owners"]: [res?.data?.data?.defaultOwner],
+        });
+
 
         setDefaultOwner(res?.data?.data?.defaultOwner);
       }
