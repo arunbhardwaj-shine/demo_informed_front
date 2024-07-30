@@ -90,7 +90,7 @@ const AddLinkToPdf = () => {
   });
   const [screenSize, setScreenSize] = useState(window.innerWidth)
   const location = useLocation();
-  console.log(location,'draftttt')
+  // console.log(location,'draftttt')
 
   let multiply_factor = 0;
 
@@ -1431,7 +1431,7 @@ const AddLinkToPdf = () => {
               <ul className="tabnav-link">
                 {
                   <>
-                    <li className="">
+                    <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
                     {localStorage.getItem("user_id") ==

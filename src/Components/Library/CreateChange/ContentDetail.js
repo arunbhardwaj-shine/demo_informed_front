@@ -89,7 +89,7 @@ const ContentDetail = (props) => {
       // }
 
       setLibraryData(res?.data?.data?.library);
-      console.log(res?.data?.data?.library,'res?.data?.data?.library')
+      // console.log(res?.data?.data?.library,'res?.data?.data?.library')
       let data = "";
       if (res?.data?.data?.library?.[0]?.allow_print) {
         data += "Print,";
@@ -731,17 +731,14 @@ const ContentDetail = (props) => {
                                                   </tr>
                                                 ) : null}
 
-                                                {data?.file_type == "video" ? (
+                                                {/* {data?.file_type == "video" ? (
                                                   <tr>
                                                     <th>Included videos</th>
                                                     <td>
                                                       Yes
-                                                      {/*data?.file_type == "video"
-                                                          ? "Yes"
-                                                          : "N/A"*/}
                                                     </td>
                                                   </tr>
-                                                ) : null}
+                                                ) : null} */}
 
                                                 {localStorage.getItem(
                                                   "group_id"

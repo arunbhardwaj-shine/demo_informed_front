@@ -1921,7 +1921,8 @@ const LibraryEditListing = () => {
                                   </ul>
                                 </div>
                               </Tab>
-                              <Tab
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -1960,8 +1961,10 @@ const LibraryEditListing = () => {
                                     </div>
                                   </ul>
                                 </div>
-                              </Tab>
-                              <Tab
+                              </Tab>:''}
+
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2154,7 +2157,7 @@ const LibraryEditListing = () => {
                                     ) : null}
                                   </ul>
                                 </div>
-                              </Tab>
+                              </Tab>:''}
                             </Tabs>
                           </div>
                         </div>
