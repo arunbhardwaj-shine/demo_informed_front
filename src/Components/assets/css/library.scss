@@ -156,6 +156,14 @@
 
     .tabs-data {
       flex: 0 0 auto;
+      &.rd{
+        .tab-content{
+          min-height: 200px;
+          .tab-pane {
+            min-height: 180px;
+        }
+        }
+      }
 
       .nav-tabs {
         border: 0;

@@ -43,7 +43,8 @@ import {
 
 const LibraryContent = (props) => {
   //-----All States-----//
-  const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? '#8A4E9C' : '#0066be'
+  const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const deletButtonColor =isRDAccount  ? '#8A4E9C' : '#0066be'
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
@@ -1576,7 +1577,7 @@ const LibraryContent = (props) => {
                               </div>
                             ) : null}
                           </div>
-                          <div className="tabs-data">
+                          <div className={`tabs-data ${isRDAccount?"rd":""}`}>
                             <Tabs
                               onSelect={(key) => tabClicked(key, data?.id)}
                               defaultActiveKey="docintel-link"
@@ -1589,8 +1590,7 @@ const LibraryContent = (props) => {
                               >
                                 <div className="tab-panel d-flex flex-column justify-content-between">
                                   <div className="tab-content-links">
-                                    <a
-                                      href={data?.docintelLink}
+                                    <a href={data?.docintelLink}
                                       className="doc-link"
                                       target="_blank"
                                     >
