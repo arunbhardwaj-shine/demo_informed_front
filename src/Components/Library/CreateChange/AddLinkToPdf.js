@@ -1355,7 +1355,7 @@ const AddLinkToPdf = () => {
 
   const nextButtonClicked = async () => {
     try{
-      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='){
+      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="){
         navigate("/preview-content", {
           state: {
           pdfId: initFunData?.id,
@@ -1442,7 +1442,7 @@ const AddLinkToPdf = () => {
                       </li>
                     ) : null}
                     {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                       <li
                         className={
                           localStorage.getItem("user_id") !=

@@ -89,6 +89,7 @@ const ContentDetail = (props) => {
       // }
 
       setLibraryData(res?.data?.data?.library);
+      console.log(res?.data?.data?.library,'res?.data?.data?.library')
       let data = "";
       if (res?.data?.data?.library?.[0]?.allow_print) {
         data += "Print,";

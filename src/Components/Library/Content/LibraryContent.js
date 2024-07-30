@@ -1797,7 +1797,22 @@ const LibraryContent = (props) => {
                                         </a>
                                       )}
 
+
+                                    {(localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && localStorage.getItem("group_id") == 3 ? (
                                       <Button
+                                        className="footer-btn"
+                                        onClick={(e) =>
+                                          tagButtonClicked(data.id)
+                                        }
+                                      >
+                                        Topics
+                                      </Button>
+                                    ) : null}
+
+                                      {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?
+                      <Button
                                         onClick={(e) => {
                                           commonModelFun(
                                             e,
@@ -1812,7 +1827,7 @@ const LibraryContent = (props) => {
                                         className="footer-btn"
                                       >
                                         Download QR
-                                      </Button>
+                                      </Button>:''}
 
                                       <Link
                                         to="/CreateEmail"
@@ -2500,7 +2515,9 @@ const LibraryContent = (props) => {
                                   </div>
                                 </div>
                               </Tab>
-                              <Tab
+
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -2634,8 +2651,10 @@ const LibraryContent = (props) => {
                                       )}
                                   </div>
                                 </div>
-                              </Tab>
-                              <Tab
+                              </Tab>:""}
+
+                              {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2845,7 +2864,8 @@ const LibraryContent = (props) => {
                                     ) : null}
                                   </ul>
                                 </div>
-                              </Tab>
+                              </Tab>:''}
+
                             </Tabs>
                           </div>
                         </div>
