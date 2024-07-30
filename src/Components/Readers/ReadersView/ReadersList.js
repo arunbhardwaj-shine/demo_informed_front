@@ -40,6 +40,7 @@ const NewReaders = () => {
   const [country, setCountry] = useState([]);
   const [consetCountry, setConsetCountry] = useState({});
   const [isFlag, setFlag] = useState(0);
+  const searchInputRef = useRef(null);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
@@ -1513,13 +1514,17 @@ const NewReaders = () => {
       setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
-      getReaderListData(page, obj, search);
+      // getReaderListData(page, obj, search);
+      getReaderListData(page, obj, "");
       setSearch("");
       setSubmitSearch("")
     }
 
     if (originalFilterData?.role?.length) {
       setFilterData({ ...filterdata, role: originalFilterData.role });
+    }
+    if (searchInputRef.current) {
+      searchInputRef.current.value = '';
     }
     setShowFilter(false);
   };
@@ -1885,6 +1890,7 @@ const NewReaders = () => {
                         placeholder="Search by email or name"
                         aria-label="Search"
                         id="email_search"
+                        ref={searchInputRef}
                         onChange={(e) => searchChange(e)}
                       />
                       <button className="btn-outline-success" type="submit">

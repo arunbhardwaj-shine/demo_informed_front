@@ -156,7 +156,7 @@ const NewReadersReview = (props) => {
     "Ignored": "IRT ignored the training",
     "Not Completed": "IRT started the training and didn't complete it even after all the email reminders"
   }
-
+  const searchInputRef = useRef(null);
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setFilterObject({});
@@ -1495,7 +1495,8 @@ const NewReadersReview = (props) => {
       setApifilterObject(obj);
       setFilterObject(obj);
       setReaderDataList([]);
-      getReaderListData(page, obj, search);
+      // getReaderListData(page, obj, search);
+      getReaderListData(page, obj, "");
       setSearch("");
     }
 
@@ -1503,7 +1504,9 @@ const NewReadersReview = (props) => {
     if (originalFilterData?.role?.length) {
       setFilterData({ ...filterdata, role: originalFilterData.role });
     }
-
+    if (searchInputRef.current) {
+      searchInputRef.current.value = '';
+    }
 
     setShowFilter(false);
   };
@@ -1845,6 +1848,7 @@ const NewReadersReview = (props) => {
                         placeholder="Search by email or name"
                         aria-label="Search"
                         id="email_search"
+                        ref={searchInputRef}
                         onChange={(e) => searchChange(e)}
                       />
                       <button className="btn-outline-success" type="submit">
