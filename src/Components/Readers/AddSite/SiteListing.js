@@ -26,6 +26,7 @@ const SiteListing = () => {
     const [editFlag, setEditFlag] = useState(false);
     const [deletestatus, setDeleteStatus] = useState(false);
     const [filter, setFilter] = useState("");
+    const searchInputRef = useRef(null);
 
     // const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState("");
@@ -221,6 +222,9 @@ const SiteListing = () => {
             setListingDataSite(mainListingDataSite);
             setSearch(''); 
           } 
+          if (searchInputRef.current) {
+            searchInputRef.current.value = '';
+          }
           setShowFilter(false);
           setForceRender(!forceRender);
     }
@@ -430,6 +434,7 @@ const SiteListing = () => {
                                     type="search"
                                     placeholder="Search By Name"
                                     aria-label="Search"
+                                    ref={searchInputRef}
                                     onChange={(e) => searchChange(e)}
                                 />
                                 {!search ? (
