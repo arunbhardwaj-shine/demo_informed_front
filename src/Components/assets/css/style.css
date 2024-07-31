@@ -324,6 +324,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   line-height: 42px;
   font-weight: 500;
   margin: 0;
+  text-transform: capitalize;
 }
 
 .analytics_header .page-title h2 {
