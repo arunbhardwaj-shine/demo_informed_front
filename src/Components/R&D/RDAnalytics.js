@@ -1125,7 +1125,7 @@ const RDAnalytics = () => {
         "sync":1,
         created_by:createdBy
       };
-      const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION,obj);
+      const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2,obj);
       const hadData = response?.data?.data || [];
       setIndividualCompletionTableData(hadData);
       setIndividualCompletionTableDataBackup(hadData);
