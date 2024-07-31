@@ -1151,7 +1151,7 @@ const LibraryContent = (props) => {
                             {
                                 editstatus ? "Cancel" :
                                 <>
-                                    Edit Site
+                                    Edit Content
                                     <img src={`${path_image}edit-button.svg`} alt="" />
                                 </>
                             }

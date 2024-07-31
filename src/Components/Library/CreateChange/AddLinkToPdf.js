@@ -1431,12 +1431,21 @@ const AddLinkToPdf = () => {
               <ul className="tabnav-link">
                 {
                   <>
-                    <li className="active active-main">
-                      <a href="">Create Your Content</a>
-                    </li>
+                    {
+                      isEdit ?
+                        <li>
+                          <a href="">Edit Your Content</a>
+                        </li>
+                      :
+                        <li>
+                          <a href="">Create Your Content</a>
+                        </li>
+                    }
                     {localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==" ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
+                      || localStorage.getItem('user_id') == 'sNl1hra39QmFk9HwvXETJA=='
+                       ? (
                       <li className="active active-main">
                         <a href="">[Embedding Video]</a>
                       </li>
