@@ -977,7 +977,9 @@ const ReaderAdd = () => {
         </Form.Group>
 
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site number </Form.Label>
+          <Form.Label htmlFor="">
+            Site number  <span>*</span>
+            </Form.Label>
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
@@ -1002,9 +1004,16 @@ const ReaderAdd = () => {
             isClearable
             onChange={(e) => handleChange(e?.value, "siteNumber")}
           />
+          {error?.siteNumber ? (
+            <div className="login-validation">{error?.siteNumber}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site name </Form.Label>
+          <Form.Label htmlFor="">
+            Site name  <span>*</span>
+            </Form.Label>
           <Select
             options={userDetail?.siteName}
             placeholder="Select Site Name "
@@ -1029,6 +1038,11 @@ const ReaderAdd = () => {
             isClearable
             onChange={(e) => handleChange(e?.value, "siteName")}
           />
+        {error?.siteName ? (
+            <div className="login-validation">{error?.siteName}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
       </>
     );

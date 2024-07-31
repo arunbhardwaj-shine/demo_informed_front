@@ -29,6 +29,13 @@ export const AddReaderValidation = (data, groupId, flag) => {
     if (!data?.institution) {
       error.institution = "Please select institution";
     }
+
+    if(!data?.siteNumber){
+      error.siteNumber = "Please select site number";
+    }
+      if(!data?.siteName){
+        error.siteName = "Please select site name";
+      }
   }
   if (data?.country == "") {
     error.country = "Please select country";
