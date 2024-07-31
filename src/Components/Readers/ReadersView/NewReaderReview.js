@@ -149,7 +149,7 @@ const NewReadersReview = (props) => {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
   let tooltipObj = {
-    "New": "IRT hasn't started the training yet(no training content sent to)",
+    "New": "IRT hasn't started the training yet (no training content sent to)",
     "Invited": "IRT has recieved the training email",
     "Started": "IRT has started the training but is not finished yet",
     "Completed": "IRT has completed the training and recieved the certificate",
