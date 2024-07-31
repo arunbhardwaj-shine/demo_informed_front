@@ -183,10 +183,10 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                     }
                                     {
                                         isviewshow ? 
-                                        <button className="btn btn-primary btn-filled view">
-                                            <a onClick={() => {
-                                                viewSmartList(data.id)
-                                            }}>
+                                        <button className="btn btn-primary btn-filled view" onClick={() => {
+                                            viewSmartList(data.id)
+                                        }}>
+                                            <a >
                                                 View
                                             </a>
                                         </button>
