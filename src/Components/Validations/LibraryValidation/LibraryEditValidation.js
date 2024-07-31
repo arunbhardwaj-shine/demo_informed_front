@@ -1,5 +1,4 @@
 export const LibraryEditValidation = (data) => {
- 
   let error = {};
 
   if (!data?.limit?.toString()) {
@@ -13,7 +12,7 @@ export const LibraryEditValidation = (data) => {
   if (!data?.contentTitle) {
     error.contentTitle = "Content title is required!";
   }
-  if (data?.hasOwnProperty("chapter")) {
+  if (data?.hasOwnProperty("chapter") && data?.docintelFormat != 'video') {
     data?.chapter?.forEach((item, index) => {
       
       if(item.type == "video" && item.videoType == 'existing'){
@@ -64,13 +63,16 @@ export const LibraryEditValidation = (data) => {
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel format is required!";
   } else if (data?.docintelFormat) {
-    if (data?.docintelFormat == "pdf" && !data?.uploadFile && !data?.pdf_file) {
+    if (data?.docintelFormat == "pdf" && !data?.uploadFile 
+      && !data?.pdf_file?.includes('.pdf')
+    ) {
       error.uploadFile = "Please upload pdf file!";
     }
     if (
       data?.docintelFormat == "video" &&
-      !data?.uploadFile &&
-      !data?.pdf_file
+      !data?.uploadFile 
+      &&
+      !data?.pdf_file?.includes('.mp4')
     ) {
       error.uploadVideo = "Please upload video file!";
     }
