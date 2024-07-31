@@ -37,7 +37,7 @@ const NewReadersReview = (props) => {
   const navigate = useNavigate();
   const { state } = useLocation()
   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-  
+  const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
@@ -2094,9 +2094,10 @@ const NewReadersReview = (props) => {
                       </button>
                     ) : (
                       <button
-                        className="btn btn-outline-primary"
+                        // className="btn btn-outline-primary"
                         title="Delete"
                         onClick={(e) => setDeleteStatus(true)}
+                        className={`btn btn-outline-primary ${isRDAccount?"rd":""}`}
                       >
                         <svg
                           width="24"
