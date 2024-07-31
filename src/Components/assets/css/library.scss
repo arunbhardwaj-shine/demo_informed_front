@@ -9308,7 +9308,7 @@ svg.pencil_icon {
 }
 
 .create-change-content.add-site .form-group {
-  width: 50%;
+  width: 100%;
 }
 
 .create-change-content.add-site button.btn {
@@ -12810,7 +12810,6 @@ svg.pencil_icon {
 }
 
 .upload_reader_excel .sample_btn {
-  float: right;
   font-size: 15px;
   font-weight: 500;
   color: $voilet;
@@ -23142,7 +23141,7 @@ table {
 
     .irt_mandatory-section {
       background: $white;
-      border-radius: 9px;
+      border-radius: 16px;
       padding: 4px 24px;
       display: flex;
       align-items: center;

@@ -395,6 +395,9 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   align-items: center;
   justify-content: center;
 }
+.clear-search button.rd:hover{
+background: #8A4E9C;
+}
 
 .modal .mail-box-heading-block .clear-search.top-right-action .btn.print:active {
   background: var(--light-blue);
