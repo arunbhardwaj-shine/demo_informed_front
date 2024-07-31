@@ -23,7 +23,7 @@ const EmailList = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const isRND = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+  const isRND = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==")
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -1130,7 +1130,7 @@ const EmailList = (props) => {
                             </Accordion.Item>
                           )}
                         {
-                          localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' ?
+                          (localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg=='&& localStorage.getItem('user_id')!=="sNl1hra39QmFk9HwvXETJA==") ?
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
                                 Campaign
@@ -1537,7 +1537,7 @@ const EmailList = (props) => {
                                           <td>{data.smart_list_name}</td>
                                         </tr>
                                         {localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" ? (<>
+                                          "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==" ? (<>
                                             <tr>
                                               <th>Site</th>
                                               {/* <td>
@@ -1990,7 +1990,7 @@ const EmailList = (props) => {
                           </td>
                         </tr>
                         {
-                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==" ?
                             <tr>
                               <th>IRTs </th>
                               <td>
