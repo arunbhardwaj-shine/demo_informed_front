@@ -1174,6 +1174,7 @@ const SiteListing = () => {
                                                 </button>
                                             </span>            
                                         </th>
+                                        <th></th>
                                         {/* <th scope="col">Action</th> */}
                                     </tr>
                                 </thead>
