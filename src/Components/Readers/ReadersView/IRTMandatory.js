@@ -33,8 +33,15 @@ const IRTMandatory = ()  => {
       exporting: {
         enabled: false,
       },
+     
       tooltip: {
-        pointFormat: "{series.name}: <b>{point.y}</b>",
+        formatter: function() {
+          if (this.point.isPlaceholder) {
+            return '0';
+          } else {
+            return  `${this.point.name}: <b>${this.point.y}</b>`
+          }
+        }
       },
       accessibility: {
         point: {
@@ -53,8 +60,7 @@ const IRTMandatory = ()  => {
         }
       },
       series: [],
-    };
-    
+    };    
     const [roleData, setRoleData] = useState({});
   
     useEffect(() => {
@@ -69,22 +75,41 @@ const IRTMandatory = ()  => {
         let finalRoleData = {};  
         Object.keys(result).forEach((roleKey,index) => {
           const roleInfo = result[roleKey];
-          const pieChartData = [
-            {
-              name: "",
-              colorByPoint: true,
-              data: [
-                { name: "New", y: roleInfo.new || 0, color: colors[0] },
-                { name: "Invited", y: roleInfo.invited || 0, color: colors[1] },
-                { name: "Started", y: roleInfo.started || 0, color: colors[2] },                
-                { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
-                { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
-                { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
-              ],
-              size: "110%",
-              innerSize: "60%",
-            },
-          ];
+          let pieChartData=[]
+          if(roleInfo?.all!=0){
+            pieChartData = [
+              {
+                name: "",
+                colorByPoint: true,
+                data: [
+                  { name: "New", y: roleInfo.new || 0, color: colors[0] },
+                  { name: "Invited", y: roleInfo.invited || 0, color: colors[1] },
+                  { name: "Started", y: roleInfo.started || 0, color: colors[2] },                
+                  { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
+                  { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
+                  { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
+                ],
+                size: "110%",
+                innerSize: "60%",
+              },
+            ];
+          }else{
+            pieChartData = [
+              {
+                name: "",
+                colorByPoint: true,
+                data: [
+                  { 
+                    name: "No user", 
+                    y:1, 
+                    color: 'rgba(151, 182, 207, 0.2)' ,
+                    isPlaceholder: true},
+                ],
+                size: "110%",
+                innerSize: "60%",
+              },
+            ];
+          }
 
           const events= updatingChartImage(index)
   
