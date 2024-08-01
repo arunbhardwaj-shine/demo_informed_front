@@ -183,12 +183,6 @@ const IRTRole = ()  => {
               {Object.keys(roleData)?.length? Object.keys(roleData)?.map((roleKey,index)=>{
 
                  const role = roleData[roleKey];
-                 const newValue = role.pieChartOptions.series[0].data.find(item => item.name === "New")?.y || 0;
-                 const invitedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Invited")?.y || 0;
-                 const startedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Started")?.y || 0;
-                 const completedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Completed")?.y || 0;
-                 const notCompletedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Not Completed")?.y || 0;
-                 const ignoredValue = role.pieChartOptions.series[0].data.find(item => item.name === "Ignored")?.y || 0;
                  return(
                  <div className="irt_mandatory-block w-100">
                 <div className="irt_mandatory-listing">
@@ -202,27 +196,27 @@ const IRTRole = ()  => {
                    <div className="d-flex mandatory-section">
                    <Col className="new">
                      <p>New</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.new!=0)? `${Math.round((role?.new/role?.all)*100)}`:0}%%&nbsp; ({newValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.new!=0)? `${Math.round((role?.new/role?.all)*100)}`:0}%&nbsp; ({role?.new})</div>
                    </Col>
                    <Col className="invited">
                      <p>Invited</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.invited!=0)? `${Math.round((role?.invited/role?.all)*100)}`:0}%%&nbsp; ({invitedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.invited!=0)? `${Math.round((role?.invited/role?.all)*100)}`:0}%&nbsp; ({role?.invited})</div>
                    </Col>
                    <Col className="started">
                      <p>Started</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.started!=0)? `${Math.round((role?.started/role?.all)*100)}`:0}%&nbsp; ({startedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.started!=0)? `${Math.round((role?.started/role?.all)*100)}`:0}%&nbsp; ({role?.started})</div>
                    </Col>
                    <Col className="completed">
                      <p>Completed</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.completed!=0)? `${Math.round((role?.completed/role?.all)*100)}`:0}%&nbsp; ({completedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.completed!=0)? `${Math.round((role?.completed/role?.all)*100)}`:0}%&nbsp; ({role?.completed})</div>
                    </Col>
                    <Col className="not-completed">
                      <p>Not Completed</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.notCompleted!=0)? `${Math.round((role?.notCompleted/role?.all)*100)}`:0}%&nbsp; ({notCompletedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.notCompleted!=0)? `${Math.round((role?.notCompleted/role?.all)*100)}`:0}%&nbsp; ({role?.notCompleted})</div>
                    </Col>
                    <Col className="ignored">
                      <p>Ignored</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all)*100)}`:0}%&nbsp; ({ignoredValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all)*100)}`:0}%&nbsp; ({role?.ignored})</div>
                    </Col>
                     <Button onClick={()=>navigateToEmailList(parseInt(role?.pdf_id), roleKey)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
