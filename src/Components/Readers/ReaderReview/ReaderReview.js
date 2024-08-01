@@ -102,7 +102,9 @@ const ReaderReview = () => {
               <Col md="9">
                 <ul className="tabnav-link">
                   <li className="">
-                    <a href="">{state?.flag ? "Edit " : "Create "} CRM</a>
+                    <a href="">{state?.flag ? "Edit " : "Create "} 
+                      {state?.siteRole? state?.siteRole:"CRM"}
+                      </a>
                   </li>
                   <li className="active active-main">
                     <a href="">Review &amp; approve</a>
