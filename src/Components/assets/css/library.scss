@@ -597,7 +597,30 @@
     }
   }
 }
-
+.mail-recipt{
+.library-content-box-layuot {
+  &.readerlist {
+    padding:0!important;
+    .doc-content-main-box {
+      flex: 0 0 100%;
+      max-width: 365px;
+      .tabs-data{
+        .nav-tabs{
+          .nav-item {
+            flex: 0 0 150px;
+          }
+        } 
+        .tab-content{
+          min-height: 190px;
+          .tab-pane {
+            min-height: 170px;
+        }
+        }
+      } 
+    }
+  }
+}
+}
 .create-change-content {
   background: rgba(0, 102, 190, 0.03);
   border-radius: 20px;

@@ -3,7 +3,7 @@ import { getEmailData } from "../../actions";
 import { connect, connectAdvanced } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Modal,Tab,Tabs } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { compose } from "redux";
@@ -14,6 +14,7 @@ import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 
 const VerifyHcpMAIL = (props) => {
+  console.log(props?.getEmailData,props?.getDraftData,props?.getSelected)
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -27,30 +28,34 @@ const VerifyHcpMAIL = (props) => {
   const [getSmartListData, setSmartListData] = useState([]);
   const [reRender, setReRender] = useState(0);
   const [template_source_code, setTemplate] = useState(
-    props.getEmailData?.template
-      ? props.getEmailData.template
-      : props.getDraftData.source_code
+    props?.getEmailData?.template
+      ? props?.getEmailData?.template
+      : props?.getDraftData?.source_code
   );
 
-  var var_template_source_code = template_source_code.replaceAll("800", "450");
-  var_template_source_code = var_template_source_code.replaceAll("600", "450");
+  var var_template_source_code = template_source_code?.replaceAll("800", "450");
+  var_template_source_code = var_template_source_code?.replaceAll("600", "450");
 
   const selectedHcp = (location?.state?.selectedHcp&&location?.state?.selectedHcp!="undefined")
     ? location?.state?.selectedHcp
-    : props.getDraftData.campaign_data.selectedHcp;
+    : props?.getDraftData?.campaign_data?.selectedHcp ?
+      props?.getDraftData?.campaign_data?.selectedHcp
+    : props?.getSelected ? 
+      props?.getSelected
+    : [];
 
     // console.log("location--->",location.state?.selectedHcp)
     // console.log("getDraftData--->",props.getDraftData.campaign_data.selectedHcp)
 
-    const searchedUsers = location.state
-    ? location.state?.searchedUsers
+    const searchedUsers = location?.state
+    ? location?.state?.searchedUsers
     : props.getDraftData?.campaign_data?.searchedUsers
     ?props.getDraftData?.campaign_data?.searchedUsers
     :[];
 
-  const PdfSelected = location.state
-    ? location.state.PdfSelected
-    : props.getDraftData.PdfSelected;
+  const PdfSelected = location?.state
+    ? location?.state?.PdfSelected
+    : props?.getDraftData?.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
 
@@ -69,6 +74,11 @@ const VerifyHcpMAIL = (props) => {
   const [irtRoleObj,setIRTRoleObj] = useState(
     typeof location?.state?.IrtObj !== "undefined" ? location?.state?.IrtObj : {}
   );
+
+  const [IRTTraining, setIRTTraining] = useState(props?.getEmailData?.startTraining  ? props?.getEmailData?.startTraining : 0);
+
+  const BrokenImage =
+    "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
   useEffect(() => {
     let campaign_id =
@@ -115,6 +125,8 @@ const VerifyHcpMAIL = (props) => {
     }
 
     getpdfData();
+
+
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -545,6 +557,11 @@ const VerifyHcpMAIL = (props) => {
       state: {IrtObj:irtRoleObj},
     });
   };
+
+  const imageOnError = (event) => {
+    event.currentTarget.src = BrokenImage;
+    event.currentTarget.className = "error";
+  };
   
 
   return (
@@ -596,7 +613,10 @@ const VerifyHcpMAIL = (props) => {
                      :
                           */}
                     <li className="active" onClick={handleVerifyHCPClicked}>
-                      Select Verify Your HCPs
+                      {
+                        IRTTraining ? "Verify Your IRT" : "Select & Verify Your HCPs"
+                      }
+                      
                     </li>
 
                     <li className="active active-main">
@@ -606,12 +626,21 @@ const VerifyHcpMAIL = (props) => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button
-                      className="btn btn-primary btn-bordered move-draft"
-                      onClick={saveAsDraft}
-                    >
-                      Save As Draft
-                    </button>
+                    {
+                      IRTTraining ? 
+                      <Link to = {"/new-readers-reviews"}
+                        state= {{siteRole: irtRoleObj?.siteRole }}
+                        className="btn btn-primary btn-bordered move-draft">
+                        Cancel
+                      </Link>
+                      :
+                      <button
+                        className="btn btn-primary btn-bordered move-draft"
+                        onClick={saveAsDraft}
+                      >
+                        Save As Draft
+                      </button>
+                    }
                     <button
                       className={
                         getSelectedPdfId == 13
@@ -636,23 +665,23 @@ const VerifyHcpMAIL = (props) => {
                         <h4>Email Details</h4>
                         <h6>
                           <strong>Campaign Title | </strong>
-                          {props.getEmailData?.emailCampaign
-                            ? props.getEmailData.emailCampaign
-                            : props.getDraftData.campaign}
+                          {props?.getEmailData?.emailCampaign
+                            ? props?.getEmailData?.emailCampaign
+                            : props?.getDraftData?.campaign}
                         </h6>
                         <h6>
                           <strong>Creator | </strong>
-                          {props.getEmailData?.emailCreator
-                            ? props.getEmailData.emailCreator
-                            : props.getDraftData?.creator
-                            ? props.getDraftData.creator
+                          {props?.getEmailData?.emailCreator
+                            ? props?.getEmailData?.emailCreator
+                            : props?.getDraftData?.creator
+                            ? props?.getDraftData?.creator
                             : ""}
                         </h6>
                         <h6>
                           <strong>Tags | </strong>
                           <ul>
-                            {props.getEmailData?.tags
-                              ? props.getEmailData.tags.map((tags, i) => {
+                            {props?.getEmailData?.tags
+                              ? props?.getEmailData?.tags.map((tags, i) => {
                                   return (
                                     <>
                                       <li className="list1">
@@ -666,11 +695,11 @@ const VerifyHcpMAIL = (props) => {
                                     </>
                                   );
                                 })
-                              : props.getDraftData.tags.map((tags, i) => {
+                              : props?.getDraftData?.tags.map((tags, i) => {
                                   return (
                                     <>
                                       <li className="list1">
-                                        {tags.innerHTML || tags}{" "}
+                                        {tags?.innerHTML || tags}{" "}
                                         <img
                                           src={path_image + "filter-close.svg"}
                                           alt="Close-filter"
@@ -721,84 +750,125 @@ const VerifyHcpMAIL = (props) => {
                             getSelectedPdfId != 13 &&
                             getSelectedPdfId != 14 &&
                             getSelectedPdfId != 16 && (
-                              <div className="mail-content-select-box">
-                                <div className="mail-content-select-top">
-                                  <div className="mail-preview-img">
-                                    <img
-                                      src={path_image + "dummy-img.png"}
-                                      alt="Preview "
-                                    />
-                                  </div>
-                                  <div className="mail-box-content">
-                                    <h5>{getpdfdata.pdf_title}</h5>
-                                    <p>{getpdfdata.pdf_sub_title}</p>
-                                    <div className="mailbox-tags">
-                                      <ul>
-                                        {typeof getpdfdata.pdf_tags !==
-                                          "undefined" &&
-                                        getpdfdata.pdf_tags.length > 0 ? (
-                                          getpdfdata.pdf_tags.map((tag) => {
-                                            return (
-                                              <li className="list1">{tag}</li>
-                                            );
-                                          })
-                                        ) : (
-                                          <li className="list1">N/A</li>
-                                        )}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="mail-content-table">
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th>Upload date</th>
-                                        <td>{getpdfdata.pdf_created}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Language</th>
-                                        <td>{getpdfdata.pdf_language}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>SPC</th>
-                                        <td>
-                                          {getpdfdata.pdf_spc_included === 0
-                                            ? "No"
-                                            : "Yes"}
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <th>Last email</th>
-                                        <td>
-                                          {getpdfdata.pdf_last_sent == ""
-                                            ? "N/A"
-                                            : getpdfdata.pdf_last_sent}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <div className="mail-content-footer">
-                                  {
-                                    getpdfdata?.pdf_spc_included ? 
-                                      <button className="btn btn-primary btn-filled" onClick={() =>
-                                        handleSpcFun(getpdfdata?.spc_url)
-                                      }>
-                                        Preview
-                                      </button>
-                                    : 
-                                    <a
-                                      href={getpdfdata.pdf_preview_link}
-                                      target="_blank"
-                                    >
-                                      <button className="btn btn-primary btn-filled">
-                                        Preview
-                                      </button>
+                            <div className="library-content-box-layuot readerlist">
+                              <div className="doc-content-main-box" key={getSelectedPdfId}>
+                                
+                              <div className="doc-content-header">
+                                <div className="doc-content-header-logo">
+                                    <a href="#">
+                                      <img
+                                        alt="doc-logo"
+                                        src={getpdfdata?.pdf_cover_img}
+                                        onError={imageOnError}
+                                        style={{ width: "67px" }}
+                                      />
                                     </a>
-                                  }
+                                  </div>
+                                <div className="doc-content">
+                                <h5
+                                      dangerouslySetInnerHTML={{
+                                        __html: getpdfdata?.pdf_title,
+                                      }}
+                                ></h5>
+                                <h6>
+                                      {getpdfdata?.pdf_sub_title
+                                        ? getpdfdata.pdf_sub_title
+                                        : getpdfdata?.folder_name}
+                                  </h6>
+                                  <p>{getpdfdata?.key_author}</p>
+                                    <div className="select-tags">
+                                      {getpdfdata?.tags?.length
+                                        ? JSON.parse(getpdfdata.tags)?.map((data) => {
+                                          return <div>{data}</div>;
+                                        })
+                                        : ""}
+                                    </div>
                                 </div>
                               </div>
+                                
+                                <div className="tabs-data">
+                                  <Tabs
+                                    defaultActiveKey="docintel-link"
+                                    fill
+                                  >
+                                    <Tab
+                                      eventKey="docintel-link"
+                                      title="Docintel Link"
+                                      className="flex-column justify-content-between"
+                                    >
+                                      <div className="tab-panel d-flex flex-column justify-content-between">
+                                        <div className="tab-content-links">
+                                        <a href={getpdfdata?.docintel_link}
+                                          className="doc-link"
+                                          target="_blank"
+                                        >
+                                          {getpdfdata?.docintel_link}
+                                        </a>
+                                        {/* <span className="copy-content"><img src={path_image + "copy-content.svg"} alt="Copy"/> */}
+                                        {/* </span> */}
+                                        </div>
+                                        <ul className="tab-mail-list">
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Upload date
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.article_date}
+                                            </h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              inforMedGO code
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.informed_code}
+                                            </h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Docintel code
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.docintel_code}
+                                            </h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Language
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.pdf_language}
+                                            </h6>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div className="mail-content-footer">
+                                        {
+                                          getpdfdata?.pdf_spc_included ? 
+                                            <button className="btn btn-primary btn-filled" onClick={() =>
+                                              handleSpcFun(getpdfdata?.spc_url)
+                                            }>
+                                              Preview
+                                            </button>
+                                          : 
+                                          <a
+                                            href={getpdfdata.pdf_preview_link}
+                                            target="_blank"
+                                          >
+                                            <button className="btn btn-primary btn-filled">
+                                              Preview
+                                            </button>
+                                          </a>
+                                        }
+                                      </div>
+                                    </Tab>
+                                  </Tabs>
+                                </div>
+                              </div>
+                            </div>
                             )}
                           {getSelectedPdfId == 13 && (
                             <>
@@ -879,6 +949,96 @@ const VerifyHcpMAIL = (props) => {
                           <h6>
                             The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
+
+                          {
+                            IRTTraining && selectedHcp?.length == 1 ?
+                              (
+                                selectedHcp.map((data, index) => {
+                                  return (
+                                    <>
+                                      <div className="library-content-box-layuot readerlist d-flex">
+                                        <div className="doc-content-main-box col" key={index}>
+                                          <div className="doc-content-header">
+                                            <div className="doc-content d-flex justify-content-between w-100">
+                                              <h4>
+                                                {data?.first_name} {data?.last_name}
+                                              </h4>
+                                            </div>
+                                          </div>
+                                          <div className="tabs-data">
+                                            <Tabs
+                                              defaultActiveKey="personal-details"
+                                              fill
+                                            >
+                                              <Tab
+                                                eventKey="personal-details"
+                                                title="Personal Details"
+                                                className="flex-column justify-content-between"
+                                              >
+                                                <div className="tab-panel d-flex flex-column justify-content-between">
+                                                  <ul className="tab-mail-list">
+                                                    <li>
+                                                      <h6 className="tab-content-title">
+                                                        Email
+                                                      </h6>
+                                                      <h6>
+                                                        {data?.email ? data?.email : "N/A"}
+                                                      </h6>
+                                                    </li>
+
+                                                    <li>
+                                                      <h6 className="tab-content-title">
+                                                        Country
+                                                      </h6>
+                                                      <h6>
+                                                        {data?.country
+                                                          ? data?.country == "B&H"
+                                                            ? "Bosnia and Herzegovina"
+                                                            : data?.country
+                                                          : "N/A"}
+                                                      </h6>
+                                                    </li>
+
+                                                    <li>
+                                                      <h6 className="tab-content-title">
+                                                        IRT role
+                                                      </h6>
+                                                      <h6>
+                                                        {data?.user_type}
+                                                      </h6>
+                                                    </li>
+
+                                                    <li>
+                                                      <h6 className="tab-content-title">
+                                                        Site number
+                                                      </h6>
+                                                      <h6>
+                                                        {data?.site_number}
+                                                      </h6>
+                                                    </li>
+
+                                                    <li>
+                                                      <h6 className="tab-content-title">
+                                                        Site name
+                                                      </h6>
+                                                      <h6>
+                                                        {data?.site_name}
+                                                      </h6>
+                                                    </li>
+                                                  </ul>
+                                                </div>
+                                              </Tab>
+                                            </Tabs>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </>
+                                  )
+                                })
+                              )
+                              :
+                              null
+                          }
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
                           {/*getSmartListData.length !== 0 && (
@@ -1003,9 +1163,9 @@ const VerifyHcpMAIL = (props) => {
                 <div className="col-12 verify-right">
                   <div className="preview_mail">
                     <h4>
-                      {props.getEmailData?.emailSubject
-                        ? props.getEmailData.emailSubject
-                        : props.getDraftData.subject}
+                      {props?.getEmailData?.emailSubject
+                        ? props?.getEmailData?.emailSubject
+                        : props?.getDraftData?.subject}
                     </h4>
                     {/*
                   <p>

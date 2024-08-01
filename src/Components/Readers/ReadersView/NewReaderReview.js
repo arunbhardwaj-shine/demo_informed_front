@@ -1732,24 +1732,42 @@ const NewReadersReview = (props) => {
     }
 
     if(pdfid != 0){
+      let userDetails = [];
+      var reducHcp = user_id.split();
+      let body = {
+        user_id: localStorage.getItem("user_id"),
+        readers_id: reducHcp,
+      };
+      loader("show");
+      await axios
+      .post(`emailapi/get_user_details`, body)
+      .then((res) => {
+        userDetails = res.data.response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+
       try {
         const body = {
           user_id: localStorage.getItem("user_id"),
           pdf_id: pdfid,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
+        
         await axios
           .post(`emailapi/get_rd_campaign_data`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
               let campaign_data = res?.data?.response?.data;
-              const selectedHcp = [{
-                'profile_user_id': user_id,
-              }];
-              console.log(campaign_data,'campaign_data',selectedHcp,'selectedHcp');
+              // const selectedHcp = [{
+              //   'profile_user_id': user_id,
+              // }];
+              // console.log(userDetails,selectedHcp)
+              campaign_data['startTraining'] = 1;
               props.getEmailData(campaign_data);
-              props.getSelected(selectedHcp);
+              props.getSelected(userDetails);
             } else {
               toast.warning(res.data.message);
             }
@@ -1759,7 +1777,8 @@ const NewReadersReview = (props) => {
             loader("hide");
             toast.error("Something went wrong");
           });
-        navigate("/VerifyHCP", {
+          console.log(irtRoleObj,'irtRoleObj')
+        navigate("/VerifyHcpMAIL", {
           state: { IrtObj: irtRoleObj, NextFlag: 1 },
         });
       } catch (err) {
