@@ -230,8 +230,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
                 </OverlayTrigger>
               </div>
             </div>
-
-            {columnOptions?.series?.length ? (
+            {columnOptions?.series?.some((item)=>item?.data?.length>0) ? (
               <>
                 <div className="graph-box">
                   <div className="d-flex justify-content-between align-items-center">
