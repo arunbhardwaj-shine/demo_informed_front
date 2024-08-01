@@ -31,7 +31,7 @@ const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
       enabled: false,
     },
     tooltip: {
-      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{series.name}: <b>{point.y}</b>",
     },
     accessibility: {
       point: {
@@ -45,10 +45,11 @@ const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
     plotOptions: {
       pie: {
         size: "80%",
-        // innerSize: "65%",
         dataLabels: {
           enabled: true,
-          format: "{point.y}",
+          formatter: function () {
+            return this.point.selected ? this.point.y : null;
+          },
           style: {
             fontWeight: "bold",
             color: "white",
@@ -93,6 +94,10 @@ const entering = (e) => {
       setPieData({
         completed: result?.data?.data?.completed,
         notcompleted: result?.data?.data?.notcompleted,
+        ignored: result?.data?.data?.ignored,
+        invited: result?.data?.data?.invited,
+        new: result?.data?.data?.new,
+        started: result?.data?.data?.started,
         total: result?.data?.data?.total,
         pending: result?.data?.data?.pending,
       });
@@ -111,20 +116,44 @@ const entering = (e) => {
             },
             {
               name: "Not Completed",
-              y: result?.data?.data?.notcompleted
-                ? result?.data?.data?.notcompleted
+              y: result?.data?.data?.notCompleted
+                ? result?.data?.data?.notCompleted
                 : 0,
 
               color: '#f58289',
             },
-            // {
-            //   name: "Ignored",
-            //   y: result?.data?.data?.pending
-            //     ? result?.data?.data?.pending
-            //     : 0,
+            {
+              name: "Ignored",
+              y: result?.data?.data?.ignored
+                ? result?.data?.data?.ignored
+                : 0,
 
-            //   color: '#f58289',
-            // },
+              color: "#FF9534",
+            },
+            {
+              name: "Invited",
+              y: result?.data?.data?.invited
+                ? result?.data?.data?.invited
+                : 0,
+
+              color: "#0066be",
+            },
+            {
+              name: "New",
+              y: result?.data?.data?.new
+                ? result?.data?.data?.new
+                : 0,
+
+              color: "#8A4E9C",
+            },
+            {
+              name: "Started",
+              y: result?.data?.data?.started
+                ? result?.data?.data?.started
+                : 0,
+
+              color: '#FAC755',
+            },
           ],
         },
       ];

@@ -182,11 +182,17 @@ const IRTMandatory = ()  => {
               {Object.keys(roleData)?.length? Object.keys(roleData)?.map((roleKey,index)=>{
 
                  const role = roleData[roleKey];
+                 const newValue = role.pieChartOptions.series[0].data.find(item => item.name === "New")?.y || 0;
+                 const invitedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Invited")?.y || 0;
+                 const startedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Started")?.y || 0;
+                 const completedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Completed")?.y || 0;
+                 const notCompletedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Not Completed")?.y || 0;
+                 const ignoredValue = role.pieChartOptions.series[0].data.find(item => item.name === "Ignored")?.y || 0;
                  return(
                  <div className="irt_mandatory-block w-100">
                 <div className="irt_mandatory-listing">
                  <div className="irt_mandatory-section"  >
-                 <h3>{roleKey}</h3>
+                 <h3 onClick={()=>navigateToEmailList(roleKey)}>{roleKey}</h3>
                  <div className="d-flex align-items-center irt-content-preview">
                    <div className="count-number">{role?.all}</div>
                    {/* {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) ? ( */}
@@ -195,27 +201,27 @@ const IRTMandatory = ()  => {
                    <div className="d-flex mandatory-section">
                    <Col className="new">
                      <p>New</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.new!=0)?(((role?.new/role?.all))*100).toFixed(2):0}%</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.new!=0)?`${Math.round((role?.new / role?.all) * 100)}`:0}%&nbsp; ({newValue})</div>
                    </Col>
                    <Col className="invited">
                      <p>Invited</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.invited!=0)?(((role?.invited/role?.all))*100).toFixed(2):0}%</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.invited!=0)? `${Math.round((role?.invited/role?.all)*100)}`:0}%&nbsp; ({invitedValue})</div>
                    </Col>
                    <Col className="started">
                      <p>Started</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.started!=0)?(((role?.started/role?.all))*100).toFixed(2):0}%</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.started!=0)? `${Math.round((role?.started/role?.all)*100)}`:0}%&nbsp; ({startedValue})</div>
                    </Col>
                    <Col className="completed">
                      <p>Completed</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.completed!=0)?(((role?.completed/role?.all))*100).toFixed(2):0}%</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.completed!=0)? `${Math.round((role?.completed/role?.all)*100)}`:0}%&nbsp; ({completedValue})</div>
                    </Col>
                    <Col className="not-completed">
                      <p>Not Completed</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.notCompleted!=0)?(((role?.notCompleted/role?.all))*100).toFixed(2):0}%</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.notCompleted!=0)? `${Math.round((role?.notCompleted/role?.all))*100}`:0}%&nbsp; ({notCompletedValue})</div>
                    </Col>
                    <Col className="ignored">
                      <p>Ignored</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)?(((role?.ignored/role?.all))*100).toFixed(2):0}%</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all))*100}`:0}%&nbsp; ({ignoredValue})</div>
                    </Col>
                     <Button onClick={()=>navigateToEmailList(roleKey)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
