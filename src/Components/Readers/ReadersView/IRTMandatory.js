@@ -33,8 +33,15 @@ const IRTMandatory = ()  => {
       exporting: {
         enabled: false,
       },
+     
       tooltip: {
-        pointFormat: "{series.name}: <b>{point.y}</b>",
+        formatter: function() {
+          if (this.point.isPlaceholder) {
+            return '0';
+          } else {
+            return  `${this.point.name}: <b>${this.point.y}</b>`
+          }
+        }
       },
       accessibility: {
         point: {
@@ -53,8 +60,7 @@ const IRTMandatory = ()  => {
         }
       },
       series: [],
-    };
-    
+    };    
     const [roleData, setRoleData] = useState({});
   
     useEffect(() => {
@@ -69,22 +75,41 @@ const IRTMandatory = ()  => {
         let finalRoleData = {};  
         Object.keys(result).forEach((roleKey,index) => {
           const roleInfo = result[roleKey];
-          const pieChartData = [
-            {
-              name: "",
-              colorByPoint: true,
-              data: [
-                { name: "New", y: roleInfo.new || 0, color: colors[0] },
-                { name: "Invited", y: roleInfo.invited || 0, color: colors[1] },
-                { name: "Started", y: roleInfo.started || 0, color: colors[2] },                
-                { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
-                { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
-                { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
-              ],
-              size: "110%",
-              innerSize: "60%",
-            },
-          ];
+          let pieChartData=[]
+          if(roleInfo?.all!=0){
+            pieChartData = [
+              {
+                name: "",
+                colorByPoint: true,
+                data: [
+                  { name: "New", y: roleInfo.new || 0, color: colors[0] },
+                  { name: "Invited", y: roleInfo.invited || 0, color: colors[1] },
+                  { name: "Started", y: roleInfo.started || 0, color: colors[2] },                
+                  { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
+                  { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
+                  { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
+                ],
+                size: "110%",
+                innerSize: "60%",
+              },
+            ];
+          }else{
+            pieChartData = [
+              {
+                name: "",
+                colorByPoint: true,
+                data: [
+                  { 
+                    name: "No user", 
+                    y:1, 
+                    color: 'rgba(151, 182, 207, 0.2)' ,
+                    isPlaceholder: true},
+                ],
+                size: "110%",
+                innerSize: "60%",
+              },
+            ];
+          }
 
           const events= updatingChartImage(index)
   
@@ -157,12 +182,6 @@ const IRTMandatory = ()  => {
               {Object.keys(roleData)?.length? Object.keys(roleData)?.map((roleKey,index)=>{
 
                  const role = roleData[roleKey];
-                 const newValue = role.pieChartOptions.series[0].data.find(item => item.name === "New")?.y || 0;
-                 const invitedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Invited")?.y || 0;
-                 const startedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Started")?.y || 0;
-                 const completedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Completed")?.y || 0;
-                 const notCompletedValue = role.pieChartOptions.series[0].data.find(item => item.name === "Not Completed")?.y || 0;
-                 const ignoredValue = role.pieChartOptions.series[0].data.find(item => item.name === "Ignored")?.y || 0;
                  return(
                  <div className="irt_mandatory-block w-100">
                 <div className="irt_mandatory-listing">
@@ -176,27 +195,27 @@ const IRTMandatory = ()  => {
                    <div className="d-flex mandatory-section">
                    <Col className="new">
                      <p>New</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.new!=0)?`${Math.round((role?.new / role?.all) * 100)}`:0}%&nbsp; ({newValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.new!=0)?`${Math.round((role?.new / role?.all) * 100)}`:0}%&nbsp; ({role?.new})</div>
                    </Col>
                    <Col className="invited">
                      <p>Invited</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.invited!=0)? `${Math.round((role?.invited/role?.all)*100)}`:0}%&nbsp; ({invitedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.invited!=0)? `${Math.round((role?.invited/role?.all)*100)}`:0}%&nbsp; ({role?.invited})</div>
                    </Col>
                    <Col className="started">
                      <p>Started</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.started!=0)? `${Math.round((role?.started/role?.all)*100)}`:0}%&nbsp; ({startedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.started!=0)? `${Math.round((role?.started/role?.all)*100)}`:0}%&nbsp; ({role?.started})</div>
                    </Col>
                    <Col className="completed">
                      <p>Completed</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.completed!=0)? `${Math.round((role?.completed/role?.all)*100)}`:0}%&nbsp; ({completedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.completed!=0)? `${Math.round((role?.completed/role?.all)*100)}`:0}%&nbsp; ({role?.completed})</div>
                    </Col>
                    <Col className="not-completed">
                      <p>Not Completed</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.notCompleted!=0)? `${Math.round((role?.notCompleted/role?.all))*100}`:0}%&nbsp; ({notCompletedValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.notCompleted!=0)? `${Math.round((role?.notCompleted/role?.all)*100)}`:0}%&nbsp; ({role?.notCompleted})</div>
                    </Col>
                    <Col className="ignored">
                      <p>Ignored</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all))*100}`:0}%&nbsp; ({ignoredValue})</div>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all)*100)}`:0}%&nbsp; ({role?.ignored})</div>
                    </Col>
                     <Button onClick={()=>navigateToEmailList(roleKey)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
