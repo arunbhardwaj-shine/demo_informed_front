@@ -1382,7 +1382,7 @@ const LibraryContent = (props) => {
                       ) : (
 
                         <button
-                          className="btn btn-outline-primary"
+                        className={`btn btn-outline-primary ${isRDAccount?"rd":""}`}
                           title="Delete "
                           onClick={(e) => showDeleteButtons()}
                         >

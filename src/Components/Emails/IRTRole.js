@@ -337,9 +337,9 @@ const IRTRole = ()  => {
                  <h3 onClick={()=>navigateToEmailList(parseInt(role?.pdf_id), roleKey)}>{roleKey}</h3>
                  <div className="d-flex align-items-center irt-content-preview">
                    <div className="count-number">{role?.all}</div>
-                   {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) && (
+                   {/* {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) ? ( */}
                         <HighchartsReact highcharts={Highcharts} options={role.pieChartOptions} />
-                      )}
+                      {/* ):null} */}
                    <div className="d-flex mandatory-section">
                    <Col className="new">
                      <p>New</p>
