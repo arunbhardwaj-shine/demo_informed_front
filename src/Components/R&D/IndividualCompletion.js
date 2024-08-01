@@ -31,7 +31,7 @@ const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
       enabled: false,
     },
     tooltip: {
-      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+      pointFormat: "{series.name}: <b>{point.y}</b>",
     },
     accessibility: {
       point: {
@@ -45,10 +45,11 @@ const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
     plotOptions: {
       pie: {
         size: "80%",
-        // innerSize: "65%",
         dataLabels: {
           enabled: true,
-          format: "{point.y}",
+          formatter: function () {
+            return this.point.selected ? this.point.y : null;
+          },
           style: {
             fontWeight: "bold",
             color: "white",
