@@ -1,4 +1,5 @@
-export const AddReaderValidation = (data, groupId, flag) => {
+export const AddReaderValidation = (data, groupId, siteRole) => {
+  console.log('role-->',siteRole);
   let error = {};
 
   const regemail =
@@ -29,6 +30,13 @@ export const AddReaderValidation = (data, groupId, flag) => {
     if (!data?.institution) {
       error.institution = "Please select institution";
     }
+
+    if(!data?.siteNumber&&siteRole!=undefined){
+      error.siteNumber = "Please select site number";
+    }
+      if(!data?.siteName&&siteRole!=undefined){
+        error.siteName = "Please select site name";
+      }
   }
   if (data?.country == "") {
     error.country = "Please select country";

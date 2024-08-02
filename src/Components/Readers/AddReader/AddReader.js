@@ -619,6 +619,7 @@ const ReaderAdd = () => {
         navigate("/readers-list", {
           state: {
             readersData: response?.data?.data,
+            siteRole: state?.siteRole ? state?.siteRole : null
           },
         });
       }
@@ -701,7 +702,7 @@ const ReaderAdd = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==") {
         if(state?.siteRole == 'Site User-Blinded'){
             link.href = "https://webinar.informed.pro/R_D_Site_User.xlsx";
         }else if(state?.siteRole == 'Investigator-Blinded'){
@@ -711,9 +712,11 @@ const ReaderAdd = () => {
         }else{
           link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
         }
-    } else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
-      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    } else {
+    }
+    //  else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    //   link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
+    // } 
+    else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
     }
     link.setAttribute("download", "file.xlsx");
@@ -977,7 +980,9 @@ const ReaderAdd = () => {
         </Form.Group>
 
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site number </Form.Label>
+          <Form.Label htmlFor="">
+            Site number  <span>*</span>
+            </Form.Label>
           <Select
             options={userDetail?.siteNumber}
             placeholder="Select Site Number"
@@ -1002,9 +1007,16 @@ const ReaderAdd = () => {
             isClearable
             onChange={(e) => handleChange(e?.value, "siteNumber")}
           />
+          {error?.siteNumber ? (
+            <div className="login-validation">{error?.siteNumber}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
         <Form.Group className="form-group">
-          <Form.Label htmlFor="">Site name </Form.Label>
+          <Form.Label htmlFor="">
+            Site name  <span>*</span>
+            </Form.Label>
           <Select
             options={userDetail?.siteName}
             placeholder="Select Site Name "
@@ -1029,6 +1041,11 @@ const ReaderAdd = () => {
             isClearable
             onChange={(e) => handleChange(e?.value, "siteName")}
           />
+        {error?.siteName ? (
+            <div className="login-validation">{error?.siteName}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
       </>
     );
