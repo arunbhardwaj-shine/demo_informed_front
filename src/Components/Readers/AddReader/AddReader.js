@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import MarketingAddReader from "./MarketingAddReader";
 import axios from "axios";
+import PhoneInput from "react-phone-number-input";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ReaderLayout = () => {
   return (
@@ -144,8 +145,8 @@ const ReaderAdd = () => {
     firstName: "",
     hospital: "",
     interestArea: "",
-    irt: 1,
-    institution: "Study site",
+    irt: "",
+    institution: "",
     lastName: "",
     middleName: "",
     notes: "",
@@ -229,7 +230,7 @@ const ReaderAdd = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -268,11 +269,13 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setAddReaderInputs({
         ...userInputs,
         role: hasData?.data?.data?.userIrtRoles?.[0]?.value,
         irt: 1,
+        institution: "Study site"
+
       });
     }
 
@@ -431,7 +434,7 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     initalFun();
@@ -470,8 +473,16 @@ const ReaderAdd = () => {
   //   }
   // };
 
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setAddReaderInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
+    }
+  };
   const handleChange = (e, isSelectedName) => {
-    // selectedCategory.push(isSelectedName);
     setUpdateFlag(1);
     if (e?.target?.files?.length < 1) {
       return;
@@ -586,7 +597,30 @@ const ReaderAdd = () => {
           ["role"]: userDetail?.role[4]?.value,
         });
       }
-    } else {
+    } else if (e?.target?.name == "primary_phone") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
+        setAddReaderInputs({
+        ...userInputs,
+
+        [e?.target?.name]: cleanedValue,
+      });
+      setError(null);
+     
+    }
+    else if (isSelectedName == "countryCode") {
+      if (e == userInputs?.countryCode) {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
+    }
+    else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -633,7 +667,6 @@ const ReaderAdd = () => {
   const nextButtonClicked = async (e) => {
     e.preventDefault();
     const result = AddReaderValidation(userInputs, groupId, flag);
-
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
@@ -655,8 +688,13 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
-            }-informed-${userInputs?.primary_phone}`,
+          // primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+          //   }-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${
+            userInputs?.countryCode && userInputs?.countryCode != "Select"
+              ? userInputs?.countryCode
+              : ""
+          }-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
@@ -702,7 +740,7 @@ const ReaderAdd = () => {
 
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    } else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -742,7 +780,7 @@ const ReaderAdd = () => {
                 )
                 ]
             }
-            //  onChange={(e) => handleChange(e?.value, "institution")}
+          //  onChange={(e) => handleChange(e?.value, "institution")}
           />
 
           {error?.institution ? (
@@ -755,7 +793,7 @@ const ReaderAdd = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT mandatory training"
               : "IRT"}
           </Form.Label>
@@ -779,7 +817,7 @@ const ReaderAdd = () => {
             // value={{ label: "Yes",value: "Yes",}}
             placeholder={
               (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? "Select IRT mandatory training"
                 : "Select IRT"
             }
@@ -793,13 +831,13 @@ const ReaderAdd = () => {
             isClearable
             isDisabled
 
-            // onChange={(e) => handleChange(e?.value, "irt")}
+          // onChange={(e) => handleChange(e?.value, "irt")}
           />
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "IRT role"
               : "Role"}
           </Form.Label>
@@ -862,7 +900,7 @@ const ReaderAdd = () => {
           <Form.Label htmlFor="">
             {" "}
             {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? "Study role"
               : "Sub Role"}{" "}
           </Form.Label>
@@ -870,7 +908,7 @@ const ReaderAdd = () => {
             options={userDetail?.sub_role}
             placeholder={
               (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? "Select Study Role"
                 : "Select Role"
             }
@@ -1145,8 +1183,8 @@ const ReaderAdd = () => {
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">
                         Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                        ? <span>*</span> : null}
+                          || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                          ? <span>*</span> : null}
                       </Form.Label>
                       <input
                         type="text"
@@ -1199,31 +1237,49 @@ const ReaderAdd = () => {
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
-                        <Form.Group className="form-group primary_phone">
-                          <Form.Label htmlFor="">Primary phone </Form.Label>
-                          <Select
-                            options={countryCode}
-                            className="dropdown-basic-button split-button-dropup"
-                            isClearable
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "countryCode")}
-                          />
+                        
+                         <Form.Group className="form-group primary_phone">
+                         <Form.Label htmlFor="">Primary phone </Form.Label>
+                         {/* <Select
+                           options={countryCode}
+                           className="dropdown-basic-button split-button-dropup"
+                           isClearable
+                           placeholder=""
+                           onChange={(e) => handleChange(e, "countryCode")}
+                         /> */}
+                         <PhoneInput
+                           international
+                           // ref={primaryPhoneRef}
+                           className={
+                             error?.primary_phone
+                               ? "dropdown-basic-button split-button-dropup error"
+                               : "dropdown-basic-button split-button-dropup"
+                           }
+                           value={userInputs?.countryCode}
+                           placeholder="Select"
+                           name="primary_phone"
+                           onChange={(e) => handleChange(e, "countryCode")}
+                           onKeyDown={(e) => handleKeyDown(e, "countryCode")}
+                         />
 
-                          <input
-                            type="number"
-                            className="form-control"
-                            name="primary_phone"
-                            placeholder="Phone number"
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.primary_phone ? (
-                            <div className="login-validation">
-                              {error?.primary_phone}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Form.Group>
+                         <input
+                           type="tel"
+                           className="form-control"
+                           name="primary_phone"
+                           placeholder="Phone number"
+                           value={userInputs?.primary_phone}
+                           onChange={(e) => handleChange(e)}
+                         />
+                         {error?.primary_phone ? (
+                           <div className="login-validation">
+                             {error?.primary_phone}
+                           </div>
+                         ) : (
+                           ""
+                         )}
+                       </Form.Group>
+                   
+                       
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Alternative phone</Form.Label>
                           <input

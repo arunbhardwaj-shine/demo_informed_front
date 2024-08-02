@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 import MarketingEditReader from "./MarketingEditReader";
-
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
@@ -12,6 +10,7 @@ import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import axios from "axios";
+import PhoneInput from "react-phone-number-input";
 
 const ReaderLayout = () => {
   return (
@@ -33,72 +32,26 @@ const ReaderEdit = () => {
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
   const [pharmaData, setPharmaData] = useState();
-
   const [countryAll, setCountryAll] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
-  // const [province, setProvince] = useState([]);
-
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
   ]);
   const [hospital, setHospital] = useState([]);
-  const [countryCode, setCountryCode] = useState([
-    { value: "Afghanistan", label: "+93" },
-
-    { value: "Albania", label: "+355" },
-
-    { value: "Algeria", label: "+213" },
-
-    { value: "American Samoa", label: "+1-684" },
-
-    { value: "Andorra", label: "+376" },
-
-    { value: "Angola", label: "+244" },
-
-    { value: "Anguilla", label: "+1-264" },
-
-    { value: "Antarctica", label: "+672" },
-
-    { value: "Antigua and Barbuda", label: "+1-268" },
-
-    { value: "Argentina", label: "+54" },
-
-    { value: "Armenia", label: "+374" },
-
-    { value: "India", label: "+91" },
-
-    { value: "Azerbaijan", label: "+994" },
-
-    { value: "Bahamas", label: "+1-242" },
-
-    { value: "Bahrain", label: "+973" },
-
-    { value: "Bangladesh", label: "+880" },
-
-    { value: "Barbados", label: "+1-246" },
-
-    { value: "Belarus", label: "+375" },
-
-    { value: "Belgium", label: "+32" },
-  ]);
   const [id, setId] = useState(state.id);
   const [userId, setUserID] = useState(localStorage.getItem("user_id"));
-
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
-  // const [selectedCategory, setSelectedCategory] = useState([]);
   const [data, setData] = useState([]);
-
   const [newProduct, setNewProduct] = useState({
     label: "",
     value: "",
   });
   const [userInputs, setAddReaderInputs] = useState({
     alternativeEmail: "",
-
     alternativePhone: "",
     blind_type: "",
     country: "",
@@ -482,6 +435,15 @@ const ReaderEdit = () => {
     }
   };
 
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setAddReaderInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
+    }
+  };
   const handleChange = (e, isSelectedName) => {
     // selectedCategory.push(isSelectedName);
     if (e?.target?.files?.length < 1) {
@@ -593,7 +555,27 @@ const ReaderEdit = () => {
           ["role"]: userDetail?.role[4]?.value,
         });
       }
-    } else {
+    }  else if (e?.target?.name == "primary_phone") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
+      setAddReaderInputs({
+          ...userInputs,
+          [e?.target?.name]: cleanedValue,
+        });
+        setError(null);
+    }  else if (isSelectedName == "countryCode") {
+      if (e == userInputs?.countryCode) {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
+    }
+    else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -640,8 +622,8 @@ const ReaderEdit = () => {
           alternativeEmail: userInputs?.alternativeEmail,
 
           primary_phone: `${userInputs?.countryCode?.label
-              ? userInputs?.countryCode?.label
-              : userInputs?.countryCode
+            ? userInputs?.countryCode?.label
+            : userInputs?.countryCode
             }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
@@ -756,9 +738,9 @@ const ReaderEdit = () => {
             ) : (
               ""
             )}
-          </Form.Group> 
-          
-          </>:null}
+          </Form.Group>
+
+        </> : null}
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -1118,7 +1100,7 @@ const ReaderEdit = () => {
 
                         <Form.Group className="form-group primary_phone">
                           <Form.Label htmlFor="">Primary phone</Form.Label>
-                          <Select
+                          {/* <Select
                             options={countryCode}
                             className="dropdown-basic-button split-button-dropup"
                             isClearable
@@ -1126,14 +1108,6 @@ const ReaderEdit = () => {
                             defaultValue={{
                               label: userInputs?.countryCode,
                             }}
-                            // defaultValue={{
-                            //   label: userInputs?.countryCode,
-                            //   value: countryCode?.filter((item) => {
-                            //     if (item?.label == userInputs?.countryCode) {
-                            //       return item?.value;
-                            //     }
-                            //   }),
-                            // }}
                             onChange={(e) => handleChange(e, "countryCode")}
                           />
                           {error?.countryCode ? (
@@ -1152,6 +1126,34 @@ const ReaderEdit = () => {
                               userInputs?.primary_phone?.indexOf("/") + 1
                             )}
                             placeholder="Phone number"
+                            onChange={(e) => handleChange(e)}
+                          /> */}
+
+                          <PhoneInput
+                            international
+                            // ref={primaryPhoneRef}
+                            className={
+                              error?.primary_phone
+                                ? "dropdown-basic-button split-button-dropup error"
+                                : "dropdown-basic-button split-button-dropup"
+                            }
+                            placeholder="Select"
+                            value={userInputs?.countryCode}
+                            name="primary_phone"
+                            onChange={(e) => handleChange(e, "countryCode")}
+                            onKeyDown={(e) => handleKeyDown(e, "countryCode")}
+                          />
+                          <input
+                            type="tel"
+                            className={
+                              error?.primary_phone
+                                ? "form-control error"
+                                : "form-control"
+                            }
+                            name="primary_phone"
+                            placeholder="Phone number"
+                            defaultValue={userInputs?.primary_phone}
+                            value={userInputs?.primary_phone}
                             onChange={(e) => handleChange(e)}
                           />
                           {error?.primary_phone ? (

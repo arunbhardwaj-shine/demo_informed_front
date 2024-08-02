@@ -344,7 +344,8 @@ const MarketingAddReader = () => {
         ...userInputs,
         task: { ...userInputs?.task, task: e?.value },
       });
-    } else if (isSelectedName == "countryCode") {
+    } 
+    else if (isSelectedName == "countryCode") {
       if (e == userInputs?.countryCode) {
         setUserInputs({
           ...userInputs,
@@ -356,7 +357,8 @@ const MarketingAddReader = () => {
           [isSelectedName]: e,
         });
       }
-    } else {
+    } 
+    else {
       setUserInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName

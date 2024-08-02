@@ -423,7 +423,8 @@ const MarketingEditReader = () => {
         ...userInputs,
         typeContact: typeContactArray,
       });
-    } else if (e?.target?.name == "primary_phone") {
+    }
+     else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       // if (cleanedValue?.length <= 20) {
         setUserInputs({
@@ -487,7 +488,8 @@ const MarketingEditReader = () => {
         ...userInputs,
         task: { ...userInputs?.task, task: e?.value },
       });
-    } else if (isSelectedName == "countryCode") {
+    } 
+    else if (isSelectedName == "countryCode") {
       if (e == userInputs?.countryCode) {
         setUserInputs({
           ...userInputs,
@@ -914,61 +916,6 @@ const MarketingEditReader = () => {
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">Primary phone </Form.Label>
-                  {/* <Select
-                    options={countryCode}
-                    ref={primaryPhoneRef}
-                    value={
-                      countryCode?.findIndex(
-                        (el) => el?.label == userInputs?.countryCode?.label
-                      ) == -1
-                        ? ""
-                        : countryCode[
-                            countryCode?.findIndex(
-                              (el) =>
-                                el?.label == userInputs?.countryCode?.label
-                            )
-                          ]
-                    }
-                    name="countryCode"
-                    className={
-                      error?.primary_phone
-                        ? "dropdown-basic-button split-button-dropup error"
-                        : "dropdown-basic-button split-button-dropup"
-                    }
-                   
-
-                    placeholder="Select"
-                    onChange={(e) => handleChange(e, "countryCode")}
-                    isClearable
-                  /> */}
-
-                  {/* <ReactFlagsSelect
-                    className={
-                      error?.primary_phone
-                        ? "dropdown-basic-button split-button-dropup error"
-                        : "dropdown-basic-button split-button-dropup"
-                    }
-                    ref={primaryPhoneRef}
-                    isClearable
-                    
-                    selected={
-                      Object.values(countryCode)?.findIndex(
-                        (el) => el == userInputs?.countryCode
-                      ) != -1
-                        ? Object.keys(countryCode)?.[
-                            Object.values(countryCode)?.findIndex(
-                              (el) => el == userInputs?.countryCode
-                            )
-                          ]
-                        : ""
-                    }
-                   
-                    onSelect={(e) => handleChange(e, "countryCode")}
-                    customLabels={countryCode}
-                    countries={country}
-                    placeholder="Select"
-                  /> */}
-
                   <PhoneInput
                     international
                     ref={primaryPhoneRef}
