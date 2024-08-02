@@ -45,12 +45,12 @@ const VerifyHcpMAIL = (props) => {
     : [];
 
     // console.log("location--->",location.state?.selectedHcp)
-    // console.log("getDraftData--->",props.getDraftData.campaign_data.selectedHcp)
+    // console.log("getDraftData--->",props?.getDraftData?.campaign_data.selectedHcp)
 
     const searchedUsers = location?.state
     ? location?.state?.searchedUsers
-    : props.getDraftData?.campaign_data?.searchedUsers
-    ?props.getDraftData?.campaign_data?.searchedUsers
+    : props?.getDraftData?.campaign_data?.searchedUsers
+    ?props?.getDraftData?.campaign_data?.searchedUsers
     :[];
 
   const PdfSelected = location?.state
@@ -65,10 +65,10 @@ const VerifyHcpMAIL = (props) => {
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSelectedPdfId, setSelectedPdfId] = useState(PdfSelected);
   const [getArticleType, setArticleType] = useState(
-    props.getEmailData?.status
-      ? props.getEmailData.status
-      : props.getDraftData?.status && props.getDraftData.status != ""
-      ? props.getDraftData.status
+    props?.getEmailData?.status
+      ? props?.getEmailData?.status
+      : props?.getDraftData?.status && props?.getDraftData?.status != ""
+      ? props?.getDraftData?.status
       : 0
   );
   const [irtRoleObj,setIRTRoleObj] = useState(
@@ -82,25 +82,25 @@ const VerifyHcpMAIL = (props) => {
 
   useEffect(() => {
     let campaign_id =
-      typeof props.getEmailData === "object" &&
-      props.getEmailData !== null &&
-      props.getEmailData?.campaign_id
-        ? props.getEmailData.campaign_id
-        : props.getDraftData?.campaign_id
-        ? props.getDraftData.campaign_id
+      typeof props?.getEmailData === "object" &&
+      props?.getEmailData !== null &&
+      props?.getEmailData?.campaign_id
+        ? props?.getEmailData?.campaign_id
+        : props?.getDraftData?.campaign_id
+        ? props?.getDraftData?.campaign_id
         : "";
     setCampaign_id(campaign_id);
 
     if (
-      (typeof props.getSelectedSmartListData === "object" &&
-        props.getSelectedSmartListData !== null) ||
-      (props.getDraftData !== null && props.getDraftData.smart_list_data)
+      (typeof props?.getSelectedSmartListData === "object" &&
+        props?.getSelectedSmartListData !== null) ||
+      (props?.getDraftData !== null && props?.getDraftData?.smart_list_data)
     ) {
       let smart_list_data =
-        typeof props.getSelectedSmartListData === "object" &&
-        props.getSelectedSmartListData !== null
-          ? props.getSelectedSmartListData
-          : props.getDraftData.smart_list_data;
+        typeof props?.getSelectedSmartListData === "object" &&
+        props?.getSelectedSmartListData !== null
+          ? props?.getSelectedSmartListData
+          : props?.getDraftData?.smart_list_data;
       setSmartListData(smart_list_data);
     }
 
@@ -112,13 +112,13 @@ const VerifyHcpMAIL = (props) => {
         setRemovedHcp(location.state.removedHcp);
       }
     } else {
-      if (props.getDraftData?.campaign_data) {
-        if (props.getDraftData.campaign_data?.removedHcp) {
+      if (props?.getDraftData?.campaign_data) {
+        if (props?.getDraftData?.campaign_data?.removedHcp) {
           if (
-            typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
-            props.getDraftData.campaign_data.removedHcp != ""
+            typeof props?.getDraftData?.campaign_data.removedHcp != "undefined" &&
+            props?.getDraftData?.campaign_data.removedHcp != ""
           ) {
-            setRemovedHcp(props.getDraftData.campaign_data.removedHcp);
+            setRemovedHcp(props?.getDraftData?.campaign_data.removedHcp);
           }
         }
       }
@@ -131,9 +131,9 @@ const VerifyHcpMAIL = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getpdfData = async () => {
-    let pdf_id = props.getEmailData?.PdfSelected
-      ? props.getEmailData.PdfSelected
-      : props.getDraftData.pdf_id;
+    let pdf_id = props?.getEmailData?.PdfSelected
+      ? props?.getEmailData?.PdfSelected
+      : props?.getDraftData?.pdf_id;
     setSelectedPdfId(pdf_id);
     if (
       typeof pdf_id !== "undefined" &&
@@ -181,46 +181,46 @@ const VerifyHcpMAIL = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id: props.getEmailData?.PdfSelected
-        ? props.getEmailData.PdfSelected
-        : props.getDraftData.pdf_id,
-      description: props.getEmailData?.emailDescription
-        ? props.getEmailData.emailDescription
-        : props.getDraftData?.description
-        ? props.getDraftData.description
+      pdf_id: props?.getEmailData?.PdfSelected
+        ? props?.getEmailData?.PdfSelected
+        : props?.getDraftData?.pdf_id,
+      description: props?.getEmailData?.emailDescription
+        ? props?.getEmailData?.emailDescription
+        : props?.getDraftData?.description
+        ? props?.getDraftData?.description
         : "",
-      creator: props.getEmailData?.emailCreator
-        ? props.getEmailData.emailCreator
-        : props.getDraftData?.creator
-        ? props.getDraftData.creator
+      creator: props?.getEmailData?.emailCreator
+        ? props?.getEmailData?.emailCreator
+        : props?.getDraftData?.creator
+        ? props?.getDraftData?.creator
         : "",
-      campaign_name: props.getEmailData?.emailCampaign
-        ? props.getEmailData.emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData?.emailSubject
-        ? props.getEmailData.emailSubject
-        : props.getDraftData.subject,
+      campaign_name: props?.getEmailData?.emailCampaign
+        ? props?.getEmailData?.emailCampaign
+        : props?.getDraftData?.campaign,
+      subject: props?.getEmailData?.emailSubject
+        ? props?.getEmailData?.emailSubject
+        : props?.getDraftData?.subject,
       route_location: "VerifyHcpMAIL",
-      tags: props.getEmailData?.tags
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: props?.getEmailData?.tags
+        ? props?.getEmailData?.tags
+        : props?.getDraftData?.tags,
       campaign_data: {
-        template_id: props.getEmailData?.templateId
-          ? props.getEmailData.templateId
-          : props.getDraftData.campaign_data.template_id,
+        template_id: props?.getEmailData?.templateId
+          ? props?.getEmailData?.templateId
+          : props?.getDraftData?.campaign_data.template_id,
         selectedHcp: selectedHcp,
         searchedUsers:irtRoleObj?.IRTFlag?searchedUsers:[],
-        list_selection: props.getEmailData?.selected
-          ? props.getEmailData.selected
-          : props.getDraftData?.campaign_data?.list_selection
-          ?props.getDraftData?.campaign_data?.list_selection
+        list_selection: props?.getEmailData?.selected
+          ? props?.getEmailData?.selected
+          : props?.getDraftData?.campaign_data?.list_selection
+          ?props?.getDraftData?.campaign_data?.list_selection
           :[],
         removedHcp: getRemovedHcp,
       },
       campaign_id: campaign_id_st,
-      source_code: props.getEmailData?.template
-        ? props.getEmailData.template
-        : props.getDraftData.source_code,
+      source_code: props?.getEmailData?.template
+        ? props?.getEmailData?.template
+        : props?.getDraftData?.source_code,
       status: 2,
     };
     // console.log(body);
@@ -267,57 +267,57 @@ const VerifyHcpMAIL = (props) => {
         type: "error",
       });
     } else {
-      let finalTags = props.getEmailData?.tags
-        ? props.getEmailData.tags.map((tags) => {
+      let finalTags = props?.getEmailData?.tags
+        ? props?.getEmailData?.tags.map((tags) => {
             return tags.innerHTML || tags;
           })
-        : props.getDraftData.tags.map((tags) => {
+        : props?.getDraftData?.tags.map((tags) => {
             return tags.innerHTML || tags;
           });
 
       let user_list =
-        props.getEmailData?.selectedHcp || location.state
+        props?.getEmailData?.selectedHcp || location.state
           ? selectedHcp.map((userId) => {
               return userId.profile_user_id || userId.user_id;
             })
-          : props.getDraftData.campaign_data.selectedHcp.map((userId) => {
+          : props?.getDraftData?.campaign_data.selectedHcp.map((userId) => {
               return userId.profile_user_id || userId.user_id;
             });
 
       const body = {
         user_id: localStorage.getItem("user_id"),
         route_location: "VerifyHcpMAIL",
-        pdf_id: props.getEmailData?.PdfSelected
-          ? props.getEmailData.PdfSelected
-          : props.getDraftData.pdf_id,
-        subject: props.getEmailData?.emailSubject
-          ? props.getEmailData.emailSubject
-          : props.getDraftData.subject,
-        description: props.getEmailData?.emailDescription
-          ? props.getEmailData.emailDescription
-          : props.getDraftData?.description
-          ? props.getDraftData.description
+        pdf_id: props?.getEmailData?.PdfSelected
+          ? props?.getEmailData?.PdfSelected
+          : props?.getDraftData?.pdf_id,
+        subject: props?.getEmailData?.emailSubject
+          ? props?.getEmailData?.emailSubject
+          : props?.getDraftData?.subject,
+        description: props?.getEmailData?.emailDescription
+          ? props?.getEmailData?.emailDescription
+          : props?.getDraftData?.description
+          ? props?.getDraftData?.description
           : "",
-        creator: props.getEmailData?.emailCreator
-          ? props.getEmailData.emailCreator
-          : props.getDraftData?.creator
-          ? props.getDraftData.creator
+        creator: props?.getEmailData?.emailCreator
+          ? props?.getEmailData?.emailCreator
+          : props?.getDraftData?.creator
+          ? props?.getDraftData?.creator
           : "",
-        campaign_name: props.getEmailData?.emailCampaign
-          ? props.getEmailData.emailCampaign
-          : props.getDraftData.campaign,
+        campaign_name: props?.getEmailData?.emailCampaign
+          ? props?.getEmailData?.emailCampaign
+          : props?.getDraftData?.campaign,
         tags: finalTags,
-        template_source_code: props.getEmailData?.template
-          ? props.getEmailData.template
-          : props.getDraftData.source_code,
+        template_source_code: props?.getEmailData?.template
+          ? props?.getEmailData?.template
+          : props?.getDraftData?.source_code,
         campaign_id: campaign_id_st,
         campaign_data: {
           user_list: user_list,
-          template_id: props.getEmailData?.templateId
-            ? props.getEmailData.templateId
-            : props.getDraftData.campaign_data.template_id,
-          list_selection: props.getEmailData?.selected
-            ? props.getEmailData.selected
+          template_id: props?.getEmailData?.templateId
+            ? props?.getEmailData?.templateId
+            : props?.getDraftData?.campaign_data.template_id,
+          list_selection: props?.getEmailData?.selected
+            ? props?.getEmailData?.selected
             : props?.getDraftData?.campaign_data?.list_selection,
         },
       };
@@ -388,17 +388,17 @@ const VerifyHcpMAIL = (props) => {
   };
 
   const removeTag = (i) => {
-    const allTags = props.getEmailData?.tags
-      ? props.getEmailData.tags
-      : props.getDraftData.tags;
+    const allTags = props?.getEmailData?.tags
+      ? props?.getEmailData?.tags
+      : props?.getDraftData?.tags;
     // console.log(allTags);
     allTags.splice(i, 1);
     // console.log(allTags);
     setReRender(reRender + 1);
-    // console.log("props.tags");
-    //  console.log(props.getEmailData.tags);
+    // console.log("props?.tags");
+    //  console.log(props?.getEmailData?.tags);
 
-    //  props.getEmailData();
+    //  props?.getEmailData();
   };
 
   const closeModal = () => {
@@ -471,43 +471,43 @@ const VerifyHcpMAIL = (props) => {
     e.preventDefault();
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id: props.getEmailData?.PdfSelected
-        ? props.getEmailData.PdfSelected
-        : props.getDraftData.pdf_id,
-      description: props.getEmailData?.emailDescription
-        ? props.getEmailData.emailDescription
-        : props.getDraftData?.description
-        ? props.getDraftData.description
+      pdf_id: props?.getEmailData?.PdfSelected
+        ? props?.getEmailData?.PdfSelected
+        : props?.getDraftData?.pdf_id,
+      description: props?.getEmailData?.emailDescription
+        ? props?.getEmailData?.emailDescription
+        : props?.getDraftData?.description
+        ? props?.getDraftData?.description
         : "",
-      creator: props.getEmailData?.emailCreator
-        ? props.getEmailData.emailCreator
-        : props.getDraftData?.creator
-        ? props.getDraftData.creator
+      creator: props?.getEmailData?.emailCreator
+        ? props?.getEmailData?.emailCreator
+        : props?.getDraftData?.creator
+        ? props?.getDraftData?.creator
         : "",
-      campaign_name: props.getEmailData?.emailCampaign
-        ? props.getEmailData.emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData?.emailSubject
-        ? props.getEmailData.emailSubject
-        : props.getDraftData.subject,
+      campaign_name: props?.getEmailData?.emailCampaign
+        ? props?.getEmailData?.emailCampaign
+        : props?.getDraftData?.campaign,
+      subject: props?.getEmailData?.emailSubject
+        ? props?.getEmailData?.emailSubject
+        : props?.getDraftData?.subject,
       route_location: "VerifyHcpMAIL",
-      tags: props.getEmailData?.tags
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: props?.getEmailData?.tags
+        ? props?.getEmailData?.tags
+        : props?.getDraftData?.tags,
       campaign_data: {
-        template_id: props.getEmailData?.templateId
-          ? props.getEmailData.templateId
-          : props.getDraftData.campaign_data.template_id,
+        template_id: props?.getEmailData?.templateId
+          ? props?.getEmailData?.templateId
+          : props?.getDraftData?.campaign_data.template_id,
         selectedHcp: selectedHcp,
         searchedUsers:irtRoleObj?.IRTFlag?searchedUsers:[],
-        list_selection: props.getEmailData?.selected
-          ? props.getEmailData.selected
-          : props.getDraftData.campaign_data.list_selection,
+        list_selection: props?.getEmailData?.selected
+          ? props?.getEmailData?.selected
+          : props?.getDraftData?.campaign_data?.list_selection,
       },
       campaign_id: campaign_id_st,
-      source_code: props.getEmailData?.template
-        ? props.getEmailData.template
-        : props.getDraftData.source_code,
+      source_code: props?.getEmailData?.template
+        ? props?.getEmailData?.template
+        : props?.getDraftData?.source_code,
       status: status,
       approved_page: 1,
     };
@@ -712,32 +712,36 @@ const VerifyHcpMAIL = (props) => {
                           </ul>
                         </h6>
                       </div>
-                      <div className="form-buttons right-side">
-                        <button
-                          className={
-                            typeof getArticleType !== "undefined" &&
+                      {
+                        !IRTTraining ?
+                        <div className="form-buttons right-side">
+                          <button
+                            className={
+                              typeof getArticleType !== "undefined" &&
+                              getArticleType == 3
+                                ? "btn btn-primary approved-btn btn-bordered checked"
+                                : "btn btn-primary approved-btn btn-bordered"
+                            }
+                            onClick={(e) => approvedClicked(e)}
+                          >
+                            {typeof getArticleType !== "undefined" &&
                             getArticleType == 3
-                              ? "btn btn-primary approved-btn btn-bordered checked"
-                              : "btn btn-primary approved-btn btn-bordered"
-                          }
-                          onClick={(e) => approvedClicked(e)}
-                        >
-                          {typeof getArticleType !== "undefined" &&
-                          getArticleType == 3
-                            ? "Approved"
-                            : "Approve?"}
-                          <img
-                            src={path_image + "approved-btn.svg"}
-                            className="approve_btn"
-                            alt=""
-                          />
-                          <img
-                            src={path_image + "/approved-by-btn.svg"}
-                            className="approved_btn"
-                            alt=""
-                          />
-                        </button>
-                      </div>
+                              ? "Approved"
+                              : "Approve?"}
+                            <img
+                              src={path_image + "approved-btn.svg"}
+                              className="approve_btn"
+                              alt=""
+                            />
+                            <img
+                              src={path_image + "/approved-by-btn.svg"}
+                              className="approved_btn"
+                              alt=""
+                            />
+                          </button>
+                        </div>
+                        : null
+                      }
                     </div>
                     <div className="mail-recipt">
                       <div className="row">
@@ -746,7 +750,8 @@ const VerifyHcpMAIL = (props) => {
                           <p>
                             Content <span>| 1</span>
                           </p>
-                          {typeof getpdfdata !== "undefined" &&
+                          
+                          {typeof getpdfdata !== "undefined" && getpdfdata.hasOwnProperty('pdf_title') &&
                             getSelectedPdfId != 13 &&
                             getSelectedPdfId != 14 &&
                             getSelectedPdfId != 16 && (
@@ -1169,9 +1174,9 @@ const VerifyHcpMAIL = (props) => {
                     </h4>
                     {/*
                   <p>
-                    {props.getEmailData?.emailDescription
-                      ? props.getEmailData.emailDescription
-                      : props.getDraftData.description}
+                    {props?.getEmailData?.emailDescription
+                      ? props?.getEmailData?.emailDescription
+                      : props?.getDraftData?.description}
                   </p>
                   */}
 
