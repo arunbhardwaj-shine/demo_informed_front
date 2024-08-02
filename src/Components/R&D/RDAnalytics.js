@@ -188,7 +188,7 @@ const RDAnalytics = () => {
                 text: "",
               },
               subtitle: {
-                text: `<p>Device</p></br></br></br><span >${chart_data.totalDevices}</span>`,
+                text: `<p>Device</p></br></br></br><span >${chart_data?.totalDevices}</span>`,
 
                 verticalAlign: "middle",
 
@@ -233,12 +233,12 @@ const RDAnalytics = () => {
                 {
                   name: "Device Count",
 
-                  data: chart_data.deviceNames.map((name, index) => ({
+                  data: chart_data?.deviceNames?.map((name, index) => ({
                     name,
 
-                    y: chart_data.deviceCount[name],
+                    y: chart_data?.deviceCount[name],
 
-                    color: color[(index % chart_data.deviceNames.length) + 1],
+                    color: color[(index % chart_data?.deviceNames?.length) + 1],
                   })),
 
                   size: "80%",
@@ -247,7 +247,7 @@ const RDAnalytics = () => {
                 },
               ],
             },
-            device_names: chart_data.deviceNames,
+            device_names: chart_data?.deviceNames,
           },
         }));
         setIsContentSiteAccordionOpen({

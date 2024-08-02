@@ -453,7 +453,7 @@ const EmailList = (props) => {
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
     props.getSearched(null)
-    if ([3968, 3970, 4521].includes(irtRoleObj?.pdfId)) {
+    if ([3968, 3970, 4521,5561,5563,5564].includes(irtRoleObj?.pdfId)) {
       await navigateRole(irtRoleObj?.pdfId);
       // console.log(irtRoleObj?.pdfId,'irtRoleObj?.pdfId');
     } else {
@@ -1130,7 +1130,7 @@ const EmailList = (props) => {
                             </Accordion.Item>
                           )}
                         {
-                          (localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg=='&& localStorage.getItem('user_id')!=="sNl1hra39QmFk9HwvXETJA==") ?
+                          (localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' && localStorage.getItem('user_id')!=="sNl1hra39QmFk9HwvXETJA==") ?
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
                                 Campaign
@@ -1536,8 +1536,8 @@ const EmailList = (props) => {
                                           <th>List</th>
                                           <td>{data.smart_list_name}</td>
                                         </tr>
-                                        {localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==" ? (<>
+                                        {(localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==") ? (<>
                                             <tr>
                                               <th>Site</th>
                                               {/* <td>
@@ -1990,7 +1990,7 @@ const EmailList = (props) => {
                           </td>
                         </tr>
                         {
-                          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==" ?
+                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==") ?
                             <tr>
                               <th>IRTs </th>
                               <td>
@@ -2658,8 +2658,8 @@ const EmailList = (props) => {
                           </span>
 
                         </th>
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (<>
+                        {(localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (<>
                             <th scope="col" className="sort_option">
                               <span onClick={(e) => userSort(e, "site_number")}>
                                 Site number
@@ -2833,8 +2833,8 @@ const EmailList = (props) => {
                                   "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                    && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                 <td>
-                                  {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                  {(localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                     ? item.irt
                                       ? "Yes"
                                       : "No"
@@ -2879,8 +2879,8 @@ const EmailList = (props) => {
                                                 "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") 
                                                 && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                               <td>
-                                                {localStorage.getItem("user_id") ==
-                                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                {(localStorage.getItem("user_id") ==
+                                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                                   ? item.irt
                                                     ? "Yes"
                                                     : "No"
