@@ -29,7 +29,7 @@ import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 var dxr = 0;
 var state_object = {};
 var trainingUser = {};
-
+var searchedUser = {};
 const CreateEmail = (props) => {
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
@@ -107,12 +107,13 @@ const CreateEmail = (props) => {
   const [emailCreator, setEmailCreator] = useState(
     state_object != null &&
       state_object != "undefined" &&
-      state_object.emailCreator
-      ? state_object.emailCreator
+      state_object?.emailCreator
+      ? state_object?.emailCreator
       : props.getDraftData
         ? props.getDraftData.creator
         : ""
   );
+  
   const [manualEmailCreator, setManualEmailCreator] = useState(
     state_object?.emailCreator ?? props.getDraftData?.creator ?? ""
   );
@@ -142,6 +143,7 @@ const CreateEmail = (props) => {
   const [manualEmailSubject, setManualEmailSubject] = useState(
     state_object?.emailSubject ?? props.getDraftData?.subject ?? ""
   );
+  
   const [templateId, setTemplateId] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -416,9 +418,11 @@ const CreateEmail = (props) => {
               }
             }
           } else {
-            const div_img = document.querySelector("#template_dyn0");
-            if (div_img !== null && typeof div_img != "undefined") {
-              div_img.click();
+            if(templateId == '' || templateId?.length == 0){
+              const div_img = document.querySelector("#template_dyn0");
+              if (div_img !== null && typeof div_img != "undefined") {
+                div_img.click();
+              }
             }
           }
         }, 400);
@@ -982,10 +986,10 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
-    const tags = finalTags.map((finalTags) => {
+    const tags = finalTags?.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
-
+    
     if (validator.allValid()) {
       if(irtRoleObj?.IRTFlag){
         let existingObj = {
@@ -999,7 +1003,9 @@ const CreateEmail = (props) => {
           template: template,
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
+          selected: state_object?.selected ? state_object?.selected : 0,
         };
+        
         if(state_object?.startTraining == 1){
           existingObj['startTraining'] = 1;
           const mergedObject = { ...existingObj, ...irtRoleObj };
@@ -1013,14 +1019,15 @@ const CreateEmail = (props) => {
         }else{
           const mergedObject = { ...existingObj, ...irtRoleObj };
           props.getEmailData(mergedObject);
-          props.getSelected(null)
-          props.getSearched(null)
+          props.getSelected(trainingUser)
+          props.getSearched(searchedUser)
           navigate("/VerifyHCP", {
             state: {IrtObj:irtRoleObj,NextFlag:1},
           });
         }
-
       }else{
+        props.getSelected(trainingUser)
+        props.getSearched(searchedUser)
         props.getEmailData({
           //uniqueId: uniqueId,
           status: getIsApprovedStatus,
@@ -1033,6 +1040,7 @@ const CreateEmail = (props) => {
           template: template,
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
+          selected: state_object?.selected ? state_object?.selected : 0,
         });
         navigate("/SelectHCP");
       }
@@ -2280,6 +2288,25 @@ const CreateEmail = (props) => {
   }
 
   const handleBackClick = () => {
+    const tags = finalTags.map((finalTags) => {
+      return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
+    });
+    props.getEmailData({
+      status: getIsApprovedStatus,
+      emailDescription: emailDescription,
+      emailCreator: emailCreator,
+      emailCampaign: emailCampaign,
+      emailSubject: emailSubject,
+      templateId: templateId,
+      tags: tags,
+      template: template,
+      PdfSelected: PdfSelected,
+      campaign_id: campaign_id_st,
+      selected: state_object?.selected ? state_object?.selected : 0,
+    });
+      props.getSelected(trainingUser)
+      props.getSearched(searchedUser)
+
     navigate("/EmailArticleSelect", {
       state: {IrtObj:irtRoleObj},
     });
@@ -4455,6 +4482,7 @@ const mapStateToProps = (state) => {
   dxr = state.getEmailData?.PdfSelected;
   state_object = state.getEmailData;
   trainingUser = state.getSelected;
+  searchedUser = state.getSearched;
   return state;
 };
 

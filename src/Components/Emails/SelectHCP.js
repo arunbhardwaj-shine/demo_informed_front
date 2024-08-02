@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 import {
   getCampaignId,
   getEmailData,
+  getSearched,getSelected,
   getSelectedSmartListData,
 } from "../../actions";
 import { getDraftData } from "../../actions";
-import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,8 @@ import { postData } from "../../axios/apiHelper";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 var old_object = {};
+var trainingUser = {};
+var searchedUser = {};
 var new_object;
 var draft_object;
 
@@ -42,7 +44,6 @@ const SelectHCP = (props) => {
   // const [templateId, setTemplateId] = useState(
   //   old_object ? old_object.selected : 0
   // );
-
   const [templateId, setTemplateId] = useState(
     old_object?.selected
       ? old_object.selected
@@ -61,6 +62,37 @@ const SelectHCP = (props) => {
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selectede) => {
+
+    // if (draft_object?.campaign_data?.typeOfHcp != selectede) {
+
+    if (old_object?.selected != selectede) {
+      if (old_object?.removedHcp) {
+        old_object.removedHcp = [];
+      }
+      if (old_object?.addedHcp) {
+        old_object.addedHcp = [];
+      }
+      if (old_object?.selectedHcp) {
+        old_object.selectedHcp = [];
+      }
+
+      if (draft_object?.campaign_data?.removedHcp) {
+        draft_object.campaign_data.removedHcp = [];
+      }
+
+      if (draft_object?.campaign_data?.addedHcp) {
+        draft_object.campaign_data.addedHcp = [];
+      }
+      if (draft_object?.campaign_data?.selectedHcp) {
+        draft_object.campaign_data.selectedHcp = [];
+      }
+      props.getSelected(null);
+      props.getSearched(null);
+    }else{
+      props.getSelected(trainingUser);
+      props.getSearched(searchedUser);
+    }
+
     if (old_object) {
       old_object.selected = selectede;
       props.getEmailData(old_object);
@@ -90,6 +122,10 @@ const SelectHCP = (props) => {
   };
 
   const backClicked = () => {
+    props.getEmailData(old_object);
+    props.getSelected(trainingUser);
+    props.getSearched(searchedUser);
+
     let pdfSelectedId = props.getEmailData
       ? props.getEmailData.pdf_id
       : props.getDraftData.pdf_id;
@@ -163,32 +199,8 @@ const SelectHCP = (props) => {
 
   const nextClicked = async(selected) => {
     props.getEmailData(old_object);
-    props.getSelected(null);
-    // console.log(selected,'selectedselected')
-
-    if (draft_object?.campaign_data?.typeOfHcp != selected) {
-      if (old_object?.removedHcp) {
-        old_object.removedHcp = [];
-      }
-      if (old_object?.addedHcp) {
-        old_object.addedHcp = [];
-      }
-      if (old_object?.selectedHcp) {
-        old_object.selectedHcp = [];
-      }
-
-      if (draft_object?.campaign_data?.removedHcp) {
-        draft_object.campaign_data.removedHcp = [];
-      }
-
-      if (draft_object?.campaign_data?.addedHcp) {
-        draft_object.campaign_data.addedHcp = [];
-      }
-      if (draft_object?.campaign_data?.selectedHcp) {
-        draft_object.campaign_data.selectedHcp = [];
-      }
-    }
-
+    
+    
     if (selected === 1) {
       navigate("/SelectSmartList", {
         state: { UserSelected: selected },
@@ -439,11 +451,14 @@ const mapStateToProps = (state) => {
   old_object = state.getEmailData;
   new_object = state.getSelectedSmartListData;
   draft_object = state.getDraftData ? state.getDraftData : {};
+  trainingUser = state?.getSelected;
+  searchedUser = state?.getSearched;
   return state;
 };
 
 export default connect(mapStateToProps, {
   getEmailData,
   getSelected,
+  getSearched,
   getSelectedSmartListData,
 })(SelectHCP);

@@ -5,13 +5,15 @@ import { toast } from "react-toastify";
 import Accordion from "react-bootstrap/Accordion";
 import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { getEmailData, getDraftData, getSelected } from "../../actions";
+import { getEmailData, getDraftData, getSelected, getSearched } from "../../actions";
 import { propTypes } from "react-bootstrap/esm/Image";
 var dxr = 0;
 var pdf_id = 0;
 var state_object = {};
 var trainingUser = {};
+var searchedUser = {};
 const EmailArticleSelect = (props) => {
+  
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [previousSendListData, setPreviousSendListData] = useState([]);
@@ -204,12 +206,17 @@ const EmailArticleSelect = (props) => {
   const nextClicked = () => {
     if(IRTTraining){
       props.getEmailData(state_object);
-      props.getSelected(trainingUser)
+      props.getSelected(trainingUser);
       navigate("/CreateEmail", {
         state: {PdfSelected: PdfSelected, IrtObj:irtRoleObj,NextFlag:1},
       });
     }else{
-      props.getEmailData({ PdfSelected: PdfSelected });
+      props.getSearched(searchedUser);
+      props.getSelected(trainingUser);
+      let pdfobj = { PdfSelected: PdfSelected };
+      const mergedObject = { ...state_object, ...pdfobj };
+      props.getEmailData(mergedObject);
+      // props.getEmailData({ PdfSelected: PdfSelected });
       navigate("/CreateEmail", {
         state: { PdfSelected: PdfSelected,IrtObj:irtRoleObj }
       })
@@ -1006,6 +1013,7 @@ const mapStateToProps = (state) => {
   pdf_id = state.getDraftData?.pdf_id;
   state_object = state.getEmailData;
   trainingUser = state.getSelected;
+  searchedUser = state.getSearched;
   return state;
 };
 
@@ -1013,4 +1021,5 @@ export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getDraftData: getDraftData,
   getSelected,
+  getSearched,
 })(EmailArticleSelect)

@@ -331,7 +331,8 @@ const VerifyHCP = (props) => {
         },
       });
     }else{
-      props.getSelected(selectedHcp);  
+      props.getSelected(selectedHcp);
+      props.getSearched(searchedUsers);
       navigate("/VerifyHcpMAIL", {
         state: {
           selectedHcp: selectedHcp,
@@ -424,7 +425,11 @@ const VerifyHCP = (props) => {
   const deleteSelected = (index) => {
     let arr = [];
     arr = selectedHcp;
-    arr.splice(index, 1);
+    const removedArray = arr.splice(index, 1);
+    if(irtRoleObj?.IRTFlag){
+      // add user back to searchHCP
+      setSearchedUsers((oldArray) => [...oldArray, removedArray[0]]);
+    }
     setSelectedHcp(arr);
     setReRender(reRender + 1);
   };
@@ -982,10 +987,11 @@ const VerifyHCP = (props) => {
   };
 
   const backClicked = () => {
+    props.getSearched(searchedUsers);
+    props.getSelected(selectedHcp);
     if(irtRoleObj?.IRTFlag){
       navigate("/CreateEmail",{state: {IrtObj:irtRoleObj}})
     }else{
-
       navigate("/SelectHCP");
     }
   };
@@ -2054,48 +2060,6 @@ const VerifyHCP = (props) => {
                             <img src={path_image + "edit.svg"} alt="" />
                           </button>
                         </div>
-                        {/* <div className="hcp-sort">
-                          {sortingCount == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : sorting == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary desc"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort-decending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                className="btn btn-outline-primary asc"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort-assending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          )}
-                        </div> */}
                       </>
                     ) : null}
                     {saveOpen ? (
