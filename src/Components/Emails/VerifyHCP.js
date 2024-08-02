@@ -2767,13 +2767,17 @@ const VerifyHCP = (props) => {
                                       : "N/A"}
                                   </span>
                                 </td>
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                    onClick={() => deleteSelected(index)}
-                                  />
-                                </td>
+                                {
+                                  !IRTTraining ?
+                                    <td className="delete_row" colSpan="12">
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                        onClick={() => deleteSelected(index)}
+                                      />
+                                    </td>
+                                  : null
+                                }
                               </tr>
                             </>
                           );

@@ -251,7 +251,6 @@ const NewReadersReview = (props) => {
           'IRT mandatory training': ["Yes"],
         };
         if(!Object.keys(obj)?.includes("role")){
-          console.log("role--->",role)
           payload.role=role
         }
         
@@ -1761,10 +1760,6 @@ const NewReadersReview = (props) => {
           .then((res) => {
             if (res.data.status_code == 200) {
               let campaign_data = res?.data?.response?.data;
-              // const selectedHcp = [{
-              //   'profile_user_id': user_id,
-              // }];
-              // console.log(userDetails,selectedHcp)
               campaign_data['startTraining'] = 1;
               props.getEmailData(campaign_data);
               props.getSelected(userDetails);
