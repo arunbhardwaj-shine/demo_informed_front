@@ -5,11 +5,15 @@ import { toast } from "react-toastify";
 import Accordion from "react-bootstrap/Accordion";
 import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { getEmailData, getDraftData } from "../../actions";
+import { getEmailData, getDraftData, getSelected, getSearched } from "../../actions";
 import { propTypes } from "react-bootstrap/esm/Image";
 var dxr = 0;
 var pdf_id = 0;
+var state_object = {};
+var trainingUser = {};
+var searchedUser = {};
 const EmailArticleSelect = (props) => {
+  
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [previousSendListData, setPreviousSendListData] = useState([]);
@@ -28,6 +32,8 @@ const EmailArticleSelect = (props) => {
       : 0
   );
 
+  const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining  ? state_object?.startTraining : 0);
+  
   const [showfilter, setShowFilter] = useState(false);
   const [filtertags, setFilterTags] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
@@ -114,7 +120,14 @@ const EmailArticleSelect = (props) => {
 
   const cancelClicked = () => {
     if(irtRoleObj?.IRTFlag){
-      navigate("/IRTRole");
+      if(IRTTraining){
+        navigate("/new-readers-reviews",
+          {
+            state: { siteRole: irtRoleObj?.siteRole},
+          })
+      }else{
+        navigate("/IRTRole");
+      }
     }else{
       navigate("/EmailList");
     }
@@ -191,7 +204,23 @@ const EmailArticleSelect = (props) => {
   };
 
   const nextClicked = () => {
-    props.getEmailData({ PdfSelected: PdfSelected });
+    if(IRTTraining){
+      props.getEmailData(state_object);
+      props.getSelected(trainingUser);
+      navigate("/CreateEmail", {
+        state: {PdfSelected: PdfSelected, IrtObj:irtRoleObj,NextFlag:1},
+      });
+    }else{
+      props.getSearched(searchedUser);
+      props.getSelected(trainingUser);
+      let pdfobj = { PdfSelected: PdfSelected };
+      const mergedObject = { ...state_object, ...pdfobj };
+      props.getEmailData(mergedObject);
+      // props.getEmailData({ PdfSelected: PdfSelected });
+      navigate("/CreateEmail", {
+        state: { PdfSelected: PdfSelected,IrtObj:irtRoleObj }
+      })
+    }
   };
 
   const handleOnfilterlngguage = (lan) => {
@@ -303,7 +332,11 @@ const EmailArticleSelect = (props) => {
                         </li>
                       )}
                     <li className="">
-                      <a href="">Verify your list</a>
+                      <a href="">
+                        {
+                          IRTTraining ? "Verify Your IRT" : "Verify your list"
+                        }
+                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your Email</a>
@@ -327,18 +360,19 @@ const EmailArticleSelect = (props) => {
                         Next
                       </button>
                     ) : (
-                      <Link
-                        to="/CreateEmail"
-                        state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
-                        onClick={nextClicked}
-                      >
+                      // <Link
+                      //   to="/CreateEmail"
+                      //   state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
+                      //   onClick={nextClicked}
+                      // >
                         <button
                           ref={inputElement}
+                          onClick={nextClicked}
                           className="btn btn-primary btn-filled next disabled"
                         >
                           Next
                         </button>
-                      </Link>
+                      // </Link>
                     )}
                   </div>
                 </div>
@@ -977,10 +1011,15 @@ const EmailArticleSelect = (props) => {
 const mapStateToProps = (state) => {
   dxr = state.getEmailData?.PdfSelected;
   pdf_id = state.getDraftData?.pdf_id;
+  state_object = state.getEmailData;
+  trainingUser = state.getSelected;
+  searchedUser = state.getSearched;
   return state;
 };
 
 export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getDraftData: getDraftData,
+  getSelected,
+  getSearched,
 })(EmailArticleSelect)

@@ -111,6 +111,8 @@ const VerifyHCP = (props) => {
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
 
+  const [IRTTraining, setIRTTraining] = useState(old_object?.startTraining  ? old_object?.startTraining : 0);
+
   const axiosFun = async () => {
     try {
       const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
@@ -329,7 +331,8 @@ const VerifyHCP = (props) => {
         },
       });
     }else{
-      props.getSelected(selectedHcp);  
+      props.getSelected(selectedHcp);
+      props.getSearched(searchedUsers);
       navigate("/VerifyHcpMAIL", {
         state: {
           selectedHcp: selectedHcp,
@@ -422,7 +425,11 @@ const VerifyHCP = (props) => {
   const deleteSelected = (index) => {
     let arr = [];
     arr = selectedHcp;
-    arr.splice(index, 1);
+    const removedArray = arr.splice(index, 1);
+    if(irtRoleObj?.IRTFlag){
+      // add user back to searchHCP
+      setSearchedUsers((oldArray) => [...oldArray, removedArray[0]]);
+    }
     setSelectedHcp(arr);
     setReRender(reRender + 1);
   };
@@ -980,10 +987,11 @@ const VerifyHCP = (props) => {
   };
 
   const backClicked = () => {
+    props.getSearched(searchedUsers);
+    props.getSelected(selectedHcp);
     if(irtRoleObj?.IRTFlag){
       navigate("/CreateEmail",{state: {IrtObj:irtRoleObj}})
     }else{
-
       navigate("/SelectHCP");
     }
   };
@@ -1243,7 +1251,11 @@ const VerifyHCP = (props) => {
                   </li>
                   */}
                     <li className="active active-main">
-                      <a href="javascript:void(0)">Select Verify your HCPs</a>
+                      <a href="javascript:void(0)">
+                        {
+                          IRTTraining ? "Verify Your IRT" : "Select & Verify Your HCPs"
+                        }
+                      </a>
                     </li>
 
                     <li className="">
@@ -1253,12 +1265,21 @@ const VerifyHCP = (props) => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button
-                      onClick={saveAsDraft}
-                      className="btn btn-primary btn-bordered move-draft"
-                    >
-                      Save As Draft
-                    </button>
+                    {
+                      IRTTraining ? 
+                        <Link to = {"/new-readers-reviews"}
+                          state= {{siteRole: irtRoleObj?.siteRole }}
+                          className="btn btn-primary btn-bordered move-draft">
+                          Cancel
+                        </Link>
+                      : 
+                      <button
+                        onClick={saveAsDraft}
+                        className="btn btn-primary btn-bordered move-draft"
+                      >
+                        Save As Draft
+                      </button>
+                    }
 
                     {selectedHcp.length === 0 ? (
                       <button className="btn btn-primary btn-filled next disabled">
@@ -1292,60 +1313,78 @@ const VerifyHCP = (props) => {
             }
 
             <section className="search-hcp">
-              <div className="form-search-hcp">
-                <form>
-                {
-                  !irtRoleObj?.IRTFlag ?
-                  <div className="form-inline row justify-content-between align-items-center">
-                    <div className="col-12 col-md-7">
-                      <div className="row justify-content-between align-items-center">
-                        <div className="form-group col-sm-6">
-                          <label htmlFor="hcp-name">Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id=""
-                            onChange={(e) => nameChanged(e)}
-                          />
+              {
+                !IRTTraining ? 
+                <>
+                  <div className="form-search-hcp">
+                    <form>
+                    {
+                      !irtRoleObj?.IRTFlag ?
+                      <div className="form-inline row justify-content-between align-items-center">
+                        <div className="col-12 col-md-7">
+                          <div className="row justify-content-between align-items-center">
+                            <div className="form-group col-sm-6">
+                              <label htmlFor="hcp-name">Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                id=""
+                                onChange={(e) => nameChanged(e)}
+                              />
+                            </div>
+                            <div className="form-group col-sm-6">
+                              <label htmlFor="hcp-email">Email</label>
+                              <input
+                                type="mail"
+                                className="form-control"
+                                id=""
+                                onChange={(e) => emailChanged(e)}
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <div className="form-group col-sm-6">
-                          <label htmlFor="hcp-email">Email</label>
-                          <input
-                            type="mail"
-                            className="form-control"
-                            id=""
-                            onChange={(e) => emailChanged(e)}
-                          />
+                        <div className="form-button col-12 col-md-5">
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => searchHcp(e)}
+                          >
+                            Search
+                          </button>
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#add_hcp"
+                            onClick={addNewHcp}
+                          >
+                            {localStorage.getItem("user_id") == userId
+                              ? "Add User +"
+                              : "Add HCP +"}
+                          </button>
                         </div>
                       </div>
-                    </div>
-                    <div className="form-button col-12 col-md-5">
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={(e) => searchHcp(e)}
-                      >
-                        Search
-                      </button>
-                      <button
-                        className="btn btn-primary btn-bordered"
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#add_hcp"
-                        onClick={addNewHcp}
-                      >
+                      : 
+                      <div className="form-inline">
                         {localStorage.getItem("user_id") == userId
-                          ? "Add User +"
-                          : "Add HCP +"}
-                      </button>
-                    </div>
-                  </div>
-                  : 
-                  <div className="form-inline">
-                     {localStorage.getItem("user_id") == userId
-                          ? <div className="d-flex justify-content-between align-items-end"><div className="select-irt">
-                              <h4>Select IRTs :</h4>
-                              <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
+                              ? <div className="d-flex justify-content-between align-items-end"><div className="select-irt">
+                                  <h4>Select IRTs :</h4>
+                                  <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
+                                  </div>
+                                  <div className="form-button d-flex justify-content-end align-items-center">
+                                    <button
+                                      className="btn btn-primary btn-bordered"
+                                      type="button"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#add_hcp"
+                                      onClick={addNewHcp}
+                                    >
+                                      {localStorage.getItem("user_id") == userId
+                                        ? "Add User +"
+                                        : "Add HCP +"}
+                                    </button>
+                                  </div>
                               </div>
+                              : 
                               <div className="form-button d-flex justify-content-end align-items-center">
                                 <button
                                   className="btn btn-primary btn-bordered"
@@ -1359,668 +1398,655 @@ const VerifyHCP = (props) => {
                                     : "Add HCP +"}
                                 </button>
                               </div>
-                          </div>
-                          : 
-                          <div className="form-button d-flex justify-content-end align-items-center">
-                            <button
-                              className="btn btn-primary btn-bordered"
-                              type="button"
-                              data-bs-toggle="modal"
-                              data-bs-target="#add_hcp"
-                              onClick={addNewHcp}
-                            >
-                              {localStorage.getItem("user_id") == userId
-                                ? "Add User +"
-                                : "Add HCP +"}
-                            </button>
-                          </div>
-                          }
-                    
+                              }
+                        
+                      </div>
+                    }  
+                  
+                    </form>
                   </div>
-                }  
-              
-                </form>
-              </div>
-              <div className="search-hcp-table">
-                <div
-                  className={
-                    searchedUsers?.length === 0
-                      ? "search-hcp-table-inside not-found"
-                      : "search-hcp-table-inside"
-                  }
-                >
-                  {searchedUsers?.length === 0 ? (
-                    <div className="not-found">
-                      <h4>No Record Found !</h4>
+                  <div className="search-hcp-table">
+                    <div
+                      className={
+                        searchedUsers?.length === 0
+                          ? "search-hcp-table-inside not-found"
+                          : "search-hcp-table-inside"
+                      }
+                    >
+                      {searchedUsers?.length === 0 ? (
+                        <div className="not-found">
+                          <h4>No Record Found !</h4>
+                        </div>
+                      ) : (
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('name')}>
+                                Name
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'name'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('name')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('email')}>
+                                Email
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'email'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('email')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col" className="sort_option">                         
+                                Bounced                           
+                                </th>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('country')}>
+                                Country
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'country'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('country')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              {(localStorage.getItem("user_id") ===
+                              "56Ek4feL/1A8mZgIKQWEqg==" 
+                              ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              ? (
+                                <>
+                                <th scope="col" className="sort_option">
+                                <span onClick={() => handleSort('site_number')}>
+                                  Site number
+                                  <button
+                                    className={`event_sort_btn ${sortBy == 'site_number'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('site_number')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                  </span>
+                                  </th>
+                                  <th scope="col" className="sort_option">
+                                  <span onClick={() => handleSort('irt')}>
+                                    IRT mandatory training
+                                    <button
+                                    className={`event_sort_btn ${sortBy == 'irt'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('irt')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                    </span>
+                                    </th>
+                                  <th scope="col" className="sort_option">
+                                  <span onClick={() => handleSort('user_type')}>
+                                    IRT role
+                                    <button
+                                    className={`event_sort_btn ${sortBy == 'user_type'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('user_type')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                    </span>
+                                    </th>
+                                </>
+                              ) : (
+                                <>
+                                  <th scope="col" className="sort_option">
+                                  <span onClick={() => handleSort('ibu')}>
+                                    Business unit
+                                    <button
+                                    className={`event_sort_btn ${sortBy == 'ibu'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('ibu')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                    </span>
+                                    </th>
+                                  <th scope="col" className="sort_option">
+                                  <span onClick={() => handleSort('contact_type')}>
+                                    Contact type
+                                    <button
+                                    className={`event_sort_btn ${sortBy == 'contact_type'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('contact_type')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                    </span>
+                                    </th>
+                                </>
+                              )}
+
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('consent')}>
+                                Consent
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'consent'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('consent')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('email_received')}>
+                                Email received
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'email_received'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('email_received')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('email_opening')}>
+                                Openings
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'email_opening'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('email_opening')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('registration')}>
+                                Registrations
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'registration'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('registration')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col" className="sort_option">
+                              <span onClick={() => handleSort('last_email')}>
+                                Last email
+
+                                <button
+                                    className={`event_sort_btn ${sortBy == 'last_email'
+                                        ? sortOrder == "asc"
+                                          ? "svg_asc"
+                                          : "svg_active"
+                                        : ""
+                                      }`}
+                                    onClick={() => handleSort('last_email')}
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_3722_6611)">
+                                        <path
+                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                          fill="#97B6CF"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_3722_6611">
+                                          <rect
+                                            width="8"
+                                            height="8"
+                                            fill="white"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </button>
+                                </span>
+                                </th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {/* {searchedUsers?.map((users, index) => { */}
+                            {sortData(searchedUsers, sortBy, sortOrder).map((users, index) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td>{users?.name?users?.name:users?.first_name}</td>
+                                    <td>{users?.email ? users?.email : "N/A"}</td>
+                                    <td>{users?.bounce ? users?.bounce : "N/A"}</td>
+                                    <td>
+                                      {users?.country ? users?.country : "N/A"}
+                                    </td>
+                                    {(localStorage.getItem("user_id") ==
+                                            "56Ek4feL/1A8mZgIKQWEqg=="
+                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                            &&(<><td>{users?.site_number?users?.site_number:"N/A"}</td></>)}
+                                    <td>
+                                      {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                        ? users?.irt
+                                          ? "Yes"
+                                          : "No"
+                                        : users?.ibu
+                                        ? users?.ibu
+                                        : "N/A"}
+                                    </td>
+                                    <td>
+                                      {(localStorage.getItem("user_id") ===
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                        ? users?.user_type!=0
+                                          ? users?.user_type
+                                          : "N/A"
+                                        : users?.contact_type
+                                        ? users?.contact_type
+                                        : "N/A"}
+                                    </td>
+                                    <td>
+                                      <span>
+                                        {users?.consent ? users?.consent : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        {users?.email_received
+                                          ? users?.email_received
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        {users?.email_opening
+                                          ? users?.email_opening
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        {users?.registration
+                                          ? users?.registration
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        {users?.last_email
+                                          ? users?.last_email
+                                          : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td className="add-new-hcp">
+                                      <img
+                                        src={path_image + "add-row.png"}
+                                        alt="Add More"
+                                        onClick={() => selectHcp(index)}
+                                      />
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+
+                            {/* <tr>
+                      <td>Jacob Flindt</td>
+                      <td>User@docintel.app</td>
+                      <td>No</td>
+                      <td>United Kingdom</td>
+                      <td>CIS</td>
+                      <td>Haematology</td>
+                      <td>Tech</td>
+                      <td>Yes</td>
+                      <td>43</td>
+                      <td>30</td>
+                      <td>28</td>
+                      <td>Nov 18 </td>
+                      <td className="add-new-hcp">
+                        <img src={path_image + "add-row.png"} alt="Add More" />
+                      </td>
+                    </tr> */}
+                          </tbody>
+                        </table>
+                      )}
                     </div>
-                  ) : (
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('name')}>
-                            Name
-                            <button
-                                className={`event_sort_btn ${sortBy == 'name'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('name')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('email')}>
-                            Email
-                            <button
-                                className={`event_sort_btn ${sortBy == 'email'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('email')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col" className="sort_option">                         
-                            Bounced                           
-                            </th>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('country')}>
-                            Country
-                            <button
-                                className={`event_sort_btn ${sortBy == 'country'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('country')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          {(localStorage.getItem("user_id") ===
-                          "56Ek4feL/1A8mZgIKQWEqg==" 
-                          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
-                          ? (
-                            <>
-                            <th scope="col" className="sort_option">
-                            <span onClick={() => handleSort('site_number')}>
-                              Site number
-                              <button
-                                className={`event_sort_btn ${sortBy == 'site_number'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('site_number')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                              </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                              <span onClick={() => handleSort('irt')}>
-                                IRT mandatory training
-                                <button
-                                className={`event_sort_btn ${sortBy == 'irt'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('irt')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                                </th>
-                              <th scope="col" className="sort_option">
-                              <span onClick={() => handleSort('user_type')}>
-                                IRT role
-                                <button
-                                className={`event_sort_btn ${sortBy == 'user_type'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('user_type')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                                </th>
-                            </>
-                          ) : (
-                            <>
-                              <th scope="col" className="sort_option">
-                              <span onClick={() => handleSort('ibu')}>
-                                Business unit
-                                <button
-                                className={`event_sort_btn ${sortBy == 'ibu'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('ibu')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                                </th>
-                              <th scope="col" className="sort_option">
-                              <span onClick={() => handleSort('contact_type')}>
-                                Contact type
-                                <button
-                                className={`event_sort_btn ${sortBy == 'contact_type'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('contact_type')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                                </span>
-                                </th>
-                            </>
-                          )}
-
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('consent')}>
-                            Consent
-                            <button
-                                className={`event_sort_btn ${sortBy == 'consent'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('consent')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('email_received')}>
-                            Email received
-                            <button
-                                className={`event_sort_btn ${sortBy == 'email_received'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('email_received')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('email_opening')}>
-                            Openings
-                            <button
-                                className={`event_sort_btn ${sortBy == 'email_opening'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('email_opening')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('registration')}>
-                            Registrations
-                            <button
-                                className={`event_sort_btn ${sortBy == 'registration'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('registration')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col" className="sort_option">
-                          <span onClick={() => handleSort('last_email')}>
-                            Last email
-
-                            <button
-                                className={`event_sort_btn ${sortBy == 'last_email'
-                                    ? sortOrder == "asc"
-                                      ? "svg_asc"
-                                      : "svg_active"
-                                    : ""
-                                  }`}
-                                onClick={() => handleSort('last_email')}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="8"
-                                  height="8"
-                                  viewBox="0 0 8 8"
-                                  fill="none"
-                                >
-                                  <g clip-path="url(#clip0_3722_6611)">
-                                    <path
-                                      d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                      fill="#97B6CF"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                      <rect
-                                        width="8"
-                                        height="8"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              </button>
-                            </span>
-                            </th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {/* {searchedUsers?.map((users, index) => { */}
-                        {sortData(searchedUsers, sortBy, sortOrder).map((users, index) => {
-                          return (
-                            <>
-                              <tr>
-                                <td>{users?.name?users?.name:users?.first_name}</td>
-                                <td>{users?.email ? users?.email : "N/A"}</td>
-                                <td>{users?.bounce ? users?.bounce : "N/A"}</td>
-                                <td>
-                                  {users?.country ? users?.country : "N/A"}
-                                </td>
-                                {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
-                                        &&(<><td>{users?.site_number?users?.site_number:"N/A"}</td></>)}
-                                <td>
-                                  {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
-                                    ? users?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    : users?.ibu
-                                    ? users?.ibu
-                                    : "N/A"}
-                                </td>
-                                <td>
-                                  {(localStorage.getItem("user_id") ===
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
-                                    ? users?.user_type!=0
-                                      ? users?.user_type
-                                      : "N/A"
-                                    : users?.contact_type
-                                    ? users?.contact_type
-                                    : "N/A"}
-                                </td>
-                                <td>
-                                  <span>
-                                    {users?.consent ? users?.consent : "N/A"}
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    {users?.email_received
-                                      ? users?.email_received
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    {users?.email_opening
-                                      ? users?.email_opening
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    {users?.registration
-                                      ? users?.registration
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    {users?.last_email
-                                      ? users?.last_email
-                                      : "N/A"}
-                                  </span>
-                                </td>
-                                <td className="add-new-hcp">
-                                  <img
-                                    src={path_image + "add-row.png"}
-                                    alt="Add More"
-                                    onClick={() => selectHcp(index)}
-                                  />
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-
-                        {/* <tr>
-                  <td>Jacob Flindt</td>
-                  <td>User@docintel.app</td>
-                  <td>No</td>
-                  <td>United Kingdom</td>
-                  <td>CIS</td>
-                  <td>Haematology</td>
-                  <td>Tech</td>
-                  <td>Yes</td>
-                  <td>43</td>
-                  <td>30</td>
-                  <td>28</td>
-                  <td>Nov 18 </td>
-                  <td className="add-new-hcp">
-                    <img src={path_image + "add-row.png"} alt="Add More" />
-                  </td>
-                </tr> */}
-                      </tbody>
-                    </table>
-                  )}
-                </div>
-              </div>
-
+                  </div>
+                </>  
+                : null
+              }
+              
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    {/* {localStorage.getItem("user_id") == userId
-                      ? "Selected Users"
-                      : "Selected HCPs"} */}Selected HCPs
+                    {IRTTraining ? 'Selected IRT' : 'Selected HCPs'}
+                    
                     <span>| {selectedHcp?.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
@@ -2034,48 +2060,6 @@ const VerifyHCP = (props) => {
                             <img src={path_image + "edit.svg"} alt="" />
                           </button>
                         </div>
-                        {/* <div className="hcp-sort">
-                          {sortingCount == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : sorting == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary desc"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort-decending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                className="btn btn-outline-primary asc"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort-assending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          )}
-                        </div> */}
                       </>
                     ) : null}
                     {saveOpen ? (
@@ -2747,13 +2731,17 @@ const VerifyHCP = (props) => {
                                       : "N/A"}
                                   </span>
                                 </td>
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                    onClick={() => deleteSelected(index)}
-                                  />
-                                </td>
+                                {
+                                  !IRTTraining ?
+                                    <td className="delete_row" colSpan="12">
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                        onClick={() => deleteSelected(index)}
+                                      />
+                                    </td>
+                                  : null
+                                }
                               </tr>
                             </>
                           );
