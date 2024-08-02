@@ -621,7 +621,7 @@ const ReaderEdit = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    const result = AddReaderValidation(userInputs, groupId);
+    const result = AddReaderValidation(userInputs, groupId,state?.siteRole);
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
@@ -1305,7 +1305,7 @@ const ReaderEdit = () => {
                           <>
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">
-                                Site number  <span>*</span>
+                                Site number { state?.siteRole?<span>*</span>:""}
                                 </Form.Label>
                               <Select
                                 options={userDetail?.siteNumber}
@@ -1347,7 +1347,7 @@ const ReaderEdit = () => {
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">
-                                Site name  <span>*</span>
+                                Site name  { state?.siteRole?<span>*</span>:""}
                               </Form.Label>
                               <Select
                                 options={userDetail?.siteName}

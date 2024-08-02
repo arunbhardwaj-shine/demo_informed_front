@@ -2946,8 +2946,8 @@ const TemplateBuilder = (props) => {
                                     type="text"
                                     className={
                                       validationError?.[`firstName-${i}`] &&
-                                        localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                        (localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -2978,8 +2978,8 @@ const TemplateBuilder = (props) => {
                                     type="text"
                                     className={
                                       validationError?.[`lastName-${i}`] &&
-                                        localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                        (localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3223,8 +3223,8 @@ const TemplateBuilder = (props) => {
                                       options={irtCountry}
                                       className={
                                         validationError?.[`country-${i}`] &&
-                                          localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                          (localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       }

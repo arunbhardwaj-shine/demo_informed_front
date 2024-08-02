@@ -619,6 +619,7 @@ const ReaderAdd = () => {
         navigate("/readers-list", {
           state: {
             readersData: response?.data?.data,
+            siteRole: state?.siteRole ? state?.siteRole : null
           },
         });
       }
@@ -701,7 +702,7 @@ const ReaderAdd = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==") {
         if(state?.siteRole == 'Site User-Blinded'){
             link.href = "https://webinar.informed.pro/R_D_Site_User.xlsx";
         }else if(state?.siteRole == 'Investigator-Blinded'){
@@ -711,9 +712,11 @@ const ReaderAdd = () => {
         }else{
           link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
         }
-    } else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
-      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    } else {
+    }
+    //  else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    //   link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
+    // } 
+    else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
     }
     link.setAttribute("download", "file.xlsx");

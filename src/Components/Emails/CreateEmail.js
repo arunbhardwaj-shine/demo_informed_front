@@ -28,6 +28,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 var dxr = 0;
 var state_object = {};
+var trainingUser = {};
 
 const CreateEmail = (props) => {
   const [progress, setProgress] = useState(0);
@@ -193,6 +194,8 @@ const CreateEmail = (props) => {
   const [irtRoleObj,setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
+
+  const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining  ? state_object?.startTraining : 0);
 
   const [hpc, setHpc] = useState([
     {
@@ -984,7 +987,6 @@ const CreateEmail = (props) => {
     });
 
     if (validator.allValid()) {
-      // console.log(PdfSelected);
       if(irtRoleObj?.IRTFlag){
         let existingObj = {
           status: getIsApprovedStatus,
@@ -998,14 +1000,26 @@ const CreateEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
         };
+        if(state_object?.startTraining == 1){
+          existingObj['startTraining'] = 1;
+          const mergedObject = { ...existingObj, ...irtRoleObj };
 
-        const mergedObject = { ...existingObj, ...irtRoleObj };
-        props.getEmailData(mergedObject);
-        props.getSelected(null)
-        props.getSearched(null)
-        navigate("/VerifyHCP", {
-          state: {IrtObj:irtRoleObj,NextFlag:1},
-        });
+          props.getEmailData(mergedObject);
+          props.getSelected(trainingUser)
+          props.getSearched(null)
+          navigate("/VerifyHCP", {
+            state: {IrtObj:irtRoleObj,NextFlag:1},
+          });
+        }else{
+          const mergedObject = { ...existingObj, ...irtRoleObj };
+          props.getEmailData(mergedObject);
+          props.getSelected(null)
+          props.getSearched(null)
+          navigate("/VerifyHCP", {
+            state: {IrtObj:irtRoleObj,NextFlag:1},
+          });
+        }
+
       }else{
         props.getEmailData({
           //uniqueId: uniqueId,
@@ -2315,7 +2329,11 @@ const CreateEmail = (props) => {
                         </li>
                       )}
                     <li className="">
-                      <a href="">Verify your list</a>
+                      <a href="">
+                        {
+                          IRTTraining ? "Verify Your IRT" : "Verify your list"
+                        }
+                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your Email</a>
@@ -2324,12 +2342,21 @@ const CreateEmail = (props) => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button
-                      className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
-                      onClick={saveAsDraft}
-                    >
-                      Save As Draft
-                    </button>
+                    {
+                      IRTTraining ? 
+                        <Link to = {"/new-readers-reviews"}
+                          state= {{siteRole: irtRoleObj?.siteRole }}
+                          className="btn btn-primary btn-bordered move-draft">
+                          Cancel
+                        </Link>
+                      :
+                      <button
+                        className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
+                        onClick={saveAsDraft}
+                      >
+                        Save As Draft
+                      </button>
+                    }
 
                     <button
                       className="btn btn-primary btn-filled next"  state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
@@ -4427,6 +4454,7 @@ const CreateEmail = (props) => {
 const mapStateToProps = (state) => {
   dxr = state.getEmailData?.PdfSelected;
   state_object = state.getEmailData;
+  trainingUser = state.getSelected;
   return state;
 };
 
