@@ -1786,6 +1786,7 @@ const NewReadersReview = (props) => {
 
   const refresh = async() => {
     try{
+      // loader("show");
       setRefreshFlag(true);
       let obj = {
         "sync":1,
@@ -1795,6 +1796,7 @@ const NewReadersReview = (props) => {
       setRefreshFlag(false);
       getReaderListData(page, filterObject, search);
     }catch(err){
+      // loader("hide");
       console.log(err);
     }
   }
