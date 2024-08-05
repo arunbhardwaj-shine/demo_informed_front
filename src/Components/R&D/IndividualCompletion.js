@@ -98,7 +98,7 @@ const entering = (e) => {
         invited: result?.data?.data?.invited,
         new: result?.data?.data?.new,
         started: result?.data?.data?.started,
-        total: result?.data?.data?.total,
+        total: result?.data?.data?.all,
         pending: result?.data?.data?.pending,
       });
       let newValue = [
