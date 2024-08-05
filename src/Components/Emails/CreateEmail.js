@@ -477,20 +477,20 @@ const CreateEmail = (props) => {
       props.hasOwnProperty("getDraftData")
     ) {
       if (props.getDraftData !== null) {
-        setEmailDescription(props.getDraftData.description);
-        setManualEmailDescription(props.getDraftData.description);
-        setEmailCreator(props.getDraftData.creator);
-        setManualEmailCreator(props.getDraftData.creator);
-        setemailCampaign(props.getDraftData.campaign);
-        setManualEmailCampaign(props.getDraftData.campaign);
-        setEmailSubject(props.getDraftData.subject);
-        setManualEmailSubject(props.getDraftData.subject);
-        setFinalTags(props.getDraftData.tags);
-        setTagClickedFirst(props.getDraftData.tags);
-        setTemplateId(props.getDraftData.campaign_data.template_id);
-        templateIdRef.current = props.getDraftData?.campaign_data?.template_id;
-        setIsApprovedStatus(props.getDraftData.status);
-        setTemplate(props.getDraftData.source_code);
+        setEmailDescription(state_object?.emailDescription || props?.getDraftData?.description);
+        setManualEmailDescription(state_object?.emailDescription || props?.getDraftData?.description);
+        setEmailCreator(state_object?.emailCreator || props?.getDraftData?.creator);
+        setManualEmailCreator(state_object?.emailCreator || props?.getDraftData?.creator);
+        setemailCampaign(state_object?.emailCampaign || props?.getDraftData?.campaign);
+        setManualEmailCampaign(state_object?.emailCampaign || props?.getDraftData?.campaign);
+        setEmailSubject(state_object?.emailSubject || props?.getDraftData?.subject);
+        setManualEmailSubject(state_object?.emailSubject || props?.getDraftData?.subject);
+        setFinalTags(state_object?.tags || props?.getDraftData?.tags);
+        setTagClickedFirst(props?.getDraftData?.tags);
+        setTemplateId(state_object?.templateId || props?.getDraftData?.campaign_data.template_id);
+        templateIdRef.current = state_object?.templateId || props?.getDraftData?.campaign_data?.template_id;
+        setIsApprovedStatus(state_object?.status || props?.getDraftData?.status);
+        setTemplate(state_object?.template || props?.getDraftData?.source_code);
       }
     }
   }, []);

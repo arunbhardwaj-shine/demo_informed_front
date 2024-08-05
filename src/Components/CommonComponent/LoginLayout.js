@@ -33,6 +33,18 @@ const LoginLayout = ({ component: Component, ...rest }) => {
       
     }
   };
+
+  const generateString = () => {
+      const length = 5;
+      const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = ' ';
+      const charactersLength = characters.length;
+      for ( let i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+
+      return result;
+  }
   
  
   useEffect(()=>{
@@ -56,7 +68,7 @@ const LoginLayout = ({ component: Component, ...rest }) => {
               <div className="container-fluid">
                 <div className="row">
                   <Sidebar />
-                  <Component key={location.pathname} {...rest} />
+                  <Component key={location?.pathname ? location?.pathname : generateString()} {...rest} />
                 </div>
               </div>
             </div>
