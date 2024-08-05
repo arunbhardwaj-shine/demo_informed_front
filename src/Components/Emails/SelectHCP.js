@@ -125,6 +125,7 @@ const SelectHCP = (props) => {
     props.getEmailData(old_object);
     props.getSelected(trainingUser);
     props.getSearched(searchedUser);
+    props.getSelectedSmartListData(new_object);
 
     let pdfSelectedId = props.getEmailData
       ? props.getEmailData.pdf_id

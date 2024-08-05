@@ -3,7 +3,7 @@ import { getEmailData } from "../../actions";
 import { connect, connectAdvanced } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Modal,Tab,Tabs } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { compose } from "redux";
@@ -40,9 +40,9 @@ const VerifyMAIL = (props) => {
   const [selectedListId, setSelectedListId] = useState(0);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [template_source_code, setTemplate] = useState(
-    props.getEmailData?.template
-      ? props.getEmailData.template
-      : props.getDraftData.source_code
+    props?.getEmailData?.template
+      ? props?.getEmailData?.template
+      : props?.getDraftData?.source_code
   );
 
   var var_template_source_code = template_source_code.replaceAll("800", "450");
@@ -50,11 +50,11 @@ const VerifyMAIL = (props) => {
 
   const selectedHcp = location.state
     ? location.state.selectedHcp
-    : props.getDraftData.campaign_data.selectedHcp;
+    : props?.getDraftData?.campaign_data?.selectedHcp;
 
   const PdfSelected = location.state
     ? location.state.PdfSelected
-    : props.getDraftData.PdfSelected;
+    : props?.getDraftData?.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
@@ -66,34 +66,34 @@ const VerifyMAIL = (props) => {
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
   const [getArticleType, setArticleType] = useState(
-    props.getEmailData?.status
-      ? props.getEmailData.status
-      : props.getDraftData?.status && props.getDraftData.status != ""
-        ? props.getDraftData.status
+    props?.getEmailData?.status
+      ? props?.getEmailData?.status
+      : props?.getDraftData?.status && props?.getDraftData?.status != ""
+        ? props?.getDraftData?.status
         : 0
   );
 
   useEffect(() => {
     let campaign_id =
-      typeof props.getEmailData === "object" &&
-        props.getEmailData !== null &&
-        props.getEmailData?.campaign_id
-        ? props.getEmailData.campaign_id
-        : props.getDraftData?.campaign_id
-          ? props.getDraftData.campaign_id
+      typeof props?.getEmailData === "object" &&
+        props?.getEmailData !== null &&
+        props?.getEmailData?.campaign_id
+        ? props?.getEmailData?.campaign_id
+        : props?.getDraftData?.campaign_id
+          ? props?.getDraftData?.campaign_id
           : "";
     setCampaign_id(campaign_id);
 
     if (
-      (typeof props.getSelectedSmartListData === "object" &&
-        props.getSelectedSmartListData !== null) ||
-      (props.getDraftData !== null && props.getDraftData.smart_list_data)
+      (typeof props?.getSelectedSmartListData === "object" &&
+        props?.getSelectedSmartListData !== null) ||
+      (props?.getDraftData !== null && props?.getDraftData?.smart_list_data)
     ) {
       let smart_list_data =
-        typeof props.getSelectedSmartListData === "object" &&
-          props.getSelectedSmartListData !== null
-          ? props.getSelectedSmartListData
-          : props.getDraftData.smart_list_data;
+        typeof props?.getSelectedSmartListData === "object" &&
+          props?.getSelectedSmartListData !== null
+          ? props?.getSelectedSmartListData
+          : props?.getDraftData?.smart_list_data;
       setSmartListData(smart_list_data);
     }
 
@@ -105,12 +105,12 @@ const VerifyMAIL = (props) => {
         setRemovedHcp(location.state.removedHcp);
       }
     } else {
-      if (props.getDraftData.campaign_data?.removedHcp) {
+      if (props?.getDraftData?.campaign_data?.removedHcp) {
         if (
-          typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
-          props.getDraftData.campaign_data.removedHcp != ""
+          typeof props?.getDraftData?.campaign_data.removedHcp != "undefined" &&
+          props?.getDraftData?.campaign_data.removedHcp != ""
         ) {
-          setRemovedHcp(props.getDraftData.campaign_data.removedHcp);
+          setRemovedHcp(props?.getDraftData?.campaign_data.removedHcp);
         }
       }
     }
@@ -118,11 +118,14 @@ const VerifyMAIL = (props) => {
     getpdfData();
   }, []);
 
+  const BrokenImage =
+    "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getpdfData = async () => {
-    let pdf_id = props.getEmailData?.PdfSelected
-      ? props.getEmailData.PdfSelected
-      : props.getDraftData.pdf_id;
+    let pdf_id = props?.getEmailData?.PdfSelected
+      ? props?.getEmailData?.PdfSelected
+      : props?.getDraftData?.pdf_id;
     setSelectedPdfId(pdf_id);
     if (
       typeof pdf_id !== "undefined" &&
@@ -170,48 +173,48 @@ const VerifyMAIL = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id: props.getEmailData?.PdfSelected
-        ? props.getEmailData.PdfSelected
-        : props.getDraftData.pdf_id,
-      description: props.getEmailData?.emailDescription
-        ? props.getEmailData.emailDescription
-        : props.getDraftData?.description
-          ? props.getDraftData.description
+      pdf_id: props?.getEmailData?.PdfSelected
+        ? props?.getEmailData?.PdfSelected
+        : props?.getDraftData?.pdf_id,
+      description: props?.getEmailData?.emailDescription
+        ? props?.getEmailData?.emailDescription
+        : props?.getDraftData?.description
+          ? props?.getDraftData?.description
           : "",
-      creator: props.getEmailData?.emailCreator
-        ? props.getEmailData.emailCreator
-        : props.getDraftData?.creator
-          ? props.getDraftData.creator
+      creator: props?.getEmailData?.emailCreator
+        ? props?.getEmailData?.emailCreator
+        : props?.getDraftData?.creator
+          ? props?.getDraftData?.creator
           : "",
-      campaign_name: props.getEmailData?.emailCampaign
-        ? props.getEmailData.emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData?.emailSubject
-        ? props.getEmailData.emailSubject
-        : props.getDraftData.subject,
+      campaign_name: props?.getEmailData?.emailCampaign
+        ? props?.getEmailData?.emailCampaign
+        : props?.getDraftData?.campaign,
+      subject: props?.getEmailData?.emailSubject
+        ? props?.getEmailData?.emailSubject
+        : props?.getDraftData?.subject,
       route_location: "VerifyMAIL",
-      tags: props.getEmailData?.tags
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: props?.getEmailData?.tags
+        ? props?.getEmailData?.tags
+        : props?.getDraftData?.tags,
       campaign_data: {
-        template_id: props.getEmailData?.templateId
-          ? props.getEmailData.templateId
-          : props.getDraftData.campaign_data.template_id,
+        template_id: props?.getEmailData?.templateId
+          ? props?.getEmailData?.templateId
+          : props?.getDraftData?.campaign_data.template_id,
         smart_list_id:
           typeof getSmartListData !== "undefined" &&
             getSmartListData.hasOwnProperty("id")
             ? getSmartListData.id
             : "",
         selectedHcp: selectedHcp,
-        list_selection: props.getEmailData?.selected
-          ? props.getEmailData.selected
-          : props.getDraftData.campaign_data.list_selection,
+        list_selection: props?.getEmailData?.selected
+          ? props?.getEmailData?.selected
+          : props?.getDraftData?.campaign_data.list_selection,
         removedHcp: getRemovedHcp,
       },
       campaign_id: campaign_id_st,
-      source_code: props.getEmailData?.template
-        ? props.getEmailData.template
-        : props.getDraftData.source_code,
+      source_code: props?.getEmailData?.template
+        ? props?.getEmailData?.template
+        : props?.getDraftData?.source_code,
       status: 2,
     };
     // console.log(body);
@@ -270,49 +273,49 @@ const VerifyMAIL = (props) => {
         type: "error",
       });
     } else {
-      let finalTags = props.getEmailData?.tags
-        ? props.getEmailData.tags.map((tags) => {
+      let finalTags = props?.getEmailData?.tags
+        ? props?.getEmailData?.tags.map((tags) => {
           return tags.innerHTML || tags;
         })
-        : props.getDraftData.tags.map((tags) => {
+        : props?.getDraftData?.tags.map((tags) => {
           return tags.innerHTML || tags;
         });
 
       let user_list =
-        props.getEmailData?.selectedHcp || location.state
+        props?.getEmailData?.selectedHcp || location.state
           ? selectedHcp.map((userId) => {
             return userId.profile_user_id || userId.user_id;
           })
-          : props.getDraftData.campaign_data.selectedHcp.map((userId) => {
+          : props?.getDraftData?.campaign_data.selectedHcp.map((userId) => {
             return userId.profile_user_id || userId.user_id;
           });
 
       const body = {
         user_id: localStorage.getItem("user_id"),
         route_location: "VerifyMAIL",
-        pdf_id: props.getEmailData?.PdfSelected
-          ? props.getEmailData.PdfSelected
-          : props.getDraftData.pdf_id,
-        subject: props.getEmailData?.emailSubject
-          ? props.getEmailData.emailSubject
-          : props.getDraftData.subject,
-        description: props.getEmailData?.emailDescription
-          ? props.getEmailData.emailDescription
-          : props.getDraftData?.description
-            ? props.getDraftData.description
+        pdf_id: props?.getEmailData?.PdfSelected
+          ? props?.getEmailData?.PdfSelected
+          : props?.getDraftData?.pdf_id,
+        subject: props?.getEmailData?.emailSubject
+          ? props?.getEmailData?.emailSubject
+          : props?.getDraftData?.subject,
+        description: props?.getEmailData?.emailDescription
+          ? props?.getEmailData?.emailDescription
+          : props?.getDraftData?.description
+            ? props?.getDraftData?.description
             : "",
-        creator: props.getEmailData?.emailCreator
-          ? props.getEmailData.emailCreator
-          : props.getDraftData?.creator
-            ? props.getDraftData.creator
+        creator: props?.getEmailData?.emailCreator
+          ? props?.getEmailData?.emailCreator
+          : props?.getDraftData?.creator
+            ? props?.getDraftData?.creator
             : "",
-        campaign_name: props.getEmailData?.emailCampaign
-          ? props.getEmailData.emailCampaign
-          : props.getDraftData.campaign,
+        campaign_name: props?.getEmailData?.emailCampaign
+          ? props?.getEmailData?.emailCampaign
+          : props?.getDraftData?.campaign,
         tags: finalTags,
-        template_source_code: props.getEmailData?.template
-          ? props.getEmailData.template
-          : props.getDraftData.source_code,
+        template_source_code: props?.getEmailData?.template
+          ? props?.getEmailData?.template
+          : props?.getDraftData?.source_code,
         campaign_id: campaign_id_st,
         campaign_data: {
           user_list: user_list,
@@ -321,12 +324,12 @@ const VerifyMAIL = (props) => {
               getSmartListData.hasOwnProperty("id")
               ? getSmartListData.id
               : "",
-          template_id: props.getEmailData?.templateId
-            ? props.getEmailData.templateId
-            : props.getDraftData.campaign_data.template_id,
-          list_selection: props.getEmailData?.selected
-            ? props.getEmailData.selected
-            : props.getDraftData.campaign_data.list_selection,
+          template_id: props?.getEmailData?.templateId
+            ? props?.getEmailData?.templateId
+            : props?.getDraftData?.campaign_data.template_id,
+          list_selection: props?.getEmailData?.selected
+            ? props?.getEmailData?.selected
+            : props?.getDraftData?.campaign_data.list_selection,
         },
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -416,17 +419,17 @@ const VerifyMAIL = (props) => {
   };
 
   const removeTag = (i) => {
-    const allTags = props.getEmailData?.tags
-      ? props.getEmailData.tags
-      : props.getDraftData.tags;
+    const allTags = props?.getEmailData?.tags
+      ? props?.getEmailData?.tags
+      : props?.getDraftData?.tags;
     console.log(allTags);
     allTags.splice(i, 1);
     console.log(allTags);
     setReRender(reRender + 1);
-    console.log("props.tags");
-    //  console.log(props.getEmailData.tags);
+    console.log("props?.tags");
+    //  console.log(props?.getEmailData?.tags);
 
-    //  props.getEmailData();
+    //  props?.getEmailData();
   };
 
   const closeModal = () => {
@@ -497,48 +500,48 @@ const VerifyMAIL = (props) => {
     e.preventDefault();
     const body = {
       user_id: localStorage.getItem("user_id"),
-      pdf_id: props.getEmailData?.PdfSelected
-        ? props.getEmailData.PdfSelected
-        : props.getDraftData.pdf_id,
-      description: props.getEmailData?.emailDescription
-        ? props.getEmailData.emailDescription
-        : props.getDraftData?.description
-          ? props.getDraftData.description
+      pdf_id: props?.getEmailData?.PdfSelected
+        ? props?.getEmailData?.PdfSelected
+        : props?.getDraftData?.pdf_id,
+      description: props?.getEmailData?.emailDescription
+        ? props?.getEmailData?.emailDescription
+        : props?.getDraftData?.description
+          ? props?.getDraftData?.description
           : "",
-      creator: props.getEmailData?.emailCreator
-        ? props.getEmailData.emailCreator
-        : props.getDraftData?.creator
-          ? props.getDraftData.creator
+      creator: props?.getEmailData?.emailCreator
+        ? props?.getEmailData?.emailCreator
+        : props?.getDraftData?.creator
+          ? props?.getDraftData?.creator
           : "",
-      campaign_name: props.getEmailData?.emailCampaign
-        ? props.getEmailData.emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData?.emailSubject
-        ? props.getEmailData.emailSubject
-        : props.getDraftData.subject,
+      campaign_name: props?.getEmailData?.emailCampaign
+        ? props?.getEmailData?.emailCampaign
+        : props?.getDraftData?.campaign,
+      subject: props?.getEmailData?.emailSubject
+        ? props?.getEmailData?.emailSubject
+        : props?.getDraftData?.subject,
       route_location: "VerifyMAIL",
-      tags: props.getEmailData?.tags
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: props?.getEmailData?.tags
+        ? props?.getEmailData?.tags
+        : props?.getDraftData?.tags,
       campaign_data: {
-        template_id: props.getEmailData?.templateId
-          ? props.getEmailData.templateId
-          : props.getDraftData.campaign_data.template_id,
+        template_id: props?.getEmailData?.templateId
+          ? props?.getEmailData?.templateId
+          : props?.getDraftData?.campaign_data.template_id,
         smart_list_id:
           typeof getSmartListData !== "undefined" &&
             getSmartListData.hasOwnProperty("id")
             ? getSmartListData.id
             : "",
         selectedHcp: selectedHcp,
-        list_selection: props.getEmailData?.selected
-          ? props.getEmailData.selected
-          : props.getDraftData.campaign_data.list_selection,
+        list_selection: props?.getEmailData?.selected
+          ? props?.getEmailData?.selected
+          : props?.getDraftData?.campaign_data.list_selection,
         removedHcp: getRemovedHcp
       },
       campaign_id: campaign_id_st,
-      source_code: props.getEmailData?.template
-        ? props.getEmailData.template
-        : props.getDraftData.source_code,
+      source_code: props?.getEmailData?.template
+        ? props?.getEmailData?.template
+        : props?.getDraftData?.source_code,
       status: status,
       approved_page: 1,
     };
@@ -599,6 +602,11 @@ const VerifyMAIL = (props) => {
   const closeSmartListPopup = async() => {
     setSelectedListId(0);
   }
+
+  const imageOnError = (event) => {
+    event.currentTarget.src = BrokenImage;
+    event.currentTarget.className = "error";
+  };
   
   return (
     <>
@@ -686,28 +694,29 @@ const VerifyMAIL = (props) => {
                         <h4>Email Details</h4>
                         <h6>
                           <strong>Campaign Title | </strong>
-                          {props.getEmailData?.emailCampaign
-                            ? props.getEmailData.emailCampaign
-                            : props.getDraftData.campaign}
+                          {props?.getEmailData?.emailCampaign
+                            ? props?.getEmailData?.emailCampaign
+                            : props?.getDraftData?.campaign}
                         </h6>
                         <h6>
                           <strong>Creator | </strong>
-                          {props.getEmailData?.emailCreator
-                            ? props.getEmailData.emailCreator
-                            : props.getDraftData?.creator
-                              ? props.getDraftData.creator
+                          {props?.getEmailData?.emailCreator
+                            ? props?.getEmailData?.emailCreator
+                            : props?.getDraftData?.creator
+                              ? props?.getDraftData?.creator
                               : ""}
                         </h6>
                         <h6>
                           <strong>Tags | </strong>
                           <ul>
-                            {props.getEmailData?.tags
-                              ? props.getEmailData.tags.map((tags, i) => {
+                            {props?.getEmailData?.tags
+                              ? props?.getEmailData?.tags.map((tags, i) => {
                                 return (
                                   <>
-                                    <li className="list1">
+                                    <li className="list1" key={"tags_" + i}>
                                       {tags.innerHTML || tags}{" "}
                                       <img
+                                        key={"tags_img_" + i}
                                         src={path_image + "filter-close.svg"}
                                         alt="Close-filter"
                                         onClick={() => removeTag(i)}
@@ -716,7 +725,7 @@ const VerifyMAIL = (props) => {
                                   </>
                                 );
                               })
-                              : props.getDraftData.tags.map((tags, i) => {
+                              : props?.getDraftData?.tags.map((tags, i) => {
                                 return (
                                   <>
                                     <li className="list1">
@@ -768,88 +777,131 @@ const VerifyMAIL = (props) => {
                           <p>
                             Content <span>| 1</span>
                           </p>
+
+
                           {typeof getpdfdata !== "undefined" &&
                             getSelectedPdfId != 13 &&
                             getSelectedPdfId != 14 &&
                             getSelectedPdfId != 16 && (
-                              <div className="mail-content-select-box">
-                                <div className="mail-content-select-top">
-                                  <div className="mail-preview-img">
-                                    <img
-                                      src={path_image + "dummy-img.png"}
-                                      alt="Preview "
-                                    />
+                              <div className="library-content-box-layuot readerlist">
+                              <div className="doc-content-main-box" key={getSelectedPdfId}>
+                                
+                              <div className="doc-content-header">
+                                <div className="doc-content-header-logo">
+                                    <a href="#">
+                                      <img
+                                        alt="doc-logo"
+                                        src={getpdfdata?.pdf_cover_img}
+                                        onError={imageOnError}
+                                        style={{ width: "67px" }}
+                                      />
+                                    </a>
                                   </div>
-                                  <div className="mail-box-content">
-                                    <h5>{getpdfdata.pdf_title}</h5>
-                                    <p>{getpdfdata.pdf_sub_title}</p>
-                                    <div className="mailbox-tags">
-                                      <ul>
-                                        {typeof getpdfdata.pdf_tags !==
-                                          "undefined" &&
-                                          getpdfdata.pdf_tags.length > 0 ? (
-                                          getpdfdata.pdf_tags.map((tag) => {
-                                            return (
-                                              <li className="list1">{tag}</li>
-                                            );
-                                          })
-                                        ) : (
-                                          <li className="list1">N/A</li>
-                                        )}
-                                      </ul>
+                                <div className="doc-content">
+                                <h5
+                                      dangerouslySetInnerHTML={{
+                                        __html: getpdfdata?.pdf_title,
+                                      }}
+                                ></h5>
+                                <h6>
+                                      {getpdfdata?.pdf_sub_title
+                                        ? getpdfdata.pdf_sub_title
+                                        : getpdfdata?.folder_name}
+                                  </h6>
+                                  <p>{getpdfdata?.key_author}</p>
+                                    <div className="select-tags">
+                                      {getpdfdata?.tags?.length
+                                        ? JSON.parse(getpdfdata.tags)?.map((data) => {
+                                          return <div>{data}</div>;
+                                        })
+                                        : ""}
                                     </div>
-                                  </div>
-                                </div>
-                                <div className="mail-content-table">
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th>Upload date</th>
-                                        <td>{getpdfdata.pdf_created}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Language</th>
-                                        <td>{getpdfdata.pdf_language}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>SPC</th>
-                                        <td>
-                                          {getpdfdata.pdf_spc_included === 0
-                                            ? "No"
-                                            : "Yes"}
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <th>Last email</th>
-                                        <td>
-                                          {getpdfdata.pdf_last_sent == ""
-                                            ? "N/A"
-                                            : getpdfdata.pdf_last_sent}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <div className="mail-content-footer">
-                                  {
-                                    getpdfdata?.pdf_spc_included ?
-                                      <button className="btn btn-primary btn-filled" onClick={() =>
-                                        handleSpcFun(getpdfdata?.spc_url)
-                                      }>
-                                        Preview
-                                      </button>
-                                      :
-                                      <a
-                                        href={getpdfdata.pdf_preview_link}
-                                        target="_blank"
-                                      >
-                                        <button className="btn btn-primary btn-filled">
-                                          Preview
-                                        </button>
-                                      </a>
-                                  }
                                 </div>
                               </div>
+                                
+                                <div className="tabs-data">
+                                  <Tabs
+                                    defaultActiveKey="docintel-link"
+                                    fill
+                                  >
+                                    <Tab
+                                      eventKey="docintel-link"
+                                      title="Docintel Link"
+                                      className="flex-column justify-content-between"
+                                    >
+                                      <div className="tab-panel d-flex flex-column justify-content-between">
+                                        <div className="tab-content-links">
+                                        <a href={getpdfdata?.docintel_link}
+                                          className="doc-link"
+                                          target="_blank"
+                                        >
+                                          {getpdfdata?.docintel_link}
+                                        </a>
+                                        {/* <span className="copy-content"><img src={path_image + "copy-content.svg"} alt="Copy"/> */}
+                                        {/* </span> */}
+                                        </div>
+                                        <ul className="tab-mail-list">
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Upload date
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.article_date}
+                                            </h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              inforMedGO code
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.informed_code}
+                                            </h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Docintel code
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.docintel_code}
+                                            </h6>
+                                          </li>
+
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Language
+                                            </h6>
+                                            <h6>
+                                              {getpdfdata?.pdf_language}
+                                            </h6>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div className="mail-content-footer">
+                                        {
+                                          getpdfdata?.pdf_spc_included ? 
+                                            <button className="btn btn-primary btn-filled" onClick={() =>
+                                              handleSpcFun(getpdfdata?.spc_url)
+                                            }>
+                                              Preview
+                                            </button>
+                                          : 
+                                          <a
+                                            href={getpdfdata.pdf_preview_link}
+                                            target="_blank"
+                                          >
+                                            <button className="btn btn-primary btn-filled">
+                                              Preview
+                                            </button>
+                                          </a>
+                                        }
+                                      </div>
+                                    </Tab>
+                                  </Tabs>
+                                </div>
+                              </div>
+                            </div>
                             )}
                           {getSelectedPdfId == 13 && (
                             <>
@@ -928,11 +980,11 @@ const VerifyMAIL = (props) => {
 
                         <div className="col-12 col-md-12 mail-recipt-left">
                           <h6>
-                            The recipients <span>| {selectedHcp.length}</span>
+                            The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
                           <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                          {getSmartListData.length !== 0 && (
+                          {getSmartListData?.length !== 0 && (
                             <div className="smartlist-view email_box_outer new-smartlist">
                               <div className="smartlist-view email_box">
                                 <div className="mail-box-content">
@@ -1063,15 +1115,15 @@ const VerifyMAIL = (props) => {
                 <div className="col-12 verify-right">
                   <div className="preview_mail">
                     <h4>
-                      {props.getEmailData?.emailSubject
-                        ? props.getEmailData.emailSubject
-                        : props.getDraftData.subject}
+                      {props?.getEmailData?.emailSubject
+                        ? props?.getEmailData?.emailSubject
+                        : props?.getDraftData?.subject}
                     </h4>
                     {/*
                     <p>
-                      {props.getEmailData?.emailDescription
-                        ? props.getEmailData.emailDescription
-                        : props.getDraftData.description}
+                      {props?.getEmailData?.emailDescription
+                        ? props?.getEmailData?.emailDescription
+                        : props?.getDraftData?.description}
                     </p>
                     */}
                     <div

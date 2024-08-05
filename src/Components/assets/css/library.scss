@@ -603,7 +603,9 @@
     padding:0!important;
     .doc-content-main-box {
       flex: 0 0 100%;
+      width: 100%;
       max-width: 365px;
+      min-width: 365px;
       .tabs-data{
         .nav-tabs{
           .nav-item {
@@ -618,7 +620,19 @@
         }
       } 
     }
+    
   }
+}
+@media screen and (max-width:1440px){
+  .library-content-box-layuot {
+    &.readerlist {
+      width: 100%;
+  .doc-content-main-box {
+    max-width: 100%;
+    min-width: initial;
+  }
+}
+}
 }
 }
 .create-change-content {

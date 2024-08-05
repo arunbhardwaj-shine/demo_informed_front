@@ -150,36 +150,24 @@ const SelectSmartList = (props) => {
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
-    if (new_object?.id) {
-      if (e.id != new_object.id) {
-        if (old_object?.removedHcp) {
-          old_object.removedHcp = [];
-        }
-      }
-    }
-
     if (PdfSelected != "") {
       if (PdfSelected == e.id) {
         setSmartListSelected({});
-        props.getSelectedSmartListData(null);
+        // props.getSelectedSmartListData(null);
         setPdfSelected(0);
         setselecedlistid(0);
       } else {
         setSmartListSelected(e);
-        props.getSelectedSmartListData(e);
+        // props.getSelectedSmartListData(e);
         setPdfSelected(e.id);
         setselecedlistid(e.id);
       }
     } else {
       setSmartListSelected(e);
-      props.getSelectedSmartListData(e);
+      // props.getSelectedSmartListData(e);
       setPdfSelected(e.id);
       setselecedlistid(e.id);
     }
-  };
-
-  const backClicked = () => {
-    navigate("/SelectHCP");
   };
 
   const saveAsDraft = async (flag) => {
@@ -591,6 +579,37 @@ const SelectSmartList = (props) => {
     setSelectedListId(0);
   }
 
+  const nextClicked = async() => {
+    await commonNavigateFun()
+    navigate("/SelectSmartListUsers", {
+      state: { smartListSelected: PdfSelected ? PdfSelected : smartListSelected?.id, flag: 1 },
+    });
+  }
+
+  const backClicked = async() => {
+    await commonNavigateFun()
+    navigate("/SelectHCP");
+  };
+
+  const commonNavigateFun = async() => {
+    // if previous and new smart list not matched
+    const existinglistId = smartListSelected?.id ? smartListSelected?.id : PdfSelected;
+    if((existinglistId != new_object?.id)){
+        //Empty previous smart list data
+        if (old_object?.removedHcp) {
+          old_object.removedHcp = [];
+        }
+        if (old_object?.addedHcp) {
+          old_object.addedHcp = [];
+        }
+        if (old_object?.selectedHcp) {
+          old_object.selectedHcp = [];
+        }
+        props.getSelectedSmartListData(smartListSelected);
+    }
+    props.getEmailData(old_object);
+  }
+
 
   return (
     <>
@@ -654,17 +673,19 @@ const SelectSmartList = (props) => {
                         Next
                       </button>
                     ) : (
-                      <Link
-                        to="/SelectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected, flag: 1 }}
-                      >
                         <button
                           ref={inputElement}
                           className="btn btn-primary btn-filled next disabled"
+                          // onClick={(event) => nextClicked()}
+                          onClick={nextClicked}
                         >
                           Next
                         </button>
-                      </Link>
+                      // <Link
+                      //   to="/SelectSmartListUsers"
+                      //   state={{ smartListSelected: smartListSelected, flag: 1 }}
+                      // >
+                      // </Link>
                     )}
                   </div>
                 </div>

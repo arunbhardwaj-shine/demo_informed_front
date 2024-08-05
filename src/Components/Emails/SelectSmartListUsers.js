@@ -13,6 +13,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
+import { getEmailData } from "../../actions";
+
 var old_object = {};
 const SelectSmartListUsers = (props) => {
   const [totalData, setTotalData] = useState({});
@@ -238,15 +240,15 @@ const SelectSmartListUsers = (props) => {
     }
     old_object.removedHcp = removedReaders;
   }, [removedReaders]);
+
   const backClicked = () => {
-    // navigate("/SelectSmartList");
+    props.getEmailData(old_object);
     if (props?.getDraftData?.campaign_data ?.list_selection === 3 || typeOfHcp === 3){
       navigate("/SelectHCP", {
       });
     }else{
       navigate("/SelectSmartList");
     }
-    console.log(typeOfHcp,'typeOfHcptypeOfHcp')
   };
 
   useEffect(() => {
@@ -3919,4 +3921,6 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(SelectSmartListUsers);
+export default connect(mapStateToProps,{
+  getEmailData: getEmailData,
+})(SelectSmartListUsers);

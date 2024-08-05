@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
-import { getCampaignId, getEmailData, getSearched,getSelected } from "../../actions";
+import { getCampaignId, getEmailData, getSearched, getSelected, getSelectedSmartListData } from "../../actions";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -15,7 +15,6 @@ import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
-import { getSelectedSmartListData } from "../../actions";
 import Select, { createFilter } from "react-select";
 import { Editor } from "@tinymce/tinymce-react";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
@@ -30,6 +29,7 @@ var dxr = 0;
 var state_object = {};
 var trainingUser = {};
 var searchedUser = {};
+var stateListData = {};
 const CreateEmail = (props) => {
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
@@ -1004,12 +1004,15 @@ const CreateEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
           selected: state_object?.selected ? state_object?.selected : 0,
+          removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
+          addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
+          selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
         };
         
         if(state_object?.startTraining == 1){
           existingObj['startTraining'] = 1;
           const mergedObject = { ...existingObj, ...irtRoleObj };
-
+          props.getSelectedSmartListData(stateListData)
           props.getEmailData(mergedObject);
           props.getSelected(trainingUser)
           props.getSearched(null)
@@ -1018,6 +1021,7 @@ const CreateEmail = (props) => {
           });
         }else{
           const mergedObject = { ...existingObj, ...irtRoleObj };
+          props.getSelectedSmartListData(stateListData)
           props.getEmailData(mergedObject);
           props.getSelected(trainingUser)
           props.getSearched(searchedUser)
@@ -1026,6 +1030,7 @@ const CreateEmail = (props) => {
           });
         }
       }else{
+        props.getSelectedSmartListData(stateListData)
         props.getSelected(trainingUser)
         props.getSearched(searchedUser)
         props.getEmailData({
@@ -1041,6 +1046,9 @@ const CreateEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
           selected: state_object?.selected ? state_object?.selected : 0,
+          removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
+          addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
+          selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
         });
         navigate("/SelectHCP");
       }
@@ -2303,13 +2311,16 @@ const CreateEmail = (props) => {
       PdfSelected: PdfSelected,
       campaign_id: campaign_id_st,
       selected: state_object?.selected ? state_object?.selected : 0,
+      removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
+      addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
+      selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
     });
       props.getSelected(trainingUser)
       props.getSearched(searchedUser)
-
-    navigate("/EmailArticleSelect", {
-      state: {IrtObj:irtRoleObj},
-    });
+      props.getSelectedSmartListData(stateListData)
+      navigate("/EmailArticleSelect", {
+        state: {IrtObj:irtRoleObj},
+      });
   };
 
   const handleSelectUsers = () => {
@@ -4483,6 +4494,7 @@ const mapStateToProps = (state) => {
   state_object = state.getEmailData;
   trainingUser = state.getSelected;
   searchedUser = state.getSearched;
+  stateListData = state.getSelectedSmartListData
   return state;
 };
 
@@ -4490,5 +4502,6 @@ export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getCampaignId: getCampaignId,
   getSelected,
-  getSearched
+  getSearched,
+  getSelectedSmartListData,
 })(CreateEmail);
