@@ -1786,6 +1786,7 @@ const NewReadersReview = (props) => {
 
   const refresh = async() => {
     try{
+      // loader("show");
       setRefreshFlag(true);
       let obj = {
         "sync":1,
@@ -1795,6 +1796,7 @@ const NewReadersReview = (props) => {
       setRefreshFlag(false);
       getReaderListData(page, filterObject, search);
     }catch(err){
+      // loader("hide");
       console.log(err);
     }
   }
@@ -2262,7 +2264,7 @@ const NewReadersReview = (props) => {
 
             <div className="library-content-box-layuot readerlist d-flex">
             <div className="site-irt w-100">
-                <div className="page-title">
+                <div className="page-title d-flex align-items-center">
                   {(localStorage.getItem("user_id") ==
                     "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                     (
