@@ -1185,7 +1185,6 @@ const RDAnalytics = () => {
         return "Ignored";
     }
   };
-  console.log(filterdata,'filterdata')
 
   return (
     <>

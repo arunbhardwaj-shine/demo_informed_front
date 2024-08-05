@@ -120,7 +120,7 @@ const entering = (e) => {
                 ? result?.data?.data?.notCompleted
                 : 0,
 
-              color: '#f58289',
+              color: "#FF9534",
             },
             {
               name: "Ignored",
@@ -128,7 +128,7 @@ const entering = (e) => {
                 ? result?.data?.data?.ignored
                 : 0,
 
-              color: "#FF9534",
+              color: '#f58289',
             },
             {
               name: "Invited",
