@@ -989,7 +989,6 @@ const CreateEmail = (props) => {
     const tags = finalTags?.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
-    
     if (validator.allValid()) {
       if(irtRoleObj?.IRTFlag){
         let existingObj = {
@@ -2299,7 +2298,8 @@ const CreateEmail = (props) => {
     const tags = finalTags.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
-    props.getEmailData({
+
+    let emailExistingObj = {
       status: getIsApprovedStatus,
       emailDescription: emailDescription,
       emailCreator: emailCreator,
@@ -2314,7 +2314,16 @@ const CreateEmail = (props) => {
       removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
       addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
       selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
-    });
+    };
+      if(irtRoleObj?.IRTFlag){
+        if(state_object?.startTraining == 1){
+          emailExistingObj['startTraining'] = 1;
+        }
+        const mergedObject = { ...emailExistingObj, ...irtRoleObj };
+        props.getEmailData(mergedObject);
+      }else{
+        props.getEmailData(emailExistingObj);
+      }
       props.getSelected(trainingUser)
       props.getSearched(searchedUser)
       props.getSelectedSmartListData(stateListData)

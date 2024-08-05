@@ -14,7 +14,6 @@ import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 
 const VerifyHcpMAIL = (props) => {
-  console.log(props?.getEmailData,props?.getDraftData,props?.getSelected)
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
