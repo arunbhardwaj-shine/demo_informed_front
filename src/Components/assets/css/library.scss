@@ -28805,3 +28805,11 @@ table {
 }
 
 /**Landing page Responsive End**/
+button{
+  &.refresh{
+    background: transparent;
+  }
+  &.refresh-rotate{
+    background: transparent;
+  }
+}
