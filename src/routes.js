@@ -223,6 +223,7 @@ import AnalyticsEvent from "./Components/NewWebinar/WebinarFiles/WebinarDashboar
 import InformedSurveyData from "./Components/survey/InformedSurveyData";
 import IRTRole from "./Components/Emails/IRTRole";
 import Check8SurveyData from "./Components/survey/Check8SurveyData";
+import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 
 let platform = 0;
 let show = 0;
@@ -268,6 +269,7 @@ const Layout = () => {
 };
 
 const Routing = () => {
+  
   return (
     <Router>
       <Routes>
@@ -322,6 +324,7 @@ const Routing = () => {
           element={<LoginLayout component={Feedback} />}
         />
         //LoginLayout for pages after login
+        <Route path="/home-new" element={<SetLayoutNew component={SetLayoutNew} />} />
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route
