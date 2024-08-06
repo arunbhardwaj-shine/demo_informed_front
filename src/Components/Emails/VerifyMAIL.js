@@ -57,7 +57,7 @@ const VerifyMAIL = (props) => {
     : props?.getDraftData?.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"56Ek4feL/1A8mZgIKQWEqg==":"sNl1hra39QmFk9HwvXETJA==")
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
@@ -1299,8 +1299,11 @@ const VerifyMAIL = (props) => {
                               </button>
                       </th>
 
-                      {localStorage.getItem("user_id") ===
-                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {
+                      // (localStorage.getItem("user_id") ===
+                      //   "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 
+                      (localStorage.getItem("user_id") ===userId)?
+                        (
                         <>
                           <th scope="col">IRT mandatory training</th>
                           <th scope="col">IRT role</th>
@@ -1356,8 +1359,10 @@ const VerifyMAIL = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               <td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {
+                                // (localStorage.getItem("user_id") ==
+                                //   "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                (localStorage.getItem("user_id") ==userId)
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
@@ -1366,7 +1371,9 @@ const VerifyMAIL = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                {
+                                // localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                (localStorage.getItem("user_id") ===userId)
                                   ? rr.user_type != 0 ? rr.user_type : "N/A"
                                   : rr.contact_type
                                 }
