@@ -1810,22 +1810,22 @@
                 "placeholder": "",
                 "option": [
                     {
-                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "optionLabel": "Both Generic Academy and Congress",
                         "extension": [],
                         "checked": ""
                     },
                     {
-                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "optionLabel": "Generic Academy only",
                         "extension": [],
                         "checked": ""
                     }
                 ],
                 "required": "",
                 "extension": "",
-                "name": "factor_viii_choice"
+                "name": "generic_academy_choice"
             },
             {
-                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "label": "I will join the Generic Academy dinner (5th Feb) :",
                 "inputType": "radio",
                 "placeholder": "",
                 "option": [
@@ -1834,7 +1834,7 @@
                         "extension": [
                             {
                                 "label": " ",
-                                "name": "factor_viii_dinner_restrictions_allergies",
+                                "name": "generic_academy_dinner_restrictions_allergies",
                                 "inputType": "text",
                                 "placeholder": "In case you have any dietary restrictions or allergies please specify here",
                                 "option": []
@@ -1850,7 +1850,7 @@
                 ],
                 "required": "",
                 "extension": true,
-                "name": "factor_viii_dinner_attendance_with_details"
+                "name": "generic_academy_dinner_attendance_with_details"
             },
             {
                 "label": "I would like to:",

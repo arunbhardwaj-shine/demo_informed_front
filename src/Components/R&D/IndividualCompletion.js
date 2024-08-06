@@ -228,7 +228,7 @@ const entering = (e) => {
             </div>
 
             {((pieOptions?.series?.[0]?.data?.[0].y ||
-            pieOptions?.series?.[0]?.data?.[1].y )|| pieOptions?.series?.[0]?.data?.[2].y)  ? (
+            pieOptions?.series?.[0]?.data?.[1].y )|| pieOptions?.series?.[0]?.data?.[2].y || pieOptions?.series?.[0]?.data?.[3].y || pieOptions?.series?.[0]?.data?.[4].y || pieOptions?.series?.[0]?.data?.[5].y)  ? (
               <>
                 <div className="graph-box">
                   <div className="">
