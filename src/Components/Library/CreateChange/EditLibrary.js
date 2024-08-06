@@ -1768,7 +1768,7 @@ const getExistingVideos=async ()=>{
                         </li>
                       ) : null}
                       {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>
@@ -2499,7 +2499,7 @@ const getExistingVideos=async ()=>{
                                   <div className="d-flex align-items-center justify-content-start w-100 mb-3">
                                     <label htmlFor="">
                                       {localStorage.getItem("user_id") !=
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
                                         ? "Chapter "
                                         : "File "}
                                       {i + 1} format
@@ -2553,7 +2553,7 @@ const getExistingVideos=async ()=>{
 
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
                                       ? "Chapter "
                                       : "File "}{" "}
                                     {i + 1} title<span>*</span>
@@ -2798,7 +2798,7 @@ const getExistingVideos=async ()=>{
                                 <div className="ebook-format">
                                   <label htmlFor="">
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
                                       ? "Chapter "
                                       : "File "}{" "}
                                     title
@@ -2993,7 +2993,7 @@ const getExistingVideos=async ()=>{
                     </Col>
 
                     {localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                       <Col
                         className="d-flex justify-content-end align-items-start right-change"
                         md={6}

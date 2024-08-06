@@ -1778,7 +1778,7 @@ const WebinarCreateNewEmail = (props) => {
                                     <div className="email-form padding-add">
                                         <form>
                                             {localStorageUserId !=
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? (
+                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId != "sNl1hra39QmFk9HwvXETJA=="  ? (
                                                 <>
                                                     <div className="form-inline d-flex justify-content-between align-items-center">
                                                         <div className="form-group col-12 col-md-7 d-flex align-items-center">

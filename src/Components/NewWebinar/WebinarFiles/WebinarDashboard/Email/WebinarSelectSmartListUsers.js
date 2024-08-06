@@ -544,7 +544,7 @@ const WebinarSelectSmartListUsers = (props) => {
       ).value;
 
       const contact_type_edit =
-        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+        localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==" 
           ? document.getElementById("field_contact_type" + profile_user_id)
             .value
           : "";
@@ -605,7 +605,7 @@ const WebinarSelectSmartListUsers = (props) => {
           "field_index" + data?.profile_user_id
         ).value;
         const contact_type_edit =
-          localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+          localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==" 
             ? document.getElementById(
               "field_contact_type" + data.profile_user_id
             ).value

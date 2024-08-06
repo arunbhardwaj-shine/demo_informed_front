@@ -75,8 +75,6 @@ const EmailList = (props) => {
   );
   // const [filter, setFilter] = useState(initialFilterProp || {});
    const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-   const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
-
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -1276,7 +1274,7 @@ const EmailList = (props) => {
                   ) : (
                     <button
                       // className="btn btn-outline-primary"
-                      className={`btn btn-outline-primary ${isRDAccount?"rd":""}`}
+                      className={`btn btn-outline-primary ${isRND?"rd":""}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -1466,7 +1464,7 @@ const EmailList = (props) => {
                 </div>
               )}
             <div 
-             className={`email-result ${isRDAccount?"rd":""}`}
+             className={`email-result ${isRND?"rd":""}`}
             >
               <div className="col email-result-block">
                 {filtertags.length == 0 &&
