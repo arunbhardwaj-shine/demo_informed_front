@@ -1990,7 +1990,7 @@ const NewReaders = () => {
                           {Object.keys(filterdata)?.map(function (key, index) {
                             const filteredRoles =
                               key === "role"
-                                ? localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                ? (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                   ? filterdata[key]
                                   :
                                   filterdata[key].filter(
