@@ -85,7 +85,7 @@ const WebinarEmail = (props) => {
   const [sortBy, setSortBy] = useState('name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
    const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-   const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+   const isRDAccount = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==")
  
 
   const [options, setOptions] = useState({

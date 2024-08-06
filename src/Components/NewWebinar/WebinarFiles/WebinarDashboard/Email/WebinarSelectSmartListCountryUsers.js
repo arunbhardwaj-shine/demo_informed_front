@@ -475,8 +475,8 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 country: "",
 
                 optIrt:
-                    localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                    (localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                         ? "yes"
                         : "",
                 institutionType: "",
@@ -578,7 +578,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             ).value;
 
             const contact_type_edit =
-                localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
+                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==")
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
                     : "";
@@ -884,7 +884,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                     "field_index" + data?.profile_user_id
                 ).value;
                 const contact_type_edit =
-                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
+                    (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==")
                         ? document.getElementById(
                             "field_contact_type" + data?.profile_user_id
                         ).value
@@ -1414,8 +1414,8 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                             <td>
                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                                {(localStorage.getItem("user_id") ==
+                                                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                                                     ? rr?.irt
                                                                         ? "Yes"
                                                                         : "No"
@@ -1423,8 +1423,8 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                         ? rr?.ibu
                                                                         : "N/A"}
                                                             </td>
-                                                            {localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                            {(localStorage.getItem("user_id") ==
+                                                                "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
                                                                 <td>
                                                                     {rr?.user_type != 0 ? rr?.user_type : "N/A"}
                                                                 </td>
@@ -1644,8 +1644,8 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                                     }
                                                                                 </td>
                                                                                 <td>
-                                                                                    {localStorage.getItem("user_id") ==
-                                                                                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                                                    {(localStorage.getItem("user_id") ==
+                                                                                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
                                                                                         <span>
                                                                                             {readers?.user_type != 0
                                                                                                 ? readers?.user_type
