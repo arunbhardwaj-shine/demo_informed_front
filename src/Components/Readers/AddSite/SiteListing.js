@@ -987,7 +987,7 @@ const SiteListing = () => {
                         }
                     </div> */}
                     <div
-                        className="selected-hcp-list site-listing"
+                        className={`selected-hcp-list site-listing ${isRDAccount?"rd":""}`}
                         id="analytics-hcp-table"
                     >
                         <div className="page-title">

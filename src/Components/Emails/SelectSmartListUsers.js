@@ -824,7 +824,7 @@ const SelectSmartListUsers = (props) => {
       }
 
       const contact_type_edit =
-        (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
           ? document.getElementById("field_contact_type" + profile_user_id)
               .value
           : "";

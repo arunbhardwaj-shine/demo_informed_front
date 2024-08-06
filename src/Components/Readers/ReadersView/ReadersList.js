@@ -2316,7 +2316,9 @@ const NewReaders = () => {
               ) : null}
             </div>
 
-            <div className="library-content-box-layuot readerlist d-flex">
+            <div 
+            className={`library-content-box-layuot readerlist d-flex ${isRDAccount?"rd":""}`}
+            >
 
               <div className="site-irt w-100">
                 <div className="page-title">

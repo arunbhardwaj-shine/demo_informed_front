@@ -876,9 +876,12 @@ background: #8A4E9C;
   text-align: center;
   border-radius: 50%;
 }
+.rd .dlt_btn button {
+  background: #8A4E9C;
+}
 
-.dlt_btn button:hover {
-  background: var(--dark-blue);
+.rd .dlt_btn button:hover {
+  background: #7a348f;
 }
 
 .dlt_btn button img {
@@ -3614,6 +3617,9 @@ h5 {
   margin: 0;
   cursor: pointer;
 }
+.selected-hcp-list.rd table tr td.delete_row .img{
+  background: #8A4E9C;
+}
 
 .selected-hcp-list table tr td.delete_row .img img,
 .result-hcp-table .table tbody tr td.delete_row .img img{
@@ -3646,6 +3652,9 @@ table tr:hover td.delete_row img {
   bottom: -12px;
   margin: 0;
   cursor: pointer;
+}
+.selected-hcp-list.rd table tr td.delete_row:hover .img{
+  background: #7b2e92;
 }
 
 .selected-hcp-list table tr td.delete_row:hover img,
@@ -4314,7 +4323,8 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .preview_mail .preview-mail-box {
-  max-height: 785px;
+  /* max-height: 785px; */
+  max-height: 1050px;
   height: 100%;
   overflow-y: auto;
   background: rgba(151, 182, 207, 0.22);

@@ -2518,7 +2518,7 @@ const ViewTable = (props) => {
                               </div>
 
                               {localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Contact type</label>
@@ -2572,7 +2572,7 @@ const ViewTable = (props) => {
                               ) : null}
 
                               {localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Country
