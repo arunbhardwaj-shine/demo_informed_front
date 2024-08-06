@@ -1549,7 +1549,10 @@ const LibraryContent = (props) => {
                 </div>
               </div>
             ) : null} */}
-            <div className="library-content-box-layuot d-flex">
+            <div 
+            // className="library-content-box-layuot d-flex"
+            className={`library-content-box-layuot d-flex ${isRDAccount?"rd":""}`}
+            >
               <>
                 {libraryData?.length || updateflag ? (
                   libraryData?.map((data, index) => {
