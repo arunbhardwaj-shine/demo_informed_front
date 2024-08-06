@@ -185,6 +185,12 @@ const NewReadersReview = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if(refreshFlag){
+      getRefreshData();
+    }
+  },[refreshFlag])
+
   const getFilters = async () => {
     try {
       loader("show");
@@ -226,7 +232,9 @@ const NewReadersReview = (props) => {
       setIsLoaded(false);
       if (load == 0) {
         setTotalCountFlag(false);
-        loader("show");
+        if(!refreshFlag){
+          loader("show");
+        }
         setPage(1);
         page = 1;
       } else {
@@ -346,11 +354,13 @@ const NewReadersReview = (props) => {
       } else {
         setFlag(res?.data?.data?.flag ? res?.data?.data?.flag : 0);
       }
+      setRefreshFlag(false);
       setPageAll(false);
       setApiCallStatus(true);
       setTotalCountFlag(true);
       loader("hide");
     } catch (err) {
+      setRefreshFlag(false);
       setApiCallStatus(true);
       console.log(err);
       loader("hide");
@@ -1710,10 +1720,10 @@ const NewReadersReview = (props) => {
       const res = await postData(ENDPOINT.READER_REFRESH, payload);
       setCount(res?.data?.data?.total);
 
-      setRefreshFlag(false);
+      // setRefreshFlag(false);
     } catch (err) {
       console.log(err);
-      setRefreshFlag(false);
+      // setRefreshFlag(false);
     }
   };
 
@@ -1784,21 +1794,21 @@ const NewReadersReview = (props) => {
     }
   }
 
-  const refresh = async() => {
+  const getRefreshData = async() => {
     try{
-      // loader("show");
-      setRefreshFlag(true);
       let obj = {
         "sync":1,
         created_by:createdBy
       };
       const response = await postDataRd(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2,obj);
-      setRefreshFlag(false);
       getReaderListData(page, filterObject, search);
     }catch(err){
-      // loader("hide");
       console.log(err);
     }
+  }
+
+  const refreshCronData = () => {
+    setRefreshFlag(true);
   }
 
   return (
@@ -2279,13 +2289,14 @@ const NewReadersReview = (props) => {
                           Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                         </h4>
                       )}
-                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ? (<>
+                  {
+                  (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ? (<>
                     {(
                       <div className="refresh-button">
                         <button
                           className={refreshFlag ? "refresh-rotate" : "refresh"}
                           onClick={async () => {
-                            setRefreshFlag(true);
+                            // setRefreshFlag(true);
 
                             let createdBy = localStorage.getItem("user_id")
                             let obj = {
@@ -2294,7 +2305,7 @@ const NewReadersReview = (props) => {
                             };
                             const response = await postData("https://onesource.informed.pro/api/training-completion-cron", obj);
                             const hadData = response?.data?.data || [];
-                            setRefreshFlag(false);
+                            // setRefreshFlag(false);
 
                           }}
                         >
@@ -2328,9 +2339,9 @@ const NewReadersReview = (props) => {
                   </>)
                     : null}
 
-                  {state?.siteRole === "All IRTs" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (<>
+                  {/*state?.siteRole === "All IRTs" &&*/ (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (<>
                     {(
-                    <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"onClick={refresh} >
+                    <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"onClick={refreshCronData} >
                     <svg fill="#0066be" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
                     C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
                     L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
