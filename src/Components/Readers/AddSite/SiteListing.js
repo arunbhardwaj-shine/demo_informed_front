@@ -433,7 +433,7 @@ const SiteListing = () => {
                                 <input
                                     className="form-control me-2"
                                     type="search"
-                                    placeholder="Search By Name"
+                                    placeholder="Search by site name"
                                     aria-label="Search"
                                     ref={searchInputRef}
                                     onChange={(e) => searchChange(e)}
