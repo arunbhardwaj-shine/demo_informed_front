@@ -2545,7 +2545,7 @@ const ViewTable = (props) => {
 
                               {(localStorageUserId !=
                                 "56Ek4feL/1A8mZgIKQWEqg==" 
-                                ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                &&localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">

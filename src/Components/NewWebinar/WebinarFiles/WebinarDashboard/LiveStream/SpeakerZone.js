@@ -255,9 +255,11 @@ const SpeakerZone = () => {
                                     <div className="detail-box">  
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p className="user_name">{item?.send_by == 1 ? 
-                                        (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                        ? "LEX-210" : "Octapharma"
+                                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                         
+                                        ? "LEX-210" 
+                                        :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                        ? "Norgine"
+                                        : "Octapharma"
                                          : item?.name ? item?.name : "Anonymous"}</p>
                                         {/* <div className="specialty">Specialty</div> */}
                                       </div>
@@ -267,12 +269,11 @@ const SpeakerZone = () => {
                                                 item?.reply && item?.reply != "" ?
                                                 <div className="speaker_reply">
                                                   { 
-                                                    (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                                    ? 
-                                                    <p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
-                                                    :
-                                                    <p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
+                                                    localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                                    
+                                                    ?<p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
+                                                    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                    ?<p dangerouslySetInnerHTML={{__html: "Reply by Norgine: " + item?.reply}}></p>
+                                                    :<p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
                                                   }
                                                 </div>
                                                 : null
@@ -336,9 +337,11 @@ const SpeakerZone = () => {
                                         <div className="detail-box">  
                                           <div class="d-flex justify-content-between align-items-center">
                                             <p className="user_name">{item?.send_by == 1 ? 
-                                              (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                              ? "LEX-210" : "Octapharma"
+                                              localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                              
+                                              ? "LEX-210" 
+                                              :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              ? "Norgine"
+                                              : "Octapharma"
                                               : item?.name ? item?.name : "Anonymous"}
                                             </p>
                                             {/* <div className="specialty">Specialty</div> */}
@@ -349,12 +352,11 @@ const SpeakerZone = () => {
                                                   item?.reply && item?.reply != "" ?
                                                   <div className="speaker_reply">
                                                     { 
-                                                      (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                                      ? 
-                                                      <p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
-                                                      :
-                                                      <p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
+                                                    localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                                       
+                                                      ?<p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
+                                                      :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                      ? <p dangerouslySetInnerHTML={{__html: "Reply by Norgine: " + item?.reply}}></p>
+                                                      :<p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
                                                     }
                                                   </div>
                                                   : null
@@ -415,9 +417,11 @@ const SpeakerZone = () => {
                                         <div className="detail-box">  
                                             <div class="d-flex justify-content-between align-items-center">
                                               <p className="user_name">{item?.send_by == 1 ? 
-                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                                ? "LEX-210" : "Octapharma"
+                                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                                
+                                                ? "LEX-210" 
+                                                : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                ? "Norgine"
+                                                : "Octapharma"
                                                 : item?.name ? item?.name : "Anonymous"}
                                               </p>
                                               {/* <div className="specialty">Specialty</div> */}
@@ -428,12 +432,11 @@ const SpeakerZone = () => {
                                                 item?.reply && item?.reply != "" ?
                                                 <div className="speaker_reply">
                                                     { 
-                                                      (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                                      ? 
-                                                      <p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
-                                                      :
-                                                      <p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
+                                                      localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                                       
+                                                      ?<p dangerouslySetInnerHTML={{__html: "Reply by LEX-210: " + item?.reply}}></p>
+                                                      :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                      ?<p dangerouslySetInnerHTML={{__html: "Reply by Norgine: " + item?.reply}}></p>
+                                                      :<p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p>
                                                     }
                                                 </div>
                                                 : null

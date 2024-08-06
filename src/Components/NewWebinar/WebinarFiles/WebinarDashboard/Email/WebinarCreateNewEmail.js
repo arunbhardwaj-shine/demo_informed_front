@@ -160,11 +160,11 @@ const WebinarCreateNewEmail = (props) => {
             country: "",
             countryIndex: "",
             role:
-                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
                     ? "yes"
                     : "",
             institutionType: "",
@@ -1003,11 +1003,11 @@ const WebinarCreateNewEmail = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
                         ? "yes"
                         : "",
                 institutionType: "",
@@ -1157,13 +1157,13 @@ const WebinarCreateNewEmail = (props) => {
                 contact_type: "",
                 country: "",
                 role:
-                    localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                    (localStorageUserId ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                    (localStorageUserId ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
                         ? "yes"
                         : "",
                 institutionType: "",
@@ -1219,11 +1219,11 @@ const WebinarCreateNewEmail = (props) => {
                     ((data?.last_name == "" ||
                         data?.first_name == "" ||
                         data?.country == "") &&
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") )
                 ) {
                     if (
                         data?.first_name == "" &&
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
                     ) {
                         setValidationError({
                             newHcpFirstName: "Please enter the first name",
@@ -1233,7 +1233,7 @@ const WebinarCreateNewEmail = (props) => {
                     }
                     if (
                         data?.last_name == "" &&
-                        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
                     ) {
                         setValidationError({
                             newHcpLastName: "Please enter the last name",
@@ -1687,7 +1687,7 @@ const WebinarCreateNewEmail = (props) => {
                                         </li>
                                         <li className="">
                                             <a href="javascript:void(0)">
-                                                {localStorageUserId == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                                {(localStorageUserId == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </a>
@@ -1777,8 +1777,8 @@ const WebinarCreateNewEmail = (props) => {
 
                                     <div className="email-form padding-add">
                                         <form>
-                                            {localStorageUserId !=
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? (
+                                            {(localStorageUserId !=
+                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==")  ? (
                                                 <>
                                                     <div className="form-inline d-flex justify-content-between align-items-center">
                                                         <div className="form-group col-12 col-md-7 d-flex align-items-center">
@@ -2297,8 +2297,8 @@ const WebinarCreateNewEmail = (props) => {
                                                                 Email | <span>{data?.email}</span>
                                                             </p>
 
-                                                            {localStorageUserId ===
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA=="  ? (
+                                                            {(localStorageUserId ===
+                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==")  ? (
                                                                 <p className="send-hcp-box-title">
                                                                     {" "}
                                                                     Role |{" "}
@@ -2855,8 +2855,8 @@ const WebinarCreateNewEmail = (props) => {
                                                 <th scope="col">Bounced</th>
                                                 <th scope="col">Country</th>
 
-                                                {localStorageUserId ==
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ? (
+                                                {(localStorageUserId ==
+                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (
                                                     <>
                                                         <th scope="col">Site number</th>
                                                         <th scope="col">IRT mandatory training</th>
@@ -2891,13 +2891,13 @@ const WebinarCreateNewEmail = (props) => {
                                                                 <td>{rr?.email ? rr?.email : "N/A"}</td>
                                                                 <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                                                                 <td>{rr?.country ? rr?.country : "N/A"}</td>
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && 
+                                                                {(localStorage.getItem("user_id") ==
+                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && 
                                                                     (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
                                                                     </td></>)}
                                                                 <td>
-                                                                    {localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                                                                    {(localStorageUserId ==
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
                                                                         ? rr.irt
                                                                             ? "Yes"
                                                                             : "No"
@@ -2907,8 +2907,8 @@ const WebinarCreateNewEmail = (props) => {
                                                                     {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                                                 </td>
                                                                 <td>
-                                                                    {localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+                                                                    {(localStorageUserId ==
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
                                                                         ? rr?.user_type != 0
                                                                             ? rr?.user_type
                                                                             : "N/A"

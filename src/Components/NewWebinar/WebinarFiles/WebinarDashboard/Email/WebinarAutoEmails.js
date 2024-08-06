@@ -99,11 +99,11 @@ const WebinarAutoEmail = () => {
       contact_type: "",
       country: "",
       role:
-      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+      (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ) 
           ? irtRole?.[0]?.value
           : "",
       optIrt:
-      localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+      (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
           ? "yes"
           : "",
       institutionType: "",
@@ -140,7 +140,7 @@ const WebinarAutoEmail = () => {
 
   useEffect(() => {
     loader("show");
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -171,7 +171,7 @@ const WebinarAutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -374,11 +374,11 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+       ( localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
         institutionType: "",
@@ -533,7 +533,7 @@ const WebinarAutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -565,7 +565,7 @@ const WebinarAutoEmail = () => {
       };
 
       const status = body?.data?.map((data, index) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
           if (data?.first_name == "") {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -594,8 +594,8 @@ const WebinarAutoEmail = () => {
           return "Please select the institution type";
         }
         if (
-          localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ||
-          localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="||
+          localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           if (data?.country == "") {
             setValidationError({
@@ -1180,11 +1180,11 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-        localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" 
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
             ? "yes"
             : "",
         institutionType: "",

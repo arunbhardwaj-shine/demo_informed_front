@@ -993,8 +993,11 @@ useEffect(() => {
                                           <h4>
                                             {item?.send_by == 1
                                               ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                              ? "LEX-210" : "Octapharma"
+                                              )
+                                              ? "LEX-210" 
+                                              :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              ?"Norgine"
+                                              : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1185,8 +1188,11 @@ useEffect(() => {
                                           <h4>
                                             {item?.send_by == 1
                                               ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                              ? "LEX-210" : "Octapharma"
+                                             )
+                                              ? "LEX-210" 
+                                              : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              ? "Norgine"
+                                              : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
@@ -1373,8 +1379,11 @@ useEffect(() => {
                                           <h4>
                                             {item?.send_by == 1
                                               ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                              ? "LEX-210" : "Octapharma"
+                                             )
+                                              ? "LEX-210" 
+                                              : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              ? "Norgine"
+                                              : "Octapharma"
                                               : item?.name
                                               ? item?.name
                                               : "Anonymous"}
