@@ -254,8 +254,7 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link" 
-                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==")
-                    ?"/library-mandatory" : "/library-content"}
+                  to={"/library-content"}
                   >
                     LIBRARY
                   </Link>
