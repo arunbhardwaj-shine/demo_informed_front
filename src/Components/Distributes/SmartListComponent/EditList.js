@@ -39,6 +39,8 @@ const EditList = () => {
           setIbu(res?.data?.response?.ibu);
           setListCount(res?.data?.response?.list_count);
           getfilterlist();
+        }else{
+          loader("hide");
         }
       })
       .catch((err) => {
