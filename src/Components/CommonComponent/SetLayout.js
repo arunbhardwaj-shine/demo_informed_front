@@ -70,9 +70,9 @@ const SetLayout = () => {
     setActive(title);
     if (title == "Library") {
       navigate("/library-content");
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==")
-       ? navigate("/library-mandatory")
-       :navigate("/library-content");
+      // (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==")
+      //  ? navigate("/library-mandatory")
+      //  :navigate("/library-content");
     } else if (title == "CRM") {
        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
        ?navigate("/IRT-Mandatory")
