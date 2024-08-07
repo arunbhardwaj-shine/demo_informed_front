@@ -40,6 +40,7 @@ const NewReadersReview = (props) => {
   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
   const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
   const [search, setSearch] = useState("");
+  const [lastSync, setLastSync] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
   const [consetCountry, setConsetCountry] = useState({});
@@ -355,6 +356,7 @@ const NewReadersReview = (props) => {
       } else {
         setFlag(res?.data?.data?.flag ? res?.data?.data?.flag : 0);
       }
+      setLastSync(res?.data?.data?.last_sync)
       setRefreshFlag(false);
       setPageAll(false);
       setApiCallStatus(true);
@@ -2276,7 +2278,7 @@ const NewReadersReview = (props) => {
 
             <div className={`library-content-box-layuot readerlist d-flex ${isRDAccount ? "rd": ""}`}>
             <div className="site-irt w-100">
-                <div className="page-title d-flex align-items-center">
+                <div className="page-title d-flex align-items-center flex-wrap">
                   {(localStorage.getItem("user_id") ==
                     "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                     (
@@ -2343,6 +2345,7 @@ const NewReadersReview = (props) => {
 
                   {/*state?.siteRole === "All IRTs" &&*/ (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (<>
                     {(
+                      <>
                     <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"onClick={refreshCronData} >
                     <svg fill="#0066be" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
                     C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
@@ -2350,6 +2353,9 @@ const NewReadersReview = (props) => {
                     c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
                     c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
                 </button>
+                      <br/>
+                    <p style={{fontSize:"11px",color:"#97B6CF",flex:"0 0 100%",marginTop:"3px"}}>Last Sync : {lastSync}</p>
+                    </>
                     )}
                   </>)
                     : null}
