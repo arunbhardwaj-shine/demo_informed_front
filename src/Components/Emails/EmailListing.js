@@ -453,8 +453,8 @@ const EmailList = (props) => {
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
     props.getSearched(null)
-    if ([3968, 3970, 4521,5561,5563,5564].includes(irtRoleObj?.pdfId)) {
-      await navigateRole(irtRoleObj?.pdfId);
+    if (([3968, 3970, 4521].includes(irtRoleObj?.pdfId)) || irtRoleObj?.pdfId) {
+      await navigateRole(irtRoleObj);
       // console.log(irtRoleObj?.pdfId,'irtRoleObj?.pdfId');
     } else {
       navigate("/EmailArticleSelect", {
@@ -875,11 +875,12 @@ const EmailList = (props) => {
     setSortingCount(sortingCount + 1);
   };
 
-  const navigateRole = async (pdfId) => {
+  const navigateRole = async (irtObj) => {
     try {
       const body = {
         user_id: localStorage.getItem("user_id"),
-        pdf_id: pdfId,
+        pdf_id: irtObj?.pdfId,
+        role: irtObj?.siteRole
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");

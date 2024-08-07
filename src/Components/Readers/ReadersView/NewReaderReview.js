@@ -106,6 +106,7 @@ const NewReadersReview = (props) => {
     "Site unblinded pharmacist",
   ]);
   const [role, setRole] = useState((state != "undefined" && state?.siteRole != ""&& state?.siteRole != "All IRTs") ? [state?.siteRole] : irtData)
+  const [rolePdf, setRolePdf] = useState((state != "undefined" && state?.pdfId != "") ? state?.pdfId : irtData)
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -1731,14 +1732,14 @@ const NewReadersReview = (props) => {
     let pdfid = 0;
     let irtRoleObj = {};
     if(state?.siteRole == 'Investigator-Blinded'){
-      pdfid = 4521;
-      irtRoleObj = {pdfId: 4521, IRTFlag: 1, siteRole: 'Investigator-Blinded'}
+      pdfid = rolePdf;
+      irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Investigator-Blinded'}
     }else if(state?.siteRole == 'Site User-Blinded'){
-      pdfid = 3968;
-      irtRoleObj = {pdfId: 3968, IRTFlag: 1, siteRole: 'Site User-Blinded'};
+      pdfid = rolePdf;
+      irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site User-Blinded'};
     }else if(state?.siteRole == 'Site unblinded pharmacist'){
-      pdfid = 3970;
-      irtRoleObj = {pdfId: 3970, IRTFlag: 1, siteRole: 'Site Unblinded Pharmacist'}
+      pdfid = rolePdf;
+      irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site Unblinded Pharmacist'}
     }
 
     if(pdfid != 0){
@@ -1763,6 +1764,7 @@ const NewReadersReview = (props) => {
         const body = {
           user_id: localStorage.getItem("user_id"),
           pdf_id: pdfid,
+          role: irtRoleObj?.siteRole
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         
@@ -2272,9 +2274,7 @@ const NewReadersReview = (props) => {
 
             </div>
 
-            <div 
-            className={`library-content-box-layuot readerlist d-flex ${isRDAccount?"rd":""}`}
-            >
+            <div className={`library-content-box-layuot readerlist d-flex ${isRDAccount ? "rd": ""}`}>
             <div className="site-irt w-100">
                 <div className="page-title d-flex align-items-center">
                   {(localStorage.getItem("user_id") ==
