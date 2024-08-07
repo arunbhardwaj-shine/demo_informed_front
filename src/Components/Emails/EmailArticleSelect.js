@@ -123,7 +123,8 @@ const EmailArticleSelect = (props) => {
       if(IRTTraining){
         navigate("/new-readers-reviews",
           {
-            state: { siteRole: irtRoleObj?.siteRole},
+            // state: { siteRole: irtRoleObj?.siteRole},
+            state: irtRoleObj
           })
       }else{
         navigate("/IRTRole");
