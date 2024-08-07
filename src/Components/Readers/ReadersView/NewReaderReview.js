@@ -1737,7 +1737,7 @@ const NewReadersReview = (props) => {
     }else if(state?.siteRole == 'Site User-Blinded'){
       pdfid = rolePdf;
       irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site User-Blinded'};
-    }else if(state?.siteRole == 'Site unblinded pharmacist'){
+    }else if(state?.siteRole == 'Site unblinded pharmacist' || state?.siteRole ==  'Site Unblinded Pharmacist' || state?.siteRole ==  'Site Unblinded pharmacist' || state?.siteRole ==  'Site unblinded Pharmacist'){
       pdfid = rolePdf;
       irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site Unblinded Pharmacist'}
     }
