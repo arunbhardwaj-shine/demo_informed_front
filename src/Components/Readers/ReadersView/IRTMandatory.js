@@ -162,8 +162,8 @@ const IRTMandatory = ()  => {
       } 
       return events
     }
-    const navigateToEmailList = ( role) => {
-      navigate("/new-readers-reviews", { state: {siteRole: role } });
+    const navigateToEmailList = (role,pdf_id) => {
+      navigate("/new-readers-reviews", { state: {siteRole: role,pdfId: pdf_id} });
     };
 
     const pathToImage = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -186,7 +186,7 @@ const IRTMandatory = ()  => {
                  <div className="irt_mandatory-block w-100">
                 <div className="irt_mandatory-listing">
                  <div className="irt_mandatory-section"  >
-                 <h3 onClick={()=>navigateToEmailList(roleKey)}>{roleKey}</h3>
+                 <h3 onClick={()=>navigateToEmailList(roleKey,role?.pdf_id)}>{roleKey}</h3>
                  <div className="d-flex align-items-center irt-content-preview">
                    <div className="count-number">{role?.all}</div>
                    {/* {(role.pieChartOptions.series[0].data[0].y || role.pieChartOptions.series[0].data[1].y) ? ( */}
@@ -217,7 +217,7 @@ const IRTMandatory = ()  => {
                      <p>Ignored</p>
                      <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all)*100)}`:0}%&nbsp; ({role?.ignored})</div>
                    </Col>
-                    <Button onClick={()=>navigateToEmailList(roleKey)} className="irt_mandatory-link default">
+                    <Button onClick={()=>navigateToEmailList(roleKey,role?.pdf_id)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
                       
                     </Button>
