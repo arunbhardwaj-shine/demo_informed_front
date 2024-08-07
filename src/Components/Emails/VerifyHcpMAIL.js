@@ -628,7 +628,8 @@ const VerifyHcpMAIL = (props) => {
                     {
                       IRTTraining ? 
                       <Link to = {"/new-readers-reviews"}
-                        state= {{siteRole: irtRoleObj?.siteRole }}
+                        // state= {{siteRole: irtRoleObj?.siteRole }}
+                        state= {irtRoleObj}
                         className="btn btn-primary btn-bordered move-draft">
                         Cancel
                       </Link>
