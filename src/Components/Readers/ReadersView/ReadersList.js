@@ -2326,7 +2326,7 @@ const NewReaders = () => {
                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                     (
                       <h4>
-                        Total IRTs |{" "}
+                        Total HCPs |{" "}
                         <span>{totalCountFlag ? totalCount : 0}</span>
                         {/* <span>{readerDataList?.length}</span> */}
                       </h4>
