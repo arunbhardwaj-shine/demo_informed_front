@@ -308,7 +308,7 @@ const RDAnalytics = () => {
       });
       }
       if (!indidualCompletionTableData) {
-        const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION,{created_by:createdBy});
+        const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2,{created_by:createdBy});
         setIndividualCompletionTableData(result?.data?.data);
         setIndividualCompletionTableDataBackup(result?.data?.data);
         individual_Completion?.current?.focus();
