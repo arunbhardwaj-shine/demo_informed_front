@@ -5,20 +5,24 @@ import { useNavigate } from "react-router-dom";
 
 function MandatoryContent() {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const pdfarr = localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" ? [3968,3970,4521] : [5561,5563,5564];
   const navigate = useNavigate();
   let data = [
     {
       image: `${path_image}site-user-blinded.svg`,
       title: "Site User-Blinded",
+      pdfId : pdfarr?.[0],
     },
     {
       image: `${path_image}investigator-blinded.svg`,
       title: "Investigator-Blinded",
+      pdfId : pdfarr?.[2],
     },
 
     {
       image: `${path_image}blinded-pharmacist.svg`,
       title: "Site Unblinded Pharmacist",
+      pdfId : pdfarr?.[1],
     },
   ];
   let [active, setActive] = useState();
@@ -27,8 +31,8 @@ function MandatoryContent() {
     setActive(value);
   };
 
-  const navigateToLibraryList = (title) => {
-    navigate("/library-mandatory-content", { state: { title, flag: "mandatory" } });
+  const navigateToLibraryList = (title,pdfId) => {
+    navigate("/library-mandatory-content", { state: { title, flag: "mandatory","mandatoryPdfId" : pdfId  } });
   };
   
 
@@ -50,7 +54,7 @@ function MandatoryContent() {
                       ? "col library_create-box active"
                       : "col library_create-box"
                   }
-                  onClick={() => navigateToLibraryList(item?.title)}
+                  onClick={() => navigateToLibraryList(item?.title,item?.pdfId)}
                 >
                   <div className="create-library-img">
                     <img src={item.image} alt="Content msg Library" />

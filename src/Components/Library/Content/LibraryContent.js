@@ -29,7 +29,7 @@ import {
 
 import "react-toastify/dist/ReactToastify.css";
 import "react-activity/dist/library.css";
-
+import axios from "axios";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -128,7 +128,7 @@ const LibraryContent = (props) => {
   const filterRef = useRef(null);
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
-  const { title } = location.state || {};
+  const { title, mandatoryPdfId } = location.state || {};
 
 
   // console.log(location.state,'flag')
@@ -1061,8 +1061,23 @@ const LibraryContent = (props) => {
     return data;
   };
 
-  const nextClicked = (id) => {
-    props.getEmailData({ PdfSelected: id });
+  const nextClicked = async(id) => {
+    if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+      if(mandatoryPdfId){
+        let irtRoleObj = {
+          "pdfId": mandatoryPdfId,
+          "IRTFlag": 1,
+          "siteRole": title
+        };
+        await navigateRole(irtRoleObj);
+      }else{
+        props.getEmailData({ PdfSelected: id });
+        navigate("/CreateEmail");
+      }
+    }else{
+      props.getEmailData({ PdfSelected: id });
+      navigate("/CreateEmail");
+    }
   };
 
   const handleEdit = () => {
@@ -1081,6 +1096,40 @@ const LibraryContent = (props) => {
       state: { flag: location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory", title :title }
     });
   };
+
+
+  const navigateRole = async (irtObj) => {
+    try {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        pdf_id: irtObj?.pdfId,
+        role: irtObj?.siteRole
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`emailapi/get_rd_campaign_data`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            let campaign_data = res?.data?.response?.data;
+            props.getEmailData(campaign_data);
+          } else {
+            toast.warning(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+        });
+        navigate("/VerifyHCP", {
+          state: { IrtObj: irtObj, NextFlag: 1 },
+        });
+    } catch (err) {
+      loader("hide");
+      console.log(err, 'err');
+    }
+  }
 
   // console.log('librray content')
 
@@ -1882,7 +1931,7 @@ const LibraryContent = (props) => {
                                         Download QR
                                       </Button>:''}
 
-                                      <Link
+                                      {/* <Link
                                         to="/CreateEmail"
                                         state={{ PdfSelected: data.id }}
                                         onClick={() => {
@@ -1891,7 +1940,17 @@ const LibraryContent = (props) => {
                                         className="footer-btn"
                                       >
                                         Send in email
-                                      </Link>
+                                      </Link> */}
+
+                                      <Button
+                                        onClick={() => {
+                                          nextClicked(data.id);
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        Send in email
+                                      </Button>
+
                                       {[
                                         "wW0geGtDPvig5gF 6KbJrg==",
                                         "B7SHpAc XDXSH NXkN0rdQ==",
