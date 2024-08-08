@@ -5127,9 +5127,9 @@ section.verify_email.content_details {
             text-align: center;
             justify-content: center;
           }
-          img{
-            margin-left:25px;
-          }
+          // img{
+          //   margin-left:2px;
+          // }
 
           &:hover {
             color: $white;
@@ -14697,7 +14697,7 @@ img.change-password-image {
 
             &.certificate-download {
               flex-direction: column;
-              align-items: flex-start;
+              align-items: flex-end;
 
               button {
                 filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
