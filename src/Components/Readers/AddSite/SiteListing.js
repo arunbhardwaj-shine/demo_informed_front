@@ -1204,7 +1204,7 @@ const SiteListing = () => {
                                                                     <div className="img"> 
                                                                         <img style={{width:'17px'}} src={path_image + "delete.svg"} alt="Delete Row"/></div>
                                                                     :
-                                                                    <div className="img"> 
+                                                                    <div className="img edit"> 
                                                                         <img style={{width:'17px'}} src={path_image + "edit-white.svg"} alt="Delete Row"/></div>
                                                                 }
                                                                  </div>: null

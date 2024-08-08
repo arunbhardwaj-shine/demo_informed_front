@@ -1434,7 +1434,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                               </div>
 
                               {editstatus ? (
-                                <div className="dlt_btn">
+                                <div className="dlt_btn edit">
                                   <button
                                     onClick={(e) => {
                                       handleAddEventClick(e, item);

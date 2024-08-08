@@ -1664,7 +1664,7 @@ const LibraryContent = (props) => {
                             ) : null}
 
                               {(localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") && location?.state?.data == "edit" || editstatus ? (
-                              <div className="dlt_btn">
+                              <div className="dlt_btn edit">
                                 <Link
                                   to="/library-edit"
                                   state={{ pdfid: data.id ,  

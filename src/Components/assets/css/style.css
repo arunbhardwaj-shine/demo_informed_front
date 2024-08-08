@@ -883,7 +883,13 @@ background: #8A4E9C;
 .rd .dlt_btn button:hover {
   background: #7a348f;
 }
+.rd .dlt_btn.edit button {
+  background: #0066be;
+}
 
+.rd .dlt_btn.edit button:hover {
+  background: #004a89;
+}
 .dlt_btn button img {
   width: 20px;
 }
@@ -3620,6 +3626,9 @@ h5 {
 .selected-hcp-list.rd table tr td.delete_row .img{
   background: #8A4E9C;
 }
+.selected-hcp-list.rd table tr td.delete_row .edit{
+  background: #0066be;
+}
 
 .selected-hcp-list table tr td.delete_row .img img,
 .result-hcp-table .table tbody tr td.delete_row .img img{
@@ -3655,6 +3664,10 @@ table tr:hover td.delete_row img {
 }
 .selected-hcp-list.rd table tr td.delete_row:hover .img{
   background: #7b2e92;
+}
+
+.selected-hcp-list.rd table tr td.delete_row .edit:hover {
+  background: #0066be;
 }
 
 .selected-hcp-list table tr td.delete_row:hover img,
