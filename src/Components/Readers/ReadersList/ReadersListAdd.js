@@ -939,7 +939,12 @@ const ReadersListAdd = () => {
       await postData(ENDPOINT.INSERTBULKREADERS, new_obj);
       loader("hide");
       if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA=="){
-        navigate("/IRT-Mandatory");
+        // navigate("/IRT-Mandatory");
+        navigate("/IRT-Mandatory", {
+          state: {
+            siteRole: state?.siteRole ? state?.siteRole : null,pdfId: state?.pdfId
+          },
+        });
       }else{
         navigate("/readers-view");
       }
@@ -1397,7 +1402,7 @@ const ReadersListAdd = () => {
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
                       to="/reader-add"
-                      state={{siteRole: state?.siteRole ? state?.siteRole : null}}
+                      state={{siteRole: state?.siteRole ? state?.siteRole : null,pdfId: state?.pdfId}}
                     >
                       <svg
                         width="14"

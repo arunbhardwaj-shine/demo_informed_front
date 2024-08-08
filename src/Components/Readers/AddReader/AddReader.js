@@ -31,7 +31,6 @@ const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
-  // console.log("state-->", state)
   const [groupId, setGroupId] = useState();
   const [flag, setFlag] = useState();
   const [pharmaData, setPharmaData] = useState();
@@ -619,7 +618,7 @@ const ReaderAdd = () => {
         navigate("/readers-list", {
           state: {
             readersData: response?.data?.data,
-            siteRole: state?.siteRole ? state?.siteRole : null
+            siteRole: state?.siteRole ? state?.siteRole : null,pdfId: state?.pdfId
           },
         });
       }
@@ -689,7 +688,7 @@ const ReaderAdd = () => {
         navigate("/reader-review", {
           state: {
             data: data,
-            siteRole: state?.siteRole ? state?.siteRole : null
+            siteRole: state?.siteRole ? state?.siteRole : null,pdfId: state?.pdfId
           },
         });
       } catch (err) {
@@ -1054,7 +1053,7 @@ const ReaderAdd = () => {
   const backButtonClicked=(e)=>{
     e.preventDefault()     
         if(state?.siteRole){
-          navigate("/new-readers-reviews", {state: { siteRole: state.siteRole }})
+          navigate("/new-readers-reviews", {state: { siteRole: state.siteRole,pdfId: state?.pdfId }})
         }else{
           navigate("/new-readers-reviews")
         }
