@@ -1619,7 +1619,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .readerlist .tab-mail-list.data .open,
-.open .progress-bar {
+.open .progress-bar, .readerlist .tab-mail-list.data .open .progress-bar  {
   color: #05766b;
 }
 
