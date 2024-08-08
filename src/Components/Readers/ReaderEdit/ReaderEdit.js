@@ -678,8 +678,8 @@ const ReaderEdit = () => {
             data: data,
             flag: 1,
             status: state.status,
-            siteRole: state?.siteRole
-
+            siteRole: state?.siteRole,
+            pdfId: state?.pdfId
           },
         });
       } catch (err) {
@@ -991,9 +991,8 @@ const ReaderEdit = () => {
 
   const backButtonClicked = (e) => {
     e.preventDefault()
-
     if (state?.siteRole) {
-      navigate("/new-readers-reviews", { state: { siteRole: state.siteRole } })
+      navigate("/new-readers-reviews", { state: { siteRole: state?.siteRole,pdfId: state?.pdfId } })
     } else {
       navigate("/readers-view")
     }

@@ -106,8 +106,10 @@ const NewReadersReview = (props) => {
     "Investigator-Blinded",
     "Site unblinded pharmacist",
   ]);
+  
   const [role, setRole] = useState((state != "undefined" && state?.siteRole != ""&& state?.siteRole != "All IRTs") ? [state?.siteRole] : irtData)
-  const [rolePdf, setRolePdf] = useState((state != "undefined" && state?.pdfId != "") ? state?.pdfId : irtData)
+  const [rolePdf, setRolePdf] = useState(state?.pdfId ? state?.pdfId : 0)
+  const [allMandatoryRole, setAllMandatoryRole] = useState([])
   const [change, setChanges] = useState(null);
   const userTypeValues = {
     0: "HCP",
@@ -361,6 +363,7 @@ const NewReadersReview = (props) => {
       setPageAll(false);
       setApiCallStatus(true);
       setTotalCountFlag(true);
+      setAllMandatoryRole(res?.data?.data?.role);
       loader("hide");
     } catch (err) {
       setRefreshFlag(false);
@@ -1730,18 +1733,34 @@ const NewReadersReview = (props) => {
     }
   };
 
-  const createNewEmail = async(user_id) => {
-    let pdfid = 0;
+  const createNewEmail = async(user_id,role) => {
+    
+    let pdfid = allMandatoryRole?.[role] ? allMandatoryRole?.[role] : rolePdf;
     let irtRoleObj = {};
-    if(state?.siteRole == 'Investigator-Blinded'){
-      pdfid = rolePdf;
-      irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Investigator-Blinded'}
-    }else if(state?.siteRole == 'Site User-Blinded'){
-      pdfid = rolePdf;
-      irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site User-Blinded'};
-    }else if(state?.siteRole == 'Site unblinded pharmacist' || state?.siteRole ==  'Site Unblinded Pharmacist' || state?.siteRole ==  'Site Unblinded pharmacist' || state?.siteRole ==  'Site unblinded Pharmacist'){
-      pdfid = rolePdf;
-      irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site Unblinded Pharmacist'}
+
+    const roleMap = {
+      'Investigator-Blinded': 'Investigator-Blinded',
+      'Site User-Blinded': 'Site User-Blinded',
+      'Site unblinded pharmacist': 'Site Unblinded Pharmacist',
+      'Site Unblinded Pharmacist': 'Site Unblinded Pharmacist',
+      'Site Unblinded pharmacist': 'Site Unblinded Pharmacist',
+      'Site unblinded Pharmacist': 'Site Unblinded Pharmacist',
+    };
+
+    const normalizedSiteRole = roleMap[state?.siteRole] || roleMap[role];
+    // if(state?.siteRole == 'Investigator-Blinded' || role == 'Investigator-Blinded'){
+    //   pdfid = rolePdf;
+    //   irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Investigator-Blinded'}
+    // }else if(state?.siteRole == 'Site User-Blinded'  || role == 'Site User-Blinded'){
+    //   pdfid = rolePdf;
+    //   irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site User-Blinded'};
+    // }else if(state?.siteRole == 'Site unblinded pharmacist' || state?.siteRole ==  'Site Unblinded Pharmacist' || state?.siteRole ==  'Site Unblinded pharmacist' || state?.siteRole ==  'Site unblinded Pharmacist' || role ==  'Site unblinded Pharmacist'){
+    //   pdfid = rolePdf;
+    //   irtRoleObj = {pdfId: rolePdf, IRTFlag: 1, siteRole: 'Site Unblinded Pharmacist'}
+    // }
+
+    if (normalizedSiteRole) {
+        irtRoleObj = { pdfId: pdfid, IRTFlag: 1, siteRole: normalizedSiteRole };
     }
 
     if(pdfid != 0){
@@ -1813,6 +1832,19 @@ const NewReadersReview = (props) => {
 
   const refreshCronData = () => {
     setRefreshFlag(true);
+  }
+
+  const EditClick = (user_id,role) => {
+    let pdfid = allMandatoryRole?.[role] ? allMandatoryRole?.[role] : rolePdf;
+    if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+      navigate("/mandatory-reader-edit", {
+        state: { id: user_id, status: '1', siteRole: state?.siteRole, pdfId: pdfid },
+      });
+    }else{
+      navigate("/reader-edit", {
+        state: { id: user_id, status: '1', siteRole: state?.siteRole, pdfId: pdfid },
+      });
+    }
   }
 
   return (
@@ -2636,22 +2668,29 @@ const NewReadersReview = (props) => {
                                       (localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && data?.status=="New"
                                       ?
                                       <Button
-                                        onClick={() => createNewEmail(data?.id)}
+                                        onClick={() => createNewEmail(data?.id,data?.role)}
                                         className="btn-filled"
                                       >
                                         Start Training
                                       </Button>
                                       :null
                                     }
-                                      <Link
+
+                                      <Button
+                                        onClick={() => EditClick(data?.id,data?.role)}
+                                        className="btn btn-primary btn-bordered"
+                                      >
+                                        Edit
+                                      </Button>
+                                      {/* <Link
                                         to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                                           ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )
                                           ? "/mandatory-reader-edit" : "/reader-edit"}
                                         className="btn btn-primary btn-bordered"
-                                        state={{ id: data?.id, status: '1', siteRole: state?.siteRole }}
+                                        state={{ id: data?.id, status: '1', siteRole: state?.siteRole, pdfId: rolePdf }}
                                       >
                                         Edit
-                                      </Link>
+                                      </Link> */}
                                     </div>
                                   </div>
                                 ) : (
