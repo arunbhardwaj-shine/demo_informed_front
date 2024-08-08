@@ -40,7 +40,7 @@ const ReaderReview = () => {
       // navigate("/readers-view");
       if (state?.data?.irt === 1) {
         if (state?.siteRole) {
-          navigate("/new-readers-reviews", { state: { siteRole: state?.siteRole } })
+          navigate("/new-readers-reviews", { state: { siteRole: state?.siteRole,pdfId: state?.pdfId } })
         } else {
           navigate("/new-readers-reviews")
         }
@@ -57,7 +57,7 @@ const ReaderReview = () => {
     e.preventDefault()
       if(state?.data?.irt === 1){
         if(state?.siteRole){
-          navigate("/new-readers-reviews", {state: { siteRole: state.siteRole }})
+          navigate("/new-readers-reviews", {state: { siteRole: state.siteRole,pdfId: state?.pdfId }})
         }else{
           navigate("/new-readers-reviews")
         }
