@@ -907,6 +907,9 @@ const ReadersListAdd = () => {
           if (typeof readersData[edit_index] != "undefined") {
             readersData[edit_index].contact_type = contact_type_edit;
           }
+          if (typeof readersData[edit_index] != "undefined") {
+            readersData[edit_index].firtName=name_edit;
+          }
           setReadersData(readersData);
         }
 

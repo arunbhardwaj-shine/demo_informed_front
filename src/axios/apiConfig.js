@@ -108,7 +108,7 @@ export const ENDPOINT = {
   SITEREGISTER: "/site-registration",
   SITEREGISTERSORT: "/site-registration-sort",
 
-  IRT_COUNT_GRAPH: "/find-irt-count",
+  IRT_COUNT_GRAPH: "/v2/find-irt-count",
   WEBINAR_QUESTION_LISTING: "/auth/webinar-question",
   WEBINAR_All_QUESTION_LISTING: "/auth/webinar-all-question",
   WEBINAR_QUESTION_ONLY: "/auth/webinar-question-only",
