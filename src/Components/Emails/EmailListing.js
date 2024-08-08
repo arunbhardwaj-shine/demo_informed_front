@@ -1980,7 +1980,7 @@ const EmailList = (props) => {
                         </tr>
                         <tr>
                           <th>Content Title </th>
-                          <td>{viewEmailData[0].article_title}</td>
+                          <td>{viewEmailData?.[0]?.article_title ? viewEmailData?.[0]?.article_title : viewEmailData?.[0]?.pdf_title}</td>
                         </tr>
                         <tr>
                           <th>Docintel Link </th>

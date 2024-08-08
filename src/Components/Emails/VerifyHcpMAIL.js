@@ -358,7 +358,7 @@ const VerifyHcpMAIL = (props) => {
                 // setSearchedUsers(searchedUsers)
                 popup_alert({
                   visible: "show",
-                  message: "Your changes has been saved <br />successfully !",
+                  message:  res?.data?.message ?  res?.data?.message : "Your changes has been saved <br />successfully !",
                   type: "success",
                   redirect: "/IRTRole",
                 });
