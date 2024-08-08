@@ -1359,8 +1359,7 @@ const Sidebar = () => {
                     className={
                       location.pathname == "/IRT-Mandatory" || location.pathname == "/new-readers-reviews" ||
                         location.pathname == "/reader-add" || location.pathname == "/mandatory-reader-edit" || location.pathname == "/readers-list" ||
-                        window.location.pathname == "/reader-review" ||
-                        (window.location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') == 1)
+                        ((window.location.pathname == "/timeline-detail" || window.location.pathname == "/reader-review") && localStorage.getItem('irt_sec') == 1)
                         ? "active"
                         : "side_li"
                     }
@@ -1387,13 +1386,12 @@ const Sidebar = () => {
                   </li>
                 )
                 : null}
-
               <li
                 className={
                   (location.pathname == "/readers-view"
                     || (location.pathname == "/reader-edit" &&
                       (localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) ||
-                    location.pathname == "/timeline-detail" && localStorage.getItem('irt_sec') != 1)
+                    ((location.pathname == "/timeline-detail" || location.pathname == "/reader-review" ) && (localStorage.getItem('irt_sec') != 1 && localStorage.getItem('irt_sec') != null)))
                     ? "active"
                     : "side_li"
                 }

@@ -685,12 +685,22 @@ const ReaderAdd = () => {
         
         loader("hide");
         // console.log("state?.siteRole--->", state?.siteRole)
-        navigate("/reader-review", {
-          state: {
-            data: data,
-            siteRole: state?.siteRole ? state?.siteRole : null,pdfId: state?.pdfId
-          },
-        });
+        if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+          localStorage.setItem('irt_sec', 1);
+          navigate("/reader-review", {
+            state: {
+              data: data,
+              siteRole: state?.siteRole ? state?.siteRole : null,pdfId: state?.pdfId
+            },
+          });
+        }else{
+          data['irt'] = 0;
+          navigate("/reader-review", {
+            state: {
+              data: data,
+            },
+          });
+        }
       } catch (err) {
         console.log(err);
         loader("hide");

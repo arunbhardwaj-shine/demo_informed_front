@@ -673,15 +673,31 @@ const ReaderEdit = () => {
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-        navigate("/reader-review", {
-          state: {
-            data: data,
-            flag: 1,
-            status: state.status,
-            siteRole: state?.siteRole,
-            pdfId: state?.pdfId
-          },
-        });
+        if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+            if(state?.status){
+              localStorage.setItem('irt_sec', 1);  
+            }else{
+              localStorage.setItem('irt_sec', 0);
+            }
+            navigate("/reader-review", {
+              state: {
+                data: data,
+                flag: 1,
+                status: state.status,
+                siteRole: state?.siteRole,
+                pdfId: state?.pdfId
+              },
+            });
+        }else{
+          data['irt'] = 0;
+          navigate("/reader-review", {
+            state: {
+              data: data,
+              flag: 1,
+              status: state.status,
+            },
+          });
+        }
       } catch (err) {
         console.log(err);
         loader("hide");
