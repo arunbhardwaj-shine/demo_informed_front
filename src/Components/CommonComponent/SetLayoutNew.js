@@ -149,8 +149,8 @@ const SetLayoutNew = () => {
         <>
           <Header />
 
-          <div className="default-layout">
-            <div className="landing-layout library_create d-flex">
+          <div className="default-layout d-flex latest-home">
+            <div className="library_create home-layout  d-flex">
               <Row>
                 {data.map((item, index) => (
                   <div
@@ -172,6 +172,353 @@ const SetLayoutNew = () => {
                   </div>
                 ))}
               </Row>
+            </div>
+            <div className="timeline-layout">
+              <div className="timeline-layout-inset">
+                <div className="timeline-right-list">
+                  <div className="timeline-right-header">
+                    <div className="timeline-indicator">
+                      <img src={path_image+"informed-circle-icon.svg"} alt=""/>
+                    </div>
+                    <div className="timeline-date">
+                        <h3>LEX-210 Trial</h3>
+                        <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
+                    </div>
+                    </div>
+                    <div className="timeline-box">
+                      <div className="timeline-sticky">
+                        <div className="timeline-indicator">
+                            <span>&nbsp;</span>
+                          </div>
+                          <div className="timeline-date">
+                              <p>July. 29. 2024</p>
+                          </div>
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"automail.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status">
+                                <p>Auto Email sent</p>
+                                <span>8:00 AM </span>
+                            </div>
+                            <div className="timeline-details">
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Type</p>
+                                    <p>Open email reminder</p>
+                                </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Title</p>
+                                    <p>Faucibus quisque nuneque ipsum masa euismod phartra donec</p>
+                                </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">To</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Site User-Blinded</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Site User-Blinded</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Site User-Blinded</p>
+                                            <span>210-000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"irt-training-start.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status start">
+                                <p>IRT Started Training</p>
+                                <span>10:20 AM </span>
+                            </div>
+                            <div className="timeline-details">
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">What</p>
+                                    <p>IRT has started the training but is not finished yet</p>
+                                </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Who</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Site User-Blinded</p>
+                                            <span>210-000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"content-open.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status">
+                                <p>Content Opened</p>
+                                <span>2:00 PM </span>
+                            </div>
+                            <div className="timeline-details">
+                              <div className="timeline-article d-flex">
+                                <div className="timeline-article-image">
+                                  <img src={path_image + "article-open-cover.png"} alt=""/>
+                                </div>
+                                <div className="timeline-article-detail">
+                                  <div className="timeline-title">
+                                    <p>Faucibus quisque nuneque ipsum masa euismod phartra donec</p>
+                                  </div>
+                                  <div className="timeline-subtitle">
+                                    <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
+                                    <div className="d-flex align-items-center include-links">
+                                      <img src={path_image + "video-img.png"} alt=""/>
+                                      <p>Include videos </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Who</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div className="timeline-box">
+                      <div className="timeline-sticky">
+                        <div className="timeline-indicator">
+                            <span>&nbsp;</span>
+                          </div>
+                          <div className="timeline-date">
+                              <p>July. 28. 2024</p>
+                          </div>
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"new-hcp.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status">
+                                <p>New HCP Registered</p>
+                                <span>8:00 AM </span>
+                            </div>
+                            <div className="timeline-details">
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">What</p>
+                                    <p>A new HCP register to LEX-210 library</p>
+                                </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Who</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>HCP Name Faucibus quisque nuneque </p>
+                                            <p>IRT role</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>HCP Name Faucibus quisque nuneque </p>
+                                            <p>IRT role</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>HCP Name Faucibus quisque nuneque </p>
+                                            <p>IRT role</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>HCP Name Faucibus quisque nuneque </p>
+                                            <p>IRT role</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>HCP Name Faucibus quisque nuneque </p>
+                                            <p>IRT role</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>HCP Name Faucibus quisque nuneque </p>
+                                            <p>IRT role</p>
+                                            <span>210-000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"irt-traning-complete.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status complete">
+                                <p>IRT Completed Training</p>
+                                <span>10:20 AM </span>
+                            </div>
+                            <div className="timeline-details">
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">What</p>
+                                    <div className="d-flex justify-content-between">
+                                      <p>IRT has completed the training and received the certificate</p>
+                                      <img src={path_image + "certificate.png"} alt=""/>
+                                    </div>
+                                </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Who</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Site User-Blinded</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Investigator-Blinded</p>
+                                            <span>210-000</span>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>IRT Name Faucibus quisque nuneque </p>
+                                            <p>Site Unblinded Pharmacist</p>
+                                            <span>210-000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"content-open.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status">
+                                <p>Content Opened</p>
+                                <span>2:00 PM </span>
+                            </div>
+                            <div className="timeline-details">
+                              <div className="timeline-article d-flex">
+                                <div className="timeline-article-image">
+                                  <img src={path_image + "article-open-cover.png"} alt=""/>
+                                </div>
+                                <div className="timeline-article-detail">
+                                  <div className="timeline-title">
+                                    <p>Faucibus quisque nuneque ipsum masa euismod phartra donec</p>
+                                  </div>
+                                  <div className="timeline-subtitle">
+                                    <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
+                                    <div className="d-flex align-items-center include-links">
+                                      <img src={path_image + "video-img.png"} alt=""/>
+                                      <p>Include videos </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Who</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                      <div className="timeline-box-inset">
+                        <div className="timeline-indicator">
+                          <div className="indicator-box">
+                            <img src={path_image+"share-materials-icon.svg"} alt=""/>
+                          </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-status">
+                                <p>Content Shared</p>
+                                <span>2:00 PM </span>
+                            </div>
+                            <div className="timeline-details">
+                              <div className="timeline-article d-flex">
+                                <div className="timeline-article-image">
+                                  <img src={path_image + "article-open-cover.png"} alt=""/>
+                                </div>
+                                <div className="timeline-article-detail">
+                                  <div className="timeline-title">
+                                    <p>Faucibus quisque nuneque ipsum masa euismod phartra donec</p>
+                                  </div>
+                                  <div className="timeline-subtitle">
+                                    <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
+                                    <div className="d-flex align-items-center include-links">
+                                      <img src={path_image + "video-img.png"} alt=""/>
+                                      <p>Include videos </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                <div className="details-box">
+                                    <p className="timeline-details-heading">Who</p>
+                                    <div className="d-flex flex-wrap timeline-activity">
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+                                        <div className="timeline-activity-detail">
+                                            <p>210-000</p>
+                                        </div>
+  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </>
