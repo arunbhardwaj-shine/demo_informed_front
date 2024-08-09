@@ -1272,6 +1272,203 @@ const RDAnalytics = () => {
                         <p>Click on the Record to see more details</p>
                       </div>
                       <div className="rd-training-block-right d-flex">
+                      <div className="filter_btn_div d-flex align-items-center">
+
+
+{/** By Gagan */}
+
+<div className={`${showfilter?"filter-by nav-item dropdown highlight":"filter-by nav-item dropdown" }`} style={{margin:'0'}}>
+<button
+ref={buttonRef}
+className={
+Object.keys(filterObject)?.length &&
+filterApplyflag == 1
+? "btn btn-secondary dropdown filter_applied"
+: "btn btn-secondary dropdown"
+}
+type="button"
+id="dropdownMenuButton2"
+onClick={() => setShowFilter((showfilter) => !showfilter)}
+>
+Filter By
+{showfilter ? (
+<svg
+className="close-arrow"
+width="13"
+height="12"
+viewBox="0 0 13 12"
+fill="none"
+xmlns="http://www.w3.org/2000/svg"
+>
+<rect
+width="2.09896"
+height="15.1911"
+rx="1.04948"
+transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+fill="#0066BE"
+/>
+<rect
+width="2.09896"
+height="15.1911"
+rx="1.04948"
+transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+fill="#0066BE"
+/>
+</svg>
+) : (
+<svg
+className="filter-arrow"
+width="16"
+height="14"
+viewBox="0 0 16 14"
+fill="none"
+xmlns="http://www.w3.org/2000/svg"
+>
+<path
+d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+fill="#97B6CF"
+></path>
+<path
+d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+fill="#97B6CF"
+></path>
+<path
+d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+fill="#97B6CF"
+></path>
+</svg>
+)}
+</button>
+{showfilter && (
+<div
+ref={filterRef}
+className="dropdown-menu filter-options"
+aria-labelledby="dropdownMenuButton2"
+>
+<h4>Filter By</h4>
+
+<Accordion defaultActiveKey="0" flush>
+{Object.keys(filterdata)?.map(function (key, index) {
+return (
+<>
+{filterdata[key]?.length > 0 ? (
+<Accordion.Item
+className={
+key == "role" ? "card upper" : "card"
+}
+eventKey={index}
+>
+<Accordion.Header className="card-header">
+{key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
+</Accordion.Header>
+
+<Accordion.Body className="card-body">
+<ul>
+{filterdata[key]?.length
+  ? filterdata[key]
+  ?.sort((a, b) => {
+    if (key === "training_status_code") {
+      const itemA = typeof a === "object" ? a?.title : a;
+      const itemB = typeof b === "object" ? b?.title : b;
+      return itemA.localeCompare(itemB);
+    }
+    // If not "training_status_code", do not sort
+    return 0;
+  })
+  
+  ?.map(
+    (item, index) => (
+      <li key={index}>
+        {item != "" ? (
+          <label className="select-multiple-option">
+            <input
+              type="radio"
+              id={`custom-checkbox-${item}-${index}`}
+              value={
+                typeof item ==
+                  "object"
+                  ? item?.title
+                  : item
+              }
+              name={key}
+              checked={
+                typeof item ==
+                  "object"
+                  ? appliedFilter[
+                    key
+                  ]?.includes(
+                    item.id
+                  )
+                    ? true
+                    : false
+                  : appliedFilter[
+                    key
+                  ]?.includes(item)
+                    ? true
+                    : false
+              }
+
+
+              onChange={(e) =>
+                handleOnFilterChange(
+                  e,
+                  typeof item ==
+                    "object"
+                    ? item.id
+                    : item,
+                  index,
+                  key,
+                  [...filterdata[key]]
+                )
+              }
+            />
+            {typeof item == "object"
+              ? item?.title
+              : item}
+            {/* {key == "draft" &&
+      typeof item  == "string" && item == "0"
+      ? "live"
+      : key == "draft" &&  typeof item  == "string" &&
+        item == "1"
+      ? "draft" &&  typeof item  == "string"
+      : item} */}
+            <span className="checkmark"></span>
+          </label>
+        ) : null}
+      </li>
+    )
+  )
+  : null}
+</ul>
+</Accordion.Body>
+</Accordion.Item>
+) : null}
+</>
+);
+})}
+</Accordion>
+
+<div className="filter-footer">
+<Button
+className="btn btn-primary btn-bordered"
+onClick={clearFilter}
+>
+Clear
+</Button>
+<Button
+className="btn btn-primary btn-filled"
+onClick={applyFilter}
+>
+Apply
+</Button>
+</div>
+</div>
+)}
+</div>
+
+
+{/* end*/}
+</div>
                         <div className="search-bar">
                           <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                             <input
@@ -1299,16 +1496,10 @@ const RDAnalytics = () => {
                             </button>
                           </form>
                         </div>
-                      {typeof indidualCompletionTableData !== "undefined" &&
-                      indidualCompletionTableData?.length > 0?
-                      <>
-                          <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh" onClick={refresh}>
-                              <svg fill="#0066be" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
-                              C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
-                              L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
-                              c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
-                              c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
-                          </button>
+                          {typeof indidualCompletionTableData !== "undefined" &&
+                          indidualCompletionTableData?.length > 0?
+                          <>
+                          
                           <Button
                             title="Download stats"
                             onClick={() => downloadExcelUsers(indidualCompletionTableData,"individual_completion")
@@ -1368,263 +1559,69 @@ const RDAnalytics = () => {
                         </Button> */}
                       </div>
                     </div>
-                     {/* Code for filter start */}
-                     <div className="d-flex justify-content-end rd-content-filter-add">
-                        <div className="filter_btn_div d-flex align-items-center">
+                    {/** By gagan */}
+{Object.keys(filterObject)?.length !== 0 &&
+  filterApplyflag > 0 ? (
+  <div className="apply-filter">
+    <div className="filter-block">
+      <div className="filter-block-left full">
+        {Object.keys(filterObject)?.map((key, index) => {
+          return (
+            <>
+              {filterObject[key]?.length ? (
+                <div className="filter-div">
+                  <div className="filter-div-title">
+                    <span>{key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
+                  </div>
 
-                        {/** By gagan */}
-                        {Object.keys(filterObject)?.length !== 0 &&
-                          filterApplyflag > 0 ? (
-                          <div className="apply-filter">
-                            <div className="filter-block">
-                              <div className="filter-block-left full">
-                                {Object.keys(filterObject)?.map((key, index) => {
-                                  return (
-                                    <>
-                                      {filterObject[key]?.length ? (
-                                        <div className="filter-div">
-                                          <div className="filter-div-title">
-                                            <span>{key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
-                                          </div>
-
-                                          <div className="filter-div-list">
-                                            {filterObject[key]?.map((item, index) => (
-                                              <div
-                                                className={
-                                                  key == "Role"
-                                                    ? "filter-result upper"
-                                                    : "filter-result"
-                                                }
-                                              >
-                                                {key == "training_status_code"
-                                                    ? getStatusText(item)
-                                                    : item}
-                                                <img
-                                                  src={path_image + "filter-close.svg"}
-                                                  onClick={() =>
-                                                    removeindividualfilter(key, item)
-                                                  }
-                                                  alt="Close-filter"
-                                                />
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      ) : null}
-                                    </>
-                                  );
-                                })}
-                              </div>
-                              <div className="clear-filter">
-                                <button
-                                  className="btn btn-outline-primary btn-bordered"
-                                  onClick={clearFilter}
-                                >
-                                  Remove All
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        ) : null}
-
-  {/** end */}
-
-  {/** By Gagan */}
-
-  <div className={`${showfilter?"filter-by nav-item dropdown highlight":"filter-by nav-item dropdown" }`} style={{margin:'0'}}>
-    <button
-      ref={buttonRef}
-      className={
-        Object.keys(filterObject)?.length &&
-          filterApplyflag == 1
-          ? "btn btn-secondary dropdown filter_applied"
-          : "btn btn-secondary dropdown"
-      }
-      type="button"
-      id="dropdownMenuButton2"
-      onClick={() => setShowFilter((showfilter) => !showfilter)}
-    >
-      Filter By
-      {showfilter ? (
-        <svg
-          className="close-arrow"
-          width="13"
-          height="12"
-          viewBox="0 0 13 12"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            width="2.09896"
-            height="15.1911"
-            rx="1.04948"
-            transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-            fill="#0066BE"
-          />
-          <rect
-            width="2.09896"
-            height="15.1911"
-            rx="1.04948"
-            transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-            fill="#0066BE"
-          />
-        </svg>
-      ) : (
-        <svg
-          className="filter-arrow"
-          width="16"
-          height="14"
-          viewBox="0 0 16 14"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-            fill="#97B6CF"
-          ></path>
-          <path
-            d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-            fill="#97B6CF"
-          ></path>
-          <path
-            d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-            fill="#97B6CF"
-          ></path>
-        </svg>
-      )}
-    </button>
-    {showfilter && (
-      <div
-        ref={filterRef}
-        className="dropdown-menu filter-options"
-        aria-labelledby="dropdownMenuButton2"
-      >
-        <h4>Filter By</h4>
-
-        <Accordion defaultActiveKey="0" flush>
-          {Object.keys(filterdata)?.map(function (key, index) {
-            return (
-              <>
-                {filterdata[key]?.length > 0 ? (
-                  <Accordion.Item
-                    className={
-                      key == "role" ? "card upper" : "card"
-                    }
-                    eventKey={index}
-                  >
-                    <Accordion.Header className="card-header">
-                      {key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
-                    </Accordion.Header>
-
-                    <Accordion.Body className="card-body">
-                      <ul>
-                        {filterdata[key]?.length
-                          ? filterdata[key]
-                          ?.sort((a, b) => {
-                            if (key === "training_status_code") {
-                              const itemA = typeof a === "object" ? a?.title : a;
-                              const itemB = typeof b === "object" ? b?.title : b;
-                              return itemA.localeCompare(itemB);
-                            }
-                            // If not "training_status_code", do not sort
-                            return 0;
-                          })
-                          
-                          ?.map(
-                            (item, index) => (
-                              <li key={index}>
-                                {item != "" ? (
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      id={`custom-checkbox-${item}-${index}`}
-                                      value={
-                                        typeof item ==
-                                          "object"
-                                          ? item?.title
-                                          : item
-                                      }
-                                      name={key}
-                                      checked={
-                                        typeof item ==
-                                          "object"
-                                          ? appliedFilter[
-                                            key
-                                          ]?.includes(
-                                            item.id
-                                          )
-                                            ? true
-                                            : false
-                                          : appliedFilter[
-                                            key
-                                          ]?.includes(item)
-                                            ? true
-                                            : false
-                                      }
-
-
-                                      onChange={(e) =>
-                                        handleOnFilterChange(
-                                          e,
-                                          typeof item ==
-                                            "object"
-                                            ? item.id
-                                            : item,
-                                          index,
-                                          key,
-                                          [...filterdata[key]]
-                                        )
-                                      }
-                                    />
-                                    {typeof item == "object"
-                                      ? item?.title
-                                      : item}
-                                    {/* {key == "draft" &&
-                              typeof item  == "string" && item == "0"
-                              ? "live"
-                              : key == "draft" &&  typeof item  == "string" &&
-                                item == "1"
-                              ? "draft" &&  typeof item  == "string"
-                              : item} */}
-                                    <span className="checkmark"></span>
-                                  </label>
-                                ) : null}
-                              </li>
-                            )
-                          )
-                          : null}
-                      </ul>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                ) : null}
-              </>
-            );
-          })}
-        </Accordion>
-
-        <div className="filter-footer">
-          <Button
-            className="btn btn-primary btn-bordered"
-            onClick={clearFilter}
-          >
-            Clear
-          </Button>
-          <Button
-            className="btn btn-primary btn-filled"
-            onClick={applyFilter}
-          >
-            Apply
-          </Button>
-        </div>
-      </div>
-    )}
-  </div>
-
-
-  {/* end*/}
-                        </div>
+                  <div className="filter-div-list">
+                    {filterObject[key]?.map((item, index) => (
+                      <div
+                        className={
+                          key == "Role"
+                            ? "filter-result upper"
+                            : "filter-result"
+                        }
+                      >
+                        {key == "training_status_code"
+                            ? getStatusText(item)
+                            : item}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          onClick={() =>
+                            removeindividualfilter(key, item)
+                          }
+                          alt="Close-filter"
+                        />
                       </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </>
+          );
+        })}
+      </div>
+      <div className="clear-filter">
+        <button
+          className="btn btn-outline-primary btn-bordered"
+          onClick={clearFilter}
+        >
+          Remove All
+        </button>
+      </div>
+    </div>
+  </div>
+) : null}
+
+{/** end */}
+
+                     {/* Code for filter start */}
+
 {/* Code for filter end */}
+
+
+
                     <Table className="fold-table" id="individual_completion">
                       <thead>
                         <tr>
