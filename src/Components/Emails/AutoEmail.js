@@ -683,7 +683,7 @@ const AutoEmail = () => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-      list[i].institutionType = "";
+      list[i].institutionType =e=="yes"?irtInstitutionType?.[0]?.value: "";
       setHpc(list);
     }
     let arr = [];
@@ -793,15 +793,15 @@ const AutoEmail = () => {
           else if (data.email == "") {
             return "Please enter the email atleast";
           }
+          else if (data?.institution_type == "") {
+            return "Please select the institution type";
+          }else if (data?.country == "") {
+            return "Please select country";
+          }
 
-          else if(data?.siteIrt==1){
-             if (data?.institution_type == "") {
-              return "Please select the institution type";
-            }
-            else if (data?.country == "") {
-              return "Please select country";
-            }
-           else if(data?.siteNumber==""){
+          else if(data?.siteIrt==1){            
+             
+            if(data?.siteNumber==""){
               return "Please enter the site number";
             }else if(data?.siteName==""){
               return "Please enter the site name";
@@ -810,10 +810,8 @@ const AutoEmail = () => {
         }
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if (data?.institution_type == "") {
-          return "Please select the institution type";
-        }
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        } 
+        if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
             return "Please select country";
           }
