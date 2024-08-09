@@ -1282,7 +1282,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                     localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" &&(
                 <div className="email_box_block add-webinar">
                   <div
-                    className="email-block-add"
+                    className="email-block-add" style={{margin:"0"}}
                     onClick={(e) => handleAddEventClick(e)}
                   >
                     <img src={path_image + "add-button.svg"} alt="" />
