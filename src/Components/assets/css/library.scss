@@ -448,7 +448,7 @@
           &.Not.Completed{
              color:#FF9534;
           }
-          &.Paused{
+          &.Blocked{
             color:#a40711;
          }
         }
@@ -14299,7 +14299,7 @@ img.change-password-image {
             padding: 5px 10px 16px 15px;
 
             &:nth-child(2) {
-              width: 320px;
+              width: 280px;
             }
 
             &:first-child {
@@ -16778,7 +16778,7 @@ table {
     padding-left: 68px;
 }
   .rd-full-explain .rd-training-block table thead tr th:nth-child(2) {
-    width: 260px;
+    width: 220px;
 }
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 411px;
@@ -16867,7 +16867,7 @@ table {
     font-size: 13px;
   }
   .rd-full-explain .rd-training-block table tbody td:last-child {
-    padding-right: 30px;
+    padding-right: 40px;
 }
   .accordion-body .contents-block .contents-block-right,
   .accordion-body .contents-block .contents-block-right {
@@ -23387,7 +23387,7 @@ table {
               background: $light-pink;
             }
           }
-          &.paused{
+          &.blocked{
             p {
               color: #a40711;
             }
