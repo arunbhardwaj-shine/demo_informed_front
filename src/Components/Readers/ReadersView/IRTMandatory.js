@@ -10,7 +10,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 
 const IRTMandatory = ()  => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289' ];
+    const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289',"#a40711" ];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
     const images={
@@ -88,6 +88,7 @@ const IRTMandatory = ()  => {
                   { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
                   { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
                   { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
+                  { name: "Paused", y: roleInfo.Paused || 0, color: colors[6] },
                 ],
                 size: "110%",
                 innerSize: "60%",
@@ -216,6 +217,10 @@ const IRTMandatory = ()  => {
                    <Col className="ignored">
                      <p>Ignored</p>
                      <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all)*100)}`:0}%&nbsp; ({role?.ignored})</div>
+                   </Col>
+                   <Col className="paused">
+                     <p>Paused</p>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.Paused!=0)? `${Math.round((role?.Paused/role?.all)*100)}`:0}%&nbsp; ({role?.Paused})</div>
                    </Col>
                     <Button onClick={()=>navigateToEmailList(roleKey,role?.pdf_id)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
