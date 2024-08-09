@@ -428,7 +428,14 @@ const SmartList = (props) => {
             <div className="top-header sticky">
               <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
-                
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                <>
+                  <div className="action-btn-add">
+                  <Link   to="/webinar/email/smartlist/createsmartlist"
+                  state={{ creator: getUserDetails?.name }} className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
+                  </div>
+                </>
+                ) : null}
                 {smartListData !== "undefined" &&
                 smartListData?.length > 0&&(<>
                 <div className="search-bar">
@@ -881,9 +888,10 @@ const SmartList = (props) => {
                 //   getFilterIbu.length == 0 &&
                 //   filterdate.length == 0 &&
                   !deletestatus && (
+                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
+                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
                     <div className="smartlist_box_block">
                       <div className="smartlist-add smartlist-view">
-                        {/* {typeof getUserDetails !== "undefined" && ( */}
                           <>
                             <Link
                               to="/webinar/email/smartlist/createsmartlist"
@@ -893,9 +901,8 @@ const SmartList = (props) => {
                             </Link>
                             <p>Create New Smart List</p>
                           </>
-                        {/* )} */}
                       </div>
-                    </div>
+                    </div>)
                   )}
                 {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
