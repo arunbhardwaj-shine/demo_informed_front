@@ -449,7 +449,7 @@
              color:#FF9534;
           }
           &.Blocked{
-            color:#a40711;
+            color:#97B6CF;
          }
         }
 
@@ -23122,8 +23122,12 @@ table {
 
   &.irt_mandatory {
     gap: 15px 0;
-    min-height: initial;
     margin: 85px auto 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 65vh;
+    align-items: center;
 
     .irt-create {
       &.col {
@@ -23389,11 +23393,11 @@ table {
           }
           &.blocked{
             p {
-              color: #a40711;
+              color: #97B6CF;
             }
 
             span {
-              background: #a40711;
+              background: #97B6CF;
             }
           }
          
