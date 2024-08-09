@@ -613,7 +613,9 @@ const VerifyHcpMAIL = (props) => {
                           */}
                     <li className="active" onClick={handleVerifyHCPClicked}>
                       {
-                        IRTTraining ? "Verify Your IRT" : "Select & Verify Your HCPs"
+                        IRTTraining ? "Verify Your IRT" : 
+                        irtRoleObj?.IRTFlag ? "Select & Verify Your IRTs" :
+                          "Select & Verify Your HCPs"
                       }
                       
                     </li>
