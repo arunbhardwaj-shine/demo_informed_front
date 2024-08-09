@@ -33,6 +33,8 @@ const VerifyHCP = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [irtInstitutionType, setIrtInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -259,12 +261,33 @@ const VerifyHCP = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              let instution_type = res?.data?.response?.data?.institution_type;
-              let newInstitutionType = [];
-              Object.keys(instution_type)?.map((item, i) => {
-                newInstitutionType.push({ label: item, value: item });
+
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
+
+              let non_irt_institution_type =
+              res?.data?.response?.data?.non_mandatory_institution_type;
+
+              let nonIrtInstitution = [];
+              Object.keys(non_irt_institution_type)?.map((item, i) => {
+              nonIrtInstitution.push({ label: item, value: item });
               });
-              setInstitutionType(newInstitutionType);
+
+              setNonIrtInstitutionType(nonIrtInstitution);
+
+            let irt_institution_type =
+            res?.data?.response?.data?.irt_institution_type;
+
+            let newIrtInstitution = [];
+            Object.keys(irt_institution_type)?.map((item, i) => {
+              newIrtInstitution.push({ label: item, value: item });
+            });
+
+            setIrtInstitutionType(newIrtInstitution);
               setRole(newType);
               setIrtRole(newIrtType);
             }
@@ -563,11 +586,11 @@ const VerifyHCP = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        onIRTChange("no", i);
-      }
+      // if (e?.value == "Study site") {
+      //   onIRTChange("yes", i);
+      // } else {
+      //   onIRTChange("no", i);
+      // }
     }
   };
 
@@ -746,7 +769,7 @@ const VerifyHCP = (props) => {
       const status = body.data.map((data) => {
         if (
           data.email == "" ||
-          data?.institution_type == "" ||
+          data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
           data.first_name == "" ||
           data.last_name == "" ||
           data.country == ""
@@ -786,6 +809,12 @@ const VerifyHCP = (props) => {
             }
             if (data.country == "") {
               return "Please select the country";
+            }
+            if (data?.siteName == "" && data?.siteIrt == 1) {
+              return "Please select the site name";
+            }
+            if (data?.siteNumber == "" && data?.siteIrt == 1) {
+              return "Please select the site number";
             }
           }
           return "true";
@@ -2906,29 +2935,6 @@ const VerifyHCP = (props) => {
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
                                         IRT mandatory training
@@ -2964,6 +2970,73 @@ const VerifyHCP = (props) => {
                                       />
                                     </div>
                                   </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      {val?.optIrt == "yes" ? (
+                                      <Select
+                                        options={irtInstitutionType}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          irtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : irtInstitutionType[
+                                              irtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      />): 
+                                      val?.optIrt == "no" ? (
+                                        <Select
+                                        options={nonIrtInstitutionType}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          nonIrtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : nonIrtInstitutionType[
+                                              nonIrtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        placeholder="Select institution"
+                                      />  ): null}
+                                    </div>
+                                  </div>
+                                  
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT role</label>
@@ -3216,7 +3289,7 @@ const VerifyHCP = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number {  val?.optIrt == "yes" ? <span> *</span>: null}</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -3237,7 +3310,7 @@ const VerifyHCP = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name {  val?.optIrt == "yes" ? <span> *</span>: null}</label>
 
                                       <Select
                                         options={siteNameAll}
