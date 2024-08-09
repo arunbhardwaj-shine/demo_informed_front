@@ -5091,7 +5091,7 @@ section.verify_email.content_details {
       @include flex-middle;
       gap: 0 22px;
 
-      button {
+      button,a {
         padding: 9px 24px;
         border-radius: 30px;
         @include flex-middle;
@@ -5100,6 +5100,7 @@ section.verify_email.content_details {
         height: 40px;
         gap: 10px;
         background: transparent;
+        font-weight: 500;
 
         &.btn-dashed {
           border: 1px dashed $primary-color;
@@ -11061,7 +11062,11 @@ svg.pencil_icon {
   .search-bar form.d-flex input {
     padding: 5px 44px 5px 15px;
   }
+  .top-header .top-right-action .action-btn-add button, .top-header .top-right-action .action-btn-add a {
+    height: 36px;
+    padding: 8px 18px;
 
+}
   .content_analytics .circle_graph .col:after {
     left: 3px;
   }
@@ -14134,6 +14139,22 @@ img.change-password-image {
       gap: 0 16px;
 
       .filter_btn_div {
+        .filter-by{
+          &.highlight{
+            button{
+              &.dropdown{
+                background: $primary-color;
+               color: $white !important;
+              }
+            }
+          }
+          button{
+            &.filter_applied{
+              background: $primary-color;
+               color: $white !important;
+              }
+            }
+          }
         button {
           border-radius: 30px;
           box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
@@ -14230,6 +14251,26 @@ img.change-password-image {
     table {
       margin: 22px 0 0;
       background: transparent;
+      &#site_completion{
+        thead {
+          tr {
+            th {
+                &:nth-child(2){
+                  width:200px;
+                }
+            }
+          }
+        }
+        tbody{
+          tr{
+            td{
+              &.complete{
+                padding-left:85px
+              }
+            }
+          }
+        }
+      }
 
       thead {
         tr {
@@ -14396,7 +14437,7 @@ img.change-password-image {
 
               img {
                 width: 20px;
-                float: right;
+                margin-left:4px;
               }
             }
 
@@ -15173,7 +15214,7 @@ table#site_engagement thead.sticky-header {
   .rd-training-block {
     .rd-training-block-right {
       button {
-        padding: 8px;
+        padding: 10px;
 
         &:hover {
           background: $primary-color;
@@ -16699,7 +16740,10 @@ table {
   .rd-full-explain .rd-training-block .rd-training-block-right button {
     padding: 5px;
   }
-
+  .rd-full-explain .rd-training-block .rd-training-block-right input#email_search {
+    padding: 5px 44px 5px 24px;
+    height: 32px;
+}
   table.attended-table tbody tr.fold td .fold-content .fold-content-right table thead tr th:first-child {
     width: 300px;
   }
@@ -16713,7 +16757,9 @@ table {
   .rd-analytics-content [class*="col-"] {
     padding: 0 8px;
   }
-
+  .rd-full-explain .rd-training-block table thead tr th:nth-child(2) {
+    width: 260px;
+}
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 411px;
   }
@@ -16798,9 +16844,11 @@ table {
 
   .rd-full-explain .rd-training-block table tbody td,
   .rd-full-explain .rd-training-block table thead tr th {
-    font-size: 14px;
+    font-size: 13px;
   }
-
+  .rd-full-explain .rd-training-block table tbody td:last-child {
+    padding-right: 30px;
+}
   .accordion-body .contents-block .contents-block-right,
   .accordion-body .contents-block .contents-block-right {
     flex: 0 0 330px;
@@ -16909,7 +16957,9 @@ table {
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 390px;
   }
-
+  .rd-full-explain .rd-training-block table thead tr th:nth-child(2) {
+    width: 220px;
+}
   .rd-full-explain .rd-training-block .site_complete table.table thead th:nth-child(2) {
     width: 118px;
   }

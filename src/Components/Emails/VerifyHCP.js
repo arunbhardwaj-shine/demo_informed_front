@@ -1451,7 +1451,7 @@ const VerifyHCP = (props) => {
                         </div>
                       ) : (
                         <table className="table">
-                          <thead>
+                          <thead className="stick-header irts">
                             <tr>
                               <th scope="col" className="sort_option">
                               <span onClick={() => handleSort('name')}>
