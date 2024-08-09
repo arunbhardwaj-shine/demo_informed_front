@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
@@ -19,12 +18,13 @@ import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
 import moment from "moment";
+import optimizeImage from "../../../Utils/optimizeImage";
+
+
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryCreateUser = () => {
-  const newdate = new Date();
   const titleFieldRef = useRef(null);
-  const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [spcType, setSpcType] = useState(0);
   const [reseller, setReseller] = useState([]);
@@ -35,7 +35,6 @@ const LibraryCreateUser = () => {
   const [getVideoArticle, setVideoArticle] = useState([]);
   const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
-  const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
@@ -144,12 +143,7 @@ const LibraryCreateUser = () => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [updateflag, setupdateFlag] = useState(0);
 
-  const [ebookVideoType, setEbookVideoType] = useState([
-    {
-      index: "",
-      type: "",
-    },
-  ]);
+  ;
 
   const initalFun = async () => {
     loader("show");
@@ -223,7 +217,7 @@ const LibraryCreateUser = () => {
   useEffect(() => {
     initalFun();
   }, []);
-  const handleChange = (e, isSelectedName) => {
+  const handleChange = async (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
     }
@@ -252,7 +246,7 @@ const LibraryCreateUser = () => {
         setEbookFile([]);
         setChapter([
           {
-            type:"pdf",
+            type: "pdf",
             chapterTitle: "",
             uploadFile: "",
             fileValue: "",
@@ -272,6 +266,7 @@ const LibraryCreateUser = () => {
         ]);
       }
 
+
       setCreateLibraryInputs({
         ...userInputs,
         uploadFile: "",
@@ -283,14 +278,25 @@ const LibraryCreateUser = () => {
         allowVideo: false,
       });
     } else {
-      setCreateLibraryInputs({
-        ...userInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e?.target?.files
+
+      if (isSelectedName == "coverPhoto" && localStorage.getItem("user_id")=="rjiGlqA9DXJVH7bDDTX0Lg==") {
+        const file = e.target.files[0]
+        let optimizedFile = await optimizeImage(file,{width:125})
+        setCreateLibraryInputs({
+          ...userInputs,
+          ["coverPhoto"]: [optimizedFile]
+        });
+
+      } else {
+        setCreateLibraryInputs({
+          ...userInputs,
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e?.target?.files
-            : e
-          : e?.target?.value,
-      });
+              ? e?.target?.files
+              : e
+            : e?.target?.value,
+        });
+      }
     }
   };
 
@@ -502,7 +508,7 @@ const LibraryCreateUser = () => {
               state: { pdfId: res?.data?.data?.pdfId },
             });
           } else {
-            if(userInputs?.allowVideo){
+            if (userInputs?.allowVideo) {
               navigate("/library-add-link", {
                 state: {
                   pdfId: res?.data?.data?.pdfId,
@@ -510,7 +516,7 @@ const LibraryCreateUser = () => {
                   allowVideo: userInputs?.allowVideo,
                 },
               });
-            }else{
+            } else {
               navigate("/preview-content", {
                 state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 },
               });
@@ -634,7 +640,7 @@ const LibraryCreateUser = () => {
         ...chapter, userInputs.docintelFormat == "ebookVideo" ?
           {
             // chapterFormat: "pdf",
-            type:"pdf",
+            type: "pdf",
             chapterTitle: "",
             uploadFile: "",
             selectedVideo: ""
@@ -670,13 +676,13 @@ const LibraryCreateUser = () => {
 
   const onChapterFormatChange = (e, i, isSelectedName) => {
     const list = [...chapter];
-    list[i].type= e == true ? "video" : "pdf";
-    list[i].uploadFile="";
-    list[i].selectedVideo=""   
-    list[i].ebookFile="" 
-    list[i].videoType=""
-    list[i].videoThumb=""
-    if(ebookFile[i]){
+    list[i].type = e == true ? "video" : "pdf";
+    list[i].uploadFile = "";
+    list[i].selectedVideo = ""
+    list[i].ebookFile = ""
+    list[i].videoType = ""
+    list[i].videoThumb = ""
+    if (ebookFile[i]) {
 
       setEbookFile((prevEbookFile) => {
         const updatedEbookFile = [...prevEbookFile];
@@ -687,21 +693,21 @@ const LibraryCreateUser = () => {
         return updatedEbookFile;
       });
     }
-    if(e==true){      
-      list[i].videoType="existing"
-      if(getVideoArticle.length == 0){        
+    if (e == true) {
+      list[i].videoType = "existing"
+      if (getVideoArticle.length == 0) {
         existingVideoArticle("existing")
       }
-    }   
-    setChapter(list);   
+    }
+    setChapter(list);
   };
 
-  const existingVideoArticle=async(type)=>{
+  const existingVideoArticle = async (type) => {
     if (type == 'existing' && getVideoArticle.length == 0) {
       const requestBody = {
         selectValue: JSON.stringify(["id", "title", "code"]),
-        file_type: "'video'",   
-         is_file_name_exists: 1,
+        file_type: "'video'",
+        is_file_name_exists: 1,
 
       };
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
@@ -931,11 +937,11 @@ const LibraryCreateUser = () => {
     //   setVideoArticle(pdfObj);
     // }
     // const list = [...chapter];
-    const list=JSON.parse(JSON.stringify(chapter))
+    const list = JSON.parse(JSON.stringify(chapter))
     list[i].videoType = type;
     list[i].videoThumb = '';
-    list[i].uploadFile="";
-    list[i].selectedVideo="";
+    list[i].uploadFile = "";
+    list[i].selectedVideo = "";
     setChapter(list);
   }
 
@@ -1270,7 +1276,7 @@ const LibraryCreateUser = () => {
               ) : null}
             </div>
 
-            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="  ? (
+            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
               <>
                 <div className="col-12 col-md-6 d-flex justify-content- align-items-start right-change flex-column">
                   <div className="form-group justify-content-end ">
@@ -2174,7 +2180,7 @@ const LibraryCreateUser = () => {
                                     </label>
                                     <div className="switch">
                                       <label className="switch-light">
-                                       
+
                                         <input
                                           type="checkbox"
                                           // checked={val?.chapterFormat == "video" ? true : false}
@@ -2190,42 +2196,42 @@ const LibraryCreateUser = () => {
                                         <a className="btn"></a>
                                       </label>
                                     </div>
-                                   
+
                                     {
-                                    // val?.chapterFormat == "video"?
-                                    val?.type == "video"?
-                                    <fieldset id="group2">
-                                      :
-                                    <div className="radio-selection">
-                                    <input
-                                      type="radio"
-                                      name={`video-${i}`}
-                                      id={`file-existing-${i}`}
-                                      checked={val?.videoType=="existing"?true:false}
-                                      // className="inputfile inputfile-6"
-                                      // accept="video/mp4"
-                                      onClick={(e) => onSelectVideoType(e, i, 'existing')}
-                                    />
-                                    <label htmlFor={`file-existing-${i}`}>
-                                      <span>Existing video</span>
-                                    </label>
-                                    <input
-                                      type="radio"
-                                      name={`video-${i}`}
-                                      id={`file-new-${i}`}
-                                      checked={val?.videoType=="new"?true:false}
-                                      // className="inputfile inputfile-6"
-                                      // accept="video/mp4"
-                                      onClick={(e) => onSelectVideoType(e, i, 'new')}
-                                    />
-                                    <label htmlFor={`file-new-${i}`}>
-                                      <span>Upload new</span>
-                                    </label>
+                                      // val?.chapterFormat == "video"?
+                                      val?.type == "video" ?
+                                        <fieldset id="group2">
+                                          :
+                                          <div className="radio-selection">
+                                            <input
+                                              type="radio"
+                                              name={`video-${i}`}
+                                              id={`file-existing-${i}`}
+                                              checked={val?.videoType == "existing" ? true : false}
+                                              // className="inputfile inputfile-6"
+                                              // accept="video/mp4"
+                                              onClick={(e) => onSelectVideoType(e, i, 'existing')}
+                                            />
+                                            <label htmlFor={`file-existing-${i}`}>
+                                              <span>Existing video</span>
+                                            </label>
+                                            <input
+                                              type="radio"
+                                              name={`video-${i}`}
+                                              id={`file-new-${i}`}
+                                              checked={val?.videoType == "new" ? true : false}
+                                              // className="inputfile inputfile-6"
+                                              // accept="video/mp4"
+                                              onClick={(e) => onSelectVideoType(e, i, 'new')}
+                                            />
+                                            <label htmlFor={`file-new-${i}`}>
+                                              <span>Upload new</span>
+                                            </label>
+                                          </div>
+                                        </fieldset>
+                                        : null}
                                   </div>
-                                  </fieldset>
-                                  :null}
-                                   </div>
-                                  </>) : null
+                                </>) : null
                                 }
                                 <label htmlFor="">
                                   {localStorage.getItem("user_id") !=
@@ -2270,20 +2276,20 @@ const LibraryCreateUser = () => {
                                                     </label>
 
                                                     <p>
-                                                          {val.uploadFile === "" ? (
-                                                            <>
-                                                              Upload your Video file
-                                                              <span className="video-format">(Only <b>mp4</b> format is allowed)</span>
-                                                            </>
-                                                          ) : (
-                                                            <span className="uploaded-file">
-                                                              {val.uploadFile}
-                                                            </span>
-                                                          )}
-                                                        </p>
-
+                                                      {val.uploadFile === "" ? (
+                                                        <>
+                                                          Upload your Video file
+                                                          <span className="video-format">(Only <b>mp4</b> format is allowed)</span>
                                                         </>
-                                                    
+                                                      ) : (
+                                                        <span className="uploaded-file">
+                                                          {val.uploadFile}
+                                                        </span>
+                                                      )}
+                                                    </p>
+
+                                                  </>
+
                                                   : val?.videoType == 'existing' ?
                                                     <>
                                                       <Select
@@ -2326,46 +2332,46 @@ const LibraryCreateUser = () => {
                                                 </label>
 
                                                 <p>
-                                                {val.uploadFile == "" ? (
-                                                  "Upload your PDF file"
-                                                ) : (
-                                                  <span className="uploaded-file">
-                                                    {val.uploadFile}
-                                                  </span>
-                                                )}
-                                              </p>
+                                                  {val.uploadFile == "" ? (
+                                                    "Upload your PDF file"
+                                                  ) : (
+                                                    <span className="uploaded-file">
+                                                      {val.uploadFile}
+                                                    </span>
+                                                  )}
+                                                </p>
                                               </>
                                               : null
                                         }
                                       </div>
                                     </div>
 
-                                    {val?.videoType == 'new' &&val.type=="video"? 
-                                    <div className="upload-file-box">
-                                    <div className="box">
-                                        <input
-                                          type="file"
-                                          name={`file-thumb-${i}`}
-                                          id={`file-thumb-${i}`}
-                                          className="inputfile inputfile-5"
-                                          accept="image/png, image/jpeg"
-                                          onChange={(e) => handleOnVideoThumbChange(e, i)}
-                                        />
-                                        <label htmlFor={`file-thumb-${i}`}>
-                                          <span>Choose Your Image</span>
-                                        </label>
-                                            <p>
-                                              {val.videoThumb == "" ? 
-                                                "Upload chapter thumbnail"
-                                               : (
+                                    {val?.videoType == 'new' && val.type == "video" ?
+                                      <div className="upload-file-box">
+                                        <div className="box">
+                                          <input
+                                            type="file"
+                                            name={`file-thumb-${i}`}
+                                            id={`file-thumb-${i}`}
+                                            className="inputfile inputfile-5"
+                                            accept="image/png, image/jpeg"
+                                            onChange={(e) => handleOnVideoThumbChange(e, i)}
+                                          />
+                                          <label htmlFor={`file-thumb-${i}`}>
+                                            <span>Choose Your Image</span>
+                                          </label>
+                                          <p>
+                                            {val.videoThumb == "" ?
+                                              "Upload chapter thumbnail"
+                                              : (
                                                 <span className="uploaded-file">
                                                   {val.videoThumb}
                                                 </span>
                                               )}
-                                            </p>
-                                      </div>
-                                      </div>: ''}
-                                      </>
+                                          </p>
+                                        </div>
+                                      </div> : ''}
+                                  </>
                                     :
                                     <div className="upload-file-box">
                                       <div className="box">
@@ -2553,7 +2559,7 @@ const LibraryCreateUser = () => {
                     </div>
                   </Col>
 
-                  {localStorage.getItem("user_id") !="56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                     <Col
                       md={6}
                       className="d-flex justify-content-end align-items-start right-change"
@@ -2575,11 +2581,11 @@ const LibraryCreateUser = () => {
                     </Col>
                   ) : null}
                   {(ebookFile?.length &&
-                    userInputs.docintelFormat=="ebook"
+                    userInputs.docintelFormat == "ebook"
                   ) ||
-                    (["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat))||
-                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
-                     && (localStorage.getItem("user_id") ==
+                    (["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat)) ||
+                    (ebookFile?.length && userInputs.docintelFormat == "ebookVideo" && chapter.some((element) => element?.type == "pdf"))
+                    && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
