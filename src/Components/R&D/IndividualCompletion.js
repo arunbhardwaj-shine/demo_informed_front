@@ -107,6 +107,30 @@ const entering = (e) => {
           colorByPoint: true,
           data: [
             {
+              name: "New",
+              y: result?.data?.data?.new
+                ? result?.data?.data?.new
+                : 0,
+
+              color: "#8A4E9C",
+            },
+            {
+              name: "Invited",
+              y: result?.data?.data?.invited
+                ? result?.data?.data?.invited
+                : 0,
+
+              color: "#0066be",
+            },
+            {
+              name: "Started",
+              y: result?.data?.data?.started
+                ? result?.data?.data?.started
+                : 0,
+
+              color: '#FAC755',
+            },
+            {
               name: "Completed",
               y: result?.data?.data?.completed
                 ? result?.data?.data?.completed
@@ -129,31 +153,7 @@ const entering = (e) => {
                 : 0,
 
               color: '#f58289',
-            },
-            {
-              name: "Invited",
-              y: result?.data?.data?.invited
-                ? result?.data?.data?.invited
-                : 0,
-
-              color: "#0066be",
-            },
-            {
-              name: "New",
-              y: result?.data?.data?.new
-                ? result?.data?.data?.new
-                : 0,
-
-              color: "#8A4E9C",
-            },
-            {
-              name: "Started",
-              y: result?.data?.data?.started
-                ? result?.data?.data?.started
-                : 0,
-
-              color: '#FAC755',
-            },
+            },                     
           ],
         },
       ];

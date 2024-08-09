@@ -434,6 +434,7 @@ const NewReaders = () => {
         payload = {
           ...data,
           ...obj,
+          ...filterObject,
           status: ["Registered"],
           "contact Type": ["HCP"],
           'IRT mandatory training': ["No"],
