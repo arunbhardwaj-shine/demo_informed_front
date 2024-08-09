@@ -1253,7 +1253,9 @@ const VerifyHCP = (props) => {
                     <li className="active active-main">
                       <a href="javascript:void(0)">
                         {
-                          IRTTraining ? "Verify Your IRT" : "Select & Verify Your HCPs"
+                          IRTTraining ? "Verify Your IRT" : 
+                          irtRoleObj?.IRTFlag ? "Select & Verify Your IRTs" :
+                          "Select & Verify Your HCPs"
                         }
                       </a>
                     </li>
@@ -2046,7 +2048,9 @@ const VerifyHCP = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    {IRTTraining ? 'Selected IRT' : 'Selected HCPs'}
+                    {IRTTraining ? 'Selected IRT' :
+                      irtRoleObj?.IRTFlag ? "Selected IRTs" :
+                     'Selected HCPs'}
                     
                     <span>| {selectedHcp?.length}</span>
                   </h4>
