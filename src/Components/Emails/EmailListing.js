@@ -14,7 +14,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import moment from "moment";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { getData as getApiData } from "../../axios/apiHelper";
@@ -917,7 +917,20 @@ const EmailList = (props) => {
           <Row>
             <div className="top-header sticky">
               <div className="page-title"> {irtRoleObj?.IRTFlag ? <h2>{irtRoleObj?.siteRole}</h2> : <h2>Emails</h2>}</div>
-              <div className="top-right-action">
+              <div className="top-right-action flex-wrap">
+
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                <>
+                  <div className="action-btn-add">
+                    <Button className="btn-dashed"
+                    onClick={createNewEmail}
+                    >
+                     Create Email
+                      <img src={`${path_image}add-icon.png`} alt="" />
+                    </Button>
+                  </div>
+                </>
+                ) : null}
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -1474,6 +1487,8 @@ const EmailList = (props) => {
                   filterrole.length == 0 &&
                   filtercampaign.length == 0 &&
                   !deletestatus && (
+                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
+                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
                     <div className="email_box_block">
                       <div className="email-block-add">
                         {/* <Link to="/EmailArticleSelect" onClick={createNewEmail}> */}
@@ -1483,7 +1498,7 @@ const EmailList = (props) => {
                         {/* </Link> */}
                         <p>Create New Email</p>
                       </div>
-                    </div>
+                    </div>)
                   )}
 
                 {SendListData.length > 0 ? (

@@ -788,6 +788,18 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                   </div>
                 </>)
                   : null}
+                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                <>
+                  <div className="action-btn-add">
+                    <Button className="btn-dashed"
+                     onClick={(e) => handleAddEventClick(e)}
+                    >
+                     Create Event
+                      <img src={`${path_image}add-icon.png`} alt="" />
+                    </Button>
+                  </div>
+                </>
+                ) : null}
                 <div className="search-bar">
                   <form
                     className="d-flex"
@@ -1266,6 +1278,8 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
               <div
                className={`col email-result-block ${isRDAccount?"rd":""}`}
               >
+                { localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
+                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" &&(
                 <div className="email_box_block add-webinar">
                   <div
                     className="email-block-add"
@@ -1274,7 +1288,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                     <img src={path_image + "add-button.svg"} alt="" />
                     <p>Create New Webinar/Event</p>
                   </div>
-                </div>
+                </div>)}
 
                 {isData?.length > 0 ? (
                   <>
