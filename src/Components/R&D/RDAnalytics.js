@@ -1909,7 +1909,7 @@ Apply
                                   </td>
 
                                   <td className="pics">
-                                    {item?.training_status_code === 0 ? (
+                                    {item?.training_status_code === 2 ? (
                                       <div>
                                         <img
                                           src={path_image + "certificate.png"}
@@ -2007,7 +2007,7 @@ Apply
                                                             </div>
                                                             <div className="completed-date">
                                                               {item?.training_status_code ==
-                                                                0 ? (
+                                                                2 ? (
                                                                 <>
                                                                   Completed date
                                                                   <span className="complete">
