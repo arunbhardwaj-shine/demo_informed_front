@@ -3623,6 +3623,10 @@ h5 {
   margin: 0;
   cursor: pointer;
 }
+
+.header-btn .engine_cancel {
+  margin-right: 8px;
+}
 .selected-hcp-list.rd table tr td.delete_row .img{
   background: #8A4E9C;
 }
