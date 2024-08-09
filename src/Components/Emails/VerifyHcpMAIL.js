@@ -643,17 +643,17 @@ const VerifyHcpMAIL = (props) => {
                                 irtRoleObj?.IRTFlag ? 
                                   <Link to = {"/RD-EmailList"}
                                   state= {{IrtObj: irtRoleObj}}
-                                    className="btn btn-primary btn-bordered engine_cancel">
+                                    className="btn btn-primary btn-bordered move-draft engine_cancel">
                                     Cancel
                                   </Link>
                                 :
                                 <Link to = {"/EmailList"}
-                                  className="btn btn-primary btn-bordered engine_cancel">
+                                  className="btn btn-primary btn-bordered move-draft engine_cancel">
                                   Cancel
                                 </Link>
                               }
                               <button
-                                className="btn btn-primary btn-bordered move-draft"
+                                className="btn btn-primary btn-bordered"
                                 onClick={saveAsDraft}
                               >
                                 Save As Draft
