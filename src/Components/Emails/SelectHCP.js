@@ -296,7 +296,7 @@ const SelectHCP = (props) => {
                     </button>
                   </div>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active">
                       <Link to="/EmailArticleSelect">Select Content</Link>
@@ -315,8 +315,17 @@ const SelectHCP = (props) => {
                     </li>
                   </ul>
                 </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-3">
                   <div className="header-btn">
+                    {
+                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      ?
+                        <Link to = {"/EmailList"}
+                          className="btn btn-primary btn-bordered engine_cancel">
+                          Cancel
+                        </Link>
+                      : null  
+                    }
                     <button
                       className="btn btn-primary btn-bordered move-draft"
                       onClick={saveAsDraft}
