@@ -418,7 +418,7 @@ const SelectHCP = (props) => {
                         </p>
                       </li>
 
-                      {
+                      {/* {
                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && isContentMandatory
                         ?
                         <li>
@@ -444,7 +444,7 @@ const SelectHCP = (props) => {
                           </p>
                         </li>
                         : null
-                      }
+                      } */}
                     </ul>
                   </div>
                 </div>
