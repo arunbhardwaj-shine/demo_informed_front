@@ -83,7 +83,7 @@ const RDAnalytics = () => {
       { "id": 4, 'title': 'Ignored' },
       { "id": 5, 'title': 'Started' },
       { "id": 6, 'title': 'Not Completed' },
-      { "id": 7, 'title': 'Paused' }
+      { "id": 7, 'title': 'Blocked' }
     ],
     'user_type': ['Site User-Blinded', 'Investigator-Blinded', 'Site unblinded pharmacist'],
     'site_number': []
@@ -1164,7 +1164,7 @@ const RDAnalytics = () => {
       case 6:
         return "#FF9534";      // Color for "Not Completed"
       case 7:
-        return "#a40711";     // Color for "Paused"
+        return "#97B6CF";     // Color for "Blocked"
       default:
         return "#f58289";       // Default color
     }
@@ -1185,7 +1185,7 @@ const RDAnalytics = () => {
       case 6:
         return "Not Completed";
       case 7:
-        return "Paused";
+        return "Blocked";
       default:
         return "Ignored";
     }
