@@ -448,6 +448,9 @@
           &.Not.Completed{
              color:#FF9534;
           }
+          &.Paused{
+            color:#a40711;
+         }
         }
 
         h6.tab-content-title {
@@ -23413,24 +23416,29 @@ table {
   .irt_mandatory-block {
   .irt_mandatory-listing {
     .irt_mandatory-section {
+      .col{
+        p{
+          font-size: 13px;
+        }
+      }
       h3 {
-        min-width: 285px;
-        font-size: 22px;
+        min-width: 260px;
+        font-size: 20px;
         padding-right: 12px;
       }
 
       .irt-content-preview {
-        padding: 0 0 0 15px;
+        padding: 0 0 0 7px;
       }
 
       .count-number {
-        font-size: 23px;
-        margin-right: 10px;
+        font-size: 21px;
+        margin-right: 5px;
         min-width: 55px;
       }
 
       .mandatory-section {
-        gap: 10px 10px;
+        gap: 10px 7px;
 
       }
     }
@@ -23440,8 +23448,9 @@ table {
   @media screen and (max-width:1365px){
   .irt_mandatory-block {
   .irt_mandatory-listing {
+      margin: 0 auto 20px;
     .irt_mandatory-section {
-       padding: 4px 16px;
+       padding: 4px 10px;
       h3 {
         min-width: 204px;
         font-size: 16px;
