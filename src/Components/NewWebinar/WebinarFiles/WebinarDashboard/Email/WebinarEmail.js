@@ -843,7 +843,24 @@ const WebinarEmail = (props) => {
               <div className="page-title">
                 <h2>Emails</h2>
               </div>
-              <div className="top-right-action">
+              <div className="top-right-action flex-wrap">
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                <>
+                  <div className="action-btn-add">
+                    {/* <Button className="btn-dashed"
+                    to="/webinar/email/create-new-email"
+                    state={{flag:1}}
+                    onClick={createNewEmail}
+                    >
+                     Create Email
+                      <img src={`${path_image}add-icon.png`} alt="" />
+                    </Button> */}
+
+                  <Link  to="/webinar/email/create-new-email"
+                    state={{flag:1}} className="btn-dashed" onClick={createNewEmail}>Create Email <img src={path_image + "add-icon.png"} alt="" /></Link>
+                  </div>
+                </>
+                ) : null}
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
                     <input
@@ -1145,6 +1162,8 @@ const WebinarEmail = (props) => {
             <div className={`email-result ${isRDAccount?"rd":""}`}>
               <div className="col email-result-block">
                 {!deletestatus && (
+                   localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
+                   localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <Link
@@ -1155,7 +1174,7 @@ const WebinarEmail = (props) => {
                       </Link>
                       <p>Create New Email</p>
                     </div>
-                  </div>
+                  </div>)
                 )}
                 {emailListData?.length > 0 ? (
                   emailListData?.map((data) => {
