@@ -117,7 +117,7 @@ export const ENDPOINT = {
   SITE_REGISTRATION_LIST: "/site-registration-list",
   INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
   INDIVIDUAL_TRAINING_COMPLETION_V2: "/v2/training-completion",
-  TRAINING_COMPLETION_DROPDOWN: "/training-completion-dropdown",
+  TRAINING_COMPLETION_DROPDOWN: "/v2/training-completion-dropdown",
   TRAINING_COMPLETION_PAGE_CLICK: "/training-completion-page-click",
   MOST_POPULAR_CONTENT: "/most-popular-content",
   MOST_POPULAR_CONTENT_DROPDOWN: "/most-popular-content-dropdown",
