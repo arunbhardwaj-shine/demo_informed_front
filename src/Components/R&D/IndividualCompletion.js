@@ -100,7 +100,7 @@ const entering = (e) => {
         started: result?.data?.data?.started,
         total: result?.data?.data?.all,
         pending: result?.data?.data?.pending,
-        paused:result?.data?.data?.Paused
+        Blocked:result?.data?.data?.Blocked
       });
       let newValue = [
         {
@@ -156,12 +156,12 @@ const entering = (e) => {
               color: '#f58289',
             },       
             {
-              name: "Paused",
-              y: result?.data?.data?.Paused
-                ? result?.data?.data?.Paused
+              name: "Blocked",
+              y: result?.data?.data?.Blocked
+                ? result?.data?.data?.Blocked
                 : 0,
 
-              color: '#a40711',
+              color: '#97B6CF',
             },                 
           ],
         },
