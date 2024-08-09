@@ -790,7 +790,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                   : null}
                   {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
                 <>
-                  <div className="action-btn-add">
+                  <div className="action-btn-add"  style={{margin:"0"}}>
                     <Button className="btn-dashed"
                      onClick={(e) => handleAddEventClick(e)}
                     >
@@ -1282,7 +1282,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                     localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" &&(
                 <div className="email_box_block add-webinar">
                   <div
-                    className="email-block-add" style={{margin:"0"}}
+                    className="email-block-add"
                     onClick={(e) => handleAddEventClick(e)}
                   >
                     <img src={path_image + "add-button.svg"} alt="" />

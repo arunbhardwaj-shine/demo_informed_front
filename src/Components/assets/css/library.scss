@@ -14268,6 +14268,17 @@ img.change-password-image {
                 padding-left:85px
               }
             }
+            &.fold{
+              tbody{
+                tr{
+                  td{
+                    &.complete{
+                      padding-left:16px
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -16569,9 +16580,7 @@ table {
     font-size: 13px;
   }
 
-  .rd-full-explain .rd-training-block table thead tr th.site_name {
-    width: 492px;
-  }
+
 
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top .count-number {
     font-size: 21px;
@@ -16597,7 +16606,12 @@ table {
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top {
     padding: 13px 11px 11px;
   }
-
+  .rd-full-explain .rd-training-block table thead tr th:first-child {
+    width: 116px;
+  }
+  .rd-full-explain .rd-training-block table thead tr th.site_name {
+    width: 492px;
+  }
   .rd-full-explain .rd-training-block .site_complete table.table thead th:first-child {
     width: 492px;
   }
@@ -16606,9 +16620,6 @@ table {
     width: 202px;
   }
 
-  .rd-full-explain .rd-training-block table thead tr th:first-child {
-    width: 116px;
-  }
 
   .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:first-child {
     width: 118px;
@@ -16757,6 +16768,12 @@ table {
   .rd-analytics-content [class*="col-"] {
     padding: 0 8px;
   }
+  .rd-full-explain .rd-training-block table thead tr th.active-irt {
+    width: 110px;
+}
+  .rd-full-explain .rd-training-block table#site_completion tbody tr td.complete {
+    padding-left: 68px;
+}
   .rd-full-explain .rd-training-block table thead tr th:nth-child(2) {
     width: 260px;
 }
@@ -16957,6 +16974,9 @@ table {
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 390px;
   }
+  .rd-full-explain .rd-training-block table#site_completion tbody tr td.complete {
+    padding-left: 58px;
+}
   .rd-full-explain .rd-training-block table thead tr th:nth-child(2) {
     width: 220px;
 }
