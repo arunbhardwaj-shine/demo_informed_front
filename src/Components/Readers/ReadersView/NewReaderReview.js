@@ -160,7 +160,8 @@ const NewReadersReview = (props) => {
     "Started": "IRT has started the training but is not finished yet",
     "Completed": "IRT has completed the training and recieved the certificate",
     "Ignored": "IRT ignored the training",
-    "Not Completed": "IRT started the training and didn't complete it even after all the email reminders"
+    "Not Completed": "IRT started the training and didn't complete it even after all the email reminders",
+    "Paused": "IRT Blocked",
   }
   const searchInputRef = useRef(null);
   useEffect(() => {

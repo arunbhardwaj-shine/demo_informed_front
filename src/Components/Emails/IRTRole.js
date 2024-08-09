@@ -90,7 +90,7 @@ const IRTRole = ()  => {
                   { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
                   { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
                   { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
-                  { name: "Paused", y: roleInfo.Paused || 0, color: colors[8] },
+                  { name: "Paused", y: roleInfo.Paused || 0, color: colors[7] },
                 ],
                 size: "110%",
                 innerSize: "60%",
