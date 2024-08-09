@@ -471,7 +471,7 @@ const getExistingVideos=async ()=>{
         allow_video: 0,
       });
     } else {
-      if (isSelectedName == "coverPhoto" && localStorage.getItem("user_id")=="rjiGlqA9DXJVH7bDDTX0Lg==") {
+      if (isSelectedName == "coverPhoto" ) {
         const file = e.target.files[0]
         let optimizedFile = await optimizeImage(file,{width:125})
         setCreateLibraryInputs({
