@@ -179,7 +179,7 @@ const IRTRole = ()  => {
               <h2>Email IRT</h2>
             </div>
           </div>
-          <div className="irt_mandatory irt_create_role d-flex flex-wrap">          
+          <div className="irt_mandatory irt_create_role">          
               
               {Object.keys(roleData)?.length? Object.keys(roleData)?.map((roleKey,index)=>{
 
