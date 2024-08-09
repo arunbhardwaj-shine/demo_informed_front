@@ -196,7 +196,7 @@ const CreateEmail = (props) => {
   const [irtRoleObj,setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
-
+  
   const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining  ? state_object?.startTraining : 0);
 
   const [hpc, setHpc] = useState([
@@ -2352,7 +2352,7 @@ const CreateEmail = (props) => {
                     </button>
                   </div>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active" onClick={handleSelectUsers}>
                       {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
@@ -2387,7 +2387,7 @@ const CreateEmail = (props) => {
                     </li>
                   </ul>
                 </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
                       IRTTraining ? 
@@ -2398,12 +2398,42 @@ const CreateEmail = (props) => {
                           Cancel
                         </Link>
                       :
-                      <button
-                        className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
-                        onClick={saveAsDraft}
-                      >
-                        Save As Draft
-                      </button>
+                      <>
+                        {
+                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          ? 
+                            <>
+                              {
+                                irtRoleObj?.IRTFlag ? 
+                                  <Link to = {"/RD-EmailList"}
+                                    state= {{IrtObj: irtRoleObj}}
+                                    className="btn btn-primary btn-bordered engine_cancel">
+                                    Cancel
+                                  </Link>
+                                :
+                                <Link to = {"/EmailList"}
+                                  className="btn btn-primary btn-bordered engine_cancel">
+                                  Cancel
+                                </Link>
+                              }
+                              
+                              <button
+                                  className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
+                                  onClick={saveAsDraft}
+                                >
+                                  Save As Draft
+                                </button>
+                            </>    
+                          :
+                            <button
+                              className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
+                              onClick={saveAsDraft}
+                            >
+                              Save As Draft
+                            </button>
+                        }
+                      </>
+
                     }
 
                     <button
