@@ -1235,7 +1235,7 @@ const VerifyHCP = (props) => {
                     </button>
                   </div>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                   <li className="active" onClick={handleSelectUsers}>
                       {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
@@ -1265,7 +1265,7 @@ const VerifyHCP = (props) => {
                     </li>
                   </ul>
                 </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
                       IRTTraining ? 
@@ -1276,12 +1276,41 @@ const VerifyHCP = (props) => {
                           Cancel
                         </Link>
                       : 
-                      <button
-                        onClick={saveAsDraft}
-                        className="btn btn-primary btn-bordered move-draft"
-                      >
-                        Save As Draft
-                      </button>
+                      <>
+                        {
+                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          ?
+                            <>
+                              {
+                                irtRoleObj?.IRTFlag ? 
+                                  <Link to = {"/RD-EmailList"}
+                                  state= {{IrtObj: irtRoleObj}}
+                                    className="btn btn-primary btn-bordered move-draft engine_cancel">
+                                    Cancel
+                                  </Link>
+                                :
+                                <Link to = {"/EmailList"}
+                                  className="btn btn-primary btn-bordered move-draft engine_cancel">
+                                  Cancel
+                                </Link>
+                              }
+                              
+                              <button
+                                onClick={saveAsDraft}
+                                className="btn btn-primary btn-bordered"
+                              >
+                                Save As Draft
+                              </button>
+                            </>  
+                          :
+                            <button
+                              onClick={saveAsDraft}
+                              className="btn btn-primary btn-bordered move-draft"
+                            >
+                              Save As Draft
+                            </button>
+                        }
+                      </>
                     }
 
                     {selectedHcp.length === 0 ? (
@@ -1422,7 +1451,7 @@ const VerifyHCP = (props) => {
                         </div>
                       ) : (
                         <table className="table">
-                          <thead>
+                          <thead className="stick-header irts">
                             <tr>
                               <th scope="col" className="sort_option">
                               <span onClick={() => handleSort('name')}>

@@ -5091,7 +5091,7 @@ section.verify_email.content_details {
       @include flex-middle;
       gap: 0 22px;
 
-      button {
+      button,a {
         padding: 9px 24px;
         border-radius: 30px;
         @include flex-middle;
@@ -5100,6 +5100,7 @@ section.verify_email.content_details {
         height: 40px;
         gap: 10px;
         background: transparent;
+        font-weight: 500;
 
         &.btn-dashed {
           border: 1px dashed $primary-color;
@@ -11061,7 +11062,11 @@ svg.pencil_icon {
   .search-bar form.d-flex input {
     padding: 5px 44px 5px 15px;
   }
+  .top-header .top-right-action .action-btn-add button, .top-header .top-right-action .action-btn-add a {
+    height: 36px;
+    padding: 8px 18px;
 
+}
   .content_analytics .circle_graph .col:after {
     left: 3px;
   }

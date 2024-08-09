@@ -2641,12 +2641,27 @@ form .input-group {
 }
 
 .search-hcp-table-inside {
-  padding: 10px 25px 10px 15px;
+  padding: 0px 25px 10px 15px;
   min-height: 265px;
   position: relative;
   max-height: 270px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.search-hcp-table-inside .table .stick-header{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.search-hcp-table-inside .table .stick-header:after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 35px;
+  background: #fbfcfd;
+  right: -19px;
+  top: 0;
 }
 
 .result-hcp-table .table tbody tr.hcps-deleted+tr.seprator-add {
@@ -3622,6 +3637,10 @@ h5 {
   bottom: -12px;
   margin: 0;
   cursor: pointer;
+}
+
+.header-btn .engine_cancel {
+  margin-right: 8px;
 }
 .selected-hcp-list.rd table tr td.delete_row .img{
   background: #8A4E9C;
@@ -8699,7 +8718,9 @@ hr {
 .selected-hcp-list#analytics-hcp-table table thead tr th:last-child {
   padding: 14px 5px;
 }
-
+.smart-list-view #analytics-hcp-table .table_xls {
+  max-height: 75vh;
+}
 #analytics-hcp-table.selected-hcp-list table td {
   padding: 14px 11px;
 }

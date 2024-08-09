@@ -580,7 +580,7 @@ const VerifyHcpMAIL = (props) => {
                     </button>
                   </div>
                 </div>
-                <div className="col-12 col-md-9">
+                <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                   <li className="active" onClick={handleSelectUsers}>
                       {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
@@ -613,7 +613,9 @@ const VerifyHcpMAIL = (props) => {
                           */}
                     <li className="active" onClick={handleVerifyHCPClicked}>
                       {
-                        IRTTraining ? "Verify Your IRT" : "Select & Verify Your HCPs"
+                        IRTTraining ? "Verify Your IRT" : 
+                        irtRoleObj?.IRTFlag ? "Select & Verify Your IRTs" :
+                          "Select & Verify Your HCPs"
                       }
                       
                     </li>
@@ -623,7 +625,7 @@ const VerifyHcpMAIL = (props) => {
                     </li>
                   </ul>
                 </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
                       IRTTraining ? 
@@ -634,12 +636,40 @@ const VerifyHcpMAIL = (props) => {
                         Cancel
                       </Link>
                       :
-                      <button
-                        className="btn btn-primary btn-bordered move-draft"
-                        onClick={saveAsDraft}
-                      >
-                        Save As Draft
-                      </button>
+                      <>
+                        {
+                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          ? 
+                          <>
+                              {
+                                irtRoleObj?.IRTFlag ? 
+                                  <Link to = {"/RD-EmailList"}
+                                  state= {{IrtObj: irtRoleObj}}
+                                    className="btn btn-primary btn-bordered move-draft engine_cancel">
+                                    Cancel
+                                  </Link>
+                                :
+                                <Link to = {"/EmailList"}
+                                  className="btn btn-primary btn-bordered move-draft engine_cancel">
+                                  Cancel
+                                </Link>
+                              }
+                              <button
+                                className="btn btn-primary btn-bordered"
+                                onClick={saveAsDraft}
+                              >
+                                Save As Draft
+                              </button>
+                            </>
+                          :
+                            <button
+                              className="btn btn-primary btn-bordered move-draft"
+                              onClick={saveAsDraft}
+                            >
+                              Save As Draft
+                            </button>
+                        }
+                      </>
                     }
                     <button
                       className={

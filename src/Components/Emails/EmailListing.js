@@ -942,7 +942,7 @@ const EmailList = (props) => {
               <div className="top-right-action flex-wrap">
               {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
                 <>
-                  <div className="action-btn-add">
+                  <div className="action-btn-add" style={{margin:"0"}}>
                     <Button className="btn-dashed"
                    onClick={createNewEmail}
                     >
@@ -1893,7 +1893,7 @@ const EmailList = (props) => {
                     );
                   })
                 ) : (
-                  <div className="email_box_block no_found">
+                  <div className="email_box_block no_found no_found_dlt">
                     <p>No Data Found</p>
                   </div>
                 )}

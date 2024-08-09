@@ -411,7 +411,7 @@ const SmartList = (props) => {
               <div className="top-right-action">
               {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
                 <>
-                  <div className="action-btn-add">
+                  <div className="action-btn-add" style={{margin:"0"}}>
                   <Link  to="/CreateSmartList"
                   state={{ creator: getUserDetails?.name }} className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
                   </div>
