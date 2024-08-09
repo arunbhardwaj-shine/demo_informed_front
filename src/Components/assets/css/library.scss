@@ -448,8 +448,8 @@
           &.Not.Completed{
              color:#FF9534;
           }
-          &.Paused{
-            color:#a40711;
+          &.Blocked{
+            color:#97B6CF;
          }
         }
 
@@ -14310,7 +14310,7 @@ img.change-password-image {
             padding: 5px 10px 16px 15px;
 
             &:nth-child(2) {
-              width: 320px;
+              width: 270px;
             }
 
             &:first-child {
@@ -16789,7 +16789,7 @@ table {
     padding-left: 68px;
 }
   .rd-full-explain .rd-training-block table thead tr th:nth-child(2) {
-    width: 260px;
+    width: 220px;
 }
   .rd-full-explain .rd-training-block table thead tr th.site_name {
     width: 411px;
@@ -16878,7 +16878,7 @@ table {
     font-size: 13px;
   }
   .rd-full-explain .rd-training-block table tbody td:last-child {
-    padding-right: 30px;
+    padding-right: 40px;
 }
   .accordion-body .contents-block .contents-block-right,
   .accordion-body .contents-block .contents-block-right {
@@ -23133,8 +23133,12 @@ table {
 
   &.irt_mandatory {
     gap: 15px 0;
-    min-height: initial;
     margin: 85px auto 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 65vh;
+    align-items: center;
 
     .irt-create {
       &.col {
@@ -23398,13 +23402,13 @@ table {
               background: $light-pink;
             }
           }
-          &.paused{
+          &.blocked{
             p {
-              color: #a40711;
+              color: #97B6CF;
             }
 
             span {
-              background: #a40711;
+              background: #97B6CF;
             }
           }
          

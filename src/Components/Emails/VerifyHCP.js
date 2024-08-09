@@ -1411,7 +1411,7 @@ const VerifyHCP = (props) => {
                                       onClick={addNewHcp}
                                     >
                                       {localStorage.getItem("user_id") == userId
-                                        ? "Add User +"
+                                        ? "Add New IRT +"
                                         : "Add HCP +"}
                                     </button>
                                   </div>
@@ -2118,7 +2118,14 @@ const VerifyHCP = (props) => {
                 <div className="selected-hcp-list">
                   {selectedHcp.length === 0 ? (
                     <div className="not-found">
-                      <h4>No Contact selected yet!</h4>
+                      <h4>
+                        {
+                          irtRoleObj?.IRTFlag ?
+                          "No IRT selected yet!"
+                          :
+                          "No Contact selected yet!"
+                        }
+                      </h4>
                     </div>
                   ) : (
                     <table className="table">

@@ -161,7 +161,7 @@ const NewReadersReview = (props) => {
     "Completed": "IRT has completed the training and recieved the certificate",
     "Ignored": "IRT ignored the training",
     "Not Completed": "IRT started the training and didn't complete it even after all the email reminders",
-    "Paused": "IRT Blocked",
+    "Blocked": "IRT is blocked from participating in the trial",
   }
   const searchInputRef = useRef(null);
   useEffect(() => {
@@ -3015,7 +3015,7 @@ const NewReadersReview = (props) => {
                                       <>
 
                                         {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                         && data?.status == "Started") ?
+                                         && (data?.status == "Started" || data?.status == "Blocked")) ?
 
                                           <li>
                                             <h6 className="tab-content-title">
