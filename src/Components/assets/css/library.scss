@@ -23256,7 +23256,7 @@ table {
     .irt_mandatory-section {
       background: $white;
       border-radius: 16px;
-      padding: 4px 24px;
+      padding: 4px 18px;
       display: flex;
       align-items: center;
       box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.2);
@@ -23265,15 +23265,16 @@ table {
       h3 {
         color: $primary-color;
         font-weight: 500;
-        min-width: 356px;
-        padding-right: 22px;
+        min-width: 315px;
+        padding-right: 15px;
         text-transform: capitalize;
         cursor: pointer;
+        font-size: 25px;
       }
 
       .irt-content-preview {
         flex: 1 1;
-        padding: 0 0 0 16px;
+        padding: 0 0 0 14px;
         position: relative;
 
         &:before {
@@ -23288,7 +23289,7 @@ table {
       }
 
       .count-number {
-        font-size: 26px;
+        font-size: 25px;
         color: rgba(0, 74, 137, 0.5);
         margin-right: 5px;
         min-width: 59px;
@@ -23296,9 +23297,9 @@ table {
       }
 
       .mandatory-section {
-        gap: 10px 18px;
+        gap: 10px 10px;
         flex: 1 1;
-        padding: 0px 0 0 16px;
+        padding: 0px 0 0 12px;
         align-items: center;
 
         .col {
@@ -23383,6 +23384,16 @@ table {
               background: $light-pink;
             }
           }
+          &.paused{
+            p {
+              color: #a40711;
+            }
+
+            span {
+              background: #a40711;
+            }
+          }
+         
           
         }
         .irt_mandatory-link{
