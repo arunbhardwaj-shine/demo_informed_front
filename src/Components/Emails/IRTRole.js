@@ -90,7 +90,7 @@ const IRTRole = ()  => {
                   { name: "Completed", y: roleInfo.completed || 0, color: colors[3] },
                   { name: "Not Completed", y: roleInfo.notCompleted || 0, color: colors[4] },
                   { name: "Ignored", y: roleInfo.ignored || 0, color: colors[5] },
-                  { name: "Paused", y: roleInfo.Paused || 0, color: colors[7] },
+                  { name: "Blocked", y: roleInfo.Blocked || 0, color: colors[7] },
                 ],
                 size: "110%",
                 innerSize: "60%",
@@ -219,9 +219,9 @@ const IRTRole = ()  => {
                      <p>Ignored</p>
                      <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.ignored!=0)? `${Math.round((role?.ignored/role?.all)*100)}`:0}%&nbsp; ({role?.ignored})</div>
                    </Col>
-                   <Col className="paused">
-                     <p>Paused</p>
-                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.Paused!=0)? `${Math.round((role?.Paused/role?.all)*100)}`:0}%&nbsp; ({role?.Paused})</div>
+                   <Col className="blocked">
+                     <p>Blocked</p>
+                     <div className="irt-value"><span>&nbsp;</span>{(role?.all!=0&&role?.Blocked!=0)? `${Math.round((role?.Blocked/role?.all)*100)}`:0}%&nbsp; ({role?.Blocked})</div>
                    </Col>
                     <Button onClick={()=>navigateToEmailList(parseInt(role?.pdf_id), roleKey)} className="irt_mandatory-link default">
                        <img src={path_image +"right-arrow.svg"} alt=""/>
