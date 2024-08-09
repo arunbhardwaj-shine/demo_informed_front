@@ -1524,7 +1524,7 @@ const WebinarEmail = (props) => {
                   </div>
                 )
                 :(
-                <div className="email_box_block no_found">
+                <div className="email_box_block no_found no_found_dlt ">
                     <p>No Data Found</p>
                   </div>
                 )
