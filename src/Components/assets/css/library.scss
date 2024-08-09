@@ -643,7 +643,10 @@
   border-radius: 20px;
   padding: 24px 72px;
   margin: 0 0 40px;
-
+&.add-site{
+  background: transparent;
+  padding: 24px 0px;
+}
   &.register-page {
     background: transparent;
     padding: 7px 0px;
@@ -12862,11 +12865,19 @@ svg.pencil_icon {
 }
 
 .upload_reader_excel .sample_btn {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: $voilet;
   cursor: pointer;
 }
+.upload_reader_excel .sample_btn p{
+font-size: inherit;
+}
+.upload_reader_excel .sample_btn svg{
+width:18px;
+height:18px;
+}
+
 
 /***Print css***/
 @media print {
