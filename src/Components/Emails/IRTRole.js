@@ -10,7 +10,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 
 const IRTRole = ()  => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289','#97b6cf33' ,"#a40711"];
+    const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289','#97b6cf33' ,"#97B6CF"];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
     const images={
