@@ -74,6 +74,8 @@ const TemplateBuilder = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const optIRT=[
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -108,7 +110,11 @@ const TemplateBuilder = (props) => {
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? "yes"
           : "",
-      institutionType: "",
+          institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          ? irtInstitutionType?.[0]?.value
+          : "",
+        siteNumber: "",
+        siteName: ""
     },
   ]);
 
@@ -217,14 +223,34 @@ const TemplateBuilder = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              let instution_type = res?.data?.response?.data?.institution_type;
-              let newInstitutionType = [];
-              Object.keys(instution_type)?.map((item, i) => {
-                newInstitutionType.push({ label: item, value: item });
-              });
-              setInstitutionType(newInstitutionType);
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
               setRole(newType);
               setIrtRole(newIrtType);
+
+              let non_irt_institution_type =
+              res?.data?.response?.data?.non_mandatory_institution_type;
+
+            let nonIrtInstitution = [];
+            Object.keys(non_irt_institution_type)?.map((item, i) => {
+              nonIrtInstitution.push({ label: item, value: item });
+            });
+
+            setNonIrtInstitutionType(nonIrtInstitution);
+
+            let irt_institution_type =
+              res?.data?.response?.data?.irt_institution_type;
+
+            let newIrtInstitution = [];
+            Object.keys(irt_institution_type)?.map((item, i) => {
+              newIrtInstitution.push({ label: item, value: item });
+            });
+
+            setIrtInstitutionType(newIrtInstitution);
             }
             setTotalData(res.data.response.data);
             loader("hide");
@@ -251,7 +277,7 @@ const TemplateBuilder = (props) => {
     }
    
 
-    // getalCountry();
+    getalCountry();
   }, []);
   const axiosFun = async () => {
     try {
@@ -443,18 +469,24 @@ const TemplateBuilder = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-        if (
-          data.email == "" ||
-          data?.institutionType == "" ||
-          data?.first_name == "" ||
-          data?.last_name == "" ||
-          data?.country == ""
-        ) {
-          return "false";
-        } else {
-          return "true";
+        if(data?.optIrt=="yes"){
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" 
+            || data.country == ""||data?.siteName==""||data?.siteNumber=="") {
+              
+            return "false";
+          } else {
+            return "true";
+          }
+        }else{
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" || data.country == "") {
+            return "false";
+          } else {
+            return "true";
+          }
         }
-      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+       
+      }
+      else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
         } else {
@@ -487,7 +519,11 @@ const TemplateBuilder = (props) => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? "yes"
               : "",
-          institutionType: "",
+              institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+              ? irtInstitutionType?.[0]?.value
+              : "",
+            siteNumber: "",
+            siteName: ""
         },
       ]);
     } else {
@@ -835,7 +871,7 @@ const TemplateBuilder = (props) => {
   };
 
   const addNewContactClicked = () => {
-    getalCountry();
+    // getalCountry();
     setIsOpenAdd(true);
     setIsOpensend(false);
     setValidationError({});
@@ -854,7 +890,11 @@ const TemplateBuilder = (props) => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "yes"
             : "",
-        institutionType: "",
+            institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            ? irtInstitutionType?.[0]?.value
+            : "",
+          siteNumber: "",
+          siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -935,7 +975,7 @@ const TemplateBuilder = (props) => {
       setHpc(list);
     }
   };
-  const onInstitutionChange = (e, i) => {
+  const onInstitionTypeChange = (e, i) => {
     if (e == "") {
       const list = [...hpc];
       list[i].institutionType = "";
@@ -949,11 +989,11 @@ const TemplateBuilder = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        onIRTChange("no", i);
-      }
+      // if (e?.value == "Study site") {
+      //   onIRTChange("yes", i);
+      // } else {
+      //   onIRTChange("no", i);
+      // }
     }
   };
   const onIRTChange = (e, i) => {
@@ -962,6 +1002,7 @@ const TemplateBuilder = (props) => {
       list[i].optIrt = "";
       list[i].role = "";
       list[i].country = "";
+      list[i].institutionType = "";
       setHpc(list);
     } else {
       const value = e;
@@ -975,6 +1016,7 @@ const TemplateBuilder = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType =e=="yes"?irtInstitutionType?.[0]?.value: "";
       setHpc(list);
     }
     let arr = [];
@@ -1081,39 +1123,62 @@ const TemplateBuilder = (props) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           if (data?.first_name == "") {
             setValidationError({
-              [`firstName-${index}`]: "Please enter the first name",
+              firstName: "Please enter the first name",
+              index:index
             });
             return;
           } else if (data?.last_name == "") {
             setValidationError({
-              [`lastName-${index}`]: "Please enter the last name",
+              lastName: "Please enter the last name",
+              index:index
             });
             return;
-          } else {
-            let obj = { ...validationError };
-            delete obj?.[`firstName-${index}`];
-            delete obj?.[`lastName-${index}`];
-          }
+          }else if(data?.email==""){
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast.",
+              index: index,
+            });
+            return
+          } else if (data?.institution_type == "") {
+            setValidationError({
+              newHcpInstitution: "Please select the institution type",
+              index: index,
+            });
+           return ;
+         }   else if (data?.country == "") {
+            
+          setValidationError({
+          country: "Please select country ",
+          index:index
+          });
+          return;
+       
+       }else if(data?.siteIrt==1){           
+           if(data?.siteNumber==""){
+            setValidationError({
+              siteNumber: "Please enter the site number",
+              index:index
+              });
+             return ;
+           }else if(data?.siteName==""){
+            setValidationError({
+              siteName: "Please enter the site name",
+              index:index
+              });
+             return ;
+           }
+         }
+           
         }
 
-        if (data.email == "" || data.institution_type == "") {
+        if (data.email == "") {
           if (data.email == "") {
             setValidationError({
               newHcpEmail: "Please enter the email atleast",
               index: index,
             });
             return;
-          }
-
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-            if (data.institution_type == "") {
-              setValidationError({
-                newHcpInstitution: "Please enter the institution",
-                index: index,
-              });
-              return;
-            }
-          }
+          }         
         }
         if (data.email != "") {
           let email = data.email;
@@ -1137,16 +1202,14 @@ const TemplateBuilder = (props) => {
           }
         }
 
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
             setValidationError({
-              [`country-${index}`]: "Please select country ",
+             country: "Please select country ",
+             index:index
             });
             return;
-          } else {
-            let obj = { ...validationError };
-            delete obj?.[`country-${index}`];
-          }
+          } 
         }
         return "true";
       });
@@ -2911,7 +2974,11 @@ const TemplateBuilder = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                         ? "yes"
                         : "",
-                    institutionType: "",
+                        institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        ? irtInstitutionType?.[0]?.value
+                        : "",
+                      siteNumber: "",
+                      siteName: ""
                   },
                 ]);
                 setActiveManual("active");
@@ -2945,7 +3012,7 @@ const TemplateBuilder = (props) => {
                                   <input
                                     type="text"
                                     className={
-                                      validationError?.[`firstName-${i}`] &&
+                                      validationError?.firstName&&validationError?.index==i &&
                                         (localStorage.getItem("user_id") ==
                                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                         ? "form-control error"
@@ -2956,11 +3023,11 @@ const TemplateBuilder = (props) => {
                                     }
                                     value={val.firstname}
                                   />
-                                  {validationError?.[`firstName-${i}`] &&
+                                  { validationError?.firstName&&validationError?.index==i  &&
                                     localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <div className="login-validation">
-                                      {validationError?.[`firstName-${i}`]}
+                                      {validationError?.firstName}
                                     </div>
                                   ) : null}
                                 </div>
@@ -2977,7 +3044,7 @@ const TemplateBuilder = (props) => {
                                   <input
                                     type="text"
                                     className={
-                                      validationError?.[`lastName-${i}`] &&
+                                      validationError?.lastName&&validationError?.index==i  &&
                                         (localStorage.getItem("user_id") ==
                                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                         ? "form-control error"
@@ -2988,11 +3055,11 @@ const TemplateBuilder = (props) => {
                                     }
                                     value={val.lastname}
                                   />
-                                  {validationError?.[`lastName-${i}`] &&
+                                  { validationError?.lastName&&validationError?.index==i &&
                                     localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <div className="login-validation">
-                                      {validationError?.[`lastName-${i}`]}
+                                      {validationError?.lastName}
                                     </div>
                                   ) : null}
                                 </div>
@@ -3031,40 +3098,6 @@ const TemplateBuilder = (props) => {
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className={
-                                          validationError?.newHcpInstitution &&
-                                            validationError?.index == i
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                              label: val?.institutionType,
-                                              value: val?.institutionType,
-                                            }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                      {validationError?.newHcpInstitution &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newHcpInstitution}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
                                         IRT mandatory training
@@ -3098,6 +3131,88 @@ const TemplateBuilder = (props) => {
                                         }
                                         placeholder="Select IRT"
                                       />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">Institution <span>*</span>
+                                      </label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtInstitutionType}
+                                          className={(validationError?.newHcpInstitution &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          :"dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }                                         
+                                          onChange={(event) =>
+                                            onInstitionTypeChange(event, i)
+                                          }                                        
+                                          value={
+                                            irtInstitutionType?.findIndex(
+                                              (el) => el.value == val?.institutionType
+                                            ) == -1
+                                              ? ""
+                                              : irtInstitutionType[
+                                              irtInstitutionType?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.institutionType
+                                              )
+                                              ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Institution"
+                                        />
+                                      ) :
+                                        val?.optIrt == "no" ? (
+                                          <Select
+                                            options={nonIrtInstitutionType}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            //  id="institution-desc"
+                                            onChange={(event) =>
+                                              onInstitionTypeChange(event, i)
+                                            }
+                                            // defaultValue={
+                                            //   val?.institutionType
+                                            //     ? {
+                                            //       label: val?.institutionType,
+                                            //       value: val?.institutionType,
+                                            //     }
+                                            //     : ""
+                                            // }
+                                            value={
+                                              nonIrtInstitutionType?.findIndex(
+                                                (el) => el.value == val?.institutionType
+                                              ) == -1
+                                                ? ""
+                                                : nonIrtInstitutionType[
+                                                nonIrtInstitutionType?.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.institutionType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Institution"
+                                          />
+                                        ) :
+                                          (
+                                            <Select
+                                              className={(validationError?.newHcpInstitution &&
+                                                validationError?.index == i)
+                                                ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              :"dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            }
+                                              placeholder="Select Institution"
+                                            />
+                                          )
+                                      }
+                                      {(validationError?.newHcpInstitution &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpInstitution}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
@@ -3221,8 +3336,9 @@ const TemplateBuilder = (props) => {
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}
+                                     
                                       className={
-                                        validationError?.[`country-${i}`] &&
+                                        validationError?.country && validationError?.index==i &&
                                           (localStorage.getItem("user_id") ==
                                           "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
@@ -3251,7 +3367,7 @@ const TemplateBuilder = (props) => {
                                       options={countryall}
                                       // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       className={
-                                        validationError?.[`country-${i}`] &&
+                                        validationError?.country && validationError?.index==i &&
                                           (localStorage.getItem("user_id") ==
                                             "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")
@@ -3277,12 +3393,12 @@ const TemplateBuilder = (props) => {
                                       isClearable
                                     />
                                   )}
-                                  {validationError?.[`country-${i}`] &&
+                                  { validationError?.country && validationError?.index==i &&
                                     (localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                     <div className="login-validation">
-                                      {validationError?.[`country-${i}`]}
+                                      {validationError?.country}
                                     </div>
                                   ) : null}
                                 </div>
@@ -3336,11 +3452,13 @@ const TemplateBuilder = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number {val?.optIrt == "yes" ? <span>*</span> : ""}</label>
 
                                       <Select
                                         options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={(validationError?.siteNumber && validationError?.index==i)
+                                          ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                        :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
@@ -3361,16 +3479,25 @@ const TemplateBuilder = (props) => {
                                             ]
                                         }
                                       />
+                                      { (validationError?.siteNumber && validationError?.index==i) 
+                                     ? (
+                                    <div className="login-validation">
+                                      {validationError?.siteNumber}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name {val?.optIrt == "yes" ? <span>*</span> : ""}</label>
 
                                       <Select
                                         options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={(validationError?.siteName && validationError?.index==i)
+                                          ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                        :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                        
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
@@ -3387,6 +3514,12 @@ const TemplateBuilder = (props) => {
                                             : siteNameAll[hpc[i]?.siteNameIndex]
                                         }
                                       />
+                                       { (validationError?.siteName && validationError?.index==i) 
+                                     ? (
+                                    <div className="login-validation">
+                                      {validationError?.siteName}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
                                 </>

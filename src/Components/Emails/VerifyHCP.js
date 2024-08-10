@@ -796,20 +796,19 @@ const VerifyHCP = (props) => {
             return "Please enter the last name";
           } else if (data.email == "") {
             return "Please enter the email atleast";
+          }else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = selectedHcp.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                return "User with same email already added in list.";
+              }
+            } else {
+              return "Email format is not valid";
+            }
           }
-          // else if (data.email != "") {
-          //   let email = data.email;
-          //   let useremail = email.trim();
-          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          //   if (regex.test(String(useremail).toLowerCase())) {
-          //     let prev_obj = selectedHcp.find((x) => x.email === useremail);
-          //     if (typeof prev_obj != "undefined") {
-          //       return "User with same email already added in list.";
-          //     }
-          //   } else {
-          //     return "Email format is not valid";
-          //   }
-          // }
 
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
             // if (data.institution_type == "") {
@@ -818,12 +817,14 @@ const VerifyHCP = (props) => {
             if (data.country == "") {
               return "Please select the country";
             }
-            if (data.siteNumber == "") {
-              return "Please select the siteNumber";
-            }
-            if (data.siteName == "") {
-              return "Please select the siteName";
-            }
+			if(data?.siteIrt == 1 || irtRoleObj?.IRTFlag == 1){
+				if (data.siteNumber == "") {
+				  return "Please select the siteNumber";
+				}
+				if (data.siteName == "") {
+				  return "Please select the siteName";
+				}
+			}
           }
           return "true";
         } else if (data.email != "") {
