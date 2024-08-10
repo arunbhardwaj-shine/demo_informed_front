@@ -1297,6 +1297,7 @@ const CreateEmail = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType = "";
       setHpc(list);
     }
     let arr = [];
@@ -1633,22 +1634,42 @@ const CreateEmail = (props) => {
 
   const saveClicked = async () => {
     if (activeManual == "active") {
+ 
+ 
+     const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
-          return {
-            first_name: data?.firstname,
-            last_name: data?.lastname,
-            email: data?.email,
-            country: data?.country,
-            // contact_type: data?.contact_type,
-            siteNumber: data?.siteNumber ? data.siteNumber : "",
-            siteName: data?.siteName ? data.siteName : "",
-            investigator_type: data?.role,
-            siteIrt: data?.optIRT == "yes" ? 1 : 0,
-            institution_type: data?.institutionType
-              ? data?.institutionType
-              : "",
-          };
+        if (isRdAndNorgianAcount) {
+ 
+          if(data?.optIRT == "yes"){
+            return {
+              first_name: data?.firstname,
+              last_name: data?.lastname,
+              email: data?.email,
+              country: data?.country,
+              // contact_type: data?.contact_type,
+              siteNumber: data?.siteNumber ? data.siteNumber : "",
+              siteName: data?.siteName ? data.siteName : "",
+              investigator_type: data?.role,
+              siteIrt:1,
+              institution_type: data?.institutionType
+                ? data?.institutionType
+                : "",
+            };
+          }
+          else{
+            return {
+              first_name: data?.firstname,
+              last_name: data?.lastname,
+              email: data?.email,
+              country: data?.country,
+              investigator_type: data?.role,
+              siteIrt: 0,
+              institution_type: data?.institutionType
+                ? data?.institutionType
+                : "",
+            };
+          }
+       
         } else {
           return {
             first_name: data?.firstname,
@@ -1659,28 +1680,25 @@ const CreateEmail = (props) => {
           };
         }
       });
-
+ 
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-      console.log(validationError,'dfgdgfghr')
-
+ 
       const status = body.data.map((data, index) => {
-        console.log(data,'bodybody')
         if (
           data.email == "" ||
           data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
           ((data?.last_name == "" ||
             data?.first_name == "" ||
             data?.country == "") &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="))
+            (isRdAndNorgianAcount))
         ) {
           if (
             data.first_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isRdAndNorgianAcount)
           ) {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1690,8 +1708,7 @@ const CreateEmail = (props) => {
           }
           if (
             data.last_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isRdAndNorgianAcount)
           ) {
             setValidationError({
               newHcpLastName: "Please enter the last name",
@@ -1704,10 +1721,10 @@ const CreateEmail = (props) => {
               newHcpEmail: "Please enter the email atleast",
               index: index,
             });
-
+ 
             return;
           }
-
+ 
           if (data.institution_type == "") {
             setValidationError({
               newHcpInstitution: "Please Select the institution ",
@@ -1715,24 +1732,9 @@ const CreateEmail = (props) => {
             });
             return;
           }
-          // if (data?.siteNumber == "" && data?.siteIrt == 1) {
-          //   setValidationError({
-          //     newSiteNumber: "Please select the site number ",
-          //     index: index,
-          //   });
-          //   return;
-          // }
-          // if (data?.siteName == "" && data?.siteIrt == 1) {
-          //   setValidationError({
-          //     newSiteName: "Please select the site name ",
-          //     index: index,
-          //   });
-          //   return;
-          // }
-
           if (
             data.country == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isRdAndNorgianAcount)
           ) {
             setValidationError({
               newHcpCountry: "Please select the country",
@@ -1740,8 +1742,8 @@ const CreateEmail = (props) => {
             });
             return;
           }
-
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+ 
+          if (isRdAndNorgianAcount) {
             if (data.institution_type == "") {
               setValidationError({
                 newHcpInstitution: "Please enter the institution ",
@@ -1750,27 +1752,26 @@ const CreateEmail = (props) => {
               return;
             }
           }
-       
-            if (data?.siteIrt == 1 && data.siteNumber === "" &&
-              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")) {
-              setValidationError({
-                newSiteNumber: "Please select the site number ",
-                index: index,
-              });
-              console.log(validationError,'erurtu')
-              return;
-            }
-            
-       
-            if (data?.siteIrt == 1 && data.siteName === "" &&
-              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")) {
-              setValidationError({
-                newSiteName: "Please select the site name",
-                index: index,
-              });
-              return;
-            }
-          
+       if(data?.siteIrt == 1 ){
+        if ( data.siteNumber === "" &&
+          (isRdAndNorgianAcount)) {
+          setValidationError({
+            newSiteNumber: "Please select the site number ",
+            index: index,
+          });
+          return;
+        }
+        if (data.siteName === "" &&
+          (isRdAndNorgianAcount)) {
+          setValidationError({
+            newSiteName: "Please select the site name",
+            index: index,
+          });
+          return;
+        }
+       }
+           
+         
         } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           setValidationError({
             newHcpCountry: "Please select the country",
@@ -1778,7 +1779,9 @@ const CreateEmail = (props) => {
           });
           return;
         }
+       
         else if (data.email != "") {
+ 
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1789,7 +1792,7 @@ const CreateEmail = (props) => {
                 newHcpEmail: "User with same email already added in list.",
                 index: index,
               });
-
+ 
               return;
             }
           } else {
@@ -1797,7 +1800,7 @@ const CreateEmail = (props) => {
               newHcpEmail: "Email format is not valid",
               index: index,
             });
-
+ 
             return;
           }
           return "true";
@@ -1805,6 +1808,8 @@ const CreateEmail = (props) => {
           return "true";
         }
       });
+
+     
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -1814,7 +1819,7 @@ const CreateEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
-
+ 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
@@ -1842,9 +1847,9 @@ const CreateEmail = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
+ 
       // console.log(formData);
-
+ 
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -1853,11 +1858,11 @@ const CreateEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
-
+ 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
-
+ 
               loader("hide");
               setIsOpenAdd(false);
               setActiveManual("active");
@@ -1878,7 +1883,6 @@ const CreateEmail = (props) => {
       }
     }
   };
-
   const searchChange = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {

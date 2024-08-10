@@ -534,6 +534,7 @@ const SelectSmartListUsers = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType = "";
       setHpc(list);
     }
     let arr = [];
@@ -983,10 +984,12 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
+    const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+        if (isRdAndNorgianAcount) {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -1028,8 +1031,7 @@ const SelectSmartListUsers = (props) => {
         ) {
           if (
             data.first_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1039,8 +1041,7 @@ const SelectSmartListUsers = (props) => {
           }
           if (
             data.last_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpLastName: "Please enter the last name",
@@ -1056,31 +1057,9 @@ const SelectSmartListUsers = (props) => {
 
             return;
           }
-          //  else if (data.email != "") {
-          //   let email = data.email;
-          //   let useremail = email.trim();
-          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          //   if (regex.test(String(useremail).toLowerCase())) {
-          //     let prev_obj = readers.find((x) => x.email === useremail);
-          //     if (typeof prev_obj != "undefined") {
-          //       setValidationError({
-          //         newHcpEmail: "User with same email already added in list.",
-          //         index: index,
-          //       });
-          //       return;
-          //     }
-          //   } else {
-          //     setValidationError({
-          //       newHcpEmail: "Email format is not valid",
-          //       index: index,
-          //     });
-          //     return;
-          //   }
-          // }
           if (
             data.institution_type == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpInstitution: "Please enter the institution ",
@@ -1089,29 +1068,9 @@ const SelectSmartListUsers = (props) => {
             return;
           }
 
-          if (data?.siteNumber == "" && data?.siteIrt == 1&&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")) {
-            setValidationError({
-              newSiteNumber: "Please select the site number ",
-              index: index,
-            });
-            return;
-          }
-          if (data?.siteName == "" && data?.siteIrt == 1&&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")) {
-            setValidationError({
-              newSiteName: "Please select the site name ",
-              index: index,
-            });
-            return;
-          }
-
           if (
             data.country == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpCountry: "Please select the country",
@@ -1119,6 +1078,27 @@ const SelectSmartListUsers = (props) => {
             });
             return;
           }
+
+          if(data?.siteIrt == 1 ){
+            if ( data.siteNumber === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteNumber: "Please select the site number ",
+                index: index,
+              });
+              return;
+            }
+            if (data.siteName === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteName: "Please select the site name",
+                index: index,
+              });
+              return;
+            }
+           }
+
+         
           return "true";
         } else if (data.email != "") {
           let email = data.email;
