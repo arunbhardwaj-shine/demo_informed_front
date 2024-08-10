@@ -621,6 +621,7 @@ const VerifyHCP = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType = "";
       setHpc(list);
     }
     let arr = [];
@@ -734,9 +735,10 @@ const VerifyHCP = (props) => {
   };
 
   const saveClicked = async () => {
+      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+        if (isRdAndNorgianAcount) {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -784,14 +786,12 @@ const VerifyHCP = (props) => {
         ) {
           if (
             data.first_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             return "Please enter the first name";
           } else if (
             data.last_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             return "Please enter the last name";
           } else if (data.email == "") {
@@ -810,7 +810,12 @@ const VerifyHCP = (props) => {
             }
           }
 
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+          if (isRdAndNorgianAcount && data.institution_type == "") {
+              return "Please Select the institution ";
+          
+          }
+
+          if (isRdAndNorgianAcount) {
             // if (data.institution_type == "") {
             //   return "Please enter the institution ";
             // }
@@ -825,6 +830,17 @@ const VerifyHCP = (props) => {
 				  return "Please select the siteName";
 				}
 			}
+
+      // if(data?.siteIrt == 1 ){
+      //   if ( data.siteNumber === "" &&
+      //     (isRdAndNorgianAcount)) {
+      //       return "Please select the siteNumber";
+      //   }
+      //   if (data.siteName === "" &&
+      //     (isRdAndNorgianAcount)) {
+      //     return "Please select the siteName";
+      //   }
+      //  }
           }
           return "true";
         } else if (data.email != "") {
@@ -3004,22 +3020,66 @@ const VerifyHCP = (props) => {
                                             <label for="">
                                               Institution <span>*</span>
                                             </label>
-                                            <Select
-                                              options={institutionType}
-                                              className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                              onChange={(event) =>
-                                                onInstitutionChange(event, i)
-                                              }
-                                              defaultValue={
-                                                val?.institutionType
-                                                  ? {
-                                                      label: val?.institutionType,
-                                                      value: val?.institutionType,
-                                                    }
-                                                  : ""
-                                              }
-                                              placeholder="Select institution"
-                                            />
+                                            {val?.optIrt == "yes" ? (
+                                      <Select
+                                        options={irtInstitutionType}
+                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          irtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : irtInstitutionType[
+                                              irtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      />): 
+                                      val?.optIrt == "no" ? (
+                                        <Select
+                                        options={nonIrtInstitutionType}
+                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          nonIrtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : nonIrtInstitutionType[
+                                              nonIrtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      /> ): null}
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-6">
@@ -3280,7 +3340,7 @@ const VerifyHCP = (props) => {
                                       <label for="">Site number
                                         <>
                                           {
-                                            irtRoleObj?.IRTFlag ?
+                                            irtRoleObj?.IRTFlag || val?.optIrt == "yes"?
                                             <span>*</span>
                                              : null
                                           }
@@ -3309,7 +3369,7 @@ const VerifyHCP = (props) => {
                                       <label for="">Site name
                                         <>
                                           {
-                                            irtRoleObj?.IRTFlag ?
+                                            irtRoleObj?.IRTFlag || val?.optIrt == "yes" ?
                                             <span>*</span>
                                              : null
                                           }
