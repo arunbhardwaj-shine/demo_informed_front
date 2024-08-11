@@ -420,6 +420,8 @@ const Table = (props, ref) => {
         list[i].siteIrt = "Yes";
         list[i].userType = irtRole[0]?.value;
         list[i].roleIndex = 0;
+        let index = irtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       } else {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
@@ -427,6 +429,8 @@ const Table = (props, ref) => {
         list[i].roleIndex = "";
         list[i].userType = "Other";
         list[i].roleIndex = 4;
+        let index = nonIrtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       }
 
       list[i].siteNumberIndex = "";
@@ -437,8 +441,8 @@ const Table = (props, ref) => {
       const name = hpc[i].institute;
       list[i].institute = value;
 
-      let index = instituions.findIndex((x) => x.value === value);
-      list[i].instituteIndex = index;
+      // let index = instituions.findIndex((x) => x.value === value);
+      // list[i].instituteIndex = index;
 
       if (value != "Study site") {
         let arr = [];
@@ -1446,7 +1450,7 @@ const Table = (props, ref) => {
           return "Please select country";
         } else if(data.siteNumber==""&&data.siteIrt==1 &&localStorage.getItem("user_id") == userId){
           return "Please select site number"
-        } else if(data.siteName=""&&data.siteIrt==1&& localStorage.getItem("user_id") == userId){
+        } else if(data.siteName==""&&data.siteIrt==1&& localStorage.getItem("user_id") == userId){
           return "Please select site name"
         } 
         else if (data.email != "") {
@@ -2938,7 +2942,10 @@ const Table = (props, ref) => {
                                           defaultValue={
                                             nonIrtInstitutionType[hpc[i].instituteIndex]
                                           }
-                                          value={nonIrtInstitutionType[hpc[i].instituteIndex]}
+                                          value={nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            ?nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            :""
+                                          }
                                           
                                           placeholder={
                                             typeof nonIrtInstitutionType[

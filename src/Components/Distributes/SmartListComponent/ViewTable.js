@@ -28,7 +28,11 @@ const ViewTable = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    ? "sNl1hra39QmFk9HwvXETJA==" : "56Ek4feL/1A8mZgIKQWEqg==");
   const [instituions, setInstituions] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
 
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +56,6 @@ const ViewTable = (props) => {
   const [showReaders, setShowSaveReader] = useState(false);
   const [save, setSave] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [name_edits, setNameEdit] = useState("");
   const [country_edits, setCountryEdit] = useState("");
   const [email_edits, setEmailEdit] = useState("");
@@ -134,6 +137,10 @@ const ViewTable = (props) => {
             let arrIrtUserType = [];
             let institutions;
             let arrinstitutions = [];
+            let nonIrtInstitution;
+            let arrNonIrtInstitution = []
+            let irtInstitution;
+            let arrIrtInstitution = []
 
             let arr = [];
 
@@ -148,6 +155,8 @@ const ViewTable = (props) => {
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
               institutions = res?.data?.response?.data?.institution_type;
+              nonIrtInstitution = res?.data?.response?.data?.non_mandatory_institution_type
+              irtInstitution = res?.data?.response?.data?.irt_institution_type
 
               arrUserType = [];
               arrSubRole = [];
@@ -258,6 +267,18 @@ const ViewTable = (props) => {
                   value: item,
                 });
               });
+              Object.entries(nonIrtInstitution)?.map(([item, index]) => {
+                arrNonIrtInstitution.push({
+                  label: item,
+                  value: item,
+                });
+              });
+              Object.entries(irtInstitution)?.map(([item, index]) => {
+                arrIrtInstitution.push({
+                  label: item,
+                  value: item,
+                });
+              });
             }
 
             setCountryall(arr);
@@ -275,23 +296,14 @@ const ViewTable = (props) => {
               setBlindTypeAll(arrBlindType);
               setSiteData(res.data.response.data.site_data);
               setChanges(res.data.response.data);
+
+              setNonIrtInstitutionType(arrNonIrtInstitution)
+              setIrtInstitutionType(arrIrtInstitution)
             }
 
             // setCountryall(res.data.response.data.country);
           }
-          // let country_opt = res.data.response.data.country;
-          // var country_options = "<option>Select Country</option>";
-          //   Object.entries(country_opt).map((item) => {
-          //     let opt = "<option>"+item[0]+"</option>";
-          //     country_options = country_options+opt;
-          //   });
-          //
-          //   let x=document.querySelectorAll(".country-form_edit");  // Find the elements
-          //     [].forEach.call(x, function(op) {
-          //       op.innerHTML = country_options;
-          //       op.value = op.getAttribute("data-id");
-          //     });
-          //     loader("hide");
+
         })
         .catch((err) => {
           //console.log(err);
@@ -332,7 +344,7 @@ const ViewTable = (props) => {
         (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
-      userTypeIndex:
+      roleIndex:
         (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
       subUserType: "",
       siteNumber: "",
@@ -356,18 +368,12 @@ const ViewTable = (props) => {
         (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
-      // siteIrtAll
-      // role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      // optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
-      // siteDetails: [
-      //   {
-      //     siteNumber: "",
-      //     siteName: "",
-      //     siteStreet: "",
-      //     sitePostCode: "",
-      //     siteCity: "",
-      //   },
-      // ],
+      institute: localStorage.getItem("user_id") == userId
+        ? irtInstitutionType?.[0]?.value
+        : "",
+      instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+      siteNumber: "",
+      siteName: ""
     },
   ]);
 
@@ -404,7 +410,7 @@ const ViewTable = (props) => {
           (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
-        userTypeIndex:
+        roleIndex:
           (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
             ? 0
             : "",
@@ -425,6 +431,12 @@ const ViewTable = (props) => {
             siteCity: "",
           },
         ],
+        institute: localStorage.getItem("user_id") == userId
+          ? irtInstitutionType?.[0]?.value
+          : "",
+        instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+        siteNumber: "",
+        siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -446,7 +458,7 @@ const ViewTable = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -653,17 +665,36 @@ const ViewTable = (props) => {
   const addMoreHcp = (e) => {
     e.preventDefault();
     const status = hpc.map((data) => {
-      if (
-        (data.firstname == "" ||
+      if(localStorage.getItem("user_id")==userId){
+      if(data.siteIrt=="Yes"){
+        if (data.firstname == "" ||
+            data.lastname == "" ||
+            data.country == "" ||
+            data.email == "" ||
+            data.institute == "" ||
+            typeof data.institute == "undefined"||
+            data?.siteName==""||data?.siteNumber==""||data?.userType==""||
+            typeof data?.userType=="undefined"
+          
+        ) {
+          return "false";
+        }else{
+          return "true"
+        }
+      }else{
+        if(data.firstname == "" ||
           data.lastname == "" ||
           data.country == "" ||
           data.email == "" ||
           data.institute == "" ||
-          typeof data.institute == "undefined") &&
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-      ) {
-        return "false";
-      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          typeof data.institute == "undefined"){
+            return "false";
+          }else{
+            return "true"
+          }
+      }
+    }
+     else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
         } else {
@@ -671,7 +702,7 @@ const ViewTable = (props) => {
         }
       }
       else if (data.email == "") {
-        
+
         return "false";
       } else {
         return "true";
@@ -691,7 +722,7 @@ const ViewTable = (props) => {
             (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
-          userTypeIndex:
+          roleIndex:
             (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? 0
               : "",
@@ -717,9 +748,15 @@ const ViewTable = (props) => {
             (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
+              institute: localStorage.getItem("user_id") == userId
+          ? irtInstitutionType?.[0]?.value
+          : "",
+        instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+        siteNumber: "",
+        siteName: ""
         },
       ]);
-    } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+    } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg=="||localStorage.getItem("user_id") ==userId) {
       toast.warning("Please input the required fields");
     }
     else {
@@ -1195,7 +1232,7 @@ const ViewTable = (props) => {
       list[i].siteIrt = "";
       list[i].siteIrt = "";
       list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       list[i].country = "";
       setHpc(list);
     } else {
@@ -1206,8 +1243,7 @@ const ViewTable = (props) => {
 
       let index = siteIrtAll.findIndex((x) => x.value === value);
       list[i].siteIrtIndex = index;
-      list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1215,6 +1251,8 @@ const ViewTable = (props) => {
       list[i].siteNumber = "";
       list[i].userType = value == "Yes" ? irtRole[0] : "Other";
       list[i].roleIndex = value == "Yes" ? 0 : 4;
+      list[i].institute=value=="Yes"?irtInstitutionType?.[0]?.value:"";
+      list[i].instituteIndex=value=="Yes"?0:""
       setHpc(list);
     }
     let arr = [];
@@ -1315,7 +1353,7 @@ const ViewTable = (props) => {
     if (e == null) {
       const list = [...hpc];
       list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       setHpc(list);
     } else {
       const value = e.value;
@@ -1324,7 +1362,7 @@ const ViewTable = (props) => {
       list[i].userType = value;
 
       let index = countryall.findIndex((x) => x.value === value);
-      list[i].userTypeIndex = index;
+      list[i].roleIndex = index;
       setHpc(list);
     }
   };
@@ -1343,11 +1381,15 @@ const ViewTable = (props) => {
         list[i].siteIrt = "Yes";
         list[i].userType = irtRole[0]?.value;
         list[i].roleIndex = 0;
+        let index = irtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       } else {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
         list[i].userType = "Other";
         list[i].roleIndex = 4;
+        let index = nonIrtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       }
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1357,8 +1399,8 @@ const ViewTable = (props) => {
       const name = hpc[i].institute;
       list[i].institute = value;
 
-      let index = instituions.findIndex((x) => x.value === value);
-      list[i].instituteIndex = index;
+      // let index = instituions.findIndex((x) => x.value === value);
+      // list[i].instituteIndex = index;
 
       if (value != "Study site") {
         let arr = [];
@@ -1499,7 +1541,12 @@ const ViewTable = (props) => {
             localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           return "Please select country";
-        } else if (data.email != "") {
+        }else if(data.siteNumber==""&&data.siteIrt==1&&localStorage.getItem("user_id") ==userId){
+          return "Please select site number";
+        }else if(data.siteName==""&&data.siteIrt==1&&localStorage.getItem("user_id") ==userId){
+          return "Please select site name";
+        }
+         else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -1529,20 +1576,20 @@ const ViewTable = (props) => {
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+       
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              //toast.success("User added successfully");
+             
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData((oldArray) => [...new_data, ...oldArray]);
-              //setNewData(new_data);
-
+              
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-              // setUpdatedData(combine_data_manual);
+              
               setIsOpen(false);
               setShowSaveReader(true);
               setIsOpenAdd(false);
@@ -2410,7 +2457,7 @@ const ViewTable = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                         ? irtRole?.[0]?.value
                         : "",
-                    userTypeIndex:
+                    roleIndex:
                       (localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                         ? 0
@@ -2427,6 +2474,12 @@ const ViewTable = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                         ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                         : "",
+                    institute: localStorage.getItem("user_id") == userId
+                      ? irtInstitutionType?.[0]?.value
+                      : "",
+                    instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+                    siteNumber: "",
+                    siteName: ""
                   },
                 ]);
                 setActiveManual("active");
@@ -2630,30 +2683,6 @@ const ViewTable = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={instituions}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        value={
-                                          instituions[hpc[i].instituteIndex]
-                                        }
-                                        placeholder={
-                                          typeof instituions[
-                                            hpc[i].instituteIndex
-                                          ] === "undefined"
-                                            ? "Select Institutions"
-                                            : instituions[hpc[i].instituteIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">
                                         IRT mandatory training
                                       </label>
                                       <Select
@@ -2673,6 +2702,63 @@ const ViewTable = (props) => {
                                       />
                                     </div>
                                   </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      {siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ? (<>
+                                          {console.log("instition-->", irtInstitutionType[hpc[i].instituteIndex])}
+                                          <Select
+                                            options={irtInstitutionType}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            defaultValue={
+                                              irtInstitutionType[hpc[i].instituteIndex]
+                                            }
+                                            placeholder={
+                                              typeof irtInstitutionType[
+                                                hpc[i].instituteIndex
+                                              ] == "undefined"
+                                                ? "Select Institutions"
+                                                : irtInstitutionType[hpc[i].instituteIndex]
+                                            }
+                                            
+                                          /></>)
+                                        : (<>                                       
+                                          <Select
+                                            options={nonIrtInstitutionType}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            defaultValue={
+                                              nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            }
+                                            
+                                            // value={nonIrtInstitutionType?.findIndex((item)=>item?.value==hpc[i].institute)==-1?"": nonIrtInstitutionType[hpc[i].instituteIndex]}
+                                            value={nonIrtInstitutionType[hpc[i].instituteIndex]
+                                              ?nonIrtInstitutionType[hpc[i].instituteIndex]
+                                              :""
+                                            }
+                                            isClearable
+                                            placeholder={
+                                              typeof nonIrtInstitutionType[
+                                                hpc[i].instituteIndex] =="undefined"
+                                                ? "Select Institutions"
+                                                : nonIrtInstitutionType[
+                                                hpc[i].instituteIndex
+                                                ]
+                                            }                                          
+                                          />
+                                        </>)}
+
+                                    </div>
+                                  </div>
+
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT role</label>
@@ -2711,31 +2797,7 @@ const ViewTable = (props) => {
                                     </div>
                                   </div>
 
-                                  {/*<div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">Blind Type</label>
-                                        <Select
-                                          options={blindTypeAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onBlindTypeChange(event, i)
-                                          }
-                                          defaultValue={
-                                            blindTypeAll[hpc[i].blindTypeIndex]
-                                          }
-                                          placeholder={
-                                            typeof blindTypeAll[
-                                              hpc[i].blindTypeIndex
-                                            ] === "undefined"
-                                              ? "Select Blind Type"
-                                              : blindTypeAll[
-                                                  hpc[i].blindTypeIndex
-                                                ]
-                                          }
-                                          // filterOption={createFilter(filterConfig)}
-                                        />
-                                      </div>
-                                    </div>*/}
+
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2827,32 +2889,14 @@ const ViewTable = (props) => {
                                           isClearable
                                         />
                                       )}
-                                      {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
+                                  
                                     </div>
                                   </div>
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number {siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ?<span>*</span>:""}</label>
                                       <Select
                                         options={siteNumberAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2878,30 +2922,14 @@ const ViewTable = (props) => {
                                             hpc[i].siteNumberIndex
                                             ]
                                         }
-                                      // onChange={(event) =>
-                                      //   onUserTypeChange(event, i)
-                                      // }
-                                      // defaultValue={
-                                      //   userTypeAll[
-                                      //     hpc[i].userTypeIndex
-                                      //   ]
-                                      // }
-                                      // placeholder={
-                                      //   typeof userTypeAll[
-                                      //     hpc[i].userTypeIndex
-                                      //   ] === "undefined"
-                                      //     ? "Select User Type"
-                                      //     : userTypeAll[
-                                      //         hpc[i].userTypeIndex
-                                      //       ]
-                                      // }
-                                      // filterOption={createFilter(filterConfig)}
+                                    
                                       />
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name{siteIrtAll[hpc[i].siteIrtIndex]
+                                        ?.value === "Yes" ?<span>*</span>:""}</label>
 
                                       <Select
                                         options={siteNameAll}
@@ -2909,17 +2937,7 @@ const ViewTable = (props) => {
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // valueField={
-                                        //   siteNameAll[hpc[i].siteNameIndex]?.value
-                                        // }
+                                     
                                         value={
                                           siteNameAll[hpc[i].siteNameIndex]
                                             ? siteNameAll[hpc[i].siteNameIndex]
