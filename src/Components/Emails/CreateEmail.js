@@ -49,6 +49,8 @@ const CreateEmail = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [irtInstitutionType, setIrtInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -218,6 +220,7 @@ const CreateEmail = (props) => {
           ? "yes"
           : "",
       institutionType: "",
+      siteNumber:""
     },
   ]);
 
@@ -337,12 +340,35 @@ const CreateEmail = (props) => {
                 newIrtType.push({ label: item, value: item });
               });
 
-              let instution_type = res?.data?.response?.data?.institution_type;
-              let newInstitutionType = [];
-              Object.keys(instution_type)?.map((item, i) => {
-                newInstitutionType.push({ label: item, value: item });
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
+
+
+              let non_irt_institution_type =
+              res?.data?.response?.data?.non_mandatory_institution_type;
+
+              let nonIrtInstitution = [];
+              Object.keys(non_irt_institution_type)?.map((item, i) => {
+              nonIrtInstitution.push({ label: item, value: item });
               });
-              setInstitutionType(newInstitutionType);
+
+              setNonIrtInstitutionType(nonIrtInstitution);
+
+            let irt_institution_type =
+            res?.data?.response?.data?.irt_institution_type;
+
+            let newIrtInstitution = [];
+            Object.keys(irt_institution_type)?.map((item, i) => {
+              newIrtInstitution.push({ label: item, value: item });
+            });
+
+            setIrtInstitutionType(newIrtInstitution);
+
+
               setRole(newType);
               setIrtRole(newIrtType);
             }
@@ -1246,11 +1272,11 @@ const CreateEmail = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        onIRTChange("no", i);
-      }
+    //   if (e?.value == "Study site") {
+    //     onIRTChange("yes", i);
+    //   } else {
+    //     onIRTChange("no", i);
+    //   }
     }
   };
   const onIRTChange = (e, i) => {
@@ -1271,6 +1297,7 @@ const CreateEmail = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType = "";
       setHpc(list);
     }
     let arr = [];
@@ -1607,22 +1634,42 @@ const CreateEmail = (props) => {
 
   const saveClicked = async () => {
     if (activeManual == "active") {
+ 
+ 
+     const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
-          return {
-            first_name: data?.firstname,
-            last_name: data?.lastname,
-            email: data?.email,
-            country: data?.country,
-            // contact_type: data?.contact_type,
-            siteNumber: data?.siteNumber ? data.siteNumber : "",
-            siteName: data?.siteName ? data.siteName : "",
-            investigator_type: data?.role,
-            siteIrt: data?.optIRT == "yes" ? 1 : 0,
-            institution_type: data?.institutionType
-              ? data?.institutionType
-              : "",
-          };
+        if (isRdAndNorgianAcount) {
+ 
+          if(data?.optIRT == "yes"){
+            return {
+              first_name: data?.firstname,
+              last_name: data?.lastname,
+              email: data?.email,
+              country: data?.country,
+              // contact_type: data?.contact_type,
+              siteNumber: data?.siteNumber ? data.siteNumber : "",
+              siteName: data?.siteName ? data.siteName : "",
+              investigator_type: data?.role,
+              siteIrt:1,
+              institution_type: data?.institutionType
+                ? data?.institutionType
+                : "",
+            };
+          }
+          else{
+            return {
+              first_name: data?.firstname,
+              last_name: data?.lastname,
+              email: data?.email,
+              country: data?.country,
+              investigator_type: data?.role,
+              siteIrt: 0,
+              institution_type: data?.institutionType
+                ? data?.institutionType
+                : "",
+            };
+          }
+       
         } else {
           return {
             first_name: data?.firstname,
@@ -1633,27 +1680,25 @@ const CreateEmail = (props) => {
           };
         }
       });
-
+ 
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-
+ 
       const status = body.data.map((data, index) => {
-        // console.log(data);
         if (
           data.email == "" ||
-          data?.institution_type == "" ||
+          data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
           ((data?.last_name == "" ||
             data?.first_name == "" ||
             data?.country == "") &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="))
+            (isRdAndNorgianAcount))
         ) {
           if (
             data.first_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isRdAndNorgianAcount)
           ) {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1663,8 +1708,7 @@ const CreateEmail = (props) => {
           }
           if (
             data.last_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isRdAndNorgianAcount)
           ) {
             setValidationError({
               newHcpLastName: "Please enter the last name",
@@ -1677,10 +1721,10 @@ const CreateEmail = (props) => {
               newHcpEmail: "Please enter the email atleast",
               index: index,
             });
-
+ 
             return;
           }
-
+ 
           if (data.institution_type == "") {
             setValidationError({
               newHcpInstitution: "Please Select the institution ",
@@ -1688,10 +1732,9 @@ const CreateEmail = (props) => {
             });
             return;
           }
-
           if (
             data.country == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isRdAndNorgianAcount)
           ) {
             setValidationError({
               newHcpCountry: "Please select the country",
@@ -1699,8 +1742,8 @@ const CreateEmail = (props) => {
             });
             return;
           }
-
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+ 
+          if (isRdAndNorgianAcount) {
             if (data.institution_type == "") {
               setValidationError({
                 newHcpInstitution: "Please enter the institution ",
@@ -1709,6 +1752,26 @@ const CreateEmail = (props) => {
               return;
             }
           }
+       if(data?.siteIrt == 1 ){
+        if ( data.siteNumber === "" &&
+          (isRdAndNorgianAcount)) {
+          setValidationError({
+            newSiteNumber: "Please select the site number ",
+            index: index,
+          });
+          return;
+        }
+        if (data.siteName === "" &&
+          (isRdAndNorgianAcount)) {
+          setValidationError({
+            newSiteName: "Please select the site name",
+            index: index,
+          });
+          return;
+        }
+       }
+           
+         
         } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           setValidationError({
             newHcpCountry: "Please select the country",
@@ -1716,7 +1779,9 @@ const CreateEmail = (props) => {
           });
           return;
         }
+       
         else if (data.email != "") {
+ 
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1727,7 +1792,7 @@ const CreateEmail = (props) => {
                 newHcpEmail: "User with same email already added in list.",
                 index: index,
               });
-
+ 
               return;
             }
           } else {
@@ -1735,7 +1800,7 @@ const CreateEmail = (props) => {
               newHcpEmail: "Email format is not valid",
               index: index,
             });
-
+ 
             return;
           }
           return "true";
@@ -1743,6 +1808,8 @@ const CreateEmail = (props) => {
           return "true";
         }
       });
+
+     
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -1752,7 +1819,7 @@ const CreateEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
-
+ 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
@@ -1780,9 +1847,9 @@ const CreateEmail = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
+ 
       // console.log(formData);
-
+ 
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -1791,11 +1858,11 @@ const CreateEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
-
+ 
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
-
+ 
               loader("hide");
               setIsOpenAdd(false);
               setActiveManual("active");
@@ -1816,7 +1883,6 @@ const CreateEmail = (props) => {
       }
     }
   };
-
   const searchChange = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
@@ -3668,40 +3734,7 @@ const CreateEmail = (props) => {
                                 ? (
                                 <>
                                   {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpInstitution
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                              label: val?.institutionType,
-                                              value: val?.institutionType,
-                                            }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                      {validationError?.newHcpInstitution &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newHcpInstitution}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
+
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
@@ -3738,6 +3771,91 @@ const CreateEmail = (props) => {
                                       />
                                     </div>
                                   </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      {val.optIRT == "yes" ? (
+                                      <Select
+                                        options={irtInstitutionType}
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //       label: val?.institutionType,
+                                        //       value: val?.institutionType,
+                                        //     }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          irtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : irtInstitutionType[
+                                              irtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      /> 
+                                      ): 
+                                      val.optIRT == "no" ? ( <Select
+                                        options={nonIrtInstitutionType}
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //       label: val?.institutionType,
+                                        //       value: val?.institutionType,
+                                        //     }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          nonIrtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : nonIrtInstitutionType[
+                                              nonIrtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      />
+                                       ): null}
+                                      {validationError?.newHcpInstitution &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT role</label>
@@ -4004,11 +4122,19 @@ const CreateEmail = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number
+                                     { val.optIRT == "yes" ? <span> *</span>: null}
+                                      </label>
 
                                       <Select
                                         options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteNumber
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
@@ -4021,15 +4147,28 @@ const CreateEmail = (props) => {
                                         }
                                         placeholder={"Select Site Number"}
                                       />
+                                       {validationError?.newSiteNumber &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteNumber}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name  { val.optIRT == "yes" ? <span> *</span>: null}</label>
+                                      
 
                                       <Select
                                         options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteName
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
@@ -4040,6 +4179,12 @@ const CreateEmail = (props) => {
                                         }
                                         placeholder={"Select Site Name"}
                                       />
+                                       {validationError?.newSiteName &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteName}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </>

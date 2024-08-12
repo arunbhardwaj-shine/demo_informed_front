@@ -23,6 +23,8 @@ const SelectSmartListUsers = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [irtInstitutionType, setIrtInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -292,12 +294,32 @@ const SelectSmartListUsers = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              let instution_type = res?.data?.response?.data?.institution_type;
-              let newInstitutionType = [];
-              Object.keys(instution_type)?.map((item, i) => {
-                newInstitutionType.push({ label: item, value: item });
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
+
+              let non_irt_institution_type =
+              res?.data?.response?.data?.non_mandatory_institution_type;
+
+              let nonIrtInstitution = [];
+              Object.keys(non_irt_institution_type)?.map((item, i) => {
+              nonIrtInstitution.push({ label: item, value: item });
               });
-              setInstitutionType(newInstitutionType);
+
+              setNonIrtInstitutionType(nonIrtInstitution);
+
+            let irt_institution_type =
+            res?.data?.response?.data?.irt_institution_type;
+
+            let newIrtInstitution = [];
+            Object.keys(irt_institution_type)?.map((item, i) => {
+              newIrtInstitution.push({ label: item, value: item });
+            });
+
+            setIrtInstitutionType(newIrtInstitution);
 
               setRole(newType);
               setIrtRole(newIrtType);
@@ -486,11 +508,11 @@ const SelectSmartListUsers = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        onIRTChange("no", i);
-      }
+      // if (e?.value == "Study site") {
+      //   onIRTChange("yes", i);
+      // } else {
+      //   onIRTChange("no", i);
+      // }
     }
   };
 
@@ -512,6 +534,7 @@ const SelectSmartListUsers = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType = "";
       setHpc(list);
     }
     let arr = [];
@@ -961,10 +984,12 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
+    const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+        if (isRdAndNorgianAcount) {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -999,15 +1024,14 @@ const SelectSmartListUsers = (props) => {
       const status = body.data.map((data, index) => {
         if (
           data.email == "" ||
-          data?.institution_type == "" ||
+          data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
           data.first_name == "" ||
           data.last_name == "" ||
           data.country == ""
         ) {
           if (
             data.first_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1017,8 +1041,7 @@ const SelectSmartListUsers = (props) => {
           }
           if (
             data.last_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpLastName: "Please enter the last name",
@@ -1034,31 +1057,9 @@ const SelectSmartListUsers = (props) => {
 
             return;
           }
-          //  else if (data.email != "") {
-          //   let email = data.email;
-          //   let useremail = email.trim();
-          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          //   if (regex.test(String(useremail).toLowerCase())) {
-          //     let prev_obj = readers.find((x) => x.email === useremail);
-          //     if (typeof prev_obj != "undefined") {
-          //       setValidationError({
-          //         newHcpEmail: "User with same email already added in list.",
-          //         index: index,
-          //       });
-          //       return;
-          //     }
-          //   } else {
-          //     setValidationError({
-          //       newHcpEmail: "Email format is not valid",
-          //       index: index,
-          //     });
-          //     return;
-          //   }
-          // }
           if (
             data.institution_type == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpInstitution: "Please enter the institution ",
@@ -1069,8 +1070,7 @@ const SelectSmartListUsers = (props) => {
 
           if (
             data.country == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             setValidationError({
               newHcpCountry: "Please select the country",
@@ -1078,6 +1078,27 @@ const SelectSmartListUsers = (props) => {
             });
             return;
           }
+
+          if(data?.siteIrt == 1 ){
+            if ( data.siteNumber === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteNumber: "Please select the site number ",
+                index: index,
+              });
+              return;
+            }
+            if (data.siteName === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteName: "Please select the site name",
+                index: index,
+              });
+              return;
+            }
+           }
+
+         
           return "true";
         } else if (data.email != "") {
           let email = data.email;
@@ -3481,42 +3502,7 @@ const SelectSmartListUsers = (props) => {
                               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                               ? (
                                 <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className={
-                                          validationError?.newHcpInstitution &&
-                                          validationError?.index == i
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                      {validationError?.newHcpInstitution &&
-                                      validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newHcpInstitution}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
+                                <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
                                         IRT mandatory training
@@ -3551,6 +3537,91 @@ const SelectSmartListUsers = (props) => {
                                       />
                                     </div>
                                   </div>
+                                  {" "}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      {val?.optIrt == "yes" ? (
+                                      <Select
+                                        options={irtInstitutionType}
+                                        className={
+                                          validationError?.newHcpInstitution &&
+                                          validationError?.index == i
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          irtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : irtInstitutionType[
+                                              irtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      />): 
+                                      val?.optIrt == "no" ? (
+                                        <Select
+                                        options={nonIrtInstitutionType}
+                                        className={
+                                          validationError?.newHcpInstitution &&
+                                          validationError?.index == i
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          nonIrtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : nonIrtInstitutionType[
+                                              nonIrtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      /> ): null}
+                                      {validationError?.newHcpInstitution &&
+                                      validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                  
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT role</label>
@@ -3795,11 +3866,17 @@ const SelectSmartListUsers = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number   {  val?.optIrt == "yes" ? <span> *</span>: null}</label>
 
                                       <Select
                                         options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteNumber
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
@@ -3812,15 +3889,27 @@ const SelectSmartListUsers = (props) => {
                                         }
                                         placeholder={"Select Site Number"}
                                       />
+                                       {validationError?.newSiteNumber &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteNumber}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name {  val?.optIrt == "yes" ? <span> *</span>: null}</label>
 
                                       <Select
                                         options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteName
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
@@ -3831,6 +3920,12 @@ const SelectSmartListUsers = (props) => {
                                         }
                                         placeholder={"Select Site Name"}
                                       />
+                                       {validationError?.newSiteName &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteName}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </>

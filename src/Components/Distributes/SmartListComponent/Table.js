@@ -46,6 +46,8 @@ const Table = (props, ref) => {
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
   const [instituions, setInstituions] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const [activeManual, setActiveManual] = useState("active");
   const [sorting, setSorting] = useState(0);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -80,7 +82,8 @@ const Table = (props, ref) => {
   const [emailChanged, setEmailChanged] = useState("");
   const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+  ?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
 
   const [siteStreetAll, setSiteStreetAll] = useState([]);
   const [siteCityAll, setSiteCityAll] = useState([]);
@@ -135,6 +138,11 @@ const Table = (props, ref) => {
             let arrIrtUserType = [];
             let institutions;
             let arrinstitutions = [];
+            let nonIrtInstitution;
+            let arrNonIrtInstitution=[]
+            let irtInstitution;
+            let arrIrtInstitution=[]
+
 
             let arr = [];
 
@@ -149,6 +157,9 @@ const Table = (props, ref) => {
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
               institutions = res?.data?.response?.data?.institution_type;
+              nonIrtInstitution=res?.data?.response?.data?.non_mandatory_institution_type
+              irtInstitution=res?.data?.response?.data?.irt_institution_type
+
 
               arrUserType = [];
               arrSubRole = [];
@@ -260,12 +271,26 @@ const Table = (props, ref) => {
                   value: item,
                 });
               });
+
+              Object.entries(nonIrtInstitution)?.map(([item, index]) => {
+                arrNonIrtInstitution.push({
+                  label: item,
+                  value: item,
+                });
+              });
+              Object.entries(irtInstitution)?.map(([item, index]) => {
+                arrIrtInstitution.push({
+                  label: item,
+                  value: item,
+                });
+              });
             }
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
+
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               setSiteNumberAll(arrSiteNumber);
@@ -277,23 +302,12 @@ const Table = (props, ref) => {
               setBlindTypeAll(arrBlindType);
               setSiteData(res.data.response.data.site_data);
               setChanges(res.data.response.data);
+             
+              setNonIrtInstitutionType(arrNonIrtInstitution)
+              setIrtInstitutionType(arrIrtInstitution)
             }
-
-            // setCountryall(res.data.response.data.country);
           }
-          // let country_opt = res.data.response.data.country;
-          // var country_options = "<option>Select Country</option>";
-          //   Object.entries(country_opt).map((item) => {
-          //     let opt = "<option>"+item[0]+"</option>";
-          //     country_options = country_options+opt;
-          //   });
-          //
-          //   let x=document.querySelectorAll(".country-form_edit");  // Find the elements
-          //     [].forEach.call(x, function(op) {
-          //       op.innerHTML = country_options;
-          //       op.value = op.getAttribute("data-id");
-          //     });
-          //     loader("hide");
+        
         })
         .catch((err) => {
           //console.log(err);
@@ -322,8 +336,15 @@ const Table = (props, ref) => {
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? irtRole?.[0]?.value
           : "",
-      userTypeIndex:
+      roleIndex:
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+
+        institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        ? irtInstitutionType?.[0]?.value
+        : "",
+        instituteIndex:  localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+      siteNumber: "",
+      siteName: ""
     },
   ]);
 
@@ -352,7 +373,7 @@ const Table = (props, ref) => {
     if (e == null) {
       const list = [...hpc];
       list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       setHpc(list);
     } else {
       const value = e.value;
@@ -361,7 +382,7 @@ const Table = (props, ref) => {
       list[i].userType = value;
 
       let index = countryall.findIndex((x) => x.value === value);
-      list[i].userTypeIndex = index;
+      list[i].roleIndex = index;
       setHpc(list);
     }
   };
@@ -399,13 +420,17 @@ const Table = (props, ref) => {
         list[i].siteIrt = "Yes";
         list[i].userType = irtRole[0]?.value;
         list[i].roleIndex = 0;
+        let index = irtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       } else {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
         list[i].userType = "";
-        list[i].userTypeIndex = "";
+        list[i].roleIndex = "";
         list[i].userType = "Other";
         list[i].roleIndex = 4;
+        let index = nonIrtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       }
 
       list[i].siteNumberIndex = "";
@@ -416,8 +441,8 @@ const Table = (props, ref) => {
       const name = hpc[i].institute;
       list[i].institute = value;
 
-      let index = instituions.findIndex((x) => x.value === value);
-      list[i].instituteIndex = index;
+      // let index = instituions.findIndex((x) => x.value === value);
+      // list[i].instituteIndex = index;
 
       if (value != "Study site") {
         let arr = [];
@@ -453,22 +478,7 @@ const Table = (props, ref) => {
       list[i].siteNumberIndex = index;
       setHpc(list);
     }
-    // e.preventDefault();
-    // if (index != 0) {
-    //   const { value } = e.target;
-    //   const old_hpc = hpc;
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-    //   setUpdate(update + 1);
-    // } else if (index == 0) {
-    //   const { value } = e;
-    //   const old_hpc = hpc;
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-    //   setUpdate(update + 1);
-    // }
+    
   };
   const onSiteNameChange = (e, i) => {
     if (e == null) {
@@ -503,7 +513,7 @@ const Table = (props, ref) => {
       list[i].siteIrt = "";
       list[i].siteIrt = "";
       list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       list[i].country = "";
       setHpc(list);
     } else {
@@ -517,12 +527,13 @@ const Table = (props, ref) => {
       list[i].roleIndex = value == "Yes" ? 0 : 4;
       list[i].siteIrtIndex = index;
       // list[i].userType = "";
-      list[i].userTypeIndex = "";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institute= value == "Yes" ?irtInstitutionType?.[0]?.value:"";
+      list[i].instituteIndex=value == "Yes" ?0:"";
       setHpc(list);
     }
     let arr = [];
@@ -648,7 +659,7 @@ const Table = (props, ref) => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? irtRole?.[0]?.value
             : "",
-        userTypeIndex:
+            roleIndex:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? 0
             : "",
@@ -660,6 +671,12 @@ const Table = (props, ref) => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
+            institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            ? irtInstitutionType?.[0]?.value
+            : "",
+            instituteIndex:  localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+          siteNumber: "",
+          siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -1141,22 +1158,40 @@ const Table = (props, ref) => {
   };
 
   const addMoreHcp = () => {
-    // console.log(hpc);
-
+  
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-        if (
-          data.email == "" ||
-          data.lastname == "" ||
-          data.firstname == "" ||
-          data.country == "" ||
-          data.institute == "" ||
-          typeof data.institute == "undefined"
-        ) {
-          return "false";
-        } else {
-          return "true";
+      if (localStorage.getItem("user_id") ==userId) {
+        if(data?.siteIrt=="Yes"){
+          
+          if (
+            data.email == "" ||
+            data.lastname == "" ||
+            data.firstname == "" ||
+            data.country == "" ||
+            data.institute == "" ||
+            typeof data.institute == "undefined"||
+            data?.siteName==""||data?.siteNumber==""||data?.userType==""||
+            typeof data?.userType=="undefined"
+          ) {
+            return "false";
+          } else {
+            return "true";
+          }
+        }else{
+          if (
+            data.email == "" ||
+            data.lastname == "" ||
+            data.firstname == "" ||
+            data.country == "" ||
+            data.institute == "" ||
+            typeof data.institute == "undefined"
+          ) {
+            return "false";
+          } else {
+            return "true";
+          }
         }
+       
       } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
@@ -1188,7 +1223,7 @@ const Table = (props, ref) => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? irtRole?.[0]?.value
               : "",
-          userTypeIndex:
+              roleIndex:
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? 0
               : "",
@@ -1200,6 +1235,12 @@ const Table = (props, ref) => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
+              institute: localStorage.getItem("user_id") ==  userId
+              ? irtInstitutionType?.[0]?.value
+              : "",
+              instituteIndex:  localStorage.getItem("user_id") == userId? 0 : "",
+            siteNumber: "",
+            siteName: ""
         },
       ]);
     } else {
@@ -1255,13 +1296,6 @@ const Table = (props, ref) => {
       redirect: "",
     });
 
-    // const body = {
-    //   user_list: filtered_list.map((data) => {
-    //     return data.profile_user_id;
-    //   }),
-    //   smart_list_id: getlistid,
-    //   user_id: localStorage.getItem("user_id"),
-    // };
   };
 
   const onDelete = async ({
@@ -1403,22 +1437,23 @@ const Table = (props, ref) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (
-          data.first_name == "" &&
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-        ) {
+          data.first_name == "" && localStorage.getItem("user_id") == userId) {
           return "Please enter the first name";
         } else if (
-          data.last_name == "" &&
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-        ) {
+          data.last_name == "" && localStorage.getItem("user_id") == userId) {
           return "Please enter the last name";
         } else if (data.email == "") {
           return "Please enter the email atleast";
-        } else if (data.institution_type == "") {
+        } else if (data.institution_type == ""&& localStorage.getItem("user_id") == userId) {
           return "Please select Institution";
         } else if (data.country == "") {
           return "Please select country";
-        } else if (data.email != "") {
+        } else if(data.siteNumber==""&&data.siteIrt==1 &&localStorage.getItem("user_id") == userId){
+          return "Please select site number"
+        } else if(data.siteName==""&&data.siteIrt==1&& localStorage.getItem("user_id") == userId){
+          return "Please select site name"
+        } 
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1436,7 +1471,8 @@ const Table = (props, ref) => {
           } else {
             return "Email format is not valid";
           }
-        } else {
+        }
+        else {
           return "true";
         }
       });
@@ -1444,7 +1480,7 @@ const Table = (props, ref) => {
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        // console.log("b");
+       
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1515,7 +1551,6 @@ const Table = (props, ref) => {
                 props.sendDataToParent(combine_new_readers_array, "new");
               }
               combine_data = [...new_data, ...old_data];
-              // console.log(combine_data);
               setEditList(old_data);
               setIsOpenAdd(false);
               setActiveManual("active");
@@ -1813,7 +1848,7 @@ const Table = (props, ref) => {
           <div className="table-title">
             {props?.upload_by_filter == 0 ? (
               <h4>
-                {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                {localStorage.getItem("user_id") == userId
                   ? "Uploaded Users for the smart list"
                   : "Uploaded HCPs for the smart list"}
                 <span>| {
@@ -2606,7 +2641,7 @@ const Table = (props, ref) => {
       </Modal>
 
       {/* add new hcps */}
-      {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+      {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
         <Modal
           id="add_hcp"
           show={isOpenAdd}
@@ -2622,7 +2657,7 @@ const Table = (props, ref) => {
           >
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                {localStorage.getItem("user_id") == userId 
                   ? "Add New User +"
                   : "Add New HCP"}
               </h5>
@@ -2642,7 +2677,7 @@ const Table = (props, ref) => {
                           "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? irtRole?.[0]?.value
                           : "",
-                      userTypeIndex:
+                      roleIndex:
                         localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? 0
@@ -2658,6 +2693,13 @@ const Table = (props, ref) => {
                           "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
+                          institute:  localStorage.getItem("user_id") == userId
+                          ? irtInstitutionType?.[0]?.value
+                          : "",
+                          instituteIndex: localStorage.getItem("user_id") ==   userId ? 0 : "",
+                        siteNumber: "",
+                        siteName: ""
+
                     },
                   ]);
                   setActiveManual("active");
@@ -2746,8 +2788,8 @@ const Table = (props, ref) => {
                                   </div>
                                 </div>
 
-                                {localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                {(localStorage.getItem("user_id") !=
+                                  "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Contact type</label>
@@ -2801,8 +2843,8 @@ const Table = (props, ref) => {
                                   </div>
                                 ) : null}
 
-                                {localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                {(localStorage.getItem("user_id") !=
+                                  "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Country
@@ -2829,26 +2871,7 @@ const Table = (props, ref) => {
                                         )}
                                         isClearable
                                       />
-                                      {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
+                                    
                                     </div>
                                   </div>
                                 ) : null}
@@ -2860,39 +2883,9 @@ const Table = (props, ref) => {
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">
-                                          Institution <span>*</span>
-                                        </label>
-                                        <Select
-                                          options={instituions}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onInstitutionChange(event, i)
-                                          }
-                                          defaultValue={
-                                            instituions[hpc[i].instituteIndex]
-                                          }
-                                          placeholder={
-                                            typeof instituions[
-                                              hpc[i].instituteIndex
-                                            ] === "undefined"
-                                              ? "Select Institutions"
-                                              : instituions[
-                                              hpc[i].instituteIndex
-                                              ]
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">
                                           IRT mandatory training
                                         </label>
-                                        {/*console.log(
-                                          siteIrtAll[hpc[i].siteIrtIndex],
-                                          siteIrtAll,
-                                          hpc[i]
-                                        )*/}
+                                      
                                         <Select
                                           options={siteIrtAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2914,6 +2907,62 @@ const Table = (props, ref) => {
                                     </div>
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
+                                        <label for="">
+                                          Institution <span>*</span>
+                                        </label>
+                                        {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ? (
+                                        <Select
+                                          options={irtInstitutionType}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          defaultValue={
+                                            irtInstitutionType[hpc[i].instituteIndex]
+                                          }
+                                          placeholder={
+                                            typeof irtInstitutionType[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : irtInstitutionType[
+                                              hpc[i].instituteIndex
+                                              ]
+                                          }
+                                        />
+                                          ):(<>
+                            
+                                          <Select
+                                          options={nonIrtInstitutionType}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          defaultValue={
+                                            nonIrtInstitutionType[hpc[i].instituteIndex]
+                                          }
+                                          value={nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            ?nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            :""
+                                          }
+                                          
+                                          placeholder={
+                                            typeof nonIrtInstitutionType[
+                                              hpc[i].instituteIndex
+                                            ] == "undefined"
+                                              ? "Select Institutions"
+                                              : nonIrtInstitutionType[
+                                              hpc[i].instituteIndex
+                                              ]
+                                          }
+                                        /></>)
+                                          }
+                                      </div>
+                                    </div>
+                                    
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
                                         <label for="">IRT role</label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
@@ -2923,7 +2972,7 @@ const Table = (props, ref) => {
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
-                                            value={irtRole[hpc[i].roleIndex]}
+                                            defaultValue={irtRole[hpc[i].roleIndex]}
                                             placeholder={"Select Role"}
                                             isClearable
                                           // filterOption={createFilter(filterConfig)}
@@ -2936,11 +2985,12 @@ const Table = (props, ref) => {
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
-                                            value={
+                                            defaultValue={
                                               userTypeAll[hpc[i].roleIndex]
                                             }
+                                            value={userTypeAll[hpc[i].roleIndex]}
                                             isClearable
-                                            placeholder={"Select Role"}
+                                            placeholder="Select Role"
                                           // filterOption={createFilter(filterConfig)}
                                           />
                                         ) : (
@@ -2951,31 +3001,7 @@ const Table = (props, ref) => {
                                         )}
                                       </div>
                                     </div>
-                                    {/*<div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">Blind Type</label>
-                                        <Select
-                                          options={blindTypeAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onBlindTypeChange(event, i)
-                                          }
-                                          defaultValue={
-                                            blindTypeAll[hpc[i].blindTypeIndex]
-                                          }
-                                          placeholder={
-                                            typeof blindTypeAll[
-                                              hpc[i].blindTypeIndex
-                                            ] === "undefined"
-                                              ? "Select Blind Type"
-                                              : blindTypeAll[
-                                                  hpc[i].blindTypeIndex
-                                                ]
-                                          }
-                                          // filterOption={createFilter(filterConfig)}
-                                        />
-                                      </div>
-                                    </div>*/}
+                               
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
@@ -3000,8 +3026,7 @@ const Table = (props, ref) => {
                                               hpc[i].subUserTypeIndex
                                               ]
                                           }
-                                        // filterOption={createFilter(filterConfig)}
-                                        //  isClearable
+                                        
                                         />
                                       </div>
                                     </div>
@@ -3070,32 +3095,14 @@ const Table = (props, ref) => {
                                             isClearable
                                           />
                                         )}
-                                        {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
+                                 
                                       </div>
                                     </div>
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Site number</label>
+                                        <label for="">Site number {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes"?<span>*</span>:"" }</label>
                                         <Select
                                           options={siteNumberAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -3111,9 +3118,7 @@ const Table = (props, ref) => {
                                               ]
                                               : ""
                                           }
-                                          // defaultValue={
-                                          //   siteNumberAll[hpc[i].siteNumberIndex]
-                                          // }
+                                         
                                           placeholder={
                                             typeof siteNumberAll[
                                               hpc[i].siteNumberIndex
@@ -3123,30 +3128,14 @@ const Table = (props, ref) => {
                                               hpc[i].siteNumberIndex
                                               ]
                                           }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
+                                       
                                         />
                                       </div>
                                     </div>
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Site name</label>
+                                        <label for="">Site name  {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes"?<span>*</span>:"" }</label>
 
                                         <Select
                                           options={siteNameAll}
@@ -3154,17 +3143,7 @@ const Table = (props, ref) => {
                                           onChange={(event) =>
                                             onSiteNameChange(event, i)
                                           }
-                                          // onChange={(event) =>
-                                          //   onUserTypeChange(event, i)
-                                          // }
-                                          // defaultValue={
-                                          //   userTypeAll[
-                                          //     hpc[i].userTypeIndex
-                                          //   ]
-                                          // }
-                                          // valueField={
-                                          //   siteNameAll[hpc[i].siteNameIndex]?.value
-                                          // }
+                                        
                                           value={
                                             siteNameAll[hpc[i].siteNameIndex]
                                               ? siteNameAll[
@@ -3184,240 +3163,17 @@ const Table = (props, ref) => {
                                               hpc[i].siteNameIndex
                                               ]
                                           }
-                                        // filterOption={createFilter(filterConfig)}
+                                       
                                         />
                                       </div>
                                     </div>
 
-                                    {/* <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Street</label>
-                                      <Select
-                                        options={siteStreetAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteStreetChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteStreetAll[
-                                            hpc[i].siteStreetIndex
-                                          ] === "undefined"
-                                            ? "Select Site Street"
-                                            : siteStreetAll[
-                                                hpc[i].siteStreetIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Post Code</label>
-                                      <Select
-                                        options={sitePostalCodeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSitePostCode(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ] === "undefined"
-                                            ? "Select Post Code"
-                                            : sitePostalCodeAll[
-                                                hpc[i].sitePostCodeIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site City</label>
-                                      <Select
-                                        options={siteCityAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteCityChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteCityAll[
-                                            hpc[i].siteCityIndex
-                                          ] === "undefined"
-                                            ? "Select Site City"
-                                            : siteCityAll[hpc[i].siteCityIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>*/}
-
-                                    {/* <button onClick={(e) => addMoreSite(i, e)}>
-                                    +
-                                  </button> */}
+                                  
 
                                     {val?.siteDetails?.map((data, index) => {
                                       return (
                                         <>
-                                          {/* {index !== 0 ? (
-                                          <>
-                                            <div className="add-content-form">
-                                              <div className="row">
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site number
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNumberChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteNumber}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site name
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNameChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteName}
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Street
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteStreetChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteStreet}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Post Code
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSitePostCode(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.sitePostCode}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site City
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteCityChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteCity}
-                                                    />
-                                                  </div>
-                                                  <div className="delete_btn">
-                                                    {index !== 0 ? (
-                                                      <button
-                                                        type="button"
-                                                        className="btn btn-filled"
-                                                        onClick={(e) =>
-                                                          removeSite(
-                                                            index,
-                                                            i,
-                                                            e
-                                                          )
-                                                        }
-                                                      >
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "delete.svg"
-                                                          }
-                                                          alt="Add More"
-                                                        />
-                                                      </button>
-                                                    ) : null}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </>
-                                        ) : ( */}
+                                      
                                           <>
                                             <div className="add-content-form">
                                               <div className="row"></div>
@@ -3429,21 +3185,7 @@ const Table = (props, ref) => {
                                     })}
                                   </>
                                 ) : null}
-                                {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
+                             
                               </div>
                             </div>
 
@@ -3475,24 +3217,13 @@ const Table = (props, ref) => {
                                       data-bs-toggle="tab"
                                       href="javascript:;"
                                     >
-                                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                      {localStorage.getItem("user_id") == userId 
                                         ? "Add User +"
                                         : "Add HCP +"}
                                     </a>
                                   </li>
 
-                                  {/*
-                                <li className="nav-item add-file">
-                                  <a
-                                    onClick={(e) => addFile(e)}
-                                    className="nav-link btn-filled"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    Add File
-                                  </a>
-                                </li>
-                                */}
+                                 
                                 </ul>
                               </div>
                             </div>
@@ -3502,39 +3233,7 @@ const Table = (props, ref) => {
                     })}
                   </form>
 
-                  {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="file_upload-box">
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-4[]"
-                            id="file-4"
-                            className="inputfile inputfile-3"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={onFileChange}
-                            data-multiple-caption="{count} files selected"
-                            multiple
-                            // ref={file_name}
-                          />
-
-                          {file_name.current?.files === undefined ||
-                          file_name.current.files?.length === 0 ? (
-                            <>
-                              <label htmlFor="file-4">
-                                <span>Choose Your File</span>
-                              </label>
-                              <p>Upload your excel file</p>
-                            </>
-                          ) : (
-                            <h5>{file_name.current.files[0].name}</h5>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  */}
+                 
                 </div>
               </div>
             </div>
@@ -3567,7 +3266,7 @@ const Table = (props, ref) => {
           >
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                {localStorage.getItem("user_id") == userId 
                   ? "Add New User +"
                   : "Add New HCP"}
               </h5>
@@ -3584,6 +3283,7 @@ const Table = (props, ref) => {
                       countryIndex: "",
                     },
                   ]);
+                  
                   setActiveManual("active");
                   // document.querySelector("#file-4").value = "";
                   setActiveExcel("");
@@ -3721,44 +3421,11 @@ const Table = (props, ref) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
-                                    {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                            onSelect={(event) => onCountryChange(event, i)}
-                                            >
-                                            <div className="scroll_div">
-                                            {countryall.length === 0
-                                            ? ""
-                                            : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                            return (
-                                            <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                            </>
-                                          );
-                                        }
-                                      )}
-                                      </div>
-                                      </DropdownButton>
-                                    */}
+                                   
                                   </div>
                                 </div>
 
-                                {/*
-                                <div className="col-12 col-md-6 btn_rmv">
-                                  <div className="form-group">
-                                    {i !== 0 && (
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        Remove
-                                      </button>
-                                    )}
-                                  </div>
-                                </div>
-                                */}
+                               
                               </div>
                             </div>
 
@@ -3791,24 +3458,13 @@ const Table = (props, ref) => {
                                       data-bs-toggle="tab"
                                       href="javascript:;"
                                     >
-                                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                      {localStorage.getItem("user_id") == userId 
                                         ? "Add User +"
                                         : "Add HCP +"}
                                     </a>
                                   </li>
 
-                                  {/*
-                                    <li className="nav-item add-file">
-                                      <a
-                                        onClick={(e) => addFile(e)}
-                                        className="nav-link btn-filled"
-                                        data-bs-toggle="tab"
-                                        href="javascript:;"
-                                      >
-                                        Add File
-                                      </a>
-                                    </li>
-                                    */}
+                               
                                 </ul>
                               </div>
                             </div>
@@ -3818,33 +3474,7 @@ const Table = (props, ref) => {
                     })}
                   </form>
 
-                  {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="form-group files">
-                      <div className="box">
-                        <input
-                          type="file"
-                          id="file-4"
-                          className="form-control inputfile"
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                          onChange={onFileChange}
-                          ref={file_name}
-                        />
-                        {file_name.current?.files === undefined ||
-                        file_name.current.files?.length === 0 ? (
-                          <>
-                            <label htmlFor="file-4">
-                              <span>Choose Your File</span>
-                            </label>
-                            <p>Upload your excel file</p>
-                          </>
-                        ) : (
-                          <h5>{file_name.current.files[0].name}</h5>
-                        )}
-                      </div>
-                    </div>
-                  </form>
-                  */}
+                 
                 </div>
               </div>
             </div>

@@ -13,6 +13,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
+import { ValidationAddNewContact } from "./ValidationAddNewContact";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
@@ -51,9 +52,9 @@ const AutoEmail = () => {
 
   const [templateName, setTemplateName] = useState("");
   const [selectedListId, setSelectedListId] = useState(0);
-  const userId="56Ek4feL/1A8mZgIKQWEqg==";
+  const userId = "56Ek4feL/1A8mZgIKQWEqg==";
 
-  const getTemplateLanguage=[
+  const getTemplateLanguage = [
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
   ];
@@ -63,7 +64,9 @@ const AutoEmail = () => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
-  const optIRT=[
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
+  const optIRT = [
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
   ];
@@ -82,20 +85,25 @@ const AutoEmail = () => {
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? "yes"
           : "",
-      institutionType: "",
+      institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        ? irtInstitutionType?.[0]?.value
+        : "",
+      siteNumber: "",
+      siteName: ""
     },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
 
   const editorRef = useRef(null);
-  const templateIdRef=useRef(null)
-  const linkingPayload=useRef(null)
+  const templateIdRef = useRef(null)
+  const linkingPayload = useRef(null)
   const filterConfig = {
     matchFrom: "start",
   };
 
   useEffect(() => {
     // getSmartListData(0);
+    getalCountry();
   }, []);
 
   useEffect(() => {
@@ -115,66 +123,88 @@ const AutoEmail = () => {
       ibu: "",
     };
 
-    if(!isFilterApiCalled){
+    if (!isFilterApiCalled) {
       loader("show")
       await axios
-      .post(`distributes/filters_list`, body)
-      .then((res) => {
-        if (res.data.status_code == 200) {
-          let country = res.data.response.data.country;
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
 
-          let arr = [];
+            let arr = [];
 
-          Object.entries(country).map(([index, item]) => {
-            let label = item;
-            if (index == "B&H") {
-              label = "Bosnia and Herzegovina";
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
+            });
+
+            setCountryall(arr);
+
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+              let investigator_type =
+                res?.data?.response?.data?.investigator_type;
+              let newType = [];
+              Object.keys(investigator_type)?.map((item, i) => {
+                newType.push({ label: item, value: item });
+              });
+              let irt_inverstigator_type =
+                res?.data?.response?.data?.irt_inverstigator_type;
+              let newIrtType = [];
+              Object.keys(irt_inverstigator_type)?.map((item, i) => {
+                newIrtType.push({ label: item, value: item });
+              });
+              setRole(newType);
+            
+              setIrtRole(newIrtType);
+
+              // let institution_type =
+              //   res?.data?.response?.data?.institution_type;
+
+              // let newInstitution = [];
+              // Object.keys(institution_type)?.map((item, i) => {
+              //   newInstitution.push({ label: item, value: item });
+              // });
+
+              // setInstitutionType(newInstitution);
+
+
+              let non_irt_institution_type =
+                res?.data?.response?.data?.non_mandatory_institution_type;
+
+              let nonIrtInstitution = [];
+              Object.keys(non_irt_institution_type)?.map((item, i) => {
+                nonIrtInstitution.push({ label: item, value: item });
+              });
+
+              setNonIrtInstitutionType(nonIrtInstitution);
+
+              let irt_institution_type =
+                res?.data?.response?.data?.irt_institution_type;
+
+              let newIrtInstitution = [];
+              Object.keys(irt_institution_type)?.map((item, i) => {
+                newIrtInstitution.push({ label: item, value: item });
+              });
+
+              setIrtInstitutionType(newIrtInstitution);
             }
-            arr.push({
-              value: item,
-              label: label,
-            });
-          });
+            setTotalData(res.data.response.data);
+            setIsFilterApiCalled(true)
+            loader("hide")
 
-          setCountryall(arr);
-
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-            let investigator_type =
-              res?.data?.response?.data?.investigator_type;
-            let newType = [];
-            Object.keys(investigator_type)?.map((item, i) => {
-              newType.push({ label: item, value: item });
-            });
-            let irt_inverstigator_type =
-              res?.data?.response?.data?.irt_inverstigator_type;
-            let newIrtType = [];
-            Object.keys(irt_inverstigator_type)?.map((item, i) => {
-              newIrtType.push({ label: item, value: item });
-            });
-            setRole(newType);
-            setIrtRole(newIrtType);
-
-            let institution_type =
-              res?.data?.response?.data?.institution_type;
-
-            let newInstitution = [];
-            Object.keys(institution_type)?.map((item, i) => {
-              newInstitution.push({ label: item, value: item });
-            });
-
-            setInstitutionType(newInstitution);
           }
-          setTotalData(res.data.response.data);
-          setIsFilterApiCalled(true)
+        })
+        .catch((err) => {
+          console.log(err);
           loader("hide")
 
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      loader("hide")
-        
-      });
+        });
     }
   };
   useEffect(() => {
@@ -182,12 +212,12 @@ const AutoEmail = () => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
-   
+
 
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -235,7 +265,7 @@ const AutoEmail = () => {
     setSourceCode(template.source_code);
     setIndexClicked(index);
     setTemplateId(template.id);
-    templateIdRef.current=template?.id
+    templateIdRef.current = template?.id
     setTempLang(template.language_code);
     if (template.approved === 1) {
       setApproveClicked(true);
@@ -328,11 +358,11 @@ const AutoEmail = () => {
     }
   };
 
-  const addNewContactClicked =async () => {
-    await getalCountry();
+  const addNewContactClicked = async () => {
+    // await getalCountry();
 
-    setIsOpenAdd(true);
-    setIsOpensend(false);
+   
+
     setHpc([
       {
         firstname: "",
@@ -348,11 +378,18 @@ const AutoEmail = () => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "yes"
             : "",
-        institutionType: "",
+        institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          ? irtInstitutionType?.[0]?.value
+          : "",
+        siteNumber: "",
+        siteName: ""
       },
     ]);
+  
+    setIsOpenAdd(true);
+    setIsOpensend(false);
     setActiveManual("active");
-    
+
   };
 
   const selectHcp = (index) => {
@@ -591,7 +628,6 @@ const AutoEmail = () => {
   };
 
   const onInstitionTypeChange = (e, i) => {
-    console.log("e--->", e);
     if (e == "") {
 
       const list = [...hpc];
@@ -607,22 +643,22 @@ const AutoEmail = () => {
       // const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        const value = e?.value;
-        const list = [...hpc];
-        console.log("list else", list);
-        // const name = hpc[i].institutionType;
-        list[i].institutionType = value;
-        setHpc(list);
-        if (e?.value == "Study site") {
-          onIRTChange("yes", i);
-        } else {
-          onIRTChange("no", i);
-        }
-        console.log("list", list[i].optIrt);
-      }
+      // if (e?.value == "Study site") {
+      //   onIRTChange("yes", i);
+      // } else {
+      //   const value = e?.value;
+      //   const list = [...hpc];
+      //   console.log("list else", list);
+      //   // const name = hpc[i].institutionType;
+      //   list[i].institutionType = value;
+      //   setHpc(list);
+      //   if (e?.value == "Study site") {
+      //     onIRTChange("yes", i);
+      //   } else {
+      //     onIRTChange("no", i);
+      //   }
+      //   console.log("list", list[i].optIrt);
+      // }
     }
   }
 
@@ -634,6 +670,7 @@ const AutoEmail = () => {
       list[i].optIrt = "";
       list[i].role = "";
       list[i].country = "";
+      list[i].institutionType = "";
       setHpc(list);
     } else {
       const value = e;
@@ -646,6 +683,7 @@ const AutoEmail = () => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType =e=="yes"?irtInstitutionType?.[0]?.value: "";
       setHpc(list);
     }
     let arr = [];
@@ -738,13 +776,13 @@ const AutoEmail = () => {
           };
         }
       });
-      console.log("body_dat", body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-
+      // const status = ValidationAddNewContact(body?.data, selectedHcp,"save")
+     
       const status = body.data.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           if (data.first_name == "") {
@@ -752,13 +790,28 @@ const AutoEmail = () => {
           } else if (data.last_name == "") {
             return "Please enter the last name";
           }
+          else if (data.email == "") {
+            return "Please enter the email atleast";
+          }
+          else if (data?.institution_type == "") {
+            return "Please select the institution type";
+          }else if (data?.country == "") {
+            return "Please select country";
+          }
+
+          else if(data?.siteIrt==1){            
+             
+            if(data?.siteNumber==""){
+              return "Please enter the site number";
+            }else if(data?.siteName==""){
+              return "Please enter the site name";
+            }
+          }
         }
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if (data?.institution_type == "") {
-          return "Please select the institution type";
-        }
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        } 
+        if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
             return "Please select country";
           }
@@ -768,7 +821,8 @@ const AutoEmail = () => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find((x) => x.email === useremail);
+           
+            let prev_obj = selectedHcp.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
             if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
             } else {
@@ -805,6 +859,7 @@ const AutoEmail = () => {
             toast.error("Something went wrong");
             loader("hide");
           });
+
       } else {
         toast.warning(status[0]);
       }
@@ -839,7 +894,7 @@ const AutoEmail = () => {
       filter: "",
     };
     loader("show");
-    
+
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
@@ -863,13 +918,25 @@ const AutoEmail = () => {
 
 
   const addMoreHcp = () => {
+    // const status = ValidationAddNewContact(hpc,selectedHcp,"addMore")
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
-        if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" || data.country == "") {
-          return "false";
-        } else {
-          return "true";
+        if(data?.optIrt=="yes"){
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" 
+            || data.country == ""||data?.siteName==""||data?.siteNumber=="") {
+              
+            return "false";
+          } else {
+            return "true";
+          }
+        }else{
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" || data.country == "") {
+            return "false";
+          } else {
+            return "true";
+          }
         }
+       
       } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
@@ -885,6 +952,8 @@ const AutoEmail = () => {
         }
       }
     });
+
+   
 
     if (status.every((element) => element == "true")) {
       setHpc([
@@ -903,7 +972,12 @@ const AutoEmail = () => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? "yes"
               : "",
-          institutionType: "",
+          institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            ? irtInstitutionType?.[0]?.value
+            : "",
+          siteNumber: "",
+          siteName: ""
+
         },
       ]);
     } else {
@@ -998,7 +1072,7 @@ const AutoEmail = () => {
     }
   };
 
- 
+
   const changeLanguage = (e) => {
     setLanguage(e.value);
     setTemplateClicked(false);
@@ -1006,122 +1080,122 @@ const AutoEmail = () => {
   };
 
 
-  
+
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
-        let dialog = document.getElementsByClassName("tox-dialog")[0];
-        if (dialog) {
-            let header = dialog?.querySelector(".tox-dialog__header");
-            const closeButton = header?.querySelector('[aria-label="Close"]');
-            let text = header?.querySelector(".tox-dialog__title");
-            let url = dialog?.querySelector(".tox-control-wrap")
-            let newLink = url?.querySelector(".tox-textfield")
-            let newButton = document.createElement("button");
-            const baseLink =
-                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-            let payload = {}
-            let apiLink = ""
+      let dialog = document.getElementsByClassName("tox-dialog")[0];
+      if (dialog) {
+        let header = dialog?.querySelector(".tox-dialog__header");
+        const closeButton = header?.querySelector('[aria-label="Close"]');
+        let text = header?.querySelector(".tox-dialog__title");
+        let url = dialog?.querySelector(".tox-control-wrap")
+        let newLink = url?.querySelector(".tox-textfield")
+        let newButton = document.createElement("button");
+        const baseLink =
+          "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+        let payload = {}
+        let apiLink = ""
 
-            if (text?.innerText == "Insert/Edit Link") {
-                let uploadIcon = document.querySelector(
-                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-                );
-                uploadIcon.style.display = "none";
-                // let newButton = document.createElement("button");
-                if (newLink?.value?.includes(baseLink)) {
-                    newButton.innerText = "Remove Tracking";
-                    apiLink = `https://onesource.informed.pro/api/delete-track-links`;
-                } else {
-                    newButton.innerText = "Add Tracking";
-                    apiLink = `https://onesource.informed.pro/api/track-links`;
-                }
-                newButton.classList.add("tox-button");
-                newButton.classList.add("tox-button--icon");
-                newButton.classList.add("tox-button--naked");
-                newButton.classList.add("track");
+        if (text?.innerText == "Insert/Edit Link") {
+          let uploadIcon = document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
+          );
+          uploadIcon.style.display = "none";
+          // let newButton = document.createElement("button");
+          if (newLink?.value?.includes(baseLink)) {
+            newButton.innerText = "Remove Tracking";
+            apiLink = `https://onesource.informed.pro/api/delete-track-links`;
+          } else {
+            newButton.innerText = "Add Tracking";
+            apiLink = `https://onesource.informed.pro/api/track-links`;
+          }
+          newButton.classList.add("tox-button");
+          newButton.classList.add("tox-button--icon");
+          newButton.classList.add("tox-button--naked");
+          newButton.classList.add("track");
 
-                newButton.onclick = function () {
-                    if (templateIdRef.current == "") {
-                        alert("Please select the template first before adding the link");
-                        return;
-                    }
-                    let firstToxControlWrap = document.querySelector(
-                        "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-                    );
-
-                    if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
-                      if (!window.confirm("Are you sure you want to remove the tracking?")) {
-                        return;
-                    }
-                                    const urlParams = new URLSearchParams(newLink.value);
-                                    const redirectUrl = urlParams.get('redirect_url');
-                                    const trackingCode = urlParams.get('tracking_code');
-                                    firstToxControlWrap.value = redirectUrl;
-                                    payload = {
-                                        template_id: templateIdRef.current,
-                                        url_code: trackingCode,
-                                    };
-                                }
-                                
-                    if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
-                        if (!newLink?.value) {
-                            alert("Please enter a link")
-                            return
-                        }
-                        if (!firstToxControlWrap.value) {
-                            alert("Please enter a link");
-                            return;
-                        }
-                        if (firstToxControlWrap.value.startsWith(baseLink)) {
-                            alert("Tracking already added");
-                            return;
-                        }
-                        let slugValue = prompt("Enter a slug value");
-
-                        const currentTimestamp = Date.now();
-                        payload = {
-                            slug_value: slugValue,
-                            template_id: templateIdRef.current,
-                            url_code: `clicked_track_doc_${currentTimestamp}`,
-                        };
-                        linkingPayload.current = payload;
-                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-                        firstToxControlWrap.value = link;
-
-                    }
-
-                    var saveButton = document.querySelector(
-                        '.tox-button[title="Save"]'
-                    );
-                    saveButton.addEventListener("click", function () {
-                        axios
-                            .post(apiLink, payload)
-                            .then((res) => {
-                                console.log("done");
-                            })
-                            .catch((err) => {
-                                loader("hide");
-                                console.log(err);
-                            });
-                    });
-                    if (newLink?.value?.includes(baseLink)) {
-                        alert("Tracking added");
-                    } else {
-                      saveButton.click()
-                        alert("Tracking removed");
-                    }
-                };
-
-                header.insertBefore(newButton, closeButton);
-            } else if (text.innerText == "Insert/Edit Media") {
-                document.querySelector(
-                    "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-                ).innerText += " (Max size: 1GB)";
+          newButton.onclick = function () {
+            if (templateIdRef.current == "") {
+              alert("Please select the template first before adding the link");
+              return;
             }
+            let firstToxControlWrap = document.querySelector(
+              "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
+            );
+
+            if (newLink?.value?.includes(baseLink) && newButton.innerText == "Remove Tracking") {
+              if (!window.confirm("Are you sure you want to remove the tracking?")) {
+                return;
+              }
+              const urlParams = new URLSearchParams(newLink.value);
+              const redirectUrl = urlParams.get('redirect_url');
+              const trackingCode = urlParams.get('tracking_code');
+              firstToxControlWrap.value = redirectUrl;
+              payload = {
+                template_id: templateIdRef.current,
+                url_code: trackingCode,
+              };
+            }
+
+            if (!newLink?.value?.includes(baseLink) && newButton.innerText == "Add Tracking") {
+              if (!newLink?.value) {
+                alert("Please enter a link")
+                return
+              }
+              if (!firstToxControlWrap.value) {
+                alert("Please enter a link");
+                return;
+              }
+              if (firstToxControlWrap.value.startsWith(baseLink)) {
+                alert("Tracking already added");
+                return;
+              }
+              let slugValue = prompt("Enter a slug value");
+
+              const currentTimestamp = Date.now();
+              payload = {
+                slug_value: slugValue,
+                template_id: templateIdRef.current,
+                url_code: `clicked_track_doc_${currentTimestamp}`,
+              };
+              linkingPayload.current = payload;
+              let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+              firstToxControlWrap.value = link;
+
+            }
+
+            var saveButton = document.querySelector(
+              '.tox-button[title="Save"]'
+            );
+            saveButton.addEventListener("click", function () {
+              axios
+                .post(apiLink, payload)
+                .then((res) => {
+                  console.log("done");
+                })
+                .catch((err) => {
+                  loader("hide");
+                  console.log(err);
+                });
+            });
+            if (newLink?.value?.includes(baseLink)) {
+              alert("Tracking added");
+            } else {
+              saveButton.click()
+              alert("Tracking removed");
+            }
+          };
+
+          header.insertBefore(newButton, closeButton);
+        } else if (text.innerText == "Insert/Edit Media") {
+          document.querySelector(
+            "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
+          ).innerText += " (Max size: 1GB)";
         }
+      }
     });
-};
-  
+  };
+
   const uploadImageToServer = async (file) => {
     try {
       loader("show");
@@ -1151,12 +1225,12 @@ const AutoEmail = () => {
     }
   };
 
-  const viewSmartListData = async(id) => {
+  const viewSmartListData = async (id) => {
     setAddListOpen(false);
     setSelectedListId(id);
   }
 
-  const closeSmartListPopup = async() => {
+  const closeSmartListPopup = async () => {
     setSelectedListId(0);
     setAddListOpen(true);
   }
@@ -1409,7 +1483,7 @@ const AutoEmail = () => {
                             templateName == "Welcome mail" ? (
                             <Editor
                               apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                              tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                               onInit={(evt, editor) =>
                                 (editorRef.current = editor)
                               }
@@ -1552,7 +1626,7 @@ const AutoEmail = () => {
                           ) : (
                             <Editor
                               apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                              tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                               onInit={(evt, editor) =>
                                 (editorRef.current = editor)
                               }
@@ -1721,10 +1795,11 @@ const AutoEmail = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
                       onClick={() => {
-                        if(!smartListData.length){
+                        if (!smartListData.length) {
                           getSmartListData(0);
                         }
-                        setAddListOpen(true)}}
+                        setAddListOpen(true)
+                      }}
                     >
                       Add Smart List +
                     </button>
@@ -1869,12 +1944,16 @@ const AutoEmail = () => {
                         "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                         ? "yes"
                         : "",
-                    institutionType: "",
+                    institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      ? irtInstitutionType?.[0]?.value
+                      : "",
+                    siteNumber: "",
+                    siteName: ""
                   },
                 ]);
                 // document.querySelector("#file-4").value = "";
                 setActiveManual("active");
-                
+
               }}
               type="button"
               className="btn-close"
@@ -1947,29 +2026,6 @@ const AutoEmail = () => {
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        //  id="institution-desc"
-                                        onChange={(event) =>
-                                          onInstitionTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                              label: val?.institutionType,
-                                              value: val?.institutionType,
-                                            }
-                                            : ""
-                                        }
-                                        placeholder="Select Institution"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">
                                         IRT mandatory training
@@ -2006,6 +2062,84 @@ const AutoEmail = () => {
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
+                                    <div className="form-group bottom">
+                                      <label for="">Institution <span>*</span>
+                                      </label>
+                                      {val?.optIrt == "yes" ? (
+                                        <Select
+                                          options={irtInstitutionType}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          //  id="institution-desc"
+                                          onChange={(event) =>
+                                            onInstitionTypeChange(event, i)
+                                          }
+                                          // defaultValue={
+                                          //   val?.institutionType
+                                          //     ? {
+                                          //       label: val?.institutionType,
+                                          //       value: val?.institutionType,
+                                          //     }
+                                          //     : ""
+                                          // }
+                                          value={
+                                            irtInstitutionType?.findIndex(
+                                              (el) => el.value == val?.institutionType
+                                            ) == -1
+                                              ? ""
+                                              : irtInstitutionType[
+                                              irtInstitutionType?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.institutionType
+                                              )
+                                              ]
+                                          }
+                                          isClearable
+                                          placeholder="Select Institution"
+                                        />
+                                      ) :
+                                        val?.optIrt == "no" ? (
+                                          <Select
+                                            options={nonIrtInstitutionType}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            //  id="institution-desc"
+                                            onChange={(event) =>
+                                              onInstitionTypeChange(event, i)
+                                            }
+                                            // defaultValue={
+                                            //   val?.institutionType
+                                            //     ? {
+                                            //       label: val?.institutionType,
+                                            //       value: val?.institutionType,
+                                            //     }
+                                            //     : ""
+                                            // }
+                                            value={
+                                              nonIrtInstitutionType?.findIndex(
+                                                (el) => el.value == val?.institutionType
+                                              ) == -1
+                                                ? ""
+                                                : nonIrtInstitutionType[
+                                                nonIrtInstitutionType?.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.institutionType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Institution"
+                                          />
+                                        ) :
+                                          (
+                                            <Select
+                                              className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                              placeholder="Select Institution"
+                                            />
+                                          )
+                                      }
+                                    </div>
+                                  </div>
+                                 
+                                  <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">IRT role</label>
                                       {val?.optIrt == "yes" ? (
@@ -2015,6 +2149,18 @@ const AutoEmail = () => {
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
+                                          // defaultValue={
+                                          //   irtRole?.findIndex(
+                                          //     (el) => el.value == val?.role
+                                          //   ) == -1
+                                          //     ? ""
+                                          //     : irtRole[
+                                          //     irtRole?.findIndex(
+                                          //       (el) =>
+                                          //         el.value == val?.role
+                                          //     )
+                                          //     ]
+                                          // }
                                           value={
                                             irtRole?.findIndex(
                                               (el) => el.value == val?.role
@@ -2117,7 +2263,7 @@ const AutoEmail = () => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country
-                                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
+                                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
                                       localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") ? <span>*</span> : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
@@ -2216,7 +2362,7 @@ const AutoEmail = () => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number {val?.optIrt == "yes" ? <span>*</span> : ""}</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -2246,7 +2392,7 @@ const AutoEmail = () => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name{val?.optIrt == "yes" ? <span>*</span> : ""}</label>
 
                                       <Select
                                         options={siteNameAll}
@@ -2303,7 +2449,7 @@ const AutoEmail = () => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>
@@ -2387,24 +2533,24 @@ const AutoEmail = () => {
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
-                            <h5>{data.name}</h5>
-                            <div className="select-mail-option">
-                              <input
-                                type="radio"
-                                name="radio"
-                                onClick={(e) => handleSelect(data, e)}
-                                checked={
-                                  typeof getSmartListId !== "undefined" &&
-                                    getSmartListId !== 0 &&
-                                    getSmartListId == data.id
-                                    ? "checked"
-                                    : ""
-                                }
-                              />
-                              <span className="checkmark"></span>
+                              <h5>{data.name}</h5>
+                              <div className="select-mail-option">
+                                <input
+                                  type="radio"
+                                  name="radio"
+                                  onClick={(e) => handleSelect(data, e)}
+                                  checked={
+                                    typeof getSmartListId !== "undefined" &&
+                                      getSmartListId !== 0 &&
+                                      getSmartListId == data.id
+                                      ? "checked"
+                                      : ""
+                                  }
+                                />
+                                <span className="checkmark"></span>
+                              </div>
                             </div>
-                            </div>
-                            <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData}/>
+                            <SmartListLayout data={data} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} />
                             {/* <div className="mailbox-table">
                               <table>
                                 <tbody>
@@ -2518,8 +2664,8 @@ const AutoEmail = () => {
 
       {
         selectedListId ?
-         <SmartListTableLayout id = {selectedListId}  closeSmartListPopup = {closeSmartListPopup} />
-         : null
+          <SmartListTableLayout id={selectedListId} closeSmartListPopup={closeSmartListPopup} />
+          : null
       }
     </>
   );

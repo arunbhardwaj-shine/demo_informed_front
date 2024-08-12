@@ -33,10 +33,13 @@ const VerifyHCP = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [irtInstitutionType, setIrtInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
   ]);
+  
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const filterConfig = {
     matchFrom: "start",
@@ -145,6 +148,7 @@ const VerifyHCP = (props) => {
   let reducHcp = selectedHcp.map((item) => {
     return item.profile_user_id;
   });
+
 
   const updateReader = (readers_d = "", type = 1) => {
     if (type == 1) {
@@ -259,12 +263,33 @@ const VerifyHCP = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              let instution_type = res?.data?.response?.data?.institution_type;
-              let newInstitutionType = [];
-              Object.keys(instution_type)?.map((item, i) => {
-                newInstitutionType.push({ label: item, value: item });
+
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
+
+              let non_irt_institution_type =
+              res?.data?.response?.data?.non_mandatory_institution_type;
+
+              let nonIrtInstitution = [];
+              Object.keys(non_irt_institution_type)?.map((item, i) => {
+              nonIrtInstitution.push({ label: item, value: item });
               });
-              setInstitutionType(newInstitutionType);
+
+              setNonIrtInstitutionType(nonIrtInstitution);
+
+            let irt_institution_type =
+            res?.data?.response?.data?.irt_institution_type;
+
+            let newIrtInstitution = [];
+            Object.keys(irt_institution_type)?.map((item, i) => {
+              newIrtInstitution.push({ label: item, value: item });
+            });
+
+            setIrtInstitutionType(newIrtInstitution);
               setRole(newType);
               setIrtRole(newIrtType);
             }
@@ -563,11 +588,11 @@ const VerifyHCP = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      if (e?.value == "Study site") {
-        onIRTChange("yes", i);
-      } else {
-        onIRTChange("no", i);
-      }
+      // if (e?.value == "Study site") {
+      //   onIRTChange("yes", i);
+      // } else {
+      //   onIRTChange("no", i);
+      // }
     }
   };
 
@@ -596,6 +621,7 @@ const VerifyHCP = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institutionType = "";
       setHpc(list);
     }
     let arr = [];
@@ -709,9 +735,10 @@ const VerifyHCP = (props) => {
   };
 
   const saveClicked = async () => {
+      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+        if (isRdAndNorgianAcount) {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -744,49 +771,76 @@ const VerifyHCP = (props) => {
       };
 
       const status = body.data.map((data) => {
+        if(irtRoleObj?.IRTFlag){
+          data.institution_type  = 'Study site';
+        }
+
         if (
           data.email == "" ||
-          data?.institution_type == "" ||
+          data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
           data.first_name == "" ||
           data.last_name == "" ||
-          data.country == ""
+          data.country == "" ||
+          data.siteNumber == "" ||
+          data.siteName == ""
         ) {
           if (
             data.first_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             return "Please enter the first name";
           } else if (
             data.last_name == "" &&
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isRdAndNorgianAcount
           ) {
             return "Please enter the last name";
           } else if (data.email == "") {
             return "Please enter the email atleast";
-          }
-          // else if (data.email != "") {
-          //   let email = data.email;
-          //   let useremail = email.trim();
-          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          //   if (regex.test(String(useremail).toLowerCase())) {
-          //     let prev_obj = selectedHcp.find((x) => x.email === useremail);
-          //     if (typeof prev_obj != "undefined") {
-          //       return "User with same email already added in list.";
-          //     }
-          //   } else {
-          //     return "Email format is not valid";
-          //   }
-          // }
-
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
-            if (data.institution_type == "") {
-              return "Please enter the institution ";
+          }else if (data.email != "") {
+            let email = data.email;
+            let useremail = email.trim();
+            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (regex.test(String(useremail).toLowerCase())) {
+              let prev_obj = selectedHcp.find((x) => x.email === useremail);
+              if (typeof prev_obj != "undefined") {
+                return "User with same email already added in list.";
+              }
+            } else {
+              return "Email format is not valid";
             }
+          }
+
+          if (isRdAndNorgianAcount && data.institution_type == "") {
+              return "Please Select the institution ";
+          
+          }
+
+          if (isRdAndNorgianAcount) {
+            // if (data.institution_type == "") {
+            //   return "Please enter the institution ";
+            // }
             if (data.country == "") {
               return "Please select the country";
             }
+			if(data?.siteIrt == 1 || irtRoleObj?.IRTFlag == 1){
+				if (data.siteNumber == "") {
+				  return "Please select the site number";
+				}
+				if (data.siteName == "") {
+				  return "Please select the site name";
+				}
+			}
+
+      // if(data?.siteIrt == 1 ){
+      //   if ( data.siteNumber === "" &&
+      //     (isRdAndNorgianAcount)) {
+      //       return "Please select the siteNumber";
+      //   }
+      //   if (data.siteName === "" &&
+      //     (isRdAndNorgianAcount)) {
+      //     return "Please select the siteName";
+      //   }
+      //  }
           }
           return "true";
         } else if (data.email != "") {
@@ -877,17 +931,35 @@ const VerifyHCP = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
-        if (
-          data?.firstname == "" ||
-          data?.lastname == "" ||
-          data?.country == "" ||
-          data?.email == "" ||
-          data?.institutionType == ""
-        ) {
-          return "false";
-        } else {
-          return "true";
+        if(irtRoleObj?.IRTFlag){
+            data.institutionType  = "Study site";
+            if (
+              data?.firstname == "" ||
+              data?.lastname == "" ||
+              data?.country == "" ||
+              data?.email == "" ||
+              data?.siteNumber == "" ||
+              data?.siteName == "" ||
+              data?.institutionType == ""
+            ) {
+              return "false";
+            } else {
+              return "true";
+            }
+        }else{
+          if (
+            data?.firstname == "" ||
+            data?.lastname == "" ||
+            data?.country == "" ||
+            data?.email == "" ||
+            data?.institutionType == ""
+          ) {
+            return "false";
+          } else {
+            return "true";
+          }
         }
+
       } else {
         if (data.email == "") {
           return "false";
@@ -2818,7 +2890,7 @@ const VerifyHCP = (props) => {
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
               {localStorage.getItem("user_id") == userId
-                ? "Add New User +"
+                ? "Add New IRT +"
                 : "Add New HCP"}
             </h5>
             <button
@@ -2904,121 +2976,170 @@ const VerifyHCP = (props) => {
                               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                               ? (
                                 <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
+                                  {
+                                    !irtRoleObj?.IRTFlag ?
+                                      <>
+                                        <div className="col-12 col-md-6">
+                                          <div className="form-group">
+                                            <label for="">
+                                              IRT mandatory training
+                                            </label>
+
+                                            <Select
+                                              options={optIRT}
+                                              className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                              onChange={(event) =>
+                                                onIRTChange(event?.value, i)
+                                              }
+                                              defaultValue={
+                                                val?.optIrt
+                                                  ? {
+                                                      label: "Yes",
+                                                      value: val?.optIrt,
+                                                    }
+                                                  : ""
+                                              }
+                                              value={
+                                                optIRT.findIndex(
+                                                  (el) => el.value == val?.optIrt
+                                                ) == -1
+                                                  ? ""
+                                                  : optIRT[
+                                                      optIRT.findIndex(
+                                                        (el) =>
+                                                          el.value == val?.optIrt
+                                                      )
+                                                    ]
+                                              }
+                                              placeholder="Select IRT"
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="col-12 col-md-6">
+                                          <div className="form-group bottom">
+                                            <label for="">
+                                              Institution <span>*</span>
+                                            </label>
+                                            {val?.optIrt == "yes" ? (
                                       <Select
-                                        options={institutionType}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        options={irtInstitutionType}
+                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">
-                                        IRT mandatory training
-                                      </label>
-
-                                      <Select
-                                        options={optIRT}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onIRTChange(event?.value, i)
-                                        }
-                                        defaultValue={
-                                          val?.optIrt
-                                            ? {
-                                                label: "Yes",
-                                                value: val?.optIrt,
-                                              }
-                                            : ""
-                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
                                         value={
-                                          optIRT.findIndex(
-                                            (el) => el.value == val?.optIrt
+                                          irtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
                                           ) == -1
                                             ? ""
-                                            : optIRT[
-                                                optIRT.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.optIrt
-                                                )
-                                              ]
+                                            : irtInstitutionType[
+                                              irtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
                                         }
-                                        placeholder="Select IRT"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role</label>
-                                      {val?.optIrt == "yes" ? (
+                                        isClearable
+                                        placeholder="Select institution"
+                                      />): 
+                                      val?.optIrt == "no" ? (
                                         <Select
-                                          options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          value={
-                                            irtRole?.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
+                                        options={nonIrtInstitutionType}
+                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        // defaultValue={
+                                        //   val?.institutionType
+                                        //     ? {
+                                        //         label: val?.institutionType,
+                                        //         value: val?.institutionType,
+                                        //       }
+                                        //     : ""
+                                        // }
+                                        value={
+                                          nonIrtInstitutionType.findIndex(
+                                            (el) => el.value == val?.institutionType
+                                          ) == -1
+                                            ? ""
+                                            : nonIrtInstitutionType[
+                                              nonIrtInstitutionType.findIndex(
+                                              (el) =>
+                                                el.value == val?.institutionType
+                                            )
+                                            ]
+                                        }
+                                        isClearable
+                                        placeholder="Select institution"
+                                      /> ): null}
+                                          </div>
+                                        </div>
+                                        <div className="col-12 col-md-6">
+                                          <div className="form-group">
+                                            <label for="">IRT role</label>
+                                            {val?.optIrt == "yes" ? (
+                                              <Select
+                                                options={irtRole}
+                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                onChange={(event) =>
+                                                  onRoleChange(event, i)
+                                                }
+                                                value={
                                                   irtRole?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : val?.optIrt == "no" ? (
-                                        <Select
-                                          options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          value={
-                                            role?.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : role[
+                                                    (el) => el.value == val?.role
+                                                  ) == -1
+                                                    ? ""
+                                                    : irtRole[
+                                                        irtRole?.findIndex(
+                                                          (el) =>
+                                                            el.value == val?.role
+                                                        )
+                                                      ]
+                                                }
+                                                isClearable
+                                                placeholder="Select Role"
+                                              />
+                                            ) : val?.optIrt == "no" ? (
+                                              <Select
+                                                options={role}
+                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                onChange={(event) =>
+                                                  onRoleChange(event, i)
+                                                }
+                                                value={
                                                   role?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : (
-                                        <Select
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder="Select Role"
-                                        />
-                                      )}
-                                    </div>
-                                  </div>
+                                                    (el) => el.value == val?.role
+                                                  ) == -1
+                                                    ? ""
+                                                    : role[
+                                                        role?.findIndex(
+                                                          (el) =>
+                                                            el.value == val?.role
+                                                        )
+                                                      ]
+                                                }
+                                                isClearable
+                                                placeholder="Select Role"
+                                              />
+                                            ) : (
+                                              <Select
+                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                placeholder="Select Role"
+                                              />
+                                            )}
+                                          </div>
+                                        </div>
+                                      </>
+                                    : null  
+                                  }
                                 </>
                               ) : (
                                 <>
@@ -3216,7 +3337,15 @@ const VerifyHCP = (props) => {
                                   {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label for="">Site number
+                                        <>
+                                          {
+                                            irtRoleObj?.IRTFlag || val?.optIrt == "yes"?
+                                            <span>*</span>
+                                             : null
+                                          }
+                                        </>
+                                      </label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -3237,7 +3366,16 @@ const VerifyHCP = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label for="">Site name
+                                        <>
+                                          {
+                                            irtRoleObj?.IRTFlag || val?.optIrt == "yes" ?
+                                            <span>*</span>
+                                             : null
+                                          }
+                                        </>
+
+                                      </label>
 
                                       <Select
                                         options={siteNameAll}
@@ -3291,7 +3429,7 @@ const VerifyHCP = (props) => {
                                     href="javascript:;"
                                   >
                                     {localStorage.getItem("user_id") == userId
-                                      ? "Add User +"
+                                      ? "Add IRT +"
                                       : "Add HCP +"}
                                   </a>
                                 </li>
