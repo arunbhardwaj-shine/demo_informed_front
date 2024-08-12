@@ -805,6 +805,7 @@ const ReadersListAdd = () => {
     }
   };
   const handleShow = () => {
+    setValidationError({});
     setIsOpenAdd(true);
     setHpc([
       {
@@ -1147,6 +1148,9 @@ const ReadersListAdd = () => {
     console.log(hpc);
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if(state?.siteRole != '' && state?.siteRole != null){
+          data.institute  = "Study site";
+        }
         if (data.email == "" || data.firstname == "" || data.lastname == "" || data.country == "" || data.institute == "" || typeof (data.institute) == "undefined") {
           return "false";
         } else {
@@ -1214,42 +1218,93 @@ const ReadersListAdd = () => {
         };
       });
 
-      const status = body_data.map((data) => {
-        if (data.firtName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
-          return "Please enter the first name";
+      const status = body_data.map((data, index) => {
+        if (state?.siteRole != "" && state?.siteRole != null) {
+          data.institute = 'Study site';
+          data.role = state?.siteRole;
         }
-        else if (data.lastName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
-          return "Please enter the last name";
+        if (data.firtName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+          // return "Please enter the first name";
+          setValidationError({
+            newHcpFirstName: "Please enter the first name",
+            index: index,
+          });
+          return;
+        }
+        else if (data.lastName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+          // return "Please enter the last name";
+          setValidationError({
+            newHcpLastName: "Please enter the last name",
+            index: index,
+          });
+          return;
         }
 
         else if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if (data.institute == "") {
-          return "Please select Institution";
+          // return "Please enter the email atleast";
+          setValidationError({
+            newHcpEmail: "Please enter the email atleast",
+            index: index,
+          });
+          return;
         }
-        else if (data.country == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
-          return "Please select Country";
+        else if (data.institute == "") {
+          // return "Please select Institution";
+          setValidationError({
+            newHcpInstitution: "Please Select the institution",
+            index: index,
+          });
+          return;
         }
-        else if (data.email != "") {
+        else if (data.country == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+          // return "Please select Country";
+          setValidationError({
+            newHcpCountry: "Please select the country",
+            index: index,
+          });
+          return;
+        }else if ((state?.siteRole != "" && state?.siteRole != null) && data.siteNumber == "") {
+            setValidationError({
+              newSiteNumber: "Please select the site number",
+              index: index,
+            });
+            return;
+        }else if((state?.siteRole != "" && state?.siteRole != null) && data.siteName == ""){
+            // return "Please select the site name";
+            setValidationError({
+              newSiteName: "Please select the site name",
+              index: index,
+            });
+            return;
+        }else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = readersData.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
-            } else {
+              // return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+                index: index,
+              });
+              return;
+            }else{
               return "true";
             }
             return "true";
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              newHcpEmail: "Email format is not valid",
+              index: index,
+            });
+            return ;
           }
-        } else {
+        }
+        else {
           return "true";
         }
       });
-      console.log(status, "status")
       if (status.every((element) => element == "true")) {
         let old_data = readersData;
         let new_data = body_data;
@@ -1588,7 +1643,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('firtName')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1613,7 +1668,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('email')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1638,7 +1693,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('country')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1668,7 +1723,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('siteNumber')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1693,7 +1748,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('irt')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1718,7 +1773,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('role')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1746,7 +1801,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('ibu')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1771,7 +1826,7 @@ const ReadersListAdd = () => {
                                 onClick={() => handleSort('contact_type')}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                  <g clip-path="url(#clip0_3722_6611)">
+                                  <g clipPath="url(#clip0_3722_6611)">
                                     <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                                   </g>
                                   <defs>
@@ -1809,7 +1864,7 @@ const ReadersListAdd = () => {
                               }
                             >
                               <td
-                                contenteditable={
+                                contentEditable={
                                   editable === 0 ? "false" : "true"
                                 }
                                 suppressContentEditableWarning={true}
@@ -1871,7 +1926,7 @@ const ReadersListAdd = () => {
                                     <span>{item?.contact_type}</span>
                                   )}
                               </td>
-                              <td className="delete_row" colspan="12">
+                              <td className="delete_row" colSpan="12">
                                 <img
                                   src={path_image + "delete.svg"}
                                   alt="Delete Row"
@@ -1886,7 +1941,7 @@ const ReadersListAdd = () => {
                         {typeof getNewReaders !== "undefined" &&
                           getNewReaders.length > 0 && (
                             <tr className="seprator-add">
-                              <td colspan="13"></td>
+                              <td colSpan="13"></td>
                             </tr>
                           )}
 
@@ -1988,7 +2043,7 @@ const ReadersListAdd = () => {
                           })
                         ) : (
                           <tr className="no_found">
-                            <td colspan="5">No Data Found</td>
+                            <td colSpan="5">No Data Found</td>
                           </tr>
                         )}
                       </tbody>
@@ -2016,14 +2071,14 @@ const ReadersListAdd = () => {
         <div
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               {(localStorage.getItem("user_id") == userId
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                ? "Add New User +"
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (state?.siteRole != "" && state?.siteRole != null)
+                ? "Add New IRT +"
                 : "Add New HCP"}
             </h5>
             <button
@@ -2078,12 +2133,26 @@ const ReadersListAdd = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpFirstName &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    placeholder="First Name"
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
                                   />
+
+                                  {validationError?.newHcpFirstName &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpFirstName}
+                                    </div>
+                                  ) : null}
+
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -2099,12 +2168,25 @@ const ReadersListAdd = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpLastName &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    placeholder="Last Name"
                                     onChange={(event) =>
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
                                   />
+
+                                  {validationError?.newHcpLastName &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpLastName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -2120,6 +2202,7 @@ const ReadersListAdd = () => {
                                         : "form-control"
                                     }
                                     id="email-desc"
+                                    placeholder="example@email.com"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
                                       onEmailChange(event, i)
@@ -2140,7 +2223,7 @@ const ReadersListAdd = () => {
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Contact type</label>
+                                    <label htmlFor="">Contact type</label>
                                     <DropdownButton
                                       className="dropdown-basic-button split-button-dropup"
                                       title={
@@ -2196,7 +2279,7 @@ const ReadersListAdd = () => {
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Country</label>
+                                    <label htmlFor="">Country</label>
                                     <Select
                                       options={countryall}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2245,118 +2328,127 @@ const ReadersListAdd = () => {
                                 ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <>
-                                  <hr />
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Institution <span>*</span></label>
-                                      <Select
-                                        options={instituions}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          instituions[
-                                          hpc[i].instituteIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof instituions[
-                                            hpc[i].instituteIndex
-                                          ] === "undefined"
-                                            ? "Select Institutions"
-                                            : instituions[
+                                  {
+                                    state?.siteRole == "" && state?.siteRole == null ? 
+                                    
+                                    <>
+                                    <hr />
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">Institution <span>*</span></label>
+                                        <Select
+                                          options={instituions}
+                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          defaultValue={
+                                            instituions[
                                             hpc[i].instituteIndex
                                             ]
-                                        }
-                                      />
+                                          }
+                                          placeholder={
+                                            typeof instituions[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : instituions[
+                                              hpc[i].instituteIndex
+                                              ]
+                                          }
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
-                                      <Select
-                                        options={siteIrtAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteIrtChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        value={
-                                          siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteIrtAll[
-                                            hpc[i].siteIrtIndex
-                                          ] === "undefined"
-                                            ? "Select Site IRT"
-                                            : siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role</label>
-                                      {siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "Yes" ? (
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">IRT mandatory training</label>
                                         <Select
-                                          options={irtRole}
+                                          options={siteIrtAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                           onChange={(event) =>
-                                            onUserTypeChange(event, i)
+                                            onSiteIrtChange(
+                                              event,
+  
+                                              i
+                                            )
                                           }
                                           value={
-                                            irtRole.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
+                                            siteIrtAll[hpc[i].siteIrtIndex]
+                                          }
+                                          placeholder={
+                                            typeof siteIrtAll[
+                                              hpc[i].siteIrtIndex
+                                            ] === "undefined"
+                                              ? "Select Site IRT"
+                                              : siteIrtAll[hpc[i].siteIrtIndex]
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">IRT role</label>
+                                        {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ? (
+                                          <Select
+                                            options={irtRole}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onUserTypeChange(event, i)
+                                            }
+                                            value={
                                               irtRole.findIndex(
-                                                (el) =>
-                                                  el.value == val?.userType
-                                              )
-                                              ]
-                                          }
-                                          placeholder={"Select Role"}
-                                          isClearable
-                                        // filterOption={createFilter(filterConfig)}
-                                        />
-                                      ) : siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "No" ? (
-                                        <Select
-                                          options={userTypeAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onUserTypeChange(event, i)
-                                          }
-                                          value={
-                                            userTypeAll.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : userTypeAll[
+                                                (el) => el.value == val?.userType
+                                              ) == -1
+                                                ? ""
+                                                : irtRole[
+                                                irtRole.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.userType
+                                                )
+                                                ]
+                                            }
+                                            placeholder={"Select Role"}
+                                            isClearable
+                                          // filterOption={createFilter(filterConfig)}
+                                          />
+                                        ) : siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "No" ? (
+                                          <Select
+                                            options={userTypeAll}
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            onChange={(event) =>
+                                              onUserTypeChange(event, i)
+                                            }
+                                            value={
                                               userTypeAll.findIndex(
-                                                (el) =>
-                                                  el.value == val?.userType
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder={"Select Role"}
-                                        // filterOption={createFilter(filterConfig)}
-                                        />
-                                      ) : (
-                                        <Select
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder={"Select Role"}
-                                        />
-                                      )}
+                                                (el) => el.value == val?.userType
+                                              ) == -1
+                                                ? ""
+                                                : userTypeAll[
+                                                userTypeAll.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.userType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder={"Select Role"}
+                                          // filterOption={createFilter(filterConfig)}
+                                          />
+                                        ) : (
+                                          <Select
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            placeholder={"Select Role"}
+                                          />
+                                        )}
+                                      </div>
                                     </div>
-                                  </div>
+                                    </>
+                                    : 
+                                    <>
+                                    </>
+                                  }
                                   {
                                     /*<div className="col-12 col-md-6">
                                       <div className="form-group">
@@ -2386,9 +2478,9 @@ const ReadersListAdd = () => {
                                   }
 
 
-                                  <div className="col-12 col-md-6">
+                                  {/* <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Study role</label>
+                                      <label htmlFor="">Study role</label>
                                       <Select
                                         options={subUserTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2413,97 +2505,114 @@ const ReadersListAdd = () => {
                                       //  isClearable
                                       />
                                     </div>
-                                  </div>
+                                  </div> */}
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Country {
-                                        (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                        && <span>*</span>
-                                      }</label>
-                                      {siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "Yes" ? (
-                                        <Select
-                                          options={irtCountry}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onCountryChange(event, i)
+
+                                        <label htmlFor="">Country
+                                          {
+                                            (localStorage.getItem("user_id") ==
+                                              "56Ek4feL/1A8mZgIKQWEqg=="
+                                              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                            && <span>*</span>
                                           }
-                                          value={
-                                            irtCountry.findIndex(
-                                              (el) => el.value == val?.country
-                                            ) == -1
-                                              ? ""
-                                              : irtCountry[
-                                              irtCountry.findIndex(
-                                                (el) =>
-                                                  el.value == val?.country
-                                              )
-                                              ]
-                                          }
-                                          placeholder="Select Country"
-                                          filterOption={createFilter(
-                                            filterConfig
-                                          )}
-                                          isClearable
-                                        />
-                                      ) : (
-                                        <Select
-                                          options={countryall}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onCountryChange(event, i)
-                                          }
-                                          value={
-                                            countryall.findIndex(
-                                              (el) => el.value == val?.country
-                                            ) == -1
-                                              ? ""
-                                              : countryall[
-                                              countryall.findIndex(
-                                                (el) =>
-                                                  el.value == val?.country
-                                              )
-                                              ]
-                                          }
-                                          placeholder="Select Country"
-                                          filterOption={createFilter(
-                                            filterConfig
-                                          )}
-                                          isClearable
-                                        />
-                                      )}
-                                      {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
+                                        </label>
+
+                                        {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ? (
+                                          <>
+                                            <Select
+                                              options={irtCountry}
+                                              className={
+                                                validationError?.index == i &&
+                                                  validationError?.newHcpCountry
+                                                  ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                  : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                              }
+                                              onChange={(event) =>
+                                                onCountryChange(event, i)
+                                              }
+                                              value={
+                                                irtCountry.findIndex(
+                                                  (el) => el.value == val?.country
+                                                ) == -1
+                                                  ? ""
+                                                  : irtCountry[
+                                                  irtCountry.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.country
+                                                  )
+                                                  ]
+                                              }
+                                              placeholder="Select Country"
+                                              filterOption={createFilter(
+                                                filterConfig
+                                              )}
+                                              isClearable
+                                            />
+
+                                            {validationError?.newHcpCountry &&
+                                              validationError?.index == i && (
+                                                <div className="login-validation">
+                                                  {validationError?.newHcpCountry}
+                                                </div>
+                                              )}
+                                          </>
+                                        ) : (
+                                          <>
+                                            <Select
+                                              options={countryall}
+                                              className={
+                                                validationError?.index == i &&
+                                                  validationError?.newHcpCountry
+                                                  ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                  : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                              }
+                                              onChange={(event) =>
+                                                onCountryChange(event, i)
+                                              }
+                                              value={
+                                                countryall.findIndex(
+                                                  (el) => el.value == val?.country
+                                                ) == -1
+                                                  ? ""
+                                                  : countryall[
+                                                  countryall.findIndex(
+                                                    (el) =>
+                                                      el.value == val?.country
+                                                  )
+                                                  ]
+                                              }
+                                              placeholder="Select Country"
+                                              filterOption={createFilter(
+                                                filterConfig
+                                              )}
+                                              isClearable
+                                            />
+
+                                            {validationError?.newHcpCountry &&
+                                              validationError?.index == i && (
+                                                <div className="login-validation">
+                                                  {validationError?.newHcpCountry}
+                                                </div>
+                                              )}
+                                          </>
+                                        )}
                                     </div>
                                   </div>
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number</label>
+                                      <label htmlFor="">Site number <span> *</span></label>
                                       <Select
                                         options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteNumber
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
@@ -2514,9 +2623,6 @@ const ReadersListAdd = () => {
                                             ]
                                             : ""
                                         }
-                                        // defaultValue={
-                                        //   siteNumberAll[hpc[i].siteNumberIndex]
-                                        // }
                                         placeholder={
                                           typeof siteNumberAll[
                                             hpc[i].siteNumberIndex
@@ -2526,48 +2632,30 @@ const ReadersListAdd = () => {
                                             hpc[i].siteNumberIndex
                                             ]
                                         }
-                                      // onChange={(event) =>
-                                      //   onUserTypeChange(event, i)
-                                      // }
-                                      // defaultValue={
-                                      //   userTypeAll[
-                                      //     hpc[i].userTypeIndex
-                                      //   ]
-                                      // }
-                                      // placeholder={
-                                      //   typeof userTypeAll[
-                                      //     hpc[i].userTypeIndex
-                                      //   ] === "undefined"
-                                      //     ? "Select User Type"
-                                      //     : userTypeAll[
-                                      //         hpc[i].userTypeIndex
-                                      //       ]
-                                      // }
-                                      // filterOption={createFilter(filterConfig)}
                                       />
+                                      {validationError?.newSiteNumber &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteNumber}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name</label>
+                                      <label htmlFor="">Site name <span> *</span></label>
 
                                       <Select
                                         options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteName
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // valueField={
-                                        //   siteNameAll[hpc[i].siteNameIndex]?.value
-                                        // }
                                         value={
                                           siteNameAll[hpc[i].siteNameIndex]
                                             ? siteNameAll[hpc[i].siteNameIndex]
@@ -2583,266 +2671,27 @@ const ReadersListAdd = () => {
                                             ? "Select Site Name"
                                             : siteNameAll[hpc[i].siteNameIndex]
                                         }
-                                      // filterOption={createFilter(filterConfig)}
                                       />
+                                      {validationError?.newSiteName &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteName}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
-
-                                  {/* <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Street</label>
-                                      <Select
-                                        options={siteStreetAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteStreetChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteStreetAll[
-                                            hpc[i].siteStreetIndex
-                                          ] === "undefined"
-                                            ? "Select Site Street"
-                                            : siteStreetAll[
-                                                hpc[i].siteStreetIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Post Code</label>
-                                      <Select
-                                        options={sitePostalCodeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSitePostCode(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ] === "undefined"
-                                            ? "Select Post Code"
-                                            : sitePostalCodeAll[
-                                                hpc[i].sitePostCodeIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site City</label>
-                                      <Select
-                                        options={siteCityAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteCityChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteCityAll[
-                                            hpc[i].siteCityIndex
-                                          ] === "undefined"
-                                            ? "Select Site City"
-                                            : siteCityAll[hpc[i].siteCityIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>*/}
-
-                                  {/* <button onClick={(e) => addMoreSite(i, e)}>
-                                    +
-                                  </button> */}
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
                                       <>
-                                        {/* {index !== 0 ? (
-                                          <>
-                                            <div className="add-content-form">
-                                              <div className="row">
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site number
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNumberChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteNumber}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site name
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNameChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteName}
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Street
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteStreetChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteStreet}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Post Code
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSitePostCode(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.sitePostCode}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site City
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteCityChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteCity}
-                                                    />
-                                                  </div>
-                                                  <div className="delete_btn">
-                                                    {index !== 0 ? (
-                                                      <button
-                                                        type="button"
-                                                        className="btn btn-filled"
-                                                        onClick={(e) =>
-                                                          removeSite(
-                                                            index,
-                                                            i,
-                                                            e
-                                                          )
-                                                        }
-                                                      >
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "delete.svg"
-                                                          }
-                                                          alt="Add More"
-                                                        />
-                                                      </button>
-                                                    ) : null}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </>
-                                        ) : ( */}
-                                        <>
-                                          <div className="add-content-form">
-                                            <div className="row"></div>
-                                          </div>
-                                        </>
-                                        {/* )} */}
+                                        <div className="add-content-form">
+                                          <div className="row"></div>
+                                        </div>
                                       </>
                                     );
                                   })}
                                 </>
                               ) : null}
-                              {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
                             </div>
                           </div>
 
@@ -2877,7 +2726,7 @@ const ReadersListAdd = () => {
                                     {(localStorage.getItem("user_id") == userId
                                     ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
 
-                                      ? "Add User +"
+                                      ? "Add IRT +"
                                       : "Add HCP +"}
                                   </a>
                                 </li>
@@ -2902,40 +2751,6 @@ const ReadersListAdd = () => {
                     );
                   })}
                 </form>
-
-                {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="file_upload-box">
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-4[]"
-                            id="file-4"
-                            className="inputfile inputfile-3"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={onFileChange}
-                            data-multiple-caption="{count} files selected"
-                            multiple
-                            // ref={file_name}
-                          />
-
-                          {file_name.current?.files === undefined ||
-                          file_name.current.files?.length === 0 ? (
-                            <>
-                              <label htmlFor="file-4">
-                                <span>Choose Your File</span>
-                              </label>
-                              <p>Upload your excel file</p>
-                            </>
-                          ) : (
-                            <h5>{file_name.current.files[0].name}</h5>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  */}
               </div>
             </div>
           </div>
@@ -2961,14 +2776,15 @@ const ReadersListAdd = () => {
         <div
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           aria-hidden="true"
         >
+          
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               {(localStorage.getItem("user_id") == userId 
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-              ? "Add New User +" : "Add New HCP"}
+              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (state?.siteRole != "" && state?.siteRole != null)
+              ? "Add New IRT +" : "Add New HCP"}
             </h5>
             <button
               onClick={() => {

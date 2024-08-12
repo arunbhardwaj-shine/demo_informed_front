@@ -78,12 +78,12 @@ const RDAnalytics = () => {
   const [filterdata, setFilterData] = useState({
     'training_status_code': [
       { "id": 1, 'title': 'New' },
-      { "id": 2, 'title': 'Completed' },
       { "id": 3, 'title': 'Invited' },
-      { "id": 4, 'title': 'Ignored' },
       { "id": 5, 'title': 'Started' },
+      { "id": 2, 'title': 'Completed' },
       { "id": 6, 'title': 'Not Completed' },
-      { "id": 7, 'title': 'Blocked' }
+      { "id": 4, 'title': 'Ignored' },
+      { "id": 7, 'title': 'Blocked' },
     ],
     'user_type': ['Site User-Blinded', 'Investigator-Blinded', 'Site unblinded pharmacist'],
     'site_number': []
@@ -1371,15 +1371,15 @@ const RDAnalytics = () => {
                                               <ul>
                                                 {filterdata[key]?.length
                                                   ? filterdata[key]
-                                                    ?.sort((a, b) => {
-                                                      if (key === "training_status_code") {
-                                                        const itemA = typeof a === "object" ? a?.title : a;
-                                                        const itemB = typeof b === "object" ? b?.title : b;
-                                                        return itemA.localeCompare(itemB);
-                                                      }
-                                                      // If not "training_status_code", do not sort
-                                                      return 0;
-                                                    })
+                                                    // ?.sort((a, b) => {
+                                                    //   if (key === "training_status_code") {
+                                                    //     const itemA = typeof a === "object" ? a?.title : a;
+                                                    //     const itemB = typeof b === "object" ? b?.title : b;
+                                                    //     return itemA.localeCompare(itemB);
+                                                    //   }
+                                                    //   // If not "training_status_code", do not sort
+                                                    //   return 0;
+                                                    // })
 
                                                     ?.map(
                                                       (item, index) => (
