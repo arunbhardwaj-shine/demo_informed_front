@@ -104,14 +104,14 @@ const TemplateBuilder = (props) => {
       country: "",
       role:
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-          ? irtRole?.[0]?.value
+          ?"Site User-Blinded"
           : "",
       optIrt:
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? "yes"
           : "",
           institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-          ? irtInstitutionType?.[0]?.value
+          ? "Study site"
           : "",
         siteNumber: "",
         siteName: ""
@@ -470,15 +470,15 @@ const TemplateBuilder = (props) => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         if(data?.optIrt=="yes"){
-          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" 
-            || data.country == ""||data?.siteName==""||data?.siteNumber=="") {
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" ||data?.role==""
+            || data?.country == ""||data?.siteName==""||data?.siteNumber=="") {
               
             return "false";
           } else {
             return "true";
           }
         }else{
-          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" || data.country == "") {
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == "") {
             return "false";
           } else {
             return "true";
@@ -487,14 +487,14 @@ const TemplateBuilder = (props) => {
        
       }
       else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
-        if (data.email == "" || data.country == "") {
+        if (data?.email == "" || data?.country == "") {
           return "false"
         } else {
           return "true"
         }
       }
       else {
-        if (data.email == "") {
+        if (data?.email == "") {
           return "false";
         } else {
           return "true";
@@ -884,14 +884,14 @@ const TemplateBuilder = (props) => {
         country: "",
         role:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-            ? irtRole?.[0]?.value
+            ? "Site User-Blinded"
             : "",
         optIrt:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "yes"
             : "",
             institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-            ? irtInstitutionType?.[0]?.value
+            ? "Study site"
             : "",
           siteNumber: "",
           siteName: ""
@@ -1085,7 +1085,7 @@ const TemplateBuilder = (props) => {
     setSmartListId(data.id);
   };
 
-  const saveClicked = async () => {
+  const saveClicked = async () => {    
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
@@ -1145,7 +1145,14 @@ const TemplateBuilder = (props) => {
               index: index,
             });
            return ;
-         }   else if (data?.country == "") {
+         }  else if (data?.investigator_type == "") {
+          setValidationError({
+            role: "Please select the role",
+            index: index,
+          });
+         return ;
+       }
+           else if (data?.country == "") {
             
           setValidationError({
           country: "Please select country ",
@@ -1233,7 +1240,7 @@ const TemplateBuilder = (props) => {
               loader("hide");
             }
             loader("hide");
-            //setSelectedHcp(res.data.response.data);
+           
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -3022,6 +3029,7 @@ const TemplateBuilder = (props) => {
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
+                                    placeholder="First name"
                                   />
                                   { validationError?.firstName&&validationError?.index==i  &&
                                     localStorage.getItem("user_id") ==
@@ -3054,6 +3062,7 @@ const TemplateBuilder = (props) => {
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
+                                    placeholder="Last name"
                                   />
                                   { validationError?.lastName&&validationError?.index==i &&
                                     localStorage.getItem("user_id") ==
@@ -3083,6 +3092,7 @@ const TemplateBuilder = (props) => {
                                       onEmailChange(event, i)
                                     }
                                     value={val.email}
+                                    placeholder="example@email.com"
                                   />
                                   {validationError?.newHcpEmail &&
                                     validationError?.index == i ? (
@@ -3217,11 +3227,14 @@ const TemplateBuilder = (props) => {
                                   </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT role</label>
+                                      <label for="">IRT role <span> *</span></label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.role &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
@@ -3243,7 +3256,10 @@ const TemplateBuilder = (props) => {
                                       ) : val?.optIrt == "no" ? (
                                         <Select
                                           options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.role &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
@@ -3268,6 +3284,12 @@ const TemplateBuilder = (props) => {
                                           placeholder="Select Role"
                                         />
                                       )}
+                                       {(validationError?.role &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.role}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
                                 </>
