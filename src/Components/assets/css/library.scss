@@ -8442,8 +8442,14 @@ svg.pencil_icon {
 }
 
 .create-reader .split-button-dropup>div:nth-child(3),
-.create-reader .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
+.create-reader .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"]{
   font-size: 16px;
+}
+
+#add_hcp .split-button-dropup.edit-country-dropdown>div div[class*="-singleValue"],
+#add_hcp .split-button-dropup.edit-country-dropdown>div div[class*="-placeholder"] {
+  color: #97B6CF;
+  font-weight: 300;
 }
 
 /***Informed End***/
