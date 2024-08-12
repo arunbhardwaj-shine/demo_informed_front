@@ -1635,6 +1635,7 @@ const CreateEmail = (props) => {
   };
 
   const saveClicked = async () => {
+
     if (activeManual == "active") {
  
  
@@ -1701,7 +1702,7 @@ const CreateEmail = (props) => {
             });
             return;
           }
-          if (
+          else if (
             data.last_name == "" &&
             (isRdAndNorgianAcount)
           ) {
@@ -1711,7 +1712,7 @@ const CreateEmail = (props) => {
             });
             return;
           }
-          if (data.email == "") {
+          else if (data.email == "") {
             setValidationError({
               newHcpEmail: "Please enter the email",
               index: index,
@@ -1720,14 +1721,14 @@ const CreateEmail = (props) => {
             return;
           }
  
-          if (data.institution_type == "") {
+          else if (data.institution_type == "") {
             setValidationError({
               newHcpInstitution: "Please Select the institution type",
               index: index,
             });
             return;
           }
-          if (
+          else if (
             data.country == "" &&
             (isRdAndNorgianAcount)
           ) {
@@ -1739,7 +1740,7 @@ const CreateEmail = (props) => {
           }
  
           
-       if(data?.siteIrt == 1 ){
+       else if(data?.siteIrt == 1 ){
         if ( data.siteNumber === "" &&
           (isRdAndNorgianAcount)) {
           setValidationError({
@@ -1773,7 +1774,7 @@ const CreateEmail = (props) => {
           });
           return;
         }      
-        else if (data.email != "") {
+         if (data.email != "") {
  
           let email = data.email;
           let useremail = email.trim();
@@ -3850,11 +3851,14 @@ const CreateEmail = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT role</label>
+                                      <label for="">IRT role <span>*</span></label>
                                       {val.optIRT == "yes" ? (
                                         <Select
                                           options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.role &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onRoleChange(event, i, "role")
                                           }
@@ -3876,7 +3880,10 @@ const CreateEmail = (props) => {
                                       ) : val.optIRT == "no" ? (
                                         <Select
                                           options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.role &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onRoleChange(event, i, "irtRole")
                                           }
@@ -3901,6 +3908,12 @@ const CreateEmail = (props) => {
                                           placeholder="Select Role"
                                         />
                                       )}
+                                      {(validationError?.role &&
+                                        validationError?.index == i) ? (
+                                        <div className="login-validation">
+                                          {validationError?.role}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </>
