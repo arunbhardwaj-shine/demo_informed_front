@@ -1449,7 +1449,7 @@ const VerifyMAIL = (props) => {
         </Modal.Body>
         <h4>
           {" "}
-          {mailsIncrement} mails sent of {selectedHcp.length}
+          {mailsIncrement} mails sent of {selectedHcp?.length}
         </h4>
       </Modal>
 
