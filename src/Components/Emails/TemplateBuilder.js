@@ -3006,7 +3006,7 @@ const TemplateBuilder = (props) => {
                                     First name
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
-                                      <span>*</span>
+                                      <span> *</span>
                                     ) : null}
                                   </label>
                                   <input
@@ -3038,7 +3038,7 @@ const TemplateBuilder = (props) => {
                                     Last name
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
-                                      <span>*</span>
+                                      <span> *</span>
                                     ) : null}
                                   </label>
                                   <input
@@ -3330,7 +3330,7 @@ const TemplateBuilder = (props) => {
                                     {(localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
-                                      <span>*</span>
+                                      <span> *</span>
                                     ) : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
@@ -3490,7 +3490,7 @@ const TemplateBuilder = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name {val?.optIrt == "yes" ? <span>*</span> : ""}</label>
+                                      <label for="">Site name {val?.optIrt == "yes" ? <span> *</span> : ""}</label>
 
                                       <Select
                                         options={siteNameAll}
