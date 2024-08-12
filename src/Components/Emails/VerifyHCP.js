@@ -2926,6 +2926,7 @@ const VerifyHCP = (props) => {
                                   <input
                                     type="text"
                                     className="form-control"
+                                    placeholder="First Name"
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
@@ -2947,6 +2948,7 @@ const VerifyHCP = (props) => {
                                   <input
                                     type="text"
                                     className="form-control"
+                                    placeholder="Last Name"
                                     onChange={(event) =>
                                       onLastNameChange(event, i)
                                     }
@@ -2962,6 +2964,7 @@ const VerifyHCP = (props) => {
                                   <input
                                     type="email"
                                     className="form-control"
+                                    placeholder="example@email.com"
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
@@ -3334,14 +3337,13 @@ const VerifyHCP = (props) => {
                               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                               ? (
                                 <>
-                                  {" "}
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site number
                                         <>
                                           {
                                             irtRoleObj?.IRTFlag || val?.optIrt == "yes"?
-                                            <span>*</span>
+                                            <span> *</span>
                                              : null
                                           }
                                         </>
@@ -3370,7 +3372,7 @@ const VerifyHCP = (props) => {
                                         <>
                                           {
                                             irtRoleObj?.IRTFlag || val?.optIrt == "yes" ?
-                                            <span>*</span>
+                                            <span> *</span>
                                              : null
                                           }
                                         </>
