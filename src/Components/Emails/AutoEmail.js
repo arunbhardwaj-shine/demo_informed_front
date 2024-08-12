@@ -892,9 +892,7 @@ const AutoEmail = () => {
             loader("hide");
           });
 
-      } else {
-        toast.warning(status[0]);
-      }
+      } 
     }
   };
 

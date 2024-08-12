@@ -1402,10 +1402,7 @@ const Table = (props, ref) => {
     props.api_flag(0);
   };
   const saveClickedRd = async () => {
-    // setShowSaveReader(true);
-
-    // setIsOpenAdd(false);
-
+  
     if (activeManual == "active") {
       const body_data = hpc.map((data, index) => {
         return {
@@ -1435,8 +1432,6 @@ const Table = (props, ref) => {
       };
 
       const status = body.data.map((data, index) => {
-        // let validRegex =
-        //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (
           data.first_name == "" && localStorage.getItem("user_id") == userId) {
           setValidationError({
@@ -1460,13 +1455,20 @@ const Table = (props, ref) => {
           return;
         } else if (data.institution_type == "" && localStorage.getItem("user_id") == userId) {
           setValidationError({
-            institutionType: "Please select Institution",
+            institutionType: "Please select the Institution type",
             index: index,
           });
           return;
-        } else if (data.country == "") {
+        }else if (data.investigator_type == "" && localStorage.getItem("user_id") == userId) {
           setValidationError({
-            country: "Please select country",
+            role: "Please select the role",
+            index: index,
+          });
+          return;
+        } 
+        else if (data.country == "") {
+          setValidationError({
+            country: "Please select the country",
             index: index,
           });
           return;
@@ -1553,13 +1555,9 @@ const Table = (props, ref) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        // toast.warning(status[0]);
-        const filteredArray = status.filter((value) => value !== "true");
-        toast.warning(filteredArray?.[0]);
-      }
+      } 
 
-      //setIsOpen(false);
+     
     } else {
       let formData = new FormData();
       let user_id = localStorage.getItem("user_id");
@@ -1612,9 +1610,6 @@ const Table = (props, ref) => {
     }
   };
   const saveClicked = async () => {
-    // setShowSaveReader(true);
-
-    // setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data, index) => {
@@ -1638,7 +1633,7 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
           setValidationError({
-            email: "Please enter the email atleast",
+            email: "Please enter the email",
             index: index,
           });
           return;
@@ -1665,7 +1660,6 @@ const Table = (props, ref) => {
               return "true";
             }
 
-            return "true";
           } else {
             setValidationError({
               email: "Email format is not valid",
@@ -1679,6 +1673,7 @@ const Table = (props, ref) => {
       });
 
       if (status.every((element) => element == "true")) {
+        console.log("body in if--->",body)
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
@@ -1715,11 +1710,9 @@ const Table = (props, ref) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        toast.warning(status[0]);
       }
 
-      //setIsOpen(false);
+      
     } else {
       let formData = new FormData();
       let user_id = localStorage.getItem("user_id");
@@ -3044,12 +3037,14 @@ const Table = (props, ref) => {
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">IRT role</label>
+                                        <label for="">IRT role <span> *</span></label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
                                           <Select
                                             options={irtRole}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.role && validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
@@ -3062,7 +3057,9 @@ const Table = (props, ref) => {
                                           ?.value === "No" ? (
                                           <Select
                                             options={userTypeAll}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.role && validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
@@ -3080,6 +3077,11 @@ const Table = (props, ref) => {
                                             placeholder={"Select Role"}
                                           />
                                         )}
+                                        {(validationError?.role && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.role}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
 
@@ -3421,6 +3423,7 @@ const Table = (props, ref) => {
                                         onFirstNameChange(event, i)
                                       }
                                       value={val.firstname}
+                                       placeholder="First name"
                                     />
                                     
                                   </div>
@@ -3435,6 +3438,7 @@ const Table = (props, ref) => {
                                         onLastNameChange(event, i)
                                       }
                                       value={val.lastname}
+                                       placeholder="Last name"
                                     />
                                     {validationError?.lastName &&
                                       validationError?.index == i ? (
@@ -3459,6 +3463,7 @@ const Table = (props, ref) => {
                                         onEmailChange(event, i)
                                       }
                                       value={val.email}
+                                      placeholder="example@email.com"
                                     />
                                     {(validationError?.email &&
                                       validationError?.index == i) ? (

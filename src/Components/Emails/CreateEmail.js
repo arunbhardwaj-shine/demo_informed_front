@@ -1690,14 +1690,7 @@ const CreateEmail = (props) => {
       };
  
       const status = body.data.map((data, index) => {
-        if (
-          data.email == "" ||
-          data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
-          ((data?.last_name == "" ||
-            data?.first_name == "" ||
-            data?.country == "") &&
-            (isRdAndNorgianAcount))
-        ) {
+        if (isRdAndNorgianAcount ) {
           if (
             data.first_name == "" &&
             (isRdAndNorgianAcount)
@@ -1720,7 +1713,7 @@ const CreateEmail = (props) => {
           }
           if (data.email == "") {
             setValidationError({
-              newHcpEmail: "Please enter the email atleast",
+              newHcpEmail: "Please enter the email",
               index: index,
             });
  
@@ -1729,7 +1722,7 @@ const CreateEmail = (props) => {
  
           if (data.institution_type == "") {
             setValidationError({
-              newHcpInstitution: "Please Select the institution ",
+              newHcpInstitution: "Please Select the institution type",
               index: index,
             });
             return;
@@ -1745,15 +1738,7 @@ const CreateEmail = (props) => {
             return;
           }
  
-          if (isRdAndNorgianAcount) {
-            if (data.institution_type == "") {
-              setValidationError({
-                newHcpInstitution: "Please enter the institution ",
-                index: index,
-              });
-              return;
-            }
-          }
+          
        if(data?.siteIrt == 1 ){
         if ( data.siteNumber === "" &&
           (isRdAndNorgianAcount)) {
@@ -1774,14 +1759,20 @@ const CreateEmail = (props) => {
        }
            
          
-        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        }else if(data.email==""){
+          setValidationError({
+            newHcpEmail: "Please enter the email",
+            index: index,
+          });
+
+          return;
+        }else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           setValidationError({
             newHcpCountry: "Please select the country",
             index: index,
           });
           return;
-        }
-       
+        }      
         else if (data.email != "") {
  
           let email = data.email;
@@ -1838,10 +1829,6 @@ const CreateEmail = (props) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        const filteredArray = status.filter((value) => value !== "true");
-        toast.warning(filteredArray?.[0]);
-        // toast.warning(status[0]);
       }
     } else {
       let formData = new FormData();

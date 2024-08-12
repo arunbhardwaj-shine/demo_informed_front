@@ -1246,11 +1246,7 @@ const TemplateBuilder = (props) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        const filteredArray = status.filter((value) => value !== "true");
-        toast.warning(filteredArray?.[0]);
-        // toast.warning(status[0]);
-      }
+      } 
     } else {
       let formData = new FormData();
       let user_id = localStorage.getItem("user_id");
