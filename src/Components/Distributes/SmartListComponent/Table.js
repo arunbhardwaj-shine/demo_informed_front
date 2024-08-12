@@ -83,7 +83,7 @@ const Table = (props, ref) => {
   const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
   const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-  ?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+    ? "sNl1hra39QmFk9HwvXETJA==" : "56Ek4feL/1A8mZgIKQWEqg==");
 
   const [siteStreetAll, setSiteStreetAll] = useState([]);
   const [siteCityAll, setSiteCityAll] = useState([]);
@@ -139,9 +139,9 @@ const Table = (props, ref) => {
             let institutions;
             let arrinstitutions = [];
             let nonIrtInstitution;
-            let arrNonIrtInstitution=[]
+            let arrNonIrtInstitution = []
             let irtInstitution;
-            let arrIrtInstitution=[]
+            let arrIrtInstitution = []
 
 
             let arr = [];
@@ -157,8 +157,8 @@ const Table = (props, ref) => {
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
               institutions = res?.data?.response?.data?.institution_type;
-              nonIrtInstitution=res?.data?.response?.data?.non_mandatory_institution_type
-              irtInstitution=res?.data?.response?.data?.irt_institution_type
+              nonIrtInstitution = res?.data?.response?.data?.non_mandatory_institution_type
+              irtInstitution = res?.data?.response?.data?.irt_institution_type
 
 
               arrUserType = [];
@@ -302,12 +302,12 @@ const Table = (props, ref) => {
               setBlindTypeAll(arrBlindType);
               setSiteData(res.data.response.data.site_data);
               setChanges(res.data.response.data);
-             
+
               setNonIrtInstitutionType(arrNonIrtInstitution)
               setIrtInstitutionType(arrIrtInstitution)
             }
           }
-        
+
         })
         .catch((err) => {
           //console.log(err);
@@ -339,10 +339,10 @@ const Table = (props, ref) => {
       roleIndex:
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
 
-        institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
         ? irtInstitutionType?.[0]?.value
         : "",
-        instituteIndex:  localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+      instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
       siteNumber: "",
       siteName: ""
     },
@@ -350,7 +350,7 @@ const Table = (props, ref) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -478,7 +478,7 @@ const Table = (props, ref) => {
       list[i].siteNumberIndex = index;
       setHpc(list);
     }
-    
+
   };
   const onSiteNameChange = (e, i) => {
     if (e == null) {
@@ -532,8 +532,8 @@ const Table = (props, ref) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-      list[i].institute= value == "Yes" ?irtInstitutionType?.[0]?.value:"";
-      list[i].instituteIndex=value == "Yes" ?0:"";
+      list[i].institute = value == "Yes" ? irtInstitutionType?.[0]?.value : "";
+      list[i].instituteIndex = value == "Yes" ? 0 : "";
       setHpc(list);
     }
     let arr = [];
@@ -566,8 +566,8 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd, newReaders, flag,allUsersids=[]) {
-        showFileInReadersList(dd, newReaders, flag,allUsersids);
+      createSmartList(dd, newReaders, flag, allUsersids = []) {
+        showFileInReadersList(dd, newReaders, flag, allUsersids);
       },
     }),
     []
@@ -646,6 +646,7 @@ const Table = (props, ref) => {
     setCounterData([]);
   };
   const handleShow = () => {
+    setValidationError({})
     setIsOpenAdd(true);
     setHpc([
       {
@@ -659,7 +660,7 @@ const Table = (props, ref) => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? irtRole?.[0]?.value
             : "",
-            roleIndex:
+        roleIndex:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? 0
             : "",
@@ -671,12 +672,12 @@ const Table = (props, ref) => {
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
-            institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-            ? irtInstitutionType?.[0]?.value
-            : "",
-            instituteIndex:  localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
-          siteNumber: "",
-          siteName: ""
+        institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          ? irtInstitutionType?.[0]?.value
+          : "",
+        instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+        siteNumber: "",
+        siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -739,7 +740,7 @@ const Table = (props, ref) => {
           combine_data = [new_data, ...old_data];
           // console.log(combine_data);
           setEditList(combine_data);
-          props.sendDataToParent(combine_data, "existing",allUsers);
+          props.sendDataToParent(combine_data, "existing", allUsers);
           setUpdatedData(combine_data);
           loader("hide");
         })
@@ -813,7 +814,7 @@ const Table = (props, ref) => {
     }
   };
 
-  const showFileInReadersList = async (fdata, newReaders, flag, allUsersIds=[]) => {
+  const showFileInReadersList = async (fdata, newReaders, flag, allUsersIds = []) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
       // console.log("excel create",allUsers);
@@ -823,9 +824,9 @@ const Table = (props, ref) => {
       // });
 
       // if(profile_user_id_array?.length < allUsersIds.length){
-        let profile_user_id_array = allUsers;
+      let profile_user_id_array = allUsers;
       // }
-      
+
 
       const new_user_id_array = getNewReaders.map((data) => {
         return data.profile_user_id;
@@ -1158,26 +1159,26 @@ const Table = (props, ref) => {
   };
 
   const addMoreHcp = () => {
-  
+
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") ==userId) {
-        if(data?.siteIrt=="Yes"){
-          
+      if (localStorage.getItem("user_id") == userId) {
+        if (data?.siteIrt == "Yes") {
+
           if (
             data.email == "" ||
             data.lastname == "" ||
             data.firstname == "" ||
             data.country == "" ||
             data.institute == "" ||
-            typeof data.institute == "undefined"||
-            data?.siteName==""||data?.siteNumber==""||data?.userType==""||
-            typeof data?.userType=="undefined"
+            typeof data.institute == "undefined" ||
+            data?.siteName == "" || data?.siteNumber == "" || data?.userType == "" ||
+            typeof data?.userType == "undefined"
           ) {
             return "false";
           } else {
             return "true";
           }
-        }else{
+        } else {
           if (
             data.email == "" ||
             data.lastname == "" ||
@@ -1191,7 +1192,7 @@ const Table = (props, ref) => {
             return "true";
           }
         }
-       
+
       } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
@@ -1223,7 +1224,7 @@ const Table = (props, ref) => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? irtRole?.[0]?.value
               : "",
-              roleIndex:
+          roleIndex:
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? 0
               : "",
@@ -1235,12 +1236,12 @@ const Table = (props, ref) => {
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
-              institute: localStorage.getItem("user_id") ==  userId
-              ? irtInstitutionType?.[0]?.value
-              : "",
-              instituteIndex:  localStorage.getItem("user_id") == userId? 0 : "",
-            siteNumber: "",
-            siteName: ""
+          institute: localStorage.getItem("user_id") == userId
+            ? irtInstitutionType?.[0]?.value
+            : "",
+          instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+          siteNumber: "",
+          siteName: ""
         },
       ]);
     } else {
@@ -1288,7 +1289,7 @@ const Table = (props, ref) => {
     const newArray = allUsers?.filter(item => item !== profile_user_id);
     setAllUsers(newArray);
     setEditList(filtered_list);
-    props.sendDataToParent(filtered_list, "existing",newArray);
+    props.sendDataToParent(filtered_list, "existing", newArray);
     popup_alert({
       visible: "show",
       message: "The HCP record has been deleted </br>successfully !",
@@ -1406,7 +1407,7 @@ const Table = (props, ref) => {
     // setIsOpenAdd(false);
 
     if (activeManual == "active") {
-      const body_data = hpc.map((data) => {
+      const body_data = hpc.map((data, index) => {
         return {
           first_name: data.firstname,
           last_name: data.lastname,
@@ -1433,26 +1434,55 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data, index) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (
           data.first_name == "" && localStorage.getItem("user_id") == userId) {
-          return "Please enter the first name";
+          setValidationError({
+            firstName: "Please enter the first name",
+            index: index,
+          });
+          return;
+
         } else if (
           data.last_name == "" && localStorage.getItem("user_id") == userId) {
-          return "Please enter the last name";
+          setValidationError({
+            lastName: "Please enter the last name",
+            index: index,
+          });
+          return;
         } else if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if (data.institution_type == ""&& localStorage.getItem("user_id") == userId) {
-          return "Please select Institution";
+          setValidationError({
+            email: "Please enter the email ",
+            index: index,
+          });
+          return;
+        } else if (data.institution_type == "" && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            institutionType: "Please select Institution",
+            index: index,
+          });
+          return;
         } else if (data.country == "") {
-          return "Please select country";
-        } else if(data.siteNumber==""&&data.siteIrt==1 &&localStorage.getItem("user_id") == userId){
-          return "Please select site number"
-        } else if(data.siteName==""&&data.siteIrt==1&& localStorage.getItem("user_id") == userId){
-          return "Please select site name"
-        } 
+          setValidationError({
+            country: "Please select country",
+            index: index,
+          });
+          return;
+        } else if (data.siteNumber == "" && data.siteIrt == 1 && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            siteNumber: "Please select site number",
+            index: index,
+          });
+          return
+        } else if (data.siteName == "" && data.siteIrt == 1 && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            siteName: "Please select site name",
+            index: index,
+          });
+          return
+        }
         else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1464,12 +1494,20 @@ const Table = (props, ref) => {
               typeof prev_obj != "undefined" ||
               typeof prev_obj_new != "undefined"
             ) {
-              return "User with same email already added in list.";
+              setValidationError({
+                email: "User with same email already added in list.",
+                index: index,
+              });
+              return;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              email: "Email format is not valid",
+              index: index,
+            });
+            return;
           }
         }
         else {
@@ -1480,7 +1518,7 @@ const Table = (props, ref) => {
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-       
+
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1502,7 +1540,7 @@ const Table = (props, ref) => {
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-              props.sendDataToParent(old_data, "existing",allUsers);
+              props.sendDataToParent(old_data, "existing", allUsers);
               setUpdatedData(old_data);
               setIsOpen(false);
               setIsOpenAdd(false);
@@ -1556,7 +1594,7 @@ const Table = (props, ref) => {
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
-              props.sendDataToParent(old_data, "existing",old_id_array);
+              props.sendDataToParent(old_data, "existing", old_id_array);
               setUpdatedData(old_data);
             } else {
               toast.warning(res.data.message);
@@ -1579,7 +1617,7 @@ const Table = (props, ref) => {
     // setIsOpenAdd(false);
 
     if (activeManual == "active") {
-      const body_data = hpc.map((data) => {
+      const body_data = hpc.map((data, index) => {
         return {
           first_name: data.firstname,
           last_name: data.lastname,
@@ -1595,13 +1633,21 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data, index) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({
+            email: "Please enter the email atleast",
+            index: index,
+          });
+          return;
         } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
-          return "Please enter the country";
+          setValidationError({
+            country: "Please enter the country",
+            index: index,
+          });
+          return;
         }
         else if (data.email != "") {
           let email = data.email;
@@ -1610,14 +1656,22 @@ const Table = (props, ref) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = editList.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                email: "User with same email already added in list.",
+                index: index,
+              });
+              return
             } else {
               return "true";
             }
 
             return "true";
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              email: "Email format is not valid",
+              index: index,
+            });
+            return
           }
         } else {
           return "true";
@@ -1648,7 +1702,7 @@ const Table = (props, ref) => {
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-              props.sendDataToParent(old_data, "existing",old_id_array);
+              props.sendDataToParent(old_data, "existing", old_id_array);
               setUpdatedData(old_data);
               setIsOpen(false);
               setIsOpenAdd(false);
@@ -1701,7 +1755,7 @@ const Table = (props, ref) => {
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
-              props.sendDataToParent(old_data, "existing",old_id_array);
+              props.sendDataToParent(old_data, "existing", old_id_array);
               setUpdatedData(old_data);
             } else {
               toast.warning(res.data.message);
@@ -2657,7 +2711,7 @@ const Table = (props, ref) => {
           >
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {localStorage.getItem("user_id") == userId 
+                {localStorage.getItem("user_id") == userId
                   ? "Add New User +"
                   : "Add New HCP"}
               </h5>
@@ -2693,12 +2747,12 @@ const Table = (props, ref) => {
                           "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
-                          institute:  localStorage.getItem("user_id") == userId
-                          ? irtInstitutionType?.[0]?.value
-                          : "",
-                          instituteIndex: localStorage.getItem("user_id") ==   userId ? 0 : "",
-                        siteNumber: "",
-                        siteName: ""
+                      institute: localStorage.getItem("user_id") == userId
+                        ? irtInstitutionType?.[0]?.value
+                        : "",
+                      instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+                      siteNumber: "",
+                      siteName: ""
 
                     },
                   ]);
@@ -2734,12 +2788,20 @@ const Table = (props, ref) => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className={(validationError?.firstName &&
+                                        validationError?.index == i) ? "form-control error" : "form-control"}
                                       onChange={(event) =>
                                         onFirstNameChange(event, i)
                                       }
                                       value={val.firstname}
+                                      placeholder="First name"
                                     />
+                                    {validationError?.firstName &&
+                                      validationError?.index == i ? (
+                                      <div className="login-validation">
+                                        {validationError?.firstName}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -2753,12 +2815,20 @@ const Table = (props, ref) => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className={(validationError?.lastName &&
+                                        validationError?.index == i) ? "form-control error" : "form-control"}
                                       onChange={(event) =>
                                         onLastNameChange(event, i)
                                       }
                                       value={val.lastname}
+                                      placeholder="Last name"
                                     />
+                                    {(validationError?.lastName &&
+                                      validationError?.index == i) ? (
+                                      <div className="login-validation">
+                                        {validationError?.lastName}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -2769,7 +2839,7 @@ const Table = (props, ref) => {
                                     <input
                                       type="email"
                                       className={
-                                        validationError?.newHcpEmail
+                                        (validationError?.email && validationError?.index == i)
                                           ? "form-control error"
                                           : "form-control"
                                       }
@@ -2779,10 +2849,11 @@ const Table = (props, ref) => {
                                         onEmailChange(event, i)
                                       }
                                       value={val.email}
+                                      placeholder="example@email.com"
                                     />
-                                    {validationError?.newHcpEmail ? (
+                                    {(validationError?.email && validationError?.index == i) ? (
                                       <div className="login-validation">
-                                        {validationError?.newHcpEmail}
+                                        {validationError?.email}
                                       </div>
                                     ) : null}
                                   </div>
@@ -2871,7 +2942,8 @@ const Table = (props, ref) => {
                                         )}
                                         isClearable
                                       />
-                                    
+
+
                                     </div>
                                   </div>
                                 ) : null}
@@ -2885,7 +2957,7 @@ const Table = (props, ref) => {
                                         <label for="">
                                           IRT mandatory training
                                         </label>
-                                      
+
                                         <Select
                                           options={siteIrtAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2912,55 +2984,64 @@ const Table = (props, ref) => {
                                         </label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
-                                        <Select
-                                          options={irtInstitutionType}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onInstitutionChange(event, i)
-                                          }
-                                          defaultValue={
-                                            irtInstitutionType[hpc[i].instituteIndex]
-                                          }
-                                          placeholder={
-                                            typeof irtInstitutionType[
-                                              hpc[i].instituteIndex
-                                            ] === "undefined"
-                                              ? "Select Institutions"
-                                              : irtInstitutionType[
-                                              hpc[i].instituteIndex
-                                              ]
-                                          }
-                                        />
-                                          ):(<>
-                            
                                           <Select
-                                          options={nonIrtInstitutionType}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onInstitutionChange(event, i)
-                                          }
-                                          defaultValue={
-                                            nonIrtInstitutionType[hpc[i].instituteIndex]
-                                          }
-                                          value={nonIrtInstitutionType[hpc[i].instituteIndex]
-                                            ?nonIrtInstitutionType[hpc[i].instituteIndex]
-                                            :""
-                                          }
-                                          
-                                          placeholder={
-                                            typeof nonIrtInstitutionType[
-                                              hpc[i].instituteIndex
-                                            ] == "undefined"
-                                              ? "Select Institutions"
-                                              : nonIrtInstitutionType[
-                                              hpc[i].instituteIndex
-                                              ]
-                                          }
-                                        /></>)
-                                          }
+                                            options={irtInstitutionType}
+                                            className={(validationError?.institutionType && validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            defaultValue={
+                                              irtInstitutionType[hpc[i].instituteIndex]
+                                            }
+                                            placeholder={
+                                              typeof irtInstitutionType[
+                                                hpc[i].instituteIndex
+                                              ] === "undefined"
+                                                ? "Select Institutions"
+                                                : irtInstitutionType[
+                                                hpc[i].instituteIndex
+                                                ]
+                                            }
+                                          />
+                                        ) : (<>
+
+                                          <Select
+                                            options={nonIrtInstitutionType}
+                                            className={(validationError?.institutionType && validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            defaultValue={
+                                              nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            }
+                                            value={nonIrtInstitutionType[hpc[i].instituteIndex]
+                                              ? nonIrtInstitutionType[hpc[i].instituteIndex]
+                                              : ""
+                                            }
+
+                                            placeholder={
+                                              typeof nonIrtInstitutionType[
+                                                hpc[i].instituteIndex
+                                              ] == "undefined"
+                                                ? "Select Institutions"
+                                                : nonIrtInstitutionType[
+                                                hpc[i].instituteIndex
+                                                ]
+                                            }
+                                          /></>)
+                                        }
+                                        {(validationError?.institutionType && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.institutionType}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
-                                    
+
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">IRT role</label>
@@ -3001,7 +3082,7 @@ const Table = (props, ref) => {
                                         )}
                                       </div>
                                     </div>
-                               
+
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
@@ -3026,7 +3107,7 @@ const Table = (props, ref) => {
                                               hpc[i].subUserTypeIndex
                                               ]
                                           }
-                                        
+
                                         />
                                       </div>
                                     </div>
@@ -3047,7 +3128,9 @@ const Table = (props, ref) => {
                                           ?.value === "Yes" ? (
                                           <Select
                                             options={irtCountry}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.country && validationError?.index == i)
+                                              ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onCountryChange(event, i)
                                             }
@@ -3072,7 +3155,9 @@ const Table = (props, ref) => {
                                         ) : (
                                           <Select
                                             options={countryall}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.country && validationError?.index == i)
+                                              ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onCountryChange(event, i)
                                             }
@@ -3095,17 +3180,25 @@ const Table = (props, ref) => {
                                             isClearable
                                           />
                                         )}
-                                 
+
+                                        {(validationError?.country && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.country}
+                                          </div>
+                                        ) : null}
+
                                       </div>
                                     </div>
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">Site number {siteIrtAll[hpc[i].siteIrtIndex]
-                                          ?.value === "Yes"?<span>*</span>:"" }</label>
+                                          ?.value === "Yes" ? <span>*</span> : ""}</label>
                                         <Select
                                           options={siteNumberAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.siteNumber && validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onSiteNumberChange(event, i)
                                           }
@@ -3118,7 +3211,7 @@ const Table = (props, ref) => {
                                               ]
                                               : ""
                                           }
-                                         
+
                                           placeholder={
                                             typeof siteNumberAll[
                                               hpc[i].siteNumberIndex
@@ -3128,22 +3221,29 @@ const Table = (props, ref) => {
                                               hpc[i].siteNumberIndex
                                               ]
                                           }
-                                       
+
                                         />
+                                        {(validationError?.siteNumber && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.siteNumber}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">Site name  {siteIrtAll[hpc[i].siteIrtIndex]
-                                          ?.value === "Yes"?<span>*</span>:"" }</label>
+                                          ?.value === "Yes" ? <span>*</span> : ""}</label>
 
                                         <Select
                                           options={siteNameAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.siteName && validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onSiteNameChange(event, i)
                                           }
-                                        
+
                                           value={
                                             siteNameAll[hpc[i].siteNameIndex]
                                               ? siteNameAll[
@@ -3163,17 +3263,22 @@ const Table = (props, ref) => {
                                               hpc[i].siteNameIndex
                                               ]
                                           }
-                                       
+
                                         />
+                                        {(validationError?.siteName && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.siteName}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
 
-                                  
+
 
                                     {val?.siteDetails?.map((data, index) => {
                                       return (
                                         <>
-                                      
+
                                           <>
                                             <div className="add-content-form">
                                               <div className="row"></div>
@@ -3185,7 +3290,7 @@ const Table = (props, ref) => {
                                     })}
                                   </>
                                 ) : null}
-                             
+
                               </div>
                             </div>
 
@@ -3217,13 +3322,13 @@ const Table = (props, ref) => {
                                       data-bs-toggle="tab"
                                       href="javascript:;"
                                     >
-                                      {localStorage.getItem("user_id") == userId 
+                                      {localStorage.getItem("user_id") == userId
                                         ? "Add User +"
                                         : "Add HCP +"}
                                     </a>
                                   </li>
 
-                                 
+
                                 </ul>
                               </div>
                             </div>
@@ -3233,7 +3338,7 @@ const Table = (props, ref) => {
                     })}
                   </form>
 
-                 
+
                 </div>
               </div>
             </div>
@@ -3266,7 +3371,7 @@ const Table = (props, ref) => {
           >
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {localStorage.getItem("user_id") == userId 
+                {localStorage.getItem("user_id") == userId
                   ? "Add New User +"
                   : "Add New HCP"}
               </h5>
@@ -3283,7 +3388,7 @@ const Table = (props, ref) => {
                       countryIndex: "",
                     },
                   ]);
-                  
+
                   setActiveManual("active");
                   // document.querySelector("#file-4").value = "";
                   setActiveExcel("");
@@ -3310,12 +3415,14 @@ const Table = (props, ref) => {
                                     <label htmlFor="">First name</label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className={(validationError?.firstName &&
+                                        validationError?.index == i) ? "form-control error" : "form-control"}
                                       onChange={(event) =>
                                         onFirstNameChange(event, i)
                                       }
                                       value={val.firstname}
                                     />
+                                    
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -3329,6 +3436,12 @@ const Table = (props, ref) => {
                                       }
                                       value={val.lastname}
                                     />
+                                    {validationError?.lastName &&
+                                      validationError?.index == i ? (
+                                      <div className="login-validation">
+                                        {validationError?.lastName}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -3336,7 +3449,10 @@ const Table = (props, ref) => {
                                     <label htmlFor="">Email <span>*</span></label>
                                     <input
                                       type="email"
-                                      className="form-control"
+                                      className={(validationError?.email &&
+                                        validationError?.index == i)
+                                        ?"form-control error"
+                                        :"form-control"}
                                       id="email-desc"
                                       name={`${fieldName}.email`}
                                       onChange={(event) =>
@@ -3344,6 +3460,12 @@ const Table = (props, ref) => {
                                       }
                                       value={val.email}
                                     />
+                                    {(validationError?.email &&
+                                      validationError?.index == i) ? (
+                                      <div className="login-validation">
+                                        {validationError?.email}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -3404,7 +3526,10 @@ const Table = (props, ref) => {
                                     </label>
                                     <Select
                                       options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={(validationError?.country &&
+                                        validationError?.index == i)
+                                        ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                        :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3421,11 +3546,17 @@ const Table = (props, ref) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
-                                   
+                                    {(validationError?.country &&
+                                      validationError?.index == i) ? (
+                                      <div className="login-validation">
+                                        {validationError?.country}
+                                      </div>
+                                    ) : null}
+
                                   </div>
                                 </div>
 
-                               
+
                               </div>
                             </div>
 
@@ -3458,13 +3589,13 @@ const Table = (props, ref) => {
                                       data-bs-toggle="tab"
                                       href="javascript:;"
                                     >
-                                      {localStorage.getItem("user_id") == userId 
+                                      {localStorage.getItem("user_id") == userId
                                         ? "Add User +"
                                         : "Add HCP +"}
                                     </a>
                                   </li>
 
-                               
+
                                 </ul>
                               </div>
                             </div>
@@ -3474,7 +3605,7 @@ const Table = (props, ref) => {
                     })}
                   </form>
 
-                 
+
                 </div>
               </div>
             </div>

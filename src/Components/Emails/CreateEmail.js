@@ -3660,6 +3660,7 @@ const CreateEmail = (props) => {
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
+                                    placeholder="First name"
                                   />
                                   {validationError?.newHcpFirstName &&
                                     validationError?.index == i ? (
@@ -3692,6 +3693,7 @@ const CreateEmail = (props) => {
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
+                                    placeholder="Last name"
                                   />
                                   {validationError?.newHcpLastName &&
                                     validationError?.index == i ? (
@@ -3720,6 +3722,7 @@ const CreateEmail = (props) => {
                                       onEmailChange(event, i)
                                     }
                                     value={val.email}
+                                    placeholder="example@email.com"
                                   />
                                   {validationError?.newHcpEmail &&
                                     validationError?.index == i ? (
