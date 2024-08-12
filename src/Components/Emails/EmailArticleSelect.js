@@ -121,18 +121,13 @@ const EmailArticleSelect = (props) => {
   const cancelClicked = () => {
     if(irtRoleObj?.IRTFlag){
       if(IRTTraining){
-        navigate("/new-readers-reviews",
-          {
-            // state: { siteRole: irtRoleObj?.siteRole},
-            state: irtRoleObj
-          })
+        navigate("/new-readers-reviews",{state: irtRoleObj})
       }else{
-        navigate("/IRTRole");
+        navigate("/RD-EmailList", { state: { IrtObj: irtRoleObj } });
       }
     }else{
       navigate("/EmailList");
     }
-    // return true;
   };
 
   const searchChange = (e) => {
