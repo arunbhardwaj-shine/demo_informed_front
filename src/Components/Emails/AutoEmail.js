@@ -79,14 +79,14 @@ const AutoEmail = () => {
       country: "",
       role:
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-          ? irtRole?.[0]?.value
+          ? "Site User-Blinded"
           : "",
       optIrt:
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? "yes"
           : "",
       institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-        ? irtInstitutionType?.[0]?.value
+        ? "Study site"
         : "",
       siteNumber: "",
       siteName: ""
@@ -372,14 +372,14 @@ const AutoEmail = () => {
         country: "",
         role:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-            ? irtRole?.[0]?.value
+            ? "Site User-Blinded"
             : "",
         optIrt:
           localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "yes"
             : "",
         institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-          ? irtInstitutionType?.[0]?.value
+          ? "Study site"
           : "",
         siteNumber: "",
         siteName: ""
@@ -631,7 +631,6 @@ const AutoEmail = () => {
     if (e == "") {
 
       const list = [...hpc];
-      console.log("list", list);
       list[i].institutionType = "";
       list[i].optIrt = "";
       list[i].role = "";
@@ -640,29 +639,11 @@ const AutoEmail = () => {
     } else {
       const value = e?.value;
       const list = [...hpc];
-      // const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      // if (e?.value == "Study site") {
-      //   onIRTChange("yes", i);
-      // } else {
-      //   const value = e?.value;
-      //   const list = [...hpc];
-      //   console.log("list else", list);
-      //   // const name = hpc[i].institutionType;
-      //   list[i].institutionType = value;
-      //   setHpc(list);
-      //   if (e?.value == "Study site") {
-      //     onIRTChange("yes", i);
-      //   } else {
-      //     onIRTChange("no", i);
-      //   }
-      //   console.log("list", list[i].optIrt);
-      // }
+     
     }
   }
-
-
 
   const onIRTChange = (e, i) => {
     if (e == "") {
@@ -783,37 +764,80 @@ const AutoEmail = () => {
       };
       // const status = ValidationAddNewContact(body?.data, selectedHcp,"save")
      
-      const status = body.data.map((data) => {
+      const status = body.data.map((data,index) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           if (data.first_name == "") {
-            return "Please enter the first name";
+            setValidationError({
+              firstName: "Please enter the first name",
+              index: index,
+            });
+            return 
           } else if (data.last_name == "") {
-            return "Please enter the last name";
+            setValidationError({
+              lastName: "Please enter the last name",
+              index: index,
+            });
+            return ;
           }
           else if (data.email == "") {
-            return "Please enter the email atleast";
+            setValidationError({
+              email: "Please enter the email ",
+              index: index,
+            });
+            return ;
           }
           else if (data?.institution_type == "") {
-            return "Please select the institution type";
-          }else if (data?.country == "") {
-            return "Please select country";
+            setValidationError({
+              institutionType: "Please select the institution type",
+              index: index,
+            });
+            return ;
+          }else if(data?.investigator_type==""){
+            setValidationError({
+              role: "Please select the role",
+              index: index,
+            });
+            return ;
+          }
+          else if (data?.country == "") {
+            setValidationError({
+              country: "Please select the country",
+              index: index,
+            });
+            return ;
           }
 
           else if(data?.siteIrt==1){            
              
             if(data?.siteNumber==""){
-              return "Please enter the site number";
+              setValidationError({
+                siteNumber: "Please enter the site number",
+                index: index,
+              });
+              return ;
             }else if(data?.siteName==""){
-              return "Please enter the site name";
+              setValidationError({
+                siteName: "Please enter the site name",
+                index: index,
+              });
+              return ;
             }
           }
         }
         if (data.email == "") {
-          return "Please enter the email atleast";
+          setValidationError({
+            email: "Please enter the email atleast",
+            index: index,
+          });
+          return ;
         } 
         if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
-            return "Please select country";
+            setValidationError({
+              country: "Please select country",
+              index: index,
+            });
+            return ;
           }
         }
         if (data.email != "") {
@@ -824,12 +848,20 @@ const AutoEmail = () => {
            
             let prev_obj = selectedHcp.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              setValidationError({
+                email: "User with same email already added in list.",
+                index: index,
+              });
+              return ;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              email: "Email format is not valid",
+              index: index,
+            });
+            return ;
           }
         }
         return "true";
@@ -922,15 +954,15 @@ const AutoEmail = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         if(data?.optIrt=="yes"){
-          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" 
-            || data.country == ""||data?.siteName==""||data?.siteNumber=="") {
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == ""||data?.role=="" 
+            || data?.country == ""||data?.siteName==""||data?.siteNumber=="") {
               
             return "false";
           } else {
             return "true";
           }
         }else{
-          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" || data.country == "") {
+          if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == "") {
             return "false";
           } else {
             return "true";
@@ -1980,12 +2012,22 @@ const AutoEmail = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={(validationError?.firstName &&
+                                    validationError?.index == i) 
+                                    ?"form-control error"
+                                    :"form-control"}
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
+                                    placeholder="First name"
                                   />
+                                  {(validationError?.firstName &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.firstName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -1995,12 +2037,22 @@ const AutoEmail = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={(validationError?.lastName &&
+                                      validationError?.index == i) 
+                                      ?"form-control error"
+                                      :"form-control"}
                                     onChange={(event) =>
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
+                                    placeholder="Last name"
                                   />
+                                  {(validationError?.lastName &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.lastName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -2010,14 +2062,24 @@ const AutoEmail = () => {
                                   </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={(validationError?.email &&
+                                      validationError?.index == i) 
+                                      ?"form-control error"
+                                      :"form-control"}
                                     id="email-desc"
                                     name={`${fieldName}.email`}
                                     onChange={(event) =>
                                       onEmailChange(event, i)
                                     }
                                     value={val.email}
+                                    placeholder="example@email.com"
                                   />
+                                  {(validationError?.email &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.email}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
 
@@ -2068,19 +2130,26 @@ const AutoEmail = () => {
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtInstitutionType}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.institutionType &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           //  id="institution-desc"
                                           onChange={(event) =>
                                             onInstitionTypeChange(event, i)
                                           }
-                                          // defaultValue={
-                                          //   val?.institutionType
-                                          //     ? {
-                                          //       label: val?.institutionType,
-                                          //       value: val?.institutionType,
-                                          //     }
-                                          //     : ""
-                                          // }
+                                          defaultValue={
+                                            irtInstitutionType?.findIndex(
+                                              (el) => el.value == val?.institutionType
+                                            ) == -1
+                                              ? ""
+                                              : irtInstitutionType[
+                                              irtInstitutionType?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.institutionType
+                                              )
+                                              ]
+                                          }
                                           value={
                                             irtInstitutionType?.findIndex(
                                               (el) => el.value == val?.institutionType
@@ -2100,19 +2169,15 @@ const AutoEmail = () => {
                                         val?.optIrt == "no" ? (
                                           <Select
                                             options={nonIrtInstitutionType}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.institutionType &&
+                                              validationError?.index == i)
+                                              ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             //  id="institution-desc"
                                             onChange={(event) =>
                                               onInstitionTypeChange(event, i)
                                             }
-                                            // defaultValue={
-                                            //   val?.institutionType
-                                            //     ? {
-                                            //       label: val?.institutionType,
-                                            //       value: val?.institutionType,
-                                            //     }
-                                            //     : ""
-                                            // }
+                                           
                                             value={
                                               nonIrtInstitutionType?.findIndex(
                                                 (el) => el.value == val?.institutionType
@@ -2136,31 +2201,29 @@ const AutoEmail = () => {
                                             />
                                           )
                                       }
+                                      {(validationError?.institutionType &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.institutionType}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
                                  
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT role</label>
+                                      <label for="">IRT role <span> *</span></label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.role &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
-                                          // defaultValue={
-                                          //   irtRole?.findIndex(
-                                          //     (el) => el.value == val?.role
-                                          //   ) == -1
-                                          //     ? ""
-                                          //     : irtRole[
-                                          //     irtRole?.findIndex(
-                                          //       (el) =>
-                                          //         el.value == val?.role
-                                          //     )
-                                          //     ]
-                                          // }
+                  
                                           value={
                                             irtRole?.findIndex(
                                               (el) => el.value == val?.role
@@ -2179,7 +2242,10 @@ const AutoEmail = () => {
                                       ) : val?.optIrt == "no" ? (
                                         <Select
                                           options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.role &&
+                                            validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
@@ -2204,6 +2270,12 @@ const AutoEmail = () => {
                                           placeholder="Select Role"
                                         />
                                       )}
+                                      {(validationError?.role &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.role}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
                                 </>
@@ -2269,7 +2341,10 @@ const AutoEmail = () => {
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={(validationError?.country &&
+                                        validationError?.index == i)
+                                        ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                        :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -2291,7 +2366,10 @@ const AutoEmail = () => {
                                   ) : (
                                     <Select
                                       options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={(validationError?.country &&
+                                        validationError?.index == i)
+                                        ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                        :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -2311,52 +2389,15 @@ const AutoEmail = () => {
                                       isClearable
                                     />
                                   )}
+                                   {(validationError?.country &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.country}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
-                              {/* <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Country</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup country"
-                                    title={
-                                      hpc[i].country != "" &&
-                                      hpc[i].country != "undefined"
-                                        ? hpc[i].country == "B&H"
-                                          ? "Bosnia and Herzegovina"
-                                          : hpc[i].country
-                                        : "Select Country"
-                                    }
-                                    onSelect={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                  >
-                                    <div className="scroll_div">
-                                      {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                              return (
-                                                <>
-                                                  <Dropdown.Item
-                                                    eventKey={index}
-                                                    className={
-                                                      hpc[i].country == index
-                                                        ? "active"
-                                                        : ""
-                                                    }
-                                                  >
-                                                    {item == "B&H"
-                                                      ? "Bosnia and Herzegovina"
-                                                      : item}
-                                                  </Dropdown.Item>
-                                                </>
-                                              );
-                                            }
-                                          )}
-                                    </div>
-                                  </DropdownButton>
-                                </div>
-                              </div> */}
+                            
                               {localStorage.getItem("user_id") ==
                                 "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                 <>
@@ -2366,7 +2407,10 @@ const AutoEmail = () => {
 
                                       <Select
                                         options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={(validationError?.siteNumber &&
+                                          validationError?.index == i)
+                                          ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
@@ -2387,6 +2431,12 @@ const AutoEmail = () => {
                                             ]
                                         }
                                       />
+                                      {(validationError?.siteNumber &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.siteNumber}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
 
@@ -2396,7 +2446,10 @@ const AutoEmail = () => {
 
                                       <Select
                                         options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={(validationError?.siteName &&
+                                          validationError?.index == i)
+                                          ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
@@ -2413,6 +2466,12 @@ const AutoEmail = () => {
                                             : siteNameAll[hpc[i].siteNameIndex]
                                         }
                                       />
+                                      {(validationError?.siteName &&
+                                    validationError?.index == i) ? (
+                                    <div className="login-validation">
+                                      {validationError?.siteName}
+                                    </div>
+                                  ) : null}
                                     </div>
                                   </div>
                                 </>
