@@ -329,7 +329,7 @@ const AutoEmail = () => {
   };
 
   const addNewContactClicked =async () => {
-    await getalCountry();
+    let countriesData=await getalCountry();
 
     setIsOpenAdd(true);
     setIsOpensend(false);
@@ -821,9 +821,9 @@ const AutoEmail = () => {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     if (getsearch !== "") {
-      getSmartListData(1);
+      await getSmartListData(1);
     } else {
       toast.error("Please enter text.");
     }
@@ -831,7 +831,7 @@ const AutoEmail = () => {
     return false;
   };
 
-  const getSmartListData = (flag) => {
+  const getSmartListData = async (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -1720,9 +1720,9 @@ const AutoEmail = () => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => {
+                      onClick={async () => {
                         if(!smartListData.length){
-                          getSmartListData(0);
+                          await getSmartListData(0);
                         }
                         setAddListOpen(true)}
                       }

@@ -150,7 +150,7 @@ const TemplateBuilder = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  const getSmartListData = (flag) => {
+  const getSmartListData = async (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -834,8 +834,8 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const addNewContactClicked = () => {
-    getalCountry();
+  const addNewContactClicked = async () => {
+    let country=await getalCountry();
     setIsOpenAdd(true);
     setIsOpensend(false);
     setValidationError({});
@@ -1227,9 +1227,9 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     if (getsearch !== "") {
-      getSmartListData(1);
+      let search=await getSmartListData(1);
     } else {
       toast.error("Please enter text.");
     }
@@ -2761,9 +2761,9 @@ const TemplateBuilder = (props) => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => {
+                      onClick={async() => {
                         if(!smartListData.length){
-                          getSmartListData(0);
+                          let smartListdata=await getSmartListData(0);
                         } 
                          setAddListOpen(true)
                         }}
