@@ -952,7 +952,8 @@ const VerifyHCP = (props) => {
             data?.lastname == "" ||
             data?.country == "" ||
             data?.email == "" ||
-            data?.institutionType == ""
+            data?.institutionType == "" ||
+            (data?.optIrt === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
           ) {
             return "false";
           } else {
