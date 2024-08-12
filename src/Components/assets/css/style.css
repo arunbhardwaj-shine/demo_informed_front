@@ -3402,6 +3402,11 @@ h5 {
 .search-hcp .email-unsubscribe .accordion .accordion-item {
   margin: 0 0 24px;
 }
+.email-unsubscribe .accordion-item .selected-hcp-list, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table {
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: 8px;
+}
 .email-unsubscribe .unsubscribe-users-table table th {
   padding-top: 0;
 }
@@ -3450,6 +3455,29 @@ h5 {
 .search-hcp .deleted.accordion .accordion-header button.accordion-button,
 .result-hcp-table .table tbody tr.hcps-deleted {
   box-shadow: 0px 0px 10px #b91b68;
+}
+.email-unsubscribe .accordion table thead {
+  position: sticky;
+  top:0;
+  background: #fff;
+  z-index: 2;
+}
+.email-unsubscribe .accordion table thead:after {
+  position: absolute;
+  top: 0;
+  background: #fff;
+  content: "";
+  width: 34px;
+  height: 31px;
+  right: -10px;
+}
+.email-unsubscribe .accordion table th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.email-unsubscribe .accordion table {
+  border-spacing: 0px 17px;
 }
 
 .smart-list-view .selected-hcp-list#analytics-hcp-table {

@@ -2164,6 +2164,8 @@ const SelectSmartListUsers = (props) => {
                                       <th scope="col">Last email</th>
                                     </>
                                   ) : null}
+                                  <th scope="col"></th>
+
                                 </tr>
                               </thead>
                               <tbody>
@@ -2639,6 +2641,8 @@ const SelectSmartListUsers = (props) => {
                                       <th scope="col">Last email</th>
                                     </>
                                   ) : null}
+                                    <th scope="col"></th>
+
                                 </tr>
                               </thead>
                               <tbody>
@@ -3102,6 +3106,8 @@ const SelectSmartListUsers = (props) => {
                                       <th scope="col">Last email</th>
                                     </>
                                   ) : null}
+                                 <th scope="col"></th>
+
                                 </tr>
                               </thead>
                               <tbody>
