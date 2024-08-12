@@ -824,10 +824,10 @@ const VerifyHCP = (props) => {
             }
 			if(data?.siteIrt == 1 || irtRoleObj?.IRTFlag == 1){
 				if (data.siteNumber == "") {
-				  return "Please select the siteNumber";
+				  return "Please select the site number";
 				}
 				if (data.siteName == "") {
-				  return "Please select the siteName";
+				  return "Please select the site name";
 				}
 			}
 
