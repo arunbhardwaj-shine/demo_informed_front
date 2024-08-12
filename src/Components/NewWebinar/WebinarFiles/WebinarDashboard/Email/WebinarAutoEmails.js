@@ -326,7 +326,7 @@ const WebinarAutoEmail = () => {
   };
 
   const addNewContactClicked = async () => {
-    await getalCountry();
+    let countriesData=await getalCountry();
 
     setIsOpenAdd(true);
     setIsOpensend(false);
