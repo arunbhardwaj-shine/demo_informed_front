@@ -723,7 +723,8 @@ const SelectSmartListUsers = (props) => {
           data?.institutionType == "" ||
           data.last_name == "" ||
           data.first_name == "" ||
-          data.country == ""
+          data.country == "" || 
+          (data?.optIrt === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
         ) {
           return "false";
         } else {

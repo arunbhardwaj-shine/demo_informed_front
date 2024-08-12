@@ -572,7 +572,8 @@ const CreateEmail = (props) => {
           data?.lastname == "" ||
           data?.firstname == "" ||
           data?.country == "" ||
-          data?.institutionType == ""
+          data?.institutionType == ""||
+          (data?.optIRT === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
         ) {
           return "false";
         } else {
@@ -615,6 +616,7 @@ const CreateEmail = (props) => {
               ? irtRole?.[0]?.value
               : "",
           institutionType: "",
+          
         },
       ]);
     } else {
