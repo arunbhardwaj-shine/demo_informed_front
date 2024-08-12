@@ -2629,7 +2629,7 @@ const ViewTable = (props) => {
                                     <label for="">Country
                                       {localStorage.getItem("user_id") ==
                                         "m5JI5zEDY3xHFTZBnSGQZg==" && (
-                                          <span>*</span>
+                                          <span> *</span>
                                         )}
                                     </label>
 
@@ -2834,7 +2834,7 @@ const ViewTable = (props) => {
                                         Country{" "}
                                         {(localStorage.getItem("user_id") ==
                                           "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
-                                            <span>*</span>
+                                            <span> *</span>
                                           )}
                                       </label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
@@ -2896,7 +2896,7 @@ const ViewTable = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site number {siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "Yes" ?<span>*</span>:""}</label>
+                                        ?.value === "Yes" ?<span> *</span>:""}</label>
                                       <Select
                                         options={siteNumberAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2929,7 +2929,7 @@ const ViewTable = (props) => {
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site name{siteIrtAll[hpc[i].siteIrtIndex]
-                                        ?.value === "Yes" ?<span>*</span>:""}</label>
+                                        ?.value === "Yes" ? <span> *</span>:""}</label>
 
                                       <Select
                                         options={siteNameAll}

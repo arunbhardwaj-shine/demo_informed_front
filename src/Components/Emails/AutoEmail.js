@@ -103,7 +103,7 @@ const AutoEmail = () => {
 
   useEffect(() => {
     // getSmartListData(0);
-    getalCountry();
+    // getalCountry();
   }, []);
 
   useEffect(() => {
@@ -359,7 +359,7 @@ const AutoEmail = () => {
   };
 
   const addNewContactClicked = async () => {
-    // await getalCountry();
+    let countriesData= await getalCountry();
 
    
 
@@ -876,9 +876,9 @@ const AutoEmail = () => {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     if (getsearch !== "") {
-      getSmartListData(1);
+      await getSmartListData(1);
     } else {
       toast.error("Please enter text.");
     }
@@ -886,7 +886,7 @@ const AutoEmail = () => {
     return false;
   };
 
-  const getSmartListData = (flag) => {
+  const getSmartListData = async (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -1794,9 +1794,9 @@ const AutoEmail = () => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => {
+                      onClick={async () => {
                         if (!smartListData.length) {
-                          getSmartListData(0);
+                          await getSmartListData(0);
                         }
                         setAddListOpen(true)
                       }}
@@ -1991,7 +1991,7 @@ const AutoEmail = () => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Last name
-                                    {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? <span>*</span> : null}
+                                    {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? <span> *</span> : null}
                                   </label>
                                   <input
                                     type="text"
@@ -2264,7 +2264,7 @@ const AutoEmail = () => {
                                   <label htmlFor="">
                                     Country
                                     {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
-                                      localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") ? <span>*</span> : null}
+                                      localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") ? <span> *</span> : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
@@ -2362,7 +2362,7 @@ const AutoEmail = () => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site number {val?.optIrt == "yes" ? <span>*</span> : ""}</label>
+                                      <label for="">Site number {val?.optIrt == "yes" ? <span> *</span> : ""}</label>
 
                                       <Select
                                         options={siteNumberAll}
@@ -2392,7 +2392,7 @@ const AutoEmail = () => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name{val?.optIrt == "yes" ? <span>*</span> : ""}</label>
+                                      <label for="">Site name{val?.optIrt == "yes" ? <span> *</span> : ""}</label>
 
                                       <Select
                                         options={siteNameAll}

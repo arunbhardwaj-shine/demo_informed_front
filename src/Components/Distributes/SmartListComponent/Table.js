@@ -2727,9 +2727,9 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">
                                       First name{" "}
-                                      {localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (
-                                          <span>*</span>
+                                      {(localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                          <span> *</span>
                                         )}
                                     </label>
                                     <input
@@ -2746,9 +2746,9 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">
                                       Last name{" "}
-                                      {localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (
-                                          <span>*</span>
+                                      {(localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                          <span> *</span>
                                         )}
                                     </label>
                                     <input
@@ -3034,13 +3034,13 @@ const Table = (props, ref) => {
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">
-                                          country{" "}
+                                          Country{" "}
                                           {(localStorage.getItem("user_id") ==
                                             "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
                                             localStorage.getItem("user_id") ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")
                                             && (
-                                              <span>*</span>
+                                              <span> *</span>
                                             )}
                                         </label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
@@ -3399,7 +3399,7 @@ const Table = (props, ref) => {
                                     <label htmlFor="">Country
                                       {localStorage.getItem("user_id") ==
                                         "m5JI5zEDY3xHFTZBnSGQZg==" && (
-                                          <span>*</span>
+                                          <span> *</span>
                                         )}
                                     </label>
                                     <Select

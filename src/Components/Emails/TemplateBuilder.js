@@ -156,7 +156,7 @@ const TemplateBuilder = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  const getSmartListData = (flag) => {
+  const getSmartListData = async (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -277,7 +277,7 @@ const TemplateBuilder = (props) => {
     }
    
 
-    getalCountry();
+    // getalCountry();
   }, []);
   const axiosFun = async () => {
     try {
@@ -870,8 +870,8 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const addNewContactClicked = () => {
-    // getalCountry();
+  const addNewContactClicked = async () => {
+    let country=await getalCountry();
     setIsOpenAdd(true);
     setIsOpensend(false);
     setValidationError({});
@@ -1290,9 +1290,9 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     if (getsearch !== "") {
-      getSmartListData(1);
+      let search= getSmartListData(1);
     } else {
       toast.error("Please enter text.");
     }
@@ -2824,9 +2824,9 @@ const TemplateBuilder = (props) => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => {
+                      onClick={async () => {
                         if(!smartListData.length){
-                          getSmartListData(0);
+                          let smartListdata= getSmartListData(0);
                         } 
                          setAddListOpen(true)
                         }}
@@ -3006,7 +3006,7 @@ const TemplateBuilder = (props) => {
                                     First name
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
-                                      <span>*</span>
+                                      <span> *</span>
                                     ) : null}
                                   </label>
                                   <input
@@ -3038,7 +3038,7 @@ const TemplateBuilder = (props) => {
                                     Last name
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
-                                      <span>*</span>
+                                      <span> *</span>
                                     ) : null}
                                   </label>
                                   <input
@@ -3330,7 +3330,7 @@ const TemplateBuilder = (props) => {
                                     {(localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
-                                      <span>*</span>
+                                      <span> *</span>
                                     ) : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
@@ -3490,7 +3490,7 @@ const TemplateBuilder = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Site name {val?.optIrt == "yes" ? <span>*</span> : ""}</label>
+                                      <label for="">Site name {val?.optIrt == "yes" ? <span> *</span> : ""}</label>
 
                                       <Select
                                         options={siteNameAll}

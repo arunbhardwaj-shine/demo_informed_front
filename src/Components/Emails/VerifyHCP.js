@@ -109,7 +109,7 @@ const VerifyHCP = (props) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
-
+  const [validationError, setValidationError] = useState({});
   const [irtRoleObj,setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
@@ -396,6 +396,7 @@ const VerifyHCP = (props) => {
       const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
       setDefaultRole = irtRole?.[userRoleIndex]?.value;
     }
+    setValidationError({});
     // $('#myModal').modal('show'
     // document.getElementById("tagsModal").modal('show');
     setIsOpen(true);
@@ -770,7 +771,7 @@ const VerifyHCP = (props) => {
         smart_list_id: "",
       };
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data,index) => {
         if(irtRoleObj?.IRTFlag){
           data.institution_type  = 'Study site';
         }
@@ -788,14 +789,29 @@ const VerifyHCP = (props) => {
             data.first_name == "" &&
             isRdAndNorgianAcount
           ) {
-            return "Please enter the first name";
+            setValidationError({
+              newHcpFirstName: "Please enter the first name",
+              index: index,
+            });
+            return;
+            // return "Please enter the first name";
           } else if (
             data.last_name == "" &&
             isRdAndNorgianAcount
           ) {
-            return "Please enter the last name";
+            setValidationError({
+              newHcpLastName: "Please enter the last name",
+              index: index,
+            });
+            return;
+            // return "Please enter the last name";
           } else if (data.email == "") {
-            return "Please enter the email atleast";
+            setValidationError({
+              newHcpEmail: "Please enter the email atleast",
+              index: index,
+            });
+            return;
+            // return "Please enter the email atleast";
           }else if (data.email != "") {
             let email = data.email;
             let useremail = email.trim();
@@ -803,15 +819,30 @@ const VerifyHCP = (props) => {
             if (regex.test(String(useremail).toLowerCase())) {
               let prev_obj = selectedHcp.find((x) => x.email === useremail);
               if (typeof prev_obj != "undefined") {
-                return "User with same email already added in list.";
+                setValidationError({
+                  newHcpEmail: "User with same email already added in list.",
+                  index: index,
+                });
+                return;
+                // return "User with same email already added in list.";
               }
             } else {
-              return "Email format is not valid";
+              setValidationError({
+                newHcpEmail: "Email format is not valid",
+                index: index,
+              });
+              return;
+              // return "Email format is not valid";
             }
           }
 
           if (isRdAndNorgianAcount && data.institution_type == "") {
-              return "Please Select the institution ";
+              // return "Please Select the institution ";
+              setValidationError({
+                newHcpInstitution: "Please Select the institution",
+                index: index,
+              });
+              return;
           
           }
 
@@ -820,14 +851,29 @@ const VerifyHCP = (props) => {
             //   return "Please enter the institution ";
             // }
             if (data.country == "") {
-              return "Please select the country";
+              // return "Please select the country";
+              setValidationError({
+                newHcpCountry: "Please select the country",
+                index: index,
+              });
+              return;
             }
 			if(data?.siteIrt == 1 || irtRoleObj?.IRTFlag == 1){
 				if (data.siteNumber == "") {
-				  return "Please select the site number";
+				  // return "Please select the site number";
+          setValidationError({
+            newSiteNumber: "Please select the site number",
+            index: index,
+          });
+          return;
 				}
 				if (data.siteName == "") {
-				  return "Please select the site name";
+				  // return "Please select the site name";
+          setValidationError({
+            newSiteName: "Please select the site name",
+            index: index,
+          });
+          return;
 				}
 			}
 
@@ -850,10 +896,21 @@ const VerifyHCP = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = selectedHcp.find((x) => x.email === useremail);
             if (typeof prev_obj != "undefined") {
-              return "User with same email already added in list.";
+              // return "User with same email already added in list.";
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+                index: index,
+              });
+ 
+              return;
             }
           } else {
-            return "Email format is not valid";
+            // return "Email format is not valid";
+            setValidationError({
+              newHcpEmail: "Email format is not valid",
+              index: index,
+            });
+            return;
           }
           return "true";
         } else {
@@ -2926,13 +2983,24 @@ const VerifyHCP = (props) => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpFirstName &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     placeholder="First Name"
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
                                   />
+                                  {validationError?.newHcpFirstName &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpFirstName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -2948,13 +3016,24 @@ const VerifyHCP = (props) => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpLastName &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     placeholder="Last Name"
                                     onChange={(event) =>
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
                                   />
+                                  {validationError?.newHcpLastName &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpLastName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -2964,7 +3043,12 @@ const VerifyHCP = (props) => {
                                   </label>
                                   <input
                                     type="email"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpEmail &&
+                                        validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     placeholder="example@email.com"
                                     id="email-desc"
                                     name={`${fieldName}.email`}
@@ -2973,6 +3057,12 @@ const VerifyHCP = (props) => {
                                     }
                                     value={val.email}
                                   />
+                                  {validationError?.newHcpEmail &&
+                                    validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpEmail}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               {(localStorage.getItem("user_id") ===
@@ -3027,7 +3117,12 @@ const VerifyHCP = (props) => {
                                             {val?.optIrt == "yes" ? (
                                       <Select
                                         options={irtInstitutionType}
-                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
@@ -3057,7 +3152,12 @@ const VerifyHCP = (props) => {
                                       val?.optIrt == "no" ? (
                                         <Select
                                         options={nonIrtInstitutionType}
-                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpInstitution
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
@@ -3084,6 +3184,13 @@ const VerifyHCP = (props) => {
                                         isClearable
                                         placeholder="Select institution"
                                       /> ): null}
+
+                                      {validationError?.newHcpInstitution &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpInstitution}
+                                        </div>
+                                      ) : null}
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-6">
@@ -3225,9 +3332,15 @@ const VerifyHCP = (props) => {
                                     )}
                                   </label>
                                   {val?.optIrt == "yes" ? (
+                                    <>
                                     <Select
                                       options={irtCountry}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={
+                                        validationError?.index == i &&
+                                          validationError?.newHcpCountry
+                                          ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      }
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3246,28 +3359,50 @@ const VerifyHCP = (props) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
+
+                                    {validationError?.newHcpCountry &&
+                                      validationError?.index == i && (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpCountry}
+                                        </div>
+                                      )}
+                                    </>
                                   ) : (
-                                    <Select
-                                      options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
-                                        onCountryChange(event, i)
-                                      }
-                                      value={
-                                        countryall.findIndex(
-                                          (el) => el.value == val?.country
-                                        ) == -1
-                                          ? ""
-                                          : countryall[
-                                              countryall.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
-                                      }
-                                      placeholder="Select Country"
-                                      filterOption={createFilter(filterConfig)}
-                                      isClearable
-                                    />
+                                    <>
+                                      <Select
+                                        options={countryall}
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newHcpCountry
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
+                                        onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                        value={
+                                          countryall.findIndex(
+                                            (el) => el.value == val?.country
+                                          ) == -1
+                                            ? ""
+                                            : countryall[
+                                                countryall.findIndex(
+                                                  (el) => el.value == val?.country
+                                                )
+                                              ]
+                                        }
+                                        placeholder="Select Country"
+                                        filterOption={createFilter(filterConfig)}
+                                        isClearable
+                                      />
+
+                                      {validationError?.newHcpCountry &&
+                                        validationError?.index == i && (
+                                          <div className="login-validation">
+                                            {validationError?.newHcpCountry}
+                                          </div>
+                                        )}
+                                    </>
                                   )}
 
                                   {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
@@ -3352,7 +3487,12 @@ const VerifyHCP = (props) => {
 
                                       <Select
                                         options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteNumber
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
@@ -3365,6 +3505,13 @@ const VerifyHCP = (props) => {
                                         }
                                         placeholder={"Select Site Number"}
                                       />
+
+                                      {validationError?.newSiteNumber &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteNumber}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                   <div className="col-12 col-md-6">
@@ -3382,7 +3529,12 @@ const VerifyHCP = (props) => {
 
                                       <Select
                                         options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        className={
+                                          validationError?.index == i &&
+                                            validationError?.newSiteName
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        }
                                         onChange={(event) =>
                                           onSiteNameChange(event, i)
                                         }
@@ -3393,6 +3545,13 @@ const VerifyHCP = (props) => {
                                         }
                                         placeholder={"Select Site Name"}
                                       />
+
+                                      {validationError?.newSiteName &&
+                                        validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.newSiteName}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </>
