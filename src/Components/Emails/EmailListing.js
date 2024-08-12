@@ -380,7 +380,8 @@ const EmailList = (props) => {
     creator,
     discription,
     subject,
-    tags
+    tags,
+    type=""
   ) => {
     // if (campaign_id != "" && route != "" && pdf_id != "") {
     // navigate("/" + route, {
@@ -417,11 +418,16 @@ const EmailList = (props) => {
         toast.error("Something went wrong");
       });
 
-    //console.log(props);
     // navigate("/" + route);
-    navigate("/" + route, {
-      state: { IrtObj: irtRoleObj },
-    });
+    if(irtRoleObj?.IRTFlag == 1 && type == "send_new"){
+      navigate("/VerifyHCP", {
+        state: { IrtObj: irtRoleObj, NextFlag: 1 },
+      });
+    }else{
+      navigate("/" + route, {
+        state: { IrtObj: irtRoleObj },
+      });
+    }
     //  }
   };
 
@@ -1780,7 +1786,8 @@ const EmailList = (props) => {
                                               data.creator,
                                               data.discription,
                                               data.subject,
-                                              data.tags
+                                              data.tags,
+                                              "send_new"
                                             )
                                           }
                                         >
