@@ -3325,7 +3325,9 @@ h5 {
   justify-content: center;
   text-align: center;
 }
-
+.selected-hcp-table .selected-hcp-list .not-found {
+  min-height: 180px;
+}
 .table-title {
   display: flex;
   justify-content: space-between;
@@ -7835,7 +7837,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   border-radius: 15px;
   width: 100%;
   padding: 8px;
-  max-height: 150px;
+  max-height: 95px;
   background-color: var(--white);
   background-clip: padding-box;
   position: absolute;
@@ -7843,7 +7845,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 }
 
 .split-button-dropup.edit-country-dropdown div:nth-child(4)>div {
-  max-height: 130px;
+  max-height: 80px;
 }
 
 .split-button-dropup.edit-country-dropdown div:nth-child(4)>div div {
