@@ -1376,10 +1376,20 @@ const LibraryContent = (props) => {
                 // }}
                  className="library-content-box-layuot d-flex"
                  
-                 data ={libraryData} totalCount={libraryData?.length } itemContent={( index,data) => {
-                  
-                  return (
-                    <>
+                 data ={libraryData}
+                  totalCount={libraryData?.length/3 }
+                   itemContent={( index,data) => {
+                    const cellCount = 3;
+                    const idx = [];
+                    for (let i = 0; i < cellCount; i++) {
+                      idx.push(index * cellCount + i);
+                    }
+                    const cells = idx.map((i) => 
+                      
+                     { 
+                      let data=libraryData[i]
+                      return (
+                      <>
                       <div className="doc-content-main-box col" >
                         <div className="doc-content-header">
                           <div className="doc-content-header-logo">
@@ -2688,7 +2698,12 @@ const LibraryContent = (props) => {
                         </div>
                       </div>
                     </>
-                  );
+                    )});
+                    return <div className={"row"}>{cells}</div>;
+
+                  
+
+                
                 }} />
                 ) : apiCallStatus ? (
                   <div className="no_found">
