@@ -6483,6 +6483,10 @@ input.viewer-toolbar-current-page-input {
 
   .library-content-box-layuot {
     padding: 0 30px;
+    .row{
+        gap: 0% 5%;
+        flex-wrap: wrap;
+    }
   }
 
   .library-content-box-layuot.new-reader {
@@ -9833,6 +9837,9 @@ svg.pencil_icon {
 }
 
 @media only screen and (max-width: 1700px) {
+  .custom-change .library-content-box-layuot .row{
+    gap: 0% 2%;
+  }
   .library-content-box-layuot {
     gap: 0% 2%;
 
@@ -10379,6 +10386,9 @@ svg.pencil_icon {
   }
 
   .library-content-box-layuot {
+    gap: 0% 2%;
+  }
+  .custom-change .library-content-box-layuot .row{
     gap: 0% 2%;
   }
 

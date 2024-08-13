@@ -1374,7 +1374,7 @@ const LibraryContent = (props) => {
                 //   height: '100vh',
                 //   width: '100vw',
                 // }}
-                 className="library-content-box-layuot d-flex"
+                 className="d-flex w-100"
                  
                  data ={libraryData}
                   totalCount={libraryData?.length/3 }
