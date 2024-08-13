@@ -323,6 +323,7 @@ const WebinarVerifyHCP = (props) => {
 
     const closeModal = () => {
         setIsOpen(false);
+        setValidationError({})
         setHpc([
             {
                 firstname: "",
@@ -345,8 +346,7 @@ const WebinarVerifyHCP = (props) => {
     };
 
     const addNewHcp = () => {
-        // $('#myModal').modal('show'
-        // document.getElementById("tagsModal").modal('show');
+        setValidationError({})
         setIsOpen(true);
         setHpc([
             {
