@@ -52,6 +52,8 @@ const Table = (props, ref) => {
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
   const [instituions, setInstituions] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const [activeManual, setActiveManual] = useState("active");
   const [sorting, setSorting] = useState(0);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -149,6 +151,10 @@ const Table = (props, ref) => {
             let arrIrtUserType = [];
             let institutions;
             let arrinstitutions = [];
+            let nonIrtInstitution;
+            let arrNonIrtInstitution = []
+            let irtInstitution;
+            let arrIrtInstitution = []
 
             let arr = [];
 
@@ -163,6 +169,8 @@ const Table = (props, ref) => {
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
               institutions = res?.data?.response?.data?.institution_type;
+              nonIrtInstitution = res?.data?.response?.data?.non_mandatory_institution_type
+              irtInstitution = res?.data?.response?.data?.irt_institution_type
 
               arrUserType = [];
               arrSubRole = [];
@@ -274,6 +282,19 @@ const Table = (props, ref) => {
                   value: item,
                 });
               });
+
+              Object.entries(nonIrtInstitution)?.map(([item, index]) => {
+                arrNonIrtInstitution.push({
+                  label: item,
+                  value: item,
+                });
+              });
+              Object.entries(irtInstitution)?.map(([item, index]) => {
+                arrIrtInstitution.push({
+                  label: item,
+                  value: item,
+                });
+              });
             }
 
             setCountryall(arr);
@@ -291,23 +312,14 @@ const Table = (props, ref) => {
               setBlindTypeAll(arrBlindType);
               setSiteData(res.data.response.data.site_data);
               setChanges(res.data.response.data);
+
+              setNonIrtInstitutionType(arrNonIrtInstitution)
+              setIrtInstitutionType(arrIrtInstitution)
             }
 
             // setCountryall(res.data.response.data.country);
           }
-          // let country_opt = res.data.response.data.country;
-          // var country_options = "<option>Select Country</option>";
-          //   Object.entries(country_opt).map((item) => {
-          //     let opt = "<option>"+item[0]+"</option>";
-          //     country_options = country_options+opt;
-          //   });
-          //
-          //   let x=document.querySelectorAll(".country-form_edit");  // Find the elements
-          //     [].forEach.call(x, function(op) {
-          //       op.innerHTML = country_options;
-          //       op.value = op.getAttribute("data-id");
-          //     });
-          //     loader("hide");
+     
         })
         .catch((err) => {
           //console.log(err);
@@ -336,8 +348,14 @@ const Table = (props, ref) => {
         (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
-      userTypeIndex:
+      roleIndex:
         (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+        institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        ? irtInstitutionType?.[0]?.value
+        : "",
+      instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+      siteNumber: "",
+      siteName: ""
     },
   ]);
 
@@ -366,7 +384,7 @@ const Table = (props, ref) => {
     if (e == null) {
       const list = [...hpc];
       list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       setHpc(list);
     } else {
       const value = e.value;
@@ -375,7 +393,7 @@ const Table = (props, ref) => {
       list[i].userType = value;
 
       let index = countryall.findIndex((x) => x.value === value);
-      list[i].userTypeIndex = index;
+      list[i].roleIndex = index;
       setHpc(list);
     }
   };
@@ -417,7 +435,7 @@ const Table = (props, ref) => {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
         list[i].userType = "";
-        list[i].userTypeIndex = "";
+        list[i].roleIndex = "";
         list[i].userType = "Other";
         list[i].roleIndex = 4;
       }
@@ -517,7 +535,7 @@ const Table = (props, ref) => {
       list[i].siteIrt = "";
       list[i].siteIrt = "";
       list[i].userType = "";
-      list[i].userTypeIndex = "";
+      list[i].roleIndex = "";
       list[i].country = "";
       setHpc(list);
     } else {
@@ -531,12 +549,14 @@ const Table = (props, ref) => {
       list[i].roleIndex = value == "Yes" ? 0 : 4;
       list[i].siteIrtIndex = index;
       // list[i].userType = "";
-      list[i].userTypeIndex = "";
+      
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].institute = value == "Yes" ? irtInstitutionType?.[0]?.value : "";
+      list[i].instituteIndex = value == "Yes" ? 0 : "";
       setHpc(list);
     }
     let arr = [];
@@ -664,7 +684,7 @@ const Table = (props, ref) => {
           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
-        userTypeIndex:
+        roleIndex:
           (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? 0
@@ -677,6 +697,12 @@ const Table = (props, ref) => {
           (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
+            institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            ? irtInstitutionType?.[0]?.value
+            : "",
+          instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+          siteNumber: "",
+          siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -1201,7 +1227,7 @@ const Table = (props, ref) => {
             (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
-          userTypeIndex:
+          roleIndex:
             (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? 0
               : "",
@@ -1213,6 +1239,12 @@ const Table = (props, ref) => {
             (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
+              institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+              ? irtInstitutionType?.[0]?.value
+              : "",
+            instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+            siteNumber: "",
+            siteName: ""
         },
       ]);
     } else {
@@ -2654,7 +2686,7 @@ const Table = (props, ref) => {
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? irtRole?.[0]?.value
                           : "",
-                      userTypeIndex:
+                      roleIndex:
                         (localStorageUserId ==
                           "56Ek4feL/1A8mZgIKQWEqg=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
@@ -2673,6 +2705,12 @@ const Table = (props, ref) => {
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
+                          institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                          ? irtInstitutionType?.[0]?.value
+                          : "",
+                        instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+                        siteNumber: "",
+                        siteName: ""
                     },
                   ]);
                   setActiveManual("active");
@@ -2714,6 +2752,7 @@ const Table = (props, ref) => {
                                         onFirstNameChange(event, i)
                                       }
                                       value={val.firstname}
+                                      placeholder="First name"
                                     />
                                   </div>
                                 </div>
@@ -2735,6 +2774,7 @@ const Table = (props, ref) => {
                                         onLastNameChange(event, i)
                                       }
                                       value={val.lastname}
+                                      placeholder="Last name"
                                     />
                                   </div>
                                 </div>
@@ -2756,6 +2796,7 @@ const Table = (props, ref) => {
                                         onEmailChange(event, i)
                                       }
                                       value={val.email}
+                                      placeholder="example@email.com"
                                     />
                                     {validationError?.newHcpEmail ? (
                                       <div className="login-validation">
@@ -2851,26 +2892,7 @@ const Table = (props, ref) => {
                                         )}
                                         isClearable
                                       />
-                                      {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
+                                     
                                     </div>
                                   </div>
                                 ) : null}
@@ -2881,42 +2903,13 @@ const Table = (props, ref) => {
                                   ? (
                                   <>
                                     <hr />
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">
-                                          Institution <span>*</span>
-                                        </label>
-                                        <Select
-                                          options={instituions}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onInstitutionChange(event, i)
-                                          }
-                                          defaultValue={
-                                            instituions[hpc[i].instituteIndex]
-                                          }
-                                          placeholder={
-                                            typeof instituions[
-                                              hpc[i].instituteIndex
-                                            ] === "undefined"
-                                              ? "Select Institutions"
-                                              : instituions[
-                                              hpc[i].instituteIndex
-                                              ]
-                                          }
-                                        />
-                                      </div>
-                                    </div>
+                                    
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">
                                           IRT mandatory training
                                         </label>
-                                        {/*console.log(
-                                          siteIrtAll[hpc[i].siteIrtIndex],
-                                          siteIrtAll,
-                                          hpc[i]
-                                        )*/}
+                                       
                                         <Select
                                           options={siteIrtAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2938,7 +2931,64 @@ const Table = (props, ref) => {
                                     </div>
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">IRT role</label>
+                                        <label for="">
+                                          Institution <span>*</span>
+                                        </label>
+                                        {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ?
+                                        <Select
+                                          options={irtInstitutionType}
+                                          className={(validationError?.institutionType && validationError?.index == i)
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          defaultValue={
+                                            irtInstitutionType[hpc[i].instituteIndex]
+                                          }
+                                          placeholder={
+                                            typeof irtInstitutionType[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : irtInstitutionType[
+                                              hpc[i].instituteIndex
+                                              ]
+                                          }
+                                        />:
+                                        <Select
+                                          options={nonIrtInstitutionType}
+                                          className={(validationError?.institutionType && validationError?.index == i)
+                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                          onChange={(event) =>
+                                            onInstitutionChange(event, i)
+                                          }
+                                          defaultValue={
+                                            nonIrtInstitutionType[hpc[i].instituteIndex]
+                                          }
+                                          value={nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            ? nonIrtInstitutionType[hpc[i].instituteIndex]
+                                            : ""
+                                          }
+                                          placeholder={
+                                            typeof nonIrtInstitutionType[
+                                              hpc[i].instituteIndex
+                                            ] === "undefined"
+                                              ? "Select Institutions"
+                                              : nonIrtInstitutionType[
+                                              hpc[i].instituteIndex
+                                              ]
+                                          }
+                                        />
+                                        
+                                        }
+                                      </div>
+                                    </div>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">IRT role <span> *</span></label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
                                           <Select
@@ -2965,7 +3015,7 @@ const Table = (props, ref) => {
                                             }
                                             isClearable
                                             placeholder={"Select Role"}
-                                          // filterOption={createFilter(filterConfig)}
+                                         
                                           />
                                         ) : (
                                           <Select
@@ -2975,31 +3025,7 @@ const Table = (props, ref) => {
                                         )}
                                       </div>
                                     </div>
-                                    {/*<div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">Blind Type</label>
-                                        <Select
-                                          options={blindTypeAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onBlindTypeChange(event, i)
-                                          }
-                                          defaultValue={
-                                            blindTypeAll[hpc[i].blindTypeIndex]
-                                          }
-                                          placeholder={
-                                            typeof blindTypeAll[
-                                              hpc[i].blindTypeIndex
-                                            ] === "undefined"
-                                              ? "Select Blind Type"
-                                              : blindTypeAll[
-                                                  hpc[i].blindTypeIndex
-                                                ]
-                                          }
-                                          // filterOption={createFilter(filterConfig)}
-                                        />
-                                      </div>
-                                    </div>*/}
+                                  
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
@@ -3024,8 +3050,7 @@ const Table = (props, ref) => {
                                               hpc[i].subUserTypeIndex
                                               ]
                                           }
-                                        // filterOption={createFilter(filterConfig)}
-                                        //  isClearable
+                                       
                                         />
                                       </div>
                                     </div>
@@ -3095,32 +3120,14 @@ const Table = (props, ref) => {
                                             isClearable
                                           />
                                         )}
-                                        {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
+                                      
                                       </div>
                                     </div>
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Site number</label>
+                                        <label for="">Site number {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ?<span> *</span>:""}</label>
                                         <Select
                                           options={siteNumberAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -3148,30 +3155,14 @@ const Table = (props, ref) => {
                                               hpc[i].siteNumberIndex
                                               ]
                                           }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
+                               
                                         />
                                       </div>
                                     </div>
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Site name</label>
+                                        <label for="">Site name {siteIrtAll[hpc[i].siteIrtIndex]
+                                          ?.value === "Yes" ?<span> *</span>:""}</label>
 
                                         <Select
                                           options={siteNameAll}
@@ -3179,17 +3170,7 @@ const Table = (props, ref) => {
                                           onChange={(event) =>
                                             onSiteNameChange(event, i)
                                           }
-                                          // onChange={(event) =>
-                                          //   onUserTypeChange(event, i)
-                                          // }
-                                          // defaultValue={
-                                          //   userTypeAll[
-                                          //     hpc[i].userTypeIndex
-                                          //   ]
-                                          // }
-                                          // valueField={
-                                          //   siteNameAll[hpc[i].siteNameIndex]?.value
-                                          // }
+                                      
                                           value={
                                             siteNameAll[hpc[i].siteNameIndex]
                                               ? siteNameAll[
@@ -3209,266 +3190,29 @@ const Table = (props, ref) => {
                                               hpc[i].siteNameIndex
                                               ]
                                           }
-                                        // filterOption={createFilter(filterConfig)}
+                                        
                                         />
                                       </div>
                                     </div>
 
-                                    {/* <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Street</label>
-                                      <Select
-                                        options={siteStreetAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteStreetChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteStreetAll[
-                                            hpc[i].siteStreetIndex
-                                          ] === "undefined"
-                                            ? "Select Site Street"
-                                            : siteStreetAll[
-                                                hpc[i].siteStreetIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Post Code</label>
-                                      <Select
-                                        options={sitePostalCodeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSitePostCode(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ] === "undefined"
-                                            ? "Select Post Code"
-                                            : sitePostalCodeAll[
-                                                hpc[i].sitePostCodeIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site City</label>
-                                      <Select
-                                        options={siteCityAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteCityChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteCityAll[
-                                            hpc[i].siteCityIndex
-                                          ] === "undefined"
-                                            ? "Select Site City"
-                                            : siteCityAll[hpc[i].siteCityIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>*/}
-
-                                    {/* <button onClick={(e) => addMoreSite(i, e)}>
-                                    +
-                                  </button> */}
+                                   
 
                                     {val?.siteDetails?.map((data, index) => {
                                       return (
                                         <>
-                                          {/* {index !== 0 ? (
-                                          <>
-                                            <div className="add-content-form">
-                                              <div className="row">
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site number
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNumberChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteNumber}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site name
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNameChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteName}
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Street
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteStreetChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteStreet}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Post Code
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSitePostCode(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.sitePostCode}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site City
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteCityChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteCity}
-                                                    />
-                                                  </div>
-                                                  <div className="delete_btn">
-                                                    {index !== 0 ? (
-                                                      <button
-                                                        type="button"
-                                                        className="btn btn-filled"
-                                                        onClick={(e) =>
-                                                          removeSite(
-                                                            index,
-                                                            i,
-                                                            e
-                                                          )
-                                                        }
-                                                      >
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "delete.svg"
-                                                          }
-                                                          alt="Add More"
-                                                        />
-                                                      </button>
-                                                    ) : null}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </>
-                                        ) : ( */}
+                                         
                                           <>
                                             <div className="add-content-form">
                                               <div className="row"></div>
                                             </div>
                                           </>
-                                          {/* )} */}
+                                         
                                         </>
                                       );
                                     })}
                                   </>
                                 ) : null}
-                                {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
+                               
                               </div>
                             </div>
 

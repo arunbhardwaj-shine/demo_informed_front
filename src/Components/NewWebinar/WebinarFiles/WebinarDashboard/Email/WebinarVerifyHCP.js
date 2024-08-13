@@ -43,6 +43,8 @@ const WebinarVerifyHCP = (props) => {
     const [role, setRole] = useState([]);
     const [irtRole, setIrtRole] = useState([]);
     const [institutionType, setInstitutionType] = useState([]);
+    const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+    const [irtInstitutionType, setIrtInstitutionType] = useState([])
     const [optIRT, setoptIRT] = useState([
         { value: "yes", label: "Yes" },
         { value: "no", label: "No" },
@@ -77,7 +79,11 @@ const WebinarVerifyHCP = (props) => {
     const [searchedUsers, setSearchedUsers] = useState([]);
     const [editableData, setEditableData] = useState([]);
     const [sortingCount, setSortingCount] = useState(0);
-    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+    const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+    ? "56Ek4feL/1A8mZgIKQWEqg=="
+    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        ? "sNl1hra39QmFk9HwvXETJA=="
+        : null);
     const navigate = useNavigate();
 
     const [selectedHcp, setSelectedHcp] = useState(
@@ -105,14 +111,18 @@ const WebinarVerifyHCP = (props) => {
             country: "",
             countryIndex: "",
             role:
-                (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                (localStorageUserId == userId)
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                (localStorageUserId == userId)
                     ? "yes"
                     : "",
-            institutionType: "",
+                    institutionType: (localStorageUserId == userId)
+                    ? "Study site"
+                    : "",
+                siteNumber: "",
+                siteName: ""
         },
     ]);
     const [updateCounter, setUpdateCounter] = useState(0);
@@ -124,7 +134,7 @@ const WebinarVerifyHCP = (props) => {
 
     const axiosFun = async () => {
         try {
-            const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+            const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
             let country = result?.data?.response?.data?.site_country_data;
             let arr = [];
             Object.entries(country)?.map(([index, item]) => {
@@ -218,7 +228,7 @@ const WebinarVerifyHCP = (props) => {
     };
 
     useEffect(() => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
             axiosFun();
         }
 
@@ -245,7 +255,7 @@ const WebinarVerifyHCP = (props) => {
                         });
                         setCountryall(arr);
 
-                        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+                        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
                             let investigator_type =
                                 res?.data?.response?.data?.investigator_type;
                             let newType = [];
@@ -258,12 +268,30 @@ const WebinarVerifyHCP = (props) => {
                             Object.keys(irt_inverstigator_type)?.map((item, i) => {
                                 newIrtType.push({ label: item, value: item });
                             });
-                            let instution_type = res?.data?.response?.data?.institution_type;
-                            let newInstitutionType = [];
-                            Object.keys(instution_type)?.map((item, i) => {
-                                newInstitutionType.push({ label: item, value: item });
+                            // let instution_type = res?.data?.response?.data?.institution_type;
+                            // let newInstitutionType = [];
+                            // Object.keys(instution_type)?.map((item, i) => {
+                            //     newInstitutionType.push({ label: item, value: item });
+                            // });
+                            // setInstitutionType(newInstitutionType);
+                            let non_irt_institution_type =
+                            res?.data?.response?.data?.non_mandatory_institution_type;
+                            let nonIrtInstitution = [];
+                            Object.keys(non_irt_institution_type)?.map((item, i) => {
+                              nonIrtInstitution.push({ label: item, value: item });
                             });
-                            setInstitutionType(newInstitutionType);
+                
+                            setNonIrtInstitutionType(nonIrtInstitution);
+                
+                            let irt_institution_type =
+                              res?.data?.response?.data?.irt_institution_type;
+                
+                            let newIrtInstitution = [];
+                            Object.keys(irt_institution_type)?.map((item, i) => {
+                              newIrtInstitution.push({ label: item, value: item });
+                            });
+                
+                            setIrtInstitutionType(newIrtInstitution);
                             setRole(newType);
                             setIrtRole(newIrtType);
                         }
@@ -329,14 +357,18 @@ const WebinarVerifyHCP = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                    (localStorageUserId == userId)
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                    (localStorageUserId == userId)
                         ? "yes"
                         : "",
-                institutionType: "",
+                        institutionType: (localStorageUserId == userId)
+                        ? "Study site"
+                        : "",
+                    siteNumber: "",
+                    siteName: ""
             },
         ]);
         setActiveManual("active");
@@ -531,7 +563,7 @@ const WebinarVerifyHCP = (props) => {
             list[i].countryIndex = "";
             setHpc(list);
         } else {
-            if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+            if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
                 let consetValue = e?.value;
                 if (e.value == "B&H") {
                     consetValue = "Bosnia and Herzegovina";
@@ -623,7 +655,7 @@ const WebinarVerifyHCP = (props) => {
     const saveClicked = async () => {
         if (activeManual == "active") {
             const body_data = hpc?.map((data) => {
-                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
                     return {
                         first_name: data?.firstname,
                         last_name: data?.lastname,
@@ -654,155 +686,106 @@ const WebinarVerifyHCP = (props) => {
                 user_id: localStorageUserId,
                 smart_list_id: "",
             };
+           
             const status = body?.data?.map((data, index) => {
-                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
-                    if (data?.first_name == "") {
-                        setValidationError({
-                            newHcpFirstName: "Please enter the first name",
-                            index: index,
-                        });
-                        return "Please enter the first name";
-                    } else if (data?.last_name == "") {
-                        setValidationError({
-                            newHcpLastName: "Please enter the last name",
-                            index: index,
-                        });
-                        return "Please enter the last name";
-                    }
+                if (localStorageUserId == userId) {
+                  if (data?.first_name == "") {
+                    setValidationError({
+                      newHcpFirstName: "Please enter the first name",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.last_name == "") {
+                    setValidationError({
+                      newHcpLastName: "Please enter the last name",
+                      index: index,
+                    });
+                    return ;
+                  }
+                  if (data?.email == "") {
+                    setValidationError({
+                      newHcpEmail: "Please enter the email",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.institution_type == "") {
+                    setValidationError({
+                      newHcpInstitution: "Please select the Institution type",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.investigator_type == "") {
+                    setValidationError({
+                      role: "Please select the role",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.country == "") {
+                    setValidationError({
+                      newHcpCountry: "Please select the country",
+                      index: index,
+                    });
+                    return ;
+                  }else if (data?.siteNumber == ""&& data?.siteIrt==1) {
+                    setValidationError({
+                      siteNumber: "Please select site number",
+                      index: index,
+                    });
+                    return ;
+                  }else if (data?.siteName == ""&&data?.siteIrt==1) {
+                    setValidationError({
+                      siteName: "Please select site name",
+                      index: index,
+                    });
+                    return ;
+                  }
                 }
                 if (data?.email == "") {
+                  setValidationError({
+                    newHcpEmail: "Please enter the email",
+                    index: index,
+                  });
+                  return ;
+                } 
+                if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="  )   
+                 {
+                  if (data?.country == "") {
                     setValidationError({
-                        newHcpEmail: "Please enter the email atleast",
-                        index: index,
+                      newHcpCountry: "Please select the country",
+                      index: index,
                     });
-                    return "Please enter the email atleast";
-                } else if (data?.institution_type == "") {
-                    setValidationError({
-                        newHcpInstitution: "Please select Institution",
-                        index: index,
-                    });
-                    return "Please select the institution type";
-                }
-                if (
-                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  || 
-                    localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
-                ) {
-                    if (data?.country == "") {
-                        setValidationError({
-                            newHcpCountry: "Please select country",
-                            index: index,
-                        });
-                        return "Please select country";
-                    }
+                    return ;
+                  }
                 }
                 if (data?.email != "") {
-                    let email = data?.email;
-                    let useremail = email?.trim();
-                    var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                    if (regex.test(String(useremail).toLowerCase())) {
-                        let prev_obj = selectedHcp.find(
-                            (x) => x?.email?.toLowerCase() === useremail?.toLowerCase()
-                        );
-                        if (typeof prev_obj != "undefined") {
-                            setValidationError({
-                                newHcpEmail: "User with same email already added in list.",
-                                index: index,
-                            });
-                            return "User with same email already added in list.";
-                        } else {
-                            return "true";
-                        }
+                  let email = data?.email;
+                  let useremail = email?.trim();
+                  var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                  if (regex.test(String(useremail).toLowerCase())) {
+                    let prev_obj = selectedHcp.find(
+                      (x) => x?.email?.toLowerCase() === useremail?.toLowerCase()
+                    );
+                    if (typeof prev_obj != "undefined") {
+                      setValidationError({
+                        newHcpEmail: "User with same email already added in list.",
+                        index: index,
+                      });
+                      return ;
                     } else {
-                        setValidationError({
-                            newHcpEmail: "Email format is not valid",
-                            index: index,
-                        });
-                        return "Email format is not valid";
+                      return "true";
                     }
+                  } else {
+                    setValidationError({
+                      newHcpEmail: "Email format is not valid",
+                      index: index,
+                    });
+                    return ;
+                  }
                 }
                 return "true";
-            });
-
-            // const status = body?.data?.map((data,index) => {
-            //     if (
-            //         data?.email == "" ||
-            //         data?.institution_type == "" ||
-            //         data?.first_name == "" ||
-            //         data?.last_name == "" ||
-            //         data?.country == ""
-            //     ) {
-            //         if (
-            //             data?.first_name == "" &&
-            //             localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-            //         ) {
-            //             setValidationError({
-            //                 newHcpFirstName: "Please enter the first name",
-            //                 index: index,
-            //             });
-            //             return "Please enter the first name";
-            //         } else if (
-            //             data?.last_name == "" &&
-            //             localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
-            //         ) {
-            //             setValidationError({
-            //                 newHcpLastName: "Please enter the last name",
-            //                 index: index,
-            //             });
-            //             return "Please enter the last name";
-            //         } 
-            //         else if (data?.email == "") {
-
-            //             setValidationError({
-            //                 newHcpEmail: "Please enter the email atleast",
-            //                 index: index,
-            //             });
-            //             return "Please enter the email atleast";
-            //         }  
-            //         else if (data?.email != "") {
-            //             let email = data?.email;
-            //             let useremail = email?.trim();
-            //             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            //             if (regex.test(String(useremail).toLowerCase())) {
-            //                 let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
-            //                 if (typeof prev_obj != "undefined") {
-            //                     setValidationError({
-            //                         newHcpEmail: "User with same email already added in list.",
-            //                         index: index,
-            //                     });
-            //                     return "User with same email already added in list.";
-            //                 }
-            //             } else {
-            //                 setValidationError({
-            //                     newHcpEmail: "Email format is not valid",
-            //                     index: index,
-            //                 });
-            //                 return "Email format is not valid";
-            //             }
-            //             // return "true";
-            //         }
-
-            //         else if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==") {
-            //             if (data?.institution_type == "") {
-            //                 setValidationError({
-            //                     newHcpInstitution: "Please Select the institution ",
-            //                     index: index,
-            //                 });
-            //                 return "Please Select the institution ";
-            //             }
-            //             if (data?.country == "") {
-
-            //                 setValidationError({
-            //                     newHcpCountry: "Please select the country",
-            //                     index: index,
-            //                 });
-            //                 return "Please select the country";
-            //             }
-            //         }
-            //         return "true";
-            //     } 
-
-            // });
-            console.log("status-->", status)
+              });
+        
+           
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
@@ -874,7 +857,7 @@ const WebinarVerifyHCP = (props) => {
 
     const addMoreHcp = () => {
         const status = hpc.map((data) => {
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
                 if (
                     data?.firstname == "" ||
                     data?.lastname == "" ||
@@ -906,18 +889,22 @@ const WebinarVerifyHCP = (props) => {
                     country: "",
                     countryIndex: "",
                     role:
-                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                        (localStorageUserId == userId)
                             ? irtRole?.[0]?.value
                             : "",
                     optIrt:
-                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                        (localStorageUserId == userId)
                             ? "yes"
                             : "",
-                    institutionType: "",
+                            institutionType: (localStorageUserId == userId)
+                            ? "Study site"
+                            : "",
+                        siteNumber: "",
+                        siteName: ""
                 },
             ]);
         } else {
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+            if (localStorageUserId == userId) {
                 toast.warning("Please input the required fields.");
             } else {
                 toast.warning("Please input the required fields.");
@@ -1429,8 +1416,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
 
                                                     </th>
-                                                    <th scope="col" className="sort_option">                                                    
-                                                    Bounced                                                        
+                                                    <th scope="col" className="sort_option">
+                                                        Bounced
                                                     </th>
                                                     {/* <th scope="col">Country</th> */}
                                                     <th scope="col" className="sort_option" >
@@ -1470,7 +1457,7 @@ const WebinarVerifyHCP = (props) => {
                                                     </th>
 
                                                     {(localStorageUserId ===
-                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==") ? (
                                                         <>
                                                             <th scope="col" className="sort_option">
                                                                 <span onClick={() => handleSort('site_number')}>
@@ -1506,56 +1493,56 @@ const WebinarVerifyHCP = (props) => {
                                                                     </button>
                                                                 </span>
                                                             </th>
-                                                            <th scope="col"  className="sort_option">
-                                                            <span onClick={() => handleSort('irt')}>
-                                                            IRT mandatory training
-                                                                <button
-                                                                className={`event_sort_btn ${sortBy == "irt" ?
-                                                                sortOrder == "asc"
-                                                                    ? "svg_asc"
-                                                                    : "svg_active"
-                                                                : "" 
-                                                                }`}
-                                                                onClick={() => handleSort('irt')}
-                                                                >
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                                                    <g clip-path="url(#clip0_3722_6611)">
-                                                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                                                    </g>
-                                                                    <defs>
-                                                                    <clipPath id="clip0_3722_6611">
-                                                                        <rect width="8" height="8" fill="white"/>
-                                                                    </clipPath>
-                                                                    </defs>
-                                                                </svg>
-                                                                </button>
+                                                            <th scope="col" className="sort_option">
+                                                                <span onClick={() => handleSort('irt')}>
+                                                                    IRT mandatory training
+                                                                    <button
+                                                                        className={`event_sort_btn ${sortBy == "irt" ?
+                                                                            sortOrder == "asc"
+                                                                                ? "svg_asc"
+                                                                                : "svg_active"
+                                                                            : ""
+                                                                            }`}
+                                                                        onClick={() => handleSort('irt')}
+                                                                    >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                                            <g clip-path="url(#clip0_3722_6611)">
+                                                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_3722_6611">
+                                                                                    <rect width="8" height="8" fill="white" />
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </button>
                                                                 </span>
                                                             </th>
                                                             <th scope="col" className="sort_option">
-                                                        <span onClick={() => handleSort('user_type')}>
-                                                        IRT role
-                                                            <button
-                                                            className={`event_sort_btn ${sortBy == "user_type" ?
-                                                            sortOrder == "asc"
-                                                                ? "svg_asc"
-                                                                : "svg_active"
-                                                            : "" 
-                                                            }`}
-                                                            onClick={() => handleSort('user_type')}
-                                                            >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                                                <g clip-path="url(#clip0_3722_6611)">
-                                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                                                </g>
-                                                                <defs>
-                                                                <clipPath id="clip0_3722_6611">
-                                                                    <rect width="8" height="8" fill="white"/>
-                                                                </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                            </button>
-                                                            </span>
-                                                        </th>
+                                                                <span onClick={() => handleSort('user_type')}>
+                                                                    IRT role
+                                                                    <button
+                                                                        className={`event_sort_btn ${sortBy == "user_type" ?
+                                                                            sortOrder == "asc"
+                                                                                ? "svg_asc"
+                                                                                : "svg_active"
+                                                                            : ""
+                                                                            }`}
+                                                                        onClick={() => handleSort('user_type')}
+                                                                    >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                                            <g clip-path="url(#clip0_3722_6611)">
+                                                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_3722_6611">
+                                                                                    <rect width="8" height="8" fill="white" />
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </button>
+                                                                </span>
+                                                            </th>
                                                         </>
                                                     ) : (
                                                         <>
@@ -1599,8 +1586,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </>
                                                     )}
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('consent')}>
-                                                    Consent
+                                                        <span onClick={() => handleSort('consent')}>
+                                                            Consent
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "consent" ?
                                                                     sortOrder == "asc"
@@ -1633,8 +1620,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('email_received')}>
-                                                    Email received
+                                                        <span onClick={() => handleSort('email_received')}>
+                                                            Email received
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "email_received" ?
                                                                     sortOrder == "asc"
@@ -1667,8 +1654,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('email_opening')}>
-                                                    Openings
+                                                        <span onClick={() => handleSort('email_opening')}>
+                                                            Openings
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "email_opening" ?
                                                                     sortOrder == "asc"
@@ -1701,8 +1688,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('registration')}>
-                                                    Registrations
+                                                        <span onClick={() => handleSort('registration')}>
+                                                            Registrations
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "registration" ?
                                                                     sortOrder == "asc"
@@ -1735,8 +1722,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('last_email')}>
-                                                    Last email
+                                                        <span onClick={() => handleSort('last_email')}>
+                                                            Last email
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "last_email" ?
                                                                     sortOrder == "asc"
@@ -1785,12 +1772,12 @@ const WebinarVerifyHCP = (props) => {
                                                                 </td>
                                                                 {(localStorage.getItem("user_id") ==
                                                                     "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<>
-                                                                    <td>
-                                                                        {users?.site_number ? users?.site_number : "N/A"}
+                                                                        <td>
+                                                                            {users?.site_number ? users?.site_number : "N/A"}
                                                                         </td></>)}
                                                                 <td>
                                                                     {(localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                                                         ? users?.irt
                                                                             ? "Yes"
                                                                             : "No"
@@ -1800,8 +1787,8 @@ const WebinarVerifyHCP = (props) => {
                                                                 </td>
                                                                 <td>
                                                                     {(localStorageUserId ===
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
-                                                                        ? users?.user_type!=0
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                                                        ? users?.user_type != 0
                                                                             ? users?.user_type
                                                                             : "N/A"
                                                                         : users?.contact_type
@@ -2012,8 +1999,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
 
                                                     </th>
-                                                    <th scope="col" className="sort_option">                                                    
-                                                    Bounced                                                        
+                                                    <th scope="col" className="sort_option">
+                                                        Bounced
                                                     </th>
                                                     {/* <th scope="col">Country</th> */}
                                                     <th scope="col" className="sort_option" >
@@ -2053,7 +2040,7 @@ const WebinarVerifyHCP = (props) => {
                                                     </th>
 
                                                     {(localStorageUserId ===
-                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==") ? (
                                                         <>
                                                             <th scope="col" className="sort_option">
                                                                 <span onClick={() => handleSort('site_number')}>
@@ -2089,56 +2076,56 @@ const WebinarVerifyHCP = (props) => {
                                                                     </button>
                                                                 </span>
                                                             </th>
-                                                            <th scope="col"  className="sort_option">
-                                                            <span onClick={() => handleSort('irt')}>
-                                                            IRT mandatory training
-                                                                <button
-                                                                className={`event_sort_btn ${sortBy == "irt" ?
-                                                                sortOrder == "asc"
-                                                                    ? "svg_asc"
-                                                                    : "svg_active"
-                                                                : "" 
-                                                                }`}
-                                                                onClick={() => handleSort('irt')}
-                                                                >
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                                                    <g clip-path="url(#clip0_3722_6611)">
-                                                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                                                    </g>
-                                                                    <defs>
-                                                                    <clipPath id="clip0_3722_6611">
-                                                                        <rect width="8" height="8" fill="white"/>
-                                                                    </clipPath>
-                                                                    </defs>
-                                                                </svg>
-                                                                </button>
+                                                            <th scope="col" className="sort_option">
+                                                                <span onClick={() => handleSort('irt')}>
+                                                                    IRT mandatory training
+                                                                    <button
+                                                                        className={`event_sort_btn ${sortBy == "irt" ?
+                                                                            sortOrder == "asc"
+                                                                                ? "svg_asc"
+                                                                                : "svg_active"
+                                                                            : ""
+                                                                            }`}
+                                                                        onClick={() => handleSort('irt')}
+                                                                    >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                                            <g clip-path="url(#clip0_3722_6611)">
+                                                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_3722_6611">
+                                                                                    <rect width="8" height="8" fill="white" />
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </button>
                                                                 </span>
                                                             </th>
                                                             <th scope="col" className="sort_option">
-                                                        <span onClick={() => handleSort('user_type')}>
-                                                        IRT role
-                                                            <button
-                                                            className={`event_sort_btn ${sortBy == "user_type" ?
-                                                            sortOrder == "asc"
-                                                                ? "svg_asc"
-                                                                : "svg_active"
-                                                            : "" 
-                                                            }`}
-                                                            onClick={() => handleSort('user_type')}
-                                                            >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                                                <g clip-path="url(#clip0_3722_6611)">
-                                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                                                </g>
-                                                                <defs>
-                                                                <clipPath id="clip0_3722_6611">
-                                                                    <rect width="8" height="8" fill="white"/>
-                                                                </clipPath>
-                                                                </defs>
-                                                            </svg>
-                                                            </button>
-                                                            </span>
-                                                        </th>
+                                                                <span onClick={() => handleSort('user_type')}>
+                                                                    IRT role
+                                                                    <button
+                                                                        className={`event_sort_btn ${sortBy == "user_type" ?
+                                                                            sortOrder == "asc"
+                                                                                ? "svg_asc"
+                                                                                : "svg_active"
+                                                                            : ""
+                                                                            }`}
+                                                                        onClick={() => handleSort('user_type')}
+                                                                    >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                                                            <g clip-path="url(#clip0_3722_6611)">
+                                                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_3722_6611">
+                                                                                    <rect width="8" height="8" fill="white" />
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </button>
+                                                                </span>
+                                                            </th>
                                                         </>
                                                     ) : (
                                                         <>
@@ -2182,8 +2169,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </>
                                                     )}
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('consent')}>
-                                                    Consent
+                                                        <span onClick={() => handleSort('consent')}>
+                                                            Consent
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "consent" ?
                                                                     sortOrder == "asc"
@@ -2216,8 +2203,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('email_received')}>
-                                                    Email received
+                                                        <span onClick={() => handleSort('email_received')}>
+                                                            Email received
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "email_received" ?
                                                                     sortOrder == "asc"
@@ -2250,8 +2237,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('email_opening')}>
-                                                    Openings
+                                                        <span onClick={() => handleSort('email_opening')}>
+                                                            Openings
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "email_opening" ?
                                                                     sortOrder == "asc"
@@ -2284,8 +2271,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('registration')}>
-                                                    Registrations
+                                                        <span onClick={() => handleSort('registration')}>
+                                                            Registrations
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "registration" ?
                                                                     sortOrder == "asc"
@@ -2318,8 +2305,8 @@ const WebinarVerifyHCP = (props) => {
                                                         </span>
                                                     </th>
                                                     <th scope="col" className="sort_option">
-                                                    <span onClick={() => handleSort('last_email')}>
-                                                    Last email
+                                                        <span onClick={() => handleSort('last_email')}>
+                                                            Last email
                                                             <button
                                                                 className={`event_sort_btn ${sortBy == "last_email" ?
                                                                     sortOrder == "asc"
@@ -2504,7 +2491,7 @@ const WebinarVerifyHCP = (props) => {
                                                                 data?.company,
                                                                 data?.country,
                                                                 data?.first_name + " " + data?.last_name,
-                                                                (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? data?.user_type : data?.contact_type
+                                                                (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? data?.user_type : data?.contact_type
                                                             )
                                                         }
                                                     >
@@ -2528,14 +2515,14 @@ const WebinarVerifyHCP = (props) => {
                                                                 </td></>)}
                                                         <td>
                                                             {/* data?.ibu ? data?.ibu : "N/A" */}
-                                                            {(localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                            {(localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
                                                                 data?.irt ? "Yes" : "No"
                                                             ) : (
                                                                 data?.ibu ? data?.ibu : "N/A"
                                                             )}
                                                         </td>
                                                         <td>
-                                                            {(localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                            {(localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
                                                                 data?.user_type !== 0 ? data?.user_type : "N/A"
                                                             ) : (
                                                                 editable ? (
@@ -2575,435 +2562,6 @@ const WebinarVerifyHCP = (props) => {
                     </div>
                 </div>
             </div>
-            {/* <Modal
-        id="add_hcp"
-        show={isOpen}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <div
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-hidden="true"
-        >
-          <Modal.Header>
-            <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorageUserId == userId
-                ? "Add New User +"
-                : "Add New HCP"}
-            </h5>
-            <button
-              onClick={closeModal}
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content" id="upload-confirm">
-                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                  {hpc?.map((val, i) => {
-                    const fieldName = `hpc[${i}]`;
-                    return (
-                      <>
-                        <div className="add_hcp_boxes">
-                          <div className="form_action">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    First name{" "}
-                                    {localStorageUserId ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onFirstNameChange(event, i)
-                                    }
-                                    value={val.firstname}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Last name{" "}
-                                    {localStorageUserId ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onLastNameChange(event, i)
-                                    }
-                                    value={val.lastname}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Email <span>*</span>
-                                  </label>
-                                  <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email-desc"
-                                    name={`${fieldName}.email`}
-                                    onChange={(event) =>
-                                      onEmailChange(event, i)
-                                    }
-                                    value={val?.email}
-                                  />
-                                </div>
-                              </div>
-                              {localStorageUserId ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      <Select
-                                        options={institutionType}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        defaultValue={
-                                          val?.institutionType
-                                            ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
-                                            : ""
-                                        }
-                                        placeholder="Select institution"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">
-                                        IRT mandatory training
-                                      </label>
-
-                                      <Select
-                                        options={optIRT}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onIRTChange(event?.value, i)
-                                        }
-                                        defaultValue={
-                                          val?.optIrt
-                                            ? {
-                                                label: "Yes",
-                                                value: val?.optIrt,
-                                              }
-                                            : ""
-                                        }
-                                        value={
-                                          optIRT.findIndex(
-                                            (el) => el?.value == val?.optIrt
-                                          ) == -1
-                                            ? ""
-                                            : optIRT[
-                                                optIRT.findIndex(
-                                                  (el) =>
-                                                    el?.value == val?.optIrt
-                                                )
-                                              ]
-                                        }
-                                        placeholder="Select IRT"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role</label>
-                                      {val?.optIrt == "yes" ? (
-                                        <Select
-                                          options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          value={
-                                            irtRole?.findIndex(
-                                              (el) => el?.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                                  irtRole?.findIndex(
-                                                    (el) =>
-                                                      el?.value == val?.role
-                                                  )
-                                                ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : val?.optIrt == "no" ? (
-                                        <Select
-                                          options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onRoleChange(event, i)
-                                          }
-                                          value={
-                                            role?.findIndex(
-                                              (el) => el?.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : role[
-                                                  role?.findIndex(
-                                                    (el) =>
-                                                      el?.value == val?.role
-                                                  )
-                                                ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : (
-                                        <Select
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder="Select Role"
-                                        />
-                                      )}
-                                    </div>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label htmlFor="">Contact type</label>
-                                      <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
-                                        title={
-                                          hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
-                                            ? hpc[i].contact_type
-                                            : "Select Type"
-                                        }
-                                        onSelect={(event) =>
-                                          onContactTypeChange(event, i)
-                                        }
-                                      >
-                                        <Dropdown.Item
-                                          eventKey="HCP"
-                                          className={
-                                            hpc[i].contact_type == "HCP"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          HCP
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Staff"
-                                          className={
-                                            hpc[i].contact_type == "Staff"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Staff
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Test Users"
-                                          className={
-                                            hpc[i].contact_type == "Test Users"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Test Users
-                                        </Dropdown.Item>
-                                      </DropdownButton>                                 
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Country{" "}
-                                    {localStorageUserId ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}
-                                  </label>
-                                  {val?.optIrt == "yes" ? (
-                                    <Select
-                                      options={irtCountry}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
-                                        onCountryChange(event, i)
-                                      }
-                                      value={
-                                        irtCountry.findIndex(
-                                          (el) => el.value == val?.country
-                                        ) == -1
-                                          ? ""
-                                          : irtCountry[
-                                              irtCountry.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
-                                      }
-                                      placeholder="Select Country"
-                                      filterOption={createFilter(filterConfig)}
-                                      isClearable
-                                    />
-                                  ) : (
-                                    <Select
-                                      options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
-                                        onCountryChange(event, i)
-                                      }
-                                      value={
-                                        countryall.findIndex(
-                                          (el) => el?.value == val?.country
-                                        ) == -1
-                                          ? ""
-                                          : countryall[
-                                              countryall?.findIndex(
-                                                (el) => el?.value == val?.country
-                                              )
-                                            ]
-                                      }
-                                      placeholder="Select Country"
-                                      filterOption={createFilter(filterConfig)}
-                                      isClearable
-                                    />
-                                  )}                               
-                                </div>
-                              </div>                            
-
-                              {localStorageUserId ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site number</label>
-
-                                      <Select
-                                        options={siteNumberAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteNumberChange(event, i)
-                                        }
-                                        value={
-                                          siteNumberAll[hpc[i]?.siteNumberIndex]
-                                            ? siteNumberAll[
-                                                hpc[i]?.siteNumberIndex
-                                              ]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Number"}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site name</label>
-
-                                      <Select
-                                        options={siteNameAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteNameChange(event, i)
-                                        }
-                                        value={
-                                          siteNameAll[hpc[i]?.siteNameIndex]
-                                            ? siteNameAll[hpc[i]?.siteNameIndex]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Name"}
-                                      />
-                                    </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                          <div className="hcp-modal-action">
-                            <div className="hcp-action-block">
-                              {activeManual == "active" ? (
-                                <>
-                                  {hpc.length > 1 && (
-                                    <div className="hcp-remove">
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        <img
-                                          src={path_image + "delete.svg"}
-                                          alt="Add More"
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
-                              ) : null}
-
-                              <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item add_hcp">
-                                  <a
-                                    id="add_hcp_btn"
-                                    onClick={addMoreHcp}
-                                    className="nav-link active btn-bordered"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    {localStorageUserId == userId
-                                      ? "Add User +"
-                                      : "Add HCP +"}
-                                  </a>
-                                </li>                              
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </form>             
-              </div>
-            </div>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={saveClicked}
-            >
-              Save
-            </button>
-          </Modal.Footer>
-        </div>      
-      </Modal> */}
 
             <AddNewContactModal
                 show={isOpen}
@@ -3016,7 +2574,8 @@ const WebinarVerifyHCP = (props) => {
                 irtCountry={irtCountry}
                 irtRole={irtRole}
                 role={role}
-                institutionType={institutionType}
+                irtInstitutionType={irtInstitutionType}
+                nonIrtInstitution={nonIrtInstitutionType}
                 saveClicked={saveClicked}
                 validationError={validationError}
             />

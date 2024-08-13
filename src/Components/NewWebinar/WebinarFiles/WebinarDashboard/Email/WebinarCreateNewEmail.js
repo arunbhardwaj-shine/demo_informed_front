@@ -39,7 +39,11 @@ const WebinarCreateNewEmail = (props) => {
             : localStorageEvent?.eventId
     );
     const [counter, setCounter] = useState(0);
-    const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+    const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ? "56Ek4feL/1A8mZgIKQWEqg=="
+        : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            ? "sNl1hra39QmFk9HwvXETJA=="
+            : null);
     const campaign_id = props?.getWebinarDraftData ? props?.getWebinarDraftData?.campaign_id : "";
     const [activeIndex, setActiveIndex] = useState(0);
     const syncActiveIndex = ({ item }) => setActiveIndex(item);
@@ -160,14 +164,18 @@ const WebinarCreateNewEmail = (props) => {
             country: "",
             countryIndex: "",
             role:
-                (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                (localStorageUserId == userId)
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                (localStorageUserId == userId)
                     ? "yes"
                     : "",
-            institutionType: "",
+            institutionType: (localStorageUserId == userId)
+                ? "Study site"
+                : "",
+            siteNumber: "",
+            siteName: ""
         },
     ]);
     const [activeManual, setActiveManual] = useState("active");
@@ -180,6 +188,8 @@ const WebinarCreateNewEmail = (props) => {
     const [irtCountry, setIRTCountry] = useState([]);
     const [role, setRole] = useState([]);
     const [institutionType, setInstitutionType] = useState([]);
+    const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+    const [irtInstitutionType, setIrtInstitutionType] = useState([])
     const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [allTags, setAllTags] = useState({});
@@ -236,7 +246,7 @@ const WebinarCreateNewEmail = (props) => {
 
     useEffect(() => {
         loader("show");
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
             axiosFun();
         }
         getalCountry();
@@ -336,7 +346,7 @@ const WebinarCreateNewEmail = (props) => {
 
     const axiosFun = async () => {
         try {
-            const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+            const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
 
             let country = result?.data?.response?.data?.site_country_data;
             let arr = [];
@@ -378,7 +388,7 @@ const WebinarCreateNewEmail = (props) => {
                         });
                     });
                     setCountryall(arr);
-                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
                         let investigator_type =
                             res?.data?.response?.data?.investigator_type;
                         let newType = [];
@@ -393,13 +403,32 @@ const WebinarCreateNewEmail = (props) => {
                         });
                         setRole(newType);
                         setIrtRole(newIrtType);
-                        let institution_type =
-                            res?.data?.response?.data?.institution_type;
-                        let newInstitution = [];
-                        Object.keys(institution_type)?.map((item, i) => {
-                            newInstitution.push({ label: item, value: item });
-                        });
-                        setInstitutionType(newInstitution);
+                        // let institution_type =
+                        //     res?.data?.response?.data?.institution_type;
+                        // let newInstitution = [];
+                        // Object.keys(institution_type)?.map((item, i) => {
+                        //     newInstitution.push({ label: item, value: item });
+                        // });
+                        // setInstitutionType(newInstitution);
+                        let non_irt_institution_type =
+                        res?.data?.response?.data?.non_mandatory_institution_type;
+          
+                      let nonIrtInstitution = [];
+                      Object.keys(non_irt_institution_type)?.map((item, i) => {
+                        nonIrtInstitution.push({ label: item, value: item });
+                      });
+          
+                      setNonIrtInstitutionType(nonIrtInstitution);
+          
+                      let irt_institution_type =
+                        res?.data?.response?.data?.irt_institution_type;
+          
+                      let newIrtInstitution = [];
+                      Object.keys(irt_institution_type)?.map((item, i) => {
+                        newIrtInstitution.push({ label: item, value: item });
+                      });
+          
+                      setIrtInstitutionType(newIrtInstitution);
                     }
                     setTotalData(res?.data?.response?.data);
 
@@ -651,7 +680,7 @@ const WebinarCreateNewEmail = (props) => {
         // tagClickedFirst.splice(index, 1);
     };
     const emailSubjectChanged = (e) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
             setemailCampaign(e?.target?.value);
             setEmailCreator("Octapharma R&D");
             setEmailDescription(e?.target?.value);
@@ -1003,14 +1032,18 @@ const WebinarCreateNewEmail = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                    (localStorageUserId == userId)
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                    (localStorageUserId == userId)
                         ? "yes"
                         : "",
-                institutionType: "",
+                institutionType: (localStorageUserId == userId)
+                    ? "Study site"
+                    : "",
+                siteNumber: "",
+                siteName: ""
             },
         ]);
         setActiveManual("active");
@@ -1158,15 +1191,19 @@ const WebinarCreateNewEmail = (props) => {
                 country: "",
                 role:
                     (localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                        userId)
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
                     (localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                        userId)
                         ? "yes"
                         : "",
-                institutionType: "",
+                institutionType: (localStorageUserId == userId)
+                    ? "Study site"
+                    : "",
+                siteNumber: "",
+                siteName: ""
             },
         ]);
         setActiveManual("active");
@@ -1180,7 +1217,7 @@ const WebinarCreateNewEmail = (props) => {
     const saveClicked = async () => {
         if (activeManual == "active") {
             const body_data = hpc?.map((data) => {
-                if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+                if (localStorageUserId == userId) {
                     return {
                         first_name: data?.firstname,
                         last_name: data?.lastname,
@@ -1213,105 +1250,102 @@ const WebinarCreateNewEmail = (props) => {
             };
 
             const status = body?.data?.map((data, index) => {
-                if (
-                    data?.email == "" ||
-                    data?.institution_type == "" ||
-                    ((data?.last_name == "" ||
-                        data?.first_name == "" ||
-                        data?.country == "") &&
-                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") )
-                ) {
-                    if (
-                        data?.first_name == "" &&
-                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
-                    ) {
-                        setValidationError({
-                            newHcpFirstName: "Please enter the first name",
-                            index: index,
-                        });
-                        return;
-                    }
-                    if (
-                        data?.last_name == "" &&
-                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
-                    ) {
-                        setValidationError({
-                            newHcpLastName: "Please enter the last name",
-                            index: index,
-                        });
-                        return;
-                    }
-                    if (data?.email == "") {
-                        setValidationError({
-                            newHcpEmail: "Please enter the email atleast",
-                            index: index,
-                        });
-
-                        return;
-                    }
-
-                    if (data?.institution_type == "") {
-                        setValidationError({
-                            newHcpInstitution: "Please Select the institution ",
-                            index: index,
-                        });
-                        return;
-                    }
-
-                    if (
-                        data?.country == "" &&
-                        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
-                    ) {
-                        setValidationError({
-                            newHcpCountry: "Please select the country",
-                            index: index,
-                        });
-                        return;
-                    }
-
-                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
-                        if (data?.institution_type == "") {
-                            setValidationError({
-                                newHcpInstitution: "Please enter the institution ",
-                                index: index,
-                            });
-                            return;
-                        }
-                    }
-                } else if (data?.country == "" && localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
+                if (localStorageUserId == userId) {
+                  if (data?.first_name == "") {
                     setValidationError({
-                        newHcpCountry: "Please select the country",
-                        index: index,
+                      newHcpFirstName: "Please enter the first name",
+                      index: index,
                     });
-                    return;
+                    return ;
+                  } else if (data?.last_name == "") {
+                    setValidationError({
+                      newHcpLastName: "Please enter the last name",
+                      index: index,
+                    });
+                    return ;
+                  }
+                  if (data?.email == "") {
+                    setValidationError({
+                      newHcpEmail: "Please enter the email",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.institution_type == "") {
+                    setValidationError({
+                      newHcpInstitution: "Please select the Institution type",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.investigator_type == "") {
+                    setValidationError({
+                      role: "Please select the role",
+                      index: index,
+                    });
+                    return ;
+                  } else if (data?.country == "") {
+                    setValidationError({
+                      newHcpCountry: "Please select the country",
+                      index: index,
+                    });
+                    return ;
+                  }else if (data?.siteNumber == ""&& data?.siteIrt==1) {
+                    setValidationError({
+                      siteNumber: "Please select site number",
+                      index: index,
+                    });
+                    return ;
+                  }else if (data?.siteName == ""&&data?.siteIrt==1) {
+                    setValidationError({
+                      siteName: "Please select site name",
+                      index: index,
+                    });
+                    return ;
+                  }
                 }
-                else if (data?.email != "") {
-                    let email = data?.email;
-                    let useremail = email?.trim();
-                    var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                    if (regex.test(String(useremail).toLowerCase())) {
-                        let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
-                        if (typeof prev_obj != "undefined") {
-                            setValidationError({
-                                newHcpEmail: "User with same email already added in list.",
-                                index: index,
-                            });
-
-                            return;
-                        }
+                if (data?.email == "") {
+                  setValidationError({
+                    newHcpEmail: "Please enter the email",
+                    index: index,
+                  });
+                  return ;
+                } 
+                if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="  )   
+                 {
+                  if (data?.country == "") {
+                    setValidationError({
+                      newHcpCountry: "Please select the country",
+                      index: index,
+                    });
+                    return ;
+                  }
+                }
+                if (data?.email != "") {
+                  let email = data?.email;
+                  let useremail = email?.trim();
+                  var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                  if (regex.test(String(useremail).toLowerCase())) {
+                    let prev_obj = selectedHcp.find(
+                      (x) => x?.email?.toLowerCase() === useremail?.toLowerCase()
+                    );
+                    if (typeof prev_obj != "undefined") {
+                      setValidationError({
+                        newHcpEmail: "User with same email already added in list.",
+                        index: index,
+                      });
+                      return ;
                     } else {
-                        setValidationError({
-                            newHcpEmail: "Email format is not valid",
-                            index: index,
-                        });
-
-                        return;
+                      return "true";
                     }
-                    return "true";
-                } else {
-                    return "true";
+                  } else {
+                    setValidationError({
+                      newHcpEmail: "Email format is not valid",
+                      index: index,
+                    });
+                    return ;
+                  }
                 }
-            });
+                return "true";
+              });
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
@@ -1687,7 +1721,7 @@ const WebinarCreateNewEmail = (props) => {
                                         </li>
                                         <li className="">
                                             <a href="javascript:void(0)">
-                                                {(localStorageUserId == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                {(localStorageUserId == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </a>
@@ -1778,7 +1812,7 @@ const WebinarCreateNewEmail = (props) => {
                                     <div className="email-form padding-add">
                                         <form>
                                             {(localStorageUserId !=
-                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==") ? (
                                                 <>
                                                     <div className="form-inline d-flex justify-content-between align-items-center">
                                                         <div className="form-group col-12 col-md-7 d-flex align-items-center">
@@ -2021,7 +2055,7 @@ const WebinarCreateNewEmail = (props) => {
                                     )}{" "}
                                     <Editor
                                         apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                                        tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                                         onInit={(evt, editor) => (editorRef.current = editor)}
                                         initialValue={template}
                                         init={{
@@ -2298,7 +2332,7 @@ const WebinarCreateNewEmail = (props) => {
                                                             </p>
 
                                                             {(localStorageUserId ===
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==") ? (
                                                                 <p className="send-hcp-box-title">
                                                                     {" "}
                                                                     Role |{" "}
@@ -2370,7 +2404,8 @@ const WebinarCreateNewEmail = (props) => {
                     irtCountry={irtCountry}
                     irtRole={irtRole}
                     role={role}
-                    institutionType={institutionType}
+                    irtInstitutionType={irtInstitutionType}
+                    nonIrtInstitution={nonIrtInstitutionType}
                     saveClicked={saveClicked}
                     validationError={validationError}
                 />
@@ -2856,7 +2891,7 @@ const WebinarCreateNewEmail = (props) => {
                                                 <th scope="col">Country</th>
 
                                                 {(localStorageUserId ==
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
                                                     <>
                                                         <th scope="col">Site number</th>
                                                         <th scope="col">IRT mandatory training</th>
@@ -2892,12 +2927,12 @@ const WebinarCreateNewEmail = (props) => {
                                                                 <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                                                                 <td>{rr?.country ? rr?.country : "N/A"}</td>
                                                                 {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && 
+                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") &&
                                                                     (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
                                                                     </td></>)}
                                                                 <td>
                                                                     {(localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                                                         ? rr.irt
                                                                             ? "Yes"
                                                                             : "No"
@@ -2908,7 +2943,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 </td>
                                                                 <td>
                                                                     {(localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                                                         ? rr?.user_type != 0
                                                                             ? rr?.user_type
                                                                             : "N/A"

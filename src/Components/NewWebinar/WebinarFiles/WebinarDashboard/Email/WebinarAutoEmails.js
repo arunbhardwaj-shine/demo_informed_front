@@ -72,7 +72,11 @@ const WebinarAutoEmail = () => {
   const [hide, setHide] = useState(false);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+  ?"56Ek4feL/1A8mZgIKQWEqg=="
+:localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="
+?"sNl1hra39QmFk9HwvXETJA=="
+:null);
   const [getTemplateLanguage, setTemplateLanguage] = useState([
     { value: "0", label: "English" },
     { value: "4", label: "Russian" },
@@ -86,6 +90,8 @@ const WebinarAutoEmail = () => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const [selectedListId, setSelectedListId] = useState(0);
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
@@ -99,14 +105,18 @@ const WebinarAutoEmail = () => {
       contact_type: "",
       country: "",
       role:
-      (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ) 
+      (localStorageUserId ==userId ) 
           ? irtRole?.[0]?.value
           : "",
       optIrt:
-      (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+      (localStorageUserId == userId) 
           ? "yes"
           : "",
-      institutionType: "",
+          institutionType: (localStorageUserId ==userId)
+          ? "Study site"
+          : "",
+        siteNumber: "",
+        siteName: ""
     },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
@@ -140,7 +150,7 @@ const WebinarAutoEmail = () => {
 
   useEffect(() => {
     loader("show");
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+    if (localStorageUserId == userId ) {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -171,7 +181,7 @@ const WebinarAutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorageUserId ==userId) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -187,15 +197,34 @@ const WebinarAutoEmail = () => {
               setRole(newType);
               setIrtRole(newIrtType);
 
-              let institution_type =
-                res?.data?.response?.data?.institution_type;
+              // let institution_type =
+              //   res?.data?.response?.data?.institution_type;
 
-              let newInstitution = [];
-              Object.keys(institution_type)?.map((item, i) => {
-                newInstitution.push({ label: item, value: item });
-              });
+              // let newInstitution = [];
+              // Object.keys(institution_type)?.map((item, i) => {
+              //   newInstitution.push({ label: item, value: item });
+              // });
 
-              setInstitutionType(newInstitution);
+              // setInstitutionType(newInstitution);
+              let non_irt_institution_type =
+              res?.data?.response?.data?.non_mandatory_institution_type;
+
+            let nonIrtInstitution = [];
+            Object.keys(non_irt_institution_type)?.map((item, i) => {
+              nonIrtInstitution.push({ label: item, value: item });
+            });
+
+            setNonIrtInstitutionType(nonIrtInstitution);
+
+            let irt_institution_type =
+              res?.data?.response?.data?.irt_institution_type;
+
+            let newIrtInstitution = [];
+            Object.keys(irt_institution_type)?.map((item, i) => {
+              newIrtInstitution.push({ label: item, value: item });
+            });
+
+            setIrtInstitutionType(newIrtInstitution);
             }
             setTotalData(res?.data?.response?.data);
           }
@@ -374,14 +403,18 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+        (localStorageUserId == userId )
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-       ( localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+       ( localStorageUserId == userId)
             ? "yes"
             : "",
-        institutionType: "",
+            institutionType: (localStorageUserId ==userId)
+            ? "Study site"
+            : "",
+          siteNumber: "",
+          siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -533,7 +566,7 @@ const WebinarAutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorageUserId == userId) {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -565,44 +598,73 @@ const WebinarAutoEmail = () => {
       };
 
       const status = body?.data?.map((data, index) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorageUserId == userId) {
           if (data?.first_name == "") {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
               index: index,
             });
-            return "Please enter the first name";
+            return ;
           } else if (data?.last_name == "") {
             setValidationError({
               newHcpLastName: "Please enter the last name",
               index: index,
             });
-            return "Please enter the last name";
+            return ;
+          }
+          if (data?.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email",
+              index: index,
+            });
+            return ;
+          } else if (data?.institution_type == "") {
+            setValidationError({
+              newHcpInstitution: "Please select the Institution type",
+              index: index,
+            });
+            return ;
+          } else if (data?.investigator_type == "") {
+            setValidationError({
+              role: "Please select the role",
+              index: index,
+            });
+            return ;
+          } else if (data?.country == "") {
+            setValidationError({
+              newHcpCountry: "Please select the country",
+              index: index,
+            });
+            return ;
+          }else if (data?.siteNumber == ""&& data?.siteIrt==1) {
+            setValidationError({
+              siteNumber: "Please select site number",
+              index: index,
+            });
+            return ;
+          }else if (data?.siteName == ""&&data?.siteIrt==1) {
+            setValidationError({
+              siteName: "Please select site name",
+              index: index,
+            });
+            return ;
           }
         }
         if (data?.email == "") {
           setValidationError({
-            newHcpEmail: "Please enter the email atleast",
+            newHcpEmail: "Please enter the email",
             index: index,
           });
-          return "Please enter the email atleast";
-        } else if (data?.institution_type == "") {
-          setValidationError({
-            newHcpInstitution: "Please select Institution",
-            index: index,
-          });
-          return "Please select the institution type";
-        }
-        if (
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="||
-          localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
-        ) {
+          return ;
+        } 
+        if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="  )   
+         {
           if (data?.country == "") {
             setValidationError({
-              newHcpCountry: "Please select country",
+              newHcpCountry: "Please select the country",
               index: index,
             });
-            return "Please select country";
+            return ;
           }
         }
         if (data?.email != "") {
@@ -618,7 +680,7 @@ const WebinarAutoEmail = () => {
                 newHcpEmail: "User with same email already added in list.",
                 index: index,
               });
-              return "User with same email already added in list.";
+              return ;
             } else {
               return "true";
             }
@@ -627,7 +689,7 @@ const WebinarAutoEmail = () => {
               newHcpEmail: "Email format is not valid",
               index: index,
             });
-            return "Email format is not valid";
+            return ;
           }
         }
         return "true";
@@ -658,9 +720,7 @@ const WebinarAutoEmail = () => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        toast.warning(status[0]);
-      }
+      } 
     }
   };
 
@@ -1180,14 +1240,18 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+        (localStorageUserId == userId )
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+        (localStorageUserId ==userId )
             ? "yes"
             : "",
-        institutionType: "",
+            institutionType: (localStorageUserId ==userId)
+            ? "Study site"
+            : "",
+          siteNumber: "",
+          siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -2459,7 +2523,8 @@ const WebinarAutoEmail = () => {
         irtCountry={irtCountry}
         irtRole={irtRole}
         role={role}
-        institutionType={institutionType}
+        irtInstitutionType={irtInstitutionType}
+        nonIrtInstitution={nonIrtInstitutionType}
         saveClicked={saveClicked}
         validationError={validationError}
       />

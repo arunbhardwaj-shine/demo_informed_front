@@ -1371,16 +1371,6 @@ const RDAnalytics = () => {
                                               <ul>
                                                 {filterdata[key]?.length
                                                   ? filterdata[key]
-                                                    // ?.sort((a, b) => {
-                                                    //   if (key === "training_status_code") {
-                                                    //     const itemA = typeof a === "object" ? a?.title : a;
-                                                    //     const itemB = typeof b === "object" ? b?.title : b;
-                                                    //     return itemA.localeCompare(itemB);
-                                                    //   }
-                                                    //   // If not "training_status_code", do not sort
-                                                    //   return 0;
-                                                    // })
-
                                                     ?.map(
                                                       (item, index) => (
                                                         <li key={index}>
