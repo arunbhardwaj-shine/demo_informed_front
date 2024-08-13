@@ -188,6 +188,7 @@ const EditLibrary = () => {
       loader("show");
       const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
         user_id: id,
+        irt: location?.state?.flag == "mandatory" ? 1 : 0,
       });
 
       if (hadData?.data?.data?.fileType) {
@@ -403,6 +404,7 @@ const getExistingVideos=async ()=>{
         await postData(ENDPOINT.ADD_TAGS, {
           product: newTag,
           type: 2,
+          irt: location?.state?.flag == "mandatory" ? 1 : 0,
         });
         loader("hide");
         let temp_tags = tagClickedFirst.map((data) => {
