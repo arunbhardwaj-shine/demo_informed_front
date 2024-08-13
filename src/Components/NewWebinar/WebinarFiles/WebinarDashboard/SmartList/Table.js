@@ -491,22 +491,7 @@ const Table = (props, ref) => {
       list[i].siteNumberIndex = index;
       setHpc(list);
     }
-    // e.preventDefault();
-    // if (index != 0) {
-    //   const { value } = e.target;
-    //   const old_hpc = hpc;
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-    //   setUpdate(update + 1);
-    // } else if (index == 0) {
-    //   const { value } = e;
-    //   const old_hpc = hpc;
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-    //   setUpdate(update + 1);
-    // }
+   
   };
   const onSiteNameChange = (e, i) => {
     if (e == null) {
@@ -1562,8 +1547,8 @@ const Table = (props, ref) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email === useremail);
-            let prev_obj_new = getNewReaders.find((x) => x.email === useremail);
+            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail);
+            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail);
             if (
               typeof prev_obj != "undefined" ||
               typeof prev_obj_new != "undefined"
@@ -1723,8 +1708,9 @@ const Table = (props, ref) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail);
+            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail);
+            if (typeof prev_obj != "undefined"||typeof prev_obj_new != "undefined") {
               setValidationError({
                 email: "User with same email already added in list.",
                 index: index,

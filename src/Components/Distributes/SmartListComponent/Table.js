@@ -450,7 +450,6 @@ const Table = (props, ref) => {
         setSiteNameAll(arr);
         setForceRender(!forceRender);
       }
-      // console.log(list);
       setHpc(list);
     }
   };
@@ -629,9 +628,6 @@ const Table = (props, ref) => {
             });
             setCountryall(arr);
           }
-          // setCountryall(res.data.response.data.country);
-          // console.log(countryall);
-          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
@@ -738,7 +734,6 @@ const Table = (props, ref) => {
           let new_data = res.data.response.data[0];
 
           combine_data = [new_data, ...old_data];
-          // console.log(combine_data);
           setEditList(combine_data);
           props.sendDataToParent(combine_data, "existing", allUsers);
           setUpdatedData(combine_data);
@@ -843,7 +838,6 @@ const Table = (props, ref) => {
         ibu: typeof props?.ibu !== "undefined" && props?.ibu != "" ? props?.ibu : "",
       };
 
-      // console.log(body,'biody');
     } else if (
       typeof props != "undefined" &&
       props.hasOwnProperty("data") &&
@@ -974,13 +968,8 @@ const Table = (props, ref) => {
   };
 
   const deleteRecord = (i) => {
-    //  console.log(hpc);
     const list = hpc;
-    // console.log(list);
     list.splice(i, 1);
-    // console.log("list after splice");
-    // console.log(list);
-    // console.log(typeof list);
     setHpc(list);
     setCounterFlag(counterFlag + 1);
   };
@@ -993,8 +982,7 @@ const Table = (props, ref) => {
   };
 
   const verifyUser = () => {
-    // console.log(props);
-    // console.log("0123");
+  
   };
 
   const addFile = (e) => {
@@ -1118,9 +1106,6 @@ const Table = (props, ref) => {
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
-        // console.log(props);
-
-        // console.log(res);
         onCancel();
 
         // editList[0].email = email;
@@ -1398,7 +1383,6 @@ const Table = (props, ref) => {
   };
 
   const backClicked = () => {
-    console.log("back clicked");
     props.api_flag(0);
   };
   const saveClickedRd = async () => {
@@ -1424,7 +1408,6 @@ const Table = (props, ref) => {
           institution_type: data.institute ? data.institute : "",
         };
       });
-      // console.log(body_data);
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
@@ -1673,7 +1656,6 @@ const Table = (props, ref) => {
       });
 
       if (status.every((element) => element == "true")) {
-        console.log("body in if--->",body)
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
@@ -1742,7 +1724,6 @@ const Table = (props, ref) => {
                 props.sendDataToParent(combine_new_readers_array, "new");
               }
               combine_data = [...new_data, ...old_data];
-              // console.log(combine_data);
               setEditList(old_data);
               setIsOpenAdd(false);
               setActiveManual("active");

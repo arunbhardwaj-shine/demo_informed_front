@@ -26,6 +26,8 @@ const WebinarSelectSmartListUsers = (props) => {
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
+  const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
+  const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const [optIRT, setoptIRT] = useState([
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
@@ -49,7 +51,11 @@ const WebinarSelectSmartListUsers = (props) => {
   const [unSubscribedUsers, setUnSubscribedUsers] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+  ? "56Ek4feL/1A8mZgIKQWEqg=="
+  : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      ? "sNl1hra39QmFk9HwvXETJA=="
+      : null);
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -80,11 +86,15 @@ const WebinarSelectSmartListUsers = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+        (localStorageUserId ==userId)
           ? irtRole?.[0]?.value
           : "",
-      optIrt:( localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) ? "yes" : "",
-      institutionType: "",
+      optIrt: (localStorageUserId == userId) ? "yes" : "",
+      institutionType: (localStorageUserId == userId)
+      ? "Study site"
+      : "",
+  siteNumber: "",
+  siteName: ""
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -209,7 +219,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const backClicked = () => {
     // navigate("/webinar/email/selectsmartlist");
-    if (typeOfHcp == 1 ) {
+    if (typeOfHcp == 1) {
       navigate("/webinar/email/selectSmartList", {
         state: { typeOfHcp: typeOfHcp, thisEventToggled: thisEventToggled },
       });
@@ -219,7 +229,7 @@ const WebinarSelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
 
@@ -246,7 +256,7 @@ const WebinarSelectSmartListUsers = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -259,12 +269,31 @@ const WebinarSelectSmartListUsers = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              let instution_type = res?.data?.response?.data?.institution_type;
-              let newInstitutionType = [];
-              Object.keys(instution_type)?.map((item, i) => {
-                newInstitutionType.push({ label: item, value: item });
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
+
+              let non_irt_institution_type =
+                res?.data?.response?.data?.non_mandatory_institution_type;
+              let nonIrtInstitution = [];
+              Object.keys(non_irt_institution_type)?.map((item, i) => {
+                nonIrtInstitution.push({ label: item, value: item });
               });
-              setInstitutionType(newInstitutionType);
+
+              setNonIrtInstitutionType(nonIrtInstitution);
+
+              let irt_institution_type =
+                res?.data?.response?.data?.irt_institution_type;
+
+              let newIrtInstitution = [];
+              Object.keys(irt_institution_type)?.map((item, i) => {
+                newIrtInstitution.push({ label: item, value: item });
+              });
+
+              setIrtInstitutionType(newIrtInstitution);
 
               setRole(newType);
               setIrtRole(newIrtType);
@@ -391,7 +420,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -433,11 +462,15 @@ const WebinarSelectSmartListUsers = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+          (localStorageUserId == userId)
             ? irtRole?.[0]?.value
             : "",
-        optIrt: (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? "yes" : "",
-        institutionType: "",
+        optIrt: (localStorageUserId == userId) ? "yes" : "",
+        institutionType: (localStorageUserId == userId)
+        ? "Study site"
+        : "",
+    siteNumber: "",
+    siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -544,7 +577,7 @@ const WebinarSelectSmartListUsers = (props) => {
       ).value;
 
       const contact_type_edit =
-        (localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==") 
+        (localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==")
           ? document.getElementById("field_contact_type" + profile_user_id)
             .value
           : "";
@@ -605,7 +638,7 @@ const WebinarSelectSmartListUsers = (props) => {
           "field_index" + data?.profile_user_id
         ).value;
         const contact_type_edit =
-          (localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==") 
+          (localStorageUserId !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
             ? document.getElementById(
               "field_contact_type" + data.profile_user_id
             ).value
@@ -676,11 +709,15 @@ const WebinarSelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         role:
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
-        optIrt: (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? "yes" : "",
-        institutionType: "",
+        optIrt: (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? "yes" : "",
+        institutionType: (localStorageUserId == userId)
+        ? "Study site"
+        : "",
+    siteNumber: "",
+    siteName: ""
       },
     ]);
     setActiveManual("active");
@@ -706,7 +743,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" ) {
+        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -739,56 +776,80 @@ const WebinarSelectSmartListUsers = (props) => {
       };
 
 
-      const status = body.data.map((data, index) => {
-        if (
-          data.first_name == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
-        ) {
+      const status = body?.data?.map((data, index) => {
+        if (localStorageUserId == userId) {
+          if (data?.first_name == "") {
+            setValidationError({
+              newHcpFirstName: "Please enter the first name",
+              index: index,
+            });
+            return ;
+          } else if (data?.last_name == "") {
+            setValidationError({
+              newHcpLastName: "Please enter the last name",
+              index: index,
+            });
+            return ;
+          }
+          if (data?.email == "") {
+            setValidationError({
+              newHcpEmail: "Please enter the email",
+              index: index,
+            });
+            return ;
+          } else if (data?.institution_type == "") {
+            setValidationError({
+              newHcpInstitution: "Please select the Institution type",
+              index: index,
+            });
+            return ;
+          } else if (data?.investigator_type == "") {
+            setValidationError({
+              role: "Please select the role",
+              index: index,
+            });
+            return ;
+          } else if (data?.country == "") {
+            setValidationError({
+              newHcpCountry: "Please select the country",
+              index: index,
+            });
+            return ;
+          }else if (data?.siteNumber == ""&& data?.siteIrt==1) {
+            setValidationError({
+              siteNumber: "Please select site number",
+              index: index,
+            });
+            return ;
+          }else if (data?.siteName == ""&&data?.siteIrt==1) {
+            setValidationError({
+              siteName: "Please select site name",
+              index: index,
+            });
+            return ;
+          }
+        }
+        if (data?.email == "") {
           setValidationError({
-            newHcpFirstName: "Please enter the first name",
+            newHcpEmail: "Please enter the email",
             index: index,
           });
-          return "Please enter the First name";
-        } else if (
-          data.last_name == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
-        ) {
-          setValidationError({
-            newHcpLastName: "Please enter the last name",
-            index: index,
-          });
-          return "Please enter the Last name";
-        } else if (data.email == "") {
-          // setValidationError({ newHcpEmail: "Please enter the email atleast" });
-          setValidationError({
-            newHcpEmail: "Please enter the email atleast",
-            index: index,
-          });
-          return "Please enter the email atleast";
-        } else if (
-          data.institution_type == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
-        ) {
-          setValidationError({
-            newHcpInstitution: "Please select Institution",
-            index: index,
-          });
-          return "Please select Institution";
-        } else if (
-          data.country == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="  ||
-            localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==")
-        ) {
-          setValidationError({
-            newHcpCountry: "Please select country",
-            index: index,
-          });
-          return "Please select country";
-        } else if (data.email != "") {
+          return ;
+        } 
+        if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg=="  )   
+         {
+          if (data?.country == "") {
+            setValidationError({
+              newHcpCountry: "Please select the country",
+              index: index,
+            });
+            return ;
+          }
+        }
+        
+        if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
-          // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-          // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = readers.find(
@@ -814,11 +875,10 @@ const WebinarSelectSmartListUsers = (props) => {
               newHcpEmail: "Email format is not valid",
               index: index,
             });
-            return "Email format is not valid";
+            return 
           }
-        } else {
-          return "true";
-        }
+        } 
+        return "true";
       });
       status.sort();
       if (status.every((element) => element == "true")) {
@@ -847,12 +907,7 @@ const WebinarSelectSmartListUsers = (props) => {
             loader("hide");
             toast.error("Somwthing went wrong");
           });
-      } else {
-        // const filteredArray = status?.filter((value) => value !== "true");
-        const filteredArray = status.filter((value) => value !== "true");
-        toast.warning(filteredArray?.[0]);
-        // toast.warning(status[0]);
-      }
+      } 
 
       //  setIsOpen(false);
     } else {
@@ -1299,9 +1354,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                         </span>
                                       </th>
                                       <th scope="col" className="sort_option">
-                                      <span onClick={() => handleSort('irt')}>
-                                        IRT mandatory training
-                                        <button
+                                        <span onClick={() => handleSort('irt')}>
+                                          IRT mandatory training
+                                          <button
                                             className={`event_sort_btn ${sortBy == "irt" ?
                                               sortOrder == "asc"
                                                 ? "svg_asc"
@@ -1333,9 +1388,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                         </span>
                                       </th>
                                       <th scope="col" className="sort_option">
-                                      <span onClick={() => handleSort('user_type')}>
-                                        IRT role
-                                        <button
+                                        <span onClick={() => handleSort('user_type')}>
+                                          IRT role
+                                          <button
                                             className={`event_sort_btn ${sortBy == "user_type" ?
                                               sortOrder == "asc"
                                                 ? "svg_asc"
@@ -1365,7 +1420,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                        </th>
+                                      </th>
                                     </>
                                   ) : (
                                     <>
@@ -1720,9 +1775,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                         </span>
                                       </th>
                                       <th scope="col" className="sort_option">
-                                      <span onClick={() => handleSort('irt')}>
-                                        IRT mandatory training
-                                        <button
+                                        <span onClick={() => handleSort('irt')}>
+                                          IRT mandatory training
+                                          <button
                                             className={`event_sort_btn ${sortBy == "irt" ?
                                               sortOrder == "asc"
                                                 ? "svg_asc"
@@ -1754,9 +1809,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                         </span>
                                       </th>
                                       <th scope="col" className="sort_option">
-                                      <span onClick={() => handleSort('user_type')}>
-                                        IRT role
-                                        <button
+                                        <span onClick={() => handleSort('user_type')}>
+                                          IRT role
+                                          <button
                                             className={`event_sort_btn ${sortBy == "user_type" ?
                                               sortOrder == "asc"
                                                 ? "svg_asc"
@@ -1786,7 +1841,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                        </th>
+                                      </th>
                                     </>
                                   ) : (
                                     <>
@@ -2168,9 +2223,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                         </span>
                                       </th>
                                       <th scope="col" className="sort_option">
-                                      <span onClick={() => handleSort('irt')}>
-                                        IRT mandatory training
-                                        <button
+                                        <span onClick={() => handleSort('irt')}>
+                                          IRT mandatory training
+                                          <button
                                             className={`event_sort_btn ${sortBy == "irt" ?
                                               sortOrder == "asc"
                                                 ? "svg_asc"
@@ -2202,9 +2257,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                         </span>
                                       </th>
                                       <th scope="col" className="sort_option">
-                                      <span onClick={() => handleSort('user_type')}>
-                                        IRT role
-                                        <button
+                                        <span onClick={() => handleSort('user_type')}>
+                                          IRT role
+                                          <button
                                             className={`event_sort_btn ${sortBy == "user_type" ?
                                               sortOrder == "asc"
                                                 ? "svg_asc"
@@ -2234,7 +2289,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                        </th>
+                                      </th>
                                     </>
                                   ) : (
                                     <>
@@ -2527,9 +2582,9 @@ const WebinarSelectSmartListUsers = (props) => {
                                       </button>
                                     </span>
                                   </th>
-                                  <th scope="col" className="sort_option">                                                    
-                                                    Bounced                                                        
-                                                    </th>
+                                  <th scope="col" className="sort_option">
+                                    Bounced
+                                  </th>
                                   <th scope="col" className="sort_option">
                                     <span onClick={() => handleSort("country")}>
                                       Country
@@ -2606,56 +2661,56 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </button>
                                         </span>
                                       </th>
-                                      <th scope="col"  className="sort_option">
-                                <span onClick={() => handleSort('irt')}>
-                                IRT mandatory training
-                                    <button
-                                    className={`event_sort_btn ${sortBy == "irt" ?
-                                    sortOrder == "asc"
-                                        ? "svg_asc"
-                                        : "svg_active"
-                                    : "" 
-                                    }`}
-                                    onClick={() => handleSort('irt')}
-                                    >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                        <g clip-path="url(#clip0_3722_6611)">
-                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                            <rect width="8" height="8" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                    </svg>
-                                    </button>
-                                    </span>
-                                </th>
-                                <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort('user_type')}>
-                                IRT role
-                                    <button
-                                    className={`event_sort_btn ${sortBy == "user_type" ?
-                                    sortOrder == "asc"
-                                        ? "svg_asc"
-                                        : "svg_active"
-                                    : "" 
-                                    }`}
-                                    onClick={() => handleSort('user_type')}
-                                    >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                        <g clip-path="url(#clip0_3722_6611)">
-                                        <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                            <rect width="8" height="8" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                    </svg>
-                                    </button>
-                                    </span>
-                                </th>
+                                      <th scope="col" className="sort_option">
+                                        <span onClick={() => handleSort('irt')}>
+                                          IRT mandatory training
+                                          <button
+                                            className={`event_sort_btn ${sortBy == "irt" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('irt')}
+                                          >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                      </th>
+                                      <th scope="col" className="sort_option">
+                                        <span onClick={() => handleSort('user_type')}>
+                                          IRT role
+                                          <button
+                                            className={`event_sort_btn ${sortBy == "user_type" ?
+                                              sortOrder == "asc"
+                                                ? "svg_asc"
+                                                : "svg_active"
+                                              : ""
+                                              }`}
+                                            onClick={() => handleSort('user_type')}
+                                          >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                              <g clip-path="url(#clip0_3722_6611)">
+                                                <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_3722_6611">
+                                                  <rect width="8" height="8" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          </button>
+                                        </span>
+                                      </th>
                                     </>
                                   ) : (
                                     <>
@@ -2803,7 +2858,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                               </td></>)}
                                           <td>
                                             {(localStorage.getItem("user_id") ===
-                                              "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                               ? reader?.irt
                                                 ? "Yes"
                                                 : "No"
@@ -2811,10 +2866,10 @@ const WebinarSelectSmartListUsers = (props) => {
                                                 ? reader.ibu
                                                 : "N/A"}
                                           </td>
-                                          
+
                                           <td>
                                             {(localStorage.getItem("user_id") ===
-                                              "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
                                               <span>
                                                 {reader.user_type !== 0
                                                   ? reader?.user_type
@@ -2924,7 +2979,8 @@ const WebinarSelectSmartListUsers = (props) => {
         irtCountry={irtCountry}
         irtRole={irtRole}
         role={role}
-        institutionType={institutionType}
+        irtInstitutionType={irtInstitutionType}
+        nonIrtInstitution={nonIrtInstitutionType}
         saveClicked={saveClicked}
         validationError={validationError}
       />
