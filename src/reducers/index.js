@@ -1,5 +1,7 @@
-import React from "react";
 import { combineReducers } from "redux";
+import { surveyReducer } from "./surveyReducer";
+
+
 
 const getListId = (listId = JSON.parse(localStorage.getItem('getListId')), action) => {
   if (action.type === "LIST_ID") {
@@ -50,7 +52,7 @@ const getDraftData = (draftData = JSON.parse(localStorage.getItem('getDraftData'
   return draftData;
 };
 
-const getSelected =(selected=JSON.parse(localStorage.getItem('getSelected')),action) => {
+const getSelected = (selected = JSON.parse(localStorage.getItem('getSelected')), action) => {
   if (action.type === "GET_SELECTED") {
     localStorage.setItem('getSelected', JSON.stringify(action.payload));
     return action.payload;
@@ -59,7 +61,7 @@ const getSelected =(selected=JSON.parse(localStorage.getItem('getSelected')),act
 
 }
 
-const getTestingSelected =(testselected=JSON.parse(localStorage.getItem('getTestSelected')),action) => {
+const getTestingSelected = (testselected = JSON.parse(localStorage.getItem('getTestSelected')), action) => {
   if (action.type === "GET_TESTING_SELECTED") {
 
     localStorage.setItem('getTestingSelected', JSON.stringify(action.payload));
@@ -69,7 +71,7 @@ const getTestingSelected =(testselected=JSON.parse(localStorage.getItem('getTest
 
 }
 
-const getSearched =(searched=JSON.parse(localStorage.getItem('getSearched')),action) => {
+const getSearched = (searched = JSON.parse(localStorage.getItem('getSearched')), action) => {
   if (action.type === "GET_SEARCHED") {
     localStorage.setItem('getSearched', JSON.stringify(action.payload));
     return action.payload;
@@ -78,7 +80,7 @@ const getSearched =(searched=JSON.parse(localStorage.getItem('getSearched')),act
 
 }
 
-const getWebinarEmailData = ( webinarEmailData = JSON.parse(localStorage.getItem('getWebinarEmailData')), action) => {
+const getWebinarEmailData = (webinarEmailData = JSON.parse(localStorage.getItem('getWebinarEmailData')), action) => {
   if (action.type === "GET_WEBINAR_EMAIL_DATA") {
     localStorage.setItem('getWebinarEmailData', JSON.stringify(action.payload));
     return action.payload;
@@ -106,17 +108,26 @@ const getWebinarCampaignId = (webinarUniqueId = JSON.parse(localStorage.getItem(
   if (action.type === "GET_WEBINAR_UNIQUE_ID") {
     localStorage.setItem('getWebinarCampaignId', JSON.stringify(action.payload));
     return action.payload;
-  }  
+  }
   return webinarUniqueId;
 };
 
-const getWebinarSelected =(webinarSelected=JSON.parse(localStorage.getItem('getWebinarSelected')),action) => {
+const getWebinarSelected = (webinarSelected = JSON.parse(localStorage.getItem('getWebinarSelected')), action) => {
   if (action.type === "GET_WEBINAR_SELECTED") {
     localStorage.setItem('getWebinarSelected', JSON.stringify(action.payload));
     return action.payload;
   }
-  return webinarSelected; 
+  return webinarSelected;
 }
+
+const getSurveyData = (surveyData = JSON.parse(localStorage.getItem("getSurveyData")), action) => {
+  if (action.type === "GET_SURVEY_DATA") {
+    localStorage.setItem('getSurveyData', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return surveyData
+}
+
 
 export default combineReducers({
   listId: getListId,
@@ -126,11 +137,14 @@ export default combineReducers({
   getCampaignId: getCampaignId,
   getDraftData: getDraftData,
   getSelected: getSelected,
-  getTestingSelected:getTestingSelected,
-  getWebinarEmailData:getWebinarEmailData,
-  getWebinarSelectedSmartListData:getWebinarSelectedSmartListData,
-  getWebinarDraftData:getWebinarDraftData,
-  getWebinarCampaignId:getWebinarCampaignId,
-  getWebinarSelected:getWebinarSelected,
-  getSearched:getSearched
+  getTestingSelected: getTestingSelected,
+  getWebinarEmailData: getWebinarEmailData,
+  getWebinarSelectedSmartListData: getWebinarSelectedSmartListData,
+  getWebinarDraftData: getWebinarDraftData,
+  getWebinarCampaignId: getWebinarCampaignId,
+  getWebinarSelected: getWebinarSelected,
+  getSearched: getSearched,
+  getSurveyData: getSurveyData,
+  surveyData:surveyReducer
 });
+
