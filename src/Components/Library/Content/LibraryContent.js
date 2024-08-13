@@ -1379,7 +1379,7 @@ const LibraryContent = (props) => {
                  data ={libraryData}
                   totalCount={libraryData?.length/3 }
                    itemContent={( index,data) => {
-                    const cellCount = 3;
+                    const cellCount =  window.innerWidth<=1365?2:3;
                     const idx = [];
                     for (let i = 0; i < cellCount; i++) {
                       idx.push(index * cellCount + i);
@@ -1387,7 +1387,8 @@ const LibraryContent = (props) => {
                     const cells = idx.map((i) => 
                       
                      { 
-                      let data=libraryData[i]
+                      let data =libraryData[i]
+                      if(!data) return null;
                       return (
                       <>
                       <div className="doc-content-main-box col" >
@@ -1515,7 +1516,7 @@ const LibraryContent = (props) => {
                                       Docintel code
                                     </h6>
                                     <h6>
-                                      {data.docintel_code}
+                                      {data?.docintel_code}
                                       {
                                         <span
                                           className="copy-content"
@@ -1597,7 +1598,7 @@ const LibraryContent = (props) => {
                                             ""
                                           )}
 
-                                          {data.spc_included == 0 &&
+                                          {data?.spc_included == 0 &&
                                             data.linkRelations == 0 &&
                                             data.pdfLinks == 0 && <h6>No</h6>}
                                         </div>
