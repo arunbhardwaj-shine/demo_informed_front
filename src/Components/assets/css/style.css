@@ -3402,6 +3402,14 @@ h5 {
 .search-hcp .email-unsubscribe .accordion .accordion-item {
   margin: 0 0 24px;
 }
+.search-hcp  .accordion .accordion-item .selected-hcp-list {
+  padding:6px 0 0;
+}
+
+.search-hcp  .accordion .accordion-item .selected-hcp-list > div div[data-viewport-type="element"]{
+  padding-right:8px;
+}
+
 /* .email-unsubscribe .accordion-item .selected-hcp-list, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table {
   overflow-y: auto;
   max-height: 400px;
@@ -10088,6 +10096,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 .all-events_details .survey_data_accordion_heading table thead tr th:nth-child(5),
 .all-events_details .survey_data_accordion_heading table tbody tr td:nth-child(5) {
   width: 100px;
+}
+.search-hcp-table table td, .selected-hcp-list table td, .result-hcp-table .table td, .survey_data_accordion_heading table tbody td {
+  font-size: 12px;
 }
 .survey_data_accordion_heading table thead.sticky-header tr th.comment-events {
   width: 210px;

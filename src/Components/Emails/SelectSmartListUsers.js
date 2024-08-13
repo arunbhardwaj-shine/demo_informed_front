@@ -2769,22 +2769,22 @@ const SelectSmartListUsers = (props) => {
 
                         <Accordion.Body>
                           <div className="selected-hcp-list">
-                            <div className="table-title">
-                              {/* <h4 className="d-flex" style={{marginTop:'30px'}}>
-                        HCPs{" "}
-                        <span style={{marginRight:'10px'}}>
-                          |{" "}
-                          {(readersNewlyAdded?.length || 0) +
-                            (readers?.length || 0)}{" "}
-                        </span>
-                        </h4> */}
-                            </div>
+                            {/*<div className="table-title">
+                               <h4 className="d-flex" style={{marginTop:'30px'}}>
+                                  HCPs{" "}
+                                  <span style={{marginRight:'10px'}}>
+                                    |{" "}
+                                    {(readersNewlyAdded?.length || 0) +
+                                      (readers?.length || 0)}{" "}
+                                  </span>
+                                  </h4> 
+                            </div>*/}
                             <TableVirtuoso
                               data={sortData(readers, sortBy, sortOrder)}
                               totalCount={readers?.length}
                               fixedHeaderContent={() => (
                                 <tr>
-                                  <th scope="col" className="sort_option">
+                                  <th scope="col" className="sort_option" width={"20%"}>
                                     <span
                                       onClick={() => handleSort("first_name")}
                                     >
@@ -2824,7 +2824,7 @@ const SelectSmartListUsers = (props) => {
                                       </button>
                                     </span>
                                   </th>
-                                  <th scope="col" className="sort_option">
+                                  <th scope="col" className="sort_option" width={"24%"}>
                                     <span onClick={() => handleSort("email")}>
                                       Email
                                       <button
@@ -2862,10 +2862,10 @@ const SelectSmartListUsers = (props) => {
                                       </button>
                                     </span>
                                   </th>
-                                  <th scope="col" className="sort_option">
+                                  <th scope="col" className="sort_option" width={"12%"}>
                                     Bounced
                                   </th>
-                                  <th scope="col" className="sort_option">
+                                  <th scope="col" className="sort_option" width={"18%"}>
                                     <span onClick={() => handleSort("country")}>
                                       Country
                                       <button
@@ -3026,7 +3026,7 @@ const SelectSmartListUsers = (props) => {
                                       </>
                                     ) : (
                                       <>
-                                        <th scope="col" className="sort_option">
+                                        <th scope="col" className="sort_option" width={"12%"}>
                                           <span onClick={() => handleSort("ibu")}>
                                             Business unit
                                             <button
@@ -3064,7 +3064,7 @@ const SelectSmartListUsers = (props) => {
                                             </button>
                                           </span>
                                         </th>
-                                        <th scope="col">Contact type</th>
+                                        <th scope="col" width={"12%"}>Contact type</th>
                                       </>
                                     )}
 
@@ -3245,7 +3245,7 @@ const SelectSmartListUsers = (props) => {
                               style={{ height: 400 }}
                               components={{
                                 Table: (props) => (
-                                  <table {...props} style={{ width: '100%', borderSpacing: '0px 10px',  }} className="table">
+                                  <table {...props} style={{ width: '100%', borderSpacing: '0px 17px',  }} className="table">
                                     {props.children}
                                   </table>
                                 )
