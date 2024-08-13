@@ -1,4 +1,3 @@
-import React from "react";
 export const getListId = (listId) => {
   return {
     type: "LIST_ID",
@@ -97,4 +96,11 @@ export const getWebinarSelected = (data) => {
     payload: data,
   };
 };
+
+export const getSurveyData = (data)=>{
+  return{
+    type: "GET_SURVEY_DATA",
+    payload: data,
+  }
+}
 

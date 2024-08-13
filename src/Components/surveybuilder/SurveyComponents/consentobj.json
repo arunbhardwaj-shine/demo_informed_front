@@ -1,0 +1,168 @@
+{
+    "accordionType": "commonElements",
+    "type": "consent",
+    "name": "consent1",
+    "selectedLanguage": "Octapharma | English",
+    "questionId": 0,
+    "visible": true,
+    "question": {
+      "Octapharma | English": "By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of Octapharma AG and Docintel.app operating this page.",
+      "Octapharma | Russian": "Регистрируясь в One Source, вы получаете доступ к актуальному контенту в соответствии с политикой конфиденциальности данных Octapharma AG и оператора страницы Docintel.app.",
+      "Octapharma | Spanish": "Al registrarse en One Source, obtendrá acceso al contenido relevante de acuerdo con la política de privacidad de datos de Octapharma AG y Docintel.app que opera esta página.",
+      "Octapharma | German": "Durch die Registrierung bei One Source erhalten Sie Zugang zu relevanten Inhalten gemäß der Datenschutzrichtlinie von Octapharma AG und Docintel.app, die diese Seite betreibt."
+    },
+    "consentOptions": {
+      "Octapharma | English": [
+        {
+          "label": "Receive One Source updates and new materials from Octapharma",
+          "isChecked": false
+        },
+        {
+          "label": "Receive invitations to future events.",
+          "isChecked": false
+        },
+        {
+          "label": "Both of the options above.",
+          "isChecked": false
+        },
+        {
+          "label": "None of the options above.",
+          "isChecked": false
+        }
+      ],
+      "Octapharma | Russian": [
+        {
+          "label": "Получать обновления и новые материалы от Octapharma",
+          "isChecked": false
+        },
+        {
+          "label": "Получать приглашения на будущие мероприятия.",
+          "isChecked": false
+        },
+        {
+          "label": "Оба варианта выше.",
+          "isChecked": false
+        },
+        {
+          "label": "Ни один из вариантов выше.",
+          "isChecked": false
+        }
+      ],
+      "Octapharma | Spanish": [
+        {
+          "label": "Recibir actualizaciones y nuevos materiales de Octapharma",
+          "isChecked": false
+        },
+        {
+          "label": "Recibir invitaciones a eventos futuros.",
+          "isChecked": false
+        },
+        {
+          "label": "Ambas opciones anteriores.",
+          "isChecked": false
+        },
+        {
+          "label": "Ninguna de las opciones anteriores.",
+          "isChecked": false
+        }
+      ],
+      "Octapharma | German": [
+        {
+          "label": "Erhalten Sie One Source-Updates und neue Materialien von Octapharma",
+          "isChecked": false
+        },
+        {
+          "label": "Erhalten Sie Einladungen zu zukünftigen Veranstaltungen.",
+          "isChecked": false
+        },
+        {
+          "label": "Beide der oben genannten Optionen.",
+          "isChecked": false
+        },
+        {
+          "label": "Keine der oben genannten Optionen.",
+          "isChecked": false
+        }
+      ]
+    },
+    "consentDetails": {
+      "Octapharma | English": [
+        {
+          "nameLabel": "Name",
+          "namePlaceholder": "Type your name"
+        },
+        {
+          "emailLabel": "Email",
+          "emailPlaceholder": "Type your email"
+        },
+        {
+          "countryLabel": "Country",
+          "countryPlaceholder": "Please Select Country",
+          "countryOptions": ["China", "USA", "India", "Germany"]
+        }
+      ],
+      "Octapharma | Russian": [
+        {
+          "nameLabel": "Имя",
+          "namePlaceholder": "Введите ваше имя"
+        },
+        {
+          "emailLabel": "Электронная почта",
+          "emailPlaceholder": "Введите вашу электронную почту"
+        },
+        {
+          "countryLabel": "Страна",
+          "countryPlaceholder": "Пожалуйста, выберите страну",
+          "countryOptions": ["Китай", "США", "Индия", "Германия"]
+        }
+      ],
+      "Octapharma | Spanish": [
+        {
+          "nameLabel": "Nombre",
+          "namePlaceholder": "Escribe tu nombre"
+        },
+        {
+          "emailLabel": "Correo electrónico",
+          "emailPlaceholder": "Escribe tu correo electrónico"
+        },
+        {
+          "countryLabel": "País",
+          "countryPlaceholder": "Por favor, selecciona un país",
+          "countryOptions": ["China", "EE.UU.", "India", "Alemania"]
+        }
+      ],
+      "Octapharma | German": [
+        {
+          "nameLabel": "Name",
+          "namePlaceholder": "Geben Sie Ihren Namen ein"
+        },
+        {
+          "emailLabel": "E-Mail",
+          "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein"
+        },
+        {
+          "countryLabel": "Land",
+          "countryPlaceholder": "Bitte wählen Sie ein Land aus",
+          "countryOptions": ["China", "USA", "Indien", "Deutschland"]
+        }
+      ]
+    },
+    "privacyLinks": [
+      { "octapharma": "/octapharma-privacy" },
+      { "docintel": "https://albert.docintel.app/privacy_policy/" },
+      { "termsOfUse": "/terms_of_use" }
+    ],
+    "cookiePolicy": {
+      "Octapharma | English": "<p>We only use essential cookies and no data is shared with 3rd party. <a href=\"javascript:void(0)\">Click here</a> to see the specifics.</p></br><div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma Privacy Statement</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel Privacy Policy</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Terms of Use</a>\n</div>",
+      "Octapharma | Russian": "<p>Мы используем только необходимые файлы cookie и не передаем данные третьим лицам. <a href=\"javascript:void(0)\">Нажмите здесь</a>, чтобы узнать подробности.</p>\n<div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Заявление о конфиденциальности Octapharma</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Политика конфиденциальности Docintel</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Условия использования</a>\n</div>",
+      "Octapharma | Spanish": "<p>Solo utilizamos cookies esenciales y no compartimos datos con terceros. <a href=\"javascript:void(0)\">Haga clic aquí</a> para ver los detalles.</p>\n<div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Declaración de privacidad de Octapharma</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Política de privacidad de Docintel</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Términos de uso</a>\n</div>",
+      "Octapharma | German": "<p>Wir verwenden nur essenzielle Cookies und geben keine Daten an Dritte weiter. <a href=\"javascript:void(0)\">Klicken Sie hier</a>, um die Details zu sehen.</p>\n<div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Datenschutzerklärung von Octapharma</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Datenschutzrichtlinie von Docintel</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Nutzungsbedingungen</a>\n</div>"
+    },
+    "operatingStatement": {
+      "Octapharma | English": "<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma AG</a> and <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel.app</a> operating this page.",
+      "Octapharma | Russian": "<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma AG</a> и <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel.app</a>, управляющие этой страницей.",
+      "Octapharma | Spanish": "<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma AG</a> y <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel.app</a> operan esta página.",
+      "Octapharma | German": "<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma AG</a> und <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel.app</a> betreiben diese Seite."
+    }
+  }
+  
