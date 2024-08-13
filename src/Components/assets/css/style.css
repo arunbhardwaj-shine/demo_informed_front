@@ -3402,11 +3402,11 @@ h5 {
 .search-hcp .email-unsubscribe .accordion .accordion-item {
   margin: 0 0 24px;
 }
-.email-unsubscribe .accordion-item .selected-hcp-list, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table {
+/* .email-unsubscribe .accordion-item .selected-hcp-list, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table, .email-unsubscribe .accordion-item .unsubscribe-users-table {
   overflow-y: auto;
   max-height: 400px;
   padding-right: 8px;
-}
+} */
 .email-unsubscribe .unsubscribe-users-table table th {
   padding-top: 0;
 }
