@@ -1501,8 +1501,11 @@ const NewReadersReview = (props) => {
       checkbox.checked = false;
     });
 
-    obj = { status: ["Registered"], "contact Type": ["HCP"], };
-    setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], });
+    // obj = { status: ["Registered"], "contact Type": ["HCP"], };
+    // setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], });
+
+    obj = {};
+    setAppliedFilter({});
 
     if (filterApplyflag > 0) {
       let obj = {
