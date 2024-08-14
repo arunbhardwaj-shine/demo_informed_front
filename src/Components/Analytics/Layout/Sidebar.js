@@ -18,6 +18,7 @@ const AnalyticsSidebar = () => {
   } else {
     document.body.classList.remove("toggle_sidebar");
   }
+  alert("sdg")
   return (
     <div className="left-sidebar">
         <div className="sidebar-menu">
