@@ -1780,7 +1780,7 @@ const CreateEmail = (props) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find((x) => x.email === useremail);
+            let prev_obj = selectedHcp.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
             if (typeof prev_obj != "undefined") {
               setValidationError({
                 newHcpEmail: "User with same email already added in list.",

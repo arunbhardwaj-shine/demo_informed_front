@@ -1151,7 +1151,9 @@ const ReadersListAdd = () => {
         if(state?.siteRole != '' && state?.siteRole != null){
           data.institute  = "Study site";
         }
-        if (data.email == "" || data.firstname == "" || data.lastname == "" || data.country == "" || data.institute == "" || typeof (data.institute) == "undefined") {
+        if (data.email == "" || data.firstname == "" || data.lastname == "" || data.country == "" 
+          || data.institute == "" || typeof (data.institute) == "undefined"||data?.siteName==""||typeof (data.siteName) == "undefined"
+          ||data?.siteNumber==""||typeof (data.siteNumber) == "undefined") {
           return "false";
         } else {
           return "true";
@@ -1281,8 +1283,9 @@ const ReadersListAdd = () => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readersData.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+            let prev_obj = readersData.find((x) => x.email?.toLowerCase() === useremail);
+            let prev_obj_new=getNewReaders?.find((x)=>x.email?.toLowerCase()==useremail?.toLowerCase())
+            if (typeof prev_obj != "undefined"||typeof prev_obj_new!="undefined") {
               // return "User with same email already added in list.";
               setValidationError({
                 newHcpEmail: "User with same email already added in list.",
@@ -2197,7 +2200,7 @@ const ReadersListAdd = () => {
                                   <input
                                     type="email"
                                     className={
-                                      validationError?.newHcpEmail
+                                      (validationError?.newHcpEmail&&validationError?.index == i)
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -2209,7 +2212,7 @@ const ReadersListAdd = () => {
                                     }
                                     value={val.email}
                                   />
-                                  {validationError?.newHcpEmail ? (
+                                  {validationError?.newHcpEmail&&validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>

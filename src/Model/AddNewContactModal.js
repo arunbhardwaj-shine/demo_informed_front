@@ -15,10 +15,6 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
     { value: "no", label: "No" },
   ]);
 
-  console.log("error in add new modal-->", validationError)
-
-
-
   const filterConfig = {
     matchFrom: "start",
   };
@@ -119,7 +115,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
       list[i].siteNumber = "";
       list[i].institutionType = e == "yes" ? irtInstitutionType[0]?.value : ""
       setHpc(list);
-      console.log("list-->", list)
+
     }
     let arr = [];
     setSiteNumberAll(arr);
@@ -241,7 +237,6 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
 
     const status = hpc?.map((data) => {
       if (localStorage.getItem("user_id") == userId) {
-        console.log("hpc-->", hpc)
         if (data?.optIrt == "yes") {
           if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == ""
             || data?.role == "" || data?.siteNumber == "" || data?.siteName == "") {

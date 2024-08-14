@@ -97,7 +97,9 @@ const SelectSmartListUsers = (props) => {
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? "yes"
           : "",
-      institutionType: "",
+      institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+      siteNumber:"",
+      siteName:""
     },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -528,13 +530,13 @@ const SelectSmartListUsers = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = "";
+      list[i].role =e=="yes"?irtRole?.[0]?.value:"Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-      list[i].institutionType = "";
+      list[i].institutionType = e=="yes"?irtInstitutionType?.[0]?.value:"";
       setHpc(list);
     }
     let arr = [];
@@ -667,7 +669,9 @@ const SelectSmartListUsers = (props) => {
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
-        institutionType: "",
+            institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+            siteNumber:"",
+            siteName:""
       },
     ]);
     setActiveManual("active");
@@ -724,6 +728,7 @@ const SelectSmartListUsers = (props) => {
           data.last_name == "" ||
           data.first_name == "" ||
           data.country == "" || 
+          data?.role==""||
           (data?.optIrt === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
         ) {
           return "false";
@@ -759,7 +764,9 @@ const SelectSmartListUsers = (props) => {
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? "yes"
               : "",
-          institutionType: "",
+              institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+              siteNumber:"",
+              siteName:"",
         },
       ]);
     } else {
@@ -1028,7 +1035,7 @@ const SelectSmartListUsers = (props) => {
           data?.institution_type == "" || data?.siteNumber == "" || data?.siteName == "" ||
           data.first_name == "" ||
           data.last_name == "" ||
-          data.country == ""
+          data.country == ""||data?.investigator_type==""
         ) {
           if (
             data.first_name == "" &&
@@ -1063,7 +1070,16 @@ const SelectSmartListUsers = (props) => {
             isRdAndNorgianAcount
           ) {
             setValidationError({
-              newHcpInstitution: "Please enter the institution ",
+              newHcpInstitution: "Please select the institution type",
+              index: index,
+            });
+            return;
+          } if (
+            data.investigator_type == "" &&
+            isRdAndNorgianAcount
+          ) {
+            setValidationError({
+              role: "Please select the role ",
               index: index,
             });
             return;
@@ -3382,7 +3398,9 @@ const SelectSmartListUsers = (props) => {
                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                         ? "yes"
                         : "",
-                    institutionType: "",
+                        institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+                        siteNumber:"",
+                        siteName:"",
                   },
                 ]);
                 setActiveManual("active");
@@ -3428,6 +3446,7 @@ const SelectSmartListUsers = (props) => {
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
+                                    placeholder="First name"
                                   />
                                   {validationError?.newHcpFirstName &&
                                   validationError?.index == i ? (
@@ -3460,6 +3479,7 @@ const SelectSmartListUsers = (props) => {
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
+                                    placeholder="Last name"
                                   />
                                   {validationError?.newHcpLastName &&
                                   validationError?.index == i ? (
@@ -3488,6 +3508,7 @@ const SelectSmartListUsers = (props) => {
                                       onEmailChange(event, i)
                                     }
                                     value={val.email}
+                                    placeholder="example@email.com"
                                   />
                                   {validationError?.newHcpEmail &&
                                   validationError?.index == i ? (
@@ -3556,14 +3577,7 @@ const SelectSmartListUsers = (props) => {
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //         label: val?.institutionType,
-                                        //         value: val?.institutionType,
-                                        //       }
-                                        //     : ""
-                                        // }
+                                      
                                         value={
                                           irtInstitutionType.findIndex(
                                             (el) => el.value == val?.institutionType
@@ -3591,14 +3605,7 @@ const SelectSmartListUsers = (props) => {
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //         label: val?.institutionType,
-                                        //         value: val?.institutionType,
-                                        //       }
-                                        //     : ""
-                                        // }
+                                       
                                         value={
                                           nonIrtInstitutionType.findIndex(
                                             (el) => el.value == val?.institutionType
@@ -3625,11 +3632,16 @@ const SelectSmartListUsers = (props) => {
                                   
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT role</label>
+                                      <label for="">IRT role <span> *</span></label>
                                       {val?.optIrt == "yes" ? (
                                         <Select
                                           options={irtRole}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={
+                                            validationError?.role &&
+                                            validationError?.index == i
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          }
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
@@ -3651,7 +3663,12 @@ const SelectSmartListUsers = (props) => {
                                       ) : val?.optIrt == "no" ? (
                                         <Select
                                           options={role}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={
+                                            validationError?.role &&
+                                            validationError?.index == i
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          }
                                           onChange={(event) =>
                                             onRoleChange(event, i)
                                           }
@@ -3676,6 +3693,12 @@ const SelectSmartListUsers = (props) => {
                                           placeholder="Select Role"
                                         />
                                       )}
+                                      {validationError?.role &&
+                                      validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.role}
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </>

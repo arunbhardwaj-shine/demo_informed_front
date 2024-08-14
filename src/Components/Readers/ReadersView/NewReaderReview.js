@@ -155,13 +155,13 @@ const NewReadersReview = (props) => {
   let createdBy=localStorage.getItem("user_id")
   const [defaultOwner, setDefaultOwner] = useState("");
   let tooltipObj = {
-    "New": "IRT hasn't started the training yet (no training content sent to)",
-    "Invited": "IRT has recieved the training email",
-    "Started": "IRT has started the training but is not finished yet",
-    "Completed": "IRT has completed the training and recieved the certificate",
-    "Ignored": "IRT ignored the training",
-    "Not Completed": "IRT started the training and didn't complete it even after all the email reminders",
-    "Blocked": "IRT is blocked from participating in the trial",
+    "New": "Not recieved the invite to training for this role yet. (data in usage can be from participating in previous role or non-mandatory content)",
+    "Invited": "has recieved the training email",
+    "Started": "started the training but not finished yet",
+    "Completed": "completed the training and received the certificate - nice.",
+    "Ignored": "so far been ignoring the emails and training",
+    "Not Completed": "started some training, but not completed any and not responding to email nudges",
+    "Blocked": "Have been blocked from participating in training",
   }
   const searchInputRef = useRef(null);
   useEffect(() => {

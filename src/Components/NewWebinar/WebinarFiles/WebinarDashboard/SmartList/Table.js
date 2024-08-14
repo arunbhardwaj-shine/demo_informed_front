@@ -88,7 +88,11 @@ const Table = (props, ref) => {
   const [emailChanged, setEmailChanged] = useState("");
   const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+  ? "56Ek4feL/1A8mZgIKQWEqg=="
+  : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      ? "sNl1hra39QmFk9HwvXETJA=="
+      : null);
 
   const [siteStreetAll, setSiteStreetAll] = useState([]);
   const [siteCityAll, setSiteCityAll] = useState([]);
@@ -431,13 +435,15 @@ const Table = (props, ref) => {
         list[i].siteIrt = "Yes";
         list[i].userType = irtRole[0]?.value;
         list[i].roleIndex = 0;
+        let index = irtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       } else {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
-        list[i].userType = "";
-        list[i].roleIndex = "";
         list[i].userType = "Other";
         list[i].roleIndex = 4;
+        let index = nonIrtInstitutionType.findIndex((x) => x.value === value);
+        list[i].instituteIndex = index;
       }
 
       list[i].siteNumberIndex = "";
@@ -448,8 +454,8 @@ const Table = (props, ref) => {
       const name = hpc[i].institute;
       list[i].institute = value;
 
-      let index = instituions.findIndex((x) => x.value === value);
-      list[i].instituteIndex = index;
+      // let index = instituions.findIndex((x) => x.value === value);
+      // list[i].instituteIndex = index;
 
       if (value != "Study site") {
         let arr = [];
@@ -485,22 +491,7 @@ const Table = (props, ref) => {
       list[i].siteNumberIndex = index;
       setHpc(list);
     }
-    // e.preventDefault();
-    // if (index != 0) {
-    //   const { value } = e.target;
-    //   const old_hpc = hpc;
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-    //   setUpdate(update + 1);
-    // } else if (index == 0) {
-    //   const { value } = e;
-    //   const old_hpc = hpc;
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-    //   setUpdate(update + 1);
-    // }
+   
   };
   const onSiteNameChange = (e, i) => {
     if (e == null) {
@@ -670,6 +661,7 @@ const Table = (props, ref) => {
     setCounterData([]);
   };
   const handleShow = () => {
+    setValidationError({})
     setIsOpenAdd(true);
     setHpc([
       {
@@ -1182,21 +1174,71 @@ const Table = (props, ref) => {
   const addMoreHcp = () => {
     // console.log(hpc);
 
+    // const status = hpc.map((data) => {
+    //   if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+    //     if (
+    //       data.email == "" ||
+    //       data.lastname == "" ||
+    //       data.firstname == "" ||
+    //       data.country == "" ||
+    //       data.institute == "" ||
+    //       typeof data.institute == "undefined"
+    //     ) {
+    //       return "false";
+    //     } else {
+    //       return "true";
+    //     }
+    //   } else if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
+    //     if (data.email == "" || data.country == "") {
+    //       return "false"
+    //     } else {
+    //       return "true"
+    //     }
+    //   }
+    //   else {
+    //     if (data.email == "") {
+    //       return "false";
+    //     }
+    //     else {
+    //       return "true";
+    //     }
+    //   }
+    // });
+
     const status = hpc.map((data) => {
-      if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
-        if (
-          data.email == "" ||
-          data.lastname == "" ||
-          data.firstname == "" ||
-          data.country == "" ||
-          data.institute == "" ||
-          typeof data.institute == "undefined"
-        ) {
-          return "false";
+      if (localStorage.getItem("user_id") == userId) {
+        if (data?.siteIrt == "Yes") {
+
+          if (
+            data.email == "" ||
+            data.lastname == "" ||
+            data.firstname == "" ||
+            data.country == "" ||
+            data.institute == "" ||
+            typeof data.institute == "undefined" ||
+            data?.siteName == "" || data?.siteNumber == "" || data?.userType == "" ||
+            typeof data?.userType == "undefined"
+          ) {
+            return "false";
+          } else {
+            return "true";
+          }
         } else {
-          return "true";
+          if (
+            data.email == "" ||
+            data.lastname == "" ||
+            data.firstname == "" ||
+            data.country == "" ||
+            data.institute == "" ||
+            typeof data.institute == "undefined"
+          ) {
+            return "false";
+          } else {
+            return "true";
+          }
         }
-      } else if (localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
+
+      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         if (data.email == "" || data.country == "") {
           return "false"
         } else {
@@ -1212,6 +1254,7 @@ const Table = (props, ref) => {
         }
       }
     });
+
 
     if (status.every((element) => element == "true")) {
       setHpc([
@@ -1416,9 +1459,6 @@ const Table = (props, ref) => {
     props.api_flag(0);
   };
   const saveClickedRd = async () => {
-    // setShowSaveReader(true);
-
-    // setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -1448,44 +1488,88 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      const status = body.data.map((data) => {
-        // let validRegex =
-        //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const status = body.data.map((data, index) => {
         if (
-          data.first_name == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
-        ) {
-          return "Please enter the first name";
+          data.first_name == "" && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            firstName: "Please enter the first name",
+            index: index,
+          });
+          return;
+
         } else if (
-          data.last_name == "" &&
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
-        ) {
-          return "Please enter the last name";
+          data.last_name == "" && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            lastName: "Please enter the last name",
+            index: index,
+          });
+          return;
         } else if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if (data.institution_type == "") {
-          return "Please select Institution";
-        } else if (data.country == "") {
-          return "Please select country";
-        } else if (data.email != "") {
+          setValidationError({
+            email: "Please enter the email ",
+            index: index,
+          });
+          return;
+        } else if (data.institution_type == "" && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            institutionType: "Please select the Institution type",
+            index: index,
+          });
+          return;
+        }else if (data.investigator_type == "" && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            role: "Please select the role",
+            index: index,
+          });
+          return;
+        } 
+        else if (data.country == "") {
+          setValidationError({
+            country: "Please select the country",
+            index: index,
+          });
+          return;
+        } else if (data.siteNumber == "" && data.siteIrt == 1 && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            siteNumber: "Please select site number",
+            index: index,
+          });
+          return
+        } else if (data.siteName == "" && data.siteIrt == 1 && localStorage.getItem("user_id") == userId) {
+          setValidationError({
+            siteName: "Please select site name",
+            index: index,
+          });
+          return
+        }
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
-            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
+            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail);
+            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail);
             if (
               typeof prev_obj != "undefined" ||
               typeof prev_obj_new != "undefined"
             ) {
-              return "User with same email already added in list.";
+              setValidationError({
+                email: "User with same email already added in list.",
+                index: index,
+              });
+              return;
             } else {
               return "true";
             }
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              email: "Email format is not valid",
+              index: index,
+            });
+            return;
           }
-        } else {
+        }
+        else {
           return "true";
         }
       });
@@ -1528,11 +1612,7 @@ const Table = (props, ref) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        // toast.warning(status[0]);
-        const filteredArray = status.filter((value) => value !== "true");
-        toast.warning(filteredArray?.[0]);
-      }
+      } 
 
       //setIsOpen(false);
     } else {
@@ -1588,9 +1668,7 @@ const Table = (props, ref) => {
     }
   };
   const saveClicked = async () => {
-    // setShowSaveReader(true);
-
-    // setIsOpenAdd(false);
+    
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -1609,30 +1687,45 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      const status = body.data.map((data) => {
+      const status = body.data.map((data, index) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
-          return "Please enter the email atleast";
-        } else if (data.country == "" && localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
-          return "Please enter the country";
+          setValidationError({
+            email: "Please enter the email",
+            index: index,
+          });
+          return;
+        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          setValidationError({
+            country: "Please enter the country",
+            index: index,
+          });
+          return;
         }
         else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
-            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail?.toLowerCase());
-            if (typeof prev_obj != "undefined" || typeof prev_obj_new != "undefined") {
-              return "User with same email already added in list.";
+            let prev_obj = editList.find((x) => x.email?.toLowerCase() === useremail);
+            let prev_obj_new = getNewReaders.find((x) => x.email?.toLowerCase() === useremail);
+            if (typeof prev_obj != "undefined"||typeof prev_obj_new != "undefined") {
+              setValidationError({
+                email: "User with same email already added in list.",
+                index: index,
+              });
+              return
             } else {
               return "true";
             }
 
-            return "true";
           } else {
-            return "Email format is not valid";
+            setValidationError({
+              email: "Email format is not valid",
+              index: index,
+            });
+            return
           }
         } else {
           return "true";
@@ -1677,9 +1770,7 @@ const Table = (props, ref) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-      } else {
-        toast.warning(status[0]);
-      }
+      } 
 
       //setIsOpen(false);
     } else {
@@ -2747,13 +2838,20 @@ const Table = (props, ref) => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className={(validationError?.firstName &&
+                                        validationError?.index == i) ? "form-control error" : "form-control"}
                                       onChange={(event) =>
                                         onFirstNameChange(event, i)
                                       }
                                       value={val.firstname}
                                       placeholder="First name"
                                     />
+                                    {validationError?.firstName &&
+                                      validationError?.index == i ? (
+                                      <div className="login-validation">
+                                        {validationError?.firstName}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -2769,13 +2867,20 @@ const Table = (props, ref) => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className={(validationError?.lastName &&
+                                        validationError?.index == i) ? "form-control error" : "form-control"}
                                       onChange={(event) =>
                                         onLastNameChange(event, i)
                                       }
                                       value={val.lastname}
                                       placeholder="Last name"
                                     />
+                                     {(validationError?.lastName &&
+                                      validationError?.index == i) ? (
+                                      <div className="login-validation">
+                                        {validationError?.lastName}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -2786,7 +2891,7 @@ const Table = (props, ref) => {
                                     <input
                                       type="email"
                                       className={
-                                        validationError?.newHcpEmail
+                                        (validationError?.email && validationError?.index == i)
                                           ? "form-control error"
                                           : "form-control"
                                       }
@@ -2798,9 +2903,9 @@ const Table = (props, ref) => {
                                       value={val.email}
                                       placeholder="example@email.com"
                                     />
-                                    {validationError?.newHcpEmail ? (
+                                    {(validationError?.email && validationError?.index == i) ? (
                                       <div className="login-validation">
-                                        {validationError?.newHcpEmail}
+                                        {validationError?.email}
                                       </div>
                                     ) : null}
                                   </div>
@@ -2984,6 +3089,11 @@ const Table = (props, ref) => {
                                         />
                                         
                                         }
+                                        {(validationError?.institutionType && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.institutionType}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
                                     <div className="col-12 col-md-6">
@@ -2993,7 +3103,9 @@ const Table = (props, ref) => {
                                           ?.value === "Yes" ? (
                                           <Select
                                             options={irtRole}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.role && validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
@@ -3006,7 +3118,9 @@ const Table = (props, ref) => {
                                           ?.value === "No" ? (
                                           <Select
                                             options={userTypeAll}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.role && validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
@@ -3023,6 +3137,11 @@ const Table = (props, ref) => {
                                             placeholder={"Select Role"}
                                           />
                                         )}
+                                        {(validationError?.role && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.role}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
                                   
@@ -3072,7 +3191,9 @@ const Table = (props, ref) => {
                                           ?.value === "Yes" ? (
                                           <Select
                                             options={irtCountry}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.country && validationError?.index == i)
+                                              ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onCountryChange(event, i)
                                             }
@@ -3097,7 +3218,9 @@ const Table = (props, ref) => {
                                         ) : (
                                           <Select
                                             options={countryall}
-                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            className={(validationError?.country && validationError?.index == i)
+                                              ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                             onChange={(event) =>
                                               onCountryChange(event, i)
                                             }
@@ -3120,7 +3243,11 @@ const Table = (props, ref) => {
                                             isClearable
                                           />
                                         )}
-                                      
+                                         {(validationError?.country && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.country}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
 
@@ -3130,7 +3257,9 @@ const Table = (props, ref) => {
                                           ?.value === "Yes" ?<span> *</span>:""}</label>
                                         <Select
                                           options={siteNumberAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.siteNumber && validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onSiteNumberChange(event, i)
                                           }
@@ -3157,6 +3286,11 @@ const Table = (props, ref) => {
                                           }
                                
                                         />
+                                          {(validationError?.siteNumber && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.siteNumber}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
                                     <div className="col-12 col-md-6">
@@ -3166,7 +3300,9 @@ const Table = (props, ref) => {
 
                                         <Select
                                           options={siteNameAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={(validationError?.siteName && validationError?.index == i)
+                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                           onChange={(event) =>
                                             onSiteNameChange(event, i)
                                           }
@@ -3192,6 +3328,11 @@ const Table = (props, ref) => {
                                           }
                                         
                                         />
+                                        {(validationError?.siteName && validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.siteName}
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
 
@@ -3251,18 +3392,7 @@ const Table = (props, ref) => {
                                     </a>
                                   </li>
 
-                                  {/*
-                                <li className="nav-item add-file">
-                                  <a
-                                    onClick={(e) => addFile(e)}
-                                    className="nav-link btn-filled"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    Add File
-                                  </a>
-                                </li>
-                                */}
+                                 
                                 </ul>
                               </div>
                             </div>
@@ -3272,39 +3402,7 @@ const Table = (props, ref) => {
                     })}
                   </form>
 
-                  {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="file_upload-box">
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-4[]"
-                            id="file-4"
-                            className="inputfile inputfile-3"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={onFileChange}
-                            data-multiple-caption="{count} files selected"
-                            multiple
-                            // ref={file_name}
-                          />
-
-                          {file_name.current?.files === undefined ||
-                          file_name.current.files?.length === 0 ? (
-                            <>
-                              <label htmlFor="file-4">
-                                <span>Choose Your File</span>
-                              </label>
-                              <p>Upload your excel file</p>
-                            </>
-                          ) : (
-                            <h5>{file_name.current.files[0].name}</h5>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  */}
+                 
                 </div>
               </div>
             </div>
@@ -3386,6 +3484,7 @@ const Table = (props, ref) => {
                                         onFirstNameChange(event, i)
                                       }
                                       value={val.firstname}
+                                      placeholder="First name"
                                     />
                                   </div>
                                 </div>
@@ -3399,6 +3498,7 @@ const Table = (props, ref) => {
                                         onLastNameChange(event, i)
                                       }
                                       value={val.lastname}
+                                      placeholder="Last name"
                                     />
                                   </div>
                                 </div>
@@ -3407,14 +3507,24 @@ const Table = (props, ref) => {
                                     <label htmlFor="">Email <span>*</span></label>
                                     <input
                                       type="email"
-                                      className="form-control"
+                                      className={(validationError?.email &&
+                                        validationError?.index == i)
+                                        ?"form-control error"
+                                        :"form-control"}
                                       id="email-desc"
                                       name={`${fieldName}.email`}
                                       onChange={(event) =>
                                         onEmailChange(event, i)
                                       }
                                       value={val.email}
+                                      placeholder="example@email.com"
                                     />
+                                     {(validationError?.email &&
+                                      validationError?.index == i) ? (
+                                      <div className="login-validation">
+                                        {validationError?.email}
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="col-12 col-md-6">
@@ -3475,7 +3585,10 @@ const Table = (props, ref) => {
                                     </label>
                                     <Select
                                       options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={(validationError?.country &&
+                                        validationError?.index == i)
+                                        ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                        :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3492,44 +3605,16 @@ const Table = (props, ref) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
-                                    {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                            onSelect={(event) => onCountryChange(event, i)}
-                                            >
-                                            <div className="scroll_div">
-                                            {countryall.length === 0
-                                            ? ""
-                                            : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                            return (
-                                            <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                            </>
-                                          );
-                                        }
-                                      )}
+                                 {(validationError?.country &&
+                                      validationError?.index == i) ? (
+                                      <div className="login-validation">
+                                        {validationError?.country}
                                       </div>
-                                      </DropdownButton>
-                                    */}
+                                    ) : null}
                                   </div>
                                 </div>
 
-                                {/*
-                                <div className="col-12 col-md-6 btn_rmv">
-                                  <div className="form-group">
-                                    {i !== 0 && (
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        Remove
-                                      </button>
-                                    )}
-                                  </div>
-                                </div>
-                                */}
+                                
                               </div>
                             </div>
 
@@ -3569,18 +3654,7 @@ const Table = (props, ref) => {
                                     </a>
                                   </li>
 
-                                  {/*
-                                    <li className="nav-item add-file">
-                                      <a
-                                        onClick={(e) => addFile(e)}
-                                        className="nav-link btn-filled"
-                                        data-bs-toggle="tab"
-                                        href="javascript:;"
-                                      >
-                                        Add File
-                                      </a>
-                                    </li>
-                                    */}
+                                 
                                 </ul>
                               </div>
                             </div>
@@ -3590,33 +3664,7 @@ const Table = (props, ref) => {
                     })}
                   </form>
 
-                  {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="form-group files">
-                      <div className="box">
-                        <input
-                          type="file"
-                          id="file-4"
-                          className="form-control inputfile"
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                          onChange={onFileChange}
-                          ref={file_name}
-                        />
-                        {file_name.current?.files === undefined ||
-                        file_name.current.files?.length === 0 ? (
-                          <>
-                            <label htmlFor="file-4">
-                              <span>Choose Your File</span>
-                            </label>
-                            <p>Upload your excel file</p>
-                          </>
-                        ) : (
-                          <h5>{file_name.current.files[0].name}</h5>
-                        )}
-                      </div>
-                    </div>
-                  </form>
-                  */}
+                 
                 </div>
               </div>
             </div>

@@ -29,63 +29,61 @@ const UploadExcel = (props) => {
     setlistData(data);
     setTimeout(() => {
       setisLoad(false);
-    },1000)
+    }, 1000)
   }
 
   return (
     <>
-    {
+      {
         <div className="col right-sidebar custom-change">
-        <div className="custom-container">
-          {/* <div className="row">
-        <Table data={data} smartListName={smartListName} upload_by_filter="0" creator={creator} sendDataToParent={sendDataToParent} ibu={ibu} />
-      </div> */}
-      <div className="row">
-            {
-              listData?.length > 0 ? 
-              <>
-                <Table data={listData} smartListName={smartListName} 
-                    upload_by_filter="0" 
-                    creator={creator} 
-                    sendDataToParent={sendDataToParent} 
-                    ibu={ibu} 
-                    listcount = {listCount}
-                    allUsers  = {allids}
-                />
-                {
-                  data > listData ?
-                  <div className="load_more">
-                    <button className="btn btn-primary btn-filled" onClick={load_more}>
-                      Load All
-                    </button>
+          <div className="custom-container">
+            
+            <div className="row">
+              {
+                listData?.length > 0 ?
+                  <>
+                    <Table data={listData} smartListName={smartListName}
+                      upload_by_filter="0"
+                      creator={creator}
+                      sendDataToParent={sendDataToParent}
+                      ibu={ibu}
+                      listcount={listCount}
+                      allUsers={allids}
+                    />
+                    {
+                      data > listData ?
+                        <div className="load_more">
+                          <button className="btn btn-primary btn-filled" onClick={load_more}>
+                            Load All
+                          </button>
+                        </div>
+                        : null
+                    }
+                  </>
+
+                  : null
+              }
+
+              {
+                isLoad ?
+                  <div
+                    className="load_more"
+                    style={{
+                      margin: "0 auto",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
                   </div>
                   : null
-                }
-              </>
+              }
 
-              : null
-            }
 
-            {
-              isLoad ? 
-                <div
-                  className="load_more"
-                  style={{
-                    margin: "0 auto",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-                </div>
-              : null
-            }
-              
-
-      </div>
-      </div>
-       </div>
-    }
+            </div>
+          </div>
+        </div>
+      }
 
     </>
   );
