@@ -156,11 +156,11 @@ const NewReadersReview = (props) => {
   const [defaultOwner, setDefaultOwner] = useState("");
   let tooltipObj = {
     "New": "Not recieved the invite to training for this role yet. (data in usage can be from participating in previous role or non-mandatory content)",
-    "Invited": "has recieved the training email",
-    "Started": "started the training but not finished yet",
-    "Completed": "completed the training and received the certificate - nice.",
-    "Ignored": "so far been ignoring the emails and training",
-    "Not Completed": "started some training, but not completed any and not responding to email nudges",
+    "Invited": "Has recieved the training email",
+    "Started": "Started the training but not finished yet",
+    "Completed": "Completed the training and received the certificate - nice.",
+    "Ignored": "So far been ignoring the emails and training",
+    "Not Completed": "Started some training, but not completed any and not responding to email nudges",
     "Blocked": "Have been blocked from participating in training",
   }
   const searchInputRef = useRef(null);
