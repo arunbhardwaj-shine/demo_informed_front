@@ -497,13 +497,13 @@ const Header = () => {
                 ) : (
                   ""
                 )}
-                <li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
+          {    localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg=="  &&   ( <li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
                   ? "nav-item active active-main"
                   : "nav-item"
                 } onClick={handleMenuItemClick}>
                   <Link className="nav-link" to={"/survey/survey-list"}>SURVEY
                   </Link>
-                </li>
+                </li>)}
 
                 {/* {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (

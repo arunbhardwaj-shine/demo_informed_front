@@ -2531,7 +2531,7 @@ const LicenseContent = (props) => {
                   onClick={async () => {
                     await getLibraryData(page + 1, filterObject, "",0,"rest");
                   }}                >
-                  Load More
+                  Load All
                 </Button>
               ) : null}
             </div>

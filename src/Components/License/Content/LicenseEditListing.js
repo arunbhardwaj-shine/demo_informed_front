@@ -2122,7 +2122,7 @@ const LicenseEditListing = () => {
                     await getLibraryData(page + 1, filterObject, "",0,"rest");
                   }}                >
                   
-                  Load More
+                  Load All
 
                 </Button>
               ) : null}

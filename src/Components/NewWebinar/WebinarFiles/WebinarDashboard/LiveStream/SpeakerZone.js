@@ -1,4 +1,3 @@
-import { loader } from "../../../../../loader";
 import React, {useState,useEffect} from "react";
 import { useLocation } from 'react-router-dom';
 import { postData } from "../../../../../axios/apiHelper";
@@ -8,28 +7,25 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { Spinner } from "react-activity";
 import { toast } from "react-toastify";
 import moment from "moment"
-import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
+import { collection, query, where, onSnapshot} from "firebase/firestore";
 import {Col,
-    Container,
-    Row,
+  
     Button,
   } from "react-bootstrap";
 
 const SpeakerZone = () => {
-    const { eventIdContext,handleEventId } = useSidebar();
+    const { eventIdContext } = useSidebar();
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
-    const location = useLocation();
     const [apiCallStatus, setApiCallStatus] = useState({
-      "question": false,
-      "answer": false,
-      "ignored": false,
+      "question": true,
+      "answer": true,
+      "ignored": true,
     });
-    const queryParams = new URLSearchParams(location.search);  
-    const [eventId,setEvent] = useState({
+    const eventId={
         id:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId?localStorageEvent?.eventId:0,
         companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId?localStorageEvent?.companyId:0,
         eventCode:eventIdContext?.eventCode?eventIdContext?.eventCode:localStorageEvent?.eventCode
-    })
+    }
     const [count,setCount] = useState(0)
 
     const q = query(collection(db, "chat"),where("event_id","==",eventId?.id?eventId?.id:0),where("company_id","==",eventId?.companyId?eventId?.companyId:0),where("webinar","!=",0))
@@ -38,24 +34,6 @@ const SpeakerZone = () => {
         answer:[],
         ignre:[]
     })
-
-    // const EventDataFun = async() =>{
-    //     try{
-    //         loader("show")
-    //         const result = await postData(ENDPOINT.EVENT_ID,{
-    //              eventCode :queryParams.get("evnt")
-    //         })
-    //         setEvent(result.data.data)
-    //         loader("hide")
-
-    //     }catch(err){
-    //         loader("hide")
-    //         console.log("-err",err)
-    //     }
-    // }
-    // useEffect(()=>{
-    //     EventDataFun()
-    // },[])
     onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if(doc.data()){
@@ -103,33 +81,7 @@ const SpeakerZone = () => {
               "answer": true,
               "ignored": true,
             });
-            // if(data == 0){
-            //   setApiCallStatus({
-            //     "question": true,
-            //     "answer": false,
-            //     "ignored": true,
-            //   });
-            // }else if(data == 2){
-            //   setApiCallStatus({
-            //     "question": true,
-            //     "answer": true,
-            //     "ignored": false,
-            //   });
-            // }else{
-            //   if(type == "answer"){
-            //     setApiCallStatus({
-            //       "question": true,
-            //       "answer": true,
-            //       "ignored": false,
-            //     });
-            //   }else{
-            //     setApiCallStatus({
-            //       "question": true,
-            //       "answer": false,
-            //       "ignored": true,
-            //     });
-            //   }
-            // }
+        
             await postData(ENDPOINT.QUESTION_UPDATE,{
                 "userAnswer":data,
                 "id":id,
@@ -137,11 +89,7 @@ const SpeakerZone = () => {
                 "companyId":eventId?.companyId
              })
 
-            //  setApiCallStatus({
-            //   "question": false,
-            //   "answer": false,
-            //   "ignored": false,
-            // });
+     
         }catch(err){
             setApiCallStatus({
               "question": false,
@@ -152,9 +100,7 @@ const SpeakerZone = () => {
         }
     }
     useEffect(()=>{
-      // if(!eventIdContext){
-      //   handleEventId(localStorageEvent)
-      // }
+  
         if(count>0){
             initialFun()
         }

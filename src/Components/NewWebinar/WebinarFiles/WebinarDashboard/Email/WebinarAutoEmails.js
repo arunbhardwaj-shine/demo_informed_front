@@ -5,12 +5,9 @@ import { loader } from "../../../../../loader";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Modal, ModalDialog, Dropdown, Col, Button } from "react-bootstrap";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import { Modal, Col, Button } from "react-bootstrap";
 import { popup_alert } from "../../../../../popup_alert";
-import Select, { createFilter } from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { postData } from "../../../../../axios/apiHelper";
@@ -22,18 +19,19 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
-  const { eventIdContext, handleEventId } = useSidebar();
+  const { eventIdContext } = useSidebar();
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
-  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
-  ? switch_account_detail?.user_id
-  : localStorage.getItem("user_id"))
+  const localStorageUserId = switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
+    ? switch_account_detail?.user_id
+    : localStorage.getItem("user_id")
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(
+  const eventId =
     eventIdContext?.eventId
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
-  );
+    ;
   const [viewEmailModal, setviewEmailModal] = useState(false);
+  const [isFilterApiCalled, setIsFilterApiCalled] = useState(false);
 
   const [getsearch, setSearch] = useState("");
   const [showPreogressBar, setShowProgressBar] = useState(false);
@@ -41,15 +39,10 @@ const WebinarAutoEmail = () => {
   const [mailsIncrement, setMailsIncrement] = useState(0);
   const [hcpsSelected, setHcpsSelected] = useState([]);
   const [approveClickedd, setApproveClicked] = useState(false);
-  const [counterFlag, setCounterFlag] = useState(0);
-  const [tempLang, setTempLang] = useState(0);
   const [templates, setTemplates] = useState([]);
-  const [reminderTemplates, setReminderTemplates] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [templateClicked, setTemplateClicked] = useState(false);
   const [sourceCode, setSourceCode] = useState("");
-  const [indexClicked, setIndexClicked] = useState();
-  const [indexClickedReminder, setIndexClickedReminder] = useState();
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [activeManual, setActiveManual] = useState("active");
@@ -57,19 +50,15 @@ const WebinarAutoEmail = () => {
   const [emailSubject, setEmailSubject] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [isOpenSend, setIsOpensend] = useState(false);
-  const [language, setLanguage] = useState("0");
+  const language = 0;
   const [reRender, setReRender] = useState(0);
   const [getSmartListId, setSmartListId] = useState(0);
   const [addListOpen, setAddListOpen] = useState(false);
-  const [activeExcel, setActiveExcel] = useState("");
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [selectedHcp, setSelectedHcp] = useState([]);
   const [email, setEmail] = useState("");
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [name, setName] = useState("");
-  const [siteNameAll, setSiteNameAll] = useState([]);
-  const [siteNumberAll, setSiteNumberAll] = useState([]);
-  const [hide, setHide] = useState(false);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
@@ -84,8 +73,6 @@ const WebinarAutoEmail = () => {
   const [readers, setReaders] = useState([]);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [totalData, setTotalData] = useState({});
-  const [getSmartListName, setSmartListName] = useState("");
-  const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [validationError, setValidationError] = useState({});
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
@@ -93,10 +80,6 @@ const WebinarAutoEmail = () => {
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const [selectedListId, setSelectedListId] = useState(0);
-  const [optIRT, setoptIRT] = useState([
-    { value: "yes", label: "Yes" },
-    { value: "no", label: "No" },
-  ]);
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -127,16 +110,9 @@ const WebinarAutoEmail = () => {
   const editorRef = useRef(null);
   const ref = useRef(null);
   const linkingPayload = useRef();
-  let file_name = useRef("");
-  const filterConfig = {
-    matchFrom: "start",
-  };
-
-  
-
-  useEffect(() => {
-    getSmartListData(0);
-  }, []);
+  // useEffect(() => {
+  //   getSmartListData(0);
+  // }, []);
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -148,17 +124,15 @@ const WebinarAutoEmail = () => {
     getTemplateListData();
   }, [language]);
 
-  useEffect(() => {
-    loader("show");
-    if (localStorageUserId == userId ) {
-      axiosFun();
-    }
-    const getalCountry = async () => {
-      const body = {
-        user_id: localStorageUserId,
-        language: "",
-        ibu: "",
-      };
+  const getalCountry = async () => {
+    const body = {
+      user_id: localStorageUserId,
+      language: "",
+      ibu: "",
+    };
+
+    if (!isFilterApiCalled) {
+      loader("show")
 
       await axios
         .post(`distributes/filters_list`, body)
@@ -181,7 +155,7 @@ const WebinarAutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorageUserId ==userId) {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -227,18 +201,31 @@ const WebinarAutoEmail = () => {
             setIrtInstitutionType(newIrtInstitution);
             }
             setTotalData(res?.data?.response?.data);
+            setIsFilterApiCalled(true)
+            loader("hide")
+
+
           }
         })
         .catch((err) => {
           console.log(err);
-        });
-    };
+          loader("hide")
 
-    getalCountry();
+        });
+    }
+  };
+  useEffect(() => {
+    loader("show");
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+      axiosFun();
+    }
+
+
+    // getalCountry();
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -270,7 +257,6 @@ const WebinarAutoEmail = () => {
         body
       );
       setTemplates(response?.data?.data);
-      setReminderTemplates(response?.data?.data?.reminderTemplate);
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -284,38 +270,21 @@ const WebinarAutoEmail = () => {
     setEmailSubject(template?.subject);
     setEmailDescription(template?.description);
     setCreateNewTemplate(false);
-    // setNewTemplateName("")
     setNewTemplateDescription("");
     setNewTemplateSubject("");
-    // setEmailSubject("");
     setEmailSubject(template?.subject);
 
-    // setEmailDescription("");
     setApproveClicked(false);
     setTemplateClicked(true);
     setSourceCode(template?.template);
-    // setIndexClicked(index);
     setTemplateId(template?.id);
     templateIdRef.current = template?.id;
-    setTempLang(template?.language_code);
     if (template?.approved == 1) {
       setApproveClicked(true);
     } else {
       setApproveClicked(false);
     }
-    setIndexClickedReminder();
     setTemplateName(template?.subject);
-  };
-  const viewReminderClicked = (template, index) => {
-    setEmailSubject("");
-    setEmailDescription("");
-    setApproveClicked(false);
-    setTemplateClicked(true);
-    setSourceCode(template?.template);
-    setIndexClickedReminder(index);
-    setTemplateId(template?.id);
-    setTemplateName(template?.subject);
-    // setIndexClicked();
   };
 
   const searchChange = (e) => {
@@ -326,13 +295,11 @@ const WebinarAutoEmail = () => {
   };
 
   const cancelClicked = () => {
-    // setIndexClicked();
     setTemplateClicked(false);
     setValidationError({});
     setSourceCode("");
     setTemplateId(0);
     templateIdRef.current = "";
-    setTempLang(0);
     // setNewTemplateName("")
     setNewTemplateDescription("");
     setNewTemplateSubject("");
@@ -392,7 +359,9 @@ const WebinarAutoEmail = () => {
     }
   };
 
-  const addNewContactClicked = () => {
+  const addNewContactClicked = async () => {
+    let countriesData=await getalCountry();
+
     setIsOpenAdd(true);
     setIsOpensend(false);
     setHpc([
@@ -418,7 +387,6 @@ const WebinarAutoEmail = () => {
       },
     ]);
     setActiveManual("active");
-    setActiveExcel("");
   };
 
   const selectHcp = (index) => {
@@ -471,10 +439,9 @@ const WebinarAutoEmail = () => {
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      //  loader("show");
       setShowProgressBar(true);
       const body = {
-        user_id:localStorageUserId,
+        user_id: localStorageUserId,
         // pdf_id: "3487",
         event_id: eventId,
         subject: emailSubject,
@@ -541,11 +508,7 @@ const WebinarAutoEmail = () => {
       if (mailViewElement) {
         mailViewElement.setAttribute("custom-atr", "scroll");
       }
-      // document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      // document
-      //   .querySelector("#mail-view")
-      //   .setAttribute("custom-atr", "non-scroll");
 
       const mailViewElement = document.querySelector("#mail-view");
       if (mailViewElement) {
@@ -734,9 +697,9 @@ const WebinarAutoEmail = () => {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler =async (event) => {
     if (getsearch !== "") {
-      getSmartListData(1);
+     await getSmartListData(1);
     } else {
       toast.error("Please enter text.");
     }
@@ -744,7 +707,7 @@ const WebinarAutoEmail = () => {
     return false;
   };
 
-  const getSmartListData = (flag) => {
+  const getSmartListData = async (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorageUserId,
@@ -759,9 +722,11 @@ const WebinarAutoEmail = () => {
         setSmartListData(res?.data?.response?.data);
         if (flag == 0) {
           setPrevSmartListData(res?.data?.response?.data);
-        } else {
-          loader("hide");
         }
+
+        loader("hide");
+
+
       })
       .catch((err) => {
         loader("hide");
@@ -772,32 +737,7 @@ const WebinarAutoEmail = () => {
     setSmartListId(data?.id);
   };
 
-  const openSmartListPopup = async (smart_list_id) => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const body = {
-      user_id:localStorageUserId,
-      list_id: smart_list_id,
-      show_specific: 1,
-    };
-    loader("show");
-    await axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        if (res?.data?.status_code == 200) {
-          setAddListOpen(false);
-          setReaderDetails(res?.data?.response?.data);
-          setSmartListName(res?.data?.response?.smart_list_name);
-          setSmartListPopupStatus(true);
-        } else {
-          toast.warning(res?.data?.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        toast.warning("Something went wrong");
-        loader("hide");
-      });
-  };
+
 
   const addClicked = (e) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
@@ -811,7 +751,6 @@ const WebinarAutoEmail = () => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res?.data?.status_code == 200) {
-            setReaders(res?.data?.response?.data);
 
             res?.data?.response?.data?.map((data) => {
               let prev_obj = selectedHcp?.find(
@@ -865,7 +804,7 @@ const WebinarAutoEmail = () => {
       return;
     }
 
-    
+
     if (
       typeof template_id != "undefined" &&
       template_id != "" &&
@@ -905,101 +844,6 @@ const WebinarAutoEmail = () => {
     }
   };
 
-  const approveClicked = async (e) => {
-    e.preventDefault();
-
-    const body = {
-      user_id: localStorageUserId,
-      pdf_id: "3487",
-      description: emailDescription,
-      creator: "",
-      campaign_name: "",
-      subject: emailSubject,
-      route_location: "webinar/email/auto-emails",
-      tags: [],
-      campaign_data: {
-        templateId: templateId,
-      },
-      campaign_id: "",
-      status: 3,
-      approved_page: 1,
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/save_draft`, body)
-      .then((res) => {
-        loader("hide");
-
-        if (res?.data?.status_code === 200) {
-          setApproveClicked(true);
-          toast.success("Approved Draft saved");
-        } else {
-          toast.warning(res?.data?.message);
-        }
-      })
-      .catch((err) => {
-        toast.error("Somwthing went wrong");
-      });
-  };
-
-  const changeLanguage = (e) => {
-    setLanguage(e?.value);
-    setTemplateClicked(false);
-    setIndexClicked();
-  };
-
-  // const addTracking = function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(".tox-dialog__header");
-  //       const closeButton = header.querySelector('[aria-label="Close"]');
-  //       let text = header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon = document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-  //         );
-  //         uploadIcon.style.display = "none";
-  //         let newButton = document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button");
-  //         newButton.classList.add("tox-button--icon");
-  //         newButton.classList.add("tox-button--naked");
-  //         newButton.classList.add("track");
-  //         newButton.onclick = function () {
-  //           let firstToxControlWrap = document.querySelector(
-  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //           );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       }
-  //     }
-  //   });
-  // };
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
@@ -1166,11 +1010,8 @@ const WebinarAutoEmail = () => {
       setValidationError(error);
       return;
     }
-    //  else if (templateSaving == "") {
-    //   toast.warning("Template can't be empty");
-    //   return;
-    // }
-     else {
+
+    else {
       if (editorRef.current) {
         const body = {
           user_id: localStorageUserId,
@@ -1189,14 +1030,11 @@ const WebinarAutoEmail = () => {
           .then((res) => {
             if (res?.data?.status_code == 200) {
               getTemplateListData();
-              setIndexClicked();
               setTemplateClicked(false);
               setValidationError({});
               setSourceCode("");
-              setIndexClicked();
               setTemplateId(0);
               templateIdRef.current = "";
-              setTempLang(0);
               // setNewTemplateName("")
               setNewTemplateDescription("");
               setNewTemplateSubject("");
@@ -1218,7 +1056,6 @@ const WebinarAutoEmail = () => {
     let defaultSourceCode = templates?.triggeredTemplate?.find(
       (item) => item?.template_code === "INVITATION_REAL_TEMPLATE"
     );
-    setIndexClicked();
     setTemplateClicked(false);
     setValidationError({});
     setSourceCode(defaultSourceCode?.template);
@@ -1255,7 +1092,6 @@ const WebinarAutoEmail = () => {
       },
     ]);
     setActiveManual("active");
-    setActiveExcel("");
     setValidationError({});
   };
   const setHpcList = (list) => {
@@ -1275,7 +1111,7 @@ const WebinarAutoEmail = () => {
         canvas.toBlob((blob) => {
           if (blob) {
             const formData = new FormData();
-            formData.append("user_id",localStorageUserId);
+            formData.append("user_id", localStorageUserId);
             formData.append("template_id", templateId);
             formData.append("image_url", blob, "image.png"); // Assuming the file name is 'image.png'
             formData.append("template_name", "");
@@ -1377,22 +1213,6 @@ const WebinarAutoEmail = () => {
               <div className="page-title">
                 <h2>Auto Email</h2>
               </div>
-              {/* <div className="template_builder-option">
-                {localStorageUserId ==
-                  "B7SHpAc XDXSH NXkN0rdQ==" && (
-                    <div className="template_language">
-                      <span>Language</span>
-                      <div className="form-group">
-                        <Select
-                          options={getTemplateLanguage}
-                          defaultValue={getTemplateLanguage[0]}
-                          onChange={(e) => changeLanguage(e)}
-                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                        />
-                      </div>
-                    </div>
-                  )}
-              </div> */}
               <div className="top-right-action">
                 {!createNewTemplate && (
                   <Button onClick={(e) => CreateNewTemplateClicked(e)}>
@@ -1408,8 +1228,8 @@ const WebinarAutoEmail = () => {
                       Cancel
                     </button>
                     {templateName == "Reset password" ||
-                    templateName == "Welcome mail" ||
-                    createNewTemplate ? null : (
+                      templateName == "Welcome mail" ||
+                      createNewTemplate ? null : (
                       <button
                         className="btn btn-primary btn-filled next"
                         onClick={(e) => {
@@ -1451,60 +1271,60 @@ const WebinarAutoEmail = () => {
                     </div>
                     <div className="mail_trigger_content">
                       {typeof templates?.triggeredTemplate !== "undefined" &&
-                      templates?.triggeredTemplate?.length > 0
+                        templates?.triggeredTemplate?.length > 0
                         ? templates?.triggeredTemplate?.map(
-                            (template, index) => {
-                              return (
-                                <>
-                                  <div
-                                    className={
-                                      // indexClicked == index
-                                      templateId == template?.id
-                                        ? "trigger_content_box d-flex active"
-                                        : "trigger_content_box d-flex"
-                                    }
-                                  >
-                                    <div className="trigger_content_image">
+                          (template, index) => {
+                            return (
+                              <>
+                                <div
+                                  className={
+                                    // indexClicked == index
+                                    templateId == template?.id
+                                      ? "trigger_content_box d-flex active"
+                                      : "trigger_content_box d-flex"
+                                  }
+                                >
+                                  <div className="trigger_content_image">
+                                    <img
+                                      src={template?.template_img}
+                                      alt="Preview"
+                                    />
+                                    {template?.approved == 1 ? (
                                       <img
-                                        src={template?.template_img}
+                                        src={path_image + "approved-btn.svg"}
                                         alt="Preview"
+                                        className="approved_img"
                                       />
-                                      {template?.approved == 1 ? (
-                                        <img
-                                          src={path_image + "approved-btn.svg"}
-                                          alt="Preview"
-                                          className="approved_img"
-                                        />
-                                      ) : (
-                                        ""
-                                      )}
-                                    </div>
-                                    <div className="trigger_content">
-                                      <div>
-                                        <h6>{template?.subject}</h6>
-                                        <p>
-                                          {template?.description
-                                            ? template?.description
-                                            : ""}
-                                        </p>
-                                      </div>
-                                      {/* {indexClicked !== index ? ( */}
-                                      {templateId !== template?.id ? (
-                                        <button
-                                          onClick={() =>
-                                            viewButtonClicked(template, index)
-                                          }
-                                          className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                        >
-                                          View
-                                        </button>
-                                      ) : null}
-                                    </div>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
-                                </>
-                              );
-                            }
-                          )
+                                  <div className="trigger_content">
+                                    <div>
+                                      <h6>{template?.subject}</h6>
+                                      <p>
+                                        {template?.description
+                                          ? template?.description
+                                          : ""}
+                                      </p>
+                                    </div>
+                                    {/* {indexClicked !== index ? ( */}
+                                    {templateId !== template?.id ? (
+                                      <button
+                                        onClick={() =>
+                                          viewButtonClicked(template, index)
+                                        }
+                                        className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                      >
+                                        View
+                                      </button>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          }
+                        )
                         : null}
                     </div>
                   </div>
@@ -1520,58 +1340,58 @@ const WebinarAutoEmail = () => {
                     </div>
                     <div className="mail_trigger_content">
                       {typeof templates?.reminderTemplate !== "undefined" &&
-                      templates?.reminderTemplate?.length > 0
+                        templates?.reminderTemplate?.length > 0
                         ? templates?.reminderTemplate?.map(
-                            (template, index) => {
-                              return (
-                                <>
-                                  <div
-                                    className={
-                                      // indexClicked == index
-                                      templateId == template?.id
-                                        ? "trigger_content_box d-flex active"
-                                        : "trigger_content_box d-flex"
-                                    }
-                                  >
-                                    <div className="trigger_content_image">
+                          (template, index) => {
+                            return (
+                              <>
+                                <div
+                                  className={
+                                    // indexClicked == index
+                                    templateId == template?.id
+                                      ? "trigger_content_box d-flex active"
+                                      : "trigger_content_box d-flex"
+                                  }
+                                >
+                                  <div className="trigger_content_image">
+                                    <img
+                                      src={template?.template_img}
+                                      alt="Preview"
+                                    />
+                                    {template?.approved == 1 ? (
                                       <img
-                                        src={template?.template_img}
+                                        src={path_image + "approved-btn.svg"}
                                         alt="Preview"
+                                        className="approved_img"
                                       />
-                                      {template?.approved == 1 ? (
-                                        <img
-                                          src={path_image + "approved-btn.svg"}
-                                          alt="Preview"
-                                          className="approved_img"
-                                        />
-                                      ) : (
-                                        ""
-                                      )}
-                                    </div>
-                                    <div className="trigger_content">
-                                      <h6>{template?.subject}</h6>
-                                      <p>
-                                        {template?.description
-                                          ? template?.description
-                                          : ""}
-                                      </p>
-                                      {/* {indexClicked !== index ? ( */}
-                                      {templateId !== template?.id ? (
-                                        <button
-                                          onClick={() =>
-                                            viewButtonClicked(template, index)
-                                          }
-                                          className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                        >
-                                          View
-                                        </button>
-                                      ) : null}
-                                    </div>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
-                                </>
-                              );
-                            }
-                          )
+                                  <div className="trigger_content">
+                                    <h6>{template?.subject}</h6>
+                                    <p>
+                                      {template?.description
+                                        ? template?.description
+                                        : ""}
+                                    </p>
+                                    {/* {indexClicked !== index ? ( */}
+                                    {templateId !== template?.id ? (
+                                      <button
+                                        onClick={() =>
+                                          viewButtonClicked(template, index)
+                                        }
+                                        className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                      >
+                                        View
+                                      </button>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          }
+                        )
                         : null}
                     </div>
                   </div>
@@ -1680,7 +1500,7 @@ const WebinarAutoEmail = () => {
                               <button
                                 className={
                                   typeof approveClickedd !== "undefined" &&
-                                  approveClickedd === true
+                                    approveClickedd === true
                                     ? "btn btn-primary approved-btn btn-bordered checked"
                                     : "btn btn-primary approved-btn btn-bordered"
                                 }
@@ -1692,7 +1512,7 @@ const WebinarAutoEmail = () => {
                                 }
                               >
                                 {typeof approveClickedd !== "undefined" &&
-                                approveClickedd === true
+                                  approveClickedd === true
                                   ? "Approved"
                                   : "Approve?"}
                                 <img
@@ -1718,10 +1538,10 @@ const WebinarAutoEmail = () => {
                         </div>
                         <div className="template_editor">
                           {templateName == "Reset password" ||
-                          templateName == "Welcome mail" ? (
+                            templateName == "Welcome mail" ? (
                             <Editor
                               apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                              tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                               onInit={(evt, editor) =>
                                 (editorRef.current = editor)
                               }
@@ -1860,7 +1680,7 @@ const WebinarAutoEmail = () => {
                           ) : (
                             <Editor
                               apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                              tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                               onInit={(evt, editor) =>
                                 (editorRef.current = editor)
                               }
@@ -2006,7 +1826,7 @@ const WebinarAutoEmail = () => {
                         <div className="template_editor">
                           <Editor
                             apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                            tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                             onInit={(evt, editor) =>
                               (editorRef.current = editor)
                             }
@@ -2172,7 +1992,16 @@ const WebinarAutoEmail = () => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={() => setAddListOpen(true)}
+                      onClick={async () => {
+                        if (!smartListData.length) {
+                         let smartListDat=await getSmartListData(0);
+                        }
+                        setAddListOpen(true)
+
+
+                      }
+
+                      }
                     >
                       Add Smart List +
                     </button>
@@ -2327,7 +2156,7 @@ const WebinarAutoEmail = () => {
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-              smartListData.length > 0 ? (
+                smartListData.length > 0 ? (
                 smartListData.map((data) => {
                   return (
                     <>
@@ -2343,8 +2172,8 @@ const WebinarAutoEmail = () => {
                                   onClick={(e) => handleSelect(data, e)}
                                   checked={
                                     typeof getSmartListId !== "undefined" &&
-                                    getSmartListId !== 0 &&
-                                    getSmartListId == data.id
+                                      getSmartListId !== 0 &&
+                                      getSmartListId == data.id
                                       ? "checked"
                                       : ""
                                   }

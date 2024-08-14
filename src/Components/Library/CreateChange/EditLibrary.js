@@ -25,6 +25,7 @@ import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
 import moment from "moment";
+import optimizeImage from "../../../Utils/optimizeImage";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
@@ -439,7 +440,7 @@ const getExistingVideos=async ()=>{
       }
     }
   };
-  const handleChange = (e, isSelectedName) => {
+  const handleChange = async (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
     }
@@ -475,14 +476,25 @@ const getExistingVideos=async ()=>{
         allow_video: 0,
       });
     } else {
-      setCreateLibraryInputs({
-        ...userInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e?.target?.files
+      if (isSelectedName == "coverPhoto" ) {
+        const file = e.target.files[0]
+        let optimizedFile = await optimizeImage(file,{width:125})
+        setCreateLibraryInputs({
+          ...userInputs,
+          ["coverPhoto"]: [optimizedFile]
+        });
+
+      }else{
+        setCreateLibraryInputs({
+          ...userInputs,
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e?.target?.files
-            : e
-          : e?.target?.value,
-      });
+              ? e?.target?.files
+              : e
+            : e?.target?.value,
+        });
+      }
+ 
     }
   };
 
