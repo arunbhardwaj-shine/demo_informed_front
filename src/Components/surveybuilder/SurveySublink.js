@@ -185,7 +185,7 @@ const SurveySublink= () => {
       console.log(res);
       console.log(survey_data)
 
-      if (res) {
+      if (survey_data.length > 0) {
         setIsData(survey_data[0]);
       }
 
