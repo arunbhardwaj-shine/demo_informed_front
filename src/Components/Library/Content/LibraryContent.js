@@ -931,6 +931,7 @@ const LibraryContent = (props) => {
         const hadData = await postData(ENDPOINT.ADD_TAGS, {
           product: newTag,
           type: 2,
+          irt: location?.state?.flag == "mandatory" ? 1 : 0,
         });
         loader("hide");
         let temp_tags = tagClickedFirst.map((data) => {

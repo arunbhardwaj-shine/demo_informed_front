@@ -1,0 +1,1888 @@
+[{"templateId": 4,
+"templateName": "Clinical Case Template",
+"pageTitle": "Registrations are now open to the Patient Case",
+"bodyText": "",
+"headerImageUrl": "",
+"footerImageUrl": "",
+"labelColor": "#001489",
+"optionColor": "#001489",
+"typedTextColor":"#2068B3",
+"placeholderTextColor":"#2068B3",
+"dropdownOptionColor": "#2068B3",
+"dropdownHoveringColor":"#2068B3",
+"selectedTextColor":"#2068B3",
+"backgroundColor": "",
+"eventDetails": {
+    "eventStartDate": {
+        "title": "Event Start Date",
+        "type": "date",
+        "value": "",
+        "color": "#001489"
+    },
+   
+    "eventStartTime": {
+        "title": "Event Start Time",
+        "type": "time",
+        "value": "",
+        "color": "#001489"
+    },
+ 
+    "speakerName": {
+        "title": "Speaker Name",
+        "type": "text",
+        "value": "Guy Young ",
+        "color": "#001489"
+    },
+   
+    "eventDateDetails": {
+        "title": "Event Date Details",
+        "type": "textArea",
+        "value": "31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
+        "color": "#001489"
+       
+    },
+    "pageTitle": {
+        "title": "Registration Title",
+        "type": "textArea",
+        "value": "Registrations are now open to the Patient Case",
+        "color": "#001489"
+    },
+    "SubTitle": {
+        "title": "Sub Title",
+        "type": "textArea",
+        "value": "Use of FVIII during surgery in a previously untreated haemophilia A patient on emicizumab prophylaxis",
+        "color": "#33baa8"
+    },
+    "SubHeading": {
+        "title": "Sub Heading",
+        "type": "textArea",
+        "value": "If you already have a One Source account you can register to the clinical practice session using the same login details.",
+        "color": "#001489"
+    },
+    "SubText": {
+        "title": "Sub Text",
+        "type": "textArea",
+        "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='https://onesource.octapharma.com/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
+        "color": "#001489"
+    },
+    "Specialization": {
+        "title": "Specialization",
+        "type": "text",
+        "value": "Children's Hospital Los Angeles",
+        "color": "#001489"
+    },
+    "Message": {
+        "title": "Thanks Message",
+        "type": "textArea",
+        "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
+        "color":  "#001489"
+    }
+},
+"body": [
+   
+    {
+        "label": "I also consent to:",
+        "inputType": "checkbox",
+        "placeholder": "",
+        "required": "yes",
+        "option": [
+            {
+                "optionLabel": "Receive One Source updates and new materials from Octapharma.",
+                "extension": [],
+                "checked": ""
+            },
+            {
+                "optionLabel": "Receive invitations to future events.",
+                "extension": [],
+                "checked": ""
+            },
+            {
+                "optionLabel": "Both of the options above.",
+                "extension": [],
+                "checked": ""
+            },
+            {
+                "optionLabel": "None of the options above.",
+                "extension": [],
+                "checked": ""
+            }
+        ],
+        "extension": "",
+        "name": "onesource_consent"
+    },
+    {
+        "name": "country",
+        "label": "Country",
+        "inputType": "selection",
+        "placeholder": "Please enter country",
+        "option": [],
+        "required": "yes"
+    },
+    {
+        "label": "Name",
+        "name": "userName",
+        "inputType": "text",
+        "placeholder": "Please enter name",
+        "option": [],
+        "required": "yes"
+    },
+    {
+        "label": "Email",
+        "name": "userEmail",
+        "inputType": "email",
+        "placeholder": "Please enter email",
+        "option": [],
+        "required": "yes"
+    }
+]},
+    
+    {
+        "templateId": 2,
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
+        "templateName": "Motivate Investigators Template",
+        "title": "Registration",
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "Registration",
+                "color": "#ffffff"
+            },
+            "SubHeadingOne": {
+                "title": "Sub Heading One",
+                "type": "text",
+                "value": "Welcome dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "text",
+                "value": "Wednesday, 24 May 2023",
+                "color": "#04b39a"
+            },
+            "SubHeadingThree": {
+                "title": "Sub Heading Two",
+                "type": "text",
+                "value": "MOTIVATE Investigators meeting",
+                "color": "#004b95"
+            },
+            "SubHeadingThreeDate": {
+                "title": "Sub Heading Date",
+                "type": "text",
+                "value": "Thursday, 23 May 2024",
+                "color": "#04b39a"
+            },
+            "SubHeadingTwo": {
+                "title": "Sub Heading Three",
+                "type": "text",
+                "value": "International ITI School and networking dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingTwoDate": {
+                "title": "Sub Heading Date",
+                "type": "text",
+                "value": "Friday, 24 May 2024",
+                "color": "#04b39a"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#04b39a"
+            },
+            "location": {
+                "title": "Location",
+                "type": "textArea",
+                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Mallorca Spain",
+                "color": "#004b95"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#04b39a"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/v3pXr7w6XsrReRo6hTA8IPfcXBUw1SDaB5vEXP61.png ",
+        "logoTwoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#04b39a",
+        "optionColor": "",
+        "backgroundColor": "#faf5f5",
+        "body": [
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both, International ITI School & MOTIVATE Investigators meeting",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "International ITI School",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "MOTIVATE Investigators meeting",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "event_attendance_choice"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own travel",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my travel arranged by the meeting organizers",
+                        "extension": [
+                            {
+                                "label": "Airport of departure",
+                                "name": "departure",
+                                "inputType": "text",
+                                "placeholder": "Airport of departure",
+                                "option": []
+                            },
+                            {
+                                "label": "Airport of departure",
+                                "name": "departure_time",
+                                "inputType": "date",
+                                "placeholder": "",
+                                "option": []
+                            },
+                            {
+                                "label": "Preferred departure time",
+                                "name": "air_departure_date",
+                                "inputType": "radio",
+                                "placeholder": "",
+                                "option": [
+                                    {
+                                        "optionLabel": "Morning",
+                                        "extension": [],
+                                        "checked": ""
+                                    },
+                                    {
+                                        "optionLabel": "Evening",
+                                        "extension": [],
+                                        "checked": ""
+                                    },
+                                    {
+                                        "optionLabel": "Afternoon",
+                                        "extension": [],
+                                        "checked": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "label": "Preferred return flight date",
+                                "name": "air_return_date",
+                                "inputType": "date",
+                                "placeholder": "",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    }
+                ],
+                "extension": true,
+                "name": "mode_of_travel"
+            },
+            {
+                "label": "Dietary restrictions or allergies:",
+                "inputType": "text",
+                "placeholder": "Please write here if you have dietary restrictions",
+                "option": [],
+                "required": "",
+                "extension": "",
+                "name": "restrictions"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Receive future materials from MOTIVATE",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+    {
+        "templateId": 3,
+        "templateName": "Factor Template",
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "logoImageUrl": "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#263474",
+        "placeholderTextColor":"#263474",
+        "typedTextColor":"#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "textArea",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color":  "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "factor_viii_choice"
+            },
+            {
+                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "factor_viii_dinner_restrictions_allergies",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "factor_viii_dinner_attendance_with_details"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            }
+        ]
+    },
+    
+    {
+        "templateId": 1,
+        "templateName": "VWD Academy Template",
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "logoImageUrl": "https://webinar.docintel.app/Webinar/images/logo.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#2068B3",
+        "placeholderTextColor":"#97b6d8",
+        "typedTextColor":"#97b6da",
+        "optionColor": "#2068B3",
+        "backgroundColor": "",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please fill in all your details below.",
+                "color": "#354367"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Full consent (for additional information or to edit consent click Change)",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "name": "country",
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Please enter country",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+
+    {
+        "templateId": 5,
+        "labelColor": "#00529f",
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
+        "templateName": "Octa Academy Template",
+        "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/KDPmRbYfSuN16CflTC3raGxe1eaHPi10hw79KimX.png",
+        "bodyText": "",
+        "pageTitle": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+        
+        "eventDetails": {
+            "HeaderHeadingOne": {
+                "title": "Header Heading One",
+                "type": "text",
+                "value": "Octapharma Academy",
+                "color": "#000"
+            },
+            "HeaderHeadingTwo": {
+                "title": "Header Heading Two",
+                "type": "text",
+                "value": "REGISTRATION<br/><span>Virtual event</span>",
+                "color": "#000"
+            },
+            "HeadingOne": {
+                "title": "Heading One",
+                "type": "text",
+                "value": "COURSE IN THE MODERN MANAGEMENT OF HEMOPHILIA",
+                "color": "#6eb9b0"
+            },
+            "HeadingTwo": {
+                "title": "Heading Two",
+                "type": "text",
+                "value": "Treatment of hemophilia A:Current challenges and future opportunities",
+                "color": "#6eb9b0"
+            },
+            "EventDate": {
+                "title": "Event Date",
+                "type": "text",
+                "value": "March 15, 2024",
+                "color": "#000"
+            },
+            "EventTimeAndLocation": {
+                "title": "Event Time And Location",
+                "type": "textArea",
+                "value": "March 15 9:00 hrs - 18:00 hrs Bogotá, Colombia (local time)",
+                "color": "#000"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+                "color": "#000"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "optionColor": "",
+        "body": [
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "my participation during the live symposium that is recorded for live streaming and on-demand use*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "receive emails about this event and other Octapharma activities during ISTH 2022 (these may be promotional in nature)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+
+    {
+        "templateId": 6,
+        "templateName": "ISTH Template",
+        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/7AyNtkOQyP6P1UBYmCr1swxCQ5gOgGVZJBvKa30I.png",
+        "templateOneImageUrl" : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/5gyCn1B5r4vA2tjtB5kYQCwUQDS9g862eNf4UH9S.jpg",
+        "templateTwoImageUrl" : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/b57G72RnWroCby3PZvM9F5lKbkTRVYYZLioBGKLk.jpg",
+        "bodyText": "",
+        "pageTitle": "To register to our symposia live stream fill in all your details below:",
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "ISTH 2023 Symposia Live Stream",
+                "color": "#ffffff"
+            },
+            "HeaderHeadingOne": {
+                "title": "Header Heading",
+                "type": "text",
+                "value": "Registration to watch our ISTH 2023 symposia",
+                "color": "#ffffff"
+            },
+            "Specialization": {
+                "title": "Specialization",
+                "type": "text",
+                "value": "For healthcare professionals only.",
+                "color": "#ffffff"
+            },
+            "EventDateAndTime": {
+                "title": "Event Date And Time",
+                "type": "text",
+                "value": "Monday, June 26 2023 | 01:15 - 2:30 pm ET <br/>Tuesday, June 27 2023 | 01:15 - 2:30 pm ET",
+                "color": "#ffffff"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register to our symposia live stream fill in all your details below:",
+                "color": "#ffffff"
+            },
+            "footerMessage": {
+                "title": "Footer Message",
+                "type": "textArea",
+                "value": "These symposia have been organized and funded by Octapharma and are intended for healthcare professionals only. Discussions about products will take place. The symposia will be live streamed on the one source, Octapharma's Haematology platform. To attend, you can register directly using your one source account. If you do not have an account yet, your registration for this event will create a new one source login. By registering to one source you will gain access to the relevant content in accordance with the data privacy of <a target='_blank' href='Octapharma AG'>Octapharma AG</a> and <a target='_blank' href='Docintel.app'>Docintel.app</a> operating this page.",
+                "color": "#5D7682"
+            },
+            "footerText": {
+                "title": "Footer Text",
+                "type": "textArea",
+                "value": "528_HAEREG_ISTH 2023<br/>Date of preparation: May 2023",
+                "color": "#5D7682"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "labelColor": "#ffffff",
+        "placeholderTextColor":"#97b8da",
+        "typedTextColor":"#ffffff",
+        "optionColor": "",
+        "body": [
+            {
+                "label": "",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "yes",
+                "extension": "",
+                "name": "care_professional",
+                "option": [
+                    {
+                        "optionLabel": "I confirm I am a healthcare professional",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            },
+           
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both symposia",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Both"
+                    },
+                    {
+                        "optionLabel": "Final Results of the WIL-31 Study - A New Treatment Standard for von Willebrand Disease Patients with Severe Bleeding?",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Nuwiq"
+                    },
+                    {
+                        "optionLabel": "Bringing Together Two Worlds - Scientific and Clinical Insights For All-Round Bleed Protection in haemophilia A",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Wilate"
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "isth_consent"
+            }
+        ]
+    },
+
+    {
+        "templateId": 7,
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
+        "templateName": "Aland Island Template",
+        "title": "Registration",
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "eventDetails": {
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#e64362"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "logoOneImageUrl": "",
+        "headerImageUrl": "https://docintel.app/img/octa/e-templates/motivate/aland-registration-banner.png",
+        "footerImageUrl": "",
+        "labelColor": "#e64362",
+        "optionColor": "",
+        "backgroundColor": "#faf5f5",
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Nationality",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Date of Birth",
+                "name": "dateOfBirth",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Airport location / city",
+                "name": "location",
+                "inputType": "text",
+                "placeholder": "Enter your location",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of arrival flight (in Stockholm, SE)",
+                "name": "arrivalDate",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Date of departure flight (from Stockholm, SE)",
+                "name": "departure_time",
+                "inputType": "date",
+                "placeholder": "",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Dietary restrictions or allergies:",
+                "inputType": "text",
+                "placeholder": "Please write here if you have dietary restrictions",
+                "option": [],
+                "required": "",
+                "extension": "",
+                "name": "restrictions"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Be contacted by the Aland Island Meeting team for the purpose of this meeting*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Receive future materials from Aland Island Meeting",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "consent"
+            }
+        ]
+    },
+
+    {"templateId": 8,
+    "templateName": "Octapharma 1",
+    "pageTitle": "Welcome to the webinar",
+    "bodyText": "",
+    "headerImageUrl": "",
+    "footerImageUrl": "",
+    "labelColor": "#001489",
+    "optionColor": "#0053a0",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
+    "backgroundColor": "",
+    "eventDetails": {
+        "eventStartDate": {
+            "title": "Event Start Date",
+            "type": "date",
+            "value": "",
+            "color": "#001489"
+        },
+        
+        "eventStartTime": {
+            "title": "Event Start Time",
+            "type": "time",
+            "value": "",
+            "color": "#001489"
+        },
+
+        "speakerName": {
+            "title": "Speaker Name",
+            "type": "text",
+            "value": "by Jacob Flindt",
+            "color": "#0053a0"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "textArea",
+            "value": "Monday, July 8, 2024 <br/> 16:00 - 18:00 PM CET",
+            "color": "#0053a0"
+        
+        },
+        "pageTitle": {
+            "title": "Registration Title",
+            "type": "textArea",
+            "value": "Welcome to the webinar",
+            "color": "#0053a0"
+        },
+        "SubTitle": {
+            "title": "Sub Title",
+            "type": "textArea",
+            "value": "Management of haemophilia A with inhibitors: <br/> A regional web-workshop",
+            "color": "#39b6ac"
+        },
+        "SubHeading": {
+            "title": "Sub Heading",
+            "type": "textArea",
+            "value": "This webinar is for Health Care Professionals only.<br/> To register please fill in all your details below.",
+            "color": "#0053a0"
+        },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": " This webinar is for healthcare professionals only. Please review the product information before prescribing Haemophilia A and inhibitors products.",
+            "color": "#001489"
+        },
+        "Message": {
+            "title": "Thanks Message",
+            "type": "textArea",
+            "value": "Thank you for registering!",
+            "color":  "#001489"
+        }
+    },
+    "body": [
+        
+        {
+            "label": "I also consent to:",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "My activity being tracked on this webinar page*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Being contacted by Octapharma",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Receive future materials from the Octapharma Digital Library",
+                    "extension": [],
+                    "checked": ""
+                }
+                
+            ],
+            "extension": "",
+            "name": "consent"
+        },
+        
+        {
+            "name": "country",
+            "label": "Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "yes"
+        }
+    ]
+    },
+
+    {"templateId": 9,
+    "templateName": "Octapharma 2",
+    "pageTitle": "Welcome to the",
+    "bodyText": "",
+    "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/D0oKkYfUHCnLwV3aiWfq02eTBpSoQ7JSsXKICXbm.png",
+    "footerImageUrl": "",
+    "labelColor": "#001489",
+    "optionColor": "#0053a0",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
+    "backgroundColor": "",
+    "eventDetails": {
+        "eventStartDate": {
+            "title": "Event Start Date",
+            "type": "date",
+            "value": "",
+            "color": "#001489"
+        },
+        
+        "eventStartTime": {
+            "title": "Event Start Time",
+            "type": "time",
+            "value": "",
+            "color": "#001489"
+        },
+
+        "speakerName": {
+            "title": "Speaker Name",
+            "type": "text",
+            "value": "by Jacob Flindt",
+            "color": "#0053a0"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "textArea",
+            "value": "Monday, July 8, 2024 <br/> 16:00 - 18:00 PM CET",
+            "color": "#0053a0"
+        
+        },
+        "pageTitle": {
+            "title": "Registration Title",
+            "type": "textArea",
+            "value": "Welcome to the",
+            "color": "#0053a0"
+        },
+        "SubTitle": {
+            "title": "Sub Title",
+            "type": "textArea",
+            "value": "PUP Management Workshop",
+            "color": "#39b6ac"
+        },
+        "SubHeading": {
+            "title": "Sub Heading",
+            "type": "textArea",
+            "value": "This workshop is for Health Care Professionals only.",
+            "color": "#0053a0"
+        },
+        "SubText": {
+            "title": "Sub Text",
+            "type": "textArea",
+            "value": "To register please fill in all your details below.",
+            "color": "#0053a0"
+        },
+        "footerText": {
+            "title": "Footer Text",
+            "type": "textArea",
+            "value": "354_HAEREG_WFH2024<br/>Date of preparation: June 2024",
+            "color": "#001489"
+        },
+        "Message": {
+            "title": "Thanks Message",
+            "type": "textArea",
+            "value": "Thank you for registering!",
+            "color":  "#001489"
+        }
+    },
+    "body": [
+        
+        {
+            "label": "I also consent to:",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "My activity being tracked on this webinar page*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Being contacted by Octapharma",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Receive future materials from the Octapharma Digital Library",
+                    "extension": [],
+                    "checked": ""
+                }
+                
+            ],
+            "extension": "",
+            "name": "consent"
+        },
+        
+        {
+            "name": "country",
+            "label": "Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "yes"
+        }
+    ]
+    },
+
+    {
+        "templateId": 10,
+        "templateName": "Default Template",
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/cbbh7JIHvRjyRrEM9a5RJLhNElNL39lkYEd8OCi3.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#263474",
+        "placeholderTextColor":"#263474",
+        "typedTextColor":"#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "textArea",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color":  "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "factor_viii_choice"
+            },
+            {
+                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "factor_viii_dinner_restrictions_allergies",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "factor_viii_dinner_attendance_with_details"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            }
+        ]
+    },
+    
+    {
+        "templateId": 11,
+        "templateName": "Default Template",
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/9bmOFat1PP6ouPorebW85DBcOpKvm0QfuAZ6JLwy.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#263474",
+        "placeholderTextColor":"#263474",
+        "typedTextColor":"#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "textArea",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color":  "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "factor_viii_choice"
+            },
+            {
+                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "factor_viii_dinner_restrictions_allergies",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "factor_viii_dinner_attendance_with_details"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        "templateId": 12,
+        "templateName": "Default Template",
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#263474",
+        "placeholderTextColor":"#263474",
+        "typedTextColor":"#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "textArea",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color":  "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Generic Academy and Congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Generic Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "generic_academy_choice"
+            },
+            {
+                "label": "I will join the Generic Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "generic_academy_dinner_restrictions_allergies",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "generic_academy_dinner_attendance_with_details"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            }
+        ]
+    }
+
+]

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Preview</title>
+    <style>
+        .informed-survey {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .informed-survey-header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .informed-survey-header h2 {
+            margin: 0;
+        }
+
+        .informed-survey-body {
+            padding: 20px;
+        }
+
+        .informed-survey-text {
+            margin-bottom: 20px;
+        }
+
+        .informed-survey-question p {
+            margin: 0 0 10px;
+        }
+
+        .informed-survey-question label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .informed-survey-question input[type="radio"],
+        .informed-survey-question input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .form-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-footer button {
+            padding: 10px 20px;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px dashed #004A89;
+            margin: 20px 0;
+        }
+
+        .consent-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="survey-container" class="informed-survey">
+        <!-- Content will be dynamically injected here -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Example data (this would be fetched from the backend in a real application)
+       const queryParams = new URLSearchParams(window.location.search);
+       const unique_code = queryParams.get('uniqueCode');
+       const survey_id = queryParams.get('surveyId');
+            const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
+            const payload = {
+                unique_code,
+                user_id: "0",
+                survey_id
+            };
+            var data=[]
+            try {
+                console.log("Fetching data...");
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                 data = await response.json();
+                console.log("Fetched Data:", data);
+                
+            } catch (error) {
+                console.error("Error fetching survey data:", error.message);
+                document.getElementById(
+                    "survey-container"
+                ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
+            }
+            // Extract custom HTML data
+            const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
+
+            // Create the survey content
+            let surveyHtml = `
+                <div class="informed-survey-header" style="background-color: ${customHtml.header_background_color};">
+                    <img src="${customHtml.logo}" alt="Logo" width="${customHtml.logoWidth}%">
+                    <h2 style="color: ${customHtml.title_color};">${customHtml.main_heading}</h2>
+                </div>
+                <div class="informed-survey-body" style="background-color: ${customHtml.page_background_color};">
+                    <div class="informed-survey-text" style="color: ${customHtml.bodyTextColor};">
+                        <p>${customHtml.bodyText}</p>
+                    </div>
+                    <div class="informed-survey-question">
+            `;
+
+            // Process each question
+            const questions = data.data[0].question_data;
+            questions.forEach(question => {
+                switch (question.type) {
+                    case 'multiple':
+                        surveyHtml += `
+                            <p style="color: ${customHtml.question_answer_color};">${question.question}</p>
+                             <p>${question.questionDescription}</p>
+                        `;
+                        question.answer.forEach(answer => {
+                            surveyHtml += `
+                                <label class="check" style="color: ${customHtml.question_answer_color};">
+                                    <input type="radio" name="question${answer.answerId}" value="${answer.value}">
+                                    ${answer.value}
+                                </label>
+                            `;
+                        });
+                        break;
+
+                    case 'checkbox':
+                        surveyHtml += `
+                            <p style="color: ${customHtml.question_answer_color};">${question.question}</p>
+                            <p>${question.questionDescription}</p>
+                        `;
+                        question.answer.forEach(answer => {
+                            surveyHtml += `
+                                <label class="check" style="color: ${customHtml.question_answer_color};">
+                                    <input type="checkbox" name="question${answer.answerId}" value="${answer.value}">
+                                    ${answer.value}
+                                </label>
+                            `;
+                        });
+                        break;
+
+                    case 'dropdown':
+                        surveyHtml += `
+                            <p style="color: ${customHtml.question_answer_color};">${question.question}</p>
+                            <p>${question.questionDescription}</p>
+                            <select name="question${question.answer[0].answerId}">
+                        `;
+                        question.answer[0].value.forEach(option => {
+                            surveyHtml += `
+                                <option value="${option}">${option}</option>
+                            `;
+                        });
+                        surveyHtml += `</select>`;
+                        break;
+
+                    case 'rating':
+                        surveyHtml += `
+                            <p style="color: ${customHtml.question_answer_color};">${question.question}</p>
+                            <p>${question.questionDescription}</p>
+                        `;
+                        if (question.extra.ratingType === 'stars') {
+                            surveyHtml += `
+                                <div class="rating-stars" style="color: ${question.extra.ratingColor};">
+                            `;
+                            for (let i = 1; i <= question.extra.ratingScale; i++) {
+                                surveyHtml += `
+                                    <label>
+                                        <input type="radio" name="rating${question.questionId}" value="${i}" />
+                                        &#9733;
+                                    </label>
+                                `;
+                            }
+                            surveyHtml += `</div>`;
+                        } else {
+                            surveyHtml += `
+                                <input type="number" name="rating${question.questionId}" min="1" max="${question.extra.ratingScale}" />
+                            `;
+                        }
+                        break;
+
+                    case 'matrix':
+                        surveyHtml += `
+                            <p style="color: ${customHtml.question_answer_color};">${question.question}</p>
+                            <p>${question.questionDescription}</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        ${question.answer.map(a => `<th>${a.value}</th>`).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${question.extra.rows.map(row => `
+                                        <tr>
+                                            <td>${row.value}</td>
+                                            ${question.answer.map(() => `<td><input type="checkbox" name="question${question.questionId}" value="${row.value}"></td>`).join('')}
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                        break;
+
+                    case 'freeText':
+                        surveyHtml += `
+                            <p style="color: ${customHtml.question_answer_color};">${question.question}</p>
+                            <textarea name="question${question.questionId}" placeholder="${question.extra}"></textarea>
+                        `;
+                        break;
+
+                    case 'heading':
+                        surveyHtml += `
+                            <h3 style="color: ${customHtml.question_answer_color};">${question.question}</h3>
+                            <p>${question.questionDescription}</p>
+                        `;
+                        break;
+
+                    case 'paragraph':
+                        surveyHtml += `
+                            <p style="color: ${question.style.color};">${question.question}</p>
+                        `;
+                        break;
+
+                    case 'divideLine':
+                        surveyHtml += `
+                            <div class="divider" style=" width:${question.style.width}%;  borderTop: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
+                            &nbsp
+                            </div>
+                        `;
+                        break;
+
+                    case 'image':
+                        surveyHtml += `
+                            <img src="${question.question}" alt="Survey Image" style="width: ${question.style.width}px; height: ${question.style.height};">
+                        `;
+                        break;
+
+                    case 'consent':
+                        surveyHtml += `
+                            <p>${question.question}</p>
+                            ${question.extra.consentOptions.map(option => `
+                                <div class="consent-item">
+                                    <input type="checkbox" name="consentOption" value="${option.label}" ${option.isChecked ? 'checked' : ''}>
+                                    ${option.label}
+                                </div>
+                            `).join('')}
+                            <p>${question.extra.cookiePolicy}</p>
+                            <div class="copyright-links">
+                                ${question.extra.privacyLinks.map(link => `
+                                    <a href="${link.octapharma || link.docintel || link.termsOfUse}" target="_blank">${Object.keys(link)[0]} Privacy Policy</a>
+                                `).join(' ')}
+                            </div>
+                            <p>${question.extra.operatingStatement}</p>
+                        `;
+                        break;
+
+                    default:
+                        console.log(`Unknown question type: ${question.type}`);
+                }
+            });
+
+            // Add footer
+            surveyHtml += `
+                 <div class="form-footer">
+                                <button type="button" style="background: ${customHtml.button_color};">${customHtml.button_text}</button>
+                                <span style="color: ${customHtml.bodyTextColor};">${customHtml.main_footer}</span>
+                            </div>
+            </div>`;
+
+            // Inject the HTML into the container
+            document.getElementById('survey-container').innerHTML = surveyHtml;
+        });
+    </script>
+</body>
+
+</html>

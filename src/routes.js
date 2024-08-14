@@ -226,6 +226,21 @@ import IRTRole from "./Components/Emails/IRTRole";
 import Check8SurveyData from "./Components/survey/Check8SurveyData";
 import MandatoryContent from "./Components/Library/Content/MandatoryContent";
 
+
+// Routes related to survey builder
+import SurveyFormBuilder from "./Components/surveybuilder/SurveyFormBuilder";
+import BuildSurvey from "./Components/surveybuilder/BuildSurvey";
+import SurveyConfig from "./Components/surveybuilder/SurveyConfig";
+import SurveySetup from "./Components/surveybuilder/SurveySetup";
+import NotFound from "./Components/surveybuilder/NotFound";
+import ThanksPage from "./Components/surveybuilder/ThanksPage";
+import SurveyList from "./Components/surveybuilder/SurveyList";
+import SurveySublink from "./Components/surveybuilder/SurveySublink";
+import SurveyAnalytics from "./Components/surveybuilder/SurveyAnalytics";
+import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDetail";
+import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
+import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
+
 let platform = 0;
 let show = 0;
 
@@ -256,6 +271,7 @@ if (
   require("./Components/assets/css/responsive.css?v=1.0");
   require("./Components/assets/css/custom.css?v=1.0");
   require("./Components/assets/css/library.scss?v=1.0");
+  require("./Components/assets/css/survey.scss?v=1.0");
   require("./Components/assets/fonts/fonts.css?v=1.0");
   require("./Components/assets/css/video.css?v=1.0");
 }
@@ -324,13 +340,14 @@ const Routing = () => {
           element={<LoginLayout component={Feedback} />}
         />
         //LoginLayout for pages after login
+        <Route path="/home-new" element={<SetLayoutNew component={SetLayoutNew} />} />
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
         />
-         <Route
+        <Route
           path="/library-mandatory-content"
           element={<LoginLayout component={LibraryContent} />}
         />
@@ -398,7 +415,7 @@ const Routing = () => {
         <Route
           path="/analytic-trending-topics"
           element={<LoginLayout component={CanadaTrendingTopic} />}
-      />
+        />
         <Route
           path="/analytic-trending-content"
           element={<LoginLayout component={CanadaTrendingContent} />}
@@ -600,7 +617,7 @@ const Routing = () => {
           element={<LoginLayout component={SpcCreate} />}
         />
         {(localStorage.getItem("user_id") ==
-          "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? null : (
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? null : (
           <Route
             path="/products"
             element={<LoginLayout component={Products} />}
@@ -652,7 +669,7 @@ const Routing = () => {
           path="/webinar/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
-         <Route
+        <Route
           path="/webinar/live-stream/chat-link"
           element={<LoginLayout component={ChatLinkPage} />}
         />
@@ -680,7 +697,7 @@ const Routing = () => {
           path="/webinar/email"
           element={<LoginLayout component={WebinarEmail} />}
         />
-         <Route
+        <Route
           path="/webinar/email/auto-emails"
           element={<LoginLayout component={WebinarAutoEmails} />}
         />
@@ -704,11 +721,11 @@ const Routing = () => {
           path="/webinar/email/verifyMAIL"
           element={<LoginLayout component={WebinarVerifyMail} />}
         />
-         <Route
+        <Route
           path="/webinar/email/verifyHCP"
           element={<LoginLayout component={WebinarVerifyHCP} />}
         />
-          <Route
+        <Route
           path="/webinar/email/verifyHcpMAIL"
           element={<LoginLayout component={WebinarVerifyHcpMAIL} />}
         />
@@ -720,7 +737,7 @@ const Routing = () => {
           path="/webinar/live-stream/polls-layout"
           element={<LoginLayout component={PollsLayout} />}
         />
-        
+
         <Route
           path="/webinar/registration"
           element={<LoginLayout component={WebinarRegistration} />}
@@ -833,7 +850,7 @@ const Routing = () => {
           path="/EmailStatss"
           element={<LoginLayout component={EmailStatss} />}
         />
-         <Route
+        <Route
           path="/blocked-users"
           element={<LoginLayout component={BlockedUsers} />}
         />
@@ -897,7 +914,7 @@ const Routing = () => {
           path="/license-edit"
           element={<LoginLayout component={EditLicense} />}
         />
-           <Route
+        <Route
           path="license/renew"
           element={<LoginLayout component={LicenseRenew} />}
         />
@@ -924,7 +941,7 @@ const Routing = () => {
         />
         <Route
           path="/survey/8check-data"
-          element={<Check8SurveyData/>}
+          element={<Check8SurveyData />}
         />
 
         <Route
@@ -932,9 +949,9 @@ const Routing = () => {
           element={<LoginLayout component={SurveyData} />}
         />
 
-          <Route
+        <Route
           path="/survey/informed-survey-data"
-          element={<InformedSurveyData/>}
+          element={<InformedSurveyData />}
         />
 
         <Route
@@ -942,7 +959,7 @@ const Routing = () => {
           element={<SurveyQuestionForm />}
         />
 
-         <Route
+        <Route
           path="/webinar/analytics/question-data"
           element={<LoginLayout component={SurveyQuestionFormData} />}
         />
@@ -954,47 +971,47 @@ const Routing = () => {
           element={<LoginLayout component={WebinarSmartlist} />}
         />
         <Route
-              path="/webinar/email/smartlist/createsmartlist"
-              element={<LoginLayout component={WebinarCreateSmartList} />}
-            />
+          path="/webinar/email/smartlist/createsmartlist"
+          element={<LoginLayout component={WebinarCreateSmartList} />}
+        />
         <Route
-              path="/webinar/email/smartlist/smartlistfilter"
-              element={<LoginLayout component={WebinarSmartListFilter} />}
-            />
+          path="/webinar/email/smartlist/smartlistfilter"
+          element={<LoginLayout component={WebinarSmartListFilter} />}
+        />
         <Route
-              path="/webinar/email/smartlist/uploadsmartlist"
-              element={<LoginLayout component={WebinarSmartlistUploadExcel} />}
-            />
-        
+          path="/webinar/email/smartlist/uploadsmartlist"
+          element={<LoginLayout component={WebinarSmartlistUploadExcel} />}
+        />
+
         <Route
-              path="/webinar/email/smartlist/editlist"
-              element={<LoginLayout component={WebinarSmartlistEdit} />}
-            />
-        
+          path="/webinar/email/smartlist/editlist"
+          element={<LoginLayout component={WebinarSmartlistEdit} />}
+        />
+
         <Route
-              path="/webinar/email/smartlist/filterSegment"
-              element={<LoginLayout component={WebinarSmartlistFilterSegment} />}
-            />
-        
+          path="/webinar/email/smartlist/filterSegment"
+          element={<LoginLayout component={WebinarSmartlistFilterSegment} />}
+        />
+
         <Route
-              path="/webinar/email/smartlist/table"
-              element={<LoginLayout component={WebinarSmartlistTable} />}
-            />
-        
+          path="/webinar/email/smartlist/table"
+          element={<LoginLayout component={WebinarSmartlistTable} />}
+        />
+
         <Route
-              path="/webinar/email/smartlist/viewlist"
-              element={<LoginLayout component={WebinarSmartlistViewList} />}
-            />
-        
+          path="/webinar/email/smartlist/viewlist"
+          element={<LoginLayout component={WebinarSmartlistViewList} />}
+        />
+
         <Route
-              path="/webinar/email/smartlist/viewTable"
-              element={<LoginLayout component={WebinarSmartlistViewTable} />}
-            />
-        
+          path="/webinar/email/smartlist/viewTable"
+          element={<LoginLayout component={WebinarSmartlistViewTable} />}
+        />
+
         <Route
-              path="/webinar/email/smartlist/verifylist"
-              element={<LoginLayout component={WebinarSmartlistVerifyList} />}
-            />
+          path="/webinar/email/smartlist/verifylist"
+          element={<LoginLayout component={WebinarSmartlistVerifyList} />}
+        />
         <Route
           path="/webinar/analytics/analytics-attendees"
           element={<LoginLayout component={AnalyticsAttendees} />}
@@ -1022,8 +1039,52 @@ const Routing = () => {
         {/* Webinar Analytics */}
 
         <Route
-              path="/webinar/email/analytics/email-opened"
-              element={<LoginLayout component={EmailOpened} />}
+          path="/webinar/email/analytics/email-opened"
+          element={<LoginLayout component={EmailOpened} />}
+        />
+        <Route
+          path="/survey/survey-builder"
+          element={<LoginLayout component={SurveyFormBuilder} />}
+        />
+        <Route
+          path="/survey/survey-configure"
+          element={<LoginLayout component={SurveyConfig} />}
+        />
+        <Route
+          path="/survey/form-builder"
+          element={<LoginLayout component={BuildSurvey} />}
+        />
+        <Route
+          path="/survey/survey-setup"
+          element={<LoginLayout component={SurveySetup} />}
+        />
+        <Route
+          path="/survey/survey-preview"
+          element={<LoginLayout component={SurveyFinalPreview} />}
+        />
+        <Route
+          path="/survey/404"
+          element={<LoginLayout component={NotFound} />}
+        />
+        <Route
+          path="/survey/thank-you"
+          element={<LoginLayout component={ThanksPage} />}
+        />
+        <Route
+          path="/survey/survey-list"
+          element={<LoginLayout component={SurveyList} />}
+        />
+        <Route
+          path="/survey/survey-sublink"
+          element={<LoginLayout component={SurveySublink} />}
+        />
+        <Route
+          path="/survey/survey-analytics"
+          element={<LoginLayout component={SurveyAnalytics} />}
+        />
+        <Route
+          path="/survey/survey-analytics-detail"
+          element={<LoginLayout component={SurveyAnalyticsDetail} />}
         />
       </Routes>
     </Router>
