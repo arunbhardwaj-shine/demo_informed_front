@@ -237,6 +237,8 @@ const Header = () => {
                       window.location.pathname == "/library-delete" ||
                       window.location.pathname == "/library-campaign" ||
                       window.location.pathname == "/library-content" ||
+                      window.location.pathname == "/library-mandatory" ||
+                      window.location.pathname == "/library-mandatory-content" ||
                       window.location.pathname == "/library-create" ||
                       window.location.pathname == "/library-edit" ||
                       window.location.pathname == "/library-sublink" ||

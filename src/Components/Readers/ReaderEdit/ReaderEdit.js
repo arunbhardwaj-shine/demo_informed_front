@@ -717,10 +717,14 @@ const ReaderEdit = () => {
               <Select
                 options={institutionData}
                 placeholder={"Select Institution"}
-                value={{
-                  label: userInputs?.institution,
-                  value: userInputs?.institution,
-                }}
+                // value={{
+                //   label: userInputs?.institution,
+                //   value: userInputs?.institution,
+                // }}
+                value={institutionData?.findIndex((el)=>el?.value==userInputs?.institution)==-1
+                  ?""
+                  :institutionData[institutionData?.findIndex((el)=>el?.value==userInputs?.institution)]
+                }
                 name="institution"
                 className={
                   error?.institution
@@ -862,6 +866,21 @@ const ReaderEdit = () => {
                 label: userInputs?.sub_role,
                 value: userInputs?.sub_role,
               }}
+              value={
+                userInputs?.sub_role === "0" || userInputs?.sub_role === 0
+                  ? null
+                  : userDetail?.sub_role.findIndex(
+                    (el) => el.value == userInputs?.sub_role
+                  ) == -1
+                    ?
+                    ""
+                    :
+                    userDetail?.sub_role[
+                    userDetail?.sub_role.findIndex(
+                      (el) => el.value == userInputs?.sub_role
+                    )
+                    ]
+              }
               placeholder="Select Sub role"
               name="sub_role"
               className="dropdown-basic-button split-button-dropup"
