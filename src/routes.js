@@ -266,12 +266,20 @@ if (
   require("./Components/assets/css/aos.css");
   platform = 0;
   show = 0;
-} else {
+}  else if (window.location.pathname.includes("survey")){
+  require("./Components/assets/css/survey.scss?v=1.0");
   require("./Components/assets/css/style.css?v=1.0");
   require("./Components/assets/css/responsive.css?v=1.0");
   require("./Components/assets/css/custom.css?v=1.0");
   require("./Components/assets/css/library.scss?v=1.0");
-  require("./Components/assets/css/survey.scss?v=1.0");
+  require("./Components/assets/fonts/fonts.css?v=1.0");
+}
+
+else {
+  require("./Components/assets/css/style.css?v=1.0");
+  require("./Components/assets/css/responsive.css?v=1.0");
+  require("./Components/assets/css/custom.css?v=1.0");
+  require("./Components/assets/css/library.scss?v=1.0");
   require("./Components/assets/fonts/fonts.css?v=1.0");
   require("./Components/assets/css/video.css?v=1.0");
 }
