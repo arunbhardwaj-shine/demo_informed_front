@@ -84,7 +84,11 @@
        const queryParams = new URLSearchParams(window.location.search);
        const unique_code = queryParams.get('uniqueCode');
        const survey_id = queryParams.get('surveyId');
-            const apiUrl = "https://informedtrial.shinedezign.pro/survey/fetch-preview-data";
+       console.log(unique_code,survey_id)
+       console.log("Fetching data...");
+            const apiUrl = "http://192.168.0.239:3001/survey/fetch-preview-data";
+            // const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+
             const payload = {
                 unique_code,
                 user_id: "0",
@@ -138,7 +142,7 @@
                         question.answer.forEach(answer => {
                             surveyHtml += `
                                 <label class="check" style="color: ${customHtml.question_answer_color};">
-                                    <input type="radio" name="question${answer.answerId}" value="${answer.value}">
+                                    <input type="radio" name="question${question.question}" value="${answer.answerId}">
                                     ${answer.value}
                                 </label>
                             `;
@@ -294,3 +298,4 @@
 </body>
 
 </html>
+

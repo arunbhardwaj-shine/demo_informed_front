@@ -239,16 +239,18 @@ const SurveyFormBuilder = (props) => {
   const updateTemplateValues = () => {
     const values = { ...templateDefaultValues, ...dynamicValues };
     let dynamicHeaderBackgroundStyle = "";
-     if (header_background_type === "image" && values.header_background_image != "" ) {
+    if (
+      header_background_type === "image" &&
+      values.header_background_image != ""
+    ) {
       dynamicHeaderBackgroundStyle = `background-image: url(${values.header_background_image}); background-size: cover`;
-    }
-    else  {
+    } else {
       dynamicHeaderBackgroundStyle = `background-color: ${values.header_background_color}`;
-    } 
+    }
 
     let updatedHtml = originalSelectedTemplate.template_html
       .replace(/^"|"$/g, "")
-      .replace("{#dynamic_header_background#}",dynamicHeaderBackgroundStyle)
+      .replace("{#dynamic_header_background#}", dynamicHeaderBackgroundStyle)
       .replace("{#main_heading#}", changeTitleToggle ? values.main_heading : "")
       .replace("{#title_color#}", values.title_color)
       .replace("{#main_footer#}", changeFooterToggle ? values.main_footer : "")
@@ -484,7 +486,7 @@ const SurveyFormBuilder = (props) => {
           bodyTextColor: temporaryValues.bodyTextColor,
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
-          selectedTemplateClass
+          selectedTemplateClass,
         },
       ];
     } else {
@@ -1281,16 +1283,15 @@ const SurveyFormBuilder = (props) => {
                   }}
                 />
                 <div className="login-validation">
-                {" "}
-                {error.addTemplateName ? (
-                  <span>Please enter template name</span>
-                ) : (
-                  ""
-                )}
-              </div>
+                  {" "}
+                  {error.addTemplateName ? (
+                    <span>Please enter template name</span>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </Form.Group>
             </Form>
-            
           </Modal.Body>
           <div className="modal-footer">
             <button
