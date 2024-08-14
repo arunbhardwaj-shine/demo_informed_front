@@ -103,7 +103,9 @@ const VerifyHCP = (props) => {
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? "yes"
           : "",
-      institutionType: "",
+          institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+          siteNumber:"",
+          siteName:""
     },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -418,7 +420,9 @@ const VerifyHCP = (props) => {
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
-        institutionType: "",
+            institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+            siteNumber:"",
+            siteName:""
       },
     ]);
     setActiveManual("active");
@@ -616,13 +620,13 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = e == "yes" ? setDefaultRole : "Other";
+      list[i].role = e == "yes" ? irtRole?.[0]?.value : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-      list[i].institutionType = "";
+      list[i].institutionType = e=="yes"?irtInstitutionType?.[0]?.value:"";
       setHpc(list);
     }
     let arr = [];
@@ -783,7 +787,8 @@ const VerifyHCP = (props) => {
           data.last_name == "" ||
           data.country == "" ||
           data.siteNumber == "" ||
-          data.siteName == ""
+          data.siteName == ""||
+          data?.investigator_type==""
         ) {
           if (
             data.first_name == "" &&
@@ -844,7 +849,15 @@ const VerifyHCP = (props) => {
               });
               return;
           
-          }
+          } if (isRdAndNorgianAcount && data.investigator_type == "") {
+            // return "Please Select the institution ";
+            setValidationError({
+              role: "Please Select the role",
+              index: index,
+            });
+            return;
+        
+        }
 
           if (isRdAndNorgianAcount) {
             // if (data.institution_type == "") {
@@ -997,7 +1010,8 @@ const VerifyHCP = (props) => {
               data?.email == "" ||
               data?.siteNumber == "" ||
               data?.siteName == "" ||
-              data?.institutionType == ""
+              data?.institutionType == ""||
+              data?.role==""
             ) {
               return "false";
             } else {
@@ -1010,6 +1024,7 @@ const VerifyHCP = (props) => {
             data?.country == "" ||
             data?.email == "" ||
             data?.institutionType == "" ||
+            data?.role==""||
             (data?.optIrt === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
           ) {
             return "false";
@@ -1055,7 +1070,9 @@ const VerifyHCP = (props) => {
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? "yes"
               : "",
-          institutionType: "",
+              institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+              siteNumber:"",
+              siteName:"",
         },
       ]);
     } else {
@@ -3195,11 +3212,16 @@ const VerifyHCP = (props) => {
                                         </div>
                                         <div className="col-12 col-md-6">
                                           <div className="form-group">
-                                            <label for="">IRT role</label>
+                                            <label for="">IRT role <span> *</span></label>
                                             {val?.optIrt == "yes" ? (
                                               <Select
                                                 options={irtRole}
-                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                className={
+                                                  validationError?.role &&
+                                                  validationError?.index == i
+                                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                }
                                                 onChange={(event) =>
                                                   onRoleChange(event, i)
                                                 }
@@ -3221,7 +3243,12 @@ const VerifyHCP = (props) => {
                                             ) : val?.optIrt == "no" ? (
                                               <Select
                                                 options={role}
-                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                className={
+                                                  validationError?.role &&
+                                                  validationError?.index == i
+                                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                }
                                                 onChange={(event) =>
                                                   onRoleChange(event, i)
                                                 }
@@ -3246,6 +3273,12 @@ const VerifyHCP = (props) => {
                                                 placeholder="Select Role"
                                               />
                                             )}
+                                            {validationError?.role &&
+                                      validationError?.index == i ? (
+                                        <div className="login-validation">
+                                          {validationError?.role}
+                                        </div>
+                                      ) : null}
                                           </div>
                                         </div>
                                       </>
