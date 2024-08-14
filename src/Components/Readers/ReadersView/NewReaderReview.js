@@ -1434,7 +1434,6 @@ const NewReadersReview = (props) => {
           };
         }
       }
-      console.log("body-->", body)
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
@@ -1501,8 +1500,8 @@ const NewReadersReview = (props) => {
       checkbox.checked = false;
     });
 
-    obj = { status: ["Registered"], "contact Type": ["HCP"], };
-    setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], });
+    obj = {};
+    setAppliedFilter({ });
 
     if (filterApplyflag > 0) {
       let obj = {
