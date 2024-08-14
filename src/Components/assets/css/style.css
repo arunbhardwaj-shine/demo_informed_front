@@ -1027,6 +1027,7 @@ background: #8A4E9C;
   -webkit-box-orient: vertical;
   line-height: normal;
   cursor: pointer;
+  word-break: break-all;
 }
 
 .event_listing .action_btn button {
@@ -1246,6 +1247,12 @@ background: #8A4E9C;
   border-color: var(--light-violet);
 }
 
+
+.approved .mail-stats ul li .mail-status.mail-hit {
+
+  border: 2px solid var(--light-blue);
+
+}
 .approved .mail-stats ul li .mail-status.mail_send svg path {
   fill: var(--light-violet);
 }
@@ -4903,6 +4910,11 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: none;
 }
 
+.dropdown-menu.filter-options .accordion .card .card-header button{
+
+  border-radius: 30px;
+
+}
 .dropdown-menu.filter-options .card-header a,
 .dropdown-menu.filter-options .card-header .accordion-button {
   font-size: 15px;
@@ -9985,6 +9997,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  line-clamp: 1;
   overflow: hidden;
   color: var(--light-blue);
   font-weight: 400;
@@ -9993,6 +10006,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   font-family: "Roboto", sans-serif;
   white-space: pre-wrap;
   text-overflow: ellipsis;
+  
 }
 
 .create-change-content .right-change .form-group.new-change span {
@@ -10141,6 +10155,11 @@ section.search-hcp.smart-list-view .header-btn-left {
 .all-events_details .survey_data_accordion_heading table thead tr th:first-child,
 .all-events_details .survey_data_accordion_heading table tbody tr td:first-child {
   width: 270px;
+}
+nav.navbar .navbar-collapse li.nav-item a {
+
+  padding: 0 32px;
+
 }
 }
 @media only screen and (max-width: 1505px) {
