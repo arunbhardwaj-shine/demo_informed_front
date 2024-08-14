@@ -5200,7 +5200,7 @@ input[type="number"] {
 
 .page-title .back-btn {
   @include header-back-btn;
-  margin: 0 19px 0 -50px;
+  margin: 0 9px 0 -50px;
 
   &:hover {
     background: $primary-color;
@@ -6812,7 +6812,7 @@ input.viewer-toolbar-current-page-input {
     }
     .site-irt{
       margin:0 0 10px;
-    padding: 0 27px;
+      padding: 0 0px;
     }
     .row {
       gap: 0% 5%;

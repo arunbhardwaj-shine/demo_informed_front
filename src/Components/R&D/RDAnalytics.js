@@ -744,7 +744,7 @@ const RDAnalytics = () => {
         finalData.Name = item?.username ? item?.username.trim() : "NA";
         finalData.Country = item?.user_country ? item?.user_country: "NA";
         finalData.Role = item?.user_type ? item?.user_type : "NA";       
-        finalData.Training = item?.training_status ? item?.training_status : "NA";
+        finalData.Training = item?.training_status ? getStatusText(item?.training_status_code) : "NA";
         finalData[`Last activity`] = item?.last_activity ? item?.last_activity : "NA";
         finalData[`First email sent`] = item?.date_first_email_sent ? item?.date_first_email_sent : "NA";
         finalData[`Last email sent`] = item?.date_last_email_sent ? item?.date_last_email_sent : "NA";
