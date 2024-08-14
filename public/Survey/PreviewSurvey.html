@@ -76,7 +76,6 @@
 
 <body>
     <div id="survey-container" class="informed-survey">
-        <!-- Content will be dynamically injected here -->
     </div>
 
     <script>
@@ -85,7 +84,7 @@
        const queryParams = new URLSearchParams(window.location.search);
        const unique_code = queryParams.get('uniqueCode');
        const survey_id = queryParams.get('surveyId');
-            const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
+            const apiUrl = "https://informedtrial.shinedezign.pro/survey/fetch-preview-data";
             const payload = {
                 unique_code,
                 user_id: "0",

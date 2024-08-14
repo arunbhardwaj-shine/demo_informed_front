@@ -90,7 +90,7 @@ const SurveySublink= () => {
       };
 
 
-      let body = data;
+
       const res = await surveyAxiosInstance.post("/survey/fetch-all-survey-title",{admin_id:18207});
       console.log(res)
       let arr = [];
@@ -431,7 +431,7 @@ const SurveySublink= () => {
                     </div>
                     <div className="no_content_selected">
                       <>
-                        { data?.length  != "0"  ? (
+                        { data?.length  != "0" && selectedSurveyId ? (
                           <>
                           <div className="survey-builder">
                             <div className="survey-listing">

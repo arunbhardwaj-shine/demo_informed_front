@@ -239,16 +239,16 @@ const SurveyFormBuilder = (props) => {
   const updateTemplateValues = () => {
     const values = { ...templateDefaultValues, ...dynamicValues };
     let dynamicHeaderBackgroundStyle = "";
-
-    if (header_background_type === "color") {
-      dynamicHeaderBackgroundStyle = `background-color: ${values.header_background_color}`;
-    } else if (header_background_type === "image") {
-         dynamicHeaderBackgroundStyle = `url(<img src="${values.logo}" style="background-size: cover; width: ${values.logoWidth}%;"/>)`
+     if (header_background_type === "image" && values.header_background_image != "" ) {
+      dynamicHeaderBackgroundStyle = `background-image: url(${values.header_background_image}); background-size: cover;`;
     }
+    else {
+      dynamicHeaderBackgroundStyle = `background-color: ${values.header_background_color}`;
+    } 
 
     let updatedHtml = originalSelectedTemplate.template_html
       .replace(/^"|"$/g, "")
-      .replace("{#dynamic_header_background#}", dynamicHeaderBackgroundStyle)
+      .replace("{#dynamic_header_background#}",dynamicHeaderBackgroundStyle)
       .replace("{#main_heading#}", changeTitleToggle ? values.main_heading : "")
       .replace("{#title_color#}", values.title_color)
       .replace("{#main_footer#}", changeFooterToggle ? values.main_footer : "")
