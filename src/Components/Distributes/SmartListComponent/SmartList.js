@@ -1060,7 +1060,7 @@ const SmartList = (props) => {
                     className="btn btn-primary btn-filled"
                     onClick={load_more}
                   >
-                    Load More
+                    Load All
                   </button>
                 </div>
               )}

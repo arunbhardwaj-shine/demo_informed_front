@@ -1295,7 +1295,7 @@ const TemplateBuilder = (props) => {
 
   const submitHandler = async (event) => {
     if (getsearch !== "") {
-      let search= getSmartListData(1);
+      let search=await getSmartListData(1);
     } else {
       toast.error("Please enter text.");
     }
@@ -2827,9 +2827,9 @@ const TemplateBuilder = (props) => {
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
-                      onClick={async () => {
+                      onClick={async() => {
                         if(!smartListData.length){
-                          let smartListdata= getSmartListData(0);
+                          let smartListdata=await getSmartListData(0);
                         } 
                          setAddListOpen(true)
                         }}

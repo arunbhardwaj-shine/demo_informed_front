@@ -221,6 +221,12 @@ templateIdRef.current=res?.data?.data?.popupTempId
           data = [];
         } else if (consent == "Offline" || first_consent == "Offline") {
           setIsOnline(false);
+          // Start : Changes by jacob for offline article text change 13-08-2024
+          let actualContent = res?.data?.data?.popupData[0]?.source_code;  
+          actualContent =  actualContent.replace("continue reading","read offline")
+          actualContent = actualContent.replace("continue&nbsp;reading","read offline")
+          res.data.data.popupData[0].source_code = actualContent;
+          // End : Changes by jacob for offline article text change 13-08-2024
 
           data.push(res?.data?.data?.popupData[0]);
           data.push(res?.data?.data?.popupData[3]);

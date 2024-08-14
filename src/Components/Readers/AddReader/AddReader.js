@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import MarketingAddReader from "./MarketingAddReader";
 import axios from "axios";
+import PhoneInput from "react-phone-number-input";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ReaderLayout = () => {
   return (
@@ -144,8 +145,8 @@ const ReaderAdd = () => {
     firstName: "",
     hospital: "",
     interestArea: "",
-    irt: 1,
-    institution: "Study site",
+    irt: "",
+    institution: "",
     lastName: "",
     middleName: "",
     notes: "",
@@ -273,6 +274,8 @@ const ReaderAdd = () => {
         ...userInputs,
         role: state?.siteRole ? state?.siteRole : hasData?.data?.data?.userIrtRoles?.[0]?.value,
         irt: 1,
+        institution: "Study site"
+
       });
     }
 
@@ -470,8 +473,16 @@ const ReaderAdd = () => {
   //   }
   // };
 
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setAddReaderInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
+    }
+  };
   const handleChange = (e, isSelectedName) => {
-    // selectedCategory.push(isSelectedName);
     setUpdateFlag(1);
     if (e?.target?.files?.length < 1) {
       return;
@@ -586,7 +597,30 @@ const ReaderAdd = () => {
           ["role"]: userDetail?.role[4]?.value,
         });
       }
-    } else {
+    } else if (e?.target?.name == "primary_phone") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
+        setAddReaderInputs({
+        ...userInputs,
+
+        [e?.target?.name]: cleanedValue,
+      });
+      setError(null);
+     
+    }
+    else if (isSelectedName == "countryCode") {
+      if (e == userInputs?.countryCode) {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
+    }
+    else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -634,7 +668,6 @@ const ReaderAdd = () => {
   const nextButtonClicked = async (e) => {
     e.preventDefault();
     const result = AddReaderValidation(userInputs, groupId, flag);
-
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
@@ -656,8 +689,13 @@ const ReaderAdd = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
 
-          primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
-            }-informed-${userInputs?.primary_phone}`,
+          // primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+          //   }-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${
+            userInputs?.countryCode && userInputs?.countryCode != "Select"
+              ? userInputs?.countryCode
+              : ""
+          }-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
@@ -1258,31 +1296,49 @@ const ReaderAdd = () => {
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
-                        <Form.Group className="form-group primary_phone">
-                          <Form.Label htmlFor="">Primary phone </Form.Label>
-                          <Select
-                            options={countryCode}
-                            className="dropdown-basic-button split-button-dropup"
-                            isClearable
-                            placeholder=""
-                            onChange={(e) => handleChange(e, "countryCode")}
-                          />
+                        
+                         <Form.Group className="form-group primary_phone">
+                         <Form.Label htmlFor="">Primary phone </Form.Label>
+                         {/* <Select
+                           options={countryCode}
+                           className="dropdown-basic-button split-button-dropup"
+                           isClearable
+                           placeholder=""
+                           onChange={(e) => handleChange(e, "countryCode")}
+                         /> */}
+                         <PhoneInput
+                           international
+                           // ref={primaryPhoneRef}
+                           className={
+                             error?.primary_phone
+                               ? "dropdown-basic-button split-button-dropup error"
+                               : "dropdown-basic-button split-button-dropup"
+                           }
+                           value={userInputs?.countryCode}
+                           placeholder="Select"
+                           name="primary_phone"
+                           onChange={(e) => handleChange(e, "countryCode")}
+                           onKeyDown={(e) => handleKeyDown(e, "countryCode")}
+                         />
 
-                          <input
-                            type="number"
-                            className="form-control"
-                            name="primary_phone"
-                            placeholder="Phone number"
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.primary_phone ? (
-                            <div className="login-validation">
-                              {error?.primary_phone}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Form.Group>
+                         <input
+                           type="tel"
+                           className="form-control"
+                           name="primary_phone"
+                           placeholder="Phone number"
+                           value={userInputs?.primary_phone}
+                           onChange={(e) => handleChange(e)}
+                         />
+                         {error?.primary_phone ? (
+                           <div className="login-validation">
+                             {error?.primary_phone}
+                           </div>
+                         ) : (
+                           ""
+                         )}
+                       </Form.Group>
+                   
+                       
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">Alternative phone</Form.Label>
                           <input

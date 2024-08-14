@@ -99,6 +99,8 @@ const MapComponent = ({ data }) => {
       map: "custom/world",
       proj4,
       plotBackgroundColor: "#aad3df",
+      animation: false
+
     },
     title: {
       text: "Regions",
