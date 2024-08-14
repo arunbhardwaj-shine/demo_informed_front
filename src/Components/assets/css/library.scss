@@ -3796,25 +3796,42 @@ form.product-unit button {
   }
 }
 
-.content_details .mail-recipt .smartlist-view.email_box_outer .smartlist-view,
-.content_details .mail-recipt .smartlist-view.email_box_outer .smartlist-view .mail-box-content {
-  box-shadow: none;
-  background: transparent;
-  padding: 0;
+
+.content_details {
+  .mail-recipt {
+    .smartlist-view {
+      &.email_box_outer {
+        .smartlist-view {
+          width: 100%;
+          flex: 0 0 100%;
+          box-shadow: none;
+          background: transparent;
+          padding: 0;
+
+          .mail-box-content {
+            box-shadow: none;
+            background: transparent;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
 }
 
-.content_details .mail-recipt .smartlist-view.email_box_outer .smartlist-view {
-  width: 100%;
-  flex: 0 0 100%;
-}
+.template_builder-option {
+  &.library-cosent {
+    .template_language {
+      span {
+        margin-right: 7px;
+        font-weight: 400;
 
-.template_builder-option.library-cosent .template_language span {
-  margin-right: 7px;
-  font-weight: 400;
-}
-
-.template_builder-option.library-cosent .template_language span a {
-  margin-left: 10px;
+        a {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
 }
 
 .select-mail-template .page-title {
@@ -6483,9 +6500,10 @@ input.viewer-toolbar-current-page-input {
 
   .library-content-box-layuot {
     padding: 0 27px;
-    .row{
-        gap: 0% 5%;
-        flex-wrap: wrap;
+
+    .row {
+      gap: 0% 5%;
+      flex-wrap: wrap;
     }
   }
 
@@ -9590,6 +9608,15 @@ svg.pencil_icon {
   flex: 1 1;
 }
 
+.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button {
+  border: 0;
+  font-size: 11px;
+  line-height: 13px;
+  font-weight: 500;
+  padding: 10px;
+  color: rgba(0, 102, 190, 0.5);
+}
+
 .smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button.active {
   color: $primary-color;
   background: $white;
@@ -9599,14 +9626,6 @@ svg.pencil_icon {
   position: relative;
 }
 
-.smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item button {
-  border: 0;
-  font-size: 11px;
-  line-height: 13px;
-  font-weight: 500;
-  padding: 10px;
-  color: rgba(0, 102, 190, 0.5);
-}
 
 .smartlist-view .mail-box-content .tabs-data .nav-tabs .nav-item:first-child button.active {
   border-radius: 20px 20px 0 0;
@@ -9691,9 +9710,6 @@ svg.pencil_icon {
   margin: 65px 0 11px;
 }
 
-// .smartlist-view .mail-box-content .smart-list-added-user {
-//     margin-bottom: 0;
-// }
 .smartlist-view .mail-box-content .tabs-data .tab-content ul li {
   display: flex;
   align-items: flex-start;
@@ -9837,9 +9853,10 @@ svg.pencil_icon {
 }
 
 @media only screen and (max-width: 1700px) {
-  .custom-change .library-content-box-layuot .row{
+  .custom-change .library-content-box-layuot .row {
     gap: 0% 2%;
   }
+
   .library-content-box-layuot {
     gap: 0% 2%;
 
@@ -10388,7 +10405,8 @@ svg.pencil_icon {
   .library-content-box-layuot {
     gap: 0% 2%;
   }
-  .custom-change .library-content-box-layuot .row{
+
+  .custom-change .library-content-box-layuot .row {
     gap: 0% 2%;
   }
 
@@ -16538,26 +16556,22 @@ table {
   }
 }
 
-.rd-full-explain .rd-training-block .contents-block-left table tbody td {
-  line-height: 22px;
-  padding: 10px 16px;
+.rd-full-explain .rd-training-block .contents-block-left table th {
+  vertical-align: middle;
+  padding-right: 0;
 }
 
 .rd-full-explain .rd-training-block .contents-block-left table thead tr th button img {
   margin-left: 7px;
 }
 
+.rd-full-explain .rd-training-block .contents-block-left table tbody td {
+  line-height: 22px;
+  padding: 10px 16px;
+}
+
 .rd-full-explain .rd-training-block .contents-block-left table .short_value {
   text-align: right;
-}
-
-.rd-full-explain .rd-training-block .contents-block-left table th {
-  vertical-align: middle;
-}
-
-.rd-full-explain .rd-training-block .contents-block-left table th {
-  vertical-align: middle;
-  padding-right: 0;
 }
 
 .rd-full-explain .rd-training-block .contents-block-left table .short_value button svg {
