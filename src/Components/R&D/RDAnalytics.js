@@ -961,11 +961,11 @@ const RDAnalytics = () => {
     let otherFilterObj = otherFilter;
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
-      if (old_object[key].includes("All")) {
-        const allIndex = old_object[key]?.indexOf("All");
-        old_object[key]?.splice(allIndex, 1);
-        delete otherFilterObj[key];
-      }
+      // if (old_object[key].includes("All")) {
+      //   const allIndex = old_object[key]?.indexOf("All");
+      //   old_object[key]?.splice(allIndex, 1);
+      //   delete otherFilterObj[key];
+      // }
       old_object[key]?.splice(index, 1);
       otherFilterObj[key]?.splice(index, 1);
 
@@ -1058,19 +1058,20 @@ const RDAnalytics = () => {
       otherObj[key] = [];
     }
 
-
     if (e?.target?.checked == true) {
       if (
-        key == "training_status_code" ||
-        key == "user_type" ||
-        key == "site_number"
+        // key == "training_status_code" ||
+        // key == "user_type" ||
+        // key == "site_number"
+        key=="Radio"
 
       ) {
         newObj[key] = [];
         newObj[key]?.push(item);
         otherObj[key] = [];
         otherObj[key]?.push(item);
-      } else {
+      } 
+      else {
         if (item == "All") {
           newObj[key] = ["All"];
           otherObj[key] = data;
@@ -1078,10 +1079,10 @@ const RDAnalytics = () => {
           newObj[key]?.push(item);
           otherObj[key]?.push(item);
 
-          if (data?.length - 1 == newObj[key]?.length) {
-            newObj[key]?.push("All");
-            otherObj[key]?.push(item);
-          }
+          // if (data?.length - 1 == newObj[key]?.length) {
+          //   newObj[key]?.push("All");
+          //   otherObj[key]?.push(item);
+          // }
         }
       }
     } else {
@@ -1116,6 +1117,8 @@ const RDAnalytics = () => {
     setAppliedFilter(newObj);
     setForceRender(!forceRender);
   };
+
+ 
 
   const refresh = async () => {
     try {
@@ -1377,7 +1380,7 @@ const RDAnalytics = () => {
                                                           {item != "" ? (
                                                             <label className="select-multiple-option">
                                                               <input
-                                                                type="radio"
+                                                                type="checkbox"
                                                                 id={`custom-checkbox-${item}-${index}`}
                                                                 value={
                                                                   typeof item ==

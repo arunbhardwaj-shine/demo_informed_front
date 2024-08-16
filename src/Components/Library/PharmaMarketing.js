@@ -3689,7 +3689,10 @@ const PharmaMarketing = () => {
       <div className="contact-us pharma">
         <Container>
           <Row>
-            <LandingContact />
+            <LandingContact>
+              <h5>We'd love to talk to you. Let us know what questions you have.</h5>
+              <h5> We're here to help, leave your details below and we'll get back to you straight away.</h5>
+            </LandingContact>
           </Row>
         </Container>
       </div>
