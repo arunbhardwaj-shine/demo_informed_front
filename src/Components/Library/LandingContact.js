@@ -7,7 +7,7 @@ import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import axios from "axios";
 
-const LandingContact = () => {
+const LandingContact = ({children}) => {
   const [country, setCountry] = useState([
     { value: "Afghanistan", label: "Afghanistan" },
     { value: "Albania", label: "Albania" },
@@ -413,10 +413,8 @@ const colourStyles = {
     <>
       <div className="contact-inset">
         <h3>Contact Us</h3>
-        <h5>
-          We'd love to talk to you. Let us know what questions you have.
-        </h5>
-        <h5> We're here to help, leave your details below and we'll get back to you straight away.</h5>
+        {children}
+        
         <div class="form-sec">
           <Form>
             <Row>

@@ -19161,7 +19161,7 @@ table {
   }
 
   &.rd {
-    background: #af8acd url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
+    background: url(../../../../public/componentAssets/images/rd-contact-bg.jpg) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
   }
@@ -19383,7 +19383,9 @@ table {
     }
   }
 }
-
+.contact-us.rd .contact-inset form .form-group span svg path {
+  fill: #D09DDF;
+}
 .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
   background: $primary-color;
   border: 2px solid #77c3da;
@@ -26305,6 +26307,20 @@ table {
   .how-work .faster-site .rd-point .context {
     max-width: 230px;
   }
+  .how-work {
+
+    .works-started {
+
+      .works-started-links {
+
+        .started-links {
+          a {
+            min-width: 180px;
+          }
+        }
+      }
+    }
+  }
   .how-work .faster-site .rd-point .context div {
       font-size: 13px;
       padding: 10px 5px;
@@ -27365,6 +27381,7 @@ table {
       .landing-heading{
         h1 {
           text-transform: capitalize;
+          text-shadow: 0px 0px 11px rgba(0, 0, 60, 0.44);
         }
       } 
     }
@@ -27548,7 +27565,21 @@ table {
       }
     }
   }
-
+  .landing-banner.rd .landing-sub-heading h4 {
+    line-height: 24px;
+  }
+  .how-work .faster-site .faster-site-heading h3 {
+    font-size: 24px;
+    margin: 0 0 16px;
+}
+.how-work .faster-site .faster-site-heading h5 {
+  font-size: 15px;
+  line-height: 20px;
+  padding: 0 10px;
+}
+.landing-banner.pharma.rd + .how-work {
+  padding: 72px 0 40px;
+}
   .contact-us {
     background: url(../../../../public/componentAssets/images/contact-bg-mobile.jpg) no-repeat;
     padding: 55px 0 57px;
@@ -27564,7 +27595,10 @@ table {
       background: url(../../../../public/componentAssets/images/publisher-contact-bg.png) no-repeat;
       background-size: cover;
     }
-
+    &.rd {
+      background: url(../../../../public/componentAssets/images/rd-contact-bg-mobile.jpg) no-repeat;
+      background-size: cover;
+    }
     .contact-inset {
       h3 {
         font-size: 24px;
@@ -27849,7 +27883,11 @@ table {
 
       #download-qr {
         margin: 0 auto;
-
+        max-width: 100%;
+        .modal-content{
+          border-radius: 18px;
+          padding-bottom: 22px;
+        }
         .modal-body {
           padding: 18px 4px 0px;
 
@@ -27879,7 +27917,96 @@ table {
       }
     }
   }
+  .how-work .faster-site .rd-point {
+    gap: 16px 0;
+    flex-direction: column;
+}
+.how-work .faster-site .rd-point .context {
+  max-width: 270px;
+  order:2;
+}
+.how-work .faster-site .rd-point.rd-point-right .context {
+  order: 3;
+}
+.how-work .faster-site .rd-point .rd-point-img {
+  order:1;
+}
+.how-work .faster-site .rd-point .rd-point-img:before{
+  content: "";
+  border-right:1px dashed #8A4E9C;
+  position: absolute;
+  left:50%;
+  height: 30px;
+  bottom: -16px;
+  z-index: -1;
+}
+.how-work .faster-site .rd-point .rd-point-img:after{
+  content: "";
+  position: absolute;
+  bottom: -16px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  left: 49%;
+  background: #8A4E9C;
+}
+.how-work .faster-site .faster-site-heading {
+  margin: 0 0 30px;
+}
+.how-work .faster-site .rd-point .context.rd-point-right div:first-child:before, .how-work .faster-site .rd-point .context.rd-point-right div:first-child:after, .how-work .faster-site .rd-point .context div:nth-child(2):after, .how-work .faster-site .rd-point .context.rd-point-right div:last-child:after, .how-work .faster-site .rd-point .context div span, .how-work .faster-site .rd-point .context.rd-point-left div:first-child:after, .how-work .faster-site .rd-point .context.rd-point-left div:first-child:before, .how-work .faster-site .rd-point .context.rd-point-left div:last-child:after {
+display:none;
+}
+.how-work .faster-site .rd-point .rd-point-img img {
+  max-width: 125px;
+}
+.how-work .faster-site {
+  margin: 0 auto 110px;
+}
+.how-work .future-expand.rd-greater-sec .future-expand-content h4 {
+	padding: 18px 20px;
+}
+.how-work .future-expand.rd-greater-sec .future-expand-content-shape span {
+	top: 21px;
+}
+.future-expand h5 {
+  font-size: 15px;
+  line-height: 20px;
+}
+.how-work .how-work-text h5 {
+  padding: 0 12px;
+}
+.how-work .how-works-last .col-md-6 {
+  order: 2;
+}
 
+.how-work .how-works-last .col-md-5 {
+  order: 1;
+}
+.how-work .how-work-img {
+	margin: 0 auto 28px;
+}
+.how-work .how-works-last .how-work-img img {
+	max-width: 260px;
+}
+.how-work .how-works-last .how-work-text {
+	padding: 0 8px;
+}
+.how-work .how-works-last {
+	margin-bottom: 4px;
+}
+.how-work .future-expand.rd-sec {
+	margin-bottom: 30px;
+}
+.how-work .future-expand.rd-sec .future-expand-content h4 {
+	padding: 18px 17px;
+}
+.how-work .future-expand.rd-sec .future-expand-content-shape {
+	top: -29px;
+}
+.how-work .faster-site .rd-point .context.rd-point-left div, .how-work .faster-site .rd-point .context.rd-point-right div {
+  border-radius: 30px;
+  font-size: 15px;
+}
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse6,
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse6 {
     display: none;

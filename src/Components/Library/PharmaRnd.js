@@ -205,7 +205,7 @@ const PharmaRnd = () => {
                         </Col>
                     </Row>
                     <Row>
-                        <div className='future-expand'>
+                        <div className='future-expand rd-sec'>
                             <div className='future-expand-content'>
                                 <h4>Build better relationships with HCPs</h4>
                             </div>
@@ -221,14 +221,14 @@ const PharmaRnd = () => {
 
             <div className='contact-us pharma rd'>
                 <Container>
-                <Row>
-                <LandingContact >
-                <h5>
-                We’re always happy to talk to you and answer any questions you have. You might have a question about something not covered on the page, something about compliance or other requests.
-                </h5>
-                 <h5>We're here to help, leave your details below and we'll get back to you straight away.</h5>
-              </LandingContact>
-                              </Row>
+                    <Row>
+                        <LandingContact>
+                            <h5>
+                                We’re always happy to talk to you and answer any questions you have. You might have a question about something not covered on the page, something about compliance or other requests.
+                            </h5>
+                            <h5>We're here to help, leave your details below and we'll get back to you straight away.</h5>
+                        </LandingContact>
+                    </Row>
                 </Container>
             </div>
             <LandingFooter />
