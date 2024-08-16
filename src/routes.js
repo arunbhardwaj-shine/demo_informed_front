@@ -322,7 +322,7 @@ const Routing = () => {
           element={<DefaultLayout component={PharmaMarketing} />}
         />
         <Route
-          path="/pharma-rd"
+          path="/pharma-trial"
           element={<DefaultLayout component={PharmaRnd} />}
         />
         <Route
