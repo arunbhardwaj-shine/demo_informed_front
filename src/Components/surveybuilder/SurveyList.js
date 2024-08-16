@@ -72,11 +72,17 @@ const SurveyList = (props) => {
         survey_id: 0,
       });
       const survey_data = res?.data?.data;
-      console.log(res);
+     
+
+      if(survey_data.length<1){
+        showDeleteButtons()
+      }
 
       if (res) {
         setIsData(survey_data);
       }
+
+
 
       loader("hide");
     } catch (error) {
@@ -456,17 +462,18 @@ const SurveyList = (props) => {
       if (res) {
         hideConfirmationModal();
         await fetchSurveyListing();
+        
         popup_alert({
           visible: "show",
           message: "The Survey record has been deleted <br />successfully !",
           type: "success",
           redirect: "",
         });
+
       } else {
         toast.warning(res.data.message);
       }
       loader("hide");
-
     } catch (error) {
       loader("hide");
       console.log(error.message)
@@ -950,7 +957,7 @@ const SurveyList = (props) => {
             </div>
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus && (
+                {!deletestatus  && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
@@ -1019,7 +1026,7 @@ const SurveyList = (props) => {
                                         <div class="tab-content-links">
                                           <a
 
-                                            href={`/survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`}
+                                            href={`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`}
                                             class="doc-link"
                                             target="_blank"
                                           >
@@ -1400,7 +1407,7 @@ const SurveyList = (props) => {
                                           </Button>
                                           <Button className="edit btn-filled"
                                             onClick={(e) => {
-                                              window.open(`/survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`, '_blank');
+                                              window.open(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`, '_blank');
                                             }}>
                                             Preview
                                           </Button>
@@ -1530,36 +1537,7 @@ const SurveyList = (props) => {
                                             }
                                             liveFlagValue={data.is_draft}
 
-                                          /> // Pass the initial state
-                                          // />{" "}
-                                          // <p class="option-heading">
-                                          //   Status:{" "}
-                                          //   <img
-                                          //     src={
-                                          //       path_image +
-                                          //       "info_circle_icon.svg"
-                                          //     }
-                                          //     alt=""
-                                          //   />
-                                          // </p>
-                                          // <div class="form-switch">
-                                          //   {/* <input type="checkbox" id="custom-switch" class="form-check-input"/> */}
-                                          //   <span>Completed</span>
-                                          //   <Form.Check
-                                          //     inline
-                                          //     label="Live"
-                                          //     name="group1"
-                                          //     type="checkbox"
-                                          //     checked={isChecked}
-                                          //     onChange={(e) =>
-                                          //       handleLiveToogle(
-                                          //         e,
-                                          //         data.survey_id
-                                          //       )
-                                          //     }
-                                          //   />
-                                          // </div>
-                                          // </>
+                                          /> 
                                         ) : (
                                           ""
                                         )}

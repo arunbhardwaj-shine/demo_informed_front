@@ -127,16 +127,21 @@ const SurveyFormBuilder = (props) => {
   }, [templates, selectedTemplateId]);
 
   const updateDynamicValues = (templateDefaults) => {
+    console.log(dynamicValues);
     const customValues =
       customHtml != "0" && Object.keys(customHtml).length > 0
         ? customHtml
-        : templateDefaults;
+        : { ...templateDefaults, ...dynamicValues };
 
-    if (customValues?.header_background_image != "") {
-      setHeaderBackgroundType("image");
-    } else {
-      setHeaderBackgroundType("color");
-    }
+    // if (
+    //   customValues?.header_background_image != "" &&
+    //   header_background_type == "image"
+    // ) {
+    //   setHeaderBackgroundType("image");
+    // } else {
+    //   setHeaderBackgroundType("color");
+    // }
+    
     const newValues = {
       template_name:
         customValues.template_name ?? templateDefaults.template_name,
@@ -238,6 +243,7 @@ const SurveyFormBuilder = (props) => {
 
   const updateTemplateValues = () => {
     const values = { ...templateDefaultValues, ...dynamicValues };
+    console.log(values);
     let dynamicHeaderBackgroundStyle = "";
     if (
       header_background_type === "image" &&
@@ -278,6 +284,7 @@ const SurveyFormBuilder = (props) => {
     dynamicValues,
     templateDefaultValues,
     changeFooterToggle,
+    header_background_type,
     changeBodyToggle,
     changeTitleToggle,
     changeLogoToggle,
@@ -617,11 +624,10 @@ const SurveyFormBuilder = (props) => {
                                   <div className="header-added">
                                     <div className="d-flex align-items-center">
                                       <div className="img-added">
-                                        {templateDefaultValues.header_background_image !==
-                                        "" ? (
+                                        {dynamicValues?.header_background_image ? (
                                           <img
                                             src={
-                                              templateDefaultValues.header_background_image
+                                              dynamicValues.header_background_image
                                             }
                                             alt=""
                                           />

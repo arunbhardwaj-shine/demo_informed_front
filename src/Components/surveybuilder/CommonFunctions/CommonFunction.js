@@ -136,23 +136,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       }
     }
 
-    // if (pathname === "/survey/survey-preview") {
-    //   const body = { survey_id, status: 1 };
-    //   try {
-    //     const response = await surveyAxiosInstance.post(
-    //       "/survey/update-live-flag",
-    //       body
-    //     );
-    //     if (response) {
-    //       draftValue = 1;
-    //     }
-    //     console.log("from liveflag", response);
-    //   } catch (error) {
-    //     loader("hide");
-    //     toast.error("Something went wrong");
-    //     return;
-    //   }
-    // }
+
 
     const liveStatus = await updateLiveFlag(survey_id, liveFlag);
     if (liveStatus !== true) {
