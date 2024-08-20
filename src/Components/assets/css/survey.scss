@@ -3812,3 +3812,14 @@ body {
         right: auto;
     }
 }
+
+
+.dragable-box .d-flex input.form-control {
+    max-width: 211px;
+    border-radius: 4px;
+    background: $white;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+    border: 0;
+    font-size: 12px;
+    padding: 8px 12px;
+}
