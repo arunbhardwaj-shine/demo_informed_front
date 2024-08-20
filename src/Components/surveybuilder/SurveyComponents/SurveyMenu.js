@@ -63,7 +63,7 @@ const SurveyMenu = ({ menuRef }) => {
   const { currentElementIndex, elements, isEditModeOn } = useSelector(
     (state) => state.surveyData
   );
-  const [editorIndex, setEditorIndex] = useState( 0);
+  const [editorIndex, setEditorIndex] = useState(0);
 
   const dispatch = useDispatch();
   // const scaleOptions = [
@@ -88,7 +88,7 @@ const SurveyMenu = ({ menuRef }) => {
     );
   }, []);
   useEffect(() => {
- setEditorIndex((prev)=>prev+1)
+    setEditorIndex((prev) => prev + 1);
   }, [elements?.[currentElementIndex]?.questionNo]);
 
   const handleSortOptions = (index, order) => {
@@ -171,28 +171,27 @@ const SurveyMenu = ({ menuRef }) => {
   };
 
   const addRow = (index, value, innerKey, outerkey) => {
-    const currentOptions = elements[index][outerkey][innerKey];
+    const currentOptions = elements[index][outerkey];
+    var columns = [];
     if (currentOptions.length > 0) {
-      const lastOption = currentOptions[currentOptions.length - 1].value;
+      const lastOption = currentOptions[currentOptions.length - 1].title;
       if (lastOption.trim() === "") {
         toast.warning("Please fill in the current option!");
         return;
       }
+      columns = currentOptions[currentOptions.length - 1].answer.map(
+        (columns) => ({ value: columns.value, answerId: 0 })
+      );
     }
-    dispatch(
-      setExtraAndStyling(
-        index,
-        [...currentOptions, { value: value }],
-        innerKey,
-        outerkey
-      )
-    );
+    handleUpdateElement(index, outerkey, [
+      ...currentOptions,
+      { title: value, id: 0, answer: [...columns] },
+    ]);
   };
 
   const addOption = (index, key) => {
     console.log(index, key);
     const currentOptions = elements[index][key];
-
     if (elements[index].type === "dropdown") {
       if (currentOptions[0].value.length > 0) {
         const lastOption =
@@ -204,6 +203,23 @@ const SurveyMenu = ({ menuRef }) => {
       }
       currentOptions[0].value.push("");
       handleUpdateElement(index, key, [...currentOptions]);
+    } else if (elements[index].type === "matrix") {
+
+       if (currentOptions.length > 0) {
+        const lastOption =
+          currentOptions[0].answer[currentOptions[0].value.length - 1];
+        if (lastOption.trim() === "") {
+          toast.warning("Please fill in the current option!");
+          return;
+        }
+      }
+      currentOptions[0].value.push("");
+      handleUpdateElement(index, key, [...currentOptions]);
+       
+
+      
+
+
     } else {
       console.log(currentOptions);
       if (currentOptions.length > 0) {
@@ -222,6 +238,9 @@ const SurveyMenu = ({ menuRef }) => {
 
   const toggleDescription = (index, keyName = "") => {
     const updatedElements = [...elements];
+    if (updatedElements[index][keyName]) {
+      handleUpdateElement(index, "optionalLabel", "");
+    }
     handleUpdateElement(index, keyName, !updatedElements[index][keyName]);
   };
 
@@ -250,7 +269,7 @@ const SurveyMenu = ({ menuRef }) => {
             value={item.question}
             handleUpdateElement={handleUpdateElement}
             index={index}
-            key={"questionEditor"+editorIndex}
+            key={"questionEditor" + editorIndex}
           />
 
           {item?.questionDescription != undefined && (
@@ -580,7 +599,7 @@ const SurveyMenu = ({ menuRef }) => {
                     </div>
                   </div>
                 </Form.Group>
-               </div>
+              </div>
             )}
           </div>
         );

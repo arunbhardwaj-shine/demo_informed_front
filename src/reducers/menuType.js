@@ -7,7 +7,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    visible:true,
+    visible: true,
     optionalLabel: "",
     answer: [
       { value: "", answerId: 0 },
@@ -30,7 +30,7 @@ export const menuType = {
     question: "",
     questionDescriptionEnabled: false,
     questionDescription: "",
-    visible:true,
+    visible: true,
     isOptional: false,
     optionalLabel: "",
     answer: [
@@ -50,7 +50,7 @@ export const menuType = {
   dropdown: {
     accordionType: "questionTypes",
     type: "dropdown",
-    visible:true,
+    visible: true,
     questionId: 0,
     question: "",
     questionDescriptionEnabled: false,
@@ -61,8 +61,7 @@ export const menuType = {
     answer: [
       // { value: "", answerId: 0 },
       // { value: "", answerId: 0 },
-      {value:["",""],answerId:0},
-
+      { value: ["", ""], answerId: 0 },
     ],
     style: {},
     extra: {
@@ -74,8 +73,9 @@ export const menuType = {
     type: "freeText",
     questionId: 0,
     question: "",
-    answer: "",
-    visible:true,
+    answer: [],
+    placeHolderText: "",
+    visible: true,
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
@@ -88,18 +88,28 @@ export const menuType = {
     type: "matrix",
     question: "",
     questionId: 0,
-    visible:true,
+    visible: true,
     questionDescriptionEnabled: true,
     questionDescription: "",
     isOptional: false,
     optionalLabel: "",
     answer: [
-      { value: "", answerId: 0 },
-      { value: "", answerId: 0 },
-    
+      {
+        title: "row 1",
+        id: 0,
+        answer: [
+          {
+            value: "Column 1",
+            answerId: 0,
+          },
+          {
+            value: "Column 2",
+            answerId: 0,
+          },
+        ],
+      }
     ],
     extra: {
-      rows: [ {value:""} , {value:""} ],
       allowMultipleAnswer: false,
     },
     style: {},
@@ -107,7 +117,7 @@ export const menuType = {
   rating: {
     accordionType: "questionTypes",
     type: "rating",
-    visible:true,
+    visible: true,
     questionId: 0,
     question: "",
     questionDescriptionEnabled: false,
@@ -134,6 +144,7 @@ export const menuType = {
     questionDescription: "",
     style: {},
   },
+
   paragraph: {
     accordionType: "commonElements",
     type: "paragraph",
@@ -144,6 +155,7 @@ export const menuType = {
       color: "#004A89",
     },
   },
+
   divideLine: {
     accordionType: "commonElements",
     type: "divideLine",
@@ -186,45 +198,47 @@ export const menuType = {
       consentOptions: [
         {
           label: "Receive One Source updates and new materials from Octapharma",
-          isChecked: false
+          isChecked: false,
         },
         {
           label: "Receive invitations to future events.",
-          isChecked: false
+          isChecked: false,
         },
         {
           label: "Both of the options above.",
-          isChecked: false
+          isChecked: false,
         },
         {
           label: "None of the options above.",
-          isChecked: false
-        }
+          isChecked: false,
+        },
       ],
       consentDetails: [
         {
           nameLabel: "Name",
-          namePlaceholder: "Type your name"
+          namePlaceholder: "Type your name",
         },
         {
           emailLabel: "Email",
-          emailPlaceholder: "Type your email"
+          emailPlaceholder: "Type your email",
         },
         {
           countryLabel: "Country",
           countryPlaceholder: "Please Select Country",
-          countryOptions: ["China", "USA", "India", "Germany"]
-        }
+          countryOptions: ["China", "USA", "India", "Germany"],
+        },
       ],
       privacyLinks: [
         {
           octapharma: "/octapharma-privacy",
         },
         { docintel: "https://albert.docintel.app/privacy_policy/" },
-        { termsOfUse: "/terms_of_use" }
+        { termsOfUse: "/terms_of_use" },
       ],
-      cookiePolicy: " <p>We only use essential cookies and no data is shared with 3rd party. <a href=\"javascript:void(0)\">Click here</a> to see the specifics.</p> <div class=\"copyright-links\"> <a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma Privacy Statement</a> <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel Privacy Policy</a> <a href=\"/terms_of_use\" target=\"_blank\">Terms of Use</a> </div>",
-      operatingStatement: "<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma AG</a> and <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel.app</a> operating this page."
-    }
-  }
+      cookiePolicy:
+        ' <p>We only use essential cookies and no data is shared with 3rd party. <a href="javascript:void(0)">Click here</a> to see the specifics.</p> <div class="copyright-links"> <a href="/octapharma-privacy" target="_blank">Octapharma Privacy Statement</a> <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel Privacy Policy</a> <a href="/terms_of_use" target="_blank">Terms of Use</a> </div>',
+      operatingStatement:
+        '<a href="/octapharma-privacy" target="_blank">Octapharma AG</a> and <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel.app</a> operating this page.',
+    },
+  },
 };

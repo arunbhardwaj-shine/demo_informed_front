@@ -518,27 +518,27 @@
                 </tr>
             </thead>
             <tbody>
-                ${question.extra.rows
-                  .map(
-                    (row) => `
-                    <tr>
-                        <td>${row.value}</td>
-                        ${question.answer
-                          .map(
-                            (option) => `
-                            <td>
-                              
-                                 <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
-                                    
-                            </td>
-                        `
-                          )
-                          .join("")}
-                    </tr>
-                `
-                  )
-                  .join("")}
-            </tbody>
+    ${question.extra.rows
+      .map(
+        (row) => `
+        <tr>
+            <td>${row.value}</td>
+            ${question.answer
+              .map((option) => {
+                const combinedValue = `${option.answerId},${row.value}`;
+                return `
+                    <td>
+                      <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">   
+                    </td>
+                  `;
+              })
+              .join("")}
+        </tr>
+      `
+      )
+      .join("")}
+</tbody>
+
         </table>
     `;
               break;
@@ -663,22 +663,19 @@
                 comment: "",
               };
 
-              if (
-                question.type === "multiple"
-              ) {
+              if (question.type === "multiple") {
                 formData.forEach((value, key) => {
                   if (key.startsWith(`question${question.questionId}`)) {
                     response.answer_id.push(value);
                   }
                 });
-              } else if (question.type === "checkbox" ){
+              } else if (question.type === "checkbox") {
                 formData.forEach((value, key) => {
                   if (key.startsWith(`question${question.questionId}`)) {
                     response.answer_id.push(value);
-                  } 
+                  }
                 });
-              }
-               else if (question.type === "dropdown") {
+              } else if (question.type === "dropdown") {
                 const value = formData.get(`question${question.questionId}`);
                 const valueArray = value.split(",");
                 if (valueArray.length > 0) {
@@ -692,7 +689,6 @@
                   response.comment = value;
                 }
               } else if (question.type === "matrix") {
-                
               }
 
               // For text areas or comments, if any

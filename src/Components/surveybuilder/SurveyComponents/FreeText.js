@@ -12,7 +12,7 @@ export default function FreeText({ item, index, handleUpdateElement }) {
                     type="text"
                     placeholder="Type your answer here..."
                     value={item.answer}
-                    onChange={(e) => handleUpdateElement(index, "answer", e.target.value)}
+                    onChange={(e) => handleUpdateElement(index, "placeHolderText", e.target.value)}
                 />
             </>
             <>
