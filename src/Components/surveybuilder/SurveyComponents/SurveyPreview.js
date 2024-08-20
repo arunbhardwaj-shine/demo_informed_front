@@ -1015,7 +1015,7 @@ const SurveyPreview = (props) => {
                                     color: templateData.bodyTextColor,
                                   }}
                                 >
-                                  {item.isOptional ? item.optionalLabel : ""}
+                                  {item.isOptional ? item.optionalLabel :"" }
                                 </span>
                               </div>
                               {item.questionDescriptionEnabled && (

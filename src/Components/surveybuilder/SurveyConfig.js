@@ -77,7 +77,8 @@ const SurveyConfig = (props) => {
   const handleThumbnailFileChange = async (e) => {
     const file = e.target.files[0];
     try {
-      if (file) {
+      if (file && (file.type.startsWith('image/') )){
+        console.log(file.type)
         const uploadFormData = new FormData();
         uploadFormData.append("file", file);
 
@@ -96,6 +97,8 @@ const SurveyConfig = (props) => {
           ...prevData,
           selectedThumbnailFilePath: response?.data?.data,
         }));
+      }else{
+        toast.error("Please select valid image file");
       }
       loader("hide");
     } catch (error) {

@@ -68,11 +68,6 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "checkbox")
           )}
-          {/* {item.extra.addAllOfTheAbove && (
-                        <>
-                            {renderOption(item.extra.allOfTheAboveLabel, "allOfTheAbove", "checkbox")}
-                        </>
-                    )} */}
           {item.addOtherChoice ? (
             <>
               {renderOption(item.extra.otherChoiceLabel, "other", "checkbox")}
