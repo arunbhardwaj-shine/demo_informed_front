@@ -771,7 +771,7 @@ const SurveyPreview = (props) => {
                 </Link>
               </div>
             </Col>
-            <Col md={9}>
+            <Col md={8}>
               {/* <ul className="tabnav-link">
                 <li className="active ">
                   <Link to="/survey/survey-builder">Set-up</Link>
@@ -809,7 +809,7 @@ const SurveyPreview = (props) => {
                 </li>
               </ul>
             </Col>
-            <Col md={2}>
+            <Col md={3}>
               <div className="header-btn">
                 <Link
                   className="btn btn-primary btn-bordered move-draft"

@@ -149,7 +149,6 @@
     }
 
     label.check {
-      display: block;
       color: #70899E;
       font-size: 12px;
       font-weight: 400;
@@ -230,7 +229,7 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      margin: 58px 0 0;
+      margin: 25px 0 0;
     }
 
     .form-footer button {
@@ -255,7 +254,10 @@
       line-height: 132%;
       margin: 24px 0 0;
     }
-
+    .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
     .survey-image img {
       display: flex;
       margin: 0 auto;
@@ -432,99 +434,155 @@
     }
 
     .select-dropdown__button {
-    max-width: 251px;
-    min-width: 60px;
-    padding: 8px 50px 8px 15px;
-    font-size: 16px;
-    line-height: 20px;
-    background-size: 12px;
-    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-    border-radius: 30px;
-    border: 0;
-    color: #97B6CF;
-    font-weight: 300;
-    text-align: left;
-    height: auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-    background: #ffffff url(../componentAssets/images/dropdown-arrow.svg) no-repeat 93% center;
+      max-width: 251px;
+      min-width: 60px;
+      padding: 8px 50px 8px 15px;
+      font-size: 16px;
+      line-height: 20px;
+      background-size: 12px;
+      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+      border-radius: 30px;
+      border: 0;
+      color: #97B6CF;
+      font-weight: 300;
+      text-align: left;
+      height: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      background: #ffffff url(../componentAssets/images/dropdown-arrow.svg) no-repeat 93% center;
+    }
+
+    .select-dropdown__button span {
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .select-dropdown__list {
+      position: absolute;
+      display: block;
+      left: 0;
+      right: 0;
+      max-width: 251px;
+      margin: 8px 0 0;
+      transform-origin: top left;
+      transform: scale(1, 0);
+      /* transition: all ease-in-out 0.3s; */
+      border: 0.5px solid rgba(0, 102, 190, 0.06);
+      box-sizing: border-box;
+      box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+      border-radius: 15px;
+      width: 100%;
+      padding: 8px;
+      max-height: 170px;
+      background-color: #ffffff;
+      background-clip: padding-box;
+      z-index: 99;
+    }
+
+    .select-dropdown {
+      overflow-y: auto;
+      max-height: 150px;
+      padding-right: 4px;
+    }
+
+    .select-dropdown__list option {
+      font-size: 14px;
+      line-height: 17px;
+      padding: 0.3rem 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 0 0 2px;
+      word-break: break-word;
+      white-space: normal;
+      color: #0066be;
+    }
+
+    .dropdown-el {
+      position: relative;
+    }
+
+    .dropdown-el.active .select-dropdown__list {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1, 1);
+    }
+
+    .select-dropdown__list option:hover {
+      background: #cae2fb;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #dce6ef;
+      border-radius: 20px;
+      padding: 0 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      width: 14px;
+      background: #97b6cf;
+      border: 3px solid #dce6ef;
+      border-radius: 15px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      border-radius: 20px;
+    }
+
+    @media only screen and (max-width:767px){
+      .informed-survey {
+      margin: 16px auto;
+      width: calc(100% - 32px);
+      }
+      .informed-survey-header h2 {
+    font-size: 20px;
 }
-.select-dropdown__button span{
-  font-size: 14px;
-  font-weight: 300;
+.informed-survey-body {
+    padding: 24px 16px;
 }
-.select-dropdown__list {
-    position: absolute;
-    display: block;
-    left: 0;
-    right: 0;
-    max-width: 251px;
-    margin: 8px 0 0;
-    transform-origin: top left;
-    transform: scale(1, 0);
-    transition: all ease-in-out 0.3s;
-    border: 0.5px solid rgba(0, 102, 190, 0.06);
-    box-sizing: border-box;
-    box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
-    border-radius: 15px;
-    width: 100%;
-    padding: 8px;
-    max-height: 170px;
-    background-color: #ffffff;
-    background-clip: padding-box;
-    z-index: 99;
+.consent-item {
+    line-height: 132%;
 }
-.select-dropdown{
-  overflow-y: auto;
-  max-height: 150px;
-  padding-right: 4px;
+.select-dropdown__button,  .select-dropdown__list {
+    max-width: 400px;
 }
 .select-dropdown__list option {
-                      font-size: 14px;
-                      line-height: 17px;
-                      padding: 0.3rem 1rem;
-                      border-radius: 15px;
-                      cursor: pointer;
-                      margin: 0 0 2px;
-                      word-break: break-word;
-                      white-space: normal;
-                      color:#0066be;
-                    }
-.dropdown-el{
-  position: relative;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0.2rem 0.7rem;
 }
-.dropdown-el.active .select-dropdown__list {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale(1, 1);
+.select-dropdown__button {
+    padding: 7px 50px 7px 15px;
+    font-size: 13px;
 }
-.select-dropdown__list option:hover {
-  background: #cae2fb;
+#survey-form {
+    gap: 40px;
 }
-
-::-webkit-scrollbar-track {
-    background: #dce6ef;
-    border-radius: 20px;
-    padding: 0 5px;
+.survey-consent p {
+    margin: 30px 0px 13px 0;
+    display: block;
 }
-::-webkit-scrollbar-thumb {
-    width: 14px;
-    background: #97b6cf;
-    border: 3px solid #dce6ef;
-    border-radius: 15px;
+.survey-consent p:last-child {
+    margin-bottom: 0;
 }
-::-webkit-scrollbar {
-    width: 12px;
-    border-radius: 20px;
+.form-footer {
+    margin: 0px 0 0;
 }
+#survey-form {
+    margin: 45px 0 0;
+}
+.select-dropdown__button span {
+    font-size: 12px;
+}
+    }
   </style>
 </head>
 
 <body>
   <div id="survey-container" class="informed-survey"></div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", async function () {
       const endPoint = await fetch("./config.json");
@@ -622,7 +680,7 @@
                               <div class="select-dropdown__list">
                                 <div class="select-dropdown">
                         `;
-             question.answer[0].value.forEach((option) => {
+            question.answer[0].value.forEach((option) => {
               const combinedValue = `${question.answer[0].answerId},${option}`;
               surveyHtml += `
                                 <option value="${combinedValue}">${option}</option>
@@ -665,6 +723,7 @@
               : "radio"; // Assume this specifies 'checkbox' or 'radio'
             surveyHtml += `<div class="survey-question matrix"> <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
         <p class="helper-text">${question.questionDescription}</p>
+        <div class="table-responsive">
         <table>
             <thead>
                 <tr>
@@ -684,9 +743,8 @@
                       .map(
                         (option) => `
                             <td>
-                              
-                                 <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
-                                  <span class="checkmark"></span>
+                              <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
+                              <span class="checkmark"></span>
                             </td>
                         `
                       )
@@ -697,72 +755,73 @@
                 .join("")}
             </tbody>
     ${question.extra.rows
-      .map(
-        (row) => `
+                .map(
+                  (row) => `
         <tr>
             <td>${row.value}</td>
             ${question.answer
               .map((option) => {
                 const combinedValue = `${option.answerId},${row.value}`;
                 return `
-                    <td>
-                      <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">   
-                    </td>
-                  `;
-              })
-              .join("")}
+            <td>
+              <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">  
+              <span class="checkmark"></span> 
+            </td>
+          `;
+          })
+          .join("")}
         </tr>
       `
-      )
-      .join("")}
-</tbody>
-
-        </table>
+        )
+        .join("")}
+      </tbody>
+    </table>
+    </div>
     `;
             surveyHtml += `</div>`;
             break;
 
           case "freeText":
             surveyHtml += `
-                          <div class="survey-question">
-                            <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-                            <textarea name="question${question.questionId}" placeholder="${question.extra}"></textarea>
-                        `;
+              <div class="survey-question">
+                <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
+                <textarea name="question${question.questionId}" placeholder="${question.extra}"></textarea>
+            `;
             surveyHtml += `</div>`;
             break;
 
           case "heading":
             surveyHtml += `
-                         <div class="survey-question">
-                            <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
-                            <p class="helper-text">${question.questionDescription}</p>
-                        `;
+              <div class="survey-question">
+                  <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
+                  <p class="helper-text">${question.questionDescription}</p>
+              `;
             surveyHtml += `</div>`;
             break;
 
           case "paragraph":
             surveyHtml += `
-                       <div class="survey-question">
-                            <div class="d-flex question-title" style="color: ${question.style.color};">${question.question}</div>
-                        `;
+              <div class="survey-question">
+                <div class="d-flex question-title" style="color: ${question.style.color};">${question.question}</div>
+            `;
             surveyHtml += `</div>`;
             break;
 
           case "divideLine":
             surveyHtml += `
-                          <div class="survey-question">
-                            <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
-                            &nbsp
-                            </div>
-                        `;
+              <div class="survey-question">
+                <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
+                &nbsp
+                </div>
+            `;
             surveyHtml += `</div>`;
             break;
 
           case "image":
             surveyHtml += `
-                         <div class="survey-image">
-                            <img src="${question.question}" alt="Survey Image" style="width: ${question.style.width}%; height: ${question.style.height};">
-                        `;
+              <div class="survey-image">
+                <img src="${question.question}" alt="Survey Image" style="width: ${question.style.width}%; height: ${question.style.height};">
+              `;
             surveyHtml += `</div>`;
             break;
 
@@ -883,33 +942,33 @@
             } else if (question.type === "matrix") {
 
             }
-              if (question.type === "multiple") {
-                formData.forEach((value, key) => {
-                  if (key.startsWith(`question${question.questionId}`)) {
-                    response.answer_id.push(value);
-                  }
-                });
-              } else if (question.type === "checkbox") {
-                formData.forEach((value, key) => {
-                  if (key.startsWith(`question${question.questionId}`)) {
-                    response.answer_id.push(value);
-                  }
-                });
-              } else if (question.type === "dropdown") {
-                const value = formData.get(`question${question.questionId}`);
-                const valueArray = value.split(",");
-                if (valueArray.length > 0) {
-                  response.answer_id.push(valueArray[0]);
-                  response.comment = valueArray[1];
+            if (question.type === "multiple") {
+              formData.forEach((value, key) => {
+                if (key.startsWith(`question${question.questionId}`)) {
+                  response.answer_id.push(value);
                 }
-              } else if (question.type === "rating") {
-                const value = formData.get(`rating${question.questionId}`);
-                console.log(value);
-                if (value) {
-                  response.comment = value;
+              });
+            } else if (question.type === "checkbox") {
+              formData.forEach((value, key) => {
+                if (key.startsWith(`question${question.questionId}`)) {
+                  response.answer_id.push(value);
                 }
-              } else if (question.type === "matrix") {
+              });
+            } else if (question.type === "dropdown") {
+              const value = formData.get(`question${question.questionId}`);
+              const valueArray = value.split(",");
+              if (valueArray.length > 0) {
+                response.answer_id.push(valueArray[0]);
+                response.comment = valueArray[1];
               }
+            } else if (question.type === "rating") {
+              const value = formData.get(`rating${question.questionId}`);
+              console.log(value);
+              if (value) {
+                response.comment = value;
+              }
+            } else if (question.type === "matrix") {
+            }
 
             // For text areas or comments, if any
             if (question.type === "freeText") {
@@ -949,18 +1008,18 @@
     });
   </script>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
-    $('.dropdown-el').on('click', function(){
-	    $(this).toggleClass('active');
+    $('.dropdown-el').on('click', function () {
+      $(this).toggleClass('active');
     });
-    $('option').on('click', function(){
+    $('option').on('click', function () {
       var itemValue = $(this).data('value');
       console.log(itemValue);
       $('.select-dropdown__button span').text($(this).text()).parent().attr('data-value', itemValue);
       $('.select-dropdown__list').toggleClass('active');
     });
   </script>
-
 </body>
 
 </html>
