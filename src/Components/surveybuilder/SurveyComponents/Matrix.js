@@ -8,7 +8,7 @@ export default function Matrix({
   handleUpdateElement,
   addOption,
   addRow,
-  handleExtraAndStyle,
+  updateColumns,
   deleteOptionInMiddle,
   addOptionInMiddle
 }) {
@@ -20,10 +20,10 @@ export default function Matrix({
       <p className="option-heading">Row Labels</p>
 
       <div className="choice-option">
-        {item.extra.rows.map((option, idx) => (
+        {item.answer.map((option, idx) => (
           <div
             className={
-              option.value.length != 0
+              option.title.length != 0
                 ? "answer-choice choice-added"
                 : "answer-choice"
             }
@@ -32,12 +32,13 @@ export default function Matrix({
             <Form.Label>{idx + 1}.</Form.Label>
             <Form.Control
               type="text"
-              value={option.value}
+              value={option.title}
               placeholder="Type row label"
               onChange={(e) => {
-                const updatedOptions = [...item.extra.rows];
-                updatedOptions[idx].value = e.target.value;
-                handleExtraAndStyle(index, updatedOptions, "rows", "extra");
+                const updatedOptions = [...item.answer];
+                updatedOptions[idx].title = e.target.value;
+                // handleExtraAndStyle(index, updatedOptions, "rows", "extra");
+                handleUpdateElement(index, "answer", updatedOptions);
               }}
             />
 
@@ -46,23 +47,24 @@ export default function Matrix({
               answerindex={idx}
               deleteOptionInMiddle={deleteOptionInMiddle}
               addOptionInMiddle={addOptionInMiddle}
-              itemInnerKey="rows"
+              itemInnerKey="title"
             />
           </div>
         ))}
 
         <div className="answer-choice add-more">
           <Form.Label></Form.Label>
-          <Button onClick={() => addRow(index, "", "rows", "extra")}>
+          <Button onClick={() => addRow(index, "", "title", "answer")}>
             + Add new row label
           </Button>
-        </div>
+        </div> 
       </div>
       <p className="option-heading">Column Labels</p>
 
       <div className="choice-option">
-        {item.answer.map((option, idx) => (
-          <div
+        {
+          item.answer[0].answer.map((option,idx)=>(
+            <div
             className={
               option.value.length != 0
                 ? "answer-choice choice-added"
@@ -76,9 +78,12 @@ export default function Matrix({
               value={option.value}
               placeholder="Type column label"
               onChange={(e) => {
-                const updatedOptions = [...item.answer];
-                updatedOptions[idx].value = e.target.value;
-                handleUpdateElement(index, "answer", updatedOptions);
+              console.log("hello")
+                // const updatedOptions = [item.answer[0].answer];
+                // updatedOptions[idx].value = e.target.value;
+                console.log(option.value);
+                console.log(e.target.value)
+                updateColumns(index,idx,"answer",e.target.value);
               }}
             />
             
@@ -91,7 +96,10 @@ export default function Matrix({
               answerId={option.answerId}
             />
           </div>
-        ))}
+
+          ))
+       
+        }
 
         <div className="answer-choice add-more">
           <Form.Label></Form.Label>

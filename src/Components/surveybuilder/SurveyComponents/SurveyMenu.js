@@ -63,7 +63,7 @@ const SurveyMenu = ({ menuRef }) => {
   const { currentElementIndex, elements, isEditModeOn } = useSelector(
     (state) => state.surveyData
   );
-  const [editorIndex, setEditorIndex] = useState( 0);
+  const [editorIndex, setEditorIndex] = useState(0);
 
   const dispatch = useDispatch();
   // const scaleOptions = [
@@ -88,7 +88,7 @@ const SurveyMenu = ({ menuRef }) => {
     );
   }, []);
   useEffect(() => {
- setEditorIndex((prev)=>prev+1)
+    setEditorIndex((prev) => prev + 1);
   }, [elements?.[currentElementIndex]?.questionNo]);
 
   const handleSortOptions = (index, order) => {
@@ -102,6 +102,48 @@ const SurveyMenu = ({ menuRef }) => {
     console.log(index, value, innerKey, outerkey, "from extra and style");
     dispatch(setExtraAndStyling(index, value, innerKey, outerkey));
   };
+
+  const updateColumns = (index, innerAnswerIndex, innerKey, value) => {
+  
+    const item = elements[index];
+   
+
+
+    const updatedColumns = item.answer.map((option, optionIndex) => {
+      // Update inner objects inside the `option`
+      const updatedInnerOptions = option.answer.map((innerOption, innerIndex) =>
+        innerIndex === innerAnswerIndex
+          ? { ...innerOption, value }
+          : innerOption
+      );
+
+      // Return the updated `option` with modified `answer`
+      return {
+        ...option,
+        answer: updatedInnerOptions
+      };
+    });
+
+    handleUpdateElement(index, "answer", updatedColumns);
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // dispatch(updateElement(index, key, value));
+
+  }
+
+
+
 
   const deleteOptionInMiddle = async (
     itemIndex,
@@ -147,17 +189,39 @@ const SurveyMenu = ({ menuRef }) => {
       toast.error("Something went wrong");
     }
   };
+  const addRowInMiddle=(itemIndex, key, answerIndex)=>{
+
+    const currentOptions = elements[itemIndex]["answer"];
+    var columns = [];
+    if (currentOptions.length > 0) {
+      const lastOption = currentOptions[answerIndex].key;
+      if (lastOption.trim() === "") {
+        toast.warning("Please fill in the current option!");
+        return;
+      }
+      columns = currentOptions[answerIndex].answer.map(
+        (columns) => ({ value: columns.value, answerId: 0 })
+      );
+    }
+
+    handleUpdateElement(itemIndex, "answer", [
+      ...currentOptions,
+    ]);
+
+  }
 
   const addOptionInMiddle = (itemIndex, key, answerIndex) => {
     console.log(itemIndex, key, answerIndex, "from extra and");
     var currentOptions = elements[itemIndex][key];
-    if (key === "rows") {
-      currentOptions = elements[itemIndex]["extra"]["rows"];
-      currentOptions.splice(answerIndex + 1, 0, { value: "" });
-      dispatch(
-        setExtraAndStyling(itemIndex, [...currentOptions], "rows", "extra")
-      );
-      return;
+    if (elements[itemIndex].type === "matrix") {
+      if(key === "title"){
+        addRowInMiddle(itemIndex, key, answerIndex)
+
+      }else{
+
+      }
+      
+      
     }
 
     if (elements[itemIndex].type === "dropdown") {
@@ -170,29 +234,33 @@ const SurveyMenu = ({ menuRef }) => {
     handleUpdateElement(itemIndex, key, [...currentOptions]);
   };
 
+ 
+
+
+
+
   const addRow = (index, value, innerKey, outerkey) => {
-    const currentOptions = elements[index][outerkey][innerKey];
+    const currentOptions = elements[index][outerkey];
+    var columns = [];
     if (currentOptions.length > 0) {
-      const lastOption = currentOptions[currentOptions.length - 1].value;
+      const lastOption = currentOptions[currentOptions.length - 1].title;
       if (lastOption.trim() === "") {
         toast.warning("Please fill in the current option!");
         return;
       }
+      columns = currentOptions[currentOptions.length - 1].answer.map(
+        (columns) => ({ value: columns.value, answerId: 0 })
+      );
     }
-    dispatch(
-      setExtraAndStyling(
-        index,
-        [...currentOptions, { value: value }],
-        innerKey,
-        outerkey
-      )
-    );
+    handleUpdateElement(index, outerkey, [
+      ...currentOptions,
+      { title: value, id: 0, answer: [...columns] },
+    ]);
   };
 
   const addOption = (index, key) => {
     console.log(index, key);
     const currentOptions = elements[index][key];
-
     if (elements[index].type === "dropdown") {
       if (currentOptions[0].value.length > 0) {
         const lastOption =
@@ -204,6 +272,23 @@ const SurveyMenu = ({ menuRef }) => {
       }
       currentOptions[0].value.push("");
       handleUpdateElement(index, key, [...currentOptions]);
+    } else if (elements[index].type === "matrix") {
+      if (currentOptions.length > 0) {
+        const columns = currentOptions[0].answer;
+        const lastOption = columns[columns.length - 1].value;
+        console.log(lastOption);
+        if (lastOption.trim() === "") {
+          toast.warning("Please fill in the current option!");
+          return;
+        }
+      }
+
+      const updatedColumns = currentOptions.map((option) => ({
+        ...option,
+        answer: [...currentOptions[0].answer, { value: "", answerId: 0 }],
+      }));
+      // // currentOptions[0].value.push("");
+      handleUpdateElement(index, key, [...updatedColumns]);
     } else {
       console.log(currentOptions);
       if (currentOptions.length > 0) {
@@ -222,6 +307,9 @@ const SurveyMenu = ({ menuRef }) => {
 
   const toggleDescription = (index, keyName = "") => {
     const updatedElements = [...elements];
+    if (updatedElements[index][keyName]) {
+      handleUpdateElement(index, "optionalLabel", "");
+    }
     handleUpdateElement(index, keyName, !updatedElements[index][keyName]);
   };
 
@@ -250,7 +338,7 @@ const SurveyMenu = ({ menuRef }) => {
             value={item.question}
             handleUpdateElement={handleUpdateElement}
             index={index}
-            key={"questionEditor"+editorIndex}
+            key={"questionEditor" + editorIndex}
           />
 
           {item?.questionDescription != undefined && (
@@ -500,6 +588,7 @@ const SurveyMenu = ({ menuRef }) => {
                 handleExtraAndStyle={handleExtraAndStyle}
                 deleteOptionInMiddle={deleteOptionInMiddle}
                 addOptionInMiddle={addOptionInMiddle}
+                updateColumns={updateColumns}
               />
             )}
           </div>
@@ -580,7 +669,7 @@ const SurveyMenu = ({ menuRef }) => {
                     </div>
                   </div>
                 </Form.Group>
-               </div>
+              </div>
             )}
           </div>
         );
@@ -788,12 +877,12 @@ const SurveyMenu = ({ menuRef }) => {
 
               {elements[currentElementIndex].accordionType ==
                 "questionTypes" && (
-                <Tab eventKey="logic" title="Logic">
-                  <div className="disabled">
-                    The Logic feature is coming soon..
-                  </div>
-                </Tab>
-              )}
+                  <Tab eventKey="logic" title="Logic">
+                    <div className="disabled">
+                      The Logic feature is coming soon..
+                    </div>
+                  </Tab>
+                )}
             </Tabs>
           </div>
         </div>
