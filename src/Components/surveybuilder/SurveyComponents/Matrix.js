@@ -12,15 +12,14 @@ export default function Matrix({
   deleteOptionInMiddle,
   addOptionInMiddle
 }) {
-  console.log("Matrix");
-  console.log(item);
+ 
 
   return (
     <div className="steps">
       <p className="option-heading">Row Labels</p>
 
       <div className="choice-option">
-        {item.answer.map((option, idx) => (
+       { item.answer.length > 0 && item.answer.map((option, idx) => (
           <div
             className={
               option.title.length != 0
@@ -62,8 +61,8 @@ export default function Matrix({
       <p className="option-heading">Column Labels</p>
 
       <div className="choice-option">
-        {
-          item.answer[0].answer.map((option,idx)=>(
+      { 
+        item?.answer[0]?.answer?.map((option,idx)=>(
             <div
             className={
               option.value.length != 0
@@ -78,11 +77,8 @@ export default function Matrix({
               value={option.value}
               placeholder="Type column label"
               onChange={(e) => {
-              console.log("hello")
-                // const updatedOptions = [item.answer[0].answer];
-                // updatedOptions[idx].value = e.target.value;
-                console.log(option.value);
-                console.log(e.target.value)
+        
+
                 updateColumns(index,idx,"answer",e.target.value);
               }}
             />
