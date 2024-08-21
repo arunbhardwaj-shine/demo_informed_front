@@ -7282,9 +7282,10 @@ button.btn-filled.btn-primary.disabled {
   border-color: rgba(151, 182, 207, 0.6);
 }
 
-button.btn-bordered.btn-primary.disabled {
+button.btn-bordered.disabled {
   background: transparent;
-  border-color: rgba(151, 182, 207, 0.6);
+  border-color: #97B6CF;
+  color: #97B6CF;
 }
 
 .modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view {
