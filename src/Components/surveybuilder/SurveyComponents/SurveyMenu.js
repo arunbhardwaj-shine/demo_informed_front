@@ -221,6 +221,27 @@ const SurveyMenu = ({ menuRef }) => {
 
   }
 
+  const addColumnInMiddle = (itemIndex, key, answerIndex) => {
+    const currentOptions = elements[itemIndex].answer;
+
+
+    const updatedValues=currentOptions.map((option)=>{
+    //    const innerUpdatedValue=option.answer.map((innerOption,innerIndex)=>{
+    //        return {
+    //         ...innerOption,
+    //         {value:"",answerId:0}
+    //        }
+    // })
+    option.answer.splice(answerIndex+1,0,{value:"",answerId:0})
+        return {
+           ...option
+        }
+    })
+    console.log(updatedValues)
+    // handleUpdateElement(itemIndex, key, [...updatedValues]);
+
+  }
+
   const addOptionInMiddle = (itemIndex, key, answerIndex) => {
 
     var currentOptions = elements[itemIndex][key];
@@ -229,7 +250,7 @@ const SurveyMenu = ({ menuRef }) => {
         addRowInMiddle(itemIndex, key, answerIndex)
         return;
       } else {
-
+        addColumnInMiddle(itemIndex, key, answerIndex)
       }
     }
 
@@ -260,12 +281,12 @@ const SurveyMenu = ({ menuRef }) => {
       columns = currentOptions[currentOptions.length - 1].answer.map(
         (columns) => ({ value: columns.value, answerId: 0 })
       );
-    }else{
-     
-        columns=[{value:"",answerId:0}]
-      
+    } else {
+
+      columns = [{ value: "", answerId: 0 }]
+
     }
-    
+
     handleUpdateElement(index, outerkey, [
       ...currentOptions,
       { title: value, id: 0, answer: [...columns] },
