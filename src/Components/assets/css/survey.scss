@@ -2895,6 +2895,7 @@ body {
 
         }
     }
+    
 }
 
 @media (max-width: 1365px) {
@@ -2915,8 +2916,58 @@ body {
 
         }
     }
+    .survey-builder{
+        .survey-engine{
+            min-height: calc(100vh - 63px);
+            .left-setup {
+                max-height: calc(100vh - 63px);
+                top: 62px;
+            }
+        } 
+    } 
 }
-
+@media (max-width: 1199px) {
+.survey-builder{
+    .survey-engine{
+        min-height: calc(100vh - 49px);
+        .left-setup {
+            padding: 25px 20px 22px 20px;
+            max-height: calc(100vh - 49px);
+            top: 48px;
+            .left-setup-heading{
+                p {
+                    font-size: 13px;
+                }
+            } 
+        }
+    }
+} 
+.preview-survey {
+    margin: 20px 0 20px;
+}
+.custom-change{
+    .page-top-nav{
+        &.sticky{
+            .row{
+                justify-content: space-between!important;
+                .col-md-8{
+                    width: 100%;
+                    order:3;
+                    .tabnav-link{
+                        padding-top:10px;
+                    }
+                }
+                .col-md-1{
+                    order:1;
+                }
+                .col-md-3{
+                    order:2;
+                }
+            }
+        }
+    }
+} 
+}
 @media (max-width: 991px) {
     .no-found {
         justify-content: center !important;
@@ -2932,6 +2983,7 @@ body {
 
         }
     }
+
 }
 
 @media (max-width: 767px) {
