@@ -8,7 +8,7 @@ export default function Matrix({
   handleUpdateElement,
   addOption,
   addRow,
-  handleExtraAndStyle,
+  updateColumns,
   deleteOptionInMiddle,
   addOptionInMiddle
 }) {
@@ -47,7 +47,7 @@ export default function Matrix({
               answerindex={idx}
               deleteOptionInMiddle={deleteOptionInMiddle}
               addOptionInMiddle={addOptionInMiddle}
-              itemInnerKey="rows"
+              itemInnerKey="title"
             />
           </div>
         ))}
@@ -78,9 +78,12 @@ export default function Matrix({
               value={option.value}
               placeholder="Type column label"
               onChange={(e) => {
-                const updatedOptions = [...item.answer];
-                updatedOptions[idx].value = e.target.value;
-                handleUpdateElement(index, "answer", updatedOptions);
+              console.log("hello")
+                // const updatedOptions = [item.answer[0].answer];
+                // updatedOptions[idx].value = e.target.value;
+                console.log(option.value);
+                console.log(e.target.value)
+                updateColumns(index,idx,"answer",e.target.value);
               }}
             />
             

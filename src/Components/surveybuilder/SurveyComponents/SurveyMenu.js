@@ -103,6 +103,48 @@ const SurveyMenu = ({ menuRef }) => {
     dispatch(setExtraAndStyling(index, value, innerKey, outerkey));
   };
 
+  const updateColumns = (index, innerAnswerIndex, innerKey, value) => {
+  
+    const item = elements[index];
+   
+
+
+    const updatedColumns = item.answer.map((option, optionIndex) => {
+      // Update inner objects inside the `option`
+      const updatedInnerOptions = option.answer.map((innerOption, innerIndex) =>
+        innerIndex === innerAnswerIndex
+          ? { ...innerOption, value }
+          : innerOption
+      );
+
+      // Return the updated `option` with modified `answer`
+      return {
+        ...option,
+        answer: updatedInnerOptions
+      };
+    });
+
+    handleUpdateElement(index, "answer", updatedColumns);
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // dispatch(updateElement(index, key, value));
+
+  }
+
+
+
+
   const deleteOptionInMiddle = async (
     itemIndex,
     key,
@@ -147,17 +189,39 @@ const SurveyMenu = ({ menuRef }) => {
       toast.error("Something went wrong");
     }
   };
+  const addRowInMiddle=(itemIndex, key, answerIndex)=>{
+
+    const currentOptions = elements[itemIndex]["answer"];
+    var columns = [];
+    if (currentOptions.length > 0) {
+      const lastOption = currentOptions[answerIndex].key;
+      if (lastOption.trim() === "") {
+        toast.warning("Please fill in the current option!");
+        return;
+      }
+      columns = currentOptions[answerIndex].answer.map(
+        (columns) => ({ value: columns.value, answerId: 0 })
+      );
+    }
+
+    handleUpdateElement(itemIndex, "answer", [
+      ...currentOptions,
+    ]);
+
+  }
 
   const addOptionInMiddle = (itemIndex, key, answerIndex) => {
     console.log(itemIndex, key, answerIndex, "from extra and");
     var currentOptions = elements[itemIndex][key];
-    if (key === "rows") {
-      currentOptions = elements[itemIndex]["extra"]["rows"];
-      currentOptions.splice(answerIndex + 1, 0, { value: "" });
-      dispatch(
-        setExtraAndStyling(itemIndex, [...currentOptions], "rows", "extra")
-      );
-      return;
+    if (elements[itemIndex].type === "matrix") {
+      if(key === "title"){
+        addRowInMiddle(itemIndex, key, answerIndex)
+
+      }else{
+
+      }
+      
+      
     }
 
     if (elements[itemIndex].type === "dropdown") {
@@ -169,6 +233,11 @@ const SurveyMenu = ({ menuRef }) => {
     currentOptions.splice(answerIndex + 1, 0, { value: "", answerId: 0 });
     handleUpdateElement(itemIndex, key, [...currentOptions]);
   };
+
+ 
+
+
+
 
   const addRow = (index, value, innerKey, outerkey) => {
     const currentOptions = elements[index][outerkey];
@@ -204,22 +273,22 @@ const SurveyMenu = ({ menuRef }) => {
       currentOptions[0].value.push("");
       handleUpdateElement(index, key, [...currentOptions]);
     } else if (elements[index].type === "matrix") {
-
-       if (currentOptions.length > 0) {
-        const lastOption =
-          currentOptions[0].answer[currentOptions[0].value.length - 1];
+      if (currentOptions.length > 0) {
+        const columns = currentOptions[0].answer;
+        const lastOption = columns[columns.length - 1].value;
+        console.log(lastOption);
         if (lastOption.trim() === "") {
           toast.warning("Please fill in the current option!");
           return;
         }
       }
-      currentOptions[0].value.push("");
-      handleUpdateElement(index, key, [...currentOptions]);
-       
 
-      
-
-
+      const updatedColumns = currentOptions.map((option) => ({
+        ...option,
+        answer: [...currentOptions[0].answer, { value: "", answerId: 0 }],
+      }));
+      // // currentOptions[0].value.push("");
+      handleUpdateElement(index, key, [...updatedColumns]);
     } else {
       console.log(currentOptions);
       if (currentOptions.length > 0) {
@@ -519,6 +588,7 @@ const SurveyMenu = ({ menuRef }) => {
                 handleExtraAndStyle={handleExtraAndStyle}
                 deleteOptionInMiddle={deleteOptionInMiddle}
                 addOptionInMiddle={addOptionInMiddle}
+                updateColumns={updateColumns}
               />
             )}
           </div>
@@ -807,12 +877,12 @@ const SurveyMenu = ({ menuRef }) => {
 
               {elements[currentElementIndex].accordionType ==
                 "questionTypes" && (
-                <Tab eventKey="logic" title="Logic">
-                  <div className="disabled">
-                    The Logic feature is coming soon..
-                  </div>
-                </Tab>
-              )}
+                  <Tab eventKey="logic" title="Logic">
+                    <div className="disabled">
+                      The Logic feature is coming soon..
+                    </div>
+                  </Tab>
+                )}
             </Tabs>
           </div>
         </div>
