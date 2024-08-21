@@ -3006,6 +3006,7 @@ form .input-group {
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
   word-break: break-all;
+  border-radius: 9px 0 0 9px;
 }
 
 .survey_detail_modal .survey_data_accordion_heading table thead tr th:first-child,
