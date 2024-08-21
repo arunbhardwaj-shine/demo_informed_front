@@ -3006,6 +3006,7 @@ form .input-group {
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
   word-break: break-all;
+  border-radius: 9px 0 0 9px;
 }
 
 .survey_detail_modal .survey_data_accordion_heading table thead tr th:first-child,
@@ -7281,9 +7282,10 @@ button.btn-filled.btn-primary.disabled {
   border-color: rgba(151, 182, 207, 0.6);
 }
 
-button.btn-bordered.btn-primary.disabled {
+button.btn-bordered.disabled {
   background: transparent;
-  border-color: rgba(151, 182, 207, 0.6);
+  border-color: #97B6CF;
+  color: #97B6CF;
 }
 
 .modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view {

@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- <link rel="style" href="./../../src/Components/assets/fonts/fonts.css" /> -->
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
     rel="stylesheet">
   <title>Survey Preview</title>
   <style>
-    *{
+    * {
       box-sizing: border-box;
     }
+
     body,
     p {
       font-family: "Roboto", sans-serif;
@@ -21,14 +21,16 @@
     body {
       margin: 0;
     }
-    .informed-survey-text p{
+
+    .informed-survey-text p {
       font-size: 13px;
-      color:#70899E;
+      color: #70899E;
     }
+
     .informed-survey {
       width: 100%;
       max-width: 723px;
-      margin: 0 auto;
+      margin: 15px auto;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       background-color: #ffffff;
     }
@@ -42,7 +44,7 @@
       flex-direction: column;
       justify-content: center;
       min-height: 139px;
-      gap:16px;
+      gap: 16px;
       border-radius: 6px 6px 0 0;
     }
 
@@ -91,87 +93,489 @@
     }
 
     .divider {
-      border: none;
       border-top: 1px dashed #004a89;
-      margin: 20px 0;
+      margin: 5px 0;
+      height: initial;
     }
+
     p {
       margin: 0;
     }
+
     .consent-item {
       margin-bottom: 10px;
     }
-    .question-title p {
-    color: #004A89;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 132%;
-    margin: 0 4px 17px 0;
-}
-#survey-form label.check {
-    display: block;
-    color: #70899E;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 152%;
-    margin: 0 0 12px;
-    display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    padding-left: 29px;
-    position: relative;
-    min-height: 16px;
-    word-break: break-word;
-}
-#survey-form label.check input[type="checkbox"], #survey-form label.check input[type="radio"]{
-  position: absolute;
-  opacity: 0;
-}
-#survey-form label.check span.checkmark{
-    border: 1px solid #70899E;
-    width: 16px;
-    border-radius: 50%;
-    height: 16px;
-    position: absolute;
-    left: 0;
-    top: 0px;
-    cursor: pointer;
-}
 
-#survey-form label.check input[type="checkbox"] ~ span.checkmark {
-    border-radius: 3px;
-    border: 1px solid rgb(112, 137, 158);
-    background: #ffffff;
+    .question-title p {
+      color: #004A89;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 132%;
+      margin: 0 0;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      margin-top: 2px;
+      display: block;
+      margin-bottom: 16px;
+      color: rgb(112, 137, 158);
+    }
+
+    #survey-form {
+      gap: 30px;
+      display: flex;
+      flex-direction: column;
+      margin: 60px 0 0;
+    }
+
+    textarea {
+      border-radius: 4px;
+      background: #ffffff;
+      box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
+      width: 100%;
+      resize: none;
+      padding: 12px;
+      min-height: 80px;
+      font-size: 12px;
+      color: #70899E;
+      border: 0;
+      margin: 10px 0 0;
+    }
+
+    .survey-question h3 {
+      margin: 0;
+    }
+
+    label.check {
+      color: #70899E;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 152%;
+      margin: 0 0 12px;
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+      padding-left: 29px;
+      position: relative;
+      min-height: 16px;
+      word-break: break-word;
+    }
+
+    label.check:last-child {
+      margin: 0 0;
+    }
+
+    label.check input[type="checkbox"],
+    label.check input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    label.check span.checkmark {
+      border: 1px solid #70899E;
+      width: 16px;
+      border-radius: 50%;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: 0px;
+      cursor: pointer;
+    }
+
+    label.check input[type="checkbox"]~span.checkmark {
+      border-radius: 3px;
+      border: 1px solid rgb(112, 137, 158);
+      background: #ffffff;
+    }
+
+    label.check input[type="checkbox"]:checked~.checkmark:after {
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 8px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      border-radius: 0;
+      content: "";
+      position: absolute;
+      display: block;
+    }
+
+    label.check input[type="radio"]:checked~.checkmark:after {
+      top: 2px;
+      left: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #004A89;
+      content: "";
+      position: absolute;
+    }
+
+    label.check input[type="checkbox"]:checked~.checkmark {
+      background: rgb(0, 74, 137);
+    }
+
+    label.check input[type="radio"]:checked~.checkmark {
+      border-color: #004A89;
+    }
+
+    .form-footer {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin: 25px 0 0;
+    }
+
+    .form-footer button {
+      border-radius: 30px;
+      background: #004A89;
+      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+      border: 0;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+      min-width: 90px;
+      padding: 10px;
+      cursor: pointer;
+      font-family: 'Roboto';
+    }
+
+    .form-footer span {
+      color: #70899E;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 132%;
+      margin: 24px 0 0;
+    }
+    .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
-#survey-form label.check input[type="checkbox"]:checked ~ .checkmark:after {
-    left: 4px;
-    top: 1px;
-    width: 4px;
-    height: 8px;
-    border: solid #ffffff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    border-radius: 0;
-    content: "";
-    position: absolute;
+    .survey-image img {
+      display: flex;
+      margin: 0 auto;
+    }
+
+    .login-consent {
+      margin: 0 0 30px;
+      color: #004A89;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 132%;
+    }
+
+    .consent-item {
+      display: block;
+      color: #70899E;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 152%;
+      margin: 0 0 12px;
+      display: flex;
+      flex-direction: row-reverse;
+      width: 100%;
+      justify-content: flex-end;
+      padding-left: 29px;
+      position: relative;
+      min-height: 16px;
+      word-break: break-word;
+    }
+
+    .consent-item input[type=checkbox] {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      margin: 0;
+      width: 16px;
+      height: 16px;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .consent-item span.checkmark {
+      border-radius: 3px;
+      border: 1px solid rgb(112, 137, 158);
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: 0px;
+      cursor: pointer;
+      background: #ffffff;
+    }
+
+    .consent-item input[type=checkbox]:checked~.checkmark {
+      background: rgb(0, 74, 137);
+    }
+
+    .consent-item input[type=checkbox]:checked~.checkmark:after {
+      left: 5px;
+      top: 2px;
+      width: 3px;
+      height: 7px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      border-radius: 0;
+      position: absolute;
+      content: "";
+    }
+
+    .survey-consent p {
+      color: #70899E;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 132%;
+      margin: 0 4px 17px 0;
+    }
+
+    .copyright-links a,
+    .survey-consent p a {
+      color: #70899E;
+      font-size: 12px;
+      text-decoration: underline;
+      padding: 0 13px 0 0;
+    }
+
+    .survey-consent p a {
+      padding: 0
+    }
+
+    .copyright-links {
+      margin: 0px 0 15px;
+    }
+
+    .matrix thead th {
+      color: #70899E;
+      font-size: 11px;
+      text-align: center;
+      font-weight: 400;
+      padding: 2px 4px;
+    }
+
+    .matrix tbody tr {
+      background: rgba(0, 74, 137, 0.08);
+    }
+
+    .matrix tbody tr td {
+      text-align: center;
+      min-width: 66px;
+      font-size: 11px;
+      padding: 7px 4px;
+      color: #004A89;
+      min-height: 24px;
+      position: relative;
+    }
+
+    .matrix tbody tr td:first-child {
+      text-align: left;
+    }
+
+    .matrix tbody tr td input[type=checkbox] {
+      position: absolute;
+      opacity: 0;
+      z-index: 2;
+      margin: 0 auto;
+      margin-left: -8px;
+      cursor: pointer;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+    }
+
+    .matrix table {
+      border-spacing: 0px 8px;
+      border-collapse: separate;
+    }
+
+    .matrix tbody tr td span.checkmark {
+      border: 1px solid #004A89;
+      width: 16px;
+      border-radius: 3px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      margin: 0 auto;
+      right: 0;
+      background: #ffffff;
+    }
+
+    input[type="checkbox"]:checked~.checkmark {
+      background: #004A89;
+    }
+
+    input[type="checkbox"]:checked~.checkmark:after {
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 8px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      border-radius: 0;
+      content: "";
+      position: absolute;
+      display: block;
+    }
+
+    textarea:focus-visible {
+      outline: none;
+      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 50%);
+    }
+
+    .select-dropdown__button {
+      max-width: 251px;
+      min-width: 60px;
+      padding: 8px 50px 8px 15px;
+      font-size: 16px;
+      line-height: 20px;
+      background-size: 12px;
+      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+      border-radius: 30px;
+      border: 0;
+      color: #97B6CF;
+      font-weight: 300;
+      text-align: left;
+      height: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      background: #ffffff url(../componentAssets/images/dropdown-arrow.svg) no-repeat 93% center;
+    }
+
+    .select-dropdown__button span {
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .select-dropdown__list {
+      position: absolute;
+      display: block;
+      left: 0;
+      right: 0;
+      max-width: 251px;
+      margin: 8px 0 0;
+      transform-origin: top left;
+      transform: scale(1, 0);
+      /* transition: all ease-in-out 0.3s; */
+      border: 0.5px solid rgba(0, 102, 190, 0.06);
+      box-sizing: border-box;
+      box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+      border-radius: 15px;
+      width: 100%;
+      padding: 8px;
+      max-height: 170px;
+      background-color: #ffffff;
+      background-clip: padding-box;
+      z-index: 99;
+    }
+
+    .select-dropdown {
+      overflow-y: auto;
+      max-height: 150px;
+      padding-right: 4px;
+    }
+
+    .select-dropdown__list option {
+      font-size: 14px;
+      line-height: 17px;
+      padding: 0.3rem 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 0 0 2px;
+      word-break: break-word;
+      white-space: normal;
+      color: #0066be;
+    }
+
+    .dropdown-el {
+      position: relative;
+    }
+
+    .dropdown-el.active .select-dropdown__list {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1, 1);
+    }
+
+    .select-dropdown__list option:hover {
+      background: #cae2fb;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #dce6ef;
+      border-radius: 20px;
+      padding: 0 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      width: 14px;
+      background: #97b6cf;
+      border: 3px solid #dce6ef;
+      border-radius: 15px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      border-radius: 20px;
+    }
+
+    @media only screen and (max-width:767px){
+      .informed-survey {
+      margin: 16px auto;
+      width: calc(100% - 32px);
+      }
+      .informed-survey-header h2 {
+    font-size: 20px;
+}
+.informed-survey-body {
+    padding: 24px 16px;
+}
+.consent-item {
+    line-height: 132%;
+}
+.select-dropdown__button,  .select-dropdown__list {
+    max-width: 400px;
+}
+.select-dropdown__list option {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0.2rem 0.7rem;
+}
+.select-dropdown__button {
+    padding: 7px 50px 7px 15px;
+    font-size: 13px;
+}
+#survey-form {
+    gap: 40px;
+}
+.survey-consent p {
+    margin: 30px 0px 13px 0;
     display: block;
 }
-#survey-form label.check input[type="radio"]:checked ~ .checkmark:after {
-    top: 2px;
-    left: 2px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #004A89;
-    content: "";
-    position: absolute;
+.survey-consent p:last-child {
+    margin-bottom: 0;
 }
-#survey-form label.check input[type="checkbox"]:checked ~ .checkmark {
-    background: rgb(0, 74, 137);
+.form-footer {
+    margin: 0px 0 0;
 }
-#survey-form label.check input[type="radio"]:checked ~ .checkmark {
-    border-color: #004A89;
+#survey-form {
+    margin: 45px 0 0;
 }
+.select-dropdown__button span {
+    font-size: 12px;
+}
+    }
   </style>
 </head>
 
@@ -229,11 +633,12 @@
 
       const questions = data.data[0].question_data;
       questions.forEach((question) => {
+
         switch (question.type) {
           case "multiple":
-            surveyHtml += `
+            surveyHtml += `<div class="survey-question">
                             <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-                             <p>${question.questionDescription}</p>
+                             <p class="helper-text">${question.questionDescription}</p>
                         `;
             question.answer.forEach((answer) => {
               surveyHtml += `
@@ -244,12 +649,13 @@
                                 </label>
                             `;
             });
+            surveyHtml += `</div>`;
             break;
 
           case "checkbox":
-            surveyHtml += `
+            surveyHtml += `<div class="survey-question">
                             <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-                            <p>${question.questionDescription}</p>
+                            <p class="helper-text">${question.questionDescription}</p>
                         `;
             question.answer.forEach((answer) => {
               surveyHtml += `
@@ -260,13 +666,18 @@
                                 </label>
                             `;
             });
+            surveyHtml += `</div>`;
             break;
 
           case "dropdown":
-            surveyHtml += `
+            surveyHtml += `<div class="survey-question">
                             <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-                            <p>${question.questionDescription}</p>
-                            <select name="question${question.questionId}">
+                            <p class="helper-text">${question.questionDescription}</p>
+                            <div class="dropdown-el" name="question${question.questionId}">
+                              <div data-value="" class="select-dropdown__button"><span>Select</span>
+		                          </div>
+                              <div class="select-dropdown__list">
+                                <div class="select-dropdown">
                         `;
             question.answer[0].value.forEach((option) => {
               const combinedValue = `${question.answer[0].answerId},${option}`;
@@ -274,13 +685,17 @@
                                 <option value="${combinedValue}">${option}</option>
                             `;
             });
-            surveyHtml += `</select>`;
+            surveyHtml += `</div>`;
+            surveyHtml += `</div>`;
+            surveyHtml += `</div>`;
+            surveyHtml += `</div>`;
             break;
 
           case "rating":
             surveyHtml += `
+            <div class="survey-question">
                     <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-                    <p>${question.questionDescription}</p>
+                    <p class="helper-text">${question.questionDescription}</p>
                 `;
             if (question.extra.ratingType === "stars") {
               surveyHtml += `
@@ -298,17 +713,20 @@
             } else {
               surveyHtml += `<input type="number" name="rating${question.questionId}" min="1" max="${question.extra.ratingScale}" />`;
             }
+            surveyHtml += `</div>`;
             break;
 
           case "matrix":
             const inputType = question.extra.allowMultipleAnswer
               ? "checkbox"
               : "radio"; // Assume this specifies 'checkbox' or 'radio'
-            surveyHtml += `<div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-        <p>${question.questionDescription}</p>
+            surveyHtml += `<div class="survey-question matrix"> <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
+        <p class="helper-text">${question.questionDescription}</p>
+        <div class="table-responsive">
         <table>
             <thead>
                 <tr>
+                    <th>&nbsp;</th>
                     ${question.answer
                 .map((a) => `<th>${a.value}</th>`)
                 .join("")}
@@ -324,9 +742,8 @@
                       .map(
                         (option) => `
                             <td>
-                              
-                                 <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
-                                    
+                              <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
+                              <span class="checkmark"></span>
                             </td>
                         `
                       )
@@ -337,73 +754,87 @@
                 .join("")}
             </tbody>
     ${question.extra.rows
-      .map(
-        (row) => `
+                .map(
+                  (row) => `
         <tr>
             <td>${row.value}</td>
             ${question.answer
               .map((option) => {
                 const combinedValue = `${option.answerId},${row.value}`;
                 return `
-                    <td>
-                      <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">   
-                    </td>
-                  `;
-              })
-              .join("")}
+            <td>
+              <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">  
+              <span class="checkmark"></span> 
+            </td>
+          `;
+          })
+          .join("")}
         </tr>
       `
-      )
-      .join("")}
-</tbody>
-
-        </table>
+        )
+        .join("")}
+      </tbody>
+    </table>
+    </div>
     `;
+            surveyHtml += `</div>`;
             break;
 
           case "freeText":
             surveyHtml += `
-                            <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-                            <textarea name="question${question.questionId}" placeholder="${question.extra}"></textarea>
-                        `;
+              <div class="survey-question">
+                <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
+                <textarea name="question${question.questionId}" placeholder="${question.extra}"></textarea>
+            `;
+            surveyHtml += `</div>`;
             break;
 
           case "heading":
             surveyHtml += `
-                            <h3 style="color: ${customHtml.question_answer_color};">${question.question}</h3>
-                            <p>${question.questionDescription}</p>
-                        `;
+              <div class="survey-question">
+                  <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
+                  <p class="helper-text">${question.questionDescription}</p>
+              `;
+            surveyHtml += `</div>`;
             break;
 
           case "paragraph":
             surveyHtml += `
-                            <div class="d-flex question-title" style="color: ${question.style.color};">${question.question}</div>
-                        `;
+              <div class="survey-question">
+                <div class="d-flex question-title" style="color: ${question.style.color};">${question.question}</div>
+            `;
+            surveyHtml += `</div>`;
             break;
 
           case "divideLine":
             surveyHtml += `
-                            <div class="divider" style=" width:${question.style.width}%;  borderTop: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
-                            &nbsp
-                            </div>
-                        `;
+              <div class="survey-question">
+                <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
+                &nbsp
+                </div>
+            `;
+            surveyHtml += `</div>`;
             break;
 
           case "image":
             surveyHtml += `
-                            <img src="${question.question}" alt="Survey Image" style="width: ${question.style.width}px; height: ${question.style.height};">
-                        `;
+              <div class="survey-image">
+                <img src="${question.question}" alt="Survey Image" style="width: ${question.style.width}%; height: ${question.style.height};">
+              `;
+            surveyHtml += `</div>`;
             break;
 
           case "consent":
             surveyHtml += `
-                            <div class="d-flex question-title">${question.question}</div>
+                        <div class="survey-consent">
+                            <div class="login-consent">${question.question}</div>
                             ${question.extra.consentOptions
                 .map(
                   (option) => `
                                 <div class="consent-item">
                                     <input type="checkbox" name="consentOption" value="${option.label
                     }" ${option.isChecked ? "checked" : ""}>
+                    <span class="checkmark"></span>
                                     ${option.label}
                                 </div>
                             `
@@ -425,6 +856,7 @@
                             </div>
                             <p>${question.extra.operatingStatement}</p>
                         `;
+            surveyHtml += `</div>`;
             break;
 
           default:
@@ -509,33 +941,33 @@
             } else if (question.type === "matrix") {
 
             }
-              if (question.type === "multiple") {
-                formData.forEach((value, key) => {
-                  if (key.startsWith(`question${question.questionId}`)) {
-                    response.answer_id.push(value);
-                  }
-                });
-              } else if (question.type === "checkbox") {
-                formData.forEach((value, key) => {
-                  if (key.startsWith(`question${question.questionId}`)) {
-                    response.answer_id.push(value);
-                  }
-                });
-              } else if (question.type === "dropdown") {
-                const value = formData.get(`question${question.questionId}`);
-                const valueArray = value.split(",");
-                if (valueArray.length > 0) {
-                  response.answer_id.push(valueArray[0]);
-                  response.comment = valueArray[1];
+            if (question.type === "multiple") {
+              formData.forEach((value, key) => {
+                if (key.startsWith(`question${question.questionId}`)) {
+                  response.answer_id.push(value);
                 }
-              } else if (question.type === "rating") {
-                const value = formData.get(`rating${question.questionId}`);
-                console.log(value);
-                if (value) {
-                  response.comment = value;
+              });
+            } else if (question.type === "checkbox") {
+              formData.forEach((value, key) => {
+                if (key.startsWith(`question${question.questionId}`)) {
+                  response.answer_id.push(value);
                 }
-              } else if (question.type === "matrix") {
+              });
+            } else if (question.type === "dropdown") {
+              const value = formData.get(`question${question.questionId}`);
+              const valueArray = value.split(",");
+              if (valueArray.length > 0) {
+                response.answer_id.push(valueArray[0]);
+                response.comment = valueArray[1];
               }
+            } else if (question.type === "rating") {
+              const value = formData.get(`rating${question.questionId}`);
+              console.log(value);
+              if (value) {
+                response.comment = value;
+              }
+            } else if (question.type === "matrix") {
+            }
 
             // For text areas or comments, if any
             if (question.type === "freeText") {
@@ -572,6 +1004,19 @@
           //     alert("An error occurred while submitting the survey. Please try again.");
           // }
         });
+    });
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    $('.dropdown-el').on('click', function () {
+      $(this).toggleClass('active');
+    });
+    $('option').on('click', function () {
+      var itemValue = $(this).data('value');
+      console.log(itemValue);
+      $('.select-dropdown__button span').text($(this).text()).parent().attr('data-value', itemValue);
+      $('.select-dropdown__list').toggleClass('active');
     });
   </script>
 </body>
