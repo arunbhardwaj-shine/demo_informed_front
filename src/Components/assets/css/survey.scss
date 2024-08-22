@@ -2,33 +2,46 @@
 @import "./variables";
 @import url("https://fonts.googleapis.com/css?family=Muli");
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
-h1, h2, h3, h4, h5, h6, p,span{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
     word-break: break-word;
 }
-.no_content_selected{
+
+.no_content_selected {
     .survey-listing {
-        padding:0!important;
-       .email_box_block{
-        .email_box{
-            margin-right:0;
-            max-width: 445px;
+        padding: 0 !important;
+
+        .email_box_block {
+            .email_box {
+                margin-right: 0;
+                max-width: 445px;
                 flex: 0 0 445px;
 
-        }
-        .mail-box-content{
-            padding:16px 16px 0;
-            text-align: left;
-        }
-        .mail-box-content-top{
-            h5{
-                margin:0 0 7px;
             }
-        } 
-       
-       } 
+
+            .mail-box-content {
+                padding: 16px 16px 0;
+                text-align: left;
+            }
+
+            .mail-box-content-top {
+                h5 {
+                    margin: 0 0 7px;
+                }
+            }
+
+        }
 
     }
 }
+
 .survey-builder {
     .survey-engine {
         padding: 0;
@@ -405,7 +418,7 @@ h1, h2, h3, h4, h5, h6, p,span{
                             }
                         }
 
-                       
+
                     }
 
                     .disabled {
@@ -1004,8 +1017,9 @@ h1, h2, h3, h4, h5, h6, p,span{
             .email-draft {
                 .mail-box-content {
                     height: calc(100% - 22px);
-                    padding:16px 16px 20px;
+                    padding: 16px 16px 20px;
                     text-align: left;
+
                     .mail-box-content-top {
                         min-height: 85px;
 
@@ -1365,7 +1379,8 @@ h1, h2, h3, h4, h5, h6, p,span{
                                 }
                             }
                         }
-                        .mailbox-buttons{
+
+                        .mailbox-buttons {
                             margin-top: 0;
                         }
                     }
@@ -1510,8 +1525,9 @@ h1, h2, h3, h4, h5, h6, p,span{
         padding: 5px 12px;
         cursor: pointer;
     }
-    button{
-        &.remove{
+
+    button {
+        &.remove {
             color: $white;
             font-size: 12px;
             font-weight: 500;
@@ -1520,7 +1536,7 @@ h1, h2, h3, h4, h5, h6, p,span{
             background: $primary-color;
             padding: 5px 12px;
             line-height: 133%;
-            margin-left:8px
+            margin-left: 8px
         }
     }
 
@@ -1630,6 +1646,7 @@ h1, h2, h3, h4, h5, h6, p,span{
                 line-height: 132%;
                 margin: 0 0 20px;
             }
+
             p {
                 color: inherit
             }
@@ -1683,15 +1700,12 @@ h1, h2, h3, h4, h5, h6, p,span{
                         transform: translateY(-50%);
                         right: -25px;
 
-
                         .btn.btn-primary {
                             padding: 0;
                             background: transparent;
                             border: 0;
                             min-width: auto;
                         }
-
-
                     }
 
                     .preview-menu {
@@ -1798,7 +1812,7 @@ h1, h2, h3, h4, h5, h6, p,span{
                     font-weight: 500;
                     line-height: 132%;
                     margin: 0 4px 17px 0;
-                    color:inherit;
+                    color: inherit;
 
                     &>p {
                         margin: 0;
@@ -1838,7 +1852,7 @@ h1, h2, h3, h4, h5, h6, p,span{
                             font-weight: 500;
                         }
                     }
-                    
+
                     &.helper-text {
                         color: $dark-blue;
                         font-size: 11px;
@@ -1846,10 +1860,11 @@ h1, h2, h3, h4, h5, h6, p,span{
                         display: block;
                         margin-bottom: 16px;
                     }
+
                     &+.helper-text {
-                        margin:0;
-                        }
-    
+                        margin: 0;
+                    }
+
                 }
 
                 select {
@@ -1984,8 +1999,6 @@ h1, h2, h3, h4, h5, h6, p,span{
 
                         }
 
-
-
                         input {
                             &:checked~label {
                                 background: $dark-blue;
@@ -2080,7 +2093,7 @@ h1, h2, h3, h4, h5, h6, p,span{
                     }
                 }
 
-                
+
             }
 
         }
@@ -2183,7 +2196,8 @@ h1, h2, h3, h4, h5, h6, p,span{
         .login-consent {
             p {
                 &.start-title {
-                    margin: 0 0 30px
+                    margin: 0 0 30px;
+                    color:#004A89;
                 }
 
                 a {
@@ -2272,11 +2286,12 @@ h1, h2, h3, h4, h5, h6, p,span{
                 font-size: 12px;
                 min-height: 28px;
                 box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-                > div{
+
+                >div {
                     div[class*=-placeholder] {
                         font-size: 12px;
                     }
-                } 
+                }
             }
 
             >div {
@@ -2900,7 +2915,7 @@ body {
 
         }
     }
-    
+
 }
 
 @media (max-width: 1365px) {
@@ -2921,58 +2936,70 @@ body {
 
         }
     }
-    .survey-builder{
-        .survey-engine{
+
+    .survey-builder {
+        .survey-engine {
             min-height: calc(100vh - 63px);
+
             .left-setup {
                 max-height: calc(100vh - 63px);
                 top: 62px;
             }
-        } 
-    } 
-}
-@media (max-width: 1199px) {
-.survey-builder{
-    .survey-engine{
-        min-height: calc(100vh - 49px);
-        .left-setup {
-            padding: 25px 20px 22px 20px;
-            max-height: calc(100vh - 49px);
-            top: 48px;
-            .left-setup-heading{
-                p {
-                    font-size: 13px;
-                }
-            } 
         }
     }
-} 
-.preview-survey {
-    margin: 20px 0 20px;
 }
-.custom-change{
-    .page-top-nav{
-        &.sticky{
-            .row{
-                justify-content: space-between!important;
-                .col-md-8{
-                    width: 100%;
-                    order:3;
-                    .tabnav-link{
-                        padding-top:10px;
+
+@media (max-width: 1199px) {
+    .survey-builder {
+        .survey-engine {
+            min-height: calc(100vh - 49px);
+
+            .left-setup {
+                padding: 25px 20px 22px 20px;
+                max-height: calc(100vh - 49px);
+                top: 48px;
+
+                .left-setup-heading {
+                    p {
+                        font-size: 13px;
                     }
-                }
-                .col-md-1{
-                    order:1;
-                }
-                .col-md-3{
-                    order:2;
                 }
             }
         }
     }
-} 
+
+    .preview-survey {
+        margin: 20px 0 20px;
+    }
+
+    .custom-change {
+        .page-top-nav {
+            &.sticky {
+                .row {
+                    justify-content: space-between !important;
+
+                    .col-md-8 {
+                        width: 100%;
+                        order: 3;
+
+                        .tabnav-link {
+                            padding-top: 10px;
+                        }
+                    }
+
+                    .col-md-1 {
+                        order: 1;
+                    }
+
+                    .col-md-3 {
+                        order: 2;
+                    }
+                }
+            }
+        }
+    }
 }
+
 @media (max-width: 991px) {
     .no-found {
         justify-content: center !important;
