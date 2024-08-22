@@ -15,6 +15,7 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
     const defaultOption = consentOptions.find(option => option.label === "Octapharma | English");
 
     const getConsent = (selectedLanguage) => {
+        console.log(selectedLanguage)
 
         return {
             accordionType: "commonElements",

@@ -145,7 +145,7 @@ const SurveyMenu = ({ menuRef }) => {
     if (elements[itemIndex].type === "matrix") {
       if (key === "title") {
         currentOptions.splice(answerIndex, 1)
-        handleUpdateElement(itemIndex, key, [...currentOptions]);
+        handleUpdateElement(itemIndex, "answer", [...currentOptions]);
         return;
       } else {
         const updatedOptions = currentOptions.map((option) => {
@@ -222,24 +222,15 @@ const SurveyMenu = ({ menuRef }) => {
   }
 
   const addColumnInMiddle = (itemIndex, key, answerIndex) => {
-    const currentOptions = elements[itemIndex].answer;
-
-
-    const updatedValues=currentOptions.map((option)=>{
-    //    const innerUpdatedValue=option.answer.map((innerOption,innerIndex)=>{
-    //        return {
-    //         ...innerOption,
-    //         {value:"",answerId:0}
-    //        }
-    // })
-    option.answer.splice(answerIndex+1,0,{value:"",answerId:0})
+    const currentOptions = elements[itemIndex];
+    const updatedValues=currentOptions.answer.map((option)=>{
+        option.answer.splice(answerIndex+1,0,{value:"",answerId:0})
         return {
            ...option
         }
     })
     console.log(updatedValues)
-    // handleUpdateElement(itemIndex, key, [...updatedValues]);
-
+    handleUpdateElement(itemIndex, key, [...updatedValues]);
   }
 
   const addOptionInMiddle = (itemIndex, key, answerIndex) => {
@@ -251,6 +242,7 @@ const SurveyMenu = ({ menuRef }) => {
         return;
       } else {
         addColumnInMiddle(itemIndex, key, answerIndex)
+        return;
       }
     }
 
@@ -616,6 +608,7 @@ const SurveyMenu = ({ menuRef }) => {
                 item={item}
                 handleUpdateElement={handleUpdateElement}
                 addOption={addOption}
+                handleExtraAndStyle={handleExtraAndStyle}
               />
             )}
           </div>
