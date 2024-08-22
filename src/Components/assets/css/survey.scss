@@ -1999,8 +1999,6 @@ span {
 
                         }
 
-
-
                         input {
                             &:checked~label {
                                 background: $dark-blue;
@@ -2198,7 +2196,8 @@ span {
         .login-consent {
             p {
                 &.start-title {
-                    margin: 0 0 30px
+                    margin: 0 0 30px;
+                    color:#004A89;
                 }
 
                 a {
