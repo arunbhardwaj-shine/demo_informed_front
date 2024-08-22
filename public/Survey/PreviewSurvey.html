@@ -165,31 +165,24 @@
     label.check:last-child {
       margin: 0 0;
     }
-
-    label.check input[type="checkbox"],
-    label.check input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-    }
-
-    label.check span.checkmark {
-      border: 1px solid #70899E;
+    span.checkmark {
+      border: 1px solid rgb(112, 137, 158);
       width: 16px;
-      border-radius: 50%;
       height: 16px;
       position: absolute;
       left: 0;
-      top: 0px;
+      top: 1px;
       cursor: pointer;
-    }
-
-    label.check input[type="checkbox"]~span.checkmark {
-      border-radius: 3px;
-      border: 1px solid rgb(112, 137, 158);
       background: #ffffff;
     }
-
-    label.check input[type="checkbox"]:checked~.checkmark:after {
+    input[type="checkbox"]~span.checkmark{
+      border-radius: 3px;
+    }
+    input[type="radio"]~span.checkmark{
+      border-radius: 50%;
+    }
+/* 
+    input[type="checkbox"]:checked~.checkmark:after {
       left: 4px;
       top: 1px;
       width: 4px;
@@ -201,9 +194,9 @@
       content: "";
       position: absolute;
       display: block;
-    }
+    } */
 
-    label.check input[type="radio"]:checked~.checkmark:after {
+    input[type="radio"]:checked~.checkmark:after {
       top: 2px;
       left: 2px;
       width: 10px;
@@ -213,12 +206,11 @@
       content: "";
       position: absolute;
     }
-
-    label.check input[type="checkbox"]:checked~.checkmark {
-      background: rgb(0, 74, 137);
+    input[type="radio"]:checked~.checkmark{
+      border-color: #004A89;
     }
-
-    label.check input[type="radio"]:checked~.checkmark {
+    input[type="checkbox"]:checked~.checkmark {
+      background: rgb(0, 74, 137);
       border-color: #004A89;
     }
 
@@ -289,7 +281,7 @@
       word-break: break-word;
     }
 
-    .consent-item input[type=checkbox] {
+    input[type=checkbox], input[type=radio] {
       position: absolute;
       opacity: 0;
       left: 0;
@@ -300,23 +292,7 @@
       cursor: pointer;
     }
 
-    .consent-item span.checkmark {
-      border-radius: 3px;
-      border: 1px solid rgb(112, 137, 158);
-      width: 16px;
-      height: 16px;
-      position: absolute;
-      left: 0;
-      top: 0px;
-      cursor: pointer;
-      background: #ffffff;
-    }
-
-    .consent-item input[type=checkbox]:checked~.checkmark {
-      background: rgb(0, 74, 137);
-    }
-
-    .consent-item input[type=checkbox]:checked~.checkmark:after {
+    input[type=checkbox]:checked~.checkmark:after {
       left: 5px;
       top: 2px;
       width: 3px;
@@ -380,15 +356,10 @@
     }
 
     .matrix tbody tr td input[type=checkbox] {
-      position: absolute;
-      opacity: 0;
-      z-index: 2;
       margin: 0 auto;
-      margin-left: -8px;
-      cursor: pointer;
       top: 6px;
-      width: 16px;
-      height: 16px;
+      left: 0;
+      right: 0;
     }
 
     .matrix table {
@@ -398,35 +369,10 @@
 
     .matrix tbody tr td span.checkmark {
       border: 1px solid #004A89;
-      width: 16px;
-      border-radius: 3px;
-      height: 16px;
-      position: absolute;
-      left: 0;
       top: 50%;
       transform: translateY(-50%);
-      cursor: pointer;
       margin: 0 auto;
       right: 0;
-      background: #ffffff;
-    }
-
-    input[type="checkbox"]:checked~.checkmark {
-      background: #004A89;
-    }
-
-    input[type="checkbox"]:checked~.checkmark:after {
-      left: 4px;
-      top: 1px;
-      width: 4px;
-      height: 8px;
-      border: solid #ffffff;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-      border-radius: 0;
-      content: "";
-      position: absolute;
-      display: block;
     }
 
     textarea:focus-visible {
@@ -1076,19 +1022,21 @@
         });
     });
   </script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
     $('.dropdown-el').on('click', function () {
       $(this).toggleClass('active');
     });
-    $('option').on('click', function () {
+    
+    $('.dropdown-el option').on('click', function () {
       var itemValue = $(this).data('value');
-      console.log(itemValue);
-      $('.select-dropdown__button span').text($(this).text()).parent().attr('data-value', itemValue);
-      $('.select-dropdown__list').toggleClass('active');
+      $('.select-dropdown__button span').text($(this).text())
+      .parent().attr('data-value', itemValue);
     });
+  });
   </script>
+  
 </body>
 
 </html>

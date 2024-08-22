@@ -478,13 +478,8 @@ const GetMedpakDetails = () => {
                                                     </svg>
                                                 </button>
                                             </div>
-                                            <div className="top-right-action">
 
-                                               <div className="all-checked-reminder">
-                                                  <p for="checked_all">Selected Readers : {checkedCount}</p>
-                                                </div>
-
-                                                {/* <div className="all-checked-reminder">
+                                            {/* <div className="all-checked-reminder">
 
                                                     <input
                                                         type="checkbox" id="checked_all"
@@ -493,6 +488,11 @@ const GetMedpakDetails = () => {
                                                     />
                                                     <label for="checked_all">Reminder</label>
                                                 </div> */}
+                                            {/* <div className="top-right-action">
+
+                                               <div className="all-checked-reminder">
+                                                  <p for="checked_all">Selected Readers : {checkedCount}</p>
+                                                </div>
 
                                                 <div className="save-reminder">
                                                     <button
@@ -503,11 +503,11 @@ const GetMedpakDetails = () => {
                                                         Save
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className="d-flex justify-content-end">
-                                    <div className="all-checked-reminder">
+                                    {/* <div className="all-checked-reminder">
                                         <input
                                         type="checkbox"
                                         id="checked_all"
@@ -515,7 +515,7 @@ const GetMedpakDetails = () => {
                                         onChange={(e) => handleOnCheckedAll(e)}
                                         />
                                         <label htmlFor="checked_all">Select All</label>
-                                    </div>
+                                    </div> */}
                                     </div>
                                     <div className="table_xls">
                                         <table className="table get-details" id="table-to-xls">
@@ -630,7 +630,7 @@ const GetMedpakDetails = () => {
                                                         ) : (
                                                             ""
                                                         )}
-                                                        <th scope="col">Block Reminder</th>
+                                                        {/* <th scope="col">Block Reminder</th> */}
                                                     </>
                                                 </tr>
                                             </thead>
@@ -688,7 +688,7 @@ const GetMedpakDetails = () => {
                                                                             : "N/A"}
                                                                     </td> */}
 
-                                                                    <td key={item.user_id}>
+                                                                    {/* <td key={item.user_id}>
                                                                         {item.article_already_register !== 1 ? (
                                                                             <input
                                                                                 type="checkbox"
@@ -698,7 +698,7 @@ const GetMedpakDetails = () => {
                                                                         ) : (
                                                                             'N/A'
                                                                         )}
-                                                                        </td>
+                                                                        </td> */}
                                                                 </tr>
                                                             ) : (
                                                                 <tr>
