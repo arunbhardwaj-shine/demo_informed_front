@@ -1586,7 +1586,7 @@ const NewReadersReview = (props) => {
     }
   };
 
-  const tabClicked = async (key, userId, index, country) => {
+  const tabClicked = async (key, userId, index, country, role) => {
     setApiCallStatus(false);
     if (key == "usage") {
       let index = emailStats.findIndex((el) => el.userId == userId);
@@ -1596,6 +1596,7 @@ const NewReadersReview = (props) => {
           let body = {
             readerId: userId,
             irt: 1,
+            role: role,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {
@@ -2428,7 +2429,7 @@ const NewReadersReview = (props) => {
                         <div className="tabs-data">
                           <Tabs
                             onSelect={(key) =>
-                              tabClicked(key, data?.id, index, data?.country)
+                              tabClicked(key, data?.id, index, data?.country, data?.role)
                             }
                             defaultActiveKey="personal-details"
                             fill
