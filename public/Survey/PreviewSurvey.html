@@ -165,31 +165,24 @@
     label.check:last-child {
       margin: 0 0;
     }
-
-    label.check input[type="checkbox"],
-    label.check input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-    }
-
-    label.check span.checkmark {
-      border: 1px solid #70899E;
+    span.checkmark {
+      border: 1px solid rgb(112, 137, 158);
       width: 16px;
-      border-radius: 50%;
       height: 16px;
       position: absolute;
       left: 0;
-      top: 0px;
+      top: 1px;
       cursor: pointer;
-    }
-
-    label.check input[type="checkbox"]~span.checkmark {
-      border-radius: 3px;
-      border: 1px solid rgb(112, 137, 158);
       background: #ffffff;
     }
-
-    label.check input[type="checkbox"]:checked~.checkmark:after {
+    input[type="checkbox"]~span.checkmark{
+      border-radius: 3px;
+    }
+    input[type="radio"]~span.checkmark{
+      border-radius: 50%;
+    }
+/* 
+    input[type="checkbox"]:checked~.checkmark:after {
       left: 4px;
       top: 1px;
       width: 4px;
@@ -201,9 +194,9 @@
       content: "";
       position: absolute;
       display: block;
-    }
+    } */
 
-    label.check input[type="radio"]:checked~.checkmark:after {
+    input[type="radio"]:checked~.checkmark:after {
       top: 2px;
       left: 2px;
       width: 10px;
@@ -213,12 +206,11 @@
       content: "";
       position: absolute;
     }
-
-    label.check input[type="checkbox"]:checked~.checkmark {
-      background: rgb(0, 74, 137);
+    input[type="radio"]:checked~.checkmark{
+      border-color: #004A89;
     }
-
-    label.check input[type="radio"]:checked~.checkmark {
+    input[type="checkbox"]:checked~.checkmark {
+      background: rgb(0, 74, 137);
       border-color: #004A89;
     }
 
@@ -253,10 +245,12 @@
       line-height: 132%;
       margin: 24px 0 0;
     }
+
     .table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .survey-image img {
       display: flex;
       margin: 0 auto;
@@ -287,7 +281,7 @@
       word-break: break-word;
     }
 
-    .consent-item input[type=checkbox] {
+    input[type=checkbox], input[type=radio] {
       position: absolute;
       opacity: 0;
       left: 0;
@@ -298,23 +292,7 @@
       cursor: pointer;
     }
 
-    .consent-item span.checkmark {
-      border-radius: 3px;
-      border: 1px solid rgb(112, 137, 158);
-      width: 16px;
-      height: 16px;
-      position: absolute;
-      left: 0;
-      top: 0px;
-      cursor: pointer;
-      background: #ffffff;
-    }
-
-    .consent-item input[type=checkbox]:checked~.checkmark {
-      background: rgb(0, 74, 137);
-    }
-
-    .consent-item input[type=checkbox]:checked~.checkmark:after {
+    input[type=checkbox]:checked~.checkmark:after {
       left: 5px;
       top: 2px;
       width: 3px;
@@ -378,15 +356,10 @@
     }
 
     .matrix tbody tr td input[type=checkbox] {
-      position: absolute;
-      opacity: 0;
-      z-index: 2;
       margin: 0 auto;
-      margin-left: -8px;
-      cursor: pointer;
       top: 6px;
-      width: 16px;
-      height: 16px;
+      left: 0;
+      right: 0;
     }
 
     .matrix table {
@@ -396,35 +369,10 @@
 
     .matrix tbody tr td span.checkmark {
       border: 1px solid #004A89;
-      width: 16px;
-      border-radius: 3px;
-      height: 16px;
-      position: absolute;
-      left: 0;
       top: 50%;
       transform: translateY(-50%);
-      cursor: pointer;
       margin: 0 auto;
       right: 0;
-      background: #ffffff;
-    }
-
-    input[type="checkbox"]:checked~.checkmark {
-      background: #004A89;
-    }
-
-    input[type="checkbox"]:checked~.checkmark:after {
-      left: 4px;
-      top: 1px;
-      width: 4px;
-      height: 8px;
-      border: solid #ffffff;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-      border-radius: 0;
-      content: "";
-      position: absolute;
-      display: block;
     }
 
     textarea:focus-visible {
@@ -530,51 +478,64 @@
       border-radius: 20px;
     }
 
-    @media only screen and (max-width:767px){
+    @media only screen and (max-width:767px) {
       .informed-survey {
-      margin: 16px auto;
-      width: calc(100% - 32px);
+        margin: 16px auto;
+        width: calc(100% - 32px);
       }
+
       .informed-survey-header h2 {
-    font-size: 20px;
-}
-.informed-survey-body {
-    padding: 24px 16px;
-}
-.consent-item {
-    line-height: 132%;
-}
-.select-dropdown__button,  .select-dropdown__list {
-    max-width: 400px;
-}
-.select-dropdown__list option {
-    font-size: 12px;
-    line-height: 16px;
-    padding: 0.2rem 0.7rem;
-}
-.select-dropdown__button {
-    padding: 7px 50px 7px 15px;
-    font-size: 13px;
-}
-#survey-form {
-    gap: 40px;
-}
-.survey-consent p {
-    margin: 30px 0px 13px 0;
-    display: block;
-}
-.survey-consent p:last-child {
-    margin-bottom: 0;
-}
-.form-footer {
-    margin: 0px 0 0;
-}
-#survey-form {
-    margin: 45px 0 0;
-}
-.select-dropdown__button span {
-    font-size: 12px;
-}
+        font-size: 20px;
+      }
+
+      .informed-survey-body {
+        padding: 24px 16px;
+      }
+
+      .consent-item {
+        line-height: 132%;
+      }
+
+      .select-dropdown__button,
+      .select-dropdown__list {
+        max-width: 400px;
+      }
+
+      .select-dropdown__list option {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 0.2rem 0.7rem;
+      }
+
+      .select-dropdown__button {
+        padding: 7px 50px 7px 15px;
+        font-size: 13px;
+      }
+
+      #survey-form {
+        gap: 40px;
+      }
+
+      .survey-consent p {
+        margin: 30px 0px 13px 0;
+        display: block;
+      }
+
+      .survey-consent p:last-child {
+        margin-bottom: 0;
+      }
+
+      .form-footer {
+        margin: 0px 0 0;
+      }
+
+      #survey-form {
+        margin: 45px 0 0;
+      }
+
+      .select-dropdown__button span {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -759,20 +720,20 @@
         <tr>
             <td>${row.value}</td>
             ${question.answer
-              .map((option) => {
-                const combinedValue = `${option.answerId},${row.value}`;
-                return `
+                      .map((option) => {
+                        const combinedValue = `${option.answerId},${row.value}`;
+                        return `
             <td>
               <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">  
               <span class="checkmark"></span> 
             </td>
           `;
-          })
-          .join("")}
+                      })
+                      .join("")}
         </tr>
       `
-        )
-        .join("")}
+                )
+                .join("")}
       </tbody>
     </table>
     </div>
@@ -845,7 +806,7 @@
                                 ${question.extra.privacyLinks
                 .map(
                   (link) => `
-                                    <a href="${link.octapharma ||
+                    <a href="${link.octapharma ||
                     link.docintel ||
                     link.termsOfUse
                     }" target="_blank">${Object.keys(link)[0]
@@ -1006,19 +967,21 @@
         });
     });
   </script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
     $('.dropdown-el').on('click', function () {
       $(this).toggleClass('active');
     });
-    $('option').on('click', function () {
+    
+    $('.dropdown-el option').on('click', function () {
       var itemValue = $(this).data('value');
-      console.log(itemValue);
-      $('.select-dropdown__button span').text($(this).text()).parent().attr('data-value', itemValue);
-      $('.select-dropdown__list').toggleClass('active');
+      $('.select-dropdown__button span').text($(this).text())
+      .parent().attr('data-value', itemValue);
     });
+  });
   </script>
+  
 </body>
 
 </html>
