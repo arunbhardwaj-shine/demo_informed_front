@@ -81,6 +81,9 @@ export const menuType = {
     isOptional: false,
     optionalLabel: "",
     style: {},
+    extra: {
+      Placeholder:"",
+    },
     maxTextLength: 20,
   },
   matrix: {

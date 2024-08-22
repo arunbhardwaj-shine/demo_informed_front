@@ -12,6 +12,7 @@ export default function Matrix({
   deleteOptionInMiddle,
   addOptionInMiddle
 }) {
+  console.log(item)
  
 
   return (

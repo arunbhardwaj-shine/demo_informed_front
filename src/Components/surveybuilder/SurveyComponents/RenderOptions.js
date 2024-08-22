@@ -125,7 +125,7 @@ const RenderOptions = ({
             name={`freeText-${index}`}
             rows="2"
             cols="50"
-            placeholder={item.answer}
+            placeholder={item.extra.placeholder}
             readOnly={!isEdit}
           ></textarea>
           <div className="d-flex justify-content-end word-limit">
