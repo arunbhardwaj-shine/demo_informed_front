@@ -165,6 +165,7 @@
     label.check:last-child {
       margin: 0 0;
     }
+
     span.checkmark {
       border: 1px solid rgb(112, 137, 158);
       width: 16px;
@@ -175,13 +176,16 @@
       cursor: pointer;
       background: #ffffff;
     }
-    input[type="checkbox"]~span.checkmark{
+
+    input[type="checkbox"]~span.checkmark {
       border-radius: 3px;
     }
-    input[type="radio"]~span.checkmark{
+
+    input[type="radio"]~span.checkmark {
       border-radius: 50%;
     }
-/* 
+
+    /* 
     input[type="checkbox"]:checked~.checkmark:after {
       left: 4px;
       top: 1px;
@@ -206,9 +210,11 @@
       content: "";
       position: absolute;
     }
-    input[type="radio"]:checked~.checkmark{
+
+    input[type="radio"]:checked~.checkmark {
       border-color: #004A89;
     }
+
     input[type="checkbox"]:checked~.checkmark {
       background: rgb(0, 74, 137);
       border-color: #004A89;
@@ -281,7 +287,8 @@
       word-break: break-word;
     }
 
-    input[type=checkbox], input[type=radio] {
+    input[type=checkbox],
+    input[type=radio] {
       position: absolute;
       opacity: 0;
       left: 0;
@@ -599,7 +606,7 @@
           case "multiple":
             surveyHtml += `<div class="survey-question">
                     <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
-                        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+                        <p>${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span> </p>
                     </div>
                     <p class="helper-text">${question.questionDescription}</p>`;
 
@@ -847,41 +854,43 @@
             surveyHtml += `
         <div class="survey-consent">
             <div class="login-consent">${question.question}</div>
-            <div>
+            <div class="form-group">
                 ${question.extra.consentDetails
                 .map(userdetail => {
                   let html = '';
                   if (userdetail.nameLabel == "Name") {
                     html = `
                                 <div>
-                                    <label>
+                                    <label class="form-label">
                                         ${userdetail.nameLabel}
+                                        </label>
                                         <input type="text" name="question${question.questionId}" placeholder="${userdetail.namePlaceholder}" />
-                                    </label>
                                 </div>
                             `;
                   } else if (userdetail.emailLabel == "Email") {
                     html = `
                                 <div>
-                                    <label>
+                                    <label class="form-label">
                                         ${userdetail.emailLabel}
+                                          </label>
                                         <input type="text" name="question${question.questionId}" placeholder="${userdetail.emailPlaceholder}" />
-                                    </label>
+                                  
                                 </div>
                             `;
 
                   } else if (userdetail.countryLabel == "Country") {
                     html = `
                                 <div>
-                                    <label>
+                                    <label class="form-label">
                                         ${userdetail.countryLabel}
+                                         </label>
                                         <select name="question${question.questionId}_country">
                                             <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
                                             ${userdetail.countryOptions
                         .map(option => `<option value="${option}">${option}</option>`)
                         .join('')}
                                         </select>
-                                    </label>
+                                   
                                 </div>
                             `;
                   }
@@ -889,14 +898,14 @@
                 })
                 .join('')}
             </div>
-         <p>I consent To :</p>
+         <label class="form-label">I consent To :</label>
             ${question.extra.consentOptions
                 .map(option => `
-                    <div class="consent-item">
+                    <label class="consent-item">
                         <input type="checkbox" name="consentOption" value="${option.label}" ${option.isChecked ? "checked" : ""}>
                         <span class="checkmark"></span>
                         ${option.label}
-                    </div>
+                    </label>
                 `)
                 .join('')}
             <p>${question.extra.cookiePolicy}</p>
@@ -1022,21 +1031,21 @@
         });
     });
   </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $('.dropdown-el').on('click', function () {
-      $(this).toggleClass('active');
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.dropdown-el').on('click', function () {
+        $(this).toggleClass('active');
+      });
+
+      $('.dropdown-el option').on('click', function () {
+        var itemValue = $(this).data('value');
+        $('.select-dropdown__button span').text($(this).text())
+          .parent().attr('data-value', itemValue);
+      });
     });
-    
-    $('.dropdown-el option').on('click', function () {
-      var itemValue = $(this).data('value');
-      $('.select-dropdown__button span').text($(this).text())
-      .parent().attr('data-value', itemValue);
-    });
-  });
   </script>
-  
+
 </body>
 
 </html>

@@ -127,21 +127,16 @@ const SurveyFormBuilder = (props) => {
   }, [templates, selectedTemplateId]);
 
   const updateDynamicValues = (templateDefaults) => {
-    console.log(dynamicValues);
     const customValues =
       customHtml != "0" && Object.keys(customHtml).length > 0
         ? customHtml
-        : { ...templateDefaults, ...dynamicValues };
+        : templateDefaults;
 
-    // if (
-    //   customValues?.header_background_image != "" &&
-    //   header_background_type == "image"
-    // ) {
-    //   setHeaderBackgroundType("image");
-    // } else {
-    //   setHeaderBackgroundType("color");
-    // }
-
+    if (customValues?.header_background_image != "") {
+      setHeaderBackgroundType("image");
+    } else {
+      setHeaderBackgroundType("color");
+    }
     const newValues = {
       template_name:
         customValues.template_name ?? templateDefaults.template_name,
@@ -243,20 +238,17 @@ const SurveyFormBuilder = (props) => {
 
   const updateTemplateValues = () => {
     const values = { ...templateDefaultValues, ...dynamicValues };
-    console.log(values);
     let dynamicHeaderBackgroundStyle = "";
-    if (
-      header_background_type === "image" &&
-      values.header_background_image != ""
-    ) {
+     if (header_background_type === "image" && values.header_background_image != "" ) {
       dynamicHeaderBackgroundStyle = `background-image: url(${values.header_background_image}); background-size: cover`;
-    } else {
-      dynamicHeaderBackgroundStyle = `background-color: ${values.header_background_color}`;
     }
+    else  {
+      dynamicHeaderBackgroundStyle = `background-color: ${values.header_background_color}`;
+    } 
 
     let updatedHtml = originalSelectedTemplate.template_html
       .replace(/^"|"$/g, "")
-      .replace("{#dynamic_header_background#}", dynamicHeaderBackgroundStyle)
+      .replace("{#dynamic_header_background#}",dynamicHeaderBackgroundStyle)
       .replace("{#main_heading#}", changeTitleToggle ? values.main_heading : "")
       .replace("{#title_color#}", values.title_color)
       .replace("{#main_footer#}", changeFooterToggle ? values.main_footer : "")
@@ -284,7 +276,6 @@ const SurveyFormBuilder = (props) => {
     dynamicValues,
     templateDefaultValues,
     changeFooterToggle,
-    header_background_type,
     changeBodyToggle,
     changeTitleToggle,
     changeLogoToggle,
@@ -493,7 +484,7 @@ const SurveyFormBuilder = (props) => {
           bodyTextColor: temporaryValues.bodyTextColor,
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
-          selectedTemplateClass,
+          selectedTemplateClass
         },
       ];
     } else {
@@ -543,6 +534,7 @@ const SurveyFormBuilder = (props) => {
   return (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+
       <Col className="right-sidebar custom-change survey-builder">
         <div className="container-fluid">
           <div className="row">
@@ -623,10 +615,11 @@ const SurveyFormBuilder = (props) => {
                                   <div className="header-added">
                                     <div className="d-flex align-items-center">
                                       <div className="img-added">
-                                        {dynamicValues?.header_background_image ? (
+                                        {templateDefaultValues.header_background_image !==
+                                        "" ? (
                                           <img
                                             src={
-                                              dynamicValues.header_background_image
+                                              templateDefaultValues.header_background_image
                                             }
                                             alt=""
                                           />
@@ -1099,14 +1092,63 @@ const SurveyFormBuilder = (props) => {
                                           deleteTemplate(e, temp.id)
                                         }
                                       >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" > <g clip-path="url(#clip0_1228_25554)">   <path d="M10.2075 12.7044C10.3169 12.8137 10.4646 12.876 10.6192 12.8781C10.7738 12.876 10.9215 12.8137 11.0309 12.7044C11.1402 12.595 11.2025 12.4473 11.2046 12.2927V6.04878C11.2046 5.89353 11.1429 5.74464 11.0331 5.63487C10.9233 5.52509 10.7744 5.46342 10.6192 5.46342C10.4639 5.46342 10.3151 5.52509 10.2053 5.63487C10.0955 5.74464 10.0338 5.89353 10.0338 6.04878V12.2927C10.0358 12.4473 10.0982 12.595 10.2075 12.7044Z" fill="#8A4E9C" /> <path d="M5.93626 12.8781C5.78164 12.876 5.63392 12.8137 5.52458 12.7044C5.41524 12.595 5.35292 12.4473 5.3509 12.2927V6.04878C5.3509 5.89353 5.41257 5.74464 5.52235 5.63487C5.63212 5.52509 5.78101 5.46342 5.93626 5.46342C6.09151 5.46342 6.2404 5.52509 6.35018 5.63487C6.45996 5.74464 6.52163 5.89353 6.52163 6.04878V12.2927C6.51961 12.4473 6.45729 12.595 6.34794 12.7044C6.2386 12.8137 6.09088 12.876 5.93626 12.8781Z" fill="#8A4E9C" /> <path d="M7.86604 12.7044C7.97539 12.8137 8.12311 12.876 8.27773 12.8781C8.43235 12.876 8.58006 12.8137 8.68941 12.7044C8.79875 12.595 8.86107 12.4473 8.86309 12.2927V6.04878C8.86309 5.89353 8.80142 5.74464 8.69164 5.63487C8.58186 5.52509 8.43297 5.46342 8.27773 5.46342C8.12248 5.46342 7.97359 5.52509 7.86381 5.63487C7.75403 5.74464 7.69236 5.89353 7.69236 6.04878V12.2927C7.69438 12.4473 7.7567 12.595 7.86604 12.7044Z" fill="#8A4E9C" /> <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2046 1.56101V2.34146H15.302C15.4572 2.34146 15.6061 2.40314 15.7159 2.51291C15.8257 2.62269 15.8873 2.77158 15.8873 2.92683C15.8873 3.08208 15.8257 3.23097 15.7159 3.34075C15.6061 3.45052 15.4572 3.5122 15.302 3.5122H14.2929L13.6483 13.7678C13.6106 14.3718 13.3443 14.9387 12.9035 15.3533C12.4628 15.768 11.8807 15.9992 11.2755 16H5.28133C4.68161 15.9913 4.10727 15.7566 3.67315 15.3427C3.23903 14.9289 2.97714 14.3664 2.93984 13.7678L2.26551 3.5122H1.25333C1.09808 3.5122 0.949193 3.45052 0.839417 3.34075C0.72964 3.23097 0.667969 3.08208 0.667969 2.92683C0.667969 2.77158 0.72964 2.62269 0.839417 2.51291C0.949193 2.40314 1.09808 2.34146 1.25333 2.34146H5.3509V1.52198C5.36079 1.12144 5.52432 0.740043 5.80762 0.456732C6.09092 0.173422 6.47232 0.00989435 6.87285 0H9.68261C10.0898 0.0101833 10.4769 0.179131 10.7612 0.47078C11.0456 0.762429 11.2047 1.15368 11.2046 1.56101ZM10.0338 1.56101V2.34146H6.52163V1.56101C6.52163 1.46786 6.55863 1.37852 6.6245 1.31265C6.69036 1.24678 6.7797 1.20978 6.87285 1.20978H9.68261C9.77575 1.20978 9.86509 1.24678 9.93095 1.31265C9.99682 1.37852 10.0338 1.46786 10.0338 1.56101ZM4.07156 13.6976L3.47057 3.5122L13.1175 3.55122L12.4853 13.6976C12.4636 14.004 12.3269 14.291 12.1026 14.5009C11.8782 14.7108 11.5828 14.8281 11.2755 14.8293H5.28133C4.97355 14.8299 4.6771 14.7132 4.45234 14.503C4.22758 14.2927 4.09141 14.0047 4.07156 13.6976Z" fill="#8A4E9C" /> </g> <defs> <clipPath id="clip0_1228_25554"> <rect width="16" height="16" fill="white" /> </clipPath> </defs> </svg>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 16 16"
+                                          fill="none"
+                                        >
+                                          <g clip-path="url(#clip0_1228_25554)">
+                                            <path
+                                              d="M10.2075 12.7044C10.3169 12.8137 10.4646 12.876 10.6192 12.8781C10.7738 12.876 10.9215 12.8137 11.0309 12.7044C11.1402 12.595 11.2025 12.4473 11.2046 12.2927V6.04878C11.2046 5.89353 11.1429 5.74464 11.0331 5.63487C10.9233 5.52509 10.7744 5.46342 10.6192 5.46342C10.4639 5.46342 10.3151 5.52509 10.2053 5.63487C10.0955 5.74464 10.0338 5.89353 10.0338 6.04878V12.2927C10.0358 12.4473 10.0982 12.595 10.2075 12.7044Z"
+                                              fill="#8A4E9C"
+                                            />
+                                            <path
+                                              d="M5.93626 12.8781C5.78164 12.876 5.63392 12.8137 5.52458 12.7044C5.41524 12.595 5.35292 12.4473 5.3509 12.2927V6.04878C5.3509 5.89353 5.41257 5.74464 5.52235 5.63487C5.63212 5.52509 5.78101 5.46342 5.93626 5.46342C6.09151 5.46342 6.2404 5.52509 6.35018 5.63487C6.45996 5.74464 6.52163 5.89353 6.52163 6.04878V12.2927C6.51961 12.4473 6.45729 12.595 6.34794 12.7044C6.2386 12.8137 6.09088 12.876 5.93626 12.8781Z"
+                                              fill="#8A4E9C"
+                                            />
+                                            <path
+                                              d="M7.86604 12.7044C7.97539 12.8137 8.12311 12.876 8.27773 12.8781C8.43235 12.876 8.58006 12.8137 8.68941 12.7044C8.79875 12.595 8.86107 12.4473 8.86309 12.2927V6.04878C8.86309 5.89353 8.80142 5.74464 8.69164 5.63487C8.58186 5.52509 8.43297 5.46342 8.27773 5.46342C8.12248 5.46342 7.97359 5.52509 7.86381 5.63487C7.75403 5.74464 7.69236 5.89353 7.69236 6.04878V12.2927C7.69438 12.4473 7.7567 12.595 7.86604 12.7044Z"
+                                              fill="#8A4E9C"
+                                            />
+                                            <path
+                                              fill-rule="evenodd"
+                                              clip-rule="evenodd"
+                                              d="M11.2046 1.56101V2.34146H15.302C15.4572 2.34146 15.6061 2.40314 15.7159 2.51291C15.8257 2.62269 15.8873 2.77158 15.8873 2.92683C15.8873 3.08208 15.8257 3.23097 15.7159 3.34075C15.6061 3.45052 15.4572 3.5122 15.302 3.5122H14.2929L13.6483 13.7678C13.6106 14.3718 13.3443 14.9387 12.9035 15.3533C12.4628 15.768 11.8807 15.9992 11.2755 16H5.28133C4.68161 15.9913 4.10727 15.7566 3.67315 15.3427C3.23903 14.9289 2.97714 14.3664 2.93984 13.7678L2.26551 3.5122H1.25333C1.09808 3.5122 0.949193 3.45052 0.839417 3.34075C0.72964 3.23097 0.667969 3.08208 0.667969 2.92683C0.667969 2.77158 0.72964 2.62269 0.839417 2.51291C0.949193 2.40314 1.09808 2.34146 1.25333 2.34146H5.3509V1.52198C5.36079 1.12144 5.52432 0.740043 5.80762 0.456732C6.09092 0.173422 6.47232 0.00989435 6.87285 0H9.68261C10.0898 0.0101833 10.4769 0.179131 10.7612 0.47078C11.0456 0.762429 11.2047 1.15368 11.2046 1.56101ZM10.0338 1.56101V2.34146H6.52163V1.56101C6.52163 1.46786 6.55863 1.37852 6.6245 1.31265C6.69036 1.24678 6.7797 1.20978 6.87285 1.20978H9.68261C9.77575 1.20978 9.86509 1.24678 9.93095 1.31265C9.99682 1.37852 10.0338 1.46786 10.0338 1.56101ZM4.07156 13.6976L3.47057 3.5122L13.1175 3.55122L12.4853 13.6976C12.4636 14.004 12.3269 14.291 12.1026 14.5009C11.8782 14.7108 11.5828 14.8281 11.2755 14.8293H5.28133C4.97355 14.8299 4.6771 14.7132 4.45234 14.503C4.22758 14.2927 4.09141 14.0047 4.07156 13.6976Z"
+                                              fill="#8A4E9C"
+                                            />
+                                          </g>
+                                          <defs>
+                                            <clipPath id="clip0_1228_25554">
+                                              <rect
+                                                width="16"
+                                                height="16"
+                                                fill="white"
+                                              />
+                                            </clipPath>
+                                          </defs>
+                                        </svg>
                                       </button>
                                     )}
                                     <button
                                       className="btn-edit btn-voilet"
                                       onClick={(e) => editHandler(e, temp.id)}
                                     >
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z" fill="#0066BE" /> </svg>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        fill="none"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z"
+                                          fill="#0066BE"
+                                        />
+                                      </svg>
                                     </button>
                                   </div>
                                 </div>
@@ -1239,15 +1281,16 @@ const SurveyFormBuilder = (props) => {
                   }}
                 />
                 <div className="login-validation">
-                  {" "}
-                  {error.addTemplateName ? (
-                    <span>Please enter template name</span>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                {" "}
+                {error.addTemplateName ? (
+                  <span>Please enter template name</span>
+                ) : (
+                  ""
+                )}
+              </div>
               </Form.Group>
             </Form>
+            
           </Modal.Body>
           <div className="modal-footer">
             <button

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 
@@ -13,13 +13,29 @@ const RenderOptions = ({
     color: style.color,
   });
 
-  const renderOption = (option, optIndex, type) => (
-    <label style={{ color: optionColor }} key={optIndex} className="check">
-      {option}
-      <input type={type} name={item.name} disabled={!isEdit} />
-      <span className="checkmark"></span>
-    </label>
-  );
+  const [otherOptionChecked, setOtherOptionChecked] = useState(false)
+
+
+
+  const renderOption = (option, optIndex, type) => {
+    if (optIndex === "other") {
+      return <label style={{ color: optionColor }} key={optIndex} className="check">
+        {option}
+        <input type={type} name={item.name} disabled={!isEdit} onClick={() => { setOtherOptionChecked(!otherOptionChecked) }} />
+        <span className="checkmark"></span>
+      </label>
+    } else {
+      return <label style={{ color: optionColor }} key={optIndex} className="check">
+        {option}
+        <input type={type} name={item.name} disabled={!isEdit} />
+        <span className="checkmark"></span>
+      </label>
+    }
+  };
+
+
+
+
 
   switch (item.type) {
     case "multiple":
@@ -46,15 +62,16 @@ const RenderOptions = ({
                   isEdit
                     ? {}
                     : {
-                        backgroundColor: page_background_color,
-                      }
+                      backgroundColor: page_background_color,
+                    }
                 }
               >
-                <Form.Control
+                {otherOptionChecked && <Form.Control
                   type="text"
                   placeholder={item.extra.otherChoicePlaceholderText}
                   readOnly={!isEdit}
-                />
+                />}
+
               </div>
             </>
           ) : (
@@ -77,15 +94,15 @@ const RenderOptions = ({
                   isEdit
                     ? {}
                     : {
-                        backgroundColor: page_background_color,
-                      }
+                      backgroundColor: page_background_color,
+                    }
                 }
               >
-                <Form.Control
+                {otherOptionChecked && <Form.Control
                   type="text"
                   placeholder={item.extra.otherChoicePlaceholderText}
                   readOnly={!isEdit}
-                />
+                />}
               </div>
             </>
           ) : (
