@@ -625,10 +625,7 @@
       background: var(--dark-blue);
       color: var(--white)!important;
   } */
-      .rating-stars label.rating-option:hover ~ label svg path {
-        fill: #fac755 !important;
-      }
-      .rating-stars label.rating-option:hover svg path {
+      .rating-stars label.rating-option:hover ~ label svg path, .rating-stars input:checked ~ label svg path,  .rating-stars label.rating-option:hover svg path  {
         fill: #fac755 !important;
       }
       .cookieadd .modal-dialog {
@@ -820,6 +817,7 @@
       .consent-select {
         margin: 25px 0 35px;
       }
+
       @media only screen and (max-width: 767px) {
         .informed-survey {
           margin: 16px auto;
