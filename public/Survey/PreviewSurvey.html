@@ -386,7 +386,7 @@
       text-align: left;
     }
 
-    .matrix tbody tr td input[type=checkbox] {
+    .matrix tbody tr td input[type=checkbox], .matrix tbody tr td input[type=radio] {
       margin: 0 auto;
       top: 6px;
       left: 0;
@@ -810,15 +810,32 @@ label.form-label {
     display: flex;
     width: 100%;
 }
+.consent-select {
+    margin: 25px 0 35px;
+}
     @media only screen and (max-width:767px) {
       .informed-survey {
         margin: 16px auto;
         width: calc(100% - 32px);
       }
-
+      .form-section .form-group {
+          margin: 0 0 32px;
+          width: 100%;
+      }
       .informed-survey-header h2 {
         font-size: 20px;
       }
+      .form-section .form-group input, .form-section .form-group select {
+    max-width: 100%;
+}
+.form-section .form-group:nth-child(2n) label.form-label {
+    padding: 0 0 0 12px;
+}
+.dropdown-el {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+}
 
       .informed-survey-body {
         padding: 24px 16px;
@@ -840,10 +857,26 @@ label.form-label {
       }
 
       .select-dropdown__button {
-        padding: 7px 50px 7px 15px;
-        font-size: 13px;
+        padding: 8px 50px 8px 15px;
+        font-size: 12px;
       }
-
+      .consent-select {
+    margin: 8px 0 40px;
+}
+.copyright-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px 13px;
+    flex-wrap: wrap;
+    margin:0;
+}
+.copyright-links a {
+    padding: 0 0px 0 0;
+}
+.copyright-links + p {
+    margin: 0;
+}
       #survey-form {
         gap: 40px;
       }

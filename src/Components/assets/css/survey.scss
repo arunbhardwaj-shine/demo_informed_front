@@ -2319,6 +2319,12 @@ span {
 
             .informed-survey-header {
                 padding: 16px;
+                img{
+                    max-width: 151px;
+                }
+                h2{
+                    font-size: 20px;
+                }
             }
 
             .informed-survey-body {
@@ -2358,6 +2364,19 @@ span {
                     }
                 }
             }
+            .informed-survey-question{
+                margin: 40px 0 0;
+                form{
+                    span{
+                        &.heading{
+                            &> * {
+                                // font-size: 20px;
+                                line-height: normal;
+                            }
+                        } 
+                    }
+                } 
+            } 
         }
 
     }
