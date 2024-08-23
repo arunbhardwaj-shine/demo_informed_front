@@ -246,7 +246,7 @@ const SurveyPreview = (props) => {
                   Save As Draft
                 </button>
                 <button
-                  className="btn btn-primary btn-filled next"
+                  className={isEdit ?"btn btn-primary btn-filled next":"btn btn-primary btn-filled next send_btn" }
                   onClick={async (e) => {
                     await nextHandler(e);
                     await navigateFunction(e);
