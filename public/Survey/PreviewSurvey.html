@@ -112,6 +112,7 @@
       font-weight: 500;
       line-height: 132%;
       margin: 0 0;
+      display: inline;
     }
 
     .helper-text {
@@ -123,7 +124,7 @@
     }
 
     #survey-form {
-      gap: 30px;
+      gap: 40px;
       display: flex;
       flex-direction: column;
       margin: 60px 0 0;
@@ -262,13 +263,29 @@
       display: flex;
       margin: 0 auto;
     }
-
+    .survey-paragraph {
+    font-size: 12px;
+    line-height: 132%;
+    color:#70899E
+}
+  .survey-paragraph p{
+      font-size: 12px;
+      line-height: 132%;
+      color:#70899E
+  }
+  .survey-paragraph ol, .survey-paragraph ul{
+    margin:5px 0;
+    padding-left:20px;
+  }
     .login-consent {
       margin: 0 0 30px;
       color: #004A89;
       font-size: 12px;
       font-weight: 500;
       line-height: 132%;
+    }
+    .login-consent a{
+      color: #004A89;
     }
 
     .consent-item {
@@ -385,7 +402,7 @@
 
     textarea:focus-visible {
       outline: none;
-      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 50%);
+      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 36%);
     }
 
     .select-dropdown__button {
@@ -406,11 +423,11 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       cursor: pointer;
-      background: #ffffff url(../componentAssets/images/dropdown-arrow.svg) no-repeat 93% center;
+      background: #ffffff url(../componentAssets/images/arrow-down-sign.svg) no-repeat 93% center;
     }
 
     .select-dropdown__button span {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 300;
     }
 
@@ -443,9 +460,9 @@
     }
 
     .select-dropdown__list option {
-      font-size: 14px;
-      line-height: 17px;
-      padding: 0.3rem 1rem;
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0.3rem 0.8rem;
       border-radius: 15px;
       cursor: pointer;
       margin: 0 0 2px;
@@ -456,6 +473,8 @@
 
     .dropdown-el {
       position: relative;
+      max-width: 251px;
+      width: 100%;
     }
 
     .dropdown-el.active .select-dropdown__list {
@@ -495,6 +514,14 @@
     padding: 10px 12px;
     width: 100%;
 }
+:focus-visible, .form-section .form-group input:focus-visible{
+  outline:none;
+  box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 26%);
+}
+.form-group .select-dropdown__button span {
+    font-weight: 400;
+    color: rgb(112, 137, 158);
+}
 .survey-question input[type="text"]:focus-visible{
   outline: none;
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.26);
@@ -523,7 +550,7 @@
     margin: 0 0 0 4px;
 }
 .question-title {
-    display: flex;
+    display: inline-block;
     align-items: center;
 }
 .rating-labels > div {
@@ -704,6 +731,9 @@ table {
     max-width: 251px;
     width: 100%;
 }
+.form-group .select-dropdown__button {
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+}
 label.form-label {
     color: #004A89;
     font-size: 12px;
@@ -863,9 +893,11 @@ label.form-label {
             `;
 
       const questions = data.data[0].question_data;
+      console.log(questions)
       questions.forEach((question) => {
 
         switch (question.type) {
+
           case "multiple":
             surveyHtml += `<div class="survey-question">
                     <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
@@ -903,6 +935,8 @@ label.form-label {
             }
 
             surveyHtml += `</div>`;
+
+            break;
 
 
           case "checkbox":
@@ -942,16 +976,16 @@ label.form-label {
                               <div class="select-dropdown__list">
                                 <div class="select-dropdown">
                         `;
-            question.answer[0].value.forEach((option) => {
-              const combinedValue = `${question.answer[0].answerId},${option}`;
-              surveyHtml += `
-                                <option value="${combinedValue}" ${question.isOptional ? "" : "required"}">${option}</option>
-                            `;
-            });
-            surveyHtml += `</div>`;
-            surveyHtml += `</div>`;
-            surveyHtml += `</div>`;
-            surveyHtml += `</div>`;
+                            question.answer[0].value.forEach((option) => {
+                              const combinedValue = `${question.answer[0].answerId},${option}`;
+                              surveyHtml += `
+                                                <option value="${combinedValue}" ${question.isOptional ? "" : "required"}">${option}</option>
+                                            `;
+                            });
+                            surveyHtml += `</div>`;
+                            surveyHtml += `</div>`;
+                            surveyHtml += `</div>`;
+                            surveyHtml += `</div>`;
             break;
 
 
@@ -1002,70 +1036,48 @@ label.form-label {
             surveyHtml += `</div>`;
             break;
 
+          case "matrix":
+            // Determine input type based on allowMultipleAnswer
+            const inputType = question.extra.allowMultipleAnswer ? 'checkbox' : 'radio';
+            surveyHtml +=
+              `<div class="survey-question matrix">
+            <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+                ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+            </div>
+            <p class="helper-text">${question.questionDescription}</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            ${question.answer[0].answer
+                .map((column) => `<th>${column.value}</th>`)
+                .join("")}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${question.answer
+                .map((row) =>
+                  `<tr>
+                                    <td>${row.title}</td>
+                                    ${row.answer
+                    .map((option) =>
+                      `<td>
+                                                <input type="${inputType}" 
+                                                       name="question${question.questionId}_${row.id}_${option.answerId}" 
+                                                       value="${option.answerId}">
+                                                <span class="checkmark"></span>
+                                            </td>`)
+                    .join("")}
+                                </tr>`)
+                .join("")}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+            break;
 
-          //       case "matrix":
-          //         const inputType = question.extra.allowMultipleAnswer
-          //           ? "checkbox"
-          //           : "radio"; // Assume this specifies 'checkbox' or 'radio'
-          //         surveyHtml += `<div class="survey-question matrix"> <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-          //     <p class="helper-text">${question.questionDescription}</p>
-          //     <div class="table-responsive">
-          //     <table>
-          //         <thead>
-          //             <tr>
-          //                 <th>&nbsp;</th>
-          //                 ${question.answer
-          //             .map((a) => `<th>${a.value}</th>`)
-          //             .join("")}
-          //             </tr>
-          //         </thead>
-          //         <tbody>
-          //             ${question.extra.rows
-          //             .map(
-          //               (row) => `
-          //                 <tr>
-          //                     <td>${row.value}</td>
-          //                     ${question.answer
-          //                   .map(
-          //                     (option) => `
-          //                         <td>
-          //                           <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
-          //                           <span class="checkmark"></span>
-          //                         </td>
-          //                     `
-          //                   )
-          //                   .join("")}
-          //                 </tr>
-          //             `
-          //             )
-          //             .join("")}
-          //         </tbody>
-          // ${question.extra.rows
-          //             .map(
-          //               (row) => `
-          //     <tr>
-          //         <td>${row.value}</td>
-          //         ${question.answer
-          //           .map((option) => {
-          //             const combinedValue = `${option.answerId},${row.value}`;
-          //             return `
-          //         <td>
-          //           <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">  
-          //           <span class="checkmark"></span> 
-          //         </td>
-          //       `;
-          //       })
-          //       .join("")}
-          //     </tr>
-          //   `
-          //     )
-          //     .join("")}
-          //   </tbody>
-          // </table>
-          // </div>
-          // `;
-          //         surveyHtml += `</div>`;
-          //         break;
+
 
           case "freeText":
             surveyHtml += `
@@ -1088,7 +1100,8 @@ label.form-label {
           case "paragraph":
             surveyHtml += `
               <div class="survey-question">
-                <div class="d-flex question-title" style="color: ${question.style.color};">${question.question}</div>
+                <div class="survey-paragraph" style="color: ${question.style.color};">${question.question}</div>
+
             `;
             surveyHtml += `</div>`;
             break;
@@ -1116,7 +1129,7 @@ label.form-label {
           case "consent":
             surveyHtml += `
         <div class="survey-consent">
-            <div class="login-consent">${question.question}</div>
+            <div class="login-consent">${question.question}${question.extra.operatingStatement}</div>
             <div class="form-section">
                 ${question.extra.consentDetails
                 .map(userdetail => {
@@ -1148,12 +1161,18 @@ label.form-label {
                                     <label class="form-label">
                                         ${userdetail.countryLabel}
                                          </label>
-                                        <select name="question${question.questionId}_country">
-                                            <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
-                                            ${userdetail.countryOptions
-                        .map(option => `<option value="${option}">${option}</option>`)
-                        .join('')}
-                                        </select>
+                                        <div class="dropdown-el" name="question${question.questionId}_country">
+                                          <div data-value="" class="select-dropdown__button"><span>Select your country</span></div>
+                                            <div class="select-dropdown__list">
+                                              <div class="select-dropdown">
+                                                  <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
+                                                    ${userdetail.countryOptions
+                                                  .map(option => `<option value="${option}">${option}</option>`)
+                                                  .join('')}
+                                              </div>
+                                            </div>
+                                        </div>
+                                       
                                    
                                 </div>
                             `;
