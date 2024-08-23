@@ -577,9 +577,6 @@
     width: auto;
     gap: 22px;
 }
-.rating-numeric {
-    flex-direction: row;
-}
 
 label.rating-option {
     /* border-radius: 32px;
@@ -1024,12 +1021,12 @@ label.form-label {
 
           case "rating":
             surveyHtml += `
-    <div class="survey-question">
-      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
-        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
-      </div>
-      <p class="helper-text">${question.questionDescription}</p>
-  `;
+              <div class="survey-question">
+                <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+                  ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+                </div>
+                <p class="helper-text">${question.questionDescription}</p>
+            `;
 
             // Check if the rating type is stars
             if (question.extra.ratingType === "stars") {
@@ -1060,20 +1057,21 @@ label.form-label {
         `;
         for (let i = question.extra.ratingScale; i >= 1; i--) {
                 surveyHtml += `
-        <label class="rating-option" style="color: ${customHtml.question_answer_color};">
-          <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-          ${i}
-        </label>
-      `;
+                <label class="rating-option" style="color: ${customHtml.question_answer_color};">
+                  <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
+                  ${i}
+                </label>
+              `;
               }
               surveyHtml += `</div>`;
               surveyHtml += `
-      <div class="rating-labels">
-        <div class="not-satisfy">${question.extra.leftSideLabel}</div>
-        <div class="satisfy">${question.extra.rightSideLabel}</div>
-      </div>
-    </div>`;
+                <div class="rating-labels">
+                  <div class="not-satisfy">${question.extra.leftSideLabel}</div>
+                  <div class="satisfy">${question.extra.rightSideLabel}</div>
+                </div>
+              </div>`;
             }
+            surveyHtml += `</div>`;
             surveyHtml += `</div>`;
             break;
 
@@ -1177,47 +1175,56 @@ label.form-label {
                 ${question.extra.consentDetails
                 .map(userdetail => {
                   let html = '';
-                  if (userdetail.nameLabel) {
+                  if (userdetail.nameLabel == "Name") {
                     html = `
-                <div>
-                  <label class="form-label">
-                    ${userdetail.nameLabel}
-                  </label>
-                  <input type="text" name="question${question.questionId}_name" placeholder="${userdetail.namePlaceholder}" />
-                </div>
-              `;
-                  }
-                  if (userdetail.emailLabel) {
+                              
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        ${userdetail.nameLabel}
+                                        </label>
+                                        <input type="text" name="question${question.questionId}" placeholder="${userdetail.namePlaceholder}" />
+                                </div>
+                            `;
+                  } else if (userdetail.emailLabel == "Email") {
                     html = `
-                <div>
-                  <label class="form-label">
-                    ${userdetail.emailLabel}
-                  </label>
-                  <input type="text" name="question${question.questionId}_email" placeholder="${userdetail.emailPlaceholder}" />
-                </div>
-              `;
-                  }
-                  if (userdetail.countryLabel) {
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        ${userdetail.emailLabel}
+                                          </label>
+                                        <input type="text" name="question${question.questionId}" placeholder="${userdetail.emailPlaceholder}" />
+                                  
+                                </div>
+                            `;
+
+                  } else if (userdetail.countryLabel == "Country") {
                     html = `
-                <div>
-                  <label class="form-label">
-                    ${userdetail.countryLabel}
-                  </label>
-                  <select name="question${question.questionId}_country">
-                    <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
-                    ${userdetail.countryOptions
-                        .map(option => `<option value="${option}">${option}</option>`)
-                        .join('')}
-                  </select>
-                </div>
-              `;
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        ${userdetail.countryLabel}
+                                         </label>
+                                        <div class="dropdown-el" name="question${question.questionId}_country">
+                                          <div data-value="" class="select-dropdown__button"><span>Select your country</span></div>
+                                            <div class="select-dropdown__list">
+                                              <div class="select-dropdown">
+                                                  <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
+                                                    ${userdetail.countryOptions
+                                                  .map(option => `<option value="${option}">${option}</option>`)
+                                                  .join('')}
+                                              </div>
+                                            </div>
+                                        </div>
+                                       
+                                   
+                                </div>
+                            `;
                   }
                   return html;
                 })
                 .join('')}
       </div>
-      <label class="form-label">I consent to:</label>
-      ${question.extra.consentOptions
+      <div class="consent-select">
+          <label class="form-label">I consent to:</label>
+          ${question.extra.consentOptions
                 .map(option => `
           <label class="consent-item">
             <input type="checkbox" name="question${question.questionId}_consentOption" value="${option.label}" ${option.isChecked ? "checked" : ""}>
@@ -1226,7 +1233,7 @@ label.form-label {
           </label>
         `)
                 .join('')}
-                </div>
+          </div>
             <p>${question.extra.cookiePolicy}</p>
         </div>`;
             break;
