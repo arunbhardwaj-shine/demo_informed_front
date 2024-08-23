@@ -112,6 +112,7 @@
       font-weight: 500;
       line-height: 132%;
       margin: 0 0;
+      display: inline;
     }
 
     .helper-text {
@@ -123,7 +124,7 @@
     }
 
     #survey-form {
-      gap: 30px;
+      gap: 40px;
       display: flex;
       flex-direction: column;
       margin: 60px 0 0;
@@ -141,6 +142,7 @@
       color: #70899E;
       border: 0;
       margin: 10px 0 0;
+      font-family: 'Roboto';
     }
 
     .survey-question h3 {
@@ -261,13 +263,29 @@
       display: flex;
       margin: 0 auto;
     }
-
+    .survey-paragraph {
+    font-size: 12px;
+    line-height: 132%;
+    color:#70899E
+}
+  .survey-paragraph p{
+      font-size: 12px;
+      line-height: 132%;
+      color:#70899E
+  }
+  .survey-paragraph ol, .survey-paragraph ul{
+    margin:5px 0;
+    padding-left:20px;
+  }
     .login-consent {
       margin: 0 0 30px;
       color: #004A89;
       font-size: 12px;
       font-weight: 500;
       line-height: 132%;
+    }
+    .login-consent a{
+      color: #004A89;
     }
 
     .consent-item {
@@ -384,7 +402,7 @@
 
     textarea:focus-visible {
       outline: none;
-      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 50%);
+      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 36%);
     }
 
     .select-dropdown__button {
@@ -405,11 +423,11 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       cursor: pointer;
-      background: #ffffff url(../componentAssets/images/dropdown-arrow.svg) no-repeat 93% center;
+      background: #ffffff url(../componentAssets/images/arrow-down-sign.svg) no-repeat 93% center;
     }
 
     .select-dropdown__button span {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 300;
     }
 
@@ -442,9 +460,9 @@
     }
 
     .select-dropdown__list option {
-      font-size: 14px;
-      line-height: 17px;
-      padding: 0.3rem 1rem;
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0.3rem 0.8rem;
       border-radius: 15px;
       cursor: pointer;
       margin: 0 0 2px;
@@ -455,6 +473,8 @@
 
     .dropdown-el {
       position: relative;
+      max-width: 251px;
+      width: 100%;
     }
 
     .dropdown-el.active .select-dropdown__list {
@@ -484,205 +504,309 @@
       width: 12px;
       border-radius: 20px;
     }
-
     .survey-question input[type="text"] {
-      max-width: 211px;
-      border-radius: 4px;
-      background: #ffffff;
-      box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-      border: 0;
-      font-size: 12px;
-      padding: 10px 12px;
-      width: 100%;
-    }
+    max-width: 211px;
+    border-radius: 4px;
+    background: #ffffff;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+    border: 0;
+    font-size: 12px;
+    padding: 10px 12px;
+    width: 100%;
+}
+:focus-visible, .form-section .form-group input:focus-visible{
+  outline:none;
+  box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 26%);
+}
+.form-group .select-dropdown__button span {
+    font-weight: 400;
+    color: rgb(112, 137, 158);
+}
+.survey-question input[type="text"]:focus-visible{
+  outline: none;
+  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.26);
+}
+::-webkit-input-placeholder {
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+::-moz-placeholder { 
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+:-ms-input-placeholder { 
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+:-moz-placeholder { 
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+.question-title span {
+    color: rgb(112, 137, 158);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 132%;
+    margin: 0 0 0 4px;
+}
+.question-title {
+    display: inline-block;
+    align-items: center;
+}
+.rating-labels > div {
+    color: #70899E;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 132%;
+}
+.rating-block {
+    display: flex;
+    justify-content: flex-start;
+}
+.rating-stars, .rating-numeric {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin: 0;
+    padding-left: 0;
+    width: auto;
+    gap: 22px;
+}
+.rating-numeric {
+    flex-direction: row;
+}
 
-    .question-title span {
-      color: rgb(112, 137, 158);
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 132%;
-      margin: 0 0 0 4px;
-    }
+label.rating-option {
+    /* border-radius: 32px;
+    background: rgba(0, 74, 137, 0.08);
+    color: #004A89; */
+    font-size: 24px;
+    /* font-weight: 400; */
+    /* width: 24px;
+    height: 24px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    cursor: pointer;
+    position: relative;
+}
+.rating-numeric label.rating-option{
+   border-radius: 32px;
+    background: rgba(0, 74, 137, 0.08);
+    color: #004A89; 
+    font-size: 12px;
+    font-weight: 400;
+    width: 24px;
+    height: 24px;
+}
+.rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label{
+  background: #004A89;
+  color: #ffffff!important;
+}
 
-    .question-title {
-      display: flex;
-      align-items: center;
-    }
+.rating-labels {
+    justify-content: space-between;
+    flex-direction: row;
+    display: flex;
+    gap: 22px;
+    padding: 5px 0 0;
+}
+/* label.rating-option:hover {
+    background: #004A89;
+    color: #ffffff!important;
+} */
+.rating-stars label.rating-option:hover ~ label svg path {
+    fill: #FAC755!important;
+}
+.rating-stars label.rating-option:hover svg path {
+    fill: #FAC755!important;
+}
+.cookieadd .modal-dialog {
+    height: 85%;
+    max-width: 768px;
+    margin-left: auto;
+        margin-right: auto;
+}
+.modal.fade .modal-dialog {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    transition: -webkit-transform .3s ease-out;
+    transition: transform .3s ease-out;
+    transition: transform .3s ease-out,-webkit-transform .3s ease-out;
+}
+.modal-dialog-centered {
+    align-items: center;
+    display: flex;
+    min-height: calc(100% - var(--bs-modal-margin)*2);
+}
+.modal.show .modal-dialog {
+    -webkit-transform: none;
+    transform: none;
 
-    .rating-labels>div {
-      color: #70899E;
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 132%;
-    }
+}
+.cookieadd .modal-content {
+    background: #183b4c;
+    border: 0;
+    border-radius: 15px;
+    box-shadow: 0 0 19px hsla(0,0%,100%,.2);
+    height: 100%;
+    left: 0;
+    max-height: 500px;
+    right: 0;
+}
+.cookieadd .modal-header {
+    border: 0;
+    justify-content: center;
+    margin-bottom: 15px;
+    padding: 18px 15px 0;
+    position: relative;
+    text-align: center;
+}
+.modal-header .modal-title {
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(109deg,#f3942d 12.9%,#e94362 87.1%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: #001489;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+}
+.cookieadd .modal-header button.btn-close {
+    border: 0;
+    color: #97b6cf;
+    font-size: 17px;
+    font-weight: 700;
+    opacity: 1;
+    position: absolute;
+    right: 24px;
+    top: 22px;
+}
+.modal-body {
+    flex: 1 1 auto;
+    padding: 1rem;
+    position: relative;
+}
+.cookieadd .modal-body {
+    height: 100%;
+    overflow: hidden;
+}
+.modal-content .modal-body h6 {
+    color: hsla(0,0%,100%,.3);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    margin:0 0 .5rem;
+}
+.used-cookies-table-top {
+    height: 100%;
+    margin-top: 20px;
+    padding-top: 20px;
+    position: relative;
+}
+.used-cookies-table-top:before {
+    border-top: .5px dashed #70899e;
+    content: "";
+    left: -15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: calc(100% + 30px);
+}
+.cookieadd .used-cookies-table {
+    height: calc(100% - 135px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 300px;
+}
+table {
+    border-collapse: collapse;
+    caption-side: bottom;
+}
+.cookieadd .used-cookies-table table thead {
+    background: #183b4c;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+.used-cookies-table table thead th {
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(109deg,#f3942d 12.9%,#e94362 87.1%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: #00a993;
+    font-size: 16px;
+    font-weight: 500;
+    min-width: 230px;
+    padding: 0 10px 20px 0;
+    text-align: left;
+}
+.used-cookies-table table td {
+    color: hsla(0,0%,100%,.3);
+    font-size: 15px;
+    line-height: 27px;
+    padding: 0 10px 20px 0;
+    vertical-align: top;
+}
 
-    label.rating-option {
-      border-radius: 32px;
-      background: rgba(0, 74, 137, 0.08);
-      color: #004A89;
-      font-size: 12px;
-      font-weight: 400;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      cursor: pointer;
-      position: relative;
-    }
+.form-section .form-group input, .form-section .form-group select {
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+    font-size: 12px;
+    padding: 11px 12px;
+    border: 0;
+    max-width: 251px;
+    width: 100%;
+}
+.form-group .select-dropdown__button {
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+}
+label.form-label {
+    color: #004A89;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 132%;
+    margin: 0 0 14px;
+    display: block;
+}
+.form-section .form-group label.form-label {
+    color: #004A89;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 132%;
+    padding-left: 12px;
+    margin: 0 0 5px;
+}
 
-    label.rating-option:hover {
-      background: #004A89;
-      color: #ffffff !important;
-    }
+.form-section .form-group {
+    margin: 0 0 16px;
+    flex-direction: column;
+    display: flex;
+    width: 50%;
+}
 
-    .cookieadd .modal-dialog {
-      height: 85%;
-      max-width: 768px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.form-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
 
-    .modal.fade .modal-dialog {
-      -webkit-transform: translateY(-50px);
-      transform: translateY(-50px);
-      transition: -webkit-transform .3s ease-out;
-      transition: transform .3s ease-out;
-      transition: transform .3s ease-out, -webkit-transform .3s ease-out;
-    }
+.form-section .form-group:nth-child(2n) {
+    display: flex;
+    /* flex-wrap: wrap; */
+    align-items: flex-end;
+    box-sizing: border-box;
+}
 
-    .modal-dialog-centered {
-      align-items: center;
-      display: flex;
-      min-height: calc(100% - var(--bs-modal-margin)*2);
-    }
-
-    .modal.show .modal-dialog {
-      -webkit-transform: none;
-      transform: none;
-
-    }
-
-    .cookieadd .modal-content {
-      background: #183b4c;
-      border: 0;
-      border-radius: 15px;
-      box-shadow: 0 0 19px hsla(0, 0%, 100%, .2);
-      height: 100%;
-      left: 0;
-      max-height: 500px;
-      right: 0;
-    }
-
-    .cookieadd .modal-header {
-      border: 0;
-      justify-content: center;
-      margin-bottom: 15px;
-      padding: 18px 15px 0;
-      position: relative;
-      text-align: center;
-    }
-
-    .modal-header .modal-title {
-      -webkit-text-fill-color: transparent;
-      background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: #001489;
-      font-size: 20px;
-      font-weight: 600;
-      text-align: center;
-      display: inline-block;
-    }
-
-    .cookieadd .modal-header button.btn-close {
-      border: 0;
-      color: #97b6cf;
-      font-size: 17px;
-      font-weight: 700;
-      opacity: 1;
-      position: absolute;
-      right: 24px;
-      top: 22px;
-    }
-
-    .modal-body {
-      flex: 1 1 auto;
-      padding: 1rem;
-      position: relative;
-    }
-
-    .cookieadd .modal-body {
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .modal-content .modal-body h6 {
-      color: hsla(0, 0%, 100%, .3);
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 18px;
-      margin: 0 0 .5rem;
-    }
-
-    .used-cookies-table-top {
-      height: 100%;
-      margin-top: 20px;
-      padding-top: 20px;
-      position: relative;
-    }
-
-    .used-cookies-table-top:before {
-      border-top: .5px dashed #70899e;
-      content: "";
-      left: -15px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: calc(100% + 30px);
-    }
-
-    .cookieadd .used-cookies-table {
-      height: calc(100% - 135px);
-      overflow-x: hidden;
-      overflow-y: auto;
-      max-height: 300px;
-    }
-
-    table {
-      border-collapse: collapse;
-      caption-side: bottom;
-    }
-
-    .cookieadd .used-cookies-table table thead {
-      background: #183b4c;
-      position: -webkit-sticky;
-      position: sticky;
-      top: 0;
-    }
-
-    .used-cookies-table table thead th {
-      -webkit-text-fill-color: transparent;
-      background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: #00a993;
-      font-size: 16px;
-      font-weight: 500;
-      min-width: 230px;
-      padding: 0 10px 20px 0;
-      text-align: left;
-    }
-
-    .used-cookies-table table td {
-      color: hsla(0, 0%, 100%, .3);
-      font-size: 15px;
-      line-height: 27px;
-      padding: 0 10px 20px 0;
-      vertical-align: top;
-    }
-
+.form-section .form-group:nth-child(2n) label.form-label {
+    flex: 0 0 100%;
+    padding: 0 0 0 65px;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
     @media only screen and (max-width:767px) {
       .informed-survey {
         margin: 16px auto;
@@ -879,16 +1003,16 @@
                               <div class="select-dropdown__list">
                                 <div class="select-dropdown">
                         `;
-            question.answer[0].value.forEach((option) => {
-              const combinedValue = `${question.answer[0].answerId},${option}`;
-              surveyHtml += `
-                                <option value="${combinedValue}" ${question.isOptional ? "" : "required"}">${option}</option>
-                            `;
-            });
-            surveyHtml += `</div>`;
-            surveyHtml += `</div>`;
-            surveyHtml += `</div>`;
-            surveyHtml += `</div>`;
+                            question.answer[0].value.forEach((option) => {
+                              const combinedValue = `${question.answer[0].answerId},${option}`;
+                              surveyHtml += `
+                                                <option value="${combinedValue}" ${question.isOptional ? "" : "required"}">${option}</option>
+                                            `;
+                            });
+                            surveyHtml += `</div>`;
+                            surveyHtml += `</div>`;
+                            surveyHtml += `</div>`;
+                            surveyHtml += `</div>`;
             break;
 
 
@@ -908,11 +1032,11 @@
     `;
               for (let i = question.extra.ratingScale; i >= 1; i--) {
                 surveyHtml += `
-        <label class="rating-option" style="color: ${question.extra.ratingColor};">
-          <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-          &#9733;
-        </label>
-      `;
+            <label class="rating-option" style="color: ${question.extra.ratingColor};">
+                <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><g clip-path="url(#clip0_1228_31957)"><path d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z" stroke="#FAC755" style="fill: none;"></path></g><defs><clipPath id="clip0_1228_31957"><rect width="24" height="24" fill="white" transform="translate(0 0.046875)"></rect></clipPath></defs></svg>
+            </label>
+            `;
               }
 
               surveyHtml += `
@@ -924,9 +1048,11 @@
             } else {
               // Numeric rating type
               surveyHtml += `
-      <div class="rating-numeric" style="color: ${customHtml.question_answer_color};">
-    `;
-              for (let i = question.extra.ratingScale; i >= 1; i--) {
+              <div class="rating-block">
+              <div class="rating-wrapper">
+              <div class="rating-numeric" style="color: ${customHtml.question_answer_color};">
+        `;
+        for (let i = question.extra.ratingScale; i >= 1; i--) {
                 surveyHtml += `
         <label class="rating-option" style="color: ${customHtml.question_answer_color};">
           <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
@@ -934,6 +1060,7 @@
         </label>
       `;
               }
+              surveyHtml += `</div>`;
               surveyHtml += `
       <div class="rating-labels">
         <div class="not-satisfy">${question.extra.leftSideLabel}</div>
@@ -1010,7 +1137,8 @@
           case "paragraph":
             surveyHtml += `
               <div class="survey-question">
-                <div class="d-flex question-title" style="color: ${question.style.color};">${question.question}</div>
+                <div class="survey-paragraph" style="color: ${question.style.color};">${question.question}</div>
+
             `;
             surveyHtml += `</div>`;
             break;
@@ -1037,12 +1165,10 @@
 
           case "consent":
             surveyHtml += `
-    <div class="survey-consent">
-      <div class="login-consent">
-        ${question.question} ${question.extra.operatingStatement}
-      </div>
-      <div class="form-group">
-        ${question.extra.consentDetails
+        <div class="survey-consent">
+            <div class="login-consent">${question.question}${question.extra.operatingStatement}</div>
+            <div class="form-section">
+                ${question.extra.consentDetails
                 .map(userdetail => {
                   let html = '';
                   if (userdetail.nameLabel) {
@@ -1094,8 +1220,9 @@
           </label>
         `)
                 .join('')}
-      <p>${question.extra.cookiePolicy}</p>
-    </div>`;
+                </div>
+            <p>${question.extra.cookiePolicy}</p>
+        </div>`;
             break;
 
           default:
@@ -1273,61 +1400,61 @@
       });
     });
   </script>
-  <!-- <div role="dialog" aria-modal="true" class="fade cookieadd modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title h4">Used cookies</div>
-          <button type="button" class="btn-close" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h6>Essential cookies exclusively enhance your experience with us ensuring our system runs smoothly whilst recognising you for seamless recurring use. Be confident we never share your information with any commercial cookie company.</h6>
-          <div class="used-cookies-table-top">
-            <div class="used-cookies-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Purpose</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>CAKEPHP</td>
-                    <td>Framework default cookie for cache of all component.</td>
-                  </tr>
-                  <tr>
-                    <td>dynamic_number (ex 1210)</td>
-                    <td>This cookie is used for storing the status of consent given or not for the article.</td>
-                  </tr>
-                  <tr>
-                    <td>video_track</td>
-                    <td>This cookie is used for storing the last seek time of user for the particular video.</td>
-                  </tr>
-                  <tr>
-                    <td>name_use</td>
-                    <td>Used to autofill name of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent. </td>
-                  </tr>
-                  <tr>
-                    <td>email_use</td>
-                    <td>Used to autofill email of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
-                  </tr>
-                  <tr>
-                    <td>country_use</td>
-                    <td>Used to autofill country of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
-                  </tr>
-                  <tr>
-                    <td>consent_type</td>
-                    <td>Used to detect if use have given full or limited consent to be sure tracking of usage is handled correctly.</td>
-                  </tr>
-                </tbody>
-              </table>
+    <!-- <div role="dialog" aria-modal="true" class="fade cookieadd modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title h4">Used cookies</div>
+            <button type="button" class="btn-close" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h6>Essential cookies exclusively enhance your experience with us ensuring our system runs smoothly whilst recognising you for seamless recurring use. Be confident we never share your information with any commercial cookie company.</h6>
+            <div class="used-cookies-table-top">
+              <div class="used-cookies-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>CAKEPHP</td>
+                      <td>Framework default cookie for cache of all component.</td>
+                    </tr>
+                    <tr>
+                      <td>dynamic_number (ex 1210)</td>
+                      <td>This cookie is used for storing the status of consent given or not for the article.</td>
+                    </tr>
+                    <tr>
+                      <td>video_track</td>
+                      <td>This cookie is used for storing the last seek time of user for the particular video.</td>
+                    </tr>
+                    <tr>
+                      <td>name_use</td>
+                      <td>Used to autofill name of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent. </td>
+                    </tr>
+                    <tr>
+                      <td>email_use</td>
+                      <td>Used to autofill email of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
+                    </tr>
+                    <tr>
+                      <td>country_use</td>
+                      <td>Used to autofill country of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
+                    </tr>
+                    <tr>
+                      <td>consent_type</td>
+                      <td>Used to detect if use have given full or limited consent to be sure tracking of usage is handled correctly.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div> -->
+    </div> -->
 </body>
 
 </html>
