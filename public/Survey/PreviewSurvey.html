@@ -802,72 +802,70 @@
       questions.forEach((question) => {
 
         switch (question.type) {
-
           case "multiple":
             surveyHtml += `<div class="survey-question">
-                    <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
-                        <p>${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span> </p>
-                    </div>
-                    <p class="helper-text">${question.questionDescription}</p>`;
+        <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+            <p>${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span></p>
+        </div>
+        <p class="helper-text">${question.questionDescription}</p>`;
 
             question.answer.forEach((answer) => {
               surveyHtml += `
-                    <label class="check" style="color: ${customHtml.question_answer_color};">
-                        <input type="radio" name="question${question.questionId}" value="${answer.answerId}" ${question.isOptional ? "" : "required"}"/>
-                        ${answer.value} 
-                        <span class="checkmark"></span>
-                    </label>`;
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="radio" name="question${question.questionId}" value="${answer.answerId}" ${question.isOptional ? "" : "required"} />
+            ${answer.value}
+            <span class="checkmark"></span>
+        </label>`;
             });
 
             if (question.extra.addAllOfTheAbove) {
               surveyHtml += `
-                    <label class="check" style="color: ${customHtml.question_answer_color};">
-                        <input type="radio" name="question${question.questionId}" value="${question.extra.allOfTheAboveLabel}" ${question.isOptional ? "" : "required"}"/>
-                        ${question.extra.allOfTheAboveLabel} 
-                        <span class="checkmark"></span><br>
-                    </label> `;
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="radio" name="question${question.questionId}" value="${question.extra.allOfTheAboveLabel}" ${question.isOptional ? "" : "required"} />
+            ${question.extra.allOfTheAboveLabel}
+            <span class="checkmark"></span><br>
+        </label>`;
             }
 
             if (question.addOtherChoice) {
               surveyHtml += `
-                    <label class="check" style="color: ${customHtml.question_answer_color};">
-                        <input type="radio" name="question${question.questionId}" value="${question.extra.otherChoiceLabel}" ${question.isOptional ? "" : "required"}"/>
-                        ${question.extra.otherChoiceLabel} 
-                        <span class="checkmark"></span><br>
-                    </label>
-                     <input type="text" placeholder="${question.extra.otherChoicePlaceholderText}" name="question${question.questionId}"/>
-                    `;
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="radio" name="question${question.questionId}" value="${question.extra.otherChoiceLabel}" ${question.isOptional ? "" : "required"} id="radio-other-choice-${question.questionId}" />
+            ${question.extra.otherChoiceLabel}
+            <span class="checkmark"></span><br>
+        </label>
+        <input type="text" placeholder="${question.extra.otherChoicePlaceholderText}" name="question${question.questionId}_other" id="other-text-${question.questionId}" class="other-text-input" style="display:none;" />
+        `;
             }
 
             surveyHtml += `</div>`;
-
             break;
-
 
           case "checkbox":
             surveyHtml += `<div class="survey-question">
-                            <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</div>
-                            <p class="helper-text">${question.questionDescription}</p>
-                        `;
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span></div>
+      <p class="helper-text">${question.questionDescription}</p>`;
+
             question.answer.forEach((answer) => {
               surveyHtml += `
-                                <label class="check" style="color: ${customHtml.question_answer_color};">
-                                    <input type="checkbox" name="question${question.questionId}" value="${answer.answerId}" ${question.isOptional ? "" : "required"}"/>
-                                    ${answer.value}
-                                    <span class="checkmark"></span>
-                                </label>
-                            `;
+          <label class="check" style="color: ${customHtml.question_answer_color};">
+              <input type="checkbox" name="question${question.questionId}" value="${answer.answerId}" ${question.isOptional ? "" : "required"}"/>
+              ${answer.value}
+              <span class="checkmark"></span>
+          </label>`;
             });
             if (question.addOtherChoice) {
               surveyHtml += `
-                    <label class="check" style="color: ${customHtml.question_answer_color};">
-                        <input type="checkbox" name="question${question.questionId}" value="${question.extra.otherChoiceLabel}" ${question.isOptional ? "" : "required"}"/>
-                        ${question.extra.otherChoiceLabel} 
-                        <span class="checkmark"></span><br>
-                    </label>
-                     <input type="text" placeholder="${question.extra.otherChoicePlaceholderText}" name="question${question.questionId}"/>
-                    `;
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="checkbox" name="question${question.questionId}" value="${question.extra.otherChoiceLabel}" ${question.isOptional ? "" : "required"} id="checkbox-other-choice-${question.questionId}" />
+            ${question.extra.otherChoiceLabel}
+            <span class="checkmark"></span><br>
+        </label>
+        <input type="text" placeholder="${question.extra.otherChoicePlaceholderText}" name="question${question.questionId}_other" id="other-text-${question.questionId}" class="other-text-input" style="display:none;" />
+    `;
             }
+
+
             surveyHtml += `</div>`;
             break;
 
@@ -897,101 +895,108 @@
           case "rating":
             surveyHtml += `
     <div class="survey-question">
-        <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
-            ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
-        </div>
-        <p class="helper-text">${question.questionDescription}</p>
-    `;
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+      </div>
+      <p class="helper-text">${question.questionDescription}</p>
+  `;
 
             // Check if the rating type is stars
             if (question.extra.ratingType === "stars") {
               surveyHtml += `
-        <div class="rating-stars" style="color: ${question.extra.ratingColor};">
-        `;
-              for (let i = 1; i <= question.extra.ratingScale; i++) {
+      <div class="rating-stars" style="color: ${question.extra.ratingColor};">
+    `;
+              for (let i = question.extra.ratingScale; i >= 1; i--) {
                 surveyHtml += `
-            <label class="rating-option" style="color: ${question.extra.ratingColor};">
-                <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-                &#9733;
-            </label>
-            `;
+        <label class="rating-option" style="color: ${question.extra.ratingColor};">
+          <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
+          &#9733;
+        </label>
+      `;
               }
 
-              surveyHtml += `</div>`;
+              surveyHtml += `
+      <div class="rating-labels">
+        <div class="not-satisfy">${question.extra.leftSideLabel}</div>
+        <div class="satisfy">${question.extra.rightSideLabel}</div>
+      </div>
+    </div>`;
             } else {
               // Numeric rating type
               surveyHtml += `
-              <div class="rating-numeric" style="color: ${customHtml.question_answer_color};">
-        `;
-              for (let i = 1; i <= question.extra.ratingScale; i++) {
+      <div class="rating-numeric" style="color: ${customHtml.question_answer_color};">
+    `;
+              for (let i = question.extra.ratingScale; i >= 1; i--) {
                 surveyHtml += `
-            <label class="rating-option" style="color: ${customHtml.question_answer_color};">
-                <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-                ${i}
-            </label>
-            `;
+        <label class="rating-option" style="color: ${customHtml.question_answer_color};">
+          <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
+          ${i}
+        </label>
+      `;
               }
               surveyHtml += `
-              <div class="rating-labels">
-                  <div class="not-satisfy">${question.extra.leftSideLabel}</div>
-                  <div class="satisfy">${question.extra.rightSideLabel}</div>
-              </div>
-        </div>`;
+      <div class="rating-labels">
+        <div class="not-satisfy">${question.extra.leftSideLabel}</div>
+        <div class="satisfy">${question.extra.rightSideLabel}</div>
+      </div>
+    </div>`;
             }
             surveyHtml += `</div>`;
             break;
 
+
           case "matrix":
-            // Determine input type based on allowMultipleAnswer
+            // Determine the input type based on allowMultipleAnswer
             const inputType = question.extra.allowMultipleAnswer ? 'checkbox' : 'radio';
-            surveyHtml +=
-              `<div class="survey-question matrix">
-            <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
-                ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
-            </div>
-            <p class="helper-text">${question.questionDescription}</p>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            ${question.answer[0].answer
+
+            // Start the HTML for the matrix question
+            surveyHtml += `
+    <div class="survey-question matrix">
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+      </div>
+      <p class="helper-text">${question.questionDescription}</p>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              ${question.answer[0].answer
                 .map((column) => `<th>${column.value}</th>`)
                 .join("")}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${question.answer
+            </tr>
+          </thead>
+          <tbody>
+            ${question.answer
                 .map((row) =>
                   `<tr>
-                                    <td>${row.title}</td>
-                                    ${row.answer
+                  <td>${row.title}</td>
+                  ${row.answer
                     .map((option) =>
                       `<td>
-                                                <input type="${inputType}" 
-                                                       name="question${question.questionId}_${row.id}_${option.answerId}" 
-                                                       value="${option.answerId}">
-                                                <span class="checkmark"></span>
-                                            </td>`)
+                        <input type="${inputType}" 
+                               name="question${question.questionId}_${row.id}_${option.answerId}" 
+                               value="${option.answerId}">
+                        <span class="checkmark"></span>
+                      </td>`)
                     .join("")}
-                                </tr>`)
+                </tr>`)
                 .join("")}
-                    </tbody>
-                </table>
-            </div>
-        </div>`;
+          </tbody>
+        </table>
+      </div>
+    </div>`;
             break;
-
-
-
           case "freeText":
             surveyHtml += `
-              <div class="survey-question">
-                <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</div>
-                <textarea name="question${question.questionId}" placeholder="${question.extra.placeholder}"></textarea>
-            `;
-            surveyHtml += `</div>`;
+    <div class="survey-question">
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+      </div>
+      <textarea name="question${question.questionId}" placeholder="${question.extra.placeholder}" ${question.isOptional ? "" : "required"}></textarea>
+    </div>`;
             break;
+
 
           case "heading":
             surveyHtml += `
@@ -1032,64 +1037,65 @@
 
           case "consent":
             surveyHtml += `
-        <div class="survey-consent">
-            <div class="login-consent">${question.question}${question.extra.operatingStatement}</div>
-            <div class="form-group">
-                ${question.extra.consentDetails
+    <div class="survey-consent">
+      <div class="login-consent">
+        ${question.question} ${question.extra.operatingStatement}
+      </div>
+      <div class="form-group">
+        ${question.extra.consentDetails
                 .map(userdetail => {
                   let html = '';
-                  if (userdetail.nameLabel == "Name") {
+                  if (userdetail.nameLabel) {
                     html = `
-                                <div>
-                                    <label class="form-label">
-                                        ${userdetail.nameLabel}
-                                        </label>
-                                        <input type="text" name="question${question.questionId}" placeholder="${userdetail.namePlaceholder}" />
-                                </div>
-                            `;
-                  } else if (userdetail.emailLabel == "Email") {
+                <div>
+                  <label class="form-label">
+                    ${userdetail.nameLabel}
+                  </label>
+                  <input type="text" name="question${question.questionId}_name" placeholder="${userdetail.namePlaceholder}" />
+                </div>
+              `;
+                  }
+                  if (userdetail.emailLabel) {
                     html = `
-                                <div>
-                                    <label class="form-label">
-                                        ${userdetail.emailLabel}
-                                          </label>
-                                        <input type="text" name="question${question.questionId}" placeholder="${userdetail.emailPlaceholder}" />
-                                  
-                                </div>
-                            `;
-
-                  } else if (userdetail.countryLabel == "Country") {
+                <div>
+                  <label class="form-label">
+                    ${userdetail.emailLabel}
+                  </label>
+                  <input type="text" name="question${question.questionId}_email" placeholder="${userdetail.emailPlaceholder}" />
+                </div>
+              `;
+                  }
+                  if (userdetail.countryLabel) {
                     html = `
-                                <div>
-                                    <label class="form-label">
-                                        ${userdetail.countryLabel}
-                                         </label>
-                                        <select name="question${question.questionId}_country">
-                                            <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
-                                            ${userdetail.countryOptions
+                <div>
+                  <label class="form-label">
+                    ${userdetail.countryLabel}
+                  </label>
+                  <select name="question${question.questionId}_country">
+                    <option value="" disabled selected>${userdetail.countryPlaceholder}</option>
+                    ${userdetail.countryOptions
                         .map(option => `<option value="${option}">${option}</option>`)
                         .join('')}
-                                        </select>
-                                   
-                                </div>
-                            `;
+                  </select>
+                </div>
+              `;
                   }
                   return html;
                 })
                 .join('')}
-            </div>
-         <label class="form-label">I consent To :</label>
-            ${question.extra.consentOptions
+      </div>
+      <label class="form-label">I consent to:</label>
+      ${question.extra.consentOptions
                 .map(option => `
-                    <label class="consent-item">
-                        <input type="checkbox" name="consentOption" value="${option.label}" ${option.isChecked ? "checked" : ""}>
-                        <span class="checkmark"></span>
-                        ${option.label}
-                    </label>
-                `)
+          <label class="consent-item">
+            <input type="checkbox" name="question${question.questionId}_consentOption" value="${option.label}" ${option.isChecked ? "checked" : ""}>
+            <span class="checkmark"></span>
+            ${option.label}
+          </label>
+        `)
                 .join('')}
-            <p>${question.extra.cookiePolicy}</p>
-        </div>`;
+      <p>${question.extra.cookiePolicy}</p>
+    </div>`;
             break;
 
           default:
@@ -1104,7 +1110,48 @@
                 </div>
             </form></div>`;
 
+      // Function to initialize event listeners for "Other" choices
+      function initializeOtherChoiceListeners() {
+        // Handle radio buttons for "Other" choices
+        document.querySelectorAll('input[id^="radio-other-choice-"]').forEach(input => {
+
+          input.addEventListener('change', function () {
+            // Extract the questionId from the id
+            const questionId = this.id.split('-').pop();
+
+            // Hide all "Other" text inputs for this question
+            document.querySelectorAll(`input[id^="other-text-${questionId}"]`).forEach(inputField => {
+              inputField.style.display = 'none';
+            });
+
+            // If the current "Other" choice is selected, show its corresponding input field
+            if (this.checked) {
+              const otherTextInput = document.getElementById(`other-text-${questionId}`);
+              if (otherTextInput) {
+                otherTextInput.style.display = 'block';
+              }
+            }
+          });
+        });
+
+        // Handle checkboxes for "Other" choices
+        document.querySelectorAll('input[id^="checkbox-other-choice-"]').forEach(input => {
+          input.addEventListener('change', function () {
+            // Extract the questionId from the id
+            const questionId = this.id.split('-').pop();
+
+            // Show or hide the corresponding "Other" text input based on the checkbox state
+            const otherTextInput = document.getElementById(`other-text-${questionId}`);
+            if (otherTextInput) {
+              otherTextInput.style.display = this.checked ? 'block' : 'none';
+            }
+          });
+        });
+      }
+
       document.getElementById("survey-container").innerHTML = surveyHtml;
+
+      initializeOtherChoiceListeners()
 
       document
         .getElementById("submit-button")
@@ -1133,6 +1180,7 @@
               obj[key] = value;
             }
           });
+
           console.log(obj);
           const responses = [];
 
