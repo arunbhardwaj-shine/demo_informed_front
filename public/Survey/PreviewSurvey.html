@@ -9,6 +9,12 @@
     rel="stylesheet">
   <title>Survey Preview</title>
   <style>
+    :root{
+      --white: #ffffff;
+      --light-blue: #0066be;
+      --dark-blue: #004a89;
+      --light-skyblue: #e7eff6;
+    }
     * {
       box-sizing: border-box;
     }
@@ -32,7 +38,7 @@
       max-width: 723px;
       margin: 15px auto;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      background-color: #ffffff;
+      background-color: var(--white);
     }
 
 
@@ -88,12 +94,12 @@
     .form-footer button {
       padding: 10px 20px;
       border: none;
-      color: #ffffff;
+      color: var(--white);
       cursor: pointer;
     }
 
     .divider {
-      border-top: 1px dashed #004a89;
+      border-top: 1px dashed var(--dark-blue);
       margin: 5px 0;
       height: initial;
     }
@@ -107,7 +113,7 @@
     }
 
     .question-title p {
-      color: #004A89;
+      color: var(--dark-blue);
       font-size: 12px;
       font-weight: 500;
       line-height: 132%;
@@ -132,7 +138,7 @@
 
     textarea {
       border-radius: 4px;
-      background: #ffffff;
+      background: var(--white);
       box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
       width: 100%;
       resize: none;
@@ -176,7 +182,7 @@
       left: 0;
       top: 1px;
       cursor: pointer;
-      background: #ffffff;
+      background: var(--white);
     }
 
     input[type="checkbox"]~span.checkmark {
@@ -193,7 +199,7 @@
       top: 1px;
       width: 4px;
       height: 8px;
-      border: solid #ffffff;
+      border: solid var(--white);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
       border-radius: 0;
@@ -208,18 +214,18 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #004A89;
+      background: var(--dark-blue);
       content: "";
       position: absolute;
     }
 
     input[type="radio"]:checked~.checkmark {
-      border-color: #004A89;
+      border-color: var(--dark-blue);
     }
 
     input[type="checkbox"]:checked~.checkmark {
       background: rgb(0, 74, 137);
-      border-color: #004A89;
+      border-color: var(--dark-blue);
     }
 
     .form-footer {
@@ -233,10 +239,10 @@
 
     .form-footer button {
       border-radius: 30px;
-      background: #004A89;
+      background: var(--dark-blue);
       box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
       border: 0;
-      color: #ffffff;
+      color: var(--white);
       font-size: 13px;
       font-weight: 500;
       min-width: 90px;
@@ -279,13 +285,13 @@
   }
     .login-consent {
       margin: 0 0 30px;
-      color: #004A89;
+      color: var(--dark-blue);
       font-size: 12px;
       font-weight: 500;
       line-height: 132%;
     }
     .login-consent a{
-      color: #004A89;
+      color: var(--dark-blue);
     }
 
     .consent-item {
@@ -322,7 +328,7 @@
       top: 2px;
       width: 3px;
       height: 7px;
-      border: solid #ffffff;
+      border: solid var(--white);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
       border-radius: 0;
@@ -371,7 +377,7 @@
       min-width: 66px;
       font-size: 11px;
       padding: 7px 4px;
-      color: #004A89;
+      color: var(--dark-blue);
       min-height: 24px;
       position: relative;
     }
@@ -393,7 +399,7 @@
     }
 
     .matrix tbody tr td span.checkmark {
-      border: 1px solid #004A89;
+      border: 1px solid var(--dark-blue);
       top: 50%;
       transform: translateY(-50%);
       margin: 0 auto;
@@ -423,7 +429,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       cursor: pointer;
-      background: #ffffff url(../componentAssets/images/arrow-down-sign.svg) no-repeat 93% center;
+      background: var(--white) url(../componentAssets/images/arrow-down-sign.svg) no-repeat 93% center;
     }
 
     .select-dropdown__button span {
@@ -448,7 +454,7 @@
       width: 100%;
       padding: 8px;
       max-height: 170px;
-      background-color: #ffffff;
+      background-color: var(--white);
       background-clip: padding-box;
       z-index: 99;
     }
@@ -468,7 +474,7 @@
       margin: 0 0 2px;
       word-break: break-word;
       white-space: normal;
-      color: #0066be;
+      color: var(--light-blue);
     }
 
     .dropdown-el {
@@ -507,7 +513,7 @@
     .survey-question input[type="text"] {
     max-width: 211px;
     border-radius: 4px;
-    background: #ffffff;
+    background: var(--white);
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
     border: 0;
     font-size: 12px;
@@ -578,7 +584,7 @@
 label.rating-option {
     /* border-radius: 32px;
     background: rgba(0, 74, 137, 0.08);
-    color: #004A89; */
+    color: var(--dark-blue); */
     font-size: 24px;
     /* font-weight: 400; */
     /* width: 24px;
@@ -593,15 +599,15 @@ label.rating-option {
 .rating-numeric label.rating-option{
    border-radius: 32px;
     background: rgba(0, 74, 137, 0.08);
-    color: #004A89; 
+    color: var(--dark-blue); 
     font-size: 12px;
     font-weight: 400;
     width: 24px;
     height: 24px;
 }
 .rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label{
-  background: #004A89;
-  color: #ffffff!important;
+  background: var(--dark-blue);
+  color: var(--white)!important;
 }
 
 .rating-labels {
@@ -612,8 +618,8 @@ label.rating-option {
     padding: 5px 0 0;
 }
 /* label.rating-option:hover {
-    background: #004A89;
-    color: #ffffff!important;
+    background: var(--dark-blue);
+    color: var(--white)!important;
 } */
 .rating-stars label.rating-option:hover ~ label svg path {
     fill: #FAC755!important;
@@ -752,7 +758,7 @@ table {
 
 .form-section .form-group input, .form-section .form-group select {
     border-radius: 24px;
-    background: #ffffff;
+    background: var(--white);
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
     font-size: 12px;
     padding: 11px 12px;
@@ -764,7 +770,7 @@ table {
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
 }
 label.form-label {
-    color: #004A89;
+    color: var(--dark-blue);
     font-size: 12px;
     font-weight: 500;
     line-height: 132%;
@@ -772,7 +778,7 @@ label.form-label {
     display: block;
 }
 .form-section .form-group label.form-label {
-    color: #004A89;
+    color: var(--dark-blue);
     font-size: 12px;
     font-weight: 500;
     line-height: 132%;
