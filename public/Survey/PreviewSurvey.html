@@ -625,10 +625,7 @@
       background: var(--dark-blue);
       color: var(--white)!important;
   } */
-      .rating-stars label.rating-option:hover ~ label svg path {
-        fill: #fac755 !important;
-      }
-      .rating-stars label.rating-option:hover svg path {
+      .rating-stars label.rating-option:hover ~ label svg path, .rating-stars input:checked ~ label svg path,  .rating-stars label.rating-option:hover svg path  {
         fill: #fac755 !important;
       }
       .cookieadd .modal-dialog {
@@ -820,6 +817,7 @@
       .consent-select {
         margin: 25px 0 35px;
       }
+
       @media only screen and (max-width: 767px) {
         .informed-survey {
           margin: 16px auto;
@@ -911,8 +909,8 @@
   </head>
 
   <body>
-    <div id="survey-container" class="informed-survey"></div>
-
+    <div id="survey-container" class="informed-survey">
+	</div>
     <script>
       document.addEventListener("DOMContentLoaded", async function () {
         const endPoint = await fetch("./config.json");
@@ -1121,6 +1119,8 @@
               // Check if the rating type is stars
               if (question.extra.ratingType === "stars") {
                 surveyHtml += `
+                <div class="rating-block">
+              <div class="rating-wrapper">
       <div class="rating-stars" style="color: ${question.extra.ratingColor};">
     `;
                 for (let i = question.extra.ratingScale; i >= 1; i--) {
@@ -1136,11 +1136,12 @@
             </label>
             `;
                 }
-
+                surveyHtml += `</div>`;
                 surveyHtml += `
       <div class="rating-labels">
         <div class="not-satisfy">${question.extra.leftSideLabel}</div>
         <div class="satisfy">${question.extra.rightSideLabel}</div>
+      </div>
       </div>
     </div>`;
               } else {
@@ -1378,7 +1379,8 @@
                     <button type="button" id="submit-button" style="background: ${customHtml.button_color};">${customHtml.button_text}</button>
                     <span style="color: ${customHtml.bodyTextColor};">${customHtml.main_footer}</span>
                 </div>
-            </form></div>`;
+            </form>
+		</div>`;
 
         // Function to initialize event listeners for "Other" choices
         function initializeOtherChoiceListeners() {
@@ -1564,60 +1566,5 @@
         });
       });
     </script>
-    <!-- <div role="dialog" aria-modal="true" class="fade cookieadd modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-title h4">Used cookies</div>
-            <button type="button" class="btn-close" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <h6>Essential cookies exclusively enhance your experience with us ensuring our system runs smoothly whilst recognising you for seamless recurring use. Be confident we never share your information with any commercial cookie company.</h6>
-            <div class="used-cookies-table-top">
-              <div class="used-cookies-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Purpose</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>CAKEPHP</td>
-                      <td>Framework default cookie for cache of all component.</td>
-                    </tr>
-                    <tr>
-                      <td>dynamic_number (ex 1210)</td>
-                      <td>This cookie is used for storing the status of consent given or not for the article.</td>
-                    </tr>
-                    <tr>
-                      <td>video_track</td>
-                      <td>This cookie is used for storing the last seek time of user for the particular video.</td>
-                    </tr>
-                    <tr>
-                      <td>name_use</td>
-                      <td>Used to autofill name of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent. </td>
-                    </tr>
-                    <tr>
-                      <td>email_use</td>
-                      <td>Used to autofill email of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
-                    </tr>
-                    <tr>
-                      <td>country_use</td>
-                      <td>Used to autofill country of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
-                    </tr>
-                    <tr>
-                      <td>consent_type</td>
-                      <td>Used to detect if use have given full or limited consent to be sure tracking of usage is handled correctly.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </body>
 </html>
