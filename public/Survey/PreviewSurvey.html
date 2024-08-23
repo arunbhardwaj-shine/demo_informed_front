@@ -603,7 +603,8 @@
       width: 24px;
       height: 24px;
   }
-  .rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label{
+
+  .rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label, .rating-numeric input[type="radio"]:checked ~ label{
     background: var(--dark-blue);
     color: var(--white)!important;
   }
@@ -1144,12 +1145,12 @@
         `;
                 for (let i = question.extra.ratingScale; i >= 1; i--) {
                   surveyHtml += `
-                <label class="rating-option" style="color: ${
-                  customHtml.question_answer_color
-                };">
                   <input type="radio" name="rating${
                     question.questionId
                   }" value="${i}" ${question.isOptional ? "" : "required"} />
+                <label class="rating-option" style="color: ${
+                  customHtml.question_answer_color
+                };">
                   ${i}
                 </label>
               `;
@@ -1160,10 +1161,9 @@
                   <div class="not-satisfy">${question.extra.leftSideLabel}</div>
                   <div class="satisfy">${question.extra.rightSideLabel}</div>
                 </div>
+                </div>
               </div>`;
               }
-
-              surveyHtml += `</div>`;
               surveyHtml += `</div>`;
               break;
 
