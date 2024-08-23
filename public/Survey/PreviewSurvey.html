@@ -484,180 +484,205 @@
       width: 12px;
       border-radius: 20px;
     }
-    .survey-question input[type="text"] {
-    max-width: 211px;
-    border-radius: 4px;
-    background: #ffffff;
-    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-    border: 0;
-    font-size: 12px;
-    padding: 10px 12px;
-    width: 100%;
-}
-.question-title span {
-    color: rgb(112, 137, 158);
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 132%;
-    margin: 0 0 0 4px;
-}
-.question-title {
-    display: flex;
-    align-items: center;
-}
-.rating-labels > div {
-    color: #70899E;
-    font-size: 11px;
-    font-weight: 400;
-    line-height: 132%;
-}
-label.rating-option {
-    border-radius: 32px;
-    background: rgba(0, 74, 137, 0.08);
-    color: #004A89;
-    font-size: 12px;
-    font-weight: 400;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    cursor: pointer;
-    position: relative;
-}
-label.rating-option:hover {
-    background: #004A89;
-    color: #ffffff!important;
-}
-.cookieadd .modal-dialog {
-    height: 85%;
-    max-width: 768px;
-    margin-left: auto;
-        margin-right: auto;
-}
-.modal.fade .modal-dialog {
-    -webkit-transform: translateY(-50px);
-    transform: translateY(-50px);
-    transition: -webkit-transform .3s ease-out;
-    transition: transform .3s ease-out;
-    transition: transform .3s ease-out,-webkit-transform .3s ease-out;
-}
-.modal-dialog-centered {
-    align-items: center;
-    display: flex;
-    min-height: calc(100% - var(--bs-modal-margin)*2);
-}
-.modal.show .modal-dialog {
-    -webkit-transform: none;
-    transform: none;
 
-}
-.cookieadd .modal-content {
-    background: #183b4c;
-    border: 0;
-    border-radius: 15px;
-    box-shadow: 0 0 19px hsla(0,0%,100%,.2);
-    height: 100%;
-    left: 0;
-    max-height: 500px;
-    right: 0;
-}
-.cookieadd .modal-header {
-    border: 0;
-    justify-content: center;
-    margin-bottom: 15px;
-    padding: 18px 15px 0;
-    position: relative;
-    text-align: center;
-}
-.modal-header .modal-title {
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(109deg,#f3942d 12.9%,#e94362 87.1%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: #001489;
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    display: inline-block;
-}
-.cookieadd .modal-header button.btn-close {
-    border: 0;
-    color: #97b6cf;
-    font-size: 17px;
-    font-weight: 700;
-    opacity: 1;
-    position: absolute;
-    right: 24px;
-    top: 22px;
-}
-.modal-body {
-    flex: 1 1 auto;
-    padding: 1rem;
-    position: relative;
-}
-.cookieadd .modal-body {
-    height: 100%;
-    overflow: hidden;
-}
-.modal-content .modal-body h6 {
-    color: hsla(0,0%,100%,.3);
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 18px;
-    margin:0 0 .5rem;
-}
-.used-cookies-table-top {
-    height: 100%;
-    margin-top: 20px;
-    padding-top: 20px;
-    position: relative;
-}
-.used-cookies-table-top:before {
-    border-top: .5px dashed #70899e;
-    content: "";
-    left: -15px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: calc(100% + 30px);
-}
-.cookieadd .used-cookies-table {
-    height: calc(100% - 135px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    max-height: 300px;
-}
-table {
-    border-collapse: collapse;
-    caption-side: bottom;
-}
-.cookieadd .used-cookies-table table thead {
-    background: #183b4c;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-}
-.used-cookies-table table thead th {
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(109deg,#f3942d 12.9%,#e94362 87.1%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: #00a993;
-    font-size: 16px;
-    font-weight: 500;
-    min-width: 230px;
-    padding: 0 10px 20px 0;
-    text-align: left;
-}
-.used-cookies-table table td {
-    color: hsla(0,0%,100%,.3);
-    font-size: 15px;
-    line-height: 27px;
-    padding: 0 10px 20px 0;
-    vertical-align: top;
-}
+    .survey-question input[type="text"] {
+      max-width: 211px;
+      border-radius: 4px;
+      background: #ffffff;
+      box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+      border: 0;
+      font-size: 12px;
+      padding: 10px 12px;
+      width: 100%;
+    }
+
+    .question-title span {
+      color: rgb(112, 137, 158);
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 132%;
+      margin: 0 0 0 4px;
+    }
+
+    .question-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .rating-labels>div {
+      color: #70899E;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 132%;
+    }
+
+    label.rating-option {
+      border-radius: 32px;
+      background: rgba(0, 74, 137, 0.08);
+      color: #004A89;
+      font-size: 12px;
+      font-weight: 400;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      cursor: pointer;
+      position: relative;
+    }
+
+    label.rating-option:hover {
+      background: #004A89;
+      color: #ffffff !important;
+    }
+
+    .cookieadd .modal-dialog {
+      height: 85%;
+      max-width: 768px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .modal.fade .modal-dialog {
+      -webkit-transform: translateY(-50px);
+      transform: translateY(-50px);
+      transition: -webkit-transform .3s ease-out;
+      transition: transform .3s ease-out;
+      transition: transform .3s ease-out, -webkit-transform .3s ease-out;
+    }
+
+    .modal-dialog-centered {
+      align-items: center;
+      display: flex;
+      min-height: calc(100% - var(--bs-modal-margin)*2);
+    }
+
+    .modal.show .modal-dialog {
+      -webkit-transform: none;
+      transform: none;
+
+    }
+
+    .cookieadd .modal-content {
+      background: #183b4c;
+      border: 0;
+      border-radius: 15px;
+      box-shadow: 0 0 19px hsla(0, 0%, 100%, .2);
+      height: 100%;
+      left: 0;
+      max-height: 500px;
+      right: 0;
+    }
+
+    .cookieadd .modal-header {
+      border: 0;
+      justify-content: center;
+      margin-bottom: 15px;
+      padding: 18px 15px 0;
+      position: relative;
+      text-align: center;
+    }
+
+    .modal-header .modal-title {
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: #001489;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .cookieadd .modal-header button.btn-close {
+      border: 0;
+      color: #97b6cf;
+      font-size: 17px;
+      font-weight: 700;
+      opacity: 1;
+      position: absolute;
+      right: 24px;
+      top: 22px;
+    }
+
+    .modal-body {
+      flex: 1 1 auto;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .cookieadd .modal-body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .modal-content .modal-body h6 {
+      color: hsla(0, 0%, 100%, .3);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 18px;
+      margin: 0 0 .5rem;
+    }
+
+    .used-cookies-table-top {
+      height: 100%;
+      margin-top: 20px;
+      padding-top: 20px;
+      position: relative;
+    }
+
+    .used-cookies-table-top:before {
+      border-top: .5px dashed #70899e;
+      content: "";
+      left: -15px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: calc(100% + 30px);
+    }
+
+    .cookieadd .used-cookies-table {
+      height: calc(100% - 135px);
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 300px;
+    }
+
+    table {
+      border-collapse: collapse;
+      caption-side: bottom;
+    }
+
+    .cookieadd .used-cookies-table table thead {
+      background: #183b4c;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+    }
+
+    .used-cookies-table table thead th {
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: #00a993;
+      font-size: 16px;
+      font-weight: 500;
+      min-width: 230px;
+      padding: 0 10px 20px 0;
+      text-align: left;
+    }
+
+    .used-cookies-table table td {
+      color: hsla(0, 0%, 100%, .3);
+      font-size: 15px;
+      line-height: 27px;
+      padding: 0 10px 20px 0;
+      vertical-align: top;
+    }
+
     @media only screen and (max-width:767px) {
       .informed-survey {
         margin: 16px auto;
@@ -773,9 +798,11 @@ table {
             `;
 
       const questions = data.data[0].question_data;
+      console.log(questions)
       questions.forEach((question) => {
 
         switch (question.type) {
+
           case "multiple":
             surveyHtml += `<div class="survey-question">
                     <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
@@ -813,6 +840,8 @@ table {
             }
 
             surveyHtml += `</div>`;
+
+            break;
 
 
           case "checkbox":
@@ -912,70 +941,48 @@ table {
             surveyHtml += `</div>`;
             break;
 
+          case "matrix":
+            // Determine input type based on allowMultipleAnswer
+            const inputType = question.extra.allowMultipleAnswer ? 'checkbox' : 'radio';
+            surveyHtml +=
+              `<div class="survey-question matrix">
+            <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+                ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+            </div>
+            <p class="helper-text">${question.questionDescription}</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            ${question.answer[0].answer
+                .map((column) => `<th>${column.value}</th>`)
+                .join("")}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${question.answer
+                .map((row) =>
+                  `<tr>
+                                    <td>${row.title}</td>
+                                    ${row.answer
+                    .map((option) =>
+                      `<td>
+                                                <input type="${inputType}" 
+                                                       name="question${question.questionId}_${row.id}_${option.answerId}" 
+                                                       value="${option.answerId}">
+                                                <span class="checkmark"></span>
+                                            </td>`)
+                    .join("")}
+                                </tr>`)
+                .join("")}
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+            break;
 
-          //       case "matrix":
-          //         const inputType = question.extra.allowMultipleAnswer
-          //           ? "checkbox"
-          //           : "radio"; // Assume this specifies 'checkbox' or 'radio'
-          //         surveyHtml += `<div class="survey-question matrix"> <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">${question.question}</div>
-          //     <p class="helper-text">${question.questionDescription}</p>
-          //     <div class="table-responsive">
-          //     <table>
-          //         <thead>
-          //             <tr>
-          //                 <th>&nbsp;</th>
-          //                 ${question.answer
-          //             .map((a) => `<th>${a.value}</th>`)
-          //             .join("")}
-          //             </tr>
-          //         </thead>
-          //         <tbody>
-          //             ${question.extra.rows
-          //             .map(
-          //               (row) => `
-          //                 <tr>
-          //                     <td>${row.value}</td>
-          //                     ${question.answer
-          //                   .map(
-          //                     (option) => `
-          //                         <td>
-          //                           <input type=${inputType} name=question${question.questionId} value=${option.answerId}>
-          //                           <span class="checkmark"></span>
-          //                         </td>
-          //                     `
-          //                   )
-          //                   .join("")}
-          //                 </tr>
-          //             `
-          //             )
-          //             .join("")}
-          //         </tbody>
-          // ${question.extra.rows
-          //             .map(
-          //               (row) => `
-          //     <tr>
-          //         <td>${row.value}</td>
-          //         ${question.answer
-          //           .map((option) => {
-          //             const combinedValue = `${option.answerId},${row.value}`;
-          //             return `
-          //         <td>
-          //           <input type="${inputType}" name="question${question.questionId}" value="${combinedValue}">  
-          //           <span class="checkmark"></span> 
-          //         </td>
-          //       `;
-          //       })
-          //       .join("")}
-          //     </tr>
-          //   `
-          //     )
-          //     .join("")}
-          //   </tbody>
-          // </table>
-          // </div>
-          // `;
-          //         surveyHtml += `</div>`;
-          //         break;
+
 
           case "freeText":
             surveyHtml += `
@@ -1026,7 +1033,7 @@ table {
           case "consent":
             surveyHtml += `
         <div class="survey-consent">
-            <div class="login-consent">${question.question}</div>
+            <div class="login-consent">${question.question}${question.extra.operatingStatement}</div>
             <div class="form-group">
                 ${question.extra.consentDetails
                 .map(userdetail => {
