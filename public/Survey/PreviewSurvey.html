@@ -592,36 +592,36 @@
         /* font-weight: 400; */
         /* width: 24px;
       height: 24px; */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-        cursor: pointer;
-        position: relative;
-      }
-      .rating-numeric label.rating-option {
-        border-radius: 32px;
-        background: rgba(0, 74, 137, 0.08);
-        color: var(--dark-blue);
-        font-size: 12px;
-        font-weight: 400;
-        width: 24px;
-        height: 24px;
-      }
-      .rating-numeric label.rating-option:hover,
-      .rating-numeric label.rating-option:hover ~ label {
-        background: var(--dark-blue);
-        color: var(--white) !important;
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      cursor: pointer;
+      position: relative;
+  }
+  .rating-numeric label.rating-option{
+     border-radius: 32px;
+      background: rgba(0, 74, 137, 0.08);
+      color: var(--dark-blue); 
+      font-size: 12px;
+      font-weight: 400;
+      width: 24px;
+      height: 24px;
+  }
 
-      .rating-labels {
-        justify-content: space-between;
-        flex-direction: row;
-        display: flex;
-        gap: 22px;
-        padding: 5px 0 0;
-      }
-      /* label.rating-option:hover {
+  .rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label, .rating-numeric input[type="radio"]:checked ~ label{
+    background: var(--dark-blue);
+    color: var(--white)!important;
+  }
+  
+  .rating-labels {
+      justify-content: space-between;
+      flex-direction: row;
+      display: flex;
+      gap: 22px;
+      padding: 5px 0 0;
+  }
+  /* label.rating-option:hover {
       background: var(--dark-blue);
       color: var(--white)!important;
   } */
@@ -1172,9 +1172,7 @@
                 </div>
               </div>`;
               }
-
               surveyHtml += `</div>`;
-              // surveyHtml += `</div>`;
               break;
 
             case "matrix":
