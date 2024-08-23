@@ -1465,51 +1465,45 @@
             console.log(obj);
             const responses = [];
 
-            // questions.forEach((question) => {
-            //   const response = {
-            //     question_id: question.questionId,
-            //     answer_id: [],
-            //     comment: "",
-            //   };
+            questions.forEach((question) => {
+              const response = {
+                question_id: question.questionId,
+                answer_id: [],
+                comment: "",
+              };
 
-            //   if (
-            //     question.type === "multiple"
-            //   ) {
-            //     formData.forEach((value, key) => {
-            //       if (key.startsWith(`question${question.questionId}`)) {
-            //         response.answer_id.push(value);
-            //       }
-            //     });
-            //   } else if (question.type === "checkbox") {
-            //     formData.forEach((value, key) => {
-            //       if (key.startsWith(`question${question.questionId}`)) {
-            //         response.answer_id.push(value);
-            //       }
-            //     });
-            //   }
-            //   else if (question.type === "dropdown") {
-            //     const value = formData.get(`question${question.questionId}`);
-            //     const valueArray = value.split(",");
-            //     if (valueArray.length > 0) {
-            //       response.answer_id.push(valueArray[0]);
-            //       response.comment = valueArray[1];
-            //     }
-            //   } else if (question.type === "rating") {
-            //     const value = formData.get(`rating${question.questionId}`);
-            //     console.log(value);
-            //     if (value) {
-            //       response.comment = value;
-            //     }
-            //   }
+            
+        if (question.type === "multiple" || question.type === "checkbox") {
+            // Handle multiple and checkbox type questions
+            formData.forEach((value, key) => {
+                if (key.startsWith(`question${question.questionId}`)) {
+                    response.answer_id.push(value);
+                }
+            });
+        } else if (question.type === "dropdown") {
+            // Handle dropdown type questions
+            const value = formData.get(`question${question.questionId}`);
+            const valueArray = value ? value.split(",") : [];
+            if (valueArray.length > 0) {
+                response.answer_id.push(valueArray[0]);
+                response.comment = valueArray[1] || "";
+            }
+        } else if (question.type === "rating") {
+            // Handle rating type questions
+            const value = formData.get(`rating${question.questionId}`);
+            if (value) {
+                response.comment = value;
+            }
+        } else if (question.type === "freeText") {
+            // Handle freeText type questions
+            response.comment = formData.get(`question${question.questionId}`) || "";
+        }
 
-            //   // For text areas or comments, if any
-            //   if (question.type === "freeText") {
-            //     response.comment =
-            //       formData.get(`question${question.questionId}`) || "";
-            //   }
 
-            //   responses.push(response);
-            // });
+              responses.push(response);
+            });
+
+            
 
             const submitPayload = { survey_responses: responses };
 
