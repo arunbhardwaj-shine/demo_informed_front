@@ -574,9 +574,7 @@
 .rating-numeric {
     flex-direction: row;
 }
-.rating-numeric  label.rating-option:hover ~ label  {
-   color: #FAC755!important;
-}
+
 label.rating-option {
     /* border-radius: 32px;
     background: rgba(0, 74, 137, 0.08);
@@ -601,10 +599,11 @@ label.rating-option {
     width: 24px;
     height: 24px;
 }
-.rating-numeric label.rating-option:hover{
+.rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label{
   background: #004A89;
   color: #ffffff!important;
 }
+
 .rating-labels {
     justify-content: space-between;
     flex-direction: row;
