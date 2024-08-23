@@ -454,7 +454,12 @@ span {
 
                                     .split-button-dropup {
                                         &>div:nth-child(3) {
-                                            background-position: 95% center;
+                                            background-position: 90% center;
+                                            >div{
+                                                div{
+                                                    padding:0;
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -1850,6 +1855,10 @@ span {
                             margin: 0 0px;
                             font-size: 24px;
                             font-weight: 500;
+                            span{
+                                font-size: inherit;
+                                font-weight: inherit;
+                            }
                         }
                     }
 

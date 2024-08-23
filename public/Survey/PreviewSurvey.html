@@ -141,6 +141,7 @@
       color: #70899E;
       border: 0;
       margin: 10px 0 0;
+      font-family: 'Roboto';
     }
 
     .survey-question h3 {
@@ -494,6 +495,26 @@
     padding: 10px 12px;
     width: 100%;
 }
+.survey-question input[type="text"]:focus-visible{
+  outline: none;
+  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.26);
+}
+::-webkit-input-placeholder {
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+::-moz-placeholder { 
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+:-ms-input-placeholder { 
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
+:-moz-placeholder { 
+  color: rgb(112, 137, 158);
+  opacity: 1;
+}
 .question-title span {
     color: rgb(112, 137, 158);
     font-weight: 400;
@@ -511,14 +532,22 @@
     font-weight: 400;
     line-height: 132%;
 }
+.rating-stars {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin: 0;
+    padding-left: 0;
+    width: auto;
+    gap: 22px;
+}
 label.rating-option {
-    border-radius: 32px;
+    /* border-radius: 32px;
     background: rgba(0, 74, 137, 0.08);
-    color: #004A89;
-    font-size: 12px;
-    font-weight: 400;
-    width: 24px;
-    height: 24px;
+    color: #004A89; */
+    font-size: 24px;
+    /* font-weight: 400; */
+    /* width: 24px;
+    height: 24px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -526,9 +555,15 @@ label.rating-option {
     cursor: pointer;
     position: relative;
 }
-label.rating-option:hover {
+/* label.rating-option:hover {
     background: #004A89;
     color: #ffffff!important;
+} */
+.rating-stars label.rating-option:hover ~ label svg path {
+    fill: #FAC755!important;
+}
+.rating-stars label.rating-option:hover svg path {
+    fill: #FAC755!important;
 }
 .cookieadd .modal-dialog {
     height: 85%;
@@ -657,6 +692,61 @@ table {
     line-height: 27px;
     padding: 0 10px 20px 0;
     vertical-align: top;
+}
+
+.form-section .form-group input, .form-section .form-group select {
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+    font-size: 12px;
+    padding: 11px 12px;
+    border: 0;
+    max-width: 251px;
+    width: 100%;
+}
+label.form-label {
+    color: #004A89;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 132%;
+    margin: 0 0 14px;
+    display: block;
+}
+.form-section .form-group label.form-label {
+    color: #004A89;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 132%;
+    padding-left: 12px;
+    margin: 0 0 5px;
+}
+
+.form-section .form-group {
+    margin: 0 0 16px;
+    flex-direction: column;
+    display: flex;
+    width: 50%;
+}
+
+.form-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.form-section .form-group:nth-child(2n) {
+    display: flex;
+    /* flex-wrap: wrap; */
+    align-items: flex-end;
+    box-sizing: border-box;
+}
+
+.form-section .form-group:nth-child(2n) label.form-label {
+    flex: 0 0 100%;
+    padding: 0 0 0 65px;
+    align-items: center;
+    display: flex;
+    width: 100%;
 }
     @media only screen and (max-width:767px) {
       .informed-survey {
@@ -883,7 +973,7 @@ table {
                 surveyHtml += `
             <label class="rating-option" style="color: ${question.extra.ratingColor};">
                 <input type="radio" name="rating${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-                &#9733;
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><g clip-path="url(#clip0_1228_31957)"><path d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z" stroke="#FAC755" style="fill: none;"></path></g><defs><clipPath id="clip0_1228_31957"><rect width="24" height="24" fill="white" transform="translate(0 0.046875)"></rect></clipPath></defs></svg>
             </label>
             `;
               }
@@ -1027,13 +1117,14 @@ table {
             surveyHtml += `
         <div class="survey-consent">
             <div class="login-consent">${question.question}</div>
-            <div class="form-group">
+            <div class="form-section">
                 ${question.extra.consentDetails
                 .map(userdetail => {
                   let html = '';
                   if (userdetail.nameLabel == "Name") {
                     html = `
-                                <div>
+                              
+                                <div class="form-group">
                                     <label class="form-label">
                                         ${userdetail.nameLabel}
                                         </label>
@@ -1042,7 +1133,7 @@ table {
                             `;
                   } else if (userdetail.emailLabel == "Email") {
                     html = `
-                                <div>
+                                <div class="form-group">
                                     <label class="form-label">
                                         ${userdetail.emailLabel}
                                           </label>
@@ -1053,7 +1144,7 @@ table {
 
                   } else if (userdetail.countryLabel == "Country") {
                     html = `
-                                <div>
+                                <div class="form-group">
                                     <label class="form-label">
                                         ${userdetail.countryLabel}
                                          </label>
@@ -1071,7 +1162,8 @@ table {
                 })
                 .join('')}
             </div>
-         <label class="form-label">I consent To :</label>
+            <div class="consent-select">
+            <label class="form-label">I consent To :</label>
             ${question.extra.consentOptions
                 .map(option => `
                     <label class="consent-item">
@@ -1081,6 +1173,7 @@ table {
                     </label>
                 `)
                 .join('')}
+                </div>
             <p>${question.extra.cookiePolicy}</p>
         </div>`;
             break;
@@ -1218,61 +1311,61 @@ table {
       });
     });
   </script>
-  <div role="dialog" aria-modal="true" class="fade cookieadd modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title h4">Used cookies</div>
-          <button type="button" class="btn-close" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h6>Essential cookies exclusively enhance your experience with us ensuring our system runs smoothly whilst recognising you for seamless recurring use. Be confident we never share your information with any commercial cookie company.</h6>
-          <div class="used-cookies-table-top">
-            <div class="used-cookies-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Purpose</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>CAKEPHP</td>
-                    <td>Framework default cookie for cache of all component.</td>
-                  </tr>
-                  <tr>
-                    <td>dynamic_number (ex 1210)</td>
-                    <td>This cookie is used for storing the status of consent given or not for the article.</td>
-                  </tr>
-                  <tr>
-                    <td>video_track</td>
-                    <td>This cookie is used for storing the last seek time of user for the particular video.</td>
-                  </tr>
-                  <tr>
-                    <td>name_use</td>
-                    <td>Used to autofill name of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent. </td>
-                  </tr>
-                  <tr>
-                    <td>email_use</td>
-                    <td>Used to autofill email of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
-                  </tr>
-                  <tr>
-                    <td>country_use</td>
-                    <td>Used to autofill country of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
-                  </tr>
-                  <tr>
-                    <td>consent_type</td>
-                    <td>Used to detect if use have given full or limited consent to be sure tracking of usage is handled correctly.</td>
-                  </tr>
-                </tbody>
-              </table>
+    <!-- <div role="dialog" aria-modal="true" class="fade cookieadd modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title h4">Used cookies</div>
+            <button type="button" class="btn-close" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h6>Essential cookies exclusively enhance your experience with us ensuring our system runs smoothly whilst recognising you for seamless recurring use. Be confident we never share your information with any commercial cookie company.</h6>
+            <div class="used-cookies-table-top">
+              <div class="used-cookies-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>CAKEPHP</td>
+                      <td>Framework default cookie for cache of all component.</td>
+                    </tr>
+                    <tr>
+                      <td>dynamic_number (ex 1210)</td>
+                      <td>This cookie is used for storing the status of consent given or not for the article.</td>
+                    </tr>
+                    <tr>
+                      <td>video_track</td>
+                      <td>This cookie is used for storing the last seek time of user for the particular video.</td>
+                    </tr>
+                    <tr>
+                      <td>name_use</td>
+                      <td>Used to autofill name of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent. </td>
+                    </tr>
+                    <tr>
+                      <td>email_use</td>
+                      <td>Used to autofill email of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
+                    </tr>
+                    <tr>
+                      <td>country_use</td>
+                      <td>Used to autofill country of the user to help with repetitive task. Only used in some circumstances where user have been directed to the site based on previous consent.</td>
+                    </tr>
+                    <tr>
+                      <td>consent_type</td>
+                      <td>Used to detect if use have given full or limited consent to be sure tracking of usage is handled correctly.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div> -->
 </body>
 
 </html>
