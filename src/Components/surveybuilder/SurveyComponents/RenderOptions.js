@@ -13,29 +13,48 @@ const RenderOptions = ({
     color: style.color,
   });
 
-  const [otherOptionChecked, setOtherOptionChecked] = useState(false)
-
-
+  console.log(item);
+  const [otherOptionChecked, setOtherOptionChecked] = useState(false);
 
   const renderOption = (option, optIndex, type) => {
     if (optIndex === "other") {
-      return <label style={{ color: optionColor }} key={optIndex} className="check">
-        {option}
-        <input type={type} name={item.name} disabled={!isEdit} onClick={() => { setOtherOptionChecked(!otherOptionChecked) }} />
-        <span className="checkmark"></span>
-      </label>
+      return (
+        <label style={{ color: optionColor }} key={optIndex} className="check">
+          {option}
+          <input
+            type={type}
+            name={item.questionNo}
+            disabled={!isEdit}
+            onClick={() => {
+              if (type === "radio") {
+                setOtherOptionChecked(true);
+              } else {
+                setOtherOptionChecked(!otherOptionChecked);
+              }
+            }}
+          />
+          <span className="checkmark"></span>
+        </label>
+      );
     } else {
-      return <label style={{ color: optionColor }} key={optIndex} className="check">
-        {option}
-        <input type={type} name={item.name} disabled={!isEdit} />
-        <span className="checkmark"></span>
-      </label>
+      return (
+        <label style={{ color: optionColor }} key={optIndex} className="check">
+          {option}
+          <input
+            type={type}
+            name={item.questionNo}
+            disabled={!isEdit}
+            onClick={() => {
+              if (type === "radio") {
+                setOtherOptionChecked(false);
+              }
+            }}
+          />
+          <span className="checkmark"></span>
+        </label>
+      );
     }
   };
-
-
-
-
 
   switch (item.type) {
     case "multiple":
@@ -62,16 +81,17 @@ const RenderOptions = ({
                   isEdit
                     ? {}
                     : {
-                      backgroundColor: page_background_color,
-                    }
+                        backgroundColor: page_background_color,
+                      }
                 }
               >
-                {otherOptionChecked && <Form.Control
-                  type="text"
-                  placeholder={item.extra.otherChoicePlaceholderText}
-                  readOnly={!isEdit}
-                />}
-
+                {otherOptionChecked && (
+                  <Form.Control
+                    type="text"
+                    placeholder={item.extra.otherChoicePlaceholderText}
+                    readOnly={!isEdit}
+                  />
+                )}
               </div>
             </>
           ) : (
@@ -94,15 +114,17 @@ const RenderOptions = ({
                   isEdit
                     ? {}
                     : {
-                      backgroundColor: page_background_color,
-                    }
+                        backgroundColor: page_background_color,
+                      }
                 }
               >
-                {otherOptionChecked && <Form.Control
-                  type="text"
-                  placeholder={item.extra.otherChoicePlaceholderText}
-                  readOnly={!isEdit}
-                />}
+                {otherOptionChecked && (
+                  <Form.Control
+                    type="text"
+                    placeholder={item.extra.otherChoicePlaceholderText}
+                    readOnly={!isEdit}
+                  />
+                )}
               </div>
             </>
           ) : (
