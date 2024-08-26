@@ -1,199 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <title>Survey Preview</title>
-    <style>
-      :root {
-        --white: #ffffff;
-        --light-blue: #0066be;
-        --dark-blue: #004a89;
-        --light-skyblue: #e7eff6;
-      }
-      * {
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      body,
-      p {
-        font-family: "Roboto", sans-serif;
-      }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet" />
+  <title>Survey Preview</title>
+  <style>
+    :root {
+      --white: #ffffff;
+      --light-blue: #0066be;
+      --dark-blue: #004a89;
+      --light-skyblue: #e7eff6;
+    }
 
-      body {
-        margin: 0;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      .informed-survey-text p {
-        font-size: 13px;
-        color: #70899e;
-      }
+    body,
+    p {
+      font-family: "Roboto", sans-serif;
+    }
 
-      .informed-survey {
-        width: 100%;
-        max-width: 723px;
-        margin: 15px auto;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: var(--white);
-      }
+    body {
+      margin: 0;
+    }
 
-      .informed-survey-header {
-        padding: 16px 30px 22px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 139px;
-        gap: 16px;
-        border-radius: 6px 6px 0 0;
-      }
+    .informed-survey-text p {
+      font-size: 13px;
+      color: #70899e;
+    }
 
-      .informed-survey-header h2 {
-        margin: 0;
-      }
+    .informed-survey {
+      width: 100%;
+      max-width: 723px;
+      margin: 15px auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: var(--white);
+    }
 
-      .informed-survey-body {
-        padding: 24px 56px;
-        margin-top: -6px;
-        border-radius: 6px;
-      }
+    .informed-survey-header {
+      padding: 16px 30px 22px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 139px;
+      gap: 16px;
+      border-radius: 6px 6px 0 0;
+    }
 
-      .informed-survey-text {
-        margin-bottom: 20px;
-      }
+    .informed-survey-header h2 {
+      margin: 0;
+    }
 
-      .informed-survey-question p {
-        margin: 0 0 10px;
-      }
+    .informed-survey-body {
+      padding: 24px 56px;
+      margin-top: -6px;
+      border-radius: 6px;
+    }
 
-      .informed-survey-question label {
-        display: block;
-        margin-bottom: 10px;
-        cursor: pointer;
-      }
+    .informed-survey-text {
+      margin-bottom: 20px;
+    }
 
-      .informed-survey-question input[type="radio"],
-      .informed-survey-question input[type="checkbox"] {
-        margin-right: 10px;
-      }
+    .informed-survey-question p {
+      margin: 0 0 10px;
+    }
 
-      .form-footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-        text-align: center;
-      }
+    .informed-survey-question label {
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
 
-      .form-footer button {
-        padding: 10px 20px;
-        border: none;
-        color: var(--white);
-        cursor: pointer;
-      }
+    .informed-survey-question input[type="radio"],
+    .informed-survey-question input[type="checkbox"] {
+      margin-right: 10px;
+    }
 
-      .divider {
-        border-top: 1px dashed var(--dark-blue);
-        margin: 5px 0;
-        height: initial;
-      }
+    .form-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      text-align: center;
+    }
 
-      p {
-        margin: 0;
-      }
+    .form-footer button {
+      padding: 10px 20px;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+    }
 
-      .consent-item {
-        margin-bottom: 10px;
-      }
+    .divider {
+      border-top: 1px dashed var(--dark-blue);
+      margin: 5px 0;
+      height: initial;
+    }
 
-      .question-title p {
-        color: var(--dark-blue);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 132%;
-        margin: 0 0;
-        display: inline;
-      }
+    p {
+      margin: 0;
+    }
 
-      .helper-text {
-        font-size: 11px;
-        margin-top: 2px;
-        display: block;
-        margin-bottom: 16px;
-        color: rgb(112, 137, 158);
-      }
+    .consent-item {
+      margin-bottom: 10px;
+    }
 
-      #survey-form {
-        gap: 40px;
-        display: flex;
-        flex-direction: column;
-        margin: 60px 0 0;
-      }
+    .question-title p {
+      color: var(--dark-blue);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 132%;
+      margin: 0 0;
+      display: inline;
+    }
 
-      textarea {
-        border-radius: 4px;
-        background: var(--white);
-        box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
-        width: 100%;
-        resize: none;
-        padding: 12px;
-        min-height: 80px;
-        font-size: 12px;
-        color: #70899e;
-        border: 0;
-        margin: 10px 0 0;
-        font-family: "Roboto";
-      }
+    .helper-text {
+      font-size: 11px;
+      margin-top: 2px;
+      display: block;
+      margin-bottom: 16px;
+      color: rgb(112, 137, 158);
+    }
 
-      .survey-question h3 {
-        margin: 0;
-      }
+    #survey-form {
+      gap: 40px;
+      display: flex;
+      flex-direction: column;
+      margin: 60px 0 0;
+    }
 
-      label.check {
-        color: #70899e;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 152%;
-        margin: 0 0 12px;
-        display: flex;
-        width: 100%;
-        justify-content: flex-start;
-        padding-left: 29px;
-        position: relative;
-        min-height: 16px;
-        word-break: break-word;
-      }
+    textarea {
+      border-radius: 4px;
+      background: var(--white);
+      box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
+      width: 100%;
+      resize: none;
+      padding: 12px;
+      min-height: 80px;
+      font-size: 12px;
+      color: #70899e;
+      border: 0;
+      margin: 10px 0 0;
+      font-family: "Roboto";
+    }
 
-      label.check:last-child {
-        margin: 0 0;
-      }
+    .survey-question h3 {
+      margin: 0;
+    }
 
-      span.checkmark {
-        border: 1px solid rgb(112, 137, 158);
-        width: 16px;
-        height: 16px;
-        position: absolute;
-        left: 0;
-        top: 1px;
-        cursor: pointer;
-        background: var(--white);
-      }
+    label.check {
+      color: #70899e;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 152%;
+      margin: 0 0 12px;
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+      padding-left: 29px;
+      position: relative;
+      min-height: 16px;
+      word-break: break-word;
+    }
 
-      input[type="checkbox"] ~ span.checkmark {
-        border-radius: 3px;
-      }
+    label.check:last-child {
+      margin: 0 0;
+    }
 
-      input[type="radio"] ~ span.checkmark {
-        border-radius: 50%;
-      }
+    span.checkmark {
+      border: 1px solid rgb(112, 137, 158);
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: 1px;
+      cursor: pointer;
+      background: var(--white);
+    }
 
-      /* 
+    input[type="checkbox"]~span.checkmark {
+      border-radius: 3px;
+    }
+
+    input[type="radio"]~span.checkmark {
+      border-radius: 50%;
+    }
+
+    /* 
       input[type="checkbox"]:checked~.checkmark:after {
         left: 4px;
         top: 1px;
@@ -208,389 +209,405 @@
         display: block;
       } */
 
-      input[type="radio"]:checked ~ .checkmark:after {
-        top: 2px;
-        left: 2px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--dark-blue);
-        content: "";
-        position: absolute;
-      }
+    input[type="radio"]:checked~.checkmark:after {
+      top: 2px;
+      left: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--dark-blue);
+      content: "";
+      position: absolute;
+    }
 
-      input[type="radio"]:checked ~ .checkmark {
-        border-color: var(--dark-blue);
-      }
+    input[type="radio"]:checked~.checkmark {
+      border-color: var(--dark-blue);
+    }
 
-      input[type="checkbox"]:checked ~ .checkmark {
-        background: rgb(0, 74, 137);
-        border-color: var(--dark-blue);
-      }
+    input[type="checkbox"]:checked~.checkmark {
+      background: rgb(0, 74, 137);
+      border-color: var(--dark-blue);
+    }
 
-      .form-footer {
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        margin: 25px 0 0;
-      }
+    .form-footer {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin: 25px 0 0;
+    }
 
-      .form-footer button {
-        border-radius: 30px;
-        background: var(--dark-blue);
-        box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
-        border: 0;
-        color: var(--white);
-        font-size: 13px;
-        font-weight: 500;
-        min-width: 90px;
-        padding: 10px;
-        cursor: pointer;
-        font-family: "Roboto";
-      }
+    .form-footer button {
+      border-radius: 30px;
+      background: var(--dark-blue);
+      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+      border: 0;
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      min-width: 90px;
+      padding: 10px;
+      cursor: pointer;
+      font-family: "Roboto";
+    }
 
-      .form-footer span {
-        color: #70899e;
-        text-align: center;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 132%;
-        margin: 24px 0 0;
-      }
+    .form-footer span {
+      color: #70899e;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 132%;
+      margin: 24px 0 0;
+    }
 
-      .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
 
-      .survey-image img {
-        display: flex;
-        margin: 0 auto;
-      }
-      .survey-paragraph {
-        font-size: 12px;
-        line-height: 132%;
-        color: #70899e;
-      }
-      .survey-paragraph p {
-        font-size: 12px;
-        line-height: 132%;
-        color: #70899e;
-      }
-      .survey-paragraph ol,
-      .survey-paragraph ul {
-        margin: 5px 0;
-        padding-left: 20px;
-      }
-      .login-consent {
-        margin: 0 0 30px;
-        color: var(--dark-blue);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 132%;
-      }
-      .login-consent a {
-        color: var(--dark-blue);
-      }
+    .survey-image img {
+      display: flex;
+      margin: 0 auto;
+    }
 
-      .consent-item {
-        display: block;
-        color: #70899e;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 152%;
-        margin: 0 0 12px;
-        display: flex;
-        flex-direction: row-reverse;
-        width: 100%;
-        justify-content: flex-end;
-        padding-left: 29px;
-        position: relative;
-        min-height: 16px;
-        word-break: break-word;
-      }
+    .survey-paragraph {
+      font-size: 12px;
+      line-height: 132%;
+      color: #70899e;
+    }
 
-      input[type="checkbox"],
-      input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-        left: 0;
-        margin: 0;
-        width: 16px;
-        height: 16px;
-        z-index: 1;
-        cursor: pointer;
-      }
+    .survey-paragraph p {
+      font-size: 12px;
+      line-height: 132%;
+      color: #70899e;
+    }
 
-      input[type="checkbox"]:checked ~ .checkmark:after {
-        left: 5px;
-        top: 2px;
-        width: 3px;
-        height: 7px;
-        border: solid var(--white);
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
-        border-radius: 0;
-        position: absolute;
-        content: "";
-      }
+    .survey-paragraph ol,
+    .survey-paragraph ul {
+      margin: 5px 0;
+      padding-left: 20px;
+    }
 
-      .survey-consent p {
-        color: #70899e;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 132%;
-        margin: 0 4px 17px 0;
-      }
+    .login-consent {
+      margin: 0 0 30px;
+      color: var(--dark-blue);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 132%;
+    }
 
-      .copyright-links a,
-      .survey-consent p a {
-        color: #70899e;
-        font-size: 12px;
-        text-decoration: underline;
-        padding: 0 13px 0 0;
-      }
+    .login-consent a {
+      color: var(--dark-blue);
+    }
 
-      .survey-consent p a {
-        padding: 0;
-      }
+    .consent-item {
+      display: block;
+      color: #70899e;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 152%;
+      margin: 0 0 12px;
+      display: flex;
+      flex-direction: row-reverse;
+      width: 100%;
+      justify-content: flex-end;
+      padding-left: 29px;
+      position: relative;
+      min-height: 16px;
+      word-break: break-word;
+    }
 
-      .copyright-links {
-        margin: 0px 0 15px;
-      }
+    input[type="checkbox"],
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      margin: 0;
+      width: 16px;
+      height: 16px;
+      z-index: 1;
+      cursor: pointer;
+    }
 
-      .matrix thead th {
-        color: #70899e;
-        font-size: 11px;
-        text-align: center;
-        font-weight: 400;
-        padding: 2px 4px;
-      }
+    input[type="checkbox"]:checked~.checkmark:after {
+      left: 5px;
+      top: 2px;
+      width: 3px;
+      height: 7px;
+      border: solid var(--white);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      border-radius: 0;
+      position: absolute;
+      content: "";
+    }
 
-      .matrix tbody tr {
-        background: rgba(0, 74, 137, 0.08);
-      }
+    .survey-consent p {
+      color: #70899e;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 132%;
+      margin: 0 4px 17px 0;
+    }
 
-      .matrix tbody tr td {
-        text-align: center;
-        min-width: 66px;
-        font-size: 11px;
-        padding: 7px 4px;
-        color: var(--dark-blue);
-        min-height: 24px;
-        position: relative;
-      }
+    .copyright-links a,
+    .survey-consent p a {
+      color: #70899e;
+      font-size: 12px;
+      text-decoration: underline;
+      padding: 0 13px 0 0;
+    }
 
-      .matrix tbody tr td:first-child {
-        text-align: left;
-      }
+    .survey-consent p a {
+      padding: 0;
+    }
 
-      .matrix tbody tr td input[type="checkbox"],
-      .matrix tbody tr td input[type="radio"] {
-        margin: 0 auto;
-        top: 6px;
-        left: 0;
-        right: 0;
-      }
+    .copyright-links {
+      margin: 0px 0 15px;
+    }
 
-      .matrix table {
-        border-spacing: 0px 8px;
-        border-collapse: separate;
-      }
+    .matrix thead th {
+      color: #70899e;
+      font-size: 11px;
+      text-align: center;
+      font-weight: 400;
+      padding: 2px 4px;
+    }
 
-      .matrix tbody tr td span.checkmark {
-        border: 1px solid var(--dark-blue);
-        top: 50%;
-        transform: translateY(-50%);
-        margin: 0 auto;
-        right: 0;
-      }
+    .matrix tbody tr {
+      background: rgba(0, 74, 137, 0.08);
+    }
 
-      textarea:focus-visible {
-        outline: none;
-        box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 36%);
-      }
+    .matrix tbody tr td {
+      text-align: center;
+      min-width: 66px;
+      font-size: 11px;
+      padding: 7px 4px;
+      color: var(--dark-blue);
+      min-height: 24px;
+      position: relative;
+    }
 
-      .select-dropdown__button {
-        max-width: 251px;
-        min-width: 60px;
-        padding: 8px 50px 8px 15px;
-        font-size: 16px;
-        line-height: 20px;
-        background-size: 12px;
-        box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-        border-radius: 30px;
-        border: 0;
-        color: #97b6cf;
-        font-weight: 300;
-        text-align: left;
-        height: auto;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-        background: var(--white)
-          url(../componentAssets/images/arrow-down-sign.svg) no-repeat 93%
-          center;
-      }
+    .matrix tbody tr td:first-child {
+      text-align: left;
+    }
 
-      .select-dropdown__button span {
-        font-size: 12px;
-        font-weight: 300;
-      }
+    .matrix tbody tr td input[type="checkbox"],
+    .matrix tbody tr td input[type="radio"] {
+      margin: 0 auto;
+      top: 6px;
+      left: 0;
+      right: 0;
+    }
 
-      .select-dropdown__list {
-        position: absolute;
-        display: block;
-        left: 0;
-        right: 0;
-        max-width: 251px;
-        margin: 8px 0 0;
-        transform-origin: top left;
-        transform: scale(1, 0);
-        /* transition: all ease-in-out 0.3s; */
-        border: 0.5px solid rgba(0, 102, 190, 0.06);
-        box-sizing: border-box;
-        box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
-        border-radius: 15px;
-        width: 100%;
-        padding: 8px;
-        max-height: 170px;
-        background-color: var(--white);
-        background-clip: padding-box;
-        z-index: 99;
-      }
+    .matrix table {
+      border-spacing: 0px 8px;
+      border-collapse: separate;
+    }
 
-      .select-dropdown {
-        overflow-y: auto;
-        max-height: 150px;
-        padding-right: 4px;
-      }
+    .matrix tbody tr td span.checkmark {
+      border: 1px solid var(--dark-blue);
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0 auto;
+      right: 0;
+    }
 
-      .select-dropdown__list .select-dropdown__option {
-        font-size: 12px;
-        line-height: 16px;
-        padding: 0.3rem 0.8rem;
-        border-radius: 15px;
-        cursor: pointer;
-        margin: 0 0 2px;
-        word-break: break-word;
-        white-space: normal;
-        color: var(--light-blue);
-      }
+    textarea:focus-visible {
+      outline: none;
+      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 36%);
+    }
 
-      .dropdown-el {
-        position: relative;
-        max-width: 251px;
-        width: 100%;
-      }
+    .select-dropdown__button {
+      max-width: 251px;
+      min-width: 60px;
+      padding: 8px 50px 8px 15px;
+      font-size: 16px;
+      line-height: 20px;
+      background-size: 12px;
+      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+      border-radius: 30px;
+      border: 0;
+      color: #97b6cf;
+      font-weight: 300;
+      text-align: left;
+      height: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      background: var(--white) url(../componentAssets/images/arrow-down-sign.svg) no-repeat 93% center;
+    }
 
-      .dropdown-el.active .select-dropdown__list {
-        opacity: 1;
-        pointer-events: auto;
-        transform: scale(1, 1);
-      }
+    .select-dropdown__button span {
+      font-size: 12px;
+      font-weight: 300;
+    }
 
-      .select-dropdown__list .select-dropdown__option:hover {
-        background: #cae2fb;
-      }
+    .select-dropdown__list {
+      position: absolute;
+      display: block;
+      left: 0;
+      right: 0;
+      max-width: 251px;
+      margin: 8px 0 0;
+      transform-origin: top left;
+      transform: scale(1, 0);
+      /* transition: all ease-in-out 0.3s; */
+      border: 0.5px solid rgba(0, 102, 190, 0.06);
+      box-sizing: border-box;
+      box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+      border-radius: 15px;
+      width: 100%;
+      padding: 8px;
+      max-height: 170px;
+      background-color: var(--white);
+      background-clip: padding-box;
+      z-index: 99;
+    }
 
-      ::-webkit-scrollbar-track {
-        background: #dce6ef;
-        border-radius: 20px;
-        padding: 0 5px;
-      }
+    .select-dropdown {
+      overflow-y: auto;
+      max-height: 150px;
+      padding-right: 4px;
+    }
 
-      ::-webkit-scrollbar-thumb {
-        width: 14px;
-        background: #97b6cf;
-        border: 3px solid #dce6ef;
-        border-radius: 15px;
-      }
+    .select-dropdown__list .select-dropdown__option {
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 0 0 2px;
+      word-break: break-word;
+      white-space: normal;
+      color: var(--light-blue);
+    }
 
-      ::-webkit-scrollbar {
-        width: 12px;
-        border-radius: 20px;
-      }
-      .survey-question input[type="text"] {
-        max-width: 211px;
-        border-radius: 4px;
-        background: var(--white);
-        box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-        border: 0;
-        font-size: 12px;
-        padding: 10px 12px;
-        width: 100%;
-      }
-      :focus-visible,
-      .form-section .form-group input:focus-visible {
-        outline: none;
-        box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 26%);
-      }
-      .form-group .select-dropdown__button span {
-        font-weight: 400;
-        color: rgb(112, 137, 158);
-      }
-      .survey-question input[type="text"]:focus-visible {
-        outline: none;
-        box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.26);
-      }
-      ::-webkit-input-placeholder {
-        color: rgb(112, 137, 158);
-        opacity: 1;
-      }
-      ::-moz-placeholder {
-        color: rgb(112, 137, 158);
-        opacity: 1;
-      }
-      :-ms-input-placeholder {
-        color: rgb(112, 137, 158);
-        opacity: 1;
-      }
-      :-moz-placeholder {
-        color: rgb(112, 137, 158);
-        opacity: 1;
-      }
-      .question-title span {
-        color: rgb(112, 137, 158);
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 132%;
-        margin: 0 0 0 4px;
-      }
-      .question-title {
-        display: inline-block;
-        align-items: center;
-      }
-      .rating-labels > div {
-        color: #70899e;
-        font-size: 11px;
-        font-weight: 400;
-        line-height: 132%;
-      }
-      .rating-block {
-        display: flex;
-        justify-content: flex-start;
-      }
-      .rating-stars,
-      .rating-numeric {
-        display: inline-flex;
-        flex-direction: row-reverse;
-        margin: 0;
-        padding-left: 0;
-        width: auto;
-        gap: 22px;
-      }
+    .dropdown-el {
+      position: relative;
+      max-width: 251px;
+      width: 100%;
+    }
 
-      label.rating-option {
-        /* border-radius: 32px;
+    .dropdown-el.active .select-dropdown__list {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1, 1);
+    }
+
+    .select-dropdown__list .select-dropdown__option:hover {
+      background: #cae2fb;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #dce6ef;
+      border-radius: 20px;
+      padding: 0 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      width: 14px;
+      background: #97b6cf;
+      border: 3px solid #dce6ef;
+      border-radius: 15px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      border-radius: 20px;
+    }
+
+    .survey-question input[type="text"] {
+      max-width: 211px;
+      border-radius: 4px;
+      background: var(--white);
+      box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+      border: 0;
+      font-size: 12px;
+      padding: 10px 12px;
+      width: 100%;
+    }
+
+    :focus-visible,
+    .form-section .form-group input:focus-visible {
+      outline: none;
+      box-shadow: 0px 0px 7px 0px rgb(0 0 0 / 26%);
+    }
+
+    .form-group .select-dropdown__button span {
+      font-weight: 400;
+      color: rgb(112, 137, 158);
+    }
+
+    .survey-question input[type="text"]:focus-visible {
+      outline: none;
+      box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.26);
+    }
+
+    ::-webkit-input-placeholder {
+      color: rgb(112, 137, 158);
+      opacity: 1;
+    }
+
+    ::-moz-placeholder {
+      color: rgb(112, 137, 158);
+      opacity: 1;
+    }
+
+    :-ms-input-placeholder {
+      color: rgb(112, 137, 158);
+      opacity: 1;
+    }
+
+    :-moz-placeholder {
+      color: rgb(112, 137, 158);
+      opacity: 1;
+    }
+
+    .question-title span {
+      color: rgb(112, 137, 158);
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 132%;
+      margin: 0 0 0 4px;
+    }
+
+    .question-title {
+      display: inline-block;
+      align-items: center;
+    }
+
+    .rating-labels>div {
+      color: #70899e;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 132%;
+    }
+
+    .rating-block {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .rating-stars,
+    .rating-numeric {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      margin: 0;
+      padding-left: 0;
+      width: auto;
+      gap: 22px;
+    }
+
+    label.rating-option {
+      /* border-radius: 32px;
       background: rgba(0, 74, 137, 0.08);
       color: var(--dark-blue); */
-        font-size: 24px;
-        /* font-weight: 400; */
-        /* width: 24px;
+      font-size: 24px;
+      /* font-weight: 400; */
+      /* width: 24px;
       height: 24px; */
       display: flex;
       align-items: center;
@@ -598,41 +615,266 @@
       line-height: 1;
       cursor: pointer;
       position: relative;
-  }
-  .rating-numeric label.rating-option{
-     border-radius: 32px;
+    }
+
+    .rating-numeric label.rating-option {
+      border-radius: 32px;
       background: rgba(0, 74, 137, 0.08);
-      color: var(--dark-blue); 
+      color: var(--dark-blue);
       font-size: 12px;
       font-weight: 400;
       width: 24px;
       height: 24px;
-  }
+    }
 
-  .rating-numeric label.rating-option:hover, .rating-numeric  label.rating-option:hover ~ label, .rating-numeric input[type="radio"]:checked ~ label{
-    background: var(--dark-blue);
-    color: var(--white)!important;
-  }
-  
-  .rating-labels {
+    .rating-numeric label.rating-option:hover,
+    .rating-numeric label.rating-option:hover~label,
+    .rating-numeric input[type="radio"]:checked~label {
+      background: var(--dark-blue);
+      color: var(--white) !important;
+    }
+
+    .rating-labels {
       justify-content: space-between;
       flex-direction: row;
       display: flex;
       gap: 22px;
       padding: 5px 0 0;
-  }
-  /* label.rating-option:hover {
+    }
+
+    /* label.rating-option:hover {
       background: var(--dark-blue);
       color: var(--white)!important;
   } */
-      .rating-stars label.rating-option:hover ~ label svg path, .rating-stars input:checked ~ label svg path,  .rating-stars label.rating-option:hover svg path  {
-        fill: #fac755 !important;
+    .rating-stars label.rating-option:hover~label svg path,
+    .rating-stars input:checked~label svg path,
+    .rating-stars label.rating-option:hover svg path {
+      fill: #fac755 !important;
+    }
+
+    .cookieadd .modal-dialog {
+      height: 85%;
+      max-width: 768px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .modal.fade .modal-dialog {
+      -webkit-transform: translateY(-50px);
+      transform: translateY(-50px);
+      transition: -webkit-transform 0.3s ease-out;
+      transition: transform 0.3s ease-out;
+      transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+    }
+
+    .modal-dialog-centered {
+      align-items: center;
+      display: flex;
+      min-height: calc(100% - var(--bs-modal-margin) * 2);
+    }
+
+    .modal.show .modal-dialog {
+      -webkit-transform: none;
+      transform: none;
+    }
+
+    .cookieadd .modal-content {
+      background: #183b4c;
+      border: 0;
+      border-radius: 15px;
+      box-shadow: 0 0 19px hsla(0, 0%, 100%, 0.2);
+      height: 100%;
+      left: 0;
+      max-height: 500px;
+      right: 0;
+    }
+
+    .cookieadd .modal-header {
+      border: 0;
+      justify-content: center;
+      margin-bottom: 15px;
+      padding: 18px 15px 0;
+      position: relative;
+      text-align: center;
+    }
+
+    .modal-header .modal-title {
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: #001489;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .cookieadd .modal-header button.btn-close {
+      border: 0;
+      color: #97b6cf;
+      font-size: 17px;
+      font-weight: 700;
+      opacity: 1;
+      position: absolute;
+      right: 24px;
+      top: 22px;
+    }
+
+    .modal-body {
+      flex: 1 1 auto;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .cookieadd .modal-body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .modal-content .modal-body h6 {
+      color: hsla(0, 0%, 100%, 0.3);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 18px;
+      margin: 0 0 0.5rem;
+    }
+
+    .used-cookies-table-top {
+      height: 100%;
+      margin-top: 20px;
+      padding-top: 20px;
+      position: relative;
+    }
+
+    .used-cookies-table-top:before {
+      border-top: 0.5px dashed #70899e;
+      content: "";
+      left: -15px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: calc(100% + 30px);
+    }
+
+    .cookieadd .used-cookies-table {
+      height: calc(100% - 135px);
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 300px;
+    }
+
+    table {
+      border-collapse: collapse;
+      caption-side: bottom;
+    }
+
+    .cookieadd .used-cookies-table table thead {
+      background: #183b4c;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+    }
+
+    .used-cookies-table table thead th {
+      -webkit-text-fill-color: transparent;
+      background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: #00a993;
+      font-size: 16px;
+      font-weight: 500;
+      min-width: 230px;
+      padding: 0 10px 20px 0;
+      text-align: left;
+    }
+
+    .used-cookies-table table td {
+      color: hsla(0, 0%, 100%, 0.3);
+      font-size: 15px;
+      line-height: 27px;
+      padding: 0 10px 20px 0;
+      vertical-align: top;
+    }
+
+    .form-section .form-group input,
+    .form-section .form-group select {
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+      font-size: 12px;
+      padding: 11px 12px;
+      border: 0;
+      max-width: 251px;
+      width: 100%;
+    }
+
+    .form-group .select-dropdown__button {
+      box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+    }
+
+    label.form-label {
+      color: var(--dark-blue);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 132%;
+      margin: 0 0 14px;
+      display: block;
+    }
+
+    .form-section .form-group label.form-label {
+      color: var(--dark-blue);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 132%;
+      padding-left: 12px;
+      margin: 0 0 5px;
+    }
+
+    .form-section .form-group {
+      margin: 0 0 16px;
+      flex-direction: column;
+      display: flex;
+      width: 50%;
+    }
+
+    .form-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .form-section .form-group:nth-child(2n) {
+      display: flex;
+      /* flex-wrap: wrap; */
+      align-items: flex-end;
+      box-sizing: border-box;
+    }
+
+    .form-section .form-group:nth-child(2n) label.form-label {
+      flex: 0 0 100%;
+      padding: 0 0 0 65px;
+      align-items: center;
+      display: flex;
+      width: 100%;
+    }
+
+    .consent-select {
+      margin: 25px 0 35px;
+    }
+
+    @media only screen and (max-width: 767px) {
+      .informed-survey {
+        margin: 16px auto;
+        width: calc(100% - 32px);
       }
-      .cookieadd .modal-dialog {
-        height: 85%;
-        max-width: 768px;
-        margin-left: auto;
-        margin-right: auto;
+
+      .form-section .form-group {
+        margin: 0 0 32px;
+        width: 100%;
+      }
+      .informed-survey-header h2 {
+        font-size: 20px;
       }
       .modal.fade .modal-dialog {
         -webkit-transform: translateY(-50px);
@@ -674,706 +916,545 @@
         -webkit-background-clip: text;
         color: #001489;
         font-size: 20px;
-        font-weight: 600;
-        text-align: center;
-        display: inline-block;
-      }
-      .cookieadd .modal-header button.btn-close {
-        border: 0;
-        color: #97b6cf;
-        font-size: 17px;
-        font-weight: 700;
-        opacity: 1;
-        position: absolute;
-        right: 24px;
-        top: 22px;
-      }
-      .modal-body {
-        flex: 1 1 auto;
-        padding: 1rem;
-        position: relative;
-      }
-      .cookieadd .modal-body {
-        height: 100%;
-        overflow: hidden;
-      }
-      .modal-content .modal-body h6 {
-        color: hsla(0, 0%, 100%, 0.3);
-        font-size: 15px;
-        font-weight: 400;
-        line-height: 18px;
-        margin: 0 0 0.5rem;
-      }
-      .used-cookies-table-top {
-        height: 100%;
-        margin-top: 20px;
-        padding-top: 20px;
-        position: relative;
-      }
-      .used-cookies-table-top:before {
-        border-top: 0.5px dashed #70899e;
-        content: "";
-        left: -15px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: calc(100% + 30px);
-      }
-      .cookieadd .used-cookies-table {
-        height: calc(100% - 135px);
-        overflow-x: hidden;
-        overflow-y: auto;
-        max-height: 300px;
-      }
-      table {
-        border-collapse: collapse;
-        caption-side: bottom;
-      }
-      .cookieadd .used-cookies-table table thead {
-        background: #183b4c;
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-      }
-      .used-cookies-table table thead th {
-        -webkit-text-fill-color: transparent;
-        background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: #00a993;
-        font-size: 16px;
-        font-weight: 500;
-        min-width: 230px;
-        padding: 0 10px 20px 0;
-        text-align: left;
-      }
-      .used-cookies-table table td {
-        color: hsla(0, 0%, 100%, 0.3);
-        font-size: 15px;
-        line-height: 27px;
-        padding: 0 10px 20px 0;
-        vertical-align: top;
       }
 
       .form-section .form-group input,
       .form-section .form-group select {
-        border-radius: 24px;
-        background: var(--white);
-        box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-        font-size: 12px;
-        padding: 11px 12px;
-        border: 0;
-        max-width: 251px;
-        width: 100%;
-      }
-      .form-group .select-dropdown__button {
-        box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-      }
-      label.form-label {
-        color: var(--dark-blue);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 132%;
-        margin: 0 0 14px;
-        display: block;
-      }
-      .form-section .form-group label.form-label {
-        color: var(--dark-blue);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 132%;
-        padding-left: 12px;
-        margin: 0 0 5px;
-      }
-
-      .form-section .form-group {
-        margin: 0 0 16px;
-        flex-direction: column;
-        display: flex;
-        width: 50%;
-      }
-
-      .form-section {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-      }
-
-      .form-section .form-group:nth-child(2n) {
-        display: flex;
-        /* flex-wrap: wrap; */
-        align-items: flex-end;
-        box-sizing: border-box;
+        max-width: 100%;
       }
 
       .form-section .form-group:nth-child(2n) label.form-label {
-        flex: 0 0 100%;
-        padding: 0 0 0 65px;
-        align-items: center;
-        display: flex;
+        padding: 0 0 0 12px;
+      }
+
+      .dropdown-el {
+        position: relative;
+        max-width: 100%;
         width: 100%;
       }
+
+      .informed-survey-body {
+        padding: 24px 16px;
+      }
+
+      .consent-item {
+        line-height: 132%;
+      }
+
+      .select-dropdown__button,
+      .select-dropdown__list {
+        max-width: 400px;
+      }
+
+      .select-dropdown__list .select-dropdown__option {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 0.2rem 0.7rem;
+      }
+
+      .select-dropdown__button {
+        padding: 8px 50px 8px 15px;
+        font-size: 12px;
+      }
+
       .consent-select {
-        margin: 25px 0 35px;
+        margin: 8px 0 40px;
       }
 
-      @media only screen and (max-width: 767px) {
-        .informed-survey {
-          margin: 16px auto;
-          width: calc(100% - 32px);
-        }
-        .form-section .form-group {
-          margin: 0 0 32px;
-          width: 100%;
-        }
-        .informed-survey-header h2 {
-          font-size: 20px;
-        }
-        .form-section .form-group input,
-        .form-section .form-group select {
-          max-width: 100%;
-        }
-        .form-section .form-group:nth-child(2n) label.form-label {
-          padding: 0 0 0 12px;
-        }
-        .dropdown-el {
-          position: relative;
-          max-width: 100%;
-          width: 100%;
-        }
-
-        .informed-survey-body {
-          padding: 24px 16px;
-        }
-
-        .consent-item {
-          line-height: 132%;
-        }
-
-        .select-dropdown__button,
-        .select-dropdown__list {
-          max-width: 400px;
-        }
-
-        .select-dropdown__list .select-dropdown__option {
-          font-size: 12px;
-          line-height: 16px;
-          padding: 0.2rem 0.7rem;
-        }
-
-        .select-dropdown__button {
-          padding: 8px 50px 8px 15px;
-          font-size: 12px;
-        }
-        .consent-select {
-          margin: 8px 0 40px;
-        }
-        .copyright-links {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 12px 13px;
-          flex-wrap: wrap;
-        }
-        .copyright-links a {
-          font-size: 12px;
-          padding: 0 0px 0 0;
-        }
-        #survey-form {
-          gap: 40px;
-        }
-
-        .survey-consent p {
-          margin: 30px 0px 13px 0;
-          display: block;
-        }
-
-        .survey-consent p:last-child {
-          margin-bottom: 0;
-        }
-
-        .form-footer {
-          margin: 0px 0 0;
-        }
-
-        #survey-form {
-          margin: 45px 0 0;
-        }
-
-        .select-dropdown__button span {
-          font-size: 12px;
-        }
+      .copyright-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px 13px;
+        flex-wrap: wrap;
       }
-    </style>
-  </head>
 
-  <body>
-    <div id="survey-container" class="informed-survey">
-	</div>
-    <script>
-      document.addEventListener("DOMContentLoaded", async function () {
-        const endPoint = await fetch("./config.json");
-        const config = await endPoint.json();
-        const queryParams = new URLSearchParams(window.location.search);
-        const unique_code = queryParams.get("uniqueCode");
-        const survey_id = queryParams.get("surveyId");
-        console.log("Fetching data...");
+      .copyright-links a {
+        font-size: 12px;
+        padding: 0 0px 0 0;
+      }
 
-        const apiUrl = config.fetch_preview;
-        const payload = {
-          unique_code,
-          user_id: "0",
-          survey_id,
-        };
+      #survey-form {
+        gap: 40px;
+      }
 
-        let data = [];
-        try {
-          const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
+      .survey-consent p {
+        margin: 30px 0px 13px 0;
+        display: block;
+      }
 
-          data = await response.json();
-          console.log("Fetched Data:", data);
-        } catch (error) {
-          console.error("Error fetching survey data:", error.message);
-          document.getElementById(
-            "survey-container"
-          ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
-          return;
-        }
+      .survey-consent p:last-child {
+        margin-bottom: 0;
+      }
 
-        const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
-        let surveyHtml = `
-                <div class="informed-survey-header" style="background-color: ${customHtml.header_background_color};">
-                    <img src="${customHtml.logo}" alt="Logo" width="${customHtml.logoWidth}%">
-                    <h2 style="color: ${customHtml.title_color};font-weight: 700;">${customHtml.main_heading}</h2>
-                </div>
-                <div class="informed-survey-body" style="background-color: ${customHtml.page_background_color};">
-                    <div class="informed-survey-text" style="color: ${customHtml.bodyTextColor};">
-                        <p>${customHtml.bodyText}</p>
-                    </div>
-                    <form id="survey-form">
-            `;
+      .form-footer {
+        margin: 0px 0 0;
+      }
 
-        const questions = data.data[0].question_data;
-        console.log(questions);
-        questions.forEach((question) => {
-          switch (question.type) {
-            case "multiple":
-              surveyHtml += `<div class="survey-question">
-        <div class="d-flex question-title" style="color: ${
-          customHtml.question_answer_color
+      #survey-form {
+        margin: 45px 0 0;
+      }
+
+      .select-dropdown__button span {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="survey-container" class="informed-survey"></div>
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      const endPoint = await fetch("./config.json");
+      const config = await endPoint.json();
+      const queryParams = new URLSearchParams(window.location.search);
+      const unique_code = queryParams.get("uniqueCode");
+      const survey_id = queryParams.get("surveyId");
+      console.log("Fetching data...");
+
+      const apiUrl = config.fetch_preview;
+      const payload = {
+        unique_code,
+        user_id: "0",
+        survey_id,
+      };
+
+      let data = [];
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        data = await response.json();
+        console.log("Fetched Data:", data);
+      } catch (error) {
+        console.error("Error fetching survey data:", error.message);
+        document.getElementById(
+          "survey-container"
+        ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
+        return;
+      }
+
+      const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
+      let surveyHtml = `
+    <div class="informed-survey-header" style="${customHtml.header_background_color
+          ? `background-color: ${customHtml.header_background_color};`
+          : `background-image: url('${customHtml.header_background_image}'); background-size: cover;`
+        }">
+        ${customHtml.logo !== ""
+          ? `<img src="${customHtml.logo}" alt="Logo" width="${customHtml.logoWidth}%">`
+          : ""
+        }  
+        <h2 style="color: ${customHtml.title_color}; font-weight: 700;">${customHtml.main_heading
+        }</h2>
+    </div>
+    <div class="informed-survey-body" style="background-color: ${customHtml.page_background_color
         };">
-            <p>${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span></p>
+        <div class="informed-survey-text" style="color: ${customHtml.bodyTextColor
+        };">
+            <p>${customHtml.bodyText}</p>
+        </div>
+        <form id="survey-form">
+`;
+
+      const questions = data.data[0].question_data;
+      console.log(questions);
+      questions.forEach((question) => {
+        switch (question.type) {
+          case "multiple":
+            surveyHtml += `<div class="survey-question">
+        <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+            <p>${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span></p>
         </div>
         <p class="helper-text">${question.questionDescription}</p>`;
 
-              question.answer.forEach((answer) => {
-                surveyHtml += `
-        <label class="check" style="color: ${
-          customHtml.question_answer_color
-        };">
-            <input type="radio" name="question${question.questionId}" value="${
-                  answer.answerId
-                }" ${question.isOptional ? "" : "required"} />
+            // Loop through the answers to create radio buttons
+            question.answer.forEach((answer) => {
+              surveyHtml += `
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="radio" name="question${question.questionId}" value="${answer.answerId}"
+                ${question.isOptional ? "" : "required"}
+                onclick="handleOtherChoice(${question.questionId})" />
             ${answer.value}
             <span class="checkmark"></span>
         </label>`;
-              });
+            });
 
-              if (question.extra.addAllOfTheAbove) {
-                surveyHtml += `
-        <label class="check" style="color: ${
-          customHtml.question_answer_color
-        };">
-            <input type="radio" name="question${question.questionId}" value="${
-                  question.extra.allOfTheAboveLabel
-                }" ${question.isOptional ? "" : "required"} />
+            // Add the "All of the above" option if applicable
+            if (question.extra.addAllOfTheAbove) {
+              surveyHtml += `
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="radio" name="question${question.questionId}" value="${question.extra.allOfTheAboveLabel}"
+                ${question.isOptional ? "" : "required"}
+                onclick="handleOtherChoice(${question.questionId})" />
             ${question.extra.allOfTheAboveLabel}
             <span class="checkmark"></span><br>
         </label>`;
-              }
+            }
 
-              if (question.addOtherChoice) {
-                surveyHtml += `
-        <label class="check" style="color: ${
-          customHtml.question_answer_color
-        };">
-            <input type="radio" name="question${question.questionId}" value="${
-                  question.extra.otherChoiceLabel
-                }" ${
-                  question.isOptional ? "" : "required"
-                } id="radio-other-choice-${question.questionId}" />
+            // Add the "Other" choice with its text input
+            if (question.addOtherChoice) {
+              surveyHtml += `
+        <label class="check" style="color: ${customHtml.question_answer_color};">
+            <input type="radio" name="question${question.questionId}"
+                id="radio-other-choice-${question.questionId}"
+                onclick="handleOtherChoice(${question.questionId})"
+                value="other" ${question.isOptional ? "" : "required"} />
             ${question.extra.otherChoiceLabel}
             <span class="checkmark"></span><br>
         </label>
-        <input type="text" placeholder="${
-          question.extra.otherChoicePlaceholderText
-        }" name="question${question.questionId}_other" id="other-text-${
-                  question.questionId
-                }" class="other-text-input" style="display:none;" />
-        `;
-              }
+        <input type="text" name="question${question.questionId}_other"
+            placeholder="${question.extra.otherChoicePlaceholderText}"
+            id="other-text-${question.questionId}" class="other-text-input"
+            style="display:none;" />`;
+            }
 
-              surveyHtml += `</div>`;
-              break;
+            surveyHtml += `</div>`;
+            break;
 
-            case "checkbox":
-              surveyHtml += `<div class="survey-question">
-      <div class="d-flex question-title" style="color: ${
-        customHtml.question_answer_color
-      };">${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
+
+          case "checkbox":
+            surveyHtml += `<div class="survey-question">
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color
+              };">${question.question} <span>${question.isOptional ? question.optionalLabel : ""
               }</span></div>
       <p class="helper-text">${question.questionDescription}</p>`;
 
-              question.answer.forEach((answer) => {
-                surveyHtml += `
-          <label class="check" style="color: ${
-            customHtml.question_answer_color
-          };">
-              <input type="checkbox" name="question${
-                question.questionId
-              }" value="${answer.answerId}" ${
-                  question.isOptional ? "" : "required"
+            question.answer.forEach((answer) => {
+              surveyHtml += `
+          <label class="check" style="color: ${customHtml.question_answer_color
+                };">
+              <input type="checkbox" name="question${question.questionId
+                }" value="${answer.answerId}" ${question.isOptional ? "" : "required"
                 }"/>
               ${answer.value}
               <span class="checkmark"></span>
           </label>`;
-              });
-              if (question.addOtherChoice) {
-                surveyHtml += `
-        <label class="check" style="color: ${
-          customHtml.question_answer_color
-        };">
-            <input type="checkbox" name="question${
-              question.questionId
-            }" value="${question.extra.otherChoiceLabel}" ${
-                  question.isOptional ? "" : "required"
+            });
+            if (question.addOtherChoice) {
+              surveyHtml += `
+        <label class="check" style="color: ${customHtml.question_answer_color
+                };">
+            <input type="checkbox" name="question${question.questionId
+                }" value="other" ${question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
             ${question.extra.otherChoiceLabel}
             <span class="checkmark"></span><br>
         </label>
-        <input type="text" placeholder="${
-          question.extra.otherChoicePlaceholderText
-        }" name="question${question.questionId}_other" id="other-text-${
-                  question.questionId
+        <input type="text" placeholder="${question.extra.otherChoicePlaceholderText
+                }" name="question${question.questionId}_other" id="other-text-${question.questionId
                 }" class="other-text-input" style="display:none;" />
     `;
-              }
+            }
 
-              surveyHtml += `</div>`;
-              break;
+            surveyHtml += `</div>`;
+            break;
 
-            case "dropdown":
-              surveyHtml += `<div class="survey-question">
-                      <div class="d-flex question-title" style="color: ${
-                        customHtml.question_answer_color
-                      };">
-                        ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
-                      </div>
-                      <p class="helper-text">${question.questionDescription}</p>
-                      <div class="dropdown-el" name="question${
-                        question.questionId
-                      }">
-                        <div data-value="" class="select-dropdown__button"><span>Select</span></div>
-                        <input type="hidden" name="dropdown${
-                          question.questionId
-                        }" value="" />
-                        <div class="select-dropdown__list">
-                          <div class="select-dropdown">`;
-              question.answer[0].value.forEach((option) => {
-                const combinedValue = `${question.answer[0].answerId},${option}`;
-                surveyHtml += `<div data-value="${combinedValue}" class="select-dropdown__option" ${
-                  question.isOptional ? "" : "required"
-                }>${option}</div>`;
-              });
-              surveyHtml += `    </div>
-                    </div>
+          // case "dropdown":
+          //   surveyHtml += `<div class="survey-question">
+          //             <div class="d-flex question-title" style="color: ${customHtml.question_answer_color
+          //     };">
+          //               ${question.question} <span>${question.isOptional ? question.optionalLabel : ""
+          //     }</span>
+          //             </div>
+          //             <p class="helper-text">${question.questionDescription}</p>
+          //             <div class="dropdown-el" name="question${question.questionId
+          //     }">
+          //               <div data-value="" class="select-dropdown__button"><span>${question.extra.placeholder
+          //     }</span></div>
+          //               <input type="hidden" name="question${question.questionId
+          //     }" value="" />
+          //               <div class="select-dropdown__list">
+          //                 <div class="select-dropdown">`;
+          //   question.answer[0].value.forEach((option) => {
+          //     const combinedValue = `${question.answer[0].answerId},${option}`;
+          //     surveyHtml += `<div data-value="${combinedValue}" class="select-dropdown__option" ${question.isOptional ? "" : "required"
+          //       }>${option}</div>`;
+          //   });
+          //   surveyHtml += `    </div>
+          //           </div>
+          //         </div>
+          //       </div>`;
+          //   break;
+
+          case "dropdown":
+            surveyHtml += `<div class="survey-question">
+                  <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+                    ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
                   </div>
-                </div>`;
-              break;
+                  <p class="helper-text">${question.questionDescription}</p>
+                  <div class="dropdown-el" name="question${question.questionId}">
+                    <div data-value="" class="select-dropdown__button"><span>${question.extra.placeholder}</span></div>
+                    <input type="hidden" name="question${question.questionId}" value="" ${question.isOptional ? "" : "required"} />
+                    <div class="select-dropdown__list">
+                      <div class="select-dropdown">`;
 
-            case "rating":
-              surveyHtml += `
+            question.answer[0].value.forEach((option) => {
+              const combinedValue = `${question.answer[0].answerId},${option}`;
+              surveyHtml += `<div data-value="${combinedValue}" class="select-dropdown__option">${option}</div>`;
+            });
+
+            surveyHtml += `    </div>
+                </div>
+              </div>
+            </div>`;
+            break;
+
+          case "rating":
+            surveyHtml += `
               <div class="survey-question">
-                <div class="d-flex question-title" style="color: ${
-                  customHtml.question_answer_color
-                };">
-                  ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
+                <div class="d-flex question-title" style="color: ${customHtml.question_answer_color
+              };">
+                  ${question.question} <span>${question.isOptional ? question.optionalLabel : ""
               }</span>
                 </div>
                 <p class="helper-text">${question.questionDescription}</p>
             `;
 
-              // Check if the rating type is stars
-              if (question.extra.ratingType === "stars") {
-                surveyHtml += `
+            // Check if the rating type is stars
+            if (question.extra.ratingType === "stars") {
+              surveyHtml += `
                 <div class="rating-block">
               <div class="rating-wrapper">
       <div class="rating-stars" style="color: ${question.extra.ratingColor};">
     `;
-                for (let i = question.extra.ratingScale; i >= 1; i--) {
-                  surveyHtml += `
-                  <input type="radio" id="stars-rating-${i}" name="rating${
-                    question.questionId
+              for (let i = question.extra.ratingScale; i >= 1; i--) {
+                surveyHtml += `
+                  <input type="radio" id="stars-rating-${i}" name="rating${question.questionId
                   }" value="${i}" ${question.isOptional ? "" : "required"} />
-            <label class="rating-option" for="stars-rating-${i}" style="color: ${
-                    question.extra.ratingColor
+            <label class="rating-option" for="stars-rating-${i}" style="color: ${question.extra.ratingColor
                   };">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><g clip-path="url(#clip0_1228_31957)"><path d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z" stroke="#FAC755" style="fill: none;"></path></g><defs><clipPath id="clip0_1228_31957"><rect width="24" height="24" fill="white" transform="translate(0 0.046875)"></rect></clipPath></defs></svg>
             </label>
             `;
-                }
-                surveyHtml += `</div>`;
-                surveyHtml += `
+              }
+              surveyHtml += `</div>`;
+              surveyHtml += `
       <div class="rating-labels">
         <div class="not-satisfy">${question.extra.leftSideLabel}</div>
         <div class="satisfy">${question.extra.rightSideLabel}</div>
       </div>
       </div>
     </div>`;
-              } else {
-                // Numeric rating type
-                surveyHtml += `
+            } else {
+              // Numeric rating type
+              surveyHtml += `
               <div class="rating-block">
               <div class="rating-wrapper">
               <div class="rating-numeric" style="color: ${customHtml.question_answer_color};">
         `;
-                for (let i = question.extra.ratingScale; i >= 1; i--) {
-                  surveyHtml += `
-                   <input type="radio" id="numeric-rating-${i}" name="rating${
-                    question.questionId
+              for (let i = question.extra.ratingScale; i >= 1; i--) {
+                surveyHtml += `
+                   <input type="radio" id="numeric-rating-${i}" name="rating${question.questionId
                   }" value="${i}" ${question.isOptional ? "" : "required"} />
-                <label for="numeric-rating-${i}" class="rating-option" style="color: ${
-                    customHtml.question_answer_color
+                <label for="numeric-rating-${i}" class="rating-option" style="color: ${customHtml.question_answer_color
                   };">
                  
                   ${i}
                 </label>
               `;
-                }
-                surveyHtml += `</div>`;
-                surveyHtml += `
+              }
+              surveyHtml += `</div>`;
+              surveyHtml += `
                 <div class="rating-labels">
                   <div class="not-satisfy">${question.extra.leftSideLabel}</div>
                   <div class="satisfy">${question.extra.rightSideLabel}</div>
                 </div>
                 </div>
               </div>`;
-              }
-              surveyHtml += `</div>`;
-              break;
+            }
+            surveyHtml += `</div>`;
+            break;
 
-            case "matrix":
-              // Determine the input type based on allowMultipleAnswer
-              // const inputType = question.extra.allowMultipleAnswer ? "checkbox" : "radio";
-              const inputType = "radio";
+          //       case "matrix":
+          //         // const inputType = question.extra.allowMultipleAnswer ? "checkbox" : "radio";
+          //         const inputType = "radio";
+          //         // Start the HTML for the matrix question
+          //         surveyHtml += `
+          // <div class="survey-question matrix">
+          //   <div class="d-flex question-title" style="color: ${customHtml.question_answer_color
+          //           };">
+          //     ${question.question} <span>${question.isOptional ? question.optionalLabel : ""
+          //           }</span>
+          //   </div>
+          //   <p class="helper-text">${question.questionDescription}</p>
+          //   <div class="table-responsive">
+          //     <table>
+          //       <thead>
+          //         <tr>
+          //           <th>&nbsp;</th>
+          //           ${question.answer[0].answer
+          //             .map((column) => `<th>${column.value}</th>`)
+          //             .join("")}
+          //         </tr>
+          //       </thead>
+          //       <tbody>
+          //         ${question.answer
+          //             .map(
+          //               (row) =>
+          //                 `<tr>
+          //                 <td>${row.title}</td>
+          //                 ${row.answer
+          //                   .map(
+          //                     (option) =>
+          //                       `<td>
+          //                         <input type="${inputType}" 
+          //                                ${inputType === "radio"
+          //                         ? `name="question${row.id}"`
+          //                         : `name="question${row.id}_${option.answerId}"`
+          //                       } 
+          //                                id="question${question.questionId}_${row.id
+          //                       }_${option.answerId}" 
+          //                                value="${option.answerId}">
+          //                         <span class="checkmark"></span>
+          //                       </td>`
+          //                   )
+          //                   .join("")}
+          //               </tr>`
+          //             )
+          //             .join("")}
+          //       </tbody>
+          //     </table>
+          //   </div>
+          // </div>`;
+          //         break;
 
-              // Start the HTML for the matrix question
-              surveyHtml += `
-    <div class="survey-question matrix">
-      <div class="d-flex question-title" style="color: ${
-        customHtml.question_answer_color
-      };">
-        ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
-      </div>
-      <p class="helper-text">${question.questionDescription}</p>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>&nbsp;</th>
-              ${question.answer[0].answer
-                .map((column) => `<th>${column.value}</th>`)
-                .join("")}
-            </tr>
-          </thead>
-          <tbody>
-            ${question.answer
-              .map(
-                (row) =>
-                  `<tr>
-                    <td>${row.title}</td>
-                    ${row.answer
-                      .map(
-                        (option) =>
-                          `<td>
-                            <input type="${inputType}" 
-                                   ${
-                                     inputType === "radio"
-                                       ? `name="question${row.id}"`
-                                       : `name="question${row.id}_${option.answerId}"`
-                                   } 
-                                   id="question${question.questionId}_${
-                            row.id
-                          }_${option.answerId}" 
-                                   value="${option.answerId}">
-                            <span class="checkmark"></span>
-                          </td>`
-                      )
-                      .join("")}
-                  </tr>`
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>`;
-              break;
-
-            case "freeText":
-              surveyHtml += `
+          case "freeText":
+            surveyHtml += `
     <div class="survey-question">
-      <div class="d-flex question-title" style="color: ${
-        customHtml.question_answer_color
-      };">
-        ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color
+              };">
+        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""
               }</span>
       </div>
-      <textarea name="question${question.questionId}" placeholder="${
-                question.extra.placeholder
+      <textarea name="question${question.questionId}" placeholder="${question.extra.placeholder
               }" ${question.isOptional ? "" : "required"}></textarea>
     </div>`;
-              break;
+            break;
 
-            case "heading":
-              surveyHtml += `
+          case "heading":
+            surveyHtml += `
               <div class="survey-question">
                   <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
                   <p class="helper-text">${question.questionDescription}</p>
               `;
-              surveyHtml += `</div>`;
-              break;
+            surveyHtml += `</div>`;
+            break;
 
-            case "paragraph":
-              surveyHtml += `
+          case "paragraph":
+            surveyHtml += `
               <div class="survey-question">
                 <div class="survey-paragraph" style="color: ${question.style.color};">${question.question}</div>
 
             `;
-              surveyHtml += `</div>`;
-              break;
+            surveyHtml += `</div>`;
+            break;
 
-            case "divideLine":
-              surveyHtml += `
+          case "divideLine":
+            surveyHtml += `
               <div class="survey-question">
                 <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
                 &nbsp
                 </div>
             `;
-              surveyHtml += `</div>`;
-              break;
+            surveyHtml += `</div>`;
+            break;
 
-            case "image":
-              surveyHtml += `
+          case "image":
+            surveyHtml += `
               <div class="survey-image">
                 <img src="${question.question}" alt="Survey Image" style="width: ${question.style.width}%; height: ${question.style.height};">
               `;
-              surveyHtml += `</div>`;
-              break;
+            surveyHtml += `</div>`;
+            break;
 
-            case "consent":
-              surveyHtml += `
+          case "consent":
+            surveyHtml += `
         <div class="survey-consent">
-            <div class="login-consent">${question.question}${
-                question.extra.operatingStatement
+            <div class="login-consent">${question.question}${question.extra.operatingStatement
               }</div>
             <div class="form-section">
                 ${question.extra.consentDetails
-                  .map((userdetail) => {
-                    let html = "";
-                    if (userdetail.nameLabel == "Name") {
-                      html = `
+                .map((userdetail) => {
+                  let html = "";
+                  if (userdetail.nameLabel == "Name") {
+                    html = `
                               
                                 <div class="form-group">
                                     <label class="form-label">
                                         ${userdetail.nameLabel}
                                         </label>
-                                          <input type="text" name="question${question.questionId}_name" placeholder="${userdetail.namePlaceholder}" />
+                                          <input type="text" name="name" placeholder="${userdetail.namePlaceholder}" required />
                                 </div>
                             `;
-                    } else if (userdetail.emailLabel == "Email") {
-                      html = `
+                  } else if (userdetail.emailLabel == "Email") {
+                    html = `
                                 <div class="form-group">
                                     <label class="form-label">
                                         ${userdetail.emailLabel}
                                           </label>
-                                          <input type="text" name="question${question.questionId}_email" placeholder="${userdetail.emailPlaceholder}" />
+                                          <input type="text" name="email" placeholder="${userdetail.emailPlaceholder}" required />
                                   
                                 </div>
                             `;
-                    } else if (userdetail.countryLabel == "Country") {
-                      html = `
+                  } else if (userdetail.countryLabel == "Country") {
+                    html = `
   <div class="form-group">
     <label class="form-label">${userdetail.countryLabel}</label>
     <div class="dropdown-el" name="question${question.questionId}_country">
       <div data-value="" class="select-dropdown__button"><span>Select your country</span></div>
-      <input type="hidden" name="question${
-        question.questionId
-      }_consentCountry" value="" />
+      <input type="hidden" name="countryConsent" value="" required /> <!-- Add 'required' here -->
       <div class="select-dropdown__list">
         <div class="select-dropdown">
-          <div data-value="" class="select-dropdown__option" disabled>${
-            userdetail.countryPlaceholder
-          }</div>
+          <div data-value="" class="select-dropdown__option" disabled>${userdetail.countryPlaceholder}</div>
           ${userdetail.countryOptions
-            .map(
-              (option) =>
-                `<div data-value="${option}" class="select-dropdown__option">${option}</div>`
-            )
-            .join("")}
+                        .map(
+                          (option) =>
+                            `<div data-value="${option}" class="select-dropdown__option">${option}</div>`
+                        )
+                        .join("")}
         </div>
       </div>
     </div>
-  </div>
-`;
-                    }
-                    return html;
-                  })
-                  .join("")}
+  </div>`;
+
+
+                  }
+                  return html;
+                })
+                .join("")}
       </div>
       <div class="consent-select">
           <label class="form-label">I consent to:</label>
           ${question.extra.consentOptions
-            .map(
-              (option) => `
+                .map(
+                  (option) => `
           <label class="consent-item">
-            <input type="checkbox" name="question${
-              question.questionId
-            }_consentOption" value="${option.label}" ${
-                option.isChecked ? "checked" : ""
-              }>
+            <input type="checkbox" name="consentOption" value="${option.label
+                    }" ${option.isChecked ? "checked" : ""}>
             <span class="checkmark"></span>
             ${option.label}
           </label>
         `
-            )
-            .join("")}
+                )
+                .join("")}
           </div>
             <p>${question.extra.cookiePolicy}</p>
         </div>`;
-              break;
+            break;
 
-            default:
-              console.log(`Unknown question type: ${question.type}`);
-          }
-        });
+          default:
+            console.log(`Unknown question type: ${question.type}`);
+        }
+      });
 
-        surveyHtml += `
+      surveyHtml += `
                 <div class="form-footer">
                     <button type="button" id="submit-button" style="background: ${customHtml.button_color};">${customHtml.button_text}</button>
                     <span style="color: ${customHtml.bodyTextColor};">${customHtml.main_footer}</span>
@@ -1381,195 +1462,249 @@
             </form>
 		</div>`;
 
-        // Function to initialize event listeners for "Other" choices
-        function initializeOtherChoiceListeners() {
-          // Handle radio buttons for "Other" choices
-          document
-            .querySelectorAll('input[id^="radio-other-choice-"]')
-            .forEach((input) => {
-              input.addEventListener("change", function () {
-                // Extract the questionId from the id
-                const questionId = this.id.split("-").pop();
+      // Function to initialize event listeners for "Other" choices
+      function initializeOtherChoiceListeners() {
+        // Handle radio buttons for "Other" choices
+        document
+          .querySelectorAll('input[id^="radio-other-choice-"]')
+          .forEach((input) => {
+            input.addEventListener("change", function () {
+              // Extract the questionId from the id
+              const questionId = this.id.split("-").pop();
 
-                // Hide all "Other" text inputs for this question
-                document
-                  .querySelectorAll(`input[id^="other-text-${questionId}"]`)
-                  .forEach((inputField) => {
-                    inputField.style.display = "none";
-                  });
+              // Hide all "Other" text inputs for this question
+              document
+                .querySelectorAll(`input[id^="other-text-${questionId}"]`)
+                .forEach((inputField) => {
+                  inputField.style.display = "none";
+                });
 
-                // If the current "Other" choice is selected, show its corresponding input field
-                if (this.checked) {
-                  const otherTextInput = document.getElementById(
-                    `other-text-${questionId}`
-                  );
-                  if (otherTextInput) {
-                    otherTextInput.style.display = "block";
-                  }
-                }
-              });
-            });
-
-          // Handle checkboxes for "Other" choices
-          document
-            .querySelectorAll('input[id^="checkbox-other-choice-"]')
-            .forEach((input) => {
-              input.addEventListener("change", function () {
-                // Extract the questionId from the id
-                const questionId = this.id.split("-").pop();
-
-                // Show or hide the corresponding "Other" text input based on the checkbox state
+              // If the current "Other" choice is selected, show its corresponding input field
+              if (this.checked) {
                 const otherTextInput = document.getElementById(
                   `other-text-${questionId}`
                 );
                 if (otherTextInput) {
-                  otherTextInput.style.display = this.checked
-                    ? "block"
-                    : "none";
+                  otherTextInput.style.display = "block";
                 }
-              });
-            });
-        }
-
-        document.getElementById("survey-container").innerHTML = surveyHtml;
-
-        initializeOtherChoiceListeners();
-
-        document
-          .getElementById("submit-button")
-          .addEventListener("click", async () => {
-            const formData = new FormData(
-              document.getElementById("survey-form")
-            );
-            console.log(formData);
-            const obj = {};
-            // formData.forEach((value, key) => {
-            //     console.log(value, key)
-            //   obj[key] = value;
-            // });
-
-            formData.forEach((value, key) => {
-              // Check if the key already exists in the object
-              if (obj.hasOwnProperty(key)) {
-                // If the key already exists, convert its value to an array if it's not already one
-                if (!Array.isArray(obj[key])) {
-                  obj[key] = [obj[key]];
-                }
-                // Push the new value into the array
-                obj[key].push(value);
-              } else {
-                // If the key does not exist, just assign the value
-                obj[key] = value;
               }
             });
-
-            console.log(obj);
-            const responses = [];
-
-            // questions.forEach((question) => {
-            //   const response = {
-            //     question_id: question.questionId,
-            //     answer_id: [],
-            //     comment: "",
-            //   };
-
-            //   if (
-            //     question.type === "multiple"
-            //   ) {
-            //     formData.forEach((value, key) => {
-            //       if (key.startsWith(`question${question.questionId}`)) {
-            //         response.answer_id.push(value);
-            //       }
-            //     });
-            //   } else if (question.type === "checkbox") {
-            //     formData.forEach((value, key) => {
-            //       if (key.startsWith(`question${question.questionId}`)) {
-            //         response.answer_id.push(value);
-            //       }
-            //     });
-            //   }
-            //   else if (question.type === "dropdown") {
-            //     const value = formData.get(`question${question.questionId}`);
-            //     const valueArray = value.split(",");
-            //     if (valueArray.length > 0) {
-            //       response.answer_id.push(valueArray[0]);
-            //       response.comment = valueArray[1];
-            //     }
-            //   } else if (question.type === "rating") {
-            //     const value = formData.get(`rating${question.questionId}`);
-            //     console.log(value);
-            //     if (value) {
-            //       response.comment = value;
-            //     }
-            //   }
-
-            //   // For text areas or comments, if any
-            //   if (question.type === "freeText") {
-            //     response.comment =
-            //       formData.get(`question${question.questionId}`) || "";
-            //   }
-
-            //   responses.push(response);
-            // });
-
-            const submitPayload = { survey_responses: responses };
-
-            console.log(submitPayload);
-            console.log("jderfrf");
-
-            // try {
-
-            //     const submitApiUrl = config.insert_responses;
-            //     const submitResponse = await fetch(submitApiUrl, {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify(submitPayload),
-            //     });
-
-            //     if (submitResponse.ok) {
-            //         alert("Survey submitted successfully!");
-            //     } else {
-            //         alert("Failed to submit the survey. Please try again.");
-            //     }
-            // } catch (error) {
-            //     console.error("Error submitting survey:", error.message);
-            //     alert("An error occurred while submitting the survey. Please try again.");
-            // }
           });
-      });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-      $(document).ready(function () {
-        // Toggle dropdown visibility on button click
-        $(document).on("click", ".select-dropdown__button", function () {
-          $(this).closest(".dropdown-el").toggleClass("active");
-        });
+        // Handle checkboxes for "Other" choices
+        document
+          .querySelectorAll('input[id^="checkbox-other-choice-"]')
+          .forEach((input) => {
+            input.addEventListener("change", function () {
+              // Extract the questionId from the id
+              const questionId = this.id.split("-").pop();
 
-        // Handle option selection
-        $(document).on("click", ".select-dropdown__option", function () {
-          var itemValue = $(this).data("value");
-          var selectedText = $(this).text();
+              // Show or hide the corresponding "Other" text input based on the checkbox state
+              const otherTextInput = document.getElementById(
+                `other-text-${questionId}`
+              );
+              if (otherTextInput) {
+                otherTextInput.style.display = this.checked
+                  ? "block"
+                  : "none";
+              }
+            });
+          });
+      }
 
-          // Update the button text and hidden input value
-          var dropdownEl = $(this).closest(".dropdown-el");
-          dropdownEl.find(".select-dropdown__button span").text(selectedText);
-          dropdownEl.find('input[type="hidden"]').val(itemValue);
+      document.getElementById("survey-container").innerHTML = surveyHtml;
 
-          // Optionally close the dropdown after selection
-          dropdownEl.removeClass("active");
-        });
+      initializeOtherChoiceListeners();
 
-        // Close dropdown when clicking outside
-        $(document).on("click", function (event) {
-          if (!$(event.target).closest(".dropdown-el").length) {
-            $(".dropdown-el").removeClass("active");
+      function validateForm() {
+        let isValid = true;
+        const requiredFields = document.querySelectorAll('input[required], textarea[required]');
+
+        requiredFields.forEach((field) => {
+          // Check if the field is empty
+          if (!field.value) {
+            isValid = false;
+            field.classList.add('input-error'); // Add a class to highlight the error if needed
+          } else {
+            field.classList.remove('input-error'); // Remove the error class if filled
           }
         });
+
+        if (isValid) {
+          // Submit the form if all fields are valid
+          // document.querySelector('form').submit();
+          return true
+        } else {
+          alert('Please fill out all required fields.');
+          return false;
+        }
+      }
+
+      document
+        .getElementById("submit-button")
+        .addEventListener("click", async (event) => {
+
+          event.preventDefault();
+
+          const result = validateForm();
+
+          if (!result) {
+            return;
+          }
+
+
+
+
+
+          const formData = new FormData(
+            document.getElementById("survey-form")
+          );
+          console.log(formData);
+          const obj = {};
+          // formData.forEach((value, key) => {
+          //     console.log(value, key)
+          //   obj[key] = value;
+          // });
+
+          formData.forEach((value, key) => {
+            // Check if the key already exists in the object
+            if (obj.hasOwnProperty(key)) {
+              // If the key already exists, convert its value to an array if it's not already one
+              if (!Array.isArray(obj[key])) {
+                obj[key] = [obj[key]];
+              }
+              // Push the new value into the array
+              obj[key].push(value);
+            } else {
+              // If the key does not exist, just assign the value
+              obj[key] = value;
+            }
+          });
+
+          console.log(obj);
+          const responses = [];
+
+          questions.forEach((question) => {
+            const response = {
+              question_id: question.questionId,
+              answer_id: [],
+              comment: "",
+            };
+            if (
+              question.type === "multiple" ||
+              question.type === "checkbox"
+            ) {
+              for (let key in obj) {
+                if (key === `question${question.questionId}`) {
+                  if (obj[key] === "other") {
+                    // Ensure obj is defined and has the expected structure
+                    response.comment =
+                      obj[`question${question.questionId}_other`];
+                  } else {
+                    response.answer_id.push(obj[key]);
+                  }
+                }
+              }
+            } else if (question.type === "dropdown") {
+              // Handle dropdown type questions
+              const value = obj[`question${question.questionId}`];
+              const valueArray = value ? value.split(",") : [];
+              if (valueArray.length > 0) {
+                response.answer_id.push(valueArray[0]);
+                response.comment = valueArray[1] || "";
+              }
+            } else if (question.type === "rating") {
+              // Handle rating type questions
+              const value = formData.get(`rating${question.questionId}`);
+              if (value) {
+                response.comment = value;
+              }
+            } else if (question.type === "freeText") {
+              // Handle freeText type questions
+              response.comment =
+                formData.get(`question${question.questionId}`) || "";
+            }
+            responses.push(response);
+          });
+          const submitPayload = {
+            name: obj.name, // New object containing additional information
+            email: obj.email,
+            country: obj.countryConsent,
+            consent: obj.consentOption,
+            survey_id: survey_id,
+            survey_responses: [
+              ...responses, // Spread the existing responses array
+            ],
+          };
+          console.log(submitPayload);
+
+
+          // try {
+
+          //     const submitApiUrl = config.insert_responses;
+          //     const submitResponse = await fetch(submitApiUrl, {
+          //         method: "POST",
+          //         headers: {
+          //             "Content-Type": "application/json",
+          //         },
+          //         body: JSON.stringify(submitPayload),
+          //     });
+
+          //     if (submitResponse.ok) {
+          //         alert("Survey submitted successfully!");
+          //     } else {
+          //         alert("Failed to submit the survey. Please try again.");
+          //     }
+          // } catch (error) {
+          //     console.error("Error submitting survey:", error.message);
+          //     alert("An error occurred while submitting the survey. Please try again.");
+          // }
+        });
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      // Toggle dropdown visibility on button click
+      $(document).on("click", ".select-dropdown__button", function () {
+        $(this).closest(".dropdown-el").toggleClass("active");
       });
-    </script>
-  </body>
+
+      // Handle option selection
+      $(document).on("click", ".select-dropdown__option", function () {
+        var itemValue = $(this).data("value");
+        var selectedText = $(this).text();
+
+        // Update the button text and hidden input value
+        var dropdownEl = $(this).closest(".dropdown-el");
+        dropdownEl.find(".select-dropdown__button span").text(selectedText);
+        dropdownEl.find('input[type="hidden"]').val(itemValue);
+
+        // Optionally close the dropdown after selection
+        dropdownEl.removeClass("active");
+      });
+
+      // Close dropdown when clicking outside
+      $(document).on("click", function (event) {
+        if (!$(event.target).closest(".dropdown-el").length) {
+          $(".dropdown-el").removeClass("active");
+        }
+      });
+    });
+  </script>
+  <script>
+    document.querySelectorAll('.select-dropdown__option').forEach(option => {
+      option.addEventListener('click', function () {
+        const value = this.getAttribute('data-value');
+        const input = this.closest('.dropdown-el').querySelector('input[type="hidden"]');
+        input.value = value; // Set the hidden input value
+        input.dispatchEvent(new Event('input')); // Trigger any input listeners
+        this.closest('.dropdown-el').querySelector('.select-dropdown__button span').textContent = this.textContent; // Update displayed text
+      });
+    });
+  </script>
+
+</body>
+
 </html>
