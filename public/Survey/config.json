@@ -1,8 +1,8 @@
 
 
   {
-    "fetch_preview": "http://192.168.0.239:3001/survey/fetch-preview-data",
-    "insert_responses":"http://192.168.0.239:3001/insert-user-responses"
+    "fetch_preview": "http://192.168.0.231:3001/survey/fetch-preview-data",
+    "insert_responses":"http://192.168.0.231:3001/survey/insert-user-responses"
   }
 
   
