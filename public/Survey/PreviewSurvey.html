@@ -1942,11 +1942,29 @@
                 responses.push(response);
               }
             });
+
+
+//             const submitPayload = {
+//   name: obj.name, // New object containing additional information
+//   email: obj.email,
+//   country: typeof obj.countryConsent === "string" ? [obj.countryConsent] : obj.countryConsent,
+//   consent: Array.isArray(obj.consentOption) ? obj.consentOption : [obj.consentOption],
+//   user_id: 0,
+//   password: 12345678,
+//   group_id: 11,
+//   decrypted: 12345678,
+//   register_medium: "survey",
+//   survey_id: survey_id,
+//   survey_responses: [
+//     ...responses, // Spread the existing responses array
+//   ],
+// };
+
             const submitPayload = {
               name: obj.name, // New object containing additional information
               email: obj.email,
-              country: typeof obj.countryConsent === "string" ? [obj.countryConsent] : obj.countryConsent,
-              consent: obj.consentOption,
+              country: obj.countryConsent,
+              consent: typeof  obj.consentOption === "string" ?[obj.consentOption]: obj.consentOption,
               user_id: 0,
               password: 12345678,
               group_id: 11,
@@ -1971,17 +1989,17 @@
               });
               console.log(submitResponse)
 
-              if (submitResponse.status != "unsuccessfull") {
+              if (submitResponse.status == 400) {
                 loader("hide");
-                alert("Survey submitted successfully!");
+               showToast("Failed to submit the survey. Please try again.")
               } else {
                 loader("hide");
-                alert("Failed to submit the survey. Please try again.");
+                showToast("survey Submitted");
               }
             } catch (error) {
               loader("hide");
               console.error("Error submitting survey:", error.message);
-              alert(
+              showToast(
                 "An error occurred while submitting the survey. Please try again."
               );
             }
