@@ -223,10 +223,62 @@
       input[type="radio"]:checked ~ .checkmark {
         border-color: var(--dark-blue);
       }
-
-      input[type="checkbox"]:checked ~ .checkmark {
-        background: rgb(0, 74, 137);
-        border-color: var(--dark-blue);
+      .informed-survey-header h2 {
+        font-size: 20px;
+      }
+      .modal .modal-dialog {
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        transition: -webkit-transform 0.3s ease-out;
+        transition: transform 0.3s ease-out;
+      }
+      .modal-dialog-centered {
+        align-items: center;
+        display: flex;
+        min-height: calc(100% - 1.75rem * 2);
+      }
+      .modal.show .modal-dialog {
+        -webkit-transform: none;
+        transform: none;
+      }
+      .cookieadd {
+        -webkit-backdrop-filter: blur(7.099999904632568px);
+        backdrop-filter: blur(7.099999904632568px);
+        background: rgba(0, 0, 0, 0.27);
+        opacity: 1;
+        height: 100vh;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        bottom: 0;
+      }
+      .cookieadd .modal-content {
+        background: #183b4c;
+        border: 0;
+        border-radius: 15px;
+        box-shadow: 0 0 19px hsla(0, 0%, 100%, 0.2);
+        height: 100%;
+        left: 0;
+        max-height: 500px;
+        right: 0;
+        width: 100%;
+      }
+      .cookieadd .modal-header {
+        border: 0;
+        justify-content: center;
+        margin-bottom: 15px;
+        padding: 18px 15px 0;
+        position: relative;
+        text-align: center;
+      }
+      .modal-header .modal-title {
+        -webkit-text-fill-color: transparent;
+        background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: #001489;
+        font-size: 20px;
       }
 
       .form-footer {
@@ -654,41 +706,44 @@
         fill: #fac755 !important;
       }
 
-      .cookieadd .modal-dialog {
-        height: 85%;
-        max-width: 768px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .modal.fade .modal-dialog {
+      /* .modal.fade .modal-dialog {
         -webkit-transform: translateY(-50px);
         transform: translateY(-50px);
         transition: -webkit-transform 0.3s ease-out;
         transition: transform 0.3s ease-out;
         transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
-      }
+      } */
 
-      .modal-dialog-centered {
+      /* .modal-dialog-centered {
         align-items: center;
         display: flex;
         min-height: calc(100% - var(--bs-modal-margin) * 2);
+      } */
+      /* .cookieadd {
+    height: 100%;
+    left: 0;
+    outline: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    width: 100%;
+} */
+      .cookieadd .modal-dialog {
+        height: 85%;
+        max-width: 768px;
+        margin: 0 auto;
+        top: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        z-index: 10;
       }
-
       .modal.show .modal-dialog {
         -webkit-transform: none;
         transform: none;
-      }
-
-      .cookieadd .modal-content {
-        background: #183b4c;
-        border: 0;
-        border-radius: 15px;
-        box-shadow: 0 0 19px hsla(0, 0%, 100%, 0.2);
-        height: 100%;
-        left: 0;
-        max-height: 500px;
-        right: 0;
       }
 
       .cookieadd .modal-header {
@@ -719,8 +774,11 @@
         font-weight: 700;
         opacity: 1;
         position: absolute;
-        right: 24px;
+        right: 22px;
         top: 22px;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
       }
 
       .modal-body {
@@ -864,6 +922,83 @@
       .consent-select {
         margin: 25px 0 35px;
       }
+      /**css loader**/
+      .loader {
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(79, 79, 79, 0.5);
+        z-index: 9999;
+        display: none;
+      }
+
+      .loader.show {
+        display: block;
+      }
+
+      .loader_show {
+        max-width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 0;
+        bottom: 0;
+      }
+
+      .loader-view {
+        color: var(--white);
+        position: relative;
+        font-size: 11px !important;
+        background: var(--white);
+        animation: escaleY 1s infinite ease-in-out;
+        width: 1.4em;
+        height: 6em;
+        animation-delay: -0.16s;
+      }
+
+      .loader-view:before,
+      .loader-view:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 2.6em;
+        background: var(--white);
+        width: 1.4em;
+        height: 6em;
+        animation: escaleY 1s infinite ease-in-out;
+      }
+
+      .loader-view:before {
+        left: -2.6em;
+        animation-delay: -0.32s;
+      }
+
+      @keyframes escaleY {
+        0%,
+        80%,
+        100% {
+          box-shadow: 0 0;
+          height: 6em;
+          background: var(--light-blue);
+          color: var(--light-blue);
+        }
+
+        40% {
+          box-shadow: 0 -2em;
+          height: 7.8em;
+          background: var(--white);
+          color: var(--white);
+        }
+      }
+
+      /**css loader End **/
 
       @media only screen and (max-width: 767px) {
         .informed-survey {
@@ -960,25 +1095,55 @@
         .select-dropdown__button span {
           font-size: 12px;
         }
+        .cookieadd .modal-dialog {
+          width: 95%;
+        }
+        .modal-content .modal-body h6 {
+          font-size: 14px;
+        }
+        .used-cookies-table table td {
+          font-size: 13px;
+          line-height: 18px;
+          padding: 0 10px 15px 0;
+        }
+        .used-cookies-table table thead th {
+          font-size: 14px;
+          min-width: 150px;
+          padding: 0 10px 15px 0;
+        }
+        .modal-header .modal-title {
+          font-size: 15px;
+        }
+        .cookieadd .modal-body {
+          padding-top: 0;
+        }
       }
     </style>
   </head>
 
   <body>
-    <div id="survey-container" class="informed-survey"></div>
-    <script>
-      const loader = (data) => {
-        const element = document.getElementById("custom_loader");
-        console.log(element);
+    <div id="custom-loader" class="loader "><div id="survey-container" class="informed-survey"></div></div>
 
-        if (data === "show") {
-          console.log("Showing loader");
-          element?.classList?.add("show");
-        } else if (data === "hide") {
-          console.log("Hiding loader");
-          element?.classList?.remove("show");
-        }
-      };
+    <script>
+    const loader = (data) => {
+  const element = document.getElementById("custom-loader");
+  
+  if (!element) {
+    console.error("Element with ID 'custom_loader' not found.");
+    return;
+  }
+
+  if (data === "show") {
+    console.log("showing loader")
+    element.classList.add("show");
+  } else if (data === "hide") {
+    element.classList.remove("show");
+  } else {
+    console.warn("Invalid parameter passed to loader function:", data);
+  }
+};
+
+
       document.addEventListener("DOMContentLoaded", async function () {
         const endPoint = await fetch("./config.json");
         const config = await endPoint.json();
@@ -1465,7 +1630,7 @@
                     <span style="color: ${customHtml.bodyTextColor};">${customHtml.main_footer}</span>
                 </div>
             </form>
-            
+              
 		</div>`;
 
         // Function to initialize event listeners for "Other" choices
@@ -1488,7 +1653,7 @@
                   });
 
                 // Show the corresponding "Other" text input if the current "Other" choice is selected
-                console.log(this.checked)
+                console.log(this.checked);
                 if (this.checked) {
                   const otherTextInput = document.getElementById(
                     `other-text-${questionId}`
@@ -1522,49 +1687,6 @@
 
         initializeOtherChoiceListeners();
 
-        // function handleModal() {
-        //   document.addEventListener("DOMContentLoaded", function () {
-        //     const modal = document.getElementById("cookie-modal");
-        //     console.log(modal);
-        //     const showModalLink = document.getElementById("show-modal");
-        //     console.log(showModalLink);
-        //     const closeModalButton = modal.querySelector(".btn-close");
-        //     console.log(closeModalButton);
-        //     console.log("show outside");
-
-        //     // Function to show the modal
-        //     function showModal() {
-        //       modal.style.display = "block";
-        //     }
-
-        //     // Function to hide the modal
-        //     function hideModal() {
-        //       modal.style.display = "none";
-        //     }
-
-        //     // Event listener to show the modal when the link is clicked
-        //     showModalLink.addEventListener("click", function (event) {
-        //       event.preventDefault();
-        //       console.log("show inner");
-        //       showModal();
-        //     });
-
-        //     // Event listener to hide the modal when the close button is clicked
-        //     closeModalButton.addEventListener("click", function () {
-        //       hideModal();
-        //     });
-
-        //     // Optional: Hide modal if clicking outside of it
-        //     window.addEventListener("click", function (event) {
-        //       if (event.target === modal) {
-        //         hideModal();
-        //       }
-        //     });
-        //   });
-        // }
-
-        // handleModal();
-
         function validateForm() {
           let isValid = true;
           const requiredFields = document.querySelectorAll(
@@ -1591,45 +1713,44 @@
           }
         }
 
-        // function handleModal() {
-        //       const modal = document.getElementById("cookie-modal");
-        //       console.log(modal);
-        //       const showModalLink = document.getElementById("show-modal");
-        //       console.log(showModalLink);
-        //       const closeModalButton = modal.querySelector(".btn-close");
-        //       console.log(closeModalButton);
-        //       console.log("show outside");
-        //       // Function to show the modal
-        //       function showModal() {
-        //         modal.style.display = "block";
-        //       }
-        //       // Function to hide the modal
-        //       function hideModal() {
-        //         modal.style.display = "none";
-        //       }
+        function handleModal() {
+          const modal = document.getElementById("cookie-modal");
+          console.log(modal);
+          const showModalLink = document.getElementById("show-modal");
+          console.log(showModalLink);
+          const closeModalButton = modal.querySelector(".btn-close");
+          console.log(closeModalButton);
+          console.log("show outside");
+          // Function to show the modal
+          function showModal() {
+            modal.style.display = "block";
+          }
+          // Function to hide the modal
+          function hideModal() {
+            modal.style.display = "none";
+          }
 
-        //       // Event listener to show the modal when the link is clicked
-        //       showModalLink.addEventListener("click", function (event) {
-        //         event.preventDefault();
-        //         console.log("show inner");
-        //         showModal();
-        //       });
+          // Event listener to show the modal when the link is clicked
+          showModalLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            console.log("show inner");
+            showModal();
+          });
 
-        //       // Event listener to hide the modal when the close button is clicked
-        //       closeModalButton.addEventListener("click", function () {
-        //         hideModal();
-        //       });
+          // Event listener to hide the modal when the close button is clicked
+          closeModalButton.addEventListener("click", function () {
+            hideModal();
+          });
 
-        //       // Optional: Hide modal if clicking outside of it
-        //       window.addEventListener("click", function (event) {
-        //         if (event.target === modal) {
-        //           hideModal();
-        //         }
-        //       });
+          // Optional: Hide modal if clicking outside of it
+          window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+              hideModal();
+            }
+          });
+        }
 
-        // }
-
-        // handleModal();
+        handleModal();
 
         document
           .getElementById("submit-button")
@@ -1844,5 +1965,103 @@
           });
         });
     </script>
+    <div
+      id="cookie-modal"
+      role="dialog"
+      aria-modal="true"
+      class="fade cookieadd modal"
+      tabindex="-1"
+      style="display: none"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title h4">Used cookies</div>
+            <button type="button" class="btn-close" aria-label="Close">
+              <img
+                src="../componentAssets/images/cookie-popup-close.svg"
+                alt=""
+              />
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6>
+              Essential cookies exclusively enhance your experience with us
+              ensuring our system runs smoothly whilst recognising you for
+              seamless recurring use. Be confident we never share your
+              information with any commercial cookie company.
+            </h6>
+            <div class="used-cookies-table-top">
+              <div class="used-cookies-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>CAKEPHP</td>
+                      <td>
+                        Framework default cookie for cache of all component.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>dynamic_number (ex 1210)</td>
+                      <td>
+                        This cookie is used for storing the status of consent
+                        given or not for the article.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>video_track</td>
+                      <td>
+                        This cookie is used for storing the last seek time of
+                        user for the particular video.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>name_use</td>
+                      <td>
+                        Used to autofill name of the user to help with
+                        repetitive task. Only used in some circumstances where
+                        user have been directed to the site based on previous
+                        consent.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>email_use</td>
+                      <td>
+                        Used to autofill email of the user to help with
+                        repetitive task. Only used in some circumstances where
+                        user have been directed to the site based on previous
+                        consent.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>country_use</td>
+                      <td>
+                        Used to autofill country of the user to help with
+                        repetitive task. Only used in some circumstances where
+                        user have been directed to the site based on previous
+                        consent.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>consent_type</td>
+                      <td>
+                        Used to detect if use have given full or limited consent
+                        to be sure tracking of usage is handled correctly.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

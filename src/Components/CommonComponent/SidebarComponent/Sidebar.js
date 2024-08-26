@@ -2515,7 +2515,7 @@ const Sidebar = () => {
                   )
                   :
 
-                  window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
+                  window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
 
                   (
 

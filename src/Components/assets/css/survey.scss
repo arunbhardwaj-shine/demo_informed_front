@@ -991,7 +991,7 @@ span {
             flex: 1 1;
             padding: 0 70px;
                 .page-top-nav{
-                    background: transparent;
+                    background: #e7eff6;
                 }
         }
 
@@ -1419,7 +1419,9 @@ span {
 
     }
 }
-
+.custom-change.survey-builder .page-top-nav.sticky{
+    background: #e7eff6;
+}
 @media (max-width:1550px) {
     .survey-builder {
         .survey-engine {
