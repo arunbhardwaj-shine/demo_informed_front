@@ -236,7 +236,11 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   background-position: bottom left;
   min-height: 90.9vh;
 }
-
+.left-sidebar.hidesidebar~.survey-builder {
+  background: #E7EFF6;
+  padding: 0;
+  width: 100%;
+}
 .toggle_sidebar .left-sidebar .sidebar-menu {
   max-width: 82px;
 }
