@@ -12,6 +12,7 @@
     <style>
       :root {
         --white: #ffffff;
+        --black: #000000;
         --light-blue: #0066be;
         --dark-blue: #004a89;
         --light-skyblue: #e7eff6;
@@ -254,7 +255,7 @@
           bottom: 0;
       }
       .cookieadd .modal-content {
-        background: #183b4c;
+        background: var(--white);
         border: 0;
         border-radius: 15px;
         box-shadow: 0 0 19px hsla(0, 0%, 100%, 0.2);
@@ -274,7 +275,7 @@
       }
       .modal-header .modal-title {
         -webkit-text-fill-color: transparent;
-        background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+        background: linear-gradient(109deg, #0066be 12.9%, #004a89 87.1%);
         background-clip: text;
         -webkit-background-clip: text;
         color: #001489;
@@ -733,7 +734,6 @@
     height: 85%;
     max-width: 768px;
     margin: 0 auto;
-    top: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -753,18 +753,6 @@
         padding: 18px 15px 0;
         position: relative;
         text-align: center;
-      }
-
-      .modal-header .modal-title {
-        -webkit-text-fill-color: transparent;
-        background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: #001489;
-        font-size: 20px;
-        font-weight: 600;
-        text-align: center;
-        display: inline-block;
       }
 
       .cookieadd .modal-header button.btn-close {
@@ -793,7 +781,7 @@
       }
 
       .modal-content .modal-body h6 {
-        color: hsla(0, 0%, 100%, 0.3);
+        color: var(--black);
         font-size: 15px;
         font-weight: 400;
         line-height: 18px;
@@ -830,15 +818,15 @@
       }
 
       .cookieadd .used-cookies-table table thead {
-        background: #183b4c;
+        background: var(--white);
         position: -webkit-sticky;
         position: sticky;
-        top: 0;
+        top: -1px;
       }
 
       .used-cookies-table table thead th {
         -webkit-text-fill-color: transparent;
-        background: linear-gradient(109deg, #f3942d 12.9%, #e94362 87.1%);
+        background: linear-gradient(0deg, var(--dark-blue) 12.9%, var(--dark-blue) 87.1%);
         background-clip: text;
         -webkit-background-clip: text;
         color: #00a993;
@@ -850,7 +838,7 @@
       }
 
       .used-cookies-table table td {
-        color: hsla(0, 0%, 100%, 0.3);
+        color: var(--black);
         font-size: 15px;
         line-height: 27px;
         padding: 0 10px 20px 0;
