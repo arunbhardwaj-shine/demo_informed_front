@@ -1329,15 +1329,12 @@
                 placeholder="${question.extra.otherChoicePlaceholderText}"
                 id="other-text-${question.questionId}" class="other-text-input"
                 style="display:none;" />`;
+              }
 
-               
-          }
+              surveyHtml += `<div id="error-question${question.questionId}" class="error-message"></div>`;
+              surveyHtml += `</div>`;
 
-          surveyHtml += `<p id="error-message-${question.questionId}" class="error-message"></p>`;
-
-                surveyHtml += `</div>`;
-                break;
-              
+              break;
 
             case "checkbox":
               surveyHtml += `<div class="survey-question">
@@ -1382,7 +1379,7 @@
                 }" class="other-text-input" style="display:none;" />
     `;
               }
-
+              surveyHtml += `<div id="error-question${question.questionId}" class="error-message"></div>`;
               surveyHtml += `</div>`;
               break;
 
@@ -1412,8 +1409,7 @@
                 const combinedValue = `${question.answer[0].answerId},${option}`;
                 surveyHtml += `<div data-value="${combinedValue}" class="select-dropdown__option">${option}</div>`;
               });
-
-              surveyHtml += `    </div>
+              surveyHtml += `</div>
                 </div>
               </div>
             </div>`;
@@ -1548,7 +1544,10 @@
                 </tbody>
               </table>
             </div>
+
+            <div id="error-question1_1" class="error-message"></div>
           </div>`;
+
               break;
 
             case "freeText":
@@ -1630,7 +1629,6 @@
                                         ${userdetail.emailLabel}
                                           </label>
                                           <input type="email" name="email" placeholder="${userdetail.emailPlaceholder}" required />
-                                  
                                 </div>
                             `;
                     } else if (userdetail.countryLabel) {
@@ -1666,7 +1664,7 @@
             .map(
               (option) => `
           <label class="consent-item">
-            <input type="checkbox" name="consentOption" value="${
+            <input type="radio" name="consentOption" value="${
               option.label
             }" ${option.isChecked ? "checked" : ""}>
             <span class="checkmark"></span>
@@ -1789,23 +1787,131 @@
             "input[required], textarea[required]"
           );
 
+          // Validate standard required fields
           requiredFields.forEach((field) => {
-            // Check if the field is empty
-            console.log(field)
-            if (!field.value) {
-              isValid = false;
-              field.classList.add("input-error"); // Add a class to highlight the error if needed
+            const questionKey = field.name;
+            const errorElementId = `error-${questionKey}`;
+            let errorElement = document.getElementById(errorElementId);
+
+            if (field.type === "radio") {
+              const radioGroup = document.querySelectorAll(
+                `input[name="${questionKey}"]`
+              );
+              const isAnyChecked = Array.from(radioGroup).some(
+                (radio) => radio.checked
+              );
+
+              if (!isAnyChecked) {
+                isValid = false;
+
+                if (!errorElement) {
+                  errorElement = document.createElement("div");
+                  errorElement.id = errorElementId;
+                  errorElement.className = "error-message";
+                  field.parentNode.appendChild(errorElement);
+                }
+                errorElement.innerHTML = "This question is required";
+                field.classList.add("input-error");
+              } else {
+                if (errorElement) {
+                  errorElement.innerHTML = "";
+                }
+                field.classList.remove("input-error");
+              }
+            } else if (field.type === "checkbox") {
+              const checkboxGroup = document.querySelectorAll(
+                `input[name="${questionKey}"]`
+              );
+              const isAnyChecked = Array.from(checkboxGroup).some(
+                (checkbox) => checkbox.checked
+              );
+
+              if (!isAnyChecked) {
+                isValid = false;
+
+                if (!errorElement) {
+                  errorElement = document.createElement("div");
+                  errorElement.id = errorElementId;
+                  errorElement.className = "error-message";
+                  field.parentNode.appendChild(errorElement);
+                }
+                errorElement.innerHTML = "This checkbox is required";
+                field.classList.add("input-error");
+              } else {
+                if (errorElement) {
+                  errorElement.innerHTML = "";
+                }
+                field.classList.remove("input-error");
+              }
             } else {
-              field.classList.remove("input-error"); // Remove the error class if filled
+              if (!field.value.trim()) {
+                isValid = false;
+
+                if (!errorElement) {
+                  errorElement = document.createElement("div");
+                  errorElement.id = errorElementId;
+                  errorElement.className = "error-message";
+                  field.parentNode.appendChild(errorElement);
+                }
+                errorElement.innerHTML = "This question is required";
+                field.classList.add("input-error");
+              } else {
+                if (errorElement) {
+                  errorElement.innerHTML = "";
+                }
+                field.classList.remove("input-error");
+              }
             }
           });
 
+          // Validate matrix questions
+          document
+            .querySelectorAll(".survey-question.matrix")
+            .forEach((matrix) => {
+              const matrixId = matrix.querySelector("input").id.split("_")[0]; // Extract matrix question ID
+              const rows = matrix.querySelectorAll("tbody tr");
+
+              let matrixHasError = false;
+
+              rows.forEach((row) => {
+                const rowId = row.querySelector("input").id.split("_")[1]; // Extract row ID
+                const inputs = row.querySelectorAll("input");
+                const isChecked = Array.from(inputs).some(
+                  (input) => input.checked
+                );
+
+                if (!isChecked) {
+                  matrixHasError = true;
+                  inputs.forEach((input) => input.classList.add("input-error"));
+                } else {
+                  inputs.forEach((input) =>
+                    input.classList.remove("input-error")
+                  );
+                }
+              });
+
+              // Set a single error message for the matrix question if any row has an error
+              const errorElementId = `error-${matrixId}`;
+              let errorElement = document.getElementById(errorElementId);
+              if (!errorElement) {
+                errorElement = document.createElement("div");
+                errorElement.id = errorElementId;
+                errorElement.className = "error-message";
+                matrix.appendChild(errorElement);
+              }
+
+              if (matrixHasError) {
+                isValid = false;
+                errorElement.innerHTML =
+                  "Please answer all rows in the matrix.";
+              } else {
+                errorElement.innerHTML = "";
+              }
+            });
+
           if (isValid) {
-            // Submit the form if all fields are valid
-            // document.querySelector('form').submit();
             return true;
           } else {
-            // alert("Please fill out all required fields");
             showToast("Please fill out all required fields");
             return false;
           }
