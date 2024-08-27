@@ -6,6 +6,8 @@ import {
   Form
 } from "react-bootstrap";
 
+import  "../../../Components/assets/css/survey.scss";
+import "../../../Components/assets/fonts/fonts.css";
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 

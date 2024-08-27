@@ -56,7 +56,7 @@ span {
             border-radius: 0 15px 16px 0;
             max-height: calc(100vh - 84px);
             // height: 100%;
-            width: 518px;
+            width: 515px;
             padding: 29px 30px 22px 32px;
             display: flex;
             flex-direction: column;
@@ -460,6 +460,13 @@ span {
                                                     padding:0;
                                                 }
                                             }
+                                        }
+                                        &>div:nth-child(4){
+                                            &>div{
+                                                div {
+                                                    text-align: center;
+                                                  }
+                                            } 
                                         }
                                     }
                                 }
@@ -2502,7 +2509,7 @@ span {
         border-radius: 15px;
         border: 1px dashed $primary-color;
         padding: 32px 32px 5px;
-        margin: 0 0 40px;
+        margin: 0 0 35px;
 
         p {
             font-size: 13px;
@@ -2808,6 +2815,11 @@ span {
 
 }
 
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
 /**Survey Engine End**/
 /**404**/
 body {
@@ -2899,7 +2911,36 @@ body {
         }
     }
 }
+@media (max-width: 1650px) {
+    .preview-survey{
+        .informed-survey{
+            .informed-survey-question{
+                .dragable-box{
+                    &.active{
+                        .preview-menu {
+                            min-width: 166px;
+                            right: -205px;
+                            padding:10px;
+                            .preview-menu-bunch{
+                                .sidebar-item {
+                                    padding: 5px;
+                                    font-size: 12px;
+                                    .options-svg{
+                                        svg{
+                                            width:16px;
+                                            height:16px;
+                                        }
+                                    }
+                                }
+                            } 
+                        }
+                    } 
+                }
+            }
+        }
+    } 
 
+}
 @media (max-width: 1550px) {
     .no-found {
         padding: 40px 0 55px;
@@ -2907,6 +2948,21 @@ body {
         .not-found-character {
             svg {
                 width: 190px;
+            }
+        }
+    }
+    .preview-survey{
+        .informed-survey{
+            .informed-survey-question{
+                .dragable-box{
+                    &.active{
+                        .preview-menu {
+                            min-width: 150px;
+                            right: -183px;
+                            padding:7px;
+                        }
+                    } 
+                }
             }
         }
     }
@@ -2948,7 +3004,36 @@ body {
 
         }
     }
-
+    .preview-survey{
+        .informed-survey{
+            .informed-survey-question{
+                .dragable-box{
+                    &.active{
+                        .preview-menu {
+                            min-width: 128px;
+                            right: -159px;
+                            padding: 5px;
+                            &>span{
+                                font-size: 11px;
+                            }
+                            .preview-menu-bunch{
+                                .sidebar-item {
+                                    padding: 4px;
+                                    font-size: 11px;
+                                    .options-svg{
+                                        svg{
+                                            width:15px;
+                                            height:15px;
+                                        }
+                                    }
+                                }
+                            } 
+                        }
+                    } 
+                }
+            }
+        }
+    } 
 }
 
 @media (max-width: 1365px) {
@@ -2977,7 +3062,53 @@ body {
             .left-setup {
                 max-height: calc(100vh - 63px);
                 top: 62px;
+                width: 29%;
+                padding: 22px 25px 19px 25px;
+                .left-setup-format{
+                    .live-stream-tabs-data{
+                        .tab-content {
+                            padding: 11px;
+                            height: calc(100% - 25px);
+                        }
+                        .steps{
+                            p{
+                                font-size: 12px;
+                                &.option-heading {
+                                    font-size: 13px;
+                                }
+                            }
+                            label{
+                                &.form-label {
+                                    font-size: 12px;
+                                } 
+                            }
+                            .form-control {
+                                font-size: 13px;
+                                padding: 9px 12px;
+                            }
+                            .answer-choice{
+                                .form-control {
+                                    font-size: 13px;
+                                    padding: 10px 12px;
+                                }
+                            } 
+                            &:last-child{
+                                .d-flex{
+                                    .form-label {
+                                        min-width: 75px;
+                                    }
+                                } 
+                            } 
+                        } 
+                    } 
+                }
             }
+        }
+    }
+    .preview-survey{
+        .informed-survey{
+            max-width: 660px;
+           
         }
     }
 }
