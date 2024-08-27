@@ -223,11 +223,6 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   width: 0;
   display: none;
 }
-.left-sidebar.hidesidebar~.survey-builder {
-  background: rgba(255, 255, 255, 0.83);
-  padding: 0;
-  width: 100%;
-}
 
 .left-sidebar.hidesidebar~.right-sidebar {
   border-radius: 0px;
@@ -238,6 +233,11 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 .left-sidebar.hidesidebar~.survey-builder {
   background: #E7EFF6;
+  padding: 0;
+  width: 100%;
+}
+.left-sidebar.hidesidebar~.survey-set {
+  background: rgba(255, 255, 255, 0.83);
   padding: 0;
   width: 100%;
 }
