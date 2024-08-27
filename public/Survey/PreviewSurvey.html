@@ -1135,14 +1135,14 @@
         transform: translateX(100%);
       }
 
-      .input-error {
-        border: 1px solid red;
+      .input-error, .form-section .form-group .input-error, .form-section .form-group select.input-error {
+        box-shadow: 0 0 8px #ca2a48;
       }
 
       .error-message {
-        color: red;
-        font-size: 0.875em;
-        margin-top: 5px;
+        color: #d61975;
+        font-size: 13px;
+        margin-top: 4px;
       }
     </style>
   </head>
@@ -1433,8 +1433,8 @@
                 surveyHtml += `
                 <div class="rating-block">
               <div class="rating-wrapper">
-      <div class="rating-stars" style="color: ${question.extra.ratingColor};">
-    `;
+          <div class="rating-stars" style="color: ${question.extra.ratingColor};">
+            `;
                 for (let i = question.extra.ratingScale; i >= 1; i--) {
                   surveyHtml += `
                   <input type="radio" id="stars-rating-${i}" name="rating${
