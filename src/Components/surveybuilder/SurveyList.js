@@ -1027,7 +1027,8 @@ const SurveyList = (props) => {
                                           <a
 
                                             href={`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`}
-                                            class="doc-link"
+                                            class={data?.is_draft != null &&
+                                              data?.is_draft == "0" ? "doc-link no-click" :"doc-link" }
                                             target="_blank"
                                           >
                                             https://informed.pro/survey/

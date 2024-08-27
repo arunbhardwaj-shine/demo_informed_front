@@ -98,7 +98,7 @@ export const menuType = {
     optionalLabel: "",
     answer: [
       {
-        title: "row 1",
+        title: "Row 1",
         id: 0,
         answer: [
           {

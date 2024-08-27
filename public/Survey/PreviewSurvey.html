@@ -1107,34 +1107,43 @@
         }
       }
 
-
       .toast-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
 
-    .toast {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-      margin: 5px 0;
-      border-radius: 5px;
-      opacity: 0;
-      transition: opacity 0.5s, transform 0.5s;
-      transform: translateX(100%);
-    }
+      .toast {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        margin: 5px 0;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.5s, transform 0.5s;
+        transform: translateX(100%);
+      }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
-    .toast.hide {
-      opacity: 0;
-      transform: translateX(100%);
-    }
+      .toast.hide {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      .input-error {
+        border: 1px solid red;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 0.875em;
+        margin-top: 5px;
+      }
     </style>
   </head>
 
@@ -1164,20 +1173,24 @@
         }
       };
 
-
       function handleRadioClick(questionId, value) {
-    // Hide all "Other" text inputs
-    document.querySelectorAll(`input[name="question${questionId}"]`).forEach(input => {
-        if (input.value !== 'other') {
-            document.getElementById('other-text-' + questionId).style.display = 'none';
+        // Hide all "Other" text inputs
+        document
+          .querySelectorAll(`input[name="question${questionId}"]`)
+          .forEach((input) => {
+            if (input.value !== "other") {
+              document.getElementById(
+                "other-text-" + questionId
+              ).style.display = "none";
+            }
+          });
+
+        // Show the "Other" text input if the 'other' option is selected
+        if (value === "other") {
+          document.getElementById("other-text-" + questionId).style.display =
+            "inline";
         }
-    });
-    
-    // Show the "Other" text input if the 'other' option is selected
-    if (value === 'other') {
-        document.getElementById('other-text-' + questionId).style.display = 'inline';
-    }
-}
+      }
 
       document.addEventListener("DOMContentLoaded", async function () {
         const endPoint = await fetch("./config.json");
@@ -1248,55 +1261,67 @@
         console.log(questions);
         questions.forEach((question) => {
           switch (question.type) {
-          // Generate survey HTML
+            // Generate survey HTML
 
-    case "multiple":
-        surveyHtml += `<div class="survey-question">
+            case "multiple":
+              surveyHtml += `<div class="survey-question">
             <div class="d-flex question-title" style="color: ${
               customHtml.question_answer_color
             };">
                 <p>${question.question} <span>${
-                    question.isOptional ? question.optionalLabel : ""
-                  }</span></p>
+                question.isOptional ? question.optionalLabel : ""
+              }</span></p>
             </div>
             <p class="helper-text">${question.questionDescription}</p>`;
 
-        // Loop through the answers to create radio buttons
-        question.answer.forEach((answer) => {
-            surveyHtml += `
+              // Loop through the answers to create radio buttons
+              question.answer.forEach((answer) => {
+                surveyHtml += `
             <label class="check" style="color: ${
               customHtml.question_answer_color
             };">
-                <input type="radio" name="question${question.questionId}" value="${answer.answerId}"
+                <input type="radio" name="question${
+                  question.questionId
+                }" value="${answer.answerId}"
                     ${question.isOptional ? "" : "required"}
-                    onclick="handleRadioClick(${question.questionId}, this.value);" />
+                    onclick="handleRadioClick(${
+                      question.questionId
+                    }, this.value);" />
                 ${answer.value}
                 <span class="checkmark"></span>
             </label>`;
-        });
+              });
 
-        // Add the "All of the above" option if applicable
-        if (question.extra.addAllOfTheAbove) {
-            surveyHtml += `
+              // Add the "All of the above" option if applicable
+              if (question.extra.addAllOfTheAbove) {
+                surveyHtml += `
             <label class="check" style="color: ${
               customHtml.question_answer_color
             };">
-                <input type="radio" name="question${question.questionId}" value="${question.extra.allOfTheAboveLabel}"
+                <input type="radio" name="question${
+                  question.questionId
+                }" value="${question.extra.allOfTheAboveLabel}"
                     ${question.isOptional ? "" : "required"}
-                    onclick="handleRadioClick(${question.questionId}, this.value);" />
+                    onclick="handleRadioClick(${
+                      question.questionId
+                    }, this.value);" />
                 ${question.extra.allOfTheAboveLabel}
                 <span class="checkmark"></span><br>
             </label>`;
-        }
+              }
 
-        // Add the "Other" choice with its text input
-        if (question.addOtherChoice) {
-            surveyHtml += `
-            <label class="check" style="color: ${customHtml.question_answer_color};">
+              // Add the "Other" choice with its text input
+              if (question.addOtherChoice) {
+                surveyHtml += `
+            <label class="check" style="color: ${
+              customHtml.question_answer_color
+            };">
                 <input type="radio" name="question${question.questionId}"
                     id="radio-other-choice-${question.questionId}"
                     value="other" ${question.isOptional ? "" : "required"}
-                    onclick="handleRadioClick(${question.questionId}, 'other');" />
+                    onclick="handleRadioClick(${
+                      question.questionId
+                    }, 'other');" />
                 ${question.extra.otherChoiceLabel}
                 <span class="checkmark"></span><br>
             </label>
@@ -1304,12 +1329,15 @@
                 placeholder="${question.extra.otherChoicePlaceholderText}"
                 id="other-text-${question.questionId}" class="other-text-input"
                 style="display:none;" />`;
-        
 
-        surveyHtml += `</div>`;
-        break;
-}
+               
+          }
 
+          surveyHtml += `<p id="error-message-${question.questionId}" class="error-message"></p>`;
+
+                surveyHtml += `</div>`;
+                break;
+              
 
             case "checkbox":
               surveyHtml += `<div class="survey-question">
@@ -1585,7 +1613,7 @@
                 ${question.extra.consentDetails
                   .map((userdetail) => {
                     let html = "";
-                    if (userdetail.nameLabel == "Name") {
+                    if (userdetail.nameLabel) {
                       html = `
                               
                                 <div class="form-group">
@@ -1595,7 +1623,7 @@
                                           <input type="text" name="name" placeholder="${userdetail.namePlaceholder}" required />
                                 </div>
                             `;
-                    } else if (userdetail.emailLabel == "Email") {
+                    } else if (userdetail.emailLabel) {
                       html = `
                                 <div class="form-group">
                                     <label class="form-label">
@@ -1605,14 +1633,14 @@
                                   
                                 </div>
                             `;
-                    } else if (userdetail.countryLabel == "Country") {
+                    } else if (userdetail.countryLabel) {
                       html = `
   <div class="form-group">
     <label class="form-label">${userdetail.countryLabel}</label>
     <div class="dropdown-el" name="question${question.questionId}_country">
       <div data-value="" class="select-dropdown__button"  ><span>${
-            userdetail.countryPlaceholder
-          }</span></div>
+        userdetail.countryPlaceholder
+      }</span></div>
       <input type="hidden" name="countryConsent" value="" required /> <!-- Add 'required' here -->
       <div class="select-dropdown__list">
         <div class="select-dropdown">
@@ -1671,39 +1699,6 @@
         document.getElementById("survey-container").innerHTML = surveyHtml;
 
         function initializeOtherChoiceListeners() {
-          // Handle radio buttons for "Other" choices
-          // const data=document.querySelectorAll('input[id^="radio-other-choice-"]')
- 
-
-          // document
-          //   .querySelectorAll('input[id^="radio-other-choice-"]')
-          //   .forEach((input) => {
-          //     console.log(input)
-          //     input.addEventListener("change", function () {
-          //       console.log(this)
-          //       const questionId = this.id.split("-").pop();
-          //       console.log(questionId)
-          //       console.log(this.checked);
-
-          //       // Hide all "Other" text inputs for this question
-          //       document
-          //         .querySelectorAll(`input[id^="other-text-${questionId}"]`)
-          //         .forEach((inputField) => {
-          //           inputField.style.display = "none";
-          //         });
-
-          //       // Show the corresponding "Other" text input if the current "Other" choice is selected
-          //       console.log(this.checked);
-          //       if (this.checked) {
-          //         const otherTextInput = document.getElementById(
-          //           `other-text-${questionId}`
-          //         );
-          //         if (otherTextInput) {
-          //           otherTextInput.style.display = "block";
-          //         }
-          //       }
-          //     });
-          //   });
           // Handle checkboxes for "Other" choices
           document
             .querySelectorAll('input[id^="checkbox-other-choice-"]')
@@ -1727,63 +1722,33 @@
 
         initializeOtherChoiceListeners();
 
-       
-
-
         function showToast(message) {
-      // Create a new toast element
-      const toast = document.createElement('div');
-      toast.className = 'toast';
+          // Create a new toast element
+          const toast = document.createElement("div");
+          toast.className = "toast";
 
-      // Set the message text
-      toast.textContent = message;
+          // Set the message text
+          toast.textContent = message;
 
-      // Append the toast to the container
-      const container = document.getElementById('toast-container');
-      container.appendChild(toast);
+          // Append the toast to the container
+          const container = document.getElementById("toast-container");
+          container.appendChild(toast);
 
-      // Trigger the show class to animate the toast
-      setTimeout(() => {
-        toast.classList.add('show');
-      }, 100);
+          // Trigger the show class to animate the toast
+          setTimeout(() => {
+            toast.classList.add("show");
+          }, 100);
 
-      // Remove the toast after some time
-      setTimeout(() => {
-        toast.classList.remove('show');
-        toast.classList.add('hide');
+          // Remove the toast after some time
+          setTimeout(() => {
+            toast.classList.remove("show");
+            toast.classList.add("hide");
 
-        // Remove the toast element from the DOM
-        setTimeout(() => {
-          container.removeChild(toast);
-        }, 500); // Duration should match the transition time
-      }, 3000); // Toast display duration
-    }
-
-        function validateForm() {
-          let isValid = true;
-          const requiredFields = document.querySelectorAll(
-            "input[required], textarea[required]"
-          );
-
-          requiredFields.forEach((field) => {
-            // Check if the field is empty
-            if (!field.value) {
-              isValid = false;
-              field.classList.add("input-error"); // Add a class to highlight the error if needed
-            } else {
-              field.classList.remove("input-error"); // Remove the error class if filled
-            }
-          });
-
-          if (isValid) {
-            // Submit the form if all fields are valid
-            // document.querySelector('form').submit();
-            return true;
-          } else {
-            // alert("Please fill out all required fields");
-            showToast("Please fill out all required fields")
-            return false;
-          }
+            // Remove the toast element from the DOM
+            setTimeout(() => {
+              container.removeChild(toast);
+            }, 500); // Duration should match the transition time
+          }, 3000); // Toast display duration
         }
 
         function handleModal() {
@@ -1814,11 +1779,37 @@
           closeModalButton.addEventListener("click", function () {
             hideModal();
           });
-
-         
         }
 
         handleModal();
+
+        function validateForm() {
+          let isValid = true;
+          const requiredFields = document.querySelectorAll(
+            "input[required], textarea[required]"
+          );
+
+          requiredFields.forEach((field) => {
+            // Check if the field is empty
+            console.log(field)
+            if (!field.value) {
+              isValid = false;
+              field.classList.add("input-error"); // Add a class to highlight the error if needed
+            } else {
+              field.classList.remove("input-error"); // Remove the error class if filled
+            }
+          });
+
+          if (isValid) {
+            // Submit the form if all fields are valid
+            // document.querySelector('form').submit();
+            return true;
+          } else {
+            // alert("Please fill out all required fields");
+            showToast("Please fill out all required fields");
+            return false;
+          }
+        }
 
         document
           .getElementById("submit-button")
@@ -1836,7 +1827,7 @@
             );
             console.log(formData);
             const obj = {};
-          
+
             formData.forEach((value, key) => {
               // Check if the key already exists in the object
               if (obj.hasOwnProperty(key)) {
@@ -1943,28 +1934,14 @@
               }
             });
 
-
-//             const submitPayload = {
-//   name: obj.name, // New object containing additional information
-//   email: obj.email,
-//   country: typeof obj.countryConsent === "string" ? [obj.countryConsent] : obj.countryConsent,
-//   consent: Array.isArray(obj.consentOption) ? obj.consentOption : [obj.consentOption],
-//   user_id: 0,
-//   password: 12345678,
-//   group_id: 11,
-//   decrypted: 12345678,
-//   register_medium: "survey",
-//   survey_id: survey_id,
-//   survey_responses: [
-//     ...responses, // Spread the existing responses array
-//   ],
-// };
-
             const submitPayload = {
               name: obj.name, // New object containing additional information
               email: obj.email,
               country: obj.countryConsent,
-              consent: typeof  obj.consentOption === "string" ?[obj.consentOption]: obj.consentOption,
+              consent:
+                typeof obj.consentOption === "string"
+                  ? [obj.consentOption]
+                  : obj.consentOption,
               user_id: 0,
               password: 12345678,
               group_id: 11,
@@ -1987,14 +1964,19 @@
                 },
                 body: JSON.stringify(submitPayload),
               });
-              console.log(submitResponse)
+
+              console.log(submitResponse);
+              console.log(await submitResponse.json());
 
               if (submitResponse.status == 400) {
                 loader("hide");
-               showToast("Failed to submit the survey. Please try again.")
-              } else {
+                showToast("Failed to submit the survey. Please try again.");
+              } else if (submitResponse.status == 409) {
                 loader("hide");
-                showToast("survey Submitted");
+                showToast("You have submittied data previously");
+              } else if (ifsubmitResponse.status == 200) {
+                loader("hide");
+                showToast("survey submitted successfully");
               }
             } catch (error) {
               loader("hide");
