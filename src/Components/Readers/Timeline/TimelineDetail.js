@@ -397,7 +397,7 @@ const TimelineDetail = (props) => {
                               return (
                               <>
                                 <div className="timeline-box">
-                                {details?.action === "New mail received" || details?.action === "New Mail Received" || details?.action === "Auto new Mail Recieved"
+                                {details?.status === 0 || details?.status === 1
                                  || details?.action.includes('Certificate of training') || details.action === "Article opened" || details.action.includes("shared")
                                  || details?.action.includes('Registered') || details?.action === "Blocked mandatory training reminder" || details?.action === "IRT Started Training"
                                  || details?.action === "IRT Not Completed Training" || details?.action === "IRT Ignored Training" ? (
@@ -410,7 +410,7 @@ const TimelineDetail = (props) => {
                                       </div>
                                   </div>
                                   ) : null}
-                                  {(details?.action === "New mail received" || details?.action === "New Mail Received") && details?.status === 0 ? (
+                                  {details?.status === 0 ? (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
                                       <div className="indicator-box">
@@ -538,7 +538,7 @@ const TimelineDetail = (props) => {
                                   </div>
                                   ) : null}
 
-                                 {(details?.action === "Auto new Mail Recieved" || details?.action === "New mail received" || details?.action === "New Mail Received") && details?.status === 1 ? (
+                                 {details?.status === 1 ? (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
                                       <div className="indicator-box">
