@@ -169,7 +169,7 @@ const RenderOptions = ({
           ></textarea>
           <div className="d-flex justify-content-end word-limit">
             <span>
-              {item.maxTextLength ? `${item.maxTextLength} / 50` : `0 / 50`}
+              {item.maxTextLength ? `0 /${item.maxTextLength}` : `0 / 50`}
             </span>
           </div>
         </>

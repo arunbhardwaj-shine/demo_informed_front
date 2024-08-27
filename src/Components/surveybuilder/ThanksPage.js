@@ -19,7 +19,7 @@ const ThanksPage = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [thanksPageData, setThanksPageData] = useState({
     thanksImgPath: surveyValues?.thanksPageData?.thanku_image_path || "",
-    imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 20,
+    imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 45,
     headline: surveyValues?.thanksPageData?.thanku_image_headline || "Thank You!",
     bodyText:
       surveyValues?.thanksPageData?.thanku_body_text ||
@@ -139,7 +139,7 @@ const ThanksPage = (props) => {
                             <div className="words-limit">
                               <p class="option-heading">image Width (%)</p>
                               <input
-                                placeholder="20"
+                                placeholder="45"
                                 type="number"
                                 class="form-control"
                                 value={thanksPageData.imageWidth}

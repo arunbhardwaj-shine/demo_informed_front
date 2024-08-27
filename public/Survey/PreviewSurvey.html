@@ -1157,6 +1157,15 @@
     <div id="survey-container" class="informed-survey"></div>
 
     <script>
+
+function updateCharacterCount(textareaId, charCountId, maxLength) {
+  const textarea = document.getElementById(textareaId);
+  const charCountDisplay = document.getElementById(charCountId);
+  const charCount = textarea.value.length;
+
+  // Update character count dynamically or hide if empty
+  charCountDisplay.textContent = charCount > 0 ? `${charCount}/${maxLength}` : '';
+}
       const loader = (data) => {
         const element = document.getElementById("custom-loader");
 
@@ -1568,21 +1577,26 @@
 
               break;
 
-            case "freeText":
-              surveyHtml += `
-          <div class="survey-question">
-            <div class="d-flex question-title" style="color: ${
-              customHtml.question_answer_color
-            };">
-              ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
-            </div>
-            <textarea name="question${question.questionId}" placeholder="${
-                question.extra.placeholder
-              }" ${question.isOptional ? "" : "required"}></textarea>
-          </div>`;
-              break;
+              case "freeText":
+  surveyHtml += `
+    <div class="survey-question">
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+      </div>
+      <textarea 
+        id="textarea${question.questionId}" 
+        name="question${question.questionId}" 
+        placeholder="${question.extra.placeholder}" 
+        ${question.isOptional ? "" : "required"} 
+        maxlength="${question.maxTextLength}" 
+        oninput="updateCharacterCount('textarea${question.questionId}', 'charCount${question.questionId}', ${question.maxTextLength})"
+      ></textarea>
+      <span id="charCount${question.questionId}"></span>
+    </div>`;
+  break;
+
+
+
 
             case "heading":
               surveyHtml += `
