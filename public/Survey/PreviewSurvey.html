@@ -121,7 +121,7 @@
         line-height: 132%;
         margin: 0 0;
       }
-      .question-title >* {
+      .question-title > * {
         display: inline;
       }
 
@@ -496,7 +496,7 @@
       .select-dropdown__button span {
         font-size: 12px;
         font-weight: 300;
-        color: #004A89;
+        color: #004a89;
       }
 
       .select-dropdown__list {
@@ -632,9 +632,9 @@
         display: inline-block;
         align-items: center;
       }
-      .question-title > *{
+      .question-title > * {
         font-size: 12px;
-        margin:0;
+        margin: 0;
         font-weight: 500;
       }
 
@@ -1469,80 +1469,93 @@
 
               break;
 
-              case "rating":
-  surveyHtml += `
+            case "rating":
+              surveyHtml += `
     <div qu_id="${question.questionId}" class="${
-    question.isOptional
-      ? "survey-question"
-      : "survey-question notoptional"
-    }">
+                question.isOptional
+                  ? "survey-question"
+                  : "survey-question notoptional"
+              }">
       <div class="d-flex question-title" style="color: ${
         customHtml.question_answer_color
       };">
         ${question.question} <span>${
-    question.isOptional ? question.optionalLabel : ""
-  }</span>
+                question.isOptional ? question.optionalLabel : ""
+              }</span>
       </div>
       <p class="helper-text">${question.questionDescription}</p>
   `;
 
-  // Check if the rating type is stars
-  if (question.extra.ratingType === "stars") {
-    surveyHtml += `
+              // Check if the rating type is stars
+              if (question.extra.ratingType === "stars") {
+                surveyHtml += `
     <div class="rating-block">
       <div class="rating-wrapper">
         <div class="rating-stars" style="color: ${question.extra.ratingColor};">
     `;
-    for (let i = question.extra.ratingScale; i >= 1; i--) {
-      surveyHtml += `
-        <input type="radio" id="stars-rating-${question.questionId}-${i}" name="question${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-        <label class="rating-option" for="stars-rating-${question.questionId}-${i}" style="color: ${question.extra.ratingColor};">
+                for (let i = question.extra.ratingScale; i >= 1; i--) {
+                  surveyHtml += `
+        <input type="radio" id="stars-rating-${
+          question.questionId
+        }-${i}" name="question${question.questionId}" value="${i}" ${
+                    question.isOptional ? "" : "required"
+                  } />
+        <label class="rating-option" for="stars-rating-${
+          question.questionId
+        }-${i}" style="color: ${question.extra.ratingColor};">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><g clip-path="url(#clip0_1228_31957)"><path d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z" stroke="#FAC755" style="fill: none;"></path></g><defs><clipPath id="clip0_1228_31957"><rect width="24" height="24" fill="white" transform="translate(0 0.046875)"></rect></clipPath></defs></svg>
         </label>
       `;
-    }
-    surveyHtml += `</div>`;
-    surveyHtml += `
+                }
+                surveyHtml += `</div>`;
+                surveyHtml += `
       <div class="rating-labels">
         <div class="not-satisfy">${question.extra.leftSideLabel}</div>
         <div class="satisfy">${question.extra.rightSideLabel}</div>
       </div>
       </div>
     </div>`;
-  } else {
-    // Numeric rating type
-    surveyHtml += `
+              } else {
+                // Numeric rating type
+                surveyHtml += `
     <div class="rating-block">
       <div class="rating-wrapper">
         <div class="rating-numeric" style="color: ${customHtml.question_answer_color};">
     `;
-    for (let i = question.extra.ratingScale; i >= 1; i--) {
-      surveyHtml += `
-        <input type="radio" id="numeric-rating-${question.questionId}-${i}" name="question${question.questionId}" value="${i}" ${question.isOptional ? "" : "required"} />
-        <label for="numeric-rating-${question.questionId}-${i}" class="rating-option" style="color: ${customHtml.question_answer_color};">
+                for (let i = question.extra.ratingScale; i >= 1; i--) {
+                  surveyHtml += `
+        <input type="radio" id="numeric-rating-${
+          question.questionId
+        }-${i}" name="question${question.questionId}" value="${i}" ${
+                    question.isOptional ? "" : "required"
+                  } />
+        <label for="numeric-rating-${
+          question.questionId
+        }-${i}" class="rating-option" style="color: ${
+                    customHtml.question_answer_color
+                  };">
           ${i}
         </label>
       `;
-    }
-    surveyHtml += `</div>`;
-    surveyHtml += `
+                }
+                surveyHtml += `</div>`;
+                surveyHtml += `
       <div class="rating-labels">
         <div class="not-satisfy">${question.extra.leftSideLabel}</div>
         <div class="satisfy">${question.extra.rightSideLabel}</div>
       </div>
     </div>
     </div>`;
-  }
+              }
 
-  surveyHtml += `${
-    question.isOptional
-      ? ""
-      : `<div id="error-question${question.questionId}" class="error-message"></div>`
-  }`;
+              surveyHtml += `${
+                question.isOptional
+                  ? ""
+                  : `<div id="error-question${question.questionId}" class="error-message"></div>`
+              }`;
 
-  surveyHtml += `</div>`;
-  break;
-
+              surveyHtml += `</div>`;
+              break;
 
             case "matrix":
               const inputType = question.extra.allowMultipleAnswer
@@ -1761,9 +1774,9 @@
                     }>
                   <span class="checkmark"></span>
                   ${option.label}
-                </label>`)
-                  .join("")
-                  }
+                </label>`
+                  )
+                  .join("")}
              
                 </div>
                   <div class="error-message" id="error-consentoption"></div>
@@ -1938,11 +1951,20 @@
           });
 
           formElements.forEach((question) => {
+            console.log(question);
             const questionId = $(question).attr("qu_id");
 
-            const questionType = question
+            let questionType = question
               .querySelector("input, select, textarea")
               ?.getAttribute("type");
+
+            if (
+              question
+                .querySelector("input, select, textarea")
+                ?.getAttribute("id") == "matrix"
+            ) {
+              questionType = "matrix";
+            }
             console.log(questionType);
             let errorMessage = "";
 
@@ -1951,7 +1973,7 @@
                 const selectedRadio = question.querySelector(
                   `input[name="question${questionId}"]:checked`
                 );
-                console.log(selectedRadio)
+                console.log(selectedRadio);
                 if (!selectedRadio) {
                   errorMessage = "This question is required.";
                   isValid = false;
@@ -1991,9 +2013,11 @@
                 break;
 
               case "textarea":
+                console.log("from free text")
                 const textArea = question.querySelector(
                   `textarea[name^="question${questionId}"]`
                 );
+                console.log(textArea)
                 if (textArea && !textArea.value.trim()) {
                   errorMessage = "This field is required.";
                   isValid = false;
@@ -2001,19 +2025,27 @@
                 break;
 
               case "matrix":
-              console.log(questionId);
-                const matrixInputs = question.querySelectorAll(
-                  'input[type="radio"], input[type="checkbox"]'
-                );
-                console.log(matrixInputs)
-                const matrixAnswers = Array.from(matrixInputs).some(
-                  (input) => input.checked
-                );
-                if (!matrixAnswers) {
-                  errorMessage =
-                    "Please provide an answer for each matrix question.";
-                  isValid = false;
-                }
+                const matrixRows = question.querySelectorAll("tbody tr"); // Adjust selector as needed
+
+                // Iterate over each row
+                matrixRows.forEach((row) => {
+                  // Get all inputs in the current row
+                  const rowInputs = row.querySelectorAll(
+                    'input[type="radio"], input[type="checkbox"]'
+                  );
+
+                  // Check if at least one input in this row is checked
+                  const rowHasCheckedInput = Array.from(rowInputs).some(
+                    (input) => input.checked
+                  );
+
+                  if (!rowHasCheckedInput) {
+                    // If no input is checked in this row, set validation error
+                    isValid = false;
+                    errorMessage =
+                      "Please provide an answer for each matrix question.";
+                  }
+                });
                 break;
 
               case "freeText":
@@ -2076,12 +2108,6 @@
             }
           });
 
-
-
-
-
-
-
           document.querySelectorAll(".survey-consent").forEach((consent) => {
             let consentHasError = false;
 
@@ -2108,137 +2134,84 @@
               }
             }
 
-
             //validateEmail
             const emailField = consent.querySelector('input[name="email"]');
-const emailValue = emailField ? emailField.value.trim() : "";
+            const emailValue = emailField ? emailField.value.trim() : "";
 
-// Regular expression for validating email
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // Regular expression for validating email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (emailField) {
-  // Check if the email field is empty or doesn't match the email pattern
-  if (!emailValue || !emailPattern.test(emailValue)) {
-    consentHasError = true;
-    let errorElement = document.getElementById("error-email");
-    if (!errorElement) {
-      errorElement = document.createElement("div");
-      errorElement.id = "error-email";
-      errorElement.className = "error-message";
-      emailField.parentNode.appendChild(errorElement);
-    }
-    errorElement.innerHTML = "Please enter a valid email address";
-    emailField.classList.add("input-error");
-  } else {
-    let errorElement = document.getElementById("error-email");
-    if (errorElement) {
-      errorElement.innerHTML = "";
-    }
-    emailField.classList.remove("input-error");
-  }
-}
-
-
-            // const countryconsent=consent.querySelector()
-            // const dropdown = question.querySelector(
-            //       `name^="countryConsent"`
-            //     );
-            //     console.log(dropdown)
-            //     console.log(dropdown);
-            //     if (dropdown && !dropdown.value) {
-            //       errorMessage = "Please select an option.";
-            //       isValid = false;
-            //     }
-
-     
-                  const countryInput = consent.querySelector(
-                    'input[name="countryConsent"]'
-                  );
-                  if (countryInput && !countryInput.value) {
-                    consentHasError = true;
-                    let errorElement = document.getElementById("error-country");
-                    if (!errorElement) {
-                      errorElement = document.createElement("div");
-                      errorElement.id = "error-country";
-                      errorElement.className = "error-message";
-                      countryInput.parentNode.appendChild(errorElement);
-                    }
-                    errorElement.innerHTML = "Please select your country";
-                    countryInput.classList.add("input-error");
-                  } else {
-                    let errorElement = document.getElementById("error-country");
-                    if (errorElement) {
-                      errorElement.innerHTML = "";
-                    }
-                    if (countryInput) {
-                      countryInput.classList.remove("input-error");
-                    }
-                  }
-                
-
-                  const consentOptions = document.querySelectorAll(
-                'input[name="consentOption"]'
-              );
-              const errorElement = document.getElementById(
-                "error-consentoption"
-              );
-
-              // Check if at least one checkbox is checked
-              const isAnyChecked = Array.from(consentOptions).some(
-                (checkbox) => checkbox.checked
-              );
-
-              if (!isAnyChecked) {
-                isValid = false; // Assuming isValid is defined elsewhere
-
-                if (errorElement) {
-                  errorElement.innerHTML =
-                    "Please select at least one consent option.";
-                  errorElement.style.display = "block"; // Ensure the error message is visible
+            if (emailField) {
+              // Check if the email field is empty or doesn't match the email pattern
+              if (!emailValue || !emailPattern.test(emailValue)) {
+                consentHasError = true;
+                let errorElement = document.getElementById("error-email");
+                if (!errorElement) {
+                  errorElement = document.createElement("div");
+                  errorElement.id = "error-email";
+                  errorElement.className = "error-message";
+                  emailField.parentNode.appendChild(errorElement);
                 }
+                errorElement.innerHTML = "Please enter a valid email address";
+                emailField.classList.add("input-error");
               } else {
+                let errorElement = document.getElementById("error-email");
                 if (errorElement) {
-                  errorElement.innerHTML = ""; // Clear error message if any checkbox is checked
-                  errorElement.style.display = "none"; // Hide the error message
+                  errorElement.innerHTML = "";
                 }
+                emailField.classList.remove("input-error");
               }
+            }
 
+            const countryInput = consent.querySelector(
+              'input[name="countryConsent"]'
+            );
+            if (countryInput && !countryInput.value) {
+              consentHasError = true;
+              let errorElement = document.getElementById("error-country");
+              if (!errorElement) {
+                errorElement = document.createElement("div");
+                errorElement.id = "error-country";
+                errorElement.className = "error-message";
+                countryInput.parentNode.appendChild(errorElement);
+              }
+              errorElement.innerHTML = "Please select your country";
+              countryInput.classList.add("input-error");
+            } else {
+              let errorElement = document.getElementById("error-country");
+              if (errorElement) {
+                errorElement.innerHTML = "";
+              }
+              if (countryInput) {
+                countryInput.classList.remove("input-error");
+              }
+            }
 
+            const consentOptions = document.querySelectorAll(
+              'input[name="consentOption"]'
+            );
+            const errorElement = document.getElementById("error-consentoption");
 
+            // Check if at least one checkbox is checked
+            const isAnyChecked = Array.from(consentOptions).some(
+              (checkbox) => checkbox.checked
+            );
 
-})
+            if (!isAnyChecked) {
+              isValid = false; // Assuming isValid is defined elsewhere
 
-
-
-
-
-           
-          
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+              if (errorElement) {
+                errorElement.innerHTML =
+                  "Please select at least one consent option.";
+                errorElement.style.display = "block"; // Ensure the error message is visible
+              }
+            } else {
+              if (errorElement) {
+                errorElement.innerHTML = ""; // Clear error message if any checkbox is checked
+                errorElement.style.display = "none"; // Hide the error message
+              }
+            }
+          });
 
           return isValid;
         }
@@ -2251,6 +2224,7 @@ if (emailField) {
             const result = validateForm();
 
             if (!result) {
+              console.log("from wrong isvalid")
               return;
             }
 
@@ -2303,7 +2277,6 @@ if (emailField) {
               } else if (question.type === "matrix") {
                 if (question.extra.allowMultipleAnswer) {
                   const groupedResponses = {};
-
                   // Iterate over each possible row (id) in the matrix
                   question.answer.forEach((row) => {
                     const rowId = row.id;
@@ -2330,13 +2303,13 @@ if (emailField) {
                 } else {
                   question.answer.forEach((question) => {
                     const response = {
-                      question_id: "",
+                      question_id:"",
                       answer_id: [],
                       comment: "",
                     };
 
-                    response.question_id = question.questionId;
-                    const value = obj[`question${question.questionId}`];
+                    response.question_id = question.id;
+                    const value = obj[`question${question.id}`];
                     response.answer_id.push(value);
                     responses.push(response);
                   });

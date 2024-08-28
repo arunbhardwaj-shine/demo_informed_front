@@ -346,7 +346,6 @@ const SurveyMenu = ({ menuRef }) => {
     const updatedElements = [...elements];
     if (updatedElements[index][keyName]) {
       handleUpdateElement(index, "optionalLabel", "");
-      handleUpdateElement(index,"isOptional",!updatedElements[index]["isOptional"])
     }
     handleUpdateElement(index, keyName, !updatedElements[index][keyName]);
   };
