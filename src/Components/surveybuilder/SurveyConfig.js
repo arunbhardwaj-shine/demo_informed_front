@@ -239,7 +239,7 @@ const SurveyConfig = (props) => {
                                         }));
                                       }}
                                     >
-                                      Remove
+                                      <img src={path_image + 'delete.svg'} alt=""/>
                                     </Button>
                                   )}
                                   <br />
@@ -571,6 +571,7 @@ const SurveyConfig = (props) => {
                     </div>
                   </div>
                 </div>
+                <div></div>
               </div>
             </div>
           </div>
