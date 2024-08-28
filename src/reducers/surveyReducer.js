@@ -200,9 +200,6 @@ const copyElement = (state, action) => {
           });
       });
   }
-  // Optionally, update the state with the copiedElement if needed
-  // state.elements[action.payload.index] = copiedElement;
-
 
   // Clone the elements array to avoid direct modification of state
   const updatedElements = [...state.elements];
