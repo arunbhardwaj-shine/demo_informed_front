@@ -43,8 +43,7 @@ export const menuType = {
     extra: {
       otherChoiceLabel: "",
       otherChoicePlaceholderText: "",
-      // addAllOfTheAbove: false,
-      // allOfTheAboveLabel: "",
+      
     },
   },
   dropdown: {
