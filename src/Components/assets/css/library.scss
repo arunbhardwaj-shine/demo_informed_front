@@ -155,7 +155,8 @@
     }
 
     .tabs-data {
-      flex: 0 0 auto;
+      // flex: 0 0 auto;
+      height:100%;
 
       &.rd {
         .tab-content {
