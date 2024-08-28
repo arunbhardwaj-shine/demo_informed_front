@@ -180,30 +180,14 @@ const SurveyPreview = (props) => {
     >
       <div className="d-flex flex-column w-100">
         <div className="page-top-nav sticky">
-          <Row className="justify-content-end align-items-center">
+        {isEdit == true ? (
+            <Row className="justify-content-end align-items-center">
             <Col md={1}>
               <div className="header-btn-left">
                 <Link className="btn btn-primary btn-bordered back" to={isEdit ? "/survey/survey-configure" : "/survey/thank-you"}>Back</Link>
               </div>
             </Col>
             <Col md={8}>
-              {/* <ul className="tabnav-link">
-                <li className="active ">
-                  <Link to="/survey/survey-builder">Set-up</Link>
-                </li>
-                <li className="active ">
-                  <Link to="/survey/survey-configure">Survey config</Link>
-                </li>
-                <li className="active active-main">
-                  <Link to="">Build survey</Link>
-                </li>
-                <li>
-                  <Link to="">Thank you</Link>
-                </li>
-                <li>
-                  <Link to="">Preview</Link>
-                </li>
-              </ul> */}
               <ul className="tabnav-link">
                 <li className="active ">
                   <Link to="/survey/survey-builder">Set-up</Link>
@@ -232,6 +216,44 @@ const SurveyPreview = (props) => {
               </div>
             </Col>
           </Row>
+            ) : (
+              <Row className="justify-content-end align-items-center">
+            <Col md={3}>
+              <div className="header-btn-left">
+                <Link className="btn btn-primary btn-bordered back" to={isEdit ? "/survey/survey-configure" : "/survey/thank-you"}>Back</Link>
+              </div>
+            </Col>
+            <Col md={6}>
+              <ul className="tabnav-link">
+                <li className="active ">
+                  <Link to="/survey/survey-builder">Set-up</Link>
+                </li>
+                <li className="active ">
+                  <Link to="/survey/survey-configure">Survey config</Link>
+                </li>
+                <li className={isEdit ? "active active-main" : "active"}>
+                  <Link to={isEdit ? "" : "/survey/form-builder"}>
+                    Build survey
+                  </Link>
+                </li>
+                <li className={isEdit ? "" : "active"}>
+                  <Link to={isEdit ? "" : "/survey/thank-you"}>Thank you</Link>
+                </li>
+                <li className={isEdit ? "" : "active active-main"}>
+                  <Link to="">Preview</Link>
+                </li>
+              </ul>
+            </Col>
+            <Col md={3}>
+              <div className="header-btn">
+                <Link className="btn btn-primary btn-bordered move-draft" to="/survey/survey-list">Cancel</Link>
+                <button className="btn btn-primary btn-bordered next" onClick={async (e) => { await nextHandler(e); await saveAsDraft(e, 0, location.pathname, navigate); }}>Save As Draft</button>
+                <button className={isEdit ?"btn btn-primary btn-filled next":"btn btn-primary btn-filled next send_btn"} onClick={async (e) => { await nextHandler(e); await navigateFunction(e); }} > {isEdit ? "Next" : "Publish"}</button>
+              </div>
+            </Col>
+          </Row>
+            )}
+          
         </div>
         <div className="preview-survey">
           <div
@@ -448,6 +470,7 @@ const SurveyPreview = (props) => {
             </div>
           </div>
         </div>
+        <div></div>
       </div>
     </div>
   );

@@ -289,10 +289,8 @@ const ThanksPage = (props) => {
                         > */}
                         <h2
                           style={{
-                            fontSize: "56px",
-                            fontWeight: "1500",
+                            fontWeight: "500",
                             color: "#004A89",
-                            lineHeight: "132%",
                           }}
                           dangerouslySetInnerHTML={{
                             __html: thanksPageData.headline,
@@ -302,9 +300,7 @@ const ThanksPage = (props) => {
                         {/* </h2> */}
                         <p
                           style={{
-                            color: "#70899E",
-                            lineHeight: "132%",
-                            fontSize: "16px",
+                            color: "#70899E"
                           }}
                         >
                           {thanksPageData.bodyText}
@@ -312,6 +308,7 @@ const ThanksPage = (props) => {
                       </div>
                     </div>
                   </div>
+                  <div></div>
                 </div>
               </div>
             </div>

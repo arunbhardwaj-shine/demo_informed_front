@@ -1111,7 +1111,27 @@ const SurveyFormBuilder = (props) => {
                                       alt=""
                                     />
                                   </div>
-                                  <div className="d-flex justify-content-between">
+                                  <div className="d-flex justify-content-between flex-row-reverse">
+                                  <button
+                                      className="btn-edit btn-voilet"
+                                      onClick={(e) => editHandler(e, temp.id)}
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        fill="none"
+                                      >
+                                        {" "}
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z"
+                                          fill="#0066BE"
+                                        />{" "}
+                                      </svg>
+                                    </button>
                                     {temp?.id > 3 && (
                                       <button
                                         class="btn btn-outline-primary"
@@ -1162,26 +1182,7 @@ const SurveyFormBuilder = (props) => {
                                         </svg>
                                       </button>
                                     )}
-                                    <button
-                                      className="btn-edit btn-voilet"
-                                      onClick={(e) => editHandler(e, temp.id)}
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                      >
-                                        {" "}
-                                        <path
-                                          fillRule="evenodd"
-                                          clipRule="evenodd"
-                                          d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z"
-                                          fill="#0066BE"
-                                        />{" "}
-                                      </svg>
-                                    </button>
+                                    
                                   </div>
                                 </div>
                                 <p>{temp.default_values.template_name}</p>
@@ -1215,7 +1216,7 @@ const SurveyFormBuilder = (props) => {
                           </button>
                         </div>
                       </Col>
-                      <Col md={9}>
+                      <Col md={8}>
                         <ul className="tabnav-link">
                           <li className="active active-main">
                             <Link to="">Set-up</Link>
@@ -1235,7 +1236,7 @@ const SurveyFormBuilder = (props) => {
                           </li>
                         </ul>
                       </Col>
-                      <Col md={2}>
+                      <Col md={3}>
                         <div className="header-btn">
                           <Link
                             className="btn btn-primary btn-bordered move-draft"
@@ -1277,6 +1278,7 @@ const SurveyFormBuilder = (props) => {
                       />
                     )}
                   </div>
+                  <div></div>
                 </div>
               </div>
             </div>
