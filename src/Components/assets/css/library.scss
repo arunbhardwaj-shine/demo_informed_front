@@ -1981,6 +1981,7 @@ ul.tab-mail-list.data span.total-left {
   color: rgba(0, 74, 137, 0.5);
   position: relative;
   top: -7px;
+  margin-right: -6px;
 }
 
 #delete-confirm .modal-body h4 b {
@@ -2010,7 +2011,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .data-progress {
   margin-right: 5px;
-  padding: 0px 0 0 35px;
+  padding: 0px 0 0 27px;
 }
 
 .readerlist .data-progress {
@@ -10413,8 +10414,11 @@ svg.pencil_icon {
 
   .data-progress {
     width: 100%;
+    flex:1 1;
   }
-
+  ul.tab-mail-list.data span.total-left {
+    margin-right: 0;
+}
 }
 
 @media only screen and (max-width: 1650px) {
