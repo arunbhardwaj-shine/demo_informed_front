@@ -397,7 +397,7 @@ const TimelineDetail = (props) => {
                               return (
                               <>
                                 <div className="timeline-box">
-                                {details?.auto_mail === 0 || details?.auto_mail === 1 || details.action.includes("New mail recieved")
+                                {(details?.auto_mail === 0 && details.action.includes("New mail received")) || details?.auto_mail === 1 
                                  || details?.action.includes('Certificate of training') || details.action === "Article opened" || details.action.includes("shared")
                                  || details?.action.includes('Registered') || details?.action === "Blocked mandatory training reminder" || details?.action === "IRT Started Training"
                                  || details?.action === "IRT Not Completed Training" || details?.action === "IRT Ignored Training" ? (
@@ -410,7 +410,7 @@ const TimelineDetail = (props) => {
                                       </div>
                                   </div>
                                   ) : null}
-                                  {details?.auto_mail === 0 && details.action.includes("New mail recieved") ? (
+                                  {details?.auto_mail === 0 && details.action.includes("New mail received") ? (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
                                       <div className="indicator-box">
