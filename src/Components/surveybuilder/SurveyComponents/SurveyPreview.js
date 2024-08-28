@@ -40,6 +40,7 @@ const SurveyPreview = (props) => {
   const handleView = () => {
     setIsChecked(!isChecked);
   };
+  console.log(elements)
 
   let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
 

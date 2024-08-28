@@ -72,6 +72,7 @@ export const menuType = {
     accordionType: "questionTypes",
     type: "freeText",
     questionId: 0,
+    maxTextLength: 20,
     question: "",
     answer: [],
     placeHolderText: "",
@@ -84,7 +85,7 @@ export const menuType = {
     extra: {
       Placeholder:"",
     },
-    maxTextLength: 20,
+    
   },
   matrix: {
     accordionType: "questionTypes",

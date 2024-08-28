@@ -1143,7 +1143,9 @@
         transform: translateX(100%);
       }
 
-      .input-error, .form-section .form-group .input-error, .form-section .form-group select.input-error {
+      .input-error,
+      .form-section .form-group .input-error,
+      .form-section .form-group select.input-error {
         box-shadow: 0 0 8px #ca2a48;
       }
 
@@ -1163,6 +1165,15 @@
     <div id="survey-container" class="informed-survey"></div>
 
     <script>
+
+function updateCharacterCount(textareaId, charCountId, maxLength) {
+  const textarea = document.getElementById(textareaId);
+  const charCountDisplay = document.getElementById(charCountId);
+  const charCount = textarea.value.length;
+
+  // Update character count dynamically or hide if empty
+  charCountDisplay.textContent = charCount > 0 ? `${charCount}/${maxLength}` : '';
+}
       const loader = (data) => {
         const element = document.getElementById("custom-loader");
 
@@ -1509,10 +1520,16 @@
               // const inputType = "radio";
               // Start the HTML for the matrix question
               surveyHtml += `
-                <div class="${question.isOptional ? 'survey-question matrix' : 'survey-question matrix notoptional'}">
-                  <div  class="${question.isOptional ? 'd-flex question-title' : 'd-flex question-title notoptional'}" style="color: ${
-                    customHtml.question_answer_color
-                  };">
+                <div class="${
+                  question.isOptional
+                    ? "survey-question matrix"
+                    : "survey-question matrix notoptional"
+                }">
+                  <div  class="${
+                    question.isOptional
+                      ? "d-flex question-title"
+                      : "d-flex question-title notoptional"
+                  }" style="color: ${customHtml.question_answer_color};">
                     ${question.question} <span>${
                 question.isOptional ? question.optionalLabel : ""
               }</span>
@@ -1568,21 +1585,26 @@
 
               break;
 
-            case "freeText":
-              surveyHtml += `
-          <div class="survey-question">
-            <div class="d-flex question-title" style="color: ${
-              customHtml.question_answer_color
-            };">
-              ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
-            </div>
-            <textarea name="question${question.questionId}" placeholder="${
-                question.extra.placeholder
-              }" ${question.isOptional ? "" : "required"}></textarea>
-          </div>`;
-              break;
+              case "freeText":
+  surveyHtml += `
+    <div class="survey-question">
+      <div class="d-flex question-title" style="color: ${customHtml.question_answer_color};">
+        ${question.question} <span>${question.isOptional ? question.optionalLabel : ""}</span>
+      </div>
+      <textarea 
+        id="textarea${question.questionId}" 
+        name="question${question.questionId}" 
+        placeholder="${question.extra.placeholder}" 
+        ${question.isOptional ? "" : "required"} 
+        maxlength="${question.maxTextLength}" 
+        oninput="updateCharacterCount('textarea${question.questionId}', 'charCount${question.questionId}', ${question.maxTextLength})"
+      ></textarea>
+      <span id="charCount${question.questionId}"></span>
+    </div>`;
+  break;
+
+
+
 
             case "heading":
               surveyHtml += `
@@ -1810,7 +1832,6 @@
           document.querySelector("input[id=option2]").checked = true;
           document.querySelector("input[id=option3]").checked = true;
           document.querySelector("input[id=option4]").checked = false;
-
         }
         function HandleConsentoption() {
           const consentOptions = document.querySelectorAll(
@@ -1897,7 +1918,8 @@
               }
             } else if (
               field.type === "checkbox" &&
-              field.name != "consentOption" && field.id != "matrix"
+              field.name != "consentOption" &&
+              field.id != "matrix"
             ) {
               const checkboxGroup = document.querySelectorAll(
                 `input[name="${questionKey}"]`
@@ -2027,23 +2049,33 @@
 
             // Validate email field
             const emailField = consent.querySelector('input[name="email"]');
-            if (emailField && !emailField.value.trim()) {
-              consentHasError = true;
-              let errorElement = document.getElementById("error-email");
-              if (!errorElement) {
-                errorElement = document.createElement("div");
-                errorElement.id = "error-email";
-                errorElement.className = "error-message";
-                emailField.parentNode.appendChild(errorElement);
-              }
-              errorElement.innerHTML = "Please enter a valid email";
-              emailField.classList.add("input-error");
-            } else {
-              let errorElement = document.getElementById("error-email");
-              if (errorElement) {
-                errorElement.innerHTML = "";
-              }
-              if (emailField) {
+            if (emailField) {
+              const emailValue = emailField.value.trim();
+              let isValidEmail = true;
+
+              // Regular expression for basic email validation
+              const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+              if (!emailValue || !emailPattern.test(emailValue)) {
+                consentHasError = true;
+                let errorElement = document.getElementById("error-email");
+
+                if (!errorElement) {
+                  errorElement = document.createElement("div");
+                  errorElement.id = "error-email";
+                  errorElement.className = "error-message";
+                  emailField.parentNode.appendChild(errorElement);
+                }
+
+                errorElement.innerHTML = "Please enter a valid email";
+                errorElement.style.display = "block"; // Ensure the error message is visible
+                emailField.classList.add("input-error");
+              } else {
+                let errorElement = document.getElementById("error-email");
+                if (errorElement) {
+                  errorElement.innerHTML = "";
+                  errorElement.style.display = "none"; // Hide the error message
+                }
                 emailField.classList.remove("input-error");
               }
             }
@@ -2057,10 +2089,11 @@
             .forEach((matrix) => {
               const matrixId = matrix.querySelector("input").id.split("_")[0]; // Extract matrix question ID
               const rows = matrix.querySelectorAll("tbody tr");
-              const isOptional = matrix
-                .querySelector(".d-flex.question-title.notoptional")
+              const isOptional = matrix.querySelector(
+                ".d-flex.question-title.notoptional"
+              );
               let matrixHasError = false;
-              console.log(isOptional)
+              console.log(isOptional);
               if (isOptional) {
                 rows.forEach((row) => {
                   const rowId = row.querySelector("input").id.split("_")[1]; // Extract row ID
@@ -2267,13 +2300,13 @@
 
               if (submitResponse.status == "400") {
                 loader("hide");
-                showToast("Failed to submit the survey. Please try again.");
+                showToast("Something went wrong");
               } else if (submitResponse.status == "302") {
                 loader("hide");
-                showToast("You have submittied data previously");
-              } else if (ifsubmitResponse.status == "200") {
+                showToast("Data inserted previously");
+              } else if (submitResponse.status == "200") {
                 loader("hide");
-                showToast("survey submitted successfully");
+                showToast("Data inserted successfully");
               }
             } catch (error) {
               loader("hide");

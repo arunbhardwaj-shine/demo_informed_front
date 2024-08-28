@@ -437,8 +437,9 @@ const SurveyList = (props) => {
   };
 
   const copyHandler = (surveyLink) => {
+    console.log(surveyLink)
     navigator.clipboard
-      .writeText(`https://informed.pro/survey/${surveyLink}`)
+      .writeText(`https://informed.pro${surveyLink}`)
       .then(() => {
         toast.success("Survey Link Copied");
       })
@@ -1025,10 +1026,9 @@ const SurveyList = (props) => {
                                       <div className="tab-panel">
                                         <div class="tab-content-links">
                                           <a
-
                                             href={`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`}
                                             class={data?.is_draft != null &&
-                                              data?.is_draft == "0" ? "doc-link no-click" :"doc-link" }
+                                              data?.is_draft == "0" ? "doc-link no-click" :"doc-link " }
                                             target="_blank"
                                           >
                                             https://informed.pro/survey/
@@ -1038,7 +1038,7 @@ const SurveyList = (props) => {
                                             <span
                                               class="copy-content"
                                               onClick={() =>
-                                                copyHandler(data.unique_code)
+                                                copyHandler(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`)
                                               }
                                             >
                                               <img
@@ -1060,7 +1060,7 @@ const SurveyList = (props) => {
                                               onClick={() => {
                                                 setQr({
                                                   ...qrState,
-                                                  value: `https://informed.pro/survey/${data.unique_code}`,
+                                                  value: `https://informed.pro/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`,
                                                 });
                                                 setTimeout(function () {
                                                   downloadQRCode();
@@ -1291,7 +1291,7 @@ const SurveyList = (props) => {
                                                     ></path>
                                                   </svg>
                                                 </div>
-                                                <span>0</span>
+                                                <span>{data.total_sublinks}</span>
                                               </li>
                                               <li>
                                                 <div
@@ -1315,7 +1315,7 @@ const SurveyList = (props) => {
                                                     ></path>
                                                   </svg>
                                                 </div>
-                                                <span>0</span>
+                                                <span>{data.user_opening}</span>
                                               </li>
                                               <li>
                                                 <div
@@ -1348,7 +1348,7 @@ const SurveyList = (props) => {
                                                     ></path>
                                                   </svg>
                                                 </div>
-                                                <span>0 </span>
+                                                <span>{data.registration_count}</span>
                                               </li>
                                               <li>
                                                 <div
@@ -1381,7 +1381,7 @@ const SurveyList = (props) => {
                                                     ></path>
                                                   </svg>
                                                 </div>
-                                                <span>0 </span>
+                                                <span>{data.percentage}</span>
                                               </li>
                                             </ul>
                                           </div>
@@ -1406,7 +1406,7 @@ const SurveyList = (props) => {
                                           >
                                             Edit
                                           </Button>
-                                          <Button className="edit btn-filled"
+                                          <Button className={data?.is_draft ?"edit btn-filled":"edit btn-filled disabled" }
                                             onClick={(e) => {
                                               window.open(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`, '_blank');
                                             }}>

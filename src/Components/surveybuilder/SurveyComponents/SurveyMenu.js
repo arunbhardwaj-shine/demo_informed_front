@@ -544,7 +544,7 @@ const SurveyMenu = ({ menuRef }) => {
                   <Form.Label>Placeholder Text</Form.Label>
                   <Form.Control
                     type="text"
-                    value={item.otherChoicePlaceholderText}
+                    value={item.extra.otherChoicePlaceholderText}
                     onChange={(e) =>
                       handleExtraAndStyle(
                         index,
