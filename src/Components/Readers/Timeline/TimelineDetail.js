@@ -561,6 +561,7 @@ const TimelineDetail = (props) => {
                                                               {details?.title}
                                                             </p>
                                                           </div>
+                                                        
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">
                                                               Subject
@@ -591,6 +592,21 @@ const TimelineDetail = (props) => {
                                                               {details?.pdfTitle
                                                                 ? details?.pdfTitle
                                                                 : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">
+                                                              Email Opened
+                                                            </p>
+                                                            <p>
+                                                          
+                                                            {/* {details?.status === 1 || Object.values(details?.track_records || {}).some(value => value) ? `Yes` : 'No'} */}
+                                                            {details?.status === 1 || Object.values(details?.track_records || {}).some(value => value) 
+                                                              ? `Yes (${details?.status === 1 
+                                                                    ? moment(details.updated).format("DD MMM YYYY") 
+                                                                    : moment(Object.values(details.track_records)[0]).format("DD MMM YYYY")})`
+                                                                : "No"}
+
                                                             </p>
                                                           </div>
                                                         </>
@@ -688,6 +704,18 @@ const TimelineDetail = (props) => {
                                                               {details?.pdfTitle
                                                                 ? details?.pdfTitle
                                                                 : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">
+                                                              Email Opened
+                                                            </p>
+                                                            <p>
+                                                            {details?.status === 1 || Object.values(details?.track_records || {}).some(value => value) 
+                                                              ? `Yes (${details?.status === 1 
+                                                                    ? moment(details.updated).format("DD MMM YYYY") 
+                                                                    : moment(Object.values(details.track_records)[0]).format("DD MMM YYYY")})`
+                                                                : "No"}
                                                             </p>
                                                           </div>
                                                         </>
@@ -920,6 +948,19 @@ const TimelineDetail = (props) => {
                                                             : "N/A"}
                                                         </p>
                                                       </div>
+
+                                                      <div className="details-box">
+                                                            <p className="timeline-details-heading">
+                                                              Email Opened
+                                                            </p>
+                                                            <p>
+                                                            {details?.status === 1 || Object.values(details?.track_records || {}).some(value => value) 
+                                                              ? `Yes (${details?.status === 1 
+                                                                    ? moment(details.updated).format("DD MMM YYYY") 
+                                                                    : moment(Object.values(details.track_records)[0]).format("DD MMM YYYY")})`
+                                                                : "No"}
+                                                            </p>
+                                                          </div>
                                                       {/* <div className="details-box">
                                     <p className="timeline-details-heading">To</p>
                                     <div className="d-flex flex-wrap timeline-activity">
