@@ -6,10 +6,10 @@
     "questionId": 0,
     "visible": true,
     "question": {
-      "Octapharma | English": "By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of Octapharma AG and Docintel.app operating this page.",
-      "Octapharma | Russian": "Регистрируясь в One Source, вы получаете доступ к актуальному контенту в соответствии с политикой конфиденциальности данных Octapharma AG и оператора страницы Docintel.app.",
-      "Octapharma | Spanish": "Al registrarse en One Source, obtendrá acceso al contenido relevante de acuerdo con la política de privacidad de datos de Octapharma AG y Docintel.app que opera esta página.",
-      "Octapharma | German": "Durch die Registrierung bei One Source erhalten Sie Zugang zu relevanten Inhalten gemäß der Datenschutzrichtlinie von Octapharma AG und Docintel.app, die diese Seite betreibt."
+      "Octapharma | English": "By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of  ",
+      "Octapharma | Russian": "Регистрируясь в One Source, вы получаете доступ к актуальному контенту в соответствии с политикой конфиденциальности данных ",
+      "Octapharma | Spanish": "Al registrarse en One Source, obtendrá acceso al contenido relevante de acuerdo con la política de privacidad de datos de ",
+      "Octapharma | German": "Durch die Registrierung bei One Source erhalten Sie Zugang zu relevanten Inhalten gemäß der Datenschutzrichtlinie von "
     },
     "consentOptions": {
       "Octapharma | English": [
@@ -148,15 +148,15 @@
       ]
     },
     "privacyLinks": [
-      { "octapharma": "/octapharma-privacy" },
+      { "octapharma": "https://onesource.octapharma.com/octapharma-privacy" },
       { "docintel": "https://albert.docintel.app/privacy_policy/" },
-      { "termsOfUse": "/terms_of_use" }
+      { "termsOfUse": "https://onesource.octapharma.com/terms_of_use" }
     ],
     "cookiePolicy": {
-      "Octapharma | English": "<p>We only use essential cookies and no data is shared with 3rd party. <a href=\"javascript:void(0)\">Click here</a> to see the specifics.</p></br><div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma Privacy Statement</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel Privacy Policy</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Terms of Use</a>\n</div>",
-      "Octapharma | Russian": "<p>Мы используем только необходимые файлы cookie и не передаем данные третьим лицам. <a href=\"javascript:void(0)\">Нажмите здесь</a>, чтобы узнать подробности.</p>\n<div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Заявление о конфиденциальности Octapharma</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Политика конфиденциальности Docintel</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Условия использования</a>\n</div>",
-      "Octapharma | Spanish": "<p>Solo utilizamos cookies esenciales y no compartimos datos con terceros. <a href=\"javascript:void(0)\">Haga clic aquí</a> para ver los detalles.</p>\n<div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Declaración de privacidad de Octapharma</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Política de privacidad de Docintel</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Términos de uso</a>\n</div>",
-      "Octapharma | German": "<p>Wir verwenden nur essenzielle Cookies und geben keine Daten an Dritte weiter. <a href=\"javascript:void(0)\">Klicken Sie hier</a>, um die Details zu sehen.</p>\n<div class=\"copyright-links\">\n<a href=\"/octapharma-privacy\" target=\"_blank\">Datenschutzerklärung von Octapharma</a>\n<a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Datenschutzrichtlinie von Docintel</a>\n<a href=\"/terms_of_use\" target=\"_blank\">Nutzungsbedingungen</a>\n</div>"
+      "Octapharma | English": "<p>We only use essential cookies and no data is shared with 3rd party. <a href=\"javascript:void(0)\" id=show-modal >Click here</a> to see the specifics.</p><div class=\"copyright-links\">\n<a href=\"https://onesource.octapharma.com/octapharma-privacy\" target=\"_blank\">Octapharma Privacy Statement</a>\n<a href=\"https://onesource.octapharma.com/docintel-privacy\" target=\"_blank\">Docintel Privacy Policy</a>\n<a href=\"https://onesource.octapharma.com/terms_of_use\" target=\"_blank\">Terms of Use</a>\n</div>",
+      "Octapharma | Russian": "<p>Мы используем только необходимые файлы cookie и не передаем данные третьим лицам. <a href=\"javascript:void(0)\" id=show-modal>Нажмите здесь</a>, чтобы узнать подробности.</p>\n<div class=\"copyright-links\">\n<a href=\"https://onesource.octapharma.com/octapharma-privacy\" target=\"_blank\">Заявление о конфиденциальности Octapharma</a>\n<a href=\"https://onesource.octapharma.com/docintel-privacy\" target=\"_blank\">Политика конфиденциальности Docintel</a>\n<a href=\"https://onesource.octapharma.com/terms_of_use\" target=\"_blank\">Условия использования</a>\n</div>",
+      "Octapharma | Spanish": "<p>Solo utilizamos cookies esenciales y no compartimos datos con terceros. <a href=\"javascript:void(0)\" id=show-modal>Haga clic aquí</a> para ver los detalles.</p>\n<div class=\"copyright-links\">\n<a href=\"https://onesource.octapharma.com/octapharma-privacy\" target=\"_blank\">Declaración de privacidad de Octapharma</a>\n<a href=\"https://onesource.octapharma.com/docintel-privacy\" target=\"_blank\">Política de privacidad de Docintel</a>\n<a href=\"https://onesource.octapharma.com/terms_of_use\" target=\"_blank\">Términos de uso</a>\n</div>",
+      "Octapharma | German": "<p>Wir verwenden nur essenzielle Cookies und geben keine Daten an Dritte weiter. <a href=\"javascript:void(0)\" id=show-modal>Klicken Sie hier</a>, um die Details zu sehen.</p>\n<div class=\"copyright-links\">\n<a href=\"https://onesource.octapharma.com/octapharma-privacy\" target=\"_blank\">Datenschutzerklärung von Octapharma</a>\n<a href=\"https://onesource.octapharma.com/docintel-privacy\" target=\"_blank\">Datenschutzrichtlinie von Docintel</a>\n<a href=\"https://onesource.octapharma.com/terms_of_use\" target=\"_blank\">Nutzungsbedingungen</a>\n</div>"
     },
     "operatingStatement": {
       "Octapharma | English": "<a href=\"/octapharma-privacy\" target=\"_blank\">Octapharma AG</a> and <a href=\"https://albert.docintel.app/privacy_policy/\" target=\"_blank\">Docintel.app</a> operating this page.",

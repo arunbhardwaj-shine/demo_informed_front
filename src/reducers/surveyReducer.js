@@ -182,13 +182,33 @@ const updateConsent = (state, action) => {
 
 const copyElement = (state, action) => {
   // Copy the element to be duplicated
-  const copiedElement = { ...state.elements[action.payload.index] };
-  copiedElement.questionNo = state.globalIndex;
+  const copiedElement = structuredClone( { ...state.elements[action.payload.index] });
+  copiedElement.questionId = 0;
+  
+  // Check if the element has answers and the type is not "matrix"
+  if (copiedElement.answer.length > 0 && copiedElement.type !== "matrix" && copiedElement.accordionType === "questionTypes") {
+      copiedElement.answer.forEach(option => {
+          option.answerId = 0;
+      });
+  } 
+  // Check if the element is of type "matrix"
+  else if (copiedElement.answer.length > 0 && copiedElement.type === "matrix" ) {
+      copiedElement.answer.forEach(row => {
+          row.id = 0;
+          row.answer.forEach(column => {
+              column.answerId = 0;
+          });
+      });
+  }
 
   // Clone the elements array to avoid direct modification of state
   const updatedElements = [...state.elements];
   // Insert the copied element at the specified index
-  updatedElements.splice(action.payload.index, 0, copiedElement);
+  updatedElements.splice(action.payload.index+1, 0, copiedElement);
+
+  for(var i=0;i<updatedElements.length;i++){
+    updatedElements[i].questionNo=i+1;
+  }
 
   return {
     ...state,

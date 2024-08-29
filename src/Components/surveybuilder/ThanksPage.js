@@ -19,7 +19,7 @@ const ThanksPage = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [thanksPageData, setThanksPageData] = useState({
     thanksImgPath: surveyValues?.thanksPageData?.thanku_image_path || "",
-    imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 20,
+    imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 45,
     headline: surveyValues?.thanksPageData?.thanku_image_headline || "Thank You!",
     bodyText:
       surveyValues?.thanksPageData?.thanku_body_text ||
@@ -139,7 +139,7 @@ const ThanksPage = (props) => {
                             <div className="words-limit">
                               <p class="option-heading">image Width (%)</p>
                               <input
-                                placeholder="20"
+                                placeholder="45"
                                 type="number"
                                 class="form-control"
                                 value={thanksPageData.imageWidth}
@@ -202,7 +202,7 @@ const ThanksPage = (props) => {
                           </Link>
                         </div>
                       </Col>
-                      <Col md={9}>
+                      <Col md={8}>
                         <ul className="tabnav-link">
                           <li className="active">
                             <Link to="/survey/survey-builder"> Set-up</Link>
@@ -224,7 +224,7 @@ const ThanksPage = (props) => {
                           </li>
                         </ul>
                       </Col>
-                      <Col md={2}>
+                      <Col md={3}>
                         <div className="header-btn">
                           <Link
                             className="btn btn-primary btn-bordered move-draft"
@@ -289,10 +289,8 @@ const ThanksPage = (props) => {
                         > */}
                         <h2
                           style={{
-                            fontSize: "56px",
-                            fontWeight: "1500",
+                            fontWeight: "500",
                             color: "#004A89",
-                            lineHeight: "132%",
                           }}
                           dangerouslySetInnerHTML={{
                             __html: thanksPageData.headline,
@@ -302,9 +300,7 @@ const ThanksPage = (props) => {
                         {/* </h2> */}
                         <p
                           style={{
-                            color: "#70899E",
-                            lineHeight: "132%",
-                            fontSize: "16px",
+                            color: "#70899E"
                           }}
                         >
                           {thanksPageData.bodyText}
@@ -312,6 +308,7 @@ const ThanksPage = (props) => {
                       </div>
                     </div>
                   </div>
+                  <div></div>
                 </div>
               </div>
             </div>

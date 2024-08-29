@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 
@@ -13,13 +13,48 @@ const RenderOptions = ({
     color: style.color,
   });
 
-  const renderOption = (option, optIndex, type) => (
-    <label style={{ color: optionColor }} key={optIndex} className="check">
-      {option}
-      <input type={type} name={item.name} disabled={!isEdit} />
-      <span className="checkmark"></span>
-    </label>
-  );
+  console.log(item);
+  const [otherOptionChecked, setOtherOptionChecked] = useState(false);
+
+  const renderOption = (option, optIndex, type) => {
+    if (optIndex === "other") {
+      return (
+        <label style={{ color: optionColor }} key={optIndex} className="check">
+          {option}
+          <input
+            type={type}
+            name={item.questionNo}
+            disabled={!isEdit}
+            onClick={() => {
+              if (type === "radio") {
+                setOtherOptionChecked(true);
+              } else {
+                setOtherOptionChecked(!otherOptionChecked);
+              }
+            }}
+          />
+          <span className="checkmark"></span>
+        </label>
+      );
+    } else {
+      return (
+        <label style={{ color: optionColor }} key={optIndex} className="check">
+          {option}
+          <input
+            type={type}
+            name={item.questionNo}
+            disabled={!isEdit}
+            onClick={() => {
+              if (type === "radio") {
+                setOtherOptionChecked(false);
+              }
+            }}
+          />
+          <span className="checkmark"></span>
+        </label>
+      );
+    }
+  };
 
   switch (item.type) {
     case "multiple":
@@ -50,11 +85,13 @@ const RenderOptions = ({
                       }
                 }
               >
-                <Form.Control
-                  type="text"
-                  placeholder={item.extra.otherChoicePlaceholderText}
-                  readOnly={!isEdit}
-                />
+                {otherOptionChecked && (
+                  <Form.Control
+                    type="text"
+                    placeholder={item.extra.otherChoicePlaceholderText}
+                    readOnly={!isEdit}
+                  />
+                )}
               </div>
             </>
           ) : (
@@ -68,11 +105,6 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "checkbox")
           )}
-          {/* {item.extra.addAllOfTheAbove && (
-                        <>
-                            {renderOption(item.extra.allOfTheAboveLabel, "allOfTheAbove", "checkbox")}
-                        </>
-                    )} */}
           {item.addOtherChoice ? (
             <>
               {renderOption(item.extra.otherChoiceLabel, "other", "checkbox")}
@@ -86,11 +118,13 @@ const RenderOptions = ({
                       }
                 }
               >
-                <Form.Control
-                  type="text"
-                  placeholder={item.extra.otherChoicePlaceholderText}
-                  readOnly={!isEdit}
-                />
+                {otherOptionChecked && (
+                  <Form.Control
+                    type="text"
+                    placeholder={item.extra.otherChoicePlaceholderText}
+                    readOnly={!isEdit}
+                  />
+                )}
               </div>
             </>
           ) : (
@@ -126,56 +160,58 @@ const RenderOptions = ({
     case "freeText":
       return (
         <>
-        <textarea
-          name={`freeText-${index}`}
-          rows="2"
-          cols="50"
-          placeholder={item.answer}
-          readOnly={!isEdit}
-        ></textarea>
-        <div className="d-flex justify-content-end word-limit">
-        <span>{item.maxTextLength ? `${item.maxTextLength} / 50` : `0 / 50`}</span>
-
-        </div>
+          <textarea
+            name={`freeText-${index}`}
+            rows="2"
+            cols="50"
+            placeholder={item.extra.placeholder}
+            readOnly={!isEdit}
+          ></textarea>
+          <div className="d-flex justify-content-end word-limit">
+            <span>
+              {item.maxTextLength ? `0 /${item.maxTextLength}` : `0 / 50`}
+            </span>
+          </div>
         </>
       );
     case "matrix":
       return (
         <div className="table-responsive">
-        <table className="matrix-table">
-          <thead>
-            <tr>
-              <th></th>
-              {item.answer.map((answer, colIndex) => (
-                // <th style={{ color: optionColor }} key={colIndex}>
-                <th key={colIndex}>
-                  {answer.value}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {item.extra.rows.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                <td style={{ color: optionColor }}>{row.value}</td>
-                {item.answer.map((column, colIndex) => (
-                  <td key={`${rowIndex}-${colIndex}`}>
-                    {item.extra.allowMultipleAnswer ? (
-                      <input
-                        type="checkbox"
-                        name={`matrix-${index}-${rowIndex}-${colIndex}`}
-                        disabled={!isEdit}
-                      />
-                    ) : (
-                      <input type="radio" name={item.name} disabled={!isEdit} />
-                    )}
-                    <span className="checkmark"></span>
-                  </td>
+          <table className="matrix-table">
+            <thead>
+              <tr>
+                <th></th>
+                {item?.answer[0]?.answer?.map((data, colIndex) => (
+                  <th key={colIndex}>{data?.value}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {item?.answer?.map((option, rowIndex) => (
+                <tr key={rowIndex}>
+                  <td style={{ color: optionColor }}>{option?.title}</td>
+                  {option?.answer?.map((column, colIndex) => (
+                    <td key={`${rowIndex}-${colIndex}`}>
+                      {item.extra.allowMultipleAnswer ? (
+                        <input
+                          type="checkbox"
+                          name={`matrix-${index}-${rowIndex}-${colIndex}`}
+                          disabled={!isEdit}
+                        />
+                      ) : (
+                        <input
+                          type="radio"
+                          name={`matrix-${rowIndex}-${colIndex}`}
+                          disabled={!isEdit}
+                        />
+                      )}
+                      <span className="checkmark"></span>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       );
     case "rating":
@@ -271,7 +307,7 @@ const RenderOptions = ({
       return (
         <p
           className="paragraph"
-          style={{color:item.style.color}}
+          style={{ color: item.style.color }}
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}

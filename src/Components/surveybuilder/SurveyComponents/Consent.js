@@ -1,3 +1,6 @@
+
+
+
 import React from 'react';
 import { Form, Row } from 'react-bootstrap';
 import Select from "react-select";
@@ -15,6 +18,7 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
     const defaultOption = consentOptions.find(option => option.label === "Octapharma | English");
 
     const getConsent = (selectedLanguage) => {
+        console.log(selectedLanguage)
 
         return {
             accordionType: "commonElements",
@@ -61,3 +65,4 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
 }
 
 export default Consent;
+

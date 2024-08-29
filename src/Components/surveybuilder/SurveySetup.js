@@ -390,7 +390,7 @@ const SurveySetup = (props) => {
   return (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <Col className="right-sidebar custom-change survey-builder">
+      <Col className="right-sidebar custom-change survey-set">
         <div className="container-fluid">
           <div className="row">
             <div className="top-right-action preview">
@@ -470,12 +470,14 @@ const SurveySetup = (props) => {
                       onChange={selectedCreator}
                       placeholder="Type Creator's name"
                     />
-                    <p onClick={handleView}>
-                      Add new creator{" "}
-                      <img src={path_image + "creator-add.png"} alt="" />
-                    </p>
-                    <div className="login-validation">
-                      {error?.surveyCreator ? error.surveyCreator : ""}
+                    <div className="d-flex justify-content-between"> 
+                      <div className="login-validation">
+                        {error?.surveyCreator ? error.surveyCreator : ""}
+                      </div>
+                      <p onClick={handleView}>
+                        Add new creator{" "}
+                        <img src={path_image + "creator-add.png"} alt="" />
+                      </p>
                     </div>
                   </Form.Group>
                   <Form.Group className="col-md-7 form-group">

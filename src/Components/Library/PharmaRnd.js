@@ -222,7 +222,7 @@ const PharmaRnd = () => {
             <div className='contact-us pharma rd'>
                 <Container>
                     <Row>
-                        <LandingContact>
+                        <LandingContact source="Pharma-trial">
                             <h5>
                                 We’re always happy to talk to you and answer any questions you have. You might have a question about something not covered on the page, something about compliance or other requests.
                             </h5>
