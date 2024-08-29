@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { surveyAxiosInstance } from "../CommonFunctions/CommonFunction";
@@ -40,7 +39,7 @@ const SurveyPreview = (props) => {
   const handleView = () => {
     setIsChecked(!isChecked);
   };
-  console.log(elements)
+  console.log(elements);
 
   let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
 
@@ -52,16 +51,17 @@ const SurveyPreview = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const survey_id = surveyValues?.survey_id;
+  console.log(custom_html.header_background_type);
 
   const [templateData, setTemplateData] = useState({
     headerBackground:
-      custom_html?.header_background_type === "image"
+      custom_html.header_background_type == "color"
         ? {
-            backgroundImage: `url(${custom_html?.header_background_image})`,
-            backgroundSize: "cover",
+            backgroundColor: custom_html?.header_background_color,
           }
         : {
-            backgroundColor: custom_html?.header_background_color,
+            backgroundImage: `url(${custom_html?.header_background_image})`,
+            backgroundSize: "cover",
           },
     heading: custom_html?.main_heading,
     logo: custom_html?.logo,
@@ -131,7 +131,6 @@ const SurveyPreview = (props) => {
   const handlePreviewDragOver = (e) => e.preventDefault();
 
   const handleQuestionDragStart = (e, index) => {
-
     e.stopPropagation();
     setDraggedElementIndex(index);
   };
@@ -180,87 +179,156 @@ const SurveyPreview = (props) => {
     >
       <div className="d-flex flex-column w-100">
         <div className="page-top-nav sticky">
-        {isEdit == true ? (
+          {isEdit == true ? (
             <Row className="justify-content-end align-items-center">
-            <Col md={1}>
-              <div className="header-btn-left">
-                <Link className="btn btn-primary btn-bordered back" to={isEdit ? "/survey/survey-configure" : "/survey/thank-you"}>Back</Link>
-              </div>
-            </Col>
-            <Col md={8}>
-              <ul className="tabnav-link">
-                <li className="active ">
-                  <Link to="/survey/survey-builder">Set-up</Link>
-                </li>
-                <li className="active ">
-                  <Link to="/survey/survey-configure">Survey config</Link>
-                </li>
-                <li className={isEdit ? "active active-main" : "active"}>
-                  <Link to={isEdit ? "" : "/survey/form-builder"}>
-                    Build survey
+              <Col md={1}>
+                <div className="header-btn-left">
+                  <Link
+                    className="btn btn-primary btn-bordered back"
+                    to={
+                      isEdit ? "/survey/survey-configure" : "/survey/thank-you"
+                    }
+                  >
+                    Back
                   </Link>
-                </li>
-                <li className={isEdit ? "" : "active"}>
-                  <Link to={isEdit ? "" : "/survey/thank-you"}>Thank you</Link>
-                </li>
-                <li className={isEdit ? "" : "active active-main"}>
-                  <Link to="">Preview</Link>
-                </li>
-              </ul>
-            </Col>
-            <Col md={3}>
-              <div className="header-btn">
-                <Link className="btn btn-primary btn-bordered move-draft" to="/survey/survey-list">Cancel</Link>
-                <button className="btn btn-primary btn-bordered next" onClick={async (e) => { await nextHandler(e); await saveAsDraft(e, 0, location.pathname, navigate); }}>Save As Draft</button>
-                <button className={isEdit ?"btn btn-primary btn-filled next":"btn btn-primary btn-filled next send_btn"} onClick={async (e) => { await nextHandler(e); await navigateFunction(e); }} > {isEdit ? "Next" : "Publish"}</button>
-              </div>
-            </Col>
-          </Row>
-            ) : (
-              <Row className="justify-content-end align-items-center">
-            <Col md={3}>
-              <div className="header-btn-left">
-                <Link className="btn btn-primary btn-bordered back" to={isEdit ? "/survey/survey-configure" : "/survey/thank-you"}>Back</Link>
-              </div>
-            </Col>
-            <Col md={6}>
-              <ul className="tabnav-link">
-                <li className="active ">
-                  <Link to="/survey/survey-builder">Set-up</Link>
-                </li>
-                <li className="active ">
-                  <Link to="/survey/survey-configure">Survey config</Link>
-                </li>
-                <li className={isEdit ? "active active-main" : "active"}>
-                  <Link to={isEdit ? "" : "/survey/form-builder"}>
-                    Build survey
+                </div>
+              </Col>
+              <Col md={8}>
+                <ul className="tabnav-link">
+                  <li className="active ">
+                    <Link to="/survey/survey-builder">Set-up</Link>
+                  </li>
+                  <li className="active ">
+                    <Link to="/survey/survey-configure">Survey config</Link>
+                  </li>
+                  <li className={isEdit ? "active active-main" : "active"}>
+                    <Link to={isEdit ? "" : "/survey/form-builder"}>
+                      Build survey
+                    </Link>
+                  </li>
+                  <li className={isEdit ? "" : "active"}>
+                    <Link to={isEdit ? "" : "/survey/thank-you"}>
+                      Thank you
+                    </Link>
+                  </li>
+                  <li className={isEdit ? "" : "active active-main"}>
+                    <Link to="">Preview</Link>
+                  </li>
+                </ul>
+              </Col>
+              <Col md={3}>
+                <div className="header-btn">
+                  <Link
+                    className="btn btn-primary btn-bordered move-draft"
+                    to="/survey/survey-list"
+                  >
+                    Cancel
                   </Link>
-                </li>
-                <li className={isEdit ? "" : "active"}>
-                  <Link to={isEdit ? "" : "/survey/thank-you"}>Thank you</Link>
-                </li>
-                <li className={isEdit ? "" : "active active-main"}>
-                  <Link to="">Preview</Link>
-                </li>
-              </ul>
-            </Col>
-            <Col md={3}>
-              <div className="header-btn">
-                <Link className="btn btn-primary btn-bordered move-draft" to="/survey/survey-list">Cancel</Link>
-                <button className="btn btn-primary btn-bordered next" onClick={async (e) => { await nextHandler(e); await saveAsDraft(e, 0, location.pathname, navigate); }}>Save As Draft</button>
-                <button className={isEdit ?"btn btn-primary btn-filled next":"btn btn-primary btn-filled next send_btn"} onClick={async (e) => { await nextHandler(e); await navigateFunction(e); }} > {isEdit ? "Next" : "Publish"}</button>
-              </div>
-            </Col>
-          </Row>
-            )}
-          
+                  <button
+                    className="btn btn-primary btn-bordered next"
+                    onClick={async (e) => {
+                      await nextHandler(e);
+                      await saveAsDraft(e, 0, location.pathname, navigate);
+                    }}
+                  >
+                    Save As Draft
+                  </button>
+                  <button
+                    className={
+                      isEdit
+                        ? "btn btn-primary btn-filled next"
+                        : "btn btn-primary btn-filled next send_btn"
+                    }
+                    onClick={async (e) => {
+                      await nextHandler(e);
+                      await navigateFunction(e);
+                    }}
+                  >
+                    {" "}
+                    {isEdit ? "Next" : "Publish"}
+                  </button>
+                </div>
+              </Col>
+            </Row>
+          ) : (
+            <Row className="justify-content-end align-items-center">
+              <Col md={3}>
+                <div className="header-btn-left">
+                  <Link
+                    className="btn btn-primary btn-bordered back"
+                    to={
+                      isEdit ? "/survey/survey-configure" : "/survey/thank-you"
+                    }
+                  >
+                    Back
+                  </Link>
+                </div>
+              </Col>
+              <Col md={6}>
+                <ul className="tabnav-link">
+                  <li className="active ">
+                    <Link to="/survey/survey-builder">Set-up</Link>
+                  </li>
+                  <li className="active ">
+                    <Link to="/survey/survey-configure">Survey config</Link>
+                  </li>
+                  <li className={isEdit ? "active active-main" : "active"}>
+                    <Link to={isEdit ? "" : "/survey/form-builder"}>
+                      Build survey
+                    </Link>
+                  </li>
+                  <li className={isEdit ? "" : "active"}>
+                    <Link to={isEdit ? "" : "/survey/thank-you"}>
+                      Thank you
+                    </Link>
+                  </li>
+                  <li className={isEdit ? "" : "active active-main"}>
+                    <Link to="">Preview</Link>
+                  </li>
+                </ul>
+              </Col>
+              <Col md={3}>
+                <div className="header-btn">
+                  <Link
+                    className="btn btn-primary btn-bordered move-draft"
+                    to="/survey/survey-list"
+                  >
+                    Cancel
+                  </Link>
+                  <button
+                    className="btn btn-primary btn-bordered next"
+                    onClick={async (e) => {
+                      await nextHandler(e);
+                      await saveAsDraft(e, 0, location.pathname, navigate);
+                    }}
+                  >
+                    Save As Draft
+                  </button>
+                  <button
+                    className={
+                      isEdit
+                        ? "btn btn-primary btn-filled next"
+                        : "btn btn-primary btn-filled next send_btn"
+                    }
+                    onClick={async (e) => {
+                      await nextHandler(e);
+                      await navigateFunction(e);
+                    }}
+                  >
+                    {" "}
+                    {isEdit ? "Next" : "Publish"}
+                  </button>
+                </div>
+              </Col>
+            </Row>
+          )}
         </div>
         <div className="preview-survey">
           <div
             className={
               isChecked
-                ? `${currentTemplateClass} mobile-view`
-                : currentTemplateClass
+                ? `informed-survey mobile-view`
+                : "informed-survey"
             }
           >
             {isEdit == true ? (
@@ -269,13 +337,50 @@ const SurveyPreview = (props) => {
               <div class="d-flex align-items-center justify-content-start">
                 <div className="switch6">
                   <label className="switch6-light">
-                    <input type="checkbox"checked={isChecked}onChange={handleView}/>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={handleView}
+                    />
                     <span>
                       <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none" > <path d="M1 0C0.447715 0 0 0.447715 0 1V10C0 10.5523 0.447715 11 1 11H15C15.5523 11 16 10.5523 16 10V1C16 0.447715 15.5523 0 15 0H1Z" fill="#0066BE" fill-opacity="0.4" /> <path d="M4.52712 12C4.35473 12 4.19449 12.0888 4.10313 12.235L3.47812 13.235C3.26998 13.568 3.50941 14 3.90212 14H12.0979C12.4906 14 12.73 13.568 12.5219 13.235L11.8969 12.235C11.8055 12.0888 11.6453 12 11.4729 12H4.52712Z" fill="#0066BE" fill-opacity="0.4" /> </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="14"
+                          viewBox="0 0 16 14"
+                          fill="none"
+                        >
+                          {" "}
+                          <path
+                            d="M1 0C0.447715 0 0 0.447715 0 1V10C0 10.5523 0.447715 11 1 11H15C15.5523 11 16 10.5523 16 10V1C16 0.447715 15.5523 0 15 0H1Z"
+                            fill="#0066BE"
+                            fill-opacity="0.4"
+                          />{" "}
+                          <path
+                            d="M4.52712 12C4.35473 12 4.19449 12.0888 4.10313 12.235L3.47812 13.235C3.26998 13.568 3.50941 14 3.90212 14H12.0979C12.4906 14 12.73 13.568 12.5219 13.235L11.8969 12.235C11.8055 12.0888 11.6453 12 11.4729 12H4.52712Z"
+                            fill="#0066BE"
+                            fill-opacity="0.4"
+                          />{" "}
+                        </svg>
                       </span>
-                      <span> 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" > <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0C3.44772 0 3 0.447715 3 1V15C3 15.5523 3.44772 16 4 16H12C12.5523 16 13 15.5523 13 15V1C13 0.447715 12.5523 0 12 0H4ZM7.5 1C7.22386 1 7 1.22386 7 1.5C7 1.77614 7.22386 2 7.5 2H8.5C8.77614 2 9 1.77614 9 1.5C9 1.22386 8.77614 1 8.5 1H7.5Z" fill="#0066BE" fill-opacity="0.4" /></svg>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                        >
+                          {" "}
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M4 0C3.44772 0 3 0.447715 3 1V15C3 15.5523 3.44772 16 4 16H12C12.5523 16 13 15.5523 13 15V1C13 0.447715 12.5523 0 12 0H4ZM7.5 1C7.22386 1 7 1.22386 7 1.5C7 1.77614 7.22386 2 7.5 2H8.5C8.77614 2 9 1.77614 9 1.5C9 1.22386 8.77614 1 8.5 1H7.5Z"
+                            fill="#0066BE"
+                            fill-opacity="0.4"
+                          />
+                        </svg>
                       </span>
                     </span>
                     <a className="btn"></a>
@@ -314,13 +419,12 @@ const SurveyPreview = (props) => {
               }
             >
               <div className="informed-survey-text">
-                  <p
-                    style={{ color: templateData.bodyTextColor }}
-                    dangerouslySetInnerHTML={{
-                      __html: templateData.bodyText,
-                    }}
-                  />
-               
+                <p
+                  style={{ color: templateData.bodyTextColor }}
+                  dangerouslySetInnerHTML={{
+                    __html: templateData.bodyText,
+                  }}
+                />
               </div>
               <div className="informed-survey-question" ref={surveyRef}>
                 <form>
@@ -330,7 +434,14 @@ const SurveyPreview = (props) => {
                         className={`dragable-box ${
                           index === currentElementIndex ? "active" : ""
                         }`}
-                        style={ isEdit ? {} : { backgroundColor: templateData.page_background_color, } }
+                        style={
+                          isEdit
+                            ? {}
+                            : {
+                                backgroundColor:
+                                  templateData.page_background_color,
+                              }
+                        }
                         draggable={isEdit} // Only make it draggable if isEdit is true
                         key={index}
                         onClick={(e) => {
@@ -356,17 +467,52 @@ const SurveyPreview = (props) => {
                         }}
                       >
                         {index === currentElementIndex && (
-                          <div className="active-drag"> <img src={path_image + "drag-drop.png"} alt="Drag" /> </div>
+                          <div className="active-drag">
+                            {" "}
+                            <img
+                              src={path_image + "drag-drop.png"}
+                              alt="Drag"
+                            />{" "}
+                          </div>
                         )}
                         <div>
                           {item.accordionType === "questionTypes" ? (
-                            <div style={ isEdit ? {} : { backgroundColor: templateData.page_background_color, } } >
-                              <div className="d-flex question-title"> 
-                                <p style={{ color: templateData.question_answer_color, }} dangerouslySetInnerHTML={{ __html: item.question, }} /> 
-                                <span style={{ color: templateData.bodyTextColor, }} > {item.isOptional ? item.optionalLabel :"" } </span> 
+                            <div
+                              style={
+                                isEdit
+                                  ? {}
+                                  : {
+                                      backgroundColor:
+                                        templateData.page_background_color,
+                                    }
+                              }
+                            >
+                              <div className="d-flex question-title">
+                                <p
+                                  style={{
+                                    color: templateData.question_answer_color,
+                                  }}
+                                  dangerouslySetInnerHTML={{
+                                    __html: item.question,
+                                  }}
+                                />
+                                <span
+                                  style={{ color: templateData.bodyTextColor }}
+                                >
+                                  {" "}
+                                  {item.isOptional
+                                    ? item.optionalLabel
+                                    : ""}{" "}
+                                </span>
                               </div>
                               {item.questionDescriptionEnabled && (
-                                <span className="helper-text" style={{ color: templateData.bodyTextColor }}> {item.questionDescription} </span>
+                                <span
+                                  className="helper-text"
+                                  style={{ color: templateData.bodyTextColor }}
+                                >
+                                  {" "}
+                                  {item.questionDescription}{" "}
+                                </span>
                               )}
                               <RenderOptions
                                 {...{
@@ -397,9 +543,43 @@ const SurveyPreview = (props) => {
                         {index === currentElementIndex && (
                           <>
                             <div className="drag-actions">
-                              <Button onClick={(e) => { e.stopPropagation(); dispatch(deleteElement(index)); UpdateQuestion(item.questionId); }} > <img src={`${path_image}delete-survey.svg`} alt="Delete" /> </Button>
-                              <Button onClick={(e) => { e.stopPropagation(); dispatch(copyElement(index)); }} > <img src={`${path_image}copy-survey.svg`} alt="Copy" /> </Button>
-                              <Button onClick={(e) => { e.stopPropagation(); dispatch(toggleAddClicked()); }} > <img src={`${path_image}add-survey.svg`} alt="Add" /> </Button>
+                              <Button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(deleteElement(index));
+                                  UpdateQuestion(item.questionId);
+                                }}
+                              >
+                                {" "}
+                                <img
+                                  src={`${path_image}delete-survey.svg`}
+                                  alt="Delete"
+                                />{" "}
+                              </Button>
+                              <Button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(copyElement(index));
+                                }}
+                              >
+                                {" "}
+                                <img
+                                  src={`${path_image}copy-survey.svg`}
+                                  alt="Copy"
+                                />{" "}
+                              </Button>
+                              <Button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(toggleAddClicked());
+                                }}
+                              >
+                                {" "}
+                                <img
+                                  src={`${path_image}add-survey.svg`}
+                                  alt="Add"
+                                />{" "}
+                              </Button>
                             </div>
                             {isAddClicked && (
                               <div className="preview-menu">
