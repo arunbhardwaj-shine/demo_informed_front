@@ -368,14 +368,14 @@ const TimelineDetail = (props) => {
                                     <tr>
                                       <th>IRT Role</th>
                                       <td>
-                                        {timeLineData?.user?.user_type ? timeLineData?.user?.user_type : "N/A"}
+                                        {timeLineData?.user?.user_type && timeLineData?.user?.user_type != 0  ? timeLineData?.user?.user_type : "N/A"}
                                       </td>
                                     </tr>
                                     
                                     <tr>
                                       <th>Site</th>
                                       <td>
-                                        {timeLineData?.user?.site_number ? timeLineData?.user?.site_number : "N/A"}
+                                        {timeLineData?.user?.site_number && timeLineData?.user?.site_number != 0 ? timeLineData?.user?.site_number : "N/A"}
                                       </td>
                                     </tr>
                                   </>    
@@ -410,7 +410,7 @@ const TimelineDetail = (props) => {
                     
                     </div>
                     {
-                      Object.keys(timeLineData?.timeline)?.length > 0 || timeLineData?.timeline?.length ? (
+                      Object.keys(filteredTimeLine)?.length > 0 || timeLineData?.timeline?.length ? (
                       isRdAndNorgianAcount ? (
                       <>
                       <div className="timeline-layout crm-timeline" style={{marginLeft:'100px'}}>

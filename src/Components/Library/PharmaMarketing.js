@@ -143,7 +143,7 @@ const PharmaMarketing = () => {
       id: 10,
       style: "10",
       active: false,
-      icon: "polling-icon.svg",
+      icon: "polling-icon-new.svg",
       title: "Q & Poll",
       description:
         "Make your events more engaging with your live questions and polls. Easy to manage - incredible learning.",
@@ -497,7 +497,7 @@ const PharmaMarketing = () => {
     {
       id: 10,
       active: false,
-      logo: "polling-icon.svg",
+      logo: "polling-icon-new.svg",
       title: <span style={{ color: "#3D48AB" }}>Q & Poll</span>,
       image: "poll-min.png",
       ppt: "../../../componentAssets/images/pharmaPpt/q&poll.pptx",
@@ -2271,7 +2271,7 @@ const PharmaMarketing = () => {
                     onClick={() => handleClick("qa", 9)}
                     style={{ "--i": "10" }}
                   >
-                    <img src={path_image + "polling-icon.svg"} alt="" />
+                    <img src={path_image + "polling-icon-new.svg"} alt="" />
                     <span>Q & Poll</span>
                     <div className="article-close">
                       <img src={path_image + "close-button.svg"} alt="" />
@@ -3314,7 +3314,7 @@ const PharmaMarketing = () => {
                             }}
                             style={{ "--i": "14" }}
                           >
-                            <img src={path_image + "polling-icon.svg"} alt="" />
+                            <img src={path_image + "polling-icon-new.svg"} alt="" />
                             <span>Q & Poll</span>
                             {activeModule === "qa" && (
                               <div className="article-close">
