@@ -240,6 +240,7 @@ import SurveyAnalytics from "./Components/surveybuilder/SurveyAnalytics";
 import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDetail";
 import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
 import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
+import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 
 let platform = 0;
 let show = 0;
@@ -351,6 +352,7 @@ const Routing = () => {
         />
         //LoginLayout for pages after login
         <Route path="/home-new" element={<SetLayoutNew component={SetLayoutNew} />} />
+        <Route path="/home-new-timeline" element={<SetLayoutNewTimeline component={SetLayoutNewTimeline} />} />
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route

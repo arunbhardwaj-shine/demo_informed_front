@@ -537,16 +537,49 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                 </div>
                                               </div>
-                                              : item?.heading == "IRT Blocked"
+                                              : item?.heading == "IRT Unblocked"
                                                 ?
                                                 <div className="timeline-box-inset">
                                                   <div className="timeline-indicator">
                                                     <div className="indicator-box">
-                                                      <img src={path_image + "irt-training-start.svg"} alt="" />
+                                                      <img src={path_image + "irt-blocked.svg"} alt="" />
                                                     </div>
                                                   </div>
                                                   <div className="timeline-block">
-                                                    <div className="timeline-status start">
+                                                    <div className="timeline-status blocked">
+                                                      <p>{item?.heading}</p>
+                                                      <span>{formatTime(item?.time)} </span>
+                                                    </div>
+                                                    <div className="timeline-details">
+                                                      <div className="details-box">
+                                                        <p className="timeline-details-heading">What</p>
+                                                        <p>IRT have been unblocked from participating in training</p>
+                                                      </div>
+                                                      <div className="details-box">
+                                                        <p className="timeline-details-heading">Who</p>
+                                                        <div className="d-flex flex-wrap timeline-activity">
+                                                          {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                            <div className="timeline-activity-detail">
+                                                              <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                              <p>{user?.user_type}</p>
+                                                              <span>{user?.site_number}</span>
+                                                            </div>
+                                                          </>)) : ""}
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                :item?.heading == "IRT Blocked"
+                                                ?
+                                                <div className="timeline-box-inset">
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img src={path_image + "irt-blocked.svg"} alt="" />
+                                                    </div>
+                                                  </div>
+                                                  <div className="timeline-block">
+                                                    <div className="timeline-status blocked">
                                                       <p>{item?.heading}</p>
                                                       <span>{formatTime(item?.time)} </span>
                                                     </div>
