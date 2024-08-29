@@ -250,9 +250,9 @@ const SurveyFormBuilder = (props) => {
       header_background_type === "image" &&
       values.header_background_image != ""
     ) {
-      dynamicHeaderBackgroundStyle = `background-image: url(${values.header_background_image}); background-size: cover`;
+      dynamicHeaderBackgroundStyle = `background: url(${values.header_background_image}); background-size: cover`;
     } else {
-      dynamicHeaderBackgroundStyle = `background-color: ${values.header_background_color}`;
+      dynamicHeaderBackgroundStyle = `background: ${values.header_background_color}`;
     }
 
     let updatedHtml = originalSelectedTemplate.template_html
