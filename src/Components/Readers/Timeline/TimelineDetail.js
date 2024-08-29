@@ -1329,10 +1329,7 @@ const TimelineDetail = (props) => {
                                               {(details?.action &&
                                                 details.action.includes(
                                                   "Saved"
-                                                )) ||
-                                                (details.action.includes(
-                                                  "Non Mandatory"
-                                                ) && (
+                                                )) && (
                                                   <div className="timeline-box-inset">
                                                     <div className="timeline-indicator">
                                                       <div className="indicator-box">
@@ -1407,7 +1404,7 @@ const TimelineDetail = (props) => {
                                                       </div>
                                                     </div>
                                                   </div>
-                                                ))}
+                                                )}
 
                                               {details?.action ==
                                               "Login to docintel" ? (
