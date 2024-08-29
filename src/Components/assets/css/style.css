@@ -223,20 +223,29 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   width: 0;
   display: none;
 }
-.left-sidebar.hidesidebar~.survey-builder {
-  background: rgba(255, 255, 255, 0.83);
-  padding: 0;
-  width: 100%;
-}
 
 .left-sidebar.hidesidebar~.right-sidebar {
   border-radius: 0px;
   background: rgba(255, 255, 255, 0.83) url(../images/informed-symbol.svg) no-repeat;
   background-size: 180px;
   background-position: bottom left;
-  min-height: 90.9vh;
+  min-height: 88vh;
 }
-
+@media only screen and (max-width:1400px){
+.left-sidebar.hidesidebar~.right-sidebar {
+  min-height: 86vh;
+}
+}
+.left-sidebar.hidesidebar~.survey-builder {
+  background: #E7EFF6;
+  padding: 0;
+  width: 100%;
+}
+.left-sidebar.hidesidebar~.survey-set {
+  background: rgba(255, 255, 255, 0.83);
+  padding: 0;
+  width: 100%;
+}
 .toggle_sidebar .left-sidebar .sidebar-menu {
   max-width: 82px;
 }
@@ -3006,6 +3015,7 @@ form .input-group {
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
   word-break: break-all;
+  border-radius: 9px 0 0 9px;
 }
 
 .survey_detail_modal .survey_data_accordion_heading table thead tr th:first-child,
@@ -7281,9 +7291,10 @@ button.btn-filled.btn-primary.disabled {
   border-color: rgba(151, 182, 207, 0.6);
 }
 
-button.btn-bordered.btn-primary.disabled {
+button.btn-bordered.disabled {
   background: transparent;
-  border-color: rgba(151, 182, 207, 0.6);
+  border-color: #97B6CF;
+  color: #97B6CF;
 }
 
 .modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view {
