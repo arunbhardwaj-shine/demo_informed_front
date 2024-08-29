@@ -106,7 +106,7 @@
 
       const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
       let surveyHtml = `
-          <div class="informed-survey-header" style="${customHtml.header_background_color
+          <div class="informed-survey-header" style="${customHtml.header_background_type === "color"
           ? `background-color: ${customHtml.header_background_color};`
           : `background-image: url('${customHtml.header_background_image}'); background-size: cover;`
         }">
