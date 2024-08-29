@@ -487,26 +487,28 @@ const SurveyList = (props) => {
     console.log(data);
 
     if (data.is_draft == "0" || data.is_draft == "1" || data.is_draft == "2") {
-      const parsedCustomHtml = JSON.parse(data?.custom_html);
+      console.log(data?.custom_html)
+      const parsedCustomHtml = data?.custom_html;
+      console.log(data?.tags)
       const tags = JSON.parse(data?.tags);
       console.log(parsedCustomHtml);
 
-      let selectedTemplateClass = "";
+      // let selectedTemplateClass = "";
 
-      switch (data.template_html) {
-        case 1:
-          selectedTemplateClass = "informed-survey";
-          break;
-        case 2:
-          selectedTemplateClass = "informed-survey choice2";
-          break;
-        case 3:
-          selectedTemplateClass = "informed-survey choice3";
-          break;
-        default:
-          selectedTemplateClass = "informed-survey";
-          break;
-      }
+      // switch (data.template_html) {
+      //   case 1:
+      //     selectedTemplateClass = "informed-survey";
+      //     break;
+      //   case 2:
+      //     selectedTemplateClass = "informed-survey choice2";
+      //     break;
+      //   case 3:
+      //     selectedTemplateClass = "informed-survey choice3";
+      //     break;
+      //   default:
+      //     selectedTemplateClass = "informed-survey";
+      //     break;
+      // }
 
       const setUpData = {
         survey_title: data.survey_title,
@@ -541,7 +543,7 @@ const SurveyList = (props) => {
         survey_id: data.survey_id,
         unique_code: data.unique_code,
         creator_name: data.creator_name,
-        selectedTemplateClass,
+        // selectedTemplateClass,
         setUpData,
         formBuilderData,
         surveyConfigData,
