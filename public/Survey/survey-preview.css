@@ -895,7 +895,12 @@
         align-items: flex-end;
         box-sizing: border-box;
       }
-
+      .form-section .form-group:nth-child(2n) .error-message{
+          text-align: left;
+        display: flex;
+        width: 100%;
+        padding: 0 0 0 56px;
+      }
       .form-section .form-group:nth-child(2n) label.form-label {
         flex: 0 0 100%;
         padding: 0 0 0 65px;
@@ -990,7 +995,9 @@
           margin: 16px auto;
           width: calc(100% - 32px);
         }
-
+        .form-section .form-group:nth-child(2n) .error-message {
+          padding: 0 0;
+      }
         .form-section .form-group {
           margin: 0 0 32px;
           width: 100%;
@@ -1037,10 +1044,11 @@
         .select-dropdown__button {
           padding: 8px 50px 8px 15px;
           font-size: 12px;
+          max-width: 100%;
         }
 
         .consent-select {
-          margin: 8px 0 40px;
+          margin: 8px 0 15px;
         }
 
         .copyright-links {
@@ -1061,7 +1069,7 @@
         }
 
         .survey-consent p {
-          margin: 30px 0px 13px 0;
+          margin: 45px 0px 13px 0;
           display: block;
         }
 
