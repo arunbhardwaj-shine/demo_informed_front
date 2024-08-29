@@ -2963,7 +2963,7 @@ span {
 
 @media (max-width:1199px) {
     .survey-setup {
-        max-width: 95%;
+        // max-width: 95%;
 
         .survey-create {
             form {
@@ -3413,6 +3413,7 @@ body {
                     }
                     p {
                         font-size: 13px;
+                        line-height: 1.2;
                     }
                 }
                 .left-setup-template{
@@ -3423,13 +3424,161 @@ body {
                         }
                     }
                 } 
+                .left-setup-format{
+                    .live-stream-tabs-data{
+                        .steps{
+                            padding-bottom: 17px;
+                            margin-bottom: 13px;
+                            gap: 18px;
+                            &.scale-options{
+                                small {
+                                    font-size: 10px;
+                                    margin: 8px 0 0;
+                                    padding: 0;
+                                }
+                                .row{
+                                    div{
+                                        .split-button-dropup{
+                                            &> div{
+                                                &:nth-child(3){
+                                                    &> div{
+                                                        div {
+                                                            font-size: 13px;
+                                                        }
+                                                    } 
+                                                } 
+                                            }
+                                        } 
+                                    } 
+                                } 
+                            }
+                            .header-added{
+                                .img-added {
+                                    margin-right: 8px;
+                                    max-width: 90px;
+                                    img {
+                                        max-width: 88px;
+                                    }
+                                }
+                                .input-file-container {
+                                    span{
+                                        font-size: 8px;
+                                    }
+                                }
+                            } 
+                            .button-style{
+                                flex-direction: column;
+                                align-items: flex-start !important;
+                            }
+                            .check-group {
+                                padding-left: 0;
+                                & > div{
+                                    gap: 9px;
+                                    .check {
+                                        font-size: 13px;
+                                    }
+                                } 
+                            }
+                            .choice-option{
+                                .consent-choice {
+                                    min-height: 50px;
+                                    flex-direction: column;
+                                    align-items: flex-start !important;
+                                    gap: 5px;
+                                    .dropdown-basic-button {
+                                        flex: 0 0 100%;
+                                        width: 100%;
+                                    }
+                                }
+                            } 
+                            &:last-child{
+                                .d-flex{
+                                    .form-label {
+                                        min-width: 100%;
+                                    }
+                                } 
+                            } 
+                            
+                            .answer-choice{
+                                &.add-more{
+                                    button {
+                                        font-size: 13px;
+                                        padding: 11px;
+                                    } 
+                                } 
+                            }
+                            p{
+                                &.option-heading {
+                                    padding-right: 3px;
+                                }
+                            }
+                            .tab-content-links {
+                                margin: -12px 0 0;
+                                line-height: 1;
+                                a{
+                                    word-break: break-word;
+                                }
+                            }
+                            .input-file-container{
+                                .input-file {
+                                    width: 87px;
+                                }
+                                .input-file-trigger {
+                                    font-size: 9px;
+                                    padding: 4px 6px;
+                                }
+                                button{
+                                    &.remove {
+                                        margin-left: 3px;
+                                        width: 22px;
+                                        height: 22px;
+                                        margin-top: 1px;
+                                    }
+                                }
+                            } 
+                        }
+                        .tab-content {
+                            padding: 8px;
+                            border-radius: 12px 12px 12px 12px;
+                        }
+                    } 
+                } 
             }
         }
     }
+    .survey-setup {
+        max-width: 800px;
+        .survey-create{
+            padding: 20px 20px 5px;
+            p {
+                font-size: 12px;
+                padding: 4px 0px 0 0;
 
+            }
+            form{
+                .input-group{
+                    &::after {
+                        content: "";
+                        left: -9px;
+                        width: calc(100% + 18px);
+                    }
+                }
+            } 
+        } 
+    }
+    .creator {
+        .login-validation {
+            bottom: 35px;
+        }
+    }
     .preview-survey {
         margin: 15px 0 15px;
         .informed-survey{
+            .informed-survey-header{
+                h2 {
+                    font-size: 20px;
+                }
+            } 
             .informed-survey-question {
                 margin: 30px 0 0;
                 form{
@@ -3439,6 +3588,9 @@ body {
                         }
                     }
                 } 
+                .form-footer {
+                    margin: 28px 0 0;
+                }
             }
         } 
     }
@@ -3463,7 +3615,14 @@ body {
                     }
 
                     .col-md-3 {
-                        order: 2;
+                        &:first-child{
+                            order: 1;
+                        }
+                        
+                    }
+                    .col-md-3 {
+                            order: 2;
+                        
                     }
                     .col-sm-1 {
                         order: 1;
@@ -3472,9 +3631,18 @@ body {
                         order: 3;
                         width: 100%; 
                     }
+                    .col-md-6{
+                        order: 3;
+                        width: 100%; 
+                    }
                 }
             }
         }
+    }
+    .survey-config {
+        padding: 32px 32px;
+        max-width: 600px;
+        margin: 0 auto;
     }
 }
 
