@@ -1,4 +1,8 @@
 // src/templates.js
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
 const templates = [
   {
     template_fileName: "survey-template.jpg",
@@ -55,7 +59,7 @@ const templates = [
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: "../../../../../componentAssets/images/informed-logo.png",
+      logo: path_image+"informed-logo.png",
       button_text: "Submit",
       button_color: "#004A89",
       question_answer_color: "#004A89",
@@ -120,7 +124,7 @@ const templates = [
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: "../../../../../componentAssets/images/informed-logo.png",
+      logo: path_image+"informed-logo.png",
       button_text: "Submit",
       button_color: "#004A8",
       question_answer_color: "#004A89",
@@ -186,7 +190,7 @@ const templates = [
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: "../../../../../componentAssets/images/informed-logo.png",
+      logo: path_image+"informed-logo.png",
       button_text: "Submit",
       button_color: "#004A89",
       question_answer_color: "#004A89",
