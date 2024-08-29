@@ -166,9 +166,9 @@ const SurveyFormBuilder = (props) => {
         customValues?.page_background_color ??
         templateDefaults.page_background_color,
       logoWidth: customValues?.logoWidth ?? templateDefaults?.logoWidth,
-      selectedTemplateClass:
-        customValues?.selectedTemplateClass ??
-        templateDefaults?.selectedTemplateClass,
+      // selectedTemplateClass:
+      //   customValues?.selectedTemplateClass ??
+      //   templateDefaults?.selectedTemplateClass,
     };
 
     console.log(newValues);
@@ -198,7 +198,12 @@ const SurveyFormBuilder = (props) => {
   }
 
   const handleChoiceChange = (id) => {
+
     if (id && templates) {
+      if(id == 2 || id == 3){
+        setHeaderBackgroundType("image")
+      }
+      
       const selectedTemplate = templates.find((temp) => temp.id === id);
       if (selectedTemplate) {
         setSelectedTemplateId(id);
@@ -242,7 +247,6 @@ const SurveyFormBuilder = (props) => {
 
   const updateTemplateValues = () => {
     console.log(templateDefaultValues);
-    console.log(dynamicValues);
     const values = { ...templateDefaultValues, ...dynamicValues };
     console.log(values);
     let dynamicHeaderBackgroundStyle = "";
@@ -457,21 +461,21 @@ const SurveyFormBuilder = (props) => {
   const nextButtonClicked = async (e, newTemplateStatus) => {
     e.preventDefault();
 
-    let selectedTemplateClass = "";
-    switch (originalSelectedTemplate.id) {
-      case 1:
-        selectedTemplateClass = "informed-survey";
-        break;
-      case 2:
-        selectedTemplateClass = "informed-survey choice2";
-        break;
-      case 3:
-        selectedTemplateClass = "informed-survey choice3";
-        break;
-      default:
-        selectedTemplateClass = "informed-survey";
-        break;
-    }
+    // let selectedTemplateClass = "";
+    // switch (originalSelectedTemplate.id) {
+    //   case 1:
+    //     selectedTemplateClass = "informed-survey";
+    //     break;
+    //   case 2:
+    //     selectedTemplateClass = "informed-survey choice2";
+    //     break;
+    //   case 3:
+    //     selectedTemplateClass = "informed-survey choice3";
+    //     break;
+    //   default:
+    //     selectedTemplateClass = "informed-survey";
+    //     break;
+    // }
     console.log(changeLogoToggle);
     let custom_html = null;
     console.log(header_background_type);
@@ -507,7 +511,7 @@ const SurveyFormBuilder = (props) => {
           bodyTextColor: temporaryValues.bodyTextColor,
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
-          selectedTemplateClass,
+          // selectedTemplateClass,
           header_background_type: header_background_type,
         },
       ];
@@ -524,7 +528,7 @@ const SurveyFormBuilder = (props) => {
 
     surveyValues = {
       ...surveyValues,
-      selectedTemplateClass,
+      // selectedTemplateClass,
       formBuilderData: { ...body },
     };
 

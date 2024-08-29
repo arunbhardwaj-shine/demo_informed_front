@@ -48,7 +48,7 @@ const templates = [
                   </div>
       `,
     default_values: {
-      selectedTemplateClass:"informed-survey",
+      // selectedTemplateClass:"informed-survey",
       template_name:"Template 1",
       header_background_color: "#004A89",
       header_background_image: "",
@@ -113,7 +113,7 @@ const templates = [
                   </div>
 `,
     default_values: {
-      selectedTemplateClass:"informed-survey",
+      // selectedTemplateClass:"informed-survey",
       template_name:"Template 2",
       header_background_color: "#004A89",
       header_background_image: "http://localhost:3000/static/media/header-choicec2.4d4b215414fc3a1436ce.png",
@@ -134,7 +134,7 @@ const templates = [
     template_fileName: "survey-template3.jpg",
     id: 3,
     template_html: `
-      <div class="informed-survey choice3" >
+      <div class="informed-survey" >
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#};">
@@ -178,10 +178,10 @@ const templates = [
                   </div>
 `,
     default_values: {
-      selectedTemplateClass:"informed-survey choice3",
+      // selectedTemplateClass:"informed-survey",
       template_name:"Template 3",
       header_background_color: "#004A89",
-      header_background_image: "",
+      header_background_image: "https://docintel.s3.eu-west-1.amazonaws.com/survey_images/1724921632898.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
