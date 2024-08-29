@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Header from "./HeaderComponent/Header";
 import { Route, Navigate, useNavigate } from "react-router-dom";
-import { timeline } from "../../RDCRMdata";
+import { timelineNew } from "../../RDCRMdataNew";
+import { getData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
+import moment from 'moment'
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const SetLayoutNew = () => {
+const SetLayoutNewTimeline = () => {
 
   let dummyData = [
     {
@@ -69,8 +72,7 @@ const SetLayoutNew = () => {
     }
 
     setData(newdata);
-    setTimelineData(timeline)
-    console.log("time line -->", timeline)
+    getTimeLineData()
   }, []);
 
   const navigate = useNavigate();
@@ -143,21 +145,27 @@ const SetLayoutNew = () => {
 
   const isAuthenticated = localStorage.getItem("user_id") !== null;
 
-  function formatTime(time) {
-    // Create a Date object with today's date and the given time
-    const [hours, minutes, seconds] = time.split(':');
-    const date = new Date();
-    date.setHours(hours, minutes, seconds);
+  const getTimeLineData = async () => {
+    try {
+      const response = await getData(ENDPOINT.RD_LANDING_TIMELINE)
+      setTimelineData(response?.data?.data)
+    } catch (err) {
+      console.log("--err", err)
+    }
+  }
 
-    // Get the hour and minute in the desired format
-    let hours12 = date.getHours() % 12 || "00"; // Convert to 12-hour format
+  function formatTime(time) {
+    const [hours, minutes] = time.split(':');
+    const date = new Date();
+    date.setHours(hours, minutes);
+
+    let hours12 = date.getHours() == 12 ? 12 : date.getHours() % 12 || "00"; 
     let minutesFormatted = date.getMinutes().toString().padStart(2, '0');
-    let secondsFormatted = date.getSeconds().toString().padStart(2, '0');
+
     let ampm = date.getHours() >= 12 ? 'PM' : 'AM';
 
-    // Return formatted time
-    return `${hours12}:${minutesFormatted}:${secondsFormatted} ${ampm}`;
-}
+    return `${hours12}:${minutesFormatted} ${ampm}`;
+  }
 
   return (
     <>
@@ -195,18 +203,20 @@ const SetLayoutNew = () => {
             </div>
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
-                <div className="timeline-right-list">
-                  <div className="timeline-right-header">
-                    <div className="timeline-indicator">
-                      <img src={path_image + "informed-circle-icon.svg"} alt="" />
+                {timelineData?.length ?
+                  <div className="timeline-right-list">
+                    <div className="timeline-right-header">
+                      <div className="timeline-indicator">
+                        <img src={path_image + "informed-circle-icon.svg"} alt="" />
+                      </div>
+                      <div className="timeline-date">
+                        <h3>LEX-210 Trial</h3>
+                        {/* <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p> */}
+                        <p>{moment(timelineData?.[0]?.IrtData?.[0]?.date).format('MMMM. DD. YYYY')} <span>|</span> {formatTime(timelineData?.[0]?.IrtData?.[0]?.time)}  <sub>last update</sub></p>
+                      </div>
                     </div>
-                    <div className="timeline-date">
-                      <h3>LEX-210 Trial</h3>
-                      <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
-                    </div>
-                  </div>
-                  {timelineData?.length ?
-                    timelineData?.map((data, index) => {
+                    {/* {timelineData?.length ? */}
+                    {timelineData?.map((data, index) => {
                       return (<>
                         <div className="timeline-box">
                           <div className="timeline-sticky">
@@ -214,7 +224,8 @@ const SetLayoutNew = () => {
                               <span>&nbsp;</span>
                             </div>
                             <div className="timeline-date">
-                              <p>{data?.date}</p>
+                              {/* <p>{data?.date}</p> */}
+                              <p>{moment(data?.date).format('MMM DD. YYYY')}</p>
                             </div>
                           </div>
                           {data?.IrtData?.map((item, i) => {
@@ -245,11 +256,13 @@ const SetLayoutNew = () => {
                                       <div className="details-box">
                                         <p className="timeline-details-heading">To</p>
                                         <div className="d-flex flex-wrap timeline-activity">
-                                          <div className="timeline-activity-detail">
-                                            <p>{`${item?.first_name} ${item?.last_name}`}</p>
-                                            <p>{item?.user_type}</p>
-                                            <span>{item?.site_number}</span>
-                                          </div>
+                                          {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                            <div className="timeline-activity-detail">
+                                              <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                              <p>{user?.user_type}</p>
+                                              <span>{user?.site_number}</span>
+                                            </div>
+                                          </>)) : ""}
                                         </div>
                                       </div>
                                     </div>
@@ -276,11 +289,13 @@ const SetLayoutNew = () => {
                                         <div className="details-box">
                                           <p className="timeline-details-heading">Who</p>
                                           <div className="d-flex flex-wrap timeline-activity">
-                                            <div className="timeline-activity-detail">
-                                              <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                              <p>{item?.user_type}</p>
-                                              <span>{item?.site_number}</span>
-                                            </div>
+                                            {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                              <div className="timeline-activity-detail">
+                                                <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                <p>{user?.user_type}</p>
+                                                <span>{user?.site_number}</span>
+                                              </div>
+                                            </>)) : ""}
                                           </div>
                                         </div>
                                       </div>
@@ -311,21 +326,27 @@ const SetLayoutNew = () => {
                                               </div>
                                               <div className="timeline-subtitle">
                                                 <p>{item?.subTitle}</p>
-                                                {item?.allow_video==1?
-                                                <div className="d-flex align-items-center include-links">
-                                                  <img src={path_image + "video-img.png"} alt="" />
-                                                  <p>Include videos </p>
-                                                </div>
-                                                :""}
+                                                {item?.allow_video == 1 ?
+                                                  <div className="d-flex align-items-center include-links">
+                                                    <img src={path_image + "video-img.png"} alt="" />
+                                                    <p>Include videos </p>
+                                                  </div>
+                                                  : ""}
                                               </div>
                                             </div>
                                           </div>
                                           <div className="details-box">
                                             <p className="timeline-details-heading">Who</p>
                                             <div className="d-flex flex-wrap timeline-activity">
-                                              <div className="timeline-activity-detail">
-                                                <p>{item?.site_number}</p>
-                                              </div>
+                                              {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+
+                                                <div className="timeline-activity-detail">
+                                                  <p>{user?.first_name}</p>
+                                                  <p>{user?.site_number}</p>
+                                                </div>
+
+                                              </>)) : ""}
+
 
                                             </div>
                                           </div>
@@ -353,11 +374,13 @@ const SetLayoutNew = () => {
                                             <div className="details-box">
                                               <p className="timeline-details-heading">Who</p>
                                               <div className="d-flex flex-wrap timeline-activity">
-                                                <div className="timeline-activity-detail">
-                                                  <p>{`${item?.first_name} ${item?.last_name}`}</p>
-                                                  <p>{item?.user_type}</p>
-                                                  <span>{item?.site_number}</span>
-                                                </div>
+                                                {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                  <div className="timeline-activity-detail">
+                                                    <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                    <p>{user?.user_type}</p>
+                                                    <span>{user?.site_number}</span>
+                                                  </div>
+                                                </>)) : ""}
                                               </div>
                                             </div>
                                           </div>
@@ -389,11 +412,13 @@ const SetLayoutNew = () => {
                                               <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
-                                                  <div className="timeline-activity-detail">
-                                                    <p>{`${item?.first_name} ${item?.last_name}`}</p>
-                                                    <p>{item?.user_type}</p>
-                                                    <span>{item?.site_number}</span>
-                                                  </div>
+                                                  {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                    <div className="timeline-activity-detail">
+                                                      <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                      <p>{user?.user_type}</p>
+                                                      <span>{user?.site_number}</span>
+                                                    </div>
+                                                  </>)) : ""}
 
                                                 </div>
                                               </div>
@@ -424,21 +449,23 @@ const SetLayoutNew = () => {
                                                     </div>
                                                     <div className="timeline-subtitle">
                                                       <p>{item?.subTitle}</p>
-                                                      {item?.allow_video==1?
-                                                      <div className="d-flex align-items-center include-links">
-                                                        <img src={path_image + "video-img.png"} alt="" />
-                                                        <p>Include videos </p>
-                                                      </div>
-                                                      :""}
+                                                      {item?.allow_video == 1 ?
+                                                        <div className="d-flex align-items-center include-links">
+                                                          <img src={path_image + "video-img.png"} alt="" />
+                                                          <p>Include videos </p>
+                                                        </div>
+                                                        : ""}
                                                     </div>
                                                   </div>
                                                 </div>
                                                 <div className="details-box">
                                                   <p className="timeline-details-heading">Who</p>
                                                   <div className="d-flex flex-wrap timeline-activity">
-                                                    <div className="timeline-activity-detail">
-                                                      <p>{item?.site_number}</p>
-                                                    </div>
+                                                    {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                      <div className="timeline-activity-detail">
+                                                        <span>{user?.site_number}</span>
+                                                      </div>
+                                                    </>)) : ""}
                                                   </div>
                                                 </div>
                                               </div>
@@ -449,11 +476,11 @@ const SetLayoutNew = () => {
                                             <div className="timeline-box-inset">
                                               <div className="timeline-indicator">
                                                 <div className="indicator-box">
-                                                  <img src={path_image + "irt-training-start.svg"} alt="" />
+                                                  <img src={path_image + "irt-ignored-training.svg"} alt="" />
                                                 </div>
                                               </div>
                                               <div className="timeline-block">
-                                                <div className="timeline-status start">
+                                                <div className="timeline-status ignored">
                                                   <p>{item?.heading}</p>
                                                   <span>{formatTime(item?.time)} </span>
                                                 </div>
@@ -465,11 +492,13 @@ const SetLayoutNew = () => {
                                                   <div className="details-box">
                                                     <p className="timeline-details-heading">Who</p>
                                                     <div className="d-flex flex-wrap timeline-activity">
-                                                      <div className="timeline-activity-detail">
-                                                        <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                        <p>{item?.user_type}</p>
-                                                        <span>{item?.site_number}</span>
-                                                      </div>
+                                                      {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                        <div className="timeline-activity-detail">
+                                                          <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                          <p>{user?.user_type}</p>
+                                                          <span>{user?.site_number}</span>
+                                                        </div>
+                                                      </>)) : ""}
                                                     </div>
                                                   </div>
                                                 </div>
@@ -484,7 +513,7 @@ const SetLayoutNew = () => {
                                                   </div>
                                                 </div>
                                                 <div className="timeline-block">
-                                                  <div className="timeline-status start">
+                                                  <div className="timeline-status not-complete">
                                                     <p>{item?.heading}</p>
                                                     <span>{formatTime(item?.time)} </span>
                                                   </div>
@@ -496,11 +525,13 @@ const SetLayoutNew = () => {
                                                     <div className="details-box">
                                                       <p className="timeline-details-heading">Who</p>
                                                       <div className="d-flex flex-wrap timeline-activity">
-                                                        <div className="timeline-activity-detail">
-                                                          <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                          <p>{item?.user_type}</p>
-                                                          <span>{item?.site_number}</span>
-                                                        </div>
+                                                        {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                          <div className="timeline-activity-detail">
+                                                            <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                            <p>{user?.user_type}</p>
+                                                            <span>{user?.site_number}</span>
+                                                          </div>
+                                                        </>)) : ""}
                                                       </div>
                                                     </div>
                                                   </div>
@@ -527,11 +558,13 @@ const SetLayoutNew = () => {
                                                       <div className="details-box">
                                                         <p className="timeline-details-heading">Who</p>
                                                         <div className="d-flex flex-wrap timeline-activity">
-                                                          <div className="timeline-activity-detail">
-                                                            <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                            <p>{item?.user_type}</p>
-                                                            <span>{item?.site_number}</span>
-                                                          </div>
+                                                          {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                            <div className="timeline-activity-detail">
+                                                              <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                              <p>{user?.user_type}</p>
+                                                              <span>{user?.site_number}</span>
+                                                            </div>
+                                                          </>)) : ""}
                                                         </div>
                                                       </div>
                                                     </div>
@@ -559,11 +592,13 @@ const SetLayoutNew = () => {
                                                         <div className="details-box">
                                                           <p className="timeline-details-heading">Who</p>
                                                           <div className="d-flex flex-wrap timeline-activity">
-                                                            <div className="timeline-activity-detail">
-                                                              <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                              <p>{item?.user_type}</p>
-                                                              <span>{item?.site_number}</span>
-                                                            </div>
+                                                            {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                              <div className="timeline-activity-detail">
+                                                                <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                                <p>{user?.user_type}</p>
+                                                                <span>{user?.site_number}</span>
+                                                              </div>
+                                                            </>)) : ""}
                                                           </div>
                                                         </div>
                                                       </div>
@@ -576,13 +611,19 @@ const SetLayoutNew = () => {
                         </div>
                       </>)
                     })
-                    :
-                    <div className="no_found">
-                      <p>No Data Found</p>
-                    </div>
-                  }
+                      //   :
+                      //   <div className="no_found">
+                      //     <p>No Data Found</p>
+                      //   </div>
+                      // }
+                    }
+                  </div>
+                  :
+                  <div className="no_found">
+                    <p>No Data Found</p>
+                  </div>
 
-                </div>
+                }
               </div>
             </div>
           </div>
@@ -594,4 +635,4 @@ const SetLayoutNew = () => {
   );
 };
 
-export default SetLayoutNew
+export default SetLayoutNewTimeline
