@@ -116,7 +116,7 @@ const templates = [
       // selectedTemplateClass:"informed-survey",
       template_name:"Template 2",
       header_background_color: "#004A89",
-      header_background_image: "http://localhost:3000/static/media/header-choicec2.4d4b215414fc3a1436ce.png",
+      header_background_image: "../../../../../componentAssets/images/header-choicec2.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
