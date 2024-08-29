@@ -327,8 +327,8 @@ const SurveyPreview = (props) => {
           <div
             className={
               isChecked
-                ? `${currentTemplateClass} mobile-view`
-                : currentTemplateClass
+                ? `informed-survey mobile-view`
+                : "informed-survey"
             }
           >
             {isEdit == true ? (
