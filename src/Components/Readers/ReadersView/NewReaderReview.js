@@ -47,6 +47,7 @@ const NewReadersReview = (props) => {
   const [isFlag, setFlag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
+  const [activeTabs, setActiveTabs] = useState({});
   const institutionData = [
     {
       label: "Study site",
@@ -1275,7 +1276,7 @@ const NewReadersReview = (props) => {
     setChangeUpdateFlag(changeUpdateFlag);
   };
 
-  const updateReaderDetails = async (reader_id, index) => {
+  const updateReaderDetails = async (reader_id, index, pre_role) => {
     try {
       const tindex = changeUserType.findIndex((el) => el.index === reader_id);
       let type = "";
@@ -1472,16 +1473,23 @@ const NewReadersReview = (props) => {
           readerDataList[libDataIndex].blockReminder = blockReminder;
         }
 
-        const newData = readerDataList;
-        setReaderDataList(newData);
-        setUpdateFlag(updateflag + 1);
-        loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Your Profile has been updated successfully!",
-          type: "success",
-          redirect: "",
-        });
+        if(pre_role == role){
+          const newData = readerDataList;
+          setReaderDataList(newData);
+          setUpdateFlag(updateflag + 1);
+          loader("hide");
+          popup_alert({
+            visible: "show",
+            message: "Your Profile has been updated successfully!",
+            type: "success",
+            redirect: "",
+          });
+        }else{
+          //if we change role then remove user card from current role
+          toast.success("Your Profile has been updated successfully!");
+          setActiveTabs({});
+          getReaderListData(page, filterObject, search);
+        }
       } else {
 
         toast.warning("Nothing to update.");
@@ -1582,8 +1590,12 @@ const NewReadersReview = (props) => {
     }
   };
 
-  const tabClicked = async (key, userId, index, country) => {
+  const tabClicked = async (key, userId, index, country, role) => {
     setApiCallStatus(false);
+    setActiveTabs((prevTabs) => ({
+      ...prevTabs,
+      [userId]: key,
+    }));
     if (key == "usage") {
       let index = emailStats.findIndex((el) => el.userId == userId);
       if (index === -1) {
@@ -1592,6 +1604,7 @@ const NewReadersReview = (props) => {
           let body = {
             readerId: userId,
             irt: 1,
+            role: role,
           };
           const res = await postData(ENDPOINT.READERACTIVITY, body);
           if (res?.data?.data) {
@@ -2424,8 +2437,9 @@ const NewReadersReview = (props) => {
                         <div className="tabs-data">
                           <Tabs
                             onSelect={(key) =>
-                              tabClicked(key, data?.id, index, data?.country)
+                              tabClicked(key, data?.id, index, data?.country, data?.role)
                             }
+                            activeKey={activeTabs?.[data?.id] ? activeTabs?.[data?.id] : "personal-details"}
                             defaultActiveKey="personal-details"
                             fill
                           >
@@ -3438,7 +3452,7 @@ const NewReadersReview = (props) => {
                                         <Button
                                           className="btn btn-primary btn-filled update"
                                           onClick={(e) =>
-                                            updateReaderDetails(data?.id, index)
+                                            updateReaderDetails(data?.id, index,data?.role)
                                           }
                                           id={data?.id}
                                         >
