@@ -2041,8 +2041,10 @@ span {
             form {
                 .question-title{
                     flex-wrap: wrap;
+                    display:inline-block!important;
                     p{
                         margin-bottom:0;
+                        display: inline;
                     }
                     margin-bottom: 17px;
                     
@@ -2216,6 +2218,7 @@ span {
                     padding-left: 0;
                     width: auto;
                     gap: 22px;
+                    justify-content: flex-end;
 
                     &.numeric {
                         justify-content: flex-end;
