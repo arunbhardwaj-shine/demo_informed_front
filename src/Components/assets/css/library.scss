@@ -1470,6 +1470,9 @@
  
         &:last-child {
           margin: 4px 0 4px;
+          &::after {
+            height: 50%;
+        }
         }
  
         &:after {

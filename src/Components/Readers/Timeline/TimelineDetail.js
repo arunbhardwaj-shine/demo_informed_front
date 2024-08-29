@@ -169,7 +169,24 @@ const TimelineDetail = (props) => {
     }
     return string;
   }
-
+  let filteredTimeLine = {};
+  if(isRdAndNorgianAcount){
+    filteredTimeLine = Object.keys(timeLineData?.timeline || {}).reduce((acc, date) => {
+      const hasMatchingAction = timeLineData.timeline[date].some(details =>
+          (details?.auto_mail === 0 && details?.action.includes("New mail received") ) || (details?.auto_mail === 1 || details?.auto_mail === 2) || details?.auto_mail === 3 || details?.auto_mail === 4 
+          || details?.action.includes('Certificate of training') || details.action === "Article opened" || details.action.includes("shared")
+          || details?.action.includes('Registered') || details?.action === "Blocked mandatory training reminder" || details?.action === "IRT Started Training"
+          || details?.action === "IRT Not Completed Training" || details?.action === "IRT Ignored Training"
+      );
+   
+      if (hasMatchingAction) {
+          acc[date] = timeLineData.timeline[date];
+      }
+   
+      return acc;
+  }, {});
+  }
+   
   return (
     <>
       <Col className="right-sidebar col">
@@ -334,19 +351,35 @@ const TimelineDetail = (props) => {
                                     : null
                                 }
                                 {(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                                  <>
+                                    <tr>
+                                      <th>Consent</th>
+                                      <td>
+                                        {timeLineData?.user?.lex_consent == 1 
+                                        ? 'Full Consent' 
+                                        : timeLineData?.user?.lex_consent == 0 
+                                        ? "Limited Consent" 
+                                        : "N/A"
 
-                                  <tr>
-                                    <th>Consent</th>
-                                    <td>
-                                      {timeLineData?.user?.lex_consent == 1 
-                                      ? 'Full Consent' 
-                                      : timeLineData?.user?.lex_consent == 0 
-                                      ? "Limited Consent" 
-                                      : "N/A"
+                                        }
+                                      </td>
+                                    </tr>
 
-                                      }
-                                    </td>
-                                  </tr>
+                                    <tr>
+                                      <th>IRT Role</th>
+                                      <td>
+                                        {timeLineData?.user?.user_type ? timeLineData?.user?.user_type : "N/A"}
+                                      </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                      <th>Site</th>
+                                      <td>
+                                        {timeLineData?.user?.site_number ? timeLineData?.user?.site_number : "N/A"}
+                                      </td>
+                                    </tr>
+                                  </>    
+                                  
                                   :
                                   null
 
@@ -374,10 +407,10 @@ const TimelineDetail = (props) => {
                           </div>
                         )
                       }
-
+                    
                     </div>
                     {
-                      timeLineData?.timeline?.length ? (
+                      Object.keys(timeLineData?.timeline)?.length > 0 || timeLineData?.timeline?.length ? (
                       isRdAndNorgianAcount ? (
                       <>
                       <div className="timeline-layout crm-timeline" style={{marginLeft:'100px'}}>
@@ -389,27 +422,26 @@ const TimelineDetail = (props) => {
                               </div>
                               <div className="timeline-date">
                                   <h3>LEX-210 Trial</h3>
-                                  <p>{timeLineData?.timeline[0]?.date === moment("1970-01-01").format("MMMM. DD. YYYY")? "N/A": moment(timeLineData?.timeline[0]?.date).format("MMMM. DD. YYYY")}<span> | </span>{timeLineData?.timeline[0]?.time}<sub> last update</sub></p>
+                                  <p>{timeLineData?.timeline[Object.keys(timeLineData?.timeline)[0]]?.[0]?.date === moment("1970-01-01").format("MMMM. DD. YYYY")? "N/A": moment(timeLineData?.timeline[Object.keys(timeLineData?.timeline)[0]]?.[0]?.date).format("MMMM. DD. YYYY")}<span> | </span>{timeLineData?.timeline[Object.keys(timeLineData?.timeline)[0]]?.[0]?.time}<sub> last update</sub></p>
+                                  {/* <p>{timeLineData?.timeline[0]?.date === moment("1970-01-01").format("MMMM. DD. YYYY")? "N/A": moment(timeLineData?.timeline[0]?.date).format("MMMM. DD. YYYY")}<span> | </span>{timeLineData?.timeline[0]?.time}<sub> last update</sub></p> */}
                                   {/* <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p> */}
                               </div>
                               </div>
-                              {timeLineData?.timeline.map((details, index) => {
-                              return (
-                              <>
-                                <div className="timeline-box">
-                                {(details?.auto_mail === 0 && details.action.includes("New mail received")) || details?.auto_mail === 1 
-                                 || details?.action.includes('Certificate of training') || details.action === "Article opened" || details.action.includes("shared")
-                                 || details?.action.includes('Registered') || details?.action.includes("Blocked mandatory training reminder")  || details?.action === "IRT Started Training"
-                                 || details?.action === "IRT Not Completed Training" || details?.action === "IRT Ignored Training" ? (
-                                  <div className="timeline-sticky">
+                              <div className="timeline-box">
+                              {Object.keys(filteredTimeLine).map((date) => (
+                                  <>
+                                    <div className="timeline-sticky" key={date}>
                                     <div className="timeline-indicator">
                                         <span>&nbsp;</span>
                                       </div>
                                       <div className="timeline-date">
-                                          <p>{details?.date === moment("1970-01-01").format("MMMM. DD. YYYY")? "N/A": moment(details?.date).format("MMMM. DD. YYYY")}</p>
+                                          <p>{date === moment("1970-01-01").format("MMMM. DD. YYYY")? "N/A": moment(date).format("MMMM. DD. YYYY")}</p>
                                       </div>
-                                  </div>
-                                  ) : null}
+                                    </div>
+
+
+                                      {filteredTimeLine?.[date].map((details, index) => (
+                                        <>
                                   {details?.auto_mail === 0 && details.action.includes("New mail received") ? (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
@@ -428,6 +460,10 @@ const TimelineDetail = (props) => {
                                                 <p>IRT has recieved the training email</p>
                                             </div>
                                             <div className="details-box">
+                                                <p className="timeline-details-heading">Title</p>
+                                                <p>{details?.pdfTitle ?details?.pdfTitle : 'N/A' }</p>
+                                            </div>
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -436,7 +472,7 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                   </div>
@@ -459,7 +495,12 @@ const TimelineDetail = (props) => {
                                                 <p className="timeline-details-heading">What</p>
                                                 <p>IRT has started the training but is not finished yet</p>
                                             </div>
+
                                             <div className="details-box">
+                                                <p className="timeline-details-heading">Title</p>
+                                                <p>{details?.pdfTitle ? details?.pdfTitle : 'N/A'}</p>
+                                            </div>
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -468,7 +509,7 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                   </div>
@@ -492,6 +533,10 @@ const TimelineDetail = (props) => {
                                                 <p>IRT has started the training and didn't completed it even after all the email reminders</p>
                                             </div>
                                             <div className="details-box">
+                                                <p className="timeline-details-heading">Title</p>
+                                                <p>{details?.pdfTitle ?details?.pdfTitle : "N/A" }</p>
+                                            </div>
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -500,7 +545,7 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                   </div>
@@ -524,6 +569,10 @@ const TimelineDetail = (props) => {
                                                 <p>IRT ignored the training</p>
                                             </div>
                                             <div className="details-box">
+                                                <p className="timeline-details-heading">Title</p>
+                                                <p>{details?.pdfTitle?details?.pdfTitle:"N/A"}</p>
+                                            </div>
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -532,13 +581,13 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                   </div>
                                   ) : null}
 
-                                 {details?.auto_mail === 1 ? (
+                                 {details?.auto_mail === 1 || details?.auto_mail === 2 ? (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
                                       <div className="indicator-box">
@@ -553,13 +602,17 @@ const TimelineDetail = (props) => {
                             <div className="timeline-details">
                                 <div className="details-box">
                                     <p className="timeline-details-heading">Type</p>
-                                    <p>Open email reminder</p>
+                                    <p>
+                                      {
+                                        details?.auto_mail == 1 ? "Open email reminder" : "Training completion reminder"
+                                      }
+                                    </p>
                                 </div>
                                 <div className="details-box">
                                     <p className="timeline-details-heading">Title</p>
-                                    <p>{details?.pdfTitle}</p>
+                                    <p>{details?.pdfTitle ? details?.pdfTitle : "N/A"}</p>
                                 </div>
-                                <div className="details-box">
+                                {/* <div className="details-box">
                                     <p className="timeline-details-heading">To</p>
                                     <div className="d-flex flex-wrap timeline-activity">
                                         <div className="timeline-activity-detail">
@@ -568,7 +621,7 @@ const TimelineDetail = (props) => {
                                             <span>{timeLineData?.user?.site_number}</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                                   </div>
@@ -594,7 +647,12 @@ const TimelineDetail = (props) => {
                                       <img src={path_image + "certificate.png"} alt=""/>
                                     </div>
                                 </div>
-                                            <div className="details-box">
+
+                                <div className="details-box">
+                                                <p className="timeline-details-heading">Title</p>
+                                                <p>{details?.pdfTitle ? details?.pdfTitle : "N/A"}</p>
+                                            </div>
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -603,7 +661,7 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
 
@@ -627,7 +685,7 @@ const TimelineDetail = (props) => {
                                                 <p className="timeline-details-heading">What</p>
                                                 <p>A new HCP register to LEX-210 librray</p>
                                             </div>
-                                            <div className="details-box">
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -636,14 +694,14 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
 
                                   </div>
                                   )}
 
-                                  {details?.action.includes("Blocked mandatory training reminder")  ? (
+                                  {details?.auto_mail === 3 ? (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
                                       <div className="indicator-box">
@@ -660,7 +718,12 @@ const TimelineDetail = (props) => {
                                                 <p className="timeline-details-heading">What</p>
                                                 <p>IRT have been blocked from participating in training</p>
                                             </div>
+
                                             <div className="details-box">
+                                                <p className="timeline-details-heading">Type</p>
+                                                <p>{details?.action}</p>
+                                            </div>
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
@@ -669,12 +732,41 @@ const TimelineDetail = (props) => {
                                                         <span>{timeLineData?.user?.site_number}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
 
                                   </div>
                                   ):null}
+
+                                {details?.auto_mail === 4 ? (
+                                  <div className="timeline-box-inset">
+                                    <div className="timeline-indicator">
+                                      <div className="indicator-box">
+                                      <img src={path_image+"irt-blocked.svg"} alt=""/>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-block">
+                                        <div className="timeline-status blocked">
+                                            <p>IRT Unblocked</p>
+                                            <span> {details?.time} </span>
+                                        </div>
+                                        <div className="timeline-details">
+                                            <div className="details-box">
+                                                <p className="timeline-details-heading">What</p>
+                                                <p>IRT have been unblocked from participating in training</p>
+                                            </div>
+                                            <div className="details-box">
+                                                <p className="timeline-details-heading">Type</p>
+                                                <p>{details?.action}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                  </div>
+                                  ):null}
+
                                   {(details.action === "Article opened") && (
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
@@ -694,7 +786,7 @@ const TimelineDetail = (props) => {
                                             </div>
                                             <div className="timeline-article-detail">
                                               <div className="timeline-title">
-                                                <p>{details?.pdfTitle}</p>
+                                                <p>{details?.pdfTitle ? details?.pdfTitle : "N/A"}</p>
                                               </div>
                                               <div className="timeline-subtitle">
                                                 <p>{details?.pdf_sub_title}</p>
@@ -718,14 +810,14 @@ const TimelineDetail = (props) => {
                                                     </div>
                                                 </div>
                                             </div>: null} */}
-                                            <div className="details-box">
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
                                                         <p>{timeLineData?.user?.site_number ? timeLineData?.user?.site_number : 0}</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
 
@@ -765,23 +857,24 @@ const TimelineDetail = (props) => {
                                               </div>
                                             </div>
                                           </div>
-                                            <div className="details-box">
+                                            {/* <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
                                                     <div className="timeline-activity-detail">
                                                         <p>{timeLineData?.user?.site_number}</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     </div>
                                   )}
-
-                                </div>
-                                </>
-                              );
-                              })}
+                                        </>
+                                      ))}
+                                  </>
+                                ))}
+                              </div>
+                              
 
                            {timeLineData?.loadMore?.length ? <div className="load_more">
                             <Button
