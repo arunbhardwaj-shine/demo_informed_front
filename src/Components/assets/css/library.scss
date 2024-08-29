@@ -1504,11 +1504,16 @@
             box-shadow: 0 0 8px 0 rgba(0, 102, 190, 0.24);
             @include flex-middle;
             background: $white;
+            img{
+              max-width: 22px;
+              max-height: 22px;
+            }
+            svg{
+              width:22px;
+              height:auto;
+            }
           }
-          .indicator-box img{
-            width: 22px;
-            height: 22px;
-          }
+          
         }
       }
     }

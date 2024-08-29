@@ -246,6 +246,12 @@ const SurveyFormBuilder = (props) => {
   };
 
   const updateTemplateValues = () => {
+
+    if(selectedTemplateId == 2 || selectedTemplateId == 3){
+      setHeaderBackgroundType("image")
+    }
+
+
     console.log(templateDefaultValues);
     const values = { ...templateDefaultValues, ...dynamicValues };
     console.log(values);

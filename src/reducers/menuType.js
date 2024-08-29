@@ -1,3 +1,8 @@
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
+
 export const menuType = {
   multiple: {
     accordionType: "questionTypes",
@@ -143,10 +148,11 @@ export const menuType = {
     type: "heading",
     questionId: 0,
     visible: true,
-    question: "",
+    question: "<p>Lorem Ipsum<p>",
     questionDescriptionEnabled: false,
     questionDescription: "",
     style: {},
+    answer: []
   },
 
   paragraph: {
@@ -158,6 +164,7 @@ export const menuType = {
     style: {
       color: "#004A89",
     },
+    answer: []
   },
 
   divideLine: {
@@ -173,20 +180,22 @@ export const menuType = {
       width: 100,
       height: 5,
     },
+    answer: []
   },
   image: {
     accordionType: "commonElements",
     type: "image",
     visible: true,
     questionId: 0,
-    question: "",
+    question: path_image+"add-img.png",
     extra: {
-      altText: "",
+      altText: "Image",
     },
     style: {
       width: "50",
       height: "auto",
     },
+    answer: []
   },
   consent: {
     accordionType: "commonElements",
