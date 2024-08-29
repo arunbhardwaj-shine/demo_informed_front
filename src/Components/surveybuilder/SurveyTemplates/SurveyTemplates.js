@@ -69,7 +69,7 @@ const templates = [
     template_fileName: "survey-template2.jpg",
     id: 2,
     template_html: `
-      <div class="informed-survey choice2" >
+      <div class="informed-survey " >
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#} ;">
@@ -113,10 +113,10 @@ const templates = [
                   </div>
 `,
     default_values: {
-      selectedTemplateClass:"informed-survey choice2",
+      selectedTemplateClass:"informed-survey",
       template_name:"Template 2",
       header_background_color: "#004A89",
-      header_background_image: "",
+      header_background_image: "http://localhost:3000/static/media/header-choicec2.4d4b215414fc3a1436ce.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
