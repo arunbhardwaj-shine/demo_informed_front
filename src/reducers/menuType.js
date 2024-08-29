@@ -136,6 +136,7 @@ export const menuType = {
       rightSideLabel: "",
       maxRating: 5,
     },
+    answer: []
   },
   heading: {
     accordionType: "commonElements",
