@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { useNavigate, Link } from "react-router-dom";
@@ -23,6 +23,8 @@ const SurveyConfig = (props) => {
     surveyLinkDescription: "",
     consentType: "", // default value
   });
+
+  const fileInputRef = useRef(null);
 
   const location = useLocation();
   const survey_id = surveyValues?.survey_id;
@@ -77,7 +79,8 @@ const SurveyConfig = (props) => {
   const handleThumbnailFileChange = async (e) => {
     const file = e.target.files[0];
     try {
-      if (file) {
+      if (file && (file.type.startsWith('image/') )){
+        console.log(file.type)
         const uploadFormData = new FormData();
         uploadFormData.append("file", file);
 
@@ -96,6 +99,11 @@ const SurveyConfig = (props) => {
           ...prevData,
           selectedThumbnailFilePath: response?.data?.data,
         }));
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }else{
+        toast.error("Please select valid image file");
       }
       loader("hide");
     } catch (error) {
@@ -216,6 +224,7 @@ const SurveyConfig = (props) => {
                                     name="file"
                                     className="input-file"
                                     onChange={handleThumbnailFileChange}
+                                    ref={fileInputRef} // Attach ref to the input element
                                   ></input>
                                   <label
                                     tabindex="0"
@@ -236,7 +245,7 @@ const SurveyConfig = (props) => {
                                         }));
                                       }}
                                     >
-                                      Remove
+                                      <img src={path_image + 'delete.svg'} alt=""/>
                                     </Button>
                                   )}
                                   <br />
@@ -568,6 +577,7 @@ const SurveyConfig = (props) => {
                     </div>
                   </div>
                 </div>
+                <div></div>
               </div>
             </div>
           </div>

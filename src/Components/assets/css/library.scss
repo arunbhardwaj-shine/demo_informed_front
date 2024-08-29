@@ -3653,7 +3653,7 @@ form.product-unit button {
       max-width: 100%;
       margin: 0 auto;
 
-      h4 {}
+      // h4 {}
 
       .table_xls {
         max-width: 100%;
@@ -3661,18 +3661,18 @@ form.product-unit button {
         .table {
           max-width: 100%;
 
-          thead {
-            tr {
-              th {}
-            }
-          }
+          // thead {
+          //   tr {
+          //     th {}
+          //   }
+          // }
 
           tbody {
             tr {
               td {
                 padding: 23px 11px;
 
-                &.delete_row {}
+                // &.delete_row {}
               }
             }
           }
@@ -11810,7 +11810,7 @@ svg.pencil_icon {
 
   nav.navbar .navbar-collapse li.nav-item a,
   .nav-item.user-login .dropdown #dropdown-basic {
-    padding: 0 28px;
+    padding: 0 20px;
   }
 
   .library_create.landing-layout .row {
@@ -12612,7 +12612,7 @@ svg.pencil_icon {
 
   nav #collapsibleNavbar li.nav-item a,
   .nav-item.user-login .dropdown #dropdown-basic {
-    padding: 0 9px;
+    padding: 0 7px;
   }
 
   .library_create.landing-layout {
@@ -13232,7 +13232,7 @@ svg.pencil_icon {
   nav.navbar .navbar-collapse li.nav-item a,
   .nav-item.user-login .dropdown #dropdown-basic {
     padding: 0 10px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .user-login .dropdown #dropdown-basic::after {
@@ -14369,6 +14369,7 @@ img.change-password-image {
                 line-height: 16px;
                 color: $dark-blue;
                 -webkit-line-clamp: 2;
+                line-clamp: 2;
                 -webkit-box-orient: vertical;
                 display: -webkit-box;
                 overflow: hidden;
@@ -14380,6 +14381,7 @@ img.change-password-image {
                 line-height: 15px;
                 color: $primary-color;
                 -webkit-line-clamp: 1;
+                line-clamp: 1;
                 -webkit-box-orient: vertical;
                 display: -webkit-box;
                 overflow: hidden;
