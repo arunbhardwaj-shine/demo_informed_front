@@ -410,7 +410,7 @@ const TimelineDetail = (props) => {
                     
                     </div>
                     {
-                      Object.keys(timeLineData?.timeline)?.length > 0 || timeLineData?.timeline?.length ? (
+                      Object.keys(filteredTimeLine)?.length > 0 || timeLineData?.timeline?.length ? (
                       isRdAndNorgianAcount ? (
                       <>
                       <div className="timeline-layout crm-timeline" style={{marginLeft:'100px'}}>
