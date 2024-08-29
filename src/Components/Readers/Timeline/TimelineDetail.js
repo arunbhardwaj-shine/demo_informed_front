@@ -368,14 +368,14 @@ const TimelineDetail = (props) => {
                                     <tr>
                                       <th>IRT Role</th>
                                       <td>
-                                        {timeLineData?.user?.user_type ? timeLineData?.user?.user_type : "N/A"}
+                                        {timeLineData?.user?.user_type && timeLineData?.user?.user_type != 0  ? timeLineData?.user?.user_type : "N/A"}
                                       </td>
                                     </tr>
                                     
                                     <tr>
                                       <th>Site</th>
                                       <td>
-                                        {timeLineData?.user?.site_number ? timeLineData?.user?.site_number : "N/A"}
+                                        {timeLineData?.user?.site_number && timeLineData?.user?.site_number != 0 ? timeLineData?.user?.site_number : "N/A"}
                                       </td>
                                     </tr>
                                   </>    
