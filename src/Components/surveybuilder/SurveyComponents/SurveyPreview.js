@@ -44,7 +44,7 @@ const SurveyPreview = (props) => {
   let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
 
   const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
-  const currentTemplateClass = custom_html?.selectedTemplateClass;
+
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const dispatch = useDispatch();

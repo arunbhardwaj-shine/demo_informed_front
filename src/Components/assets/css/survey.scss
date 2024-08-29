@@ -3027,6 +3027,20 @@ span {
             }
         }
     }
+    .survey-builder{
+        .survey-listing{
+            .email_box_block{
+                width: 50%;
+            }
+        } 
+    } 
+    .mail_trigger_right_dummy {
+        width: 50%;
+        .mail_trigger_dummy_content {
+            padding-top: 100px;
+        }
+    }
+    
 }
 
 @media (max-width:991px) {
@@ -3389,21 +3403,44 @@ body {
             min-height: calc(100vh - 49px);
 
             .left-setup {
-                padding: 25px 20px 22px 20px;
+                padding: 20px 15px 15px 15px;
                 max-height: calc(100vh - 49px);
                 top: 48px;
 
                 .left-setup-heading {
+                    h5 {
+                        font-size: 18px;
+                    }
                     p {
                         font-size: 13px;
                     }
                 }
+                .left-setup-template{
+                    .template-selection {
+                        gap: 20px 20px;
+                        .template-option {
+                            width: calc(50% - 10px);
+                        }
+                    }
+                } 
             }
         }
     }
 
     .preview-survey {
-        margin: 20px 0 20px;
+        margin: 15px 0 15px;
+        .informed-survey{
+            .informed-survey-question {
+                margin: 30px 0 0;
+                form{
+                    label{
+                        &.check {
+                            margin: 0 0 8px;
+                        }
+                    }
+                } 
+            }
+        } 
     }
 
     .custom-change {
