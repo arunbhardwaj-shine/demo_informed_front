@@ -451,28 +451,37 @@ const TimelineDetail = (props) => {
                                     </div>
                                     <div className="timeline-block">
                                         <div className="timeline-status">
-                                            <p>IRT Invited to the Training</p>
+                                            {
+                                              details?.webinar == 'Webinar' ? <p>Webinar Email Sent</p> : <p>IRT Invited to the Training</p>
+                                            }
                                             <span>{details?.time} </span>
                                         </div>
                                         <div className="timeline-details">
-                                            <div className="details-box">
-                                                <p className="timeline-details-heading">What</p>
-                                                <p>IRT has recieved the training email</p>
-                                            </div>
-                                            <div className="details-box">
-                                                <p className="timeline-details-heading">Title</p>
-                                                <p>{details?.pdfTitle ?details?.pdfTitle : 'N/A' }</p>
-                                            </div>
-                                            {/* <div className="details-box">
-                                                <p className="timeline-details-heading">Who</p>
-                                                <div className="d-flex flex-wrap timeline-activity">
-                                                    <div className="timeline-activity-detail">
-                                                        <p>{timeLineData?.user?.name} </p>
-                                                        <p>{timeLineData?.user?.user_type}</p>
-                                                        <span>{timeLineData?.user?.site_number}</span>
-                                                    </div>
+                                            {
+                                              details?.webinar == 'Webinar' ? 
+                                              <>
+                                                <div className="details-box">
+                                                    <p className="timeline-details-heading">Title </p>
+                                                    <p>{details?.title}</p>
                                                 </div>
-                                            </div> */}
+                                                <div className="details-box">
+                                                    <p className="timeline-details-heading">Subject</p>
+                                                    <p>{details?.event_mail_subject ? details?.event_mail_subject : 'N/A' }</p>
+                                                </div>
+                                              </>
+                                              : 
+                                              <>
+                                                <div className="details-box">
+                                                    <p className="timeline-details-heading">What</p>
+                                                    <p>IRT has recieved the training email</p>
+                                                </div>
+                                                <div className="details-box">
+                                                    <p className="timeline-details-heading">Title</p>
+                                                    <p>{details?.pdfTitle ?details?.pdfTitle : 'N/A' }</p>
+                                                </div>
+                                              </>
+                                            }
+
                                         </div>
                                     </div>
                                   </div>
