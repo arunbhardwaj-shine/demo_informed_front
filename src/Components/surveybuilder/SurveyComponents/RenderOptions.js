@@ -177,7 +177,7 @@ const RenderOptions = ({
                       ) : (
                         <input
                           type="radio"
-                          name={`matrix-${rowIndex}-${colIndex}`}
+                          name={`matrix-${rowIndex}`}
                           disabled={!isEdit}
                         />
                       )}
