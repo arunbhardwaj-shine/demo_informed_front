@@ -70,14 +70,13 @@
       }
 
       document.addEventListener("DOMContentLoaded", async function () {
-        const endPoint = await fetch("./config.json");
-        const config = await endPoint.json();
+     
         const queryParams = new URLSearchParams(window.location.search);
         const unique_code = queryParams.get("uniqueCode");
         const survey_id = queryParams.get("surveyId");
         console.log("Fetching data...");
 
-        const apiUrl = config.fetch_preview;
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           unique_code,
           user_id: "0",
@@ -1249,7 +1248,7 @@
 
             try {
               loader("show");
-              const submitApiUrl = config.insert_responses;
+              const submitApiUrl = "https://informedback.shinedezign.pro/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {

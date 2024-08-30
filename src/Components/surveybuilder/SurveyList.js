@@ -74,9 +74,9 @@ const SurveyList = (props) => {
       const survey_data = res?.data?.data;
      
 
-      if(survey_data.length<1){
-        showDeleteButtons()
-      }
+      // if(survey_data.length<1){
+      //   showDeleteButtons()
+      // }
 
       if (res) {
         setIsData(survey_data);
@@ -104,11 +104,18 @@ const SurveyList = (props) => {
     }
   };
   const showDeleteButtons = () => {
-    if (deletestatus) {
-      setDeleteStatus(false);
-    } else {
-      setDeleteStatus(true);
-    }
+
+    setDeleteStatus(!deletestatus)
+    // // if (deletestatus) {
+    // //   setDeleteStatus(false);
+    // // } else {
+    // //   setDeleteStatus(true);
+    // // }
+    // if (!deletestatus) {
+    //   setDeleteStatus(!deletestatus);
+    // }else{
+    //   setDeleteStatus(!deletestatus);
+    // } 
   };
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
