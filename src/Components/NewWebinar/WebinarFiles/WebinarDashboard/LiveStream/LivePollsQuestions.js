@@ -752,7 +752,8 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                             src={
                               path_image +
                               `${
-                                item?.showQuestionToUser == 1
+                                item?.showQuestionToUser === 1 || item?.showAnswerToUser === 1
+
                                   ? "screen-active.svg"
                                   : "screen-options.svg"
                               } `
