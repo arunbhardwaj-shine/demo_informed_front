@@ -92,8 +92,8 @@ const SurveyFormBuilder = (props) => {
             : "color"
         );
         if (customHtmlData.header_background_type == "image") {
-          setChangeTitleToggle(false);
-          setChangeLogoToggle(false);
+          setChangeTitleToggle(customHtmlData.changeLogoToggle);
+          setChangeLogoToggle(customHtmlData.changeTitleToggle);
         }
         console.log(customHtmlData);
         setCustomHtml(customHtmlData);
@@ -196,14 +196,20 @@ const SurveyFormBuilder = (props) => {
       </OverlayTrigger>
     );
   }
+  const handleTemplates=()=>{
+
+
+
+  }
 
   const handleChoiceChange = (id) => {
+    
+    if(id == 2 || id == 3 && header_background_type  != "color"){
+      setHeaderBackgroundType("image")
+    } 
+    
 
     if (id && templates) {
-      if(id == 2 || id == 3){
-        setHeaderBackgroundType("image")
-      }
-      
       const selectedTemplate = templates.find((temp) => temp.id === id);
       if (selectedTemplate) {
         setSelectedTemplateId(id);
@@ -247,11 +253,7 @@ const SurveyFormBuilder = (props) => {
 
   const updateTemplateValues = () => {
 
-    if(selectedTemplateId == 2 || selectedTemplateId == 3){
-      setHeaderBackgroundType("image")
-    }
-
-
+    
     console.log(templateDefaultValues);
     const values = { ...templateDefaultValues, ...dynamicValues };
     console.log(values);
@@ -384,6 +386,7 @@ const SurveyFormBuilder = (props) => {
     handleUpload(file, setHeaderLogoImgPath);
   };
 
+
   const handleUpload = async (file, setPath) => {
     if (file) {
       try {
@@ -482,7 +485,7 @@ const SurveyFormBuilder = (props) => {
     //     selectedTemplateClass = "informed-survey";
     //     break;
     // }
-    console.log(changeLogoToggle);
+
     let custom_html = null;
     console.log(header_background_type);
     const temporaryValues = { ...templateDefaultValues, ...dynamicValues };
@@ -518,6 +521,8 @@ const SurveyFormBuilder = (props) => {
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
           // selectedTemplateClass,
+          changeLogoToggle,
+          changeTitleToggle,
           header_background_type: header_background_type,
         },
       ];

@@ -1278,6 +1278,7 @@ const NewReadersReview = (props) => {
 
   const updateReaderDetails = async (reader_id, index, pre_role) => {
     try {
+      loader("show");
       const tindex = changeUserType.findIndex((el) => el.index === reader_id);
       let type = "";
       if (tindex !== -1) {
@@ -1319,11 +1320,9 @@ const NewReadersReview = (props) => {
           );
           irt = readerDataList[irtindex]?.irt == "Yes" ? 1 : 0;
         }
-        console.log(irt, 'irt');
         const countryIndex = changeCountry.findIndex(
           (el) => el.index === reader_id
         );
-        console.log(changeCountry, countryIndex)
         if (countryIndex !== -1) {
           country = changeCountry[index]?.value;
         } else {
@@ -1474,6 +1473,7 @@ const NewReadersReview = (props) => {
         }
 
         if(pre_role == role){
+          loader("hide");
           const newData = readerDataList;
           setReaderDataList(newData);
           setUpdateFlag(updateflag + 1);
