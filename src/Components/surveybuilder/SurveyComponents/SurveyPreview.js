@@ -429,7 +429,7 @@ const SurveyPreview = (props) => {
                 />
               </div>
               <div className="informed-survey-question" ref={surveyRef}>
-                <form>
+                <Form>
                   <div className="d-flex flex-column" style={{ gap: "30px" }}>
                     {elements?.map((item, index) => (
                       <div
@@ -647,7 +647,7 @@ const SurveyPreview = (props) => {
                       }}
                     />
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

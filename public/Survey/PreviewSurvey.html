@@ -23,6 +23,22 @@
     <div id="survey-container" class="informed-survey"></div>
 
     <script>
+
+
+function showSubmitModal() {
+    const modal = document.getElementById('thanks-modal');
+    modal.style.display = 'block';
+}
+
+// Function to handle the modal close button
+function closeModal() {
+    const modal = document.getElementById('thanks-modal');
+    document.getElementById('your-form').reset(); // Reset your form
+    modal.style.display = 'none';
+}
+
+
+
       function updateCharacterCount(textareaId, charCountId, maxLength) {
         const textarea = document.getElementById(textareaId);
         const charCountDisplay = document.getElementById(charCountId);
@@ -72,13 +88,13 @@
       document.addEventListener("DOMContentLoaded", async function () {
         const queryParams = new URLSearchParams(window.location.search);
         const Utmde = queryParams.get("Utmde");
-        const survey_id = ""
+       
         console.log("Fetching data...");
 
         const apiUrl =
           "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
-          unique_code,
+          Utmde,
           user_id: "0",
         };
 
@@ -104,7 +120,7 @@
           ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
           return;
         }
-
+      const survey_id = data.data[0].survey_info.id
         const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -653,6 +669,45 @@
                   </form>
 
       		</div>`;
+
+ surveyHtml += `
+    <div
+        id="thanks-modal"
+        role="dialog"
+        aria-modal="true"
+        class="fade thanks modal"
+        tabindex="-1"
+        style="display: none"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" aria-label="Close" onclick="showSubmitModal()">
+                        <img
+                            src="../componentAssets/images/cookie-popup-close.svg"
+                            alt=""
+                        />
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="survey-thanks">
+                        <div class="thanks-img">
+                            ${data.data[0].survey_info.thanku_image_path !== "" ? 
+                            `<img src="${data.data[0].survey_info.thanku_image_path}"
+                                  alt=""
+                                  style="width: ${data.data[0].survey_info.thanku_image_width}%" />` :
+                            `<img src="../componentAssets/images/thanks-img.png"
+                                  alt="" />`}
+                        </div>
+                        <div class="thanks-text">
+                            <h2>${data.data[0].survey_info.thanku_image_headline}</h2>
+                            <p>${data.data[0].survey_info.thanku_image_body_text}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
 
          
 
@@ -1250,7 +1305,7 @@
             try {
               loader("show");
               const submitApiUrl =
-                "https://informedback.shinedezign.pro/survey/insert-user-responses";
+                "http://192.168.0.231:3001/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
@@ -1270,7 +1325,8 @@
                 showToast("Data inserted previously");
               } else if (submitResponse.status == "200") {
                 loader("hide");
-                showToast("Data inserted successfully");
+                showSubmitModal()
+                // showToast("Data inserted successfully");
               }
             } catch (error) {
               loader("hide");
@@ -1428,5 +1484,6 @@
         </div>
       </div>
     </div>
+   
   </body>
 </html>
