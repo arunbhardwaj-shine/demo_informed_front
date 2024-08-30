@@ -74,9 +74,9 @@ const SurveyList = (props) => {
       const survey_data = res?.data?.data;
      
 
-      if(survey_data.length<1){
-        showDeleteButtons()
-      }
+      // if(survey_data.length<1){
+      //   showDeleteButtons()
+      // }
 
       if (res) {
         setIsData(survey_data);
@@ -104,11 +104,18 @@ const SurveyList = (props) => {
     }
   };
   const showDeleteButtons = () => {
-    if (deletestatus) {
-      setDeleteStatus(false);
-    } else {
-      setDeleteStatus(true);
-    }
+
+    setDeleteStatus(!deletestatus)
+    // // if (deletestatus) {
+    // //   setDeleteStatus(false);
+    // // } else {
+    // //   setDeleteStatus(true);
+    // // }
+    // if (!deletestatus) {
+    //   setDeleteStatus(!deletestatus);
+    // }else{
+    //   setDeleteStatus(!deletestatus);
+    // } 
   };
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
@@ -487,26 +494,12 @@ const SurveyList = (props) => {
     console.log(data);
 
     if (data.is_draft == "0" || data.is_draft == "1" || data.is_draft == "2") {
+      console.log(data?.custom_html)
       const parsedCustomHtml = JSON.parse(data?.custom_html);
+      console.log(data?.tags)
       const tags = JSON.parse(data?.tags);
       console.log(parsedCustomHtml);
 
-      let selectedTemplateClass = "";
-
-      switch (data.template_html) {
-        case 1:
-          selectedTemplateClass = "informed-survey";
-          break;
-        case 2:
-          selectedTemplateClass = "informed-survey choice2";
-          break;
-        case 3:
-          selectedTemplateClass = "informed-survey choice3";
-          break;
-        default:
-          selectedTemplateClass = "informed-survey";
-          break;
-      }
 
       const setUpData = {
         survey_title: data.survey_title,
@@ -541,7 +534,6 @@ const SurveyList = (props) => {
         survey_id: data.survey_id,
         unique_code: data.unique_code,
         creator_name: data.creator_name,
-        selectedTemplateClass,
         setUpData,
         formBuilderData,
         surveyConfigData,
@@ -1042,14 +1034,14 @@ const SurveyList = (props) => {
                                               }
                                             >
                                               <img
-                                                src="http://localhost:3000/componentAssets/images/copy-content.svg"
+                                                src={path_image+"copy-content.svg"}
                                                 alt="Copy"
                                               />
                                             </span>
                                           ) : (
                                             <span class="copy-content">
                                               <img
-                                                src="http://localhost:3000/componentAssets/images/copy-content-disabled.svg"
+                                                src={path_image+"copy-content-disabled.svg"}
                                                 alt="Copy"
                                               />
                                             </span>

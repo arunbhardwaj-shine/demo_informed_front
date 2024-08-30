@@ -21,6 +21,13 @@ import PopularContent from "./PopularContent";
 import axios from 'axios';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+const defaultPdfRole = {
+  3968:"Site User-Blinded",
+  3970:"Site unblinded pharmacist",
+  4521: "Investigator-Blinded"
+};
+
+
 
 
 const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
@@ -2128,6 +2135,8 @@ const RDAnalytics = () => {
                                                           </div>
                                                           <div className="content-detail">
                                                             <h6>{item?.type}</h6>
+                                                            <p>{defaultPdfRole[item?.pdfId] || ""}</p>
+
 
                                                             <div className="page-count">
                                                               <div className="time">
