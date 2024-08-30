@@ -30,13 +30,13 @@ function showSubmitModal() {
     modal.style.display = 'block';
 }
 
+
 // Function to handle the modal close button
 function closeModal() {
     const modal = document.getElementById('thanks-modal');
-    document.getElementById('your-form').reset(); // Reset your form
     modal.style.display = 'none';
+    document.getElementById('survey-form').reset(); // Reset your form
 }
-
 
 
       function updateCharacterCount(textareaId, charCountId, maxLength) {
@@ -682,7 +682,7 @@ function closeModal() {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="btn-close" aria-label="Close" onclick="showSubmitModal()">
+                    <button type="button" class="btn-close" aria-label="Close" onclick="closeModal()">
                         <img
                             src="../componentAssets/images/cookie-popup-close.svg"
                             alt=""
