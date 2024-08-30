@@ -2536,12 +2536,8 @@ span {
             max-width: 251px;
 
             &>div:nth-child(3) {
-                max-width: 251px;
-                padding: 2px 35px 2px 2px;
-                font-size: 12px;
-                min-height: 28px;
-                box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-
+                background: $white url(../images/arrow-down-sign.svg) no-repeat 93% center;
+                padding: 3px 50px 3px 15px;
                 >div {
                     div[class*=-placeholder] {
                         font-size: 12px;
