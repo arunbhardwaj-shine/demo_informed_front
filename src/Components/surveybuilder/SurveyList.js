@@ -1023,14 +1023,14 @@ const SurveyList = (props) => {
                                               data?.is_draft == "0" ? "doc-link no-click" :"doc-link " }
                                             target="_blank"
                                           >
-                                            https://informed.pro/survey/
+                                           https://informed.pro/Survey/PreviewSurvey.html?Utmde=
                                             {data.unique_code}
                                           </a>
                                           {data.is_draft ? (
                                             <span
                                               class="copy-content"
                                               onClick={() =>
-                                                copyHandler(`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
+                                                copyHandler(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
                                               }
                                             >
                                               <img
@@ -1400,7 +1400,7 @@ const SurveyList = (props) => {
                                           </Button>
                                           <Button className={data?.is_draft ?"edit btn-filled":"edit btn-filled disabled" }
                                             onClick={(e) => {
-                                              window.open(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`, '_blank');
+                                              window.open(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`, '_blank');
                                             }}>
                                             Preview
                                           </Button>
