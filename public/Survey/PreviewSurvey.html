@@ -1157,13 +1157,13 @@
           });
 
           const submitPayload = {
-            name: obj.name, // New object containing additional information
-            email: obj.email,
-            country: obj.countryConsent,
+            name: obj.name ?? "", // New object containing additional information
+            email: obj.email ?? "",
+            country: obj.countryConsent ?? "",
             consent:
               typeof obj.consentOption === "string"
                 ? [obj.consentOption]
-                : obj.consentOption,
+                : obj.consentOption ?? "",
             user_id: 0,
             password: 12345678,
             group_id: 11,
