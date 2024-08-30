@@ -1027,14 +1027,14 @@ const SurveyList = (props) => {
                                               }
                                             >
                                               <img
-                                                src="http://localhost:3000/componentAssets/images/copy-content.svg"
+                                                src={path_image+"copy-content.svg"}
                                                 alt="Copy"
                                               />
                                             </span>
                                           ) : (
                                             <span class="copy-content">
                                               <img
-                                                src="http://localhost:3000/componentAssets/images/copy-content-disabled.svg"
+                                                src={path_image+"copy-content-disabled.svg"}
                                                 alt="Copy"
                                               />
                                             </span>
