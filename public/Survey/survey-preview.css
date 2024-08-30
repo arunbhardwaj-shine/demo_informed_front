@@ -1005,8 +1005,9 @@
       @media only screen and (max-width:991px){
         .cookieadd .modal-dialog {
           max-width: 700px;
+        }
       }
-      }
+      
       @media only screen and (max-width: 767px) {
         .informed-survey {
           margin: 16px auto;
