@@ -486,15 +486,15 @@ const SurveySublink = () => {
                                                         // }
                                                       >
                                                         <img
-                                                          src="http://localhost:3000/componentAssets/images/copy-content.svg"
-                                                          alt="Copy"
+                                                src={path_image+"copy-content.svg"}
+                                                alt="Copy"
                                                         />
                                                       </span>
                                                     ) : (
                                                       <span class="copy-content">
                                                         <img
-                                                          src="http://localhost:3000/componentAssets/images/copy-content-disabled.svg"
-                                                          alt="Copy"
+                                                src={path_image+"c.svg"}
+                                                alt="Copy"
                                                         />
                                                       </span>
                                                     )}
