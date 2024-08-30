@@ -397,8 +397,8 @@ const SurveySetup = (props) => {
               <div className="d-flex flex-column w-100">
                 <div className="page-top-nav sticky">
                   <Row className="justify-content-end align-items-center">
-                    <Col md={1}></Col>
-                    <Col md={9}>
+                    <Col md={2}></Col>
+                    <Col md={8}>
                       <ul className="tabnav-link">
                         <li className="active active-main">
                           <Link to="">Set-up</Link>
@@ -419,20 +419,8 @@ const SurveySetup = (props) => {
                     </Col>
                     <Col md={2}>
                       <div className="header-btn">
-                        <Link
-                          className="btn btn-primary btn-bordered move-draft"
-                          to="/survey/survey-list"
-                        >
-                          Cancel
-                        </Link>
-                        <button
-                          className="btn btn-primary btn-filled next"
-                          onClick={(e) => {
-                            onNextClick(e);
-                          }}
-                        >
-                          Next
-                        </button>
+                        <Link className="btn btn-primary btn-bordered move-draft" to="/survey/survey-list">Cancel</Link>
+                        <button className="btn btn-primary btn-filled next" onClick={(e) => { onNextClick(e); }}>Next</button>
                       </div>
                     </Col>
                   </Row>
@@ -446,13 +434,7 @@ const SurveySetup = (props) => {
                     <Form.Label>
                       Survey Title <span>*</span>
                     </Form.Label>
-                    <Form.Control
-                      type="email"
-                      name="surveyTitle"
-                      value={formData.surveyTitle}
-                      onChange={(e) => changeHandler(e)}
-                      placeholder="Type your survey title"
-                    />
+                    <Form.Control type="email" name="surveyTitle" value={formData.surveyTitle} onChange={(e) => changeHandler(e)} placeholder="Type your survey title" />
                     <div className="login-validation">
                       {error?.surveyTitle ? error.surveyTitle : ""}
                     </div>
