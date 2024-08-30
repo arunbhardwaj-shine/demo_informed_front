@@ -165,37 +165,37 @@ const TimelineDetail = (props) => {
     }
     return string;
   };
-  let filteredTimeLine = {};
-  if (isRdAndNorgianAcount) {
-    filteredTimeLine = Object.keys(timeLineData?.timeline || {}).reduce(
-      (acc, date) => {
-        const hasMatchingAction = timeLineData.timeline[date].some(
-          (details) =>
-            (details?.auto_mail === 0 &&
-              details?.action.includes("New mail received")) ||
-            details?.auto_mail === 1 ||
-            details?.auto_mail === 2 ||
-            details?.auto_mail === 3 ||
-            details?.auto_mail === 4 ||
-            details?.action.includes("Certificate of training") ||
-            details.action === "Article opened" ||
-            details.action.includes("shared") ||
-            details?.action.includes("Registered") ||
-            details?.action === "Blocked mandatory training reminder" ||
-            details?.action === "IRT Started Training" ||
-            details?.action === "IRT Not Completed Training" ||
-            details?.action === "IRT Ignored Training"
-        );
+  // let filteredTimeLine = {};
+  // if (isRdAndNorgianAcount) {
+  //   filteredTimeLine = Object.keys(timeLineData?.timeline || {}).reduce(
+  //     (acc, date) => {
+  //       const hasMatchingAction = timeLineData.timeline[date].some(
+  //         (details) =>
+  //           (details?.auto_mail === 0 &&
+  //             details?.action.includes("New mail received")) ||
+  //           details?.auto_mail === 1 ||
+  //           details?.auto_mail === 2 ||
+  //           details?.auto_mail === 3 ||
+  //           details?.auto_mail === 4 ||
+  //           details?.action.includes("Certificate of training") ||
+  //           details.action === "Article opened" ||
+  //           details.action.includes("shared") ||
+  //           details?.action.includes("Registered") ||
+  //           details?.action === "Blocked mandatory training reminder" ||
+  //           details?.action === "IRT Started Training" ||
+  //           details?.action === "IRT Not Completed Training" ||
+  //           details?.action === "IRT Ignored Training"
+  //       );
 
-        if (hasMatchingAction) {
-          acc[date] = timeLineData.timeline[date];
-        }
+  //       if (hasMatchingAction) {
+  //         acc[date] = timeLineData.timeline[date];
+  //       }
 
-        return acc;
-      },
-      {}
-    );
-  }
+  //       return acc;
+  //     },
+  //     {}
+  //   );
+  // }
 
   return (
     <>
@@ -1180,6 +1180,49 @@ const TimelineDetail = (props) => {
                                                           unblocked from
                                                           participating in
                                                           training
+                                                        </p>
+                                                      </div>
+                                                      <div className="details-box">
+                                                        <p className="timeline-details-heading">
+                                                          Type
+                                                        </p>
+                                                        <p>{details?.action}</p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+
+
+                                              {details?.auto_mail === 5 ? (
+                                                <div className="timeline-box-inset">
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "new-hcp.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                  <div className="timeline-block">
+                                                    <div className="timeline-status blocked">
+                                                      <p>IRT Role Changed</p>
+                                                      <span>
+                                                        {" "}
+                                                        {details?.time}{" "}
+                                                      </span>
+                                                    </div>
+                                                    <div className="timeline-details">
+                                                      <div className="details-box">
+                                                        <p className="timeline-details-heading">
+                                                          What
+                                                        </p>
+                                                        <p>
+                                                          IRT have been
+                                                          changed role
                                                         </p>
                                                       </div>
                                                       <div className="details-box">
