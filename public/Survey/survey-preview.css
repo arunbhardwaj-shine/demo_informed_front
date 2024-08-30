@@ -238,7 +238,7 @@
         -webkit-transform: none;
         transform: none;
       }
-      .cookieadd {
+      .cookieadd, #thanks-modal {
         -webkit-backdrop-filter: blur(7.099999904632568px);
         backdrop-filter: blur(7.099999904632568px);
         background: rgba(0, 0, 0, 0.27);
@@ -250,7 +250,7 @@
         width: 100vw;
         bottom: 0;
       }
-      .cookieadd .modal-content {
+      .cookieadd .modal-content, #thanks-modal .modal-content{
         background: var(--white);
         border: 0;
         border-radius: 15px;
@@ -260,6 +260,9 @@
         max-height: 500px;
         right: 0;
         width: 100%;
+      }
+      #thanks-modal .modal-content{
+        height: auto;
       }
       .modal-header .modal-title {
         -webkit-text-fill-color: transparent;
@@ -725,7 +728,7 @@
     top: 0;
     width: 100%;
 } */
-      .cookieadd .modal-dialog {
+      .cookieadd .modal-dialog, #thanks-modal .modal-dialog {
         height: 85%;
         max-width: 768px;
         margin: 0 auto;
@@ -736,12 +739,15 @@
         width: 100%;
         z-index: 10;
       }
+      #thanks-modal .modal-dialog {
+        max-width: 720px;
+      }
       .modal.show .modal-dialog {
         -webkit-transform: none;
         transform: none;
       }
 
-      .cookieadd .modal-header {
+      .cookieadd .modal-header, #thanks-modal .modal-header {
         border: 0;
         justify-content: center;
         margin-bottom: 15px;
@@ -750,7 +756,7 @@
         text-align: center;
       }
 
-      .cookieadd .modal-header button.btn-close {
+      .cookieadd .modal-header button.btn-close, #thanks-modal .modal-header button.btn-close {
         border: 0;
         color: #97b6cf;
         font-size: 17px;
@@ -774,7 +780,27 @@
         height: 100%;
         overflow: hidden;
       }
-
+      #thanks-modal .modal-body .thanks-img,  #thanks-modal .modal-body .thanks-text{
+        text-align: center;
+      }
+      #thanks-modal .modal-body .thanks-img img {
+        max-width: 120px;
+    }
+    #thanks-modal .survey-thanks {
+      padding: 0 0 30px;
+  }
+    #thanks-modal .modal-body .thanks-text h2, #thanks-modal .modal-body .thanks-text h2 > *{
+        font-size: 56px;
+        font-weight: 500;
+        margin:0 0 16px;
+    }
+    #thanks-modal .modal-body .thanks-text p {
+      font-size: 16px;
+      color: #70899E;
+      font-weight: 400;
+      max-width: 580px;
+      margin: 0 auto;
+  }
       .modal-content .modal-body h6 {
         color: #70899e;
         font-size: 15px;
@@ -1106,7 +1132,7 @@
         .select-dropdown__button span {
           font-size: 12px;
         }
-        .cookieadd .modal-dialog {
+        .cookieadd .modal-dialog, #thanks-modal .modal-dialog {
           width: 95%;
         }
         .modal-content .modal-body h6 {
@@ -1128,6 +1154,21 @@
         .cookieadd .modal-body {
           padding-top: 0;
         }
+        #thanks-modal .modal-body .thanks-img img {
+          max-width: 90px;
+      }
+      #thanks-modal .modal-body .thanks-text h2 {
+        font-size: 26px;
+    }
+    #thanks-modal .modal-body .thanks-text p {
+      font-size: 13px;
+  }
+  .survey-thanks {
+    padding: 0 0 12px;
+}
+#thanks-modal .modal-body {
+  padding-top: 0;
+}
       }
 
       .toast-container {
