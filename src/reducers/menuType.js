@@ -243,13 +243,13 @@ export const menuType = {
       ],
       privacyLinks: [
         {
-          octapharma: "/octapharma-privacy",
+          octapharma: "https://onesource.octapharma.com/octapharma-privacy",
         },
         { docintel: "https://albert.docintel.app/privacy_policy/" },
-        { termsOfUse: "/terms_of_use" },
+        { termsOfUse: "https://onesource.octapharma.com/terms_of_use" },
       ],
       cookiePolicy:
-        ' <p>We only use essential cookies and no data is shared with 3rd party. <a href="https://onesource.octapharma.com/octapharma-privacy" id=show-modal>Click here</a> to see the specifics.</p> <div class="copyright-links"> <a href="/octapharma-privacy" target="_blank">Octapharma Privacy Statement</a> <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel Privacy Policy</a> <a href="https://onesource.octapharma.com/terms_of_use" target="_blank">Terms of Use</a> </div>',
+        ' <p>We only use essential cookies and no data is shared with 3rd party. <a href="https://onesource.octapharma.com/octapharma-privacy" id=show-modal>Click here</a> to see the specifics.</p> <div class="copyright-links"> <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma Privacy Statement</a> <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel Privacy Policy</a> <a href="https://onesource.octapharma.com/terms_of_use" target="_blank">Terms of Use</a> </div>',
       operatingStatement:
         '<a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> and <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel.app</a> operating this page.',
     },
