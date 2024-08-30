@@ -420,7 +420,7 @@ const SurveySetup = (props) => {
                     <Col md={2}>
                       <div className="header-btn">
                         <Link className="btn btn-primary btn-bordered move-draft" to="/survey/survey-list">Cancel</Link>
-                        <button className="btn btn-primary btn-filled next" onClick={(e) => { onNextClick(e); }}>Next</button>
+                        <Button className="btn btn-primary btn-filled next" onClick={(e) => { onNextClick(e); }}>Next</Button>
                       </div>
                     </Col>
                   </Row>
