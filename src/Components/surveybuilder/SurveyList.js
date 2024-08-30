@@ -1595,7 +1595,7 @@ const SurveyList = (props) => {
                     <Modal.Body>
                       <img src={path + "alert.png"} alt="" />
                       <h4>
-                        This email will be deleted.
+                        This survey will be deleted.
                         <br />
                         Are you sure you wish to go ahead?
                       </h4>
