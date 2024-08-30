@@ -52,7 +52,7 @@ const templates = [
                   </div>
       `,
     default_values: {
-      // selectedTemplateClass:"informed-survey",
+  
       template_name:"Template 1",
       header_background_color: "#004A89",
       header_background_image: "",
@@ -118,6 +118,7 @@ const templates = [
 `,
     default_values: {
       // selectedTemplateClass:"informed-survey",
+      header_background_type:"image",
       template_name:"Template 2",
       header_background_color: "#004A89",
       header_background_image: path_image+"header-choicec2.png",
@@ -184,6 +185,7 @@ const templates = [
     default_values: {
       
       // selectedTemplateClass:"informed-survey",
+      header_background_type:"image",
       template_name:"Template 3",
       header_background_color: "#004A89",
       header_background_image: path_image+"template-header3.png",

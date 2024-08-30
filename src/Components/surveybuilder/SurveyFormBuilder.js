@@ -140,6 +140,13 @@ const SurveyFormBuilder = (props) => {
     // } else {
     //   setHeaderBackgroundType("color");
     // }
+    if((selectedTemplateId==2 || selectedTemplateId ==3) ){
+      if(customValues.header_background_type){
+        setHeaderBackgroundType(customValues?.header_background_type)
+      }
+      
+   
+    } 
 
     const newValues = {
       template_name:
@@ -203,10 +210,8 @@ const SurveyFormBuilder = (props) => {
   }
 
   const handleChoiceChange = (id) => {
-    
-    if(id == 2 || id == 3 && header_background_type  != "color"){
-      setHeaderBackgroundType("image")
-    } 
+    console.log(id)
+  
     
 
     if (id && templates) {
