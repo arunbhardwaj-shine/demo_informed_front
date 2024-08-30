@@ -228,7 +228,7 @@ const SurveyList = (props) => {
     );
     if (selectedSublink) {
       navigator.clipboard
-        .writeText(`https://informed.pro/survey/${selectedSublink.label}`)
+        .writeText(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`)
         .then(() => {
           toast.success("Sublink copied to clipboard!");
         })
@@ -248,7 +248,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/survey/${selectedSublink.label}`,
+        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -1018,7 +1018,7 @@ const SurveyList = (props) => {
                                       <div className="tab-panel">
                                         <div class="tab-content-links">
                                           <a
-                                            href={`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`}
+                                            href={`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
                                             class={data?.is_draft != null &&
                                               data?.is_draft == "0" ? "doc-link no-click" :"doc-link " }
                                             target="_blank"
@@ -1030,7 +1030,7 @@ const SurveyList = (props) => {
                                             <span
                                               class="copy-content"
                                               onClick={() =>
-                                                copyHandler(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`)
+                                                copyHandler(`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
                                               }
                                             >
                                               <img
@@ -1052,7 +1052,7 @@ const SurveyList = (props) => {
                                               onClick={() => {
                                                 setQr({
                                                   ...qrState,
-                                                  value: `https://informed.pro/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`,
+                                                  value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
                                                 });
                                                 setTimeout(function () {
                                                   downloadQRCode();
