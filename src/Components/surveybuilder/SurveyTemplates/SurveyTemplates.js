@@ -1,4 +1,8 @@
 // src/templates.js
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
 const templates = [
   {
     template_fileName: "survey-template.jpg",
@@ -20,22 +24,22 @@ const templates = [
                             How is the weather today?
                           </p>
                           <label class="check" style="color: {#question_answer_color#}">Sunny
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Rainy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Snowy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Cloudy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
                           <div class="form-footer">
@@ -48,14 +52,14 @@ const templates = [
                   </div>
       `,
     default_values: {
-      selectedTemplateClass:"informed-survey",
+  
       template_name:"Template 1",
       header_background_color: "#004A89",
       header_background_image: "",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: "https://informed.pro/componentAssets/images/informed_logo.svg",
+      logo: path_image+"Informed-logo-image.png",
       button_text: "Submit",
       button_color: "#004A89",
       question_answer_color: "#004A89",
@@ -69,7 +73,7 @@ const templates = [
     template_fileName: "survey-template2.jpg",
     id: 2,
     template_html: `
-      <div class="informed-survey choice2" >
+      <div class="informed-survey " >
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#} ;">
@@ -85,22 +89,22 @@ const templates = [
                             How is the weather today?
                           </p>
                           <label class="check" style="color: {#question_answer_color#}">Sunny
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Rainy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Snowy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Cloudy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
                           <div class="form-footer">
@@ -113,14 +117,15 @@ const templates = [
                   </div>
 `,
     default_values: {
-      selectedTemplateClass:"informed-survey choice2",
+      // selectedTemplateClass:"informed-survey",
+      header_background_type:"image",
       template_name:"Template 2",
       header_background_color: "#004A89",
-      header_background_image: "",
+      header_background_image: path_image+"header-choicec2.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: "https://informed.pro/componentAssets/images/informed_logo.svg",
+      logo: path_image+"Informed-logo-image.png",
       button_text: "Submit",
       button_color: "#004A8",
       question_answer_color: "#004A89",
@@ -134,7 +139,7 @@ const templates = [
     template_fileName: "survey-template3.jpg",
     id: 3,
     template_html: `
-      <div class="informed-survey choice3" >
+      <div class="informed-survey" >
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#};">
@@ -150,22 +155,22 @@ const templates = [
                             How is the weather today?
                           </p>
                           <label class="check" style="color: {#question_answer_color#}">Sunny
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Rainy
-                            <input type="radio" name="radio"/>
+                                  <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Snowy
-                            <input type="radio" name="radio"/>
+                            <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
  
                           <label class="check" style="color: {#question_answer_color#}">Cloudy
-                            <input type="radio" name="radio"/>
+                            <input type="radio" disabled name="radio"/>
                               <span class="checkmark"></span>
                           </label>
                           <div class="form-footer">
@@ -178,14 +183,16 @@ const templates = [
                   </div>
 `,
     default_values: {
-      selectedTemplateClass:"informed-survey choice3",
+      
+      // selectedTemplateClass:"informed-survey",
+      header_background_type:"image",
       template_name:"Template 3",
       header_background_color: "#004A89",
-      header_background_image: "",
+      header_background_image: path_image+"template-header3.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: "https://informed.pro/componentAssets/images/informed_logo.svg",
+      logo: path_image+"Informed-logo-image.png",
       button_text: "Submit",
       button_color: "#004A89",
       question_answer_color: "#004A89",

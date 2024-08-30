@@ -200,7 +200,9 @@
         position: absolute;
         display: block;
       } */
-
+      .survey-question h2, .survey-question h3 {
+        margin: 0;
+    }
       input[type="radio"]:checked ~ .checkmark:after {
         top: 2px;
         left: 2px;
@@ -969,6 +971,17 @@
         left: -2.6em;
         animation-delay: -0.32s;
       }
+      .input-error,
+      .form-section .form-group .input-error,
+      .form-section .form-group select.input-error {
+        box-shadow: 0 0 8px #ca2a48;
+      }
+
+      .error-message {
+        color: #d61975;
+        font-size: 13px;
+        margin-top: 4px;
+      }
 
       @keyframes escaleY {
         0%,
@@ -989,7 +1002,12 @@
       }
 
       /**css loader End **/
-
+      @media only screen and (max-width:991px){
+        .cookieadd .modal-dialog {
+          max-width: 700px;
+        }
+      }
+      
       @media only screen and (max-width: 767px) {
         .informed-survey {
           margin: 16px auto;
@@ -1140,14 +1158,4 @@
         transform: translateX(100%);
       }
 
-      .input-error,
-      .form-section .form-group .input-error,
-      .form-section .form-group select.input-error {
-        box-shadow: 0 0 8px #ca2a48;
-      }
-
-      .error-message {
-        color: #d61975;
-        font-size: 13px;
-        margin-top: 4px;
-      }
+      

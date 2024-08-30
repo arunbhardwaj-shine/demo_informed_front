@@ -1,7 +1,7 @@
-@import "./mixins";
 @import "./variables";
-@import url("https://fonts.googleapis.com/css?family=Muli");
+@import "./mixins";
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Muli");
 
 h1,
 h2,
@@ -534,6 +534,7 @@ span {
                                             >div{
                                                 div{
                                                     padding:0;
+                                                    font-size: 14px;
                                                 }
                                             }
                                         }
@@ -871,6 +872,9 @@ span {
                         .choice-option {
                             gap: 16px;
                             @include flex-column;
+                            max-height: 215px;
+                            overflow-y: auto;
+                            padding: 7px 8px 4px 0;
 
                             .consent-choice {
                                 border-radius: 8px;
@@ -1592,6 +1596,9 @@ span {
 .custom-change.survey-builder .page-top-nav.sticky{
     background: #e7eff6;
 }
+.sublink_left .survey-listing .tab-panel {
+    padding: 0 0 15px;
+}
 @media (max-width:1550px) {
     .survey-builder {
         .survey-engine {
@@ -1841,7 +1848,7 @@ span {
             box-sizing: border-box;
             margin: 0 auto;
             text-align: center;
-            border-radius: 6px 6px 0 0;
+            border-radius: 8px 8px 0 0;
             min-height: 139px;
             @include vertical-list;
             justify-content: center;
@@ -2038,8 +2045,10 @@ span {
             form {
                 .question-title{
                     flex-wrap: wrap;
+                    display:inline-block!important;
                     p{
                         margin-bottom:0;
+                        display: inline;
                     }
                     margin-bottom: 17px;
                     
@@ -2213,6 +2222,7 @@ span {
                     padding-left: 0;
                     width: auto;
                     gap: 22px;
+                    justify-content: flex-end;
 
                     &.numeric {
                         justify-content: flex-end;
@@ -2526,12 +2536,8 @@ span {
             max-width: 251px;
 
             &>div:nth-child(3) {
-                max-width: 251px;
-                padding: 2px 35px 2px 2px;
-                font-size: 12px;
-                min-height: 28px;
-                box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
-
+                background: $white url(../images/arrow-down-sign.svg) no-repeat 93% center;
+                padding: 3px 50px 3px 15px;
                 >div {
                     div[class*=-placeholder] {
                         font-size: 12px;
@@ -2960,7 +2966,7 @@ span {
 
 @media (max-width:1199px) {
     .survey-setup {
-        max-width: 95%;
+        // max-width: 95%;
 
         .survey-create {
             form {
@@ -3024,6 +3030,20 @@ span {
             }
         }
     }
+    .survey-builder{
+        .survey-listing{
+            .email_box_block{
+                width: 50%;
+            }
+        } 
+    } 
+    .mail_trigger_right_dummy {
+        width: 50%;
+        .mail_trigger_dummy_content {
+            padding-top: 100px;
+        }
+    }
+    
 }
 
 @media (max-width:991px) {
@@ -3386,21 +3406,196 @@ body {
             min-height: calc(100vh - 49px);
 
             .left-setup {
-                padding: 25px 20px 22px 20px;
+                padding: 20px 15px 15px 15px;
                 max-height: calc(100vh - 49px);
                 top: 48px;
 
                 .left-setup-heading {
+                    h5 {
+                        font-size: 18px;
+                    }
                     p {
                         font-size: 13px;
+                        line-height: 1.2;
                     }
                 }
+                .left-setup-template{
+                    .template-selection {
+                        gap: 20px 20px;
+                        .template-option {
+                            width: calc(50% - 10px);
+                        }
+                    }
+                } 
+                .left-setup-format{
+                    .live-stream-tabs-data{
+                        .steps{
+                            padding-bottom: 17px;
+                            margin-bottom: 13px;
+                            gap: 18px;
+                            &.scale-options{
+                                small {
+                                    font-size: 10px;
+                                    margin: 8px 0 0;
+                                    padding: 0;
+                                }
+                                .row{
+                                    div{
+                                        .split-button-dropup{
+                                            &> div{
+                                                &:nth-child(3){
+                                                    &> div{
+                                                        div {
+                                                            font-size: 13px;
+                                                        }
+                                                    } 
+                                                } 
+                                            }
+                                        } 
+                                    } 
+                                } 
+                            }
+                            .header-added{
+                                .img-added {
+                                    margin-right: 8px;
+                                    max-width: 90px;
+                                    img {
+                                        max-width: 88px;
+                                    }
+                                }
+                                .input-file-container {
+                                    span{
+                                        font-size: 8px;
+                                    }
+                                }
+                            } 
+                            .button-style{
+                                flex-direction: column;
+                                align-items: flex-start !important;
+                            }
+                            .check-group {
+                                padding-left: 0;
+                                & > div{
+                                    gap: 9px;
+                                    .check {
+                                        font-size: 13px;
+                                    }
+                                } 
+                            }
+                            .choice-option{
+                                .consent-choice {
+                                    min-height: 50px;
+                                    flex-direction: column;
+                                    align-items: flex-start !important;
+                                    gap: 5px;
+                                    .dropdown-basic-button {
+                                        flex: 0 0 100%;
+                                        width: 100%;
+                                    }
+                                }
+                            } 
+                            &:last-child{
+                                .d-flex{
+                                    .form-label {
+                                        min-width: 100%;
+                                    }
+                                } 
+                            } 
+                            
+                            .answer-choice{
+                                &.add-more{
+                                    button {
+                                        font-size: 13px;
+                                        padding: 11px;
+                                    } 
+                                } 
+                            }
+                            p{
+                                &.option-heading {
+                                    padding-right: 3px;
+                                }
+                            }
+                            .tab-content-links {
+                                margin: -12px 0 0;
+                                line-height: 1;
+                                a{
+                                    word-break: break-word;
+                                }
+                            }
+                            .input-file-container{
+                                .input-file {
+                                    width: 87px;
+                                }
+                                .input-file-trigger {
+                                    font-size: 9px;
+                                    padding: 4px 6px;
+                                }
+                                button{
+                                    &.remove {
+                                        margin-left: 3px;
+                                        width: 22px;
+                                        height: 22px;
+                                        margin-top: 1px;
+                                    }
+                                }
+                            } 
+                        }
+                        .tab-content {
+                            padding: 8px;
+                            border-radius: 12px 12px 12px 12px;
+                        }
+                    } 
+                } 
             }
         }
     }
+    .survey-setup {
+        max-width: 800px;
+        .survey-create{
+            padding: 20px 20px 5px;
+            p {
+                font-size: 12px;
+                padding: 4px 0px 0 0;
 
+            }
+            form{
+                .input-group{
+                    &::after {
+                        content: "";
+                        left: -9px;
+                        width: calc(100% + 18px);
+                    }
+                }
+            } 
+        } 
+    }
+    .creator {
+        .login-validation {
+            bottom: 35px;
+        }
+    }
     .preview-survey {
-        margin: 20px 0 20px;
+        margin: 15px 0 15px;
+        .informed-survey{
+            .informed-survey-header{
+                h2 {
+                    font-size: 20px;
+                }
+            } 
+            .informed-survey-question {
+                margin: 30px 0 0;
+                form{
+                    label{
+                        &.check {
+                            margin: 0 0 8px;
+                        }
+                    }
+                } 
+                .form-footer {
+                    margin: 28px 0 0;
+                }
+            }
+        } 
     }
 
     .custom-change {
@@ -3423,7 +3618,14 @@ body {
                     }
 
                     .col-md-3 {
-                        order: 2;
+                        &:first-child{
+                            order: 1;
+                        }
+                        
+                    }
+                    .col-md-3 {
+                            order: 2;
+                        
                     }
                     .col-sm-1 {
                         order: 1;
@@ -3432,9 +3634,18 @@ body {
                         order: 3;
                         width: 100%; 
                     }
+                    .col-md-6{
+                        order: 3;
+                        width: 100%; 
+                    }
                 }
             }
         }
+    }
+    .survey-config {
+        padding: 32px 32px;
+        max-width: 600px;
+        margin: 0 auto;
     }
 }
 

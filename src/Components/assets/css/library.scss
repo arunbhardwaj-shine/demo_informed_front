@@ -1308,7 +1308,7 @@
           &.timeline-details-heading {
             color: $light-gray;
             font-weight: 500;
-            min-width: 50px;
+            min-width: 82px;
           }
         }
  
@@ -1513,11 +1513,16 @@
             box-shadow: 0 0 8px 0 rgba(0, 102, 190, 0.24);
             @include flex-middle;
             background: $white;
+            img{
+              max-width: 22px;
+              max-height: 22px;
+            }
+            svg{
+              width:22px;
+              height:auto;
+            }
           }
-          .indicator-box img{
-            width: 22px;
-            height: 22px;
-          }
+          
         }
       }
     }
@@ -26794,7 +26799,7 @@ table {
   .poll-creation .nav-tabs .nav-item:last-child button.active:after,
   .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
   .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
-    top: 24px;
+    top: 20px;
   }
 
   .rd-full-explain .rd-training-block .country_tabs .nav-tabs li.nav-item button {

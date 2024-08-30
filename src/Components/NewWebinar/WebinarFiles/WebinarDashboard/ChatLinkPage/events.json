@@ -82,6 +82,11 @@
             "type": "color",
             "value": "#dbecea"  
         },
+        "headerTextColor": {
+            "title": "Header Text Color",
+            "type": "color",
+            "value": "#233c7a"  
+        },
         "heading": {
             "title": "Header Text",
             "type": "text",
@@ -793,6 +798,11 @@
             "title": "Header Background",
             "type": "color",
             "value": "#0062AE"  
+        },
+        "headerTextColor": {
+            "title": "Header Text Color",
+            "type": "color",
+            "value": "#ffff"  
         },
         "heading": {
             "title": "Header Text",

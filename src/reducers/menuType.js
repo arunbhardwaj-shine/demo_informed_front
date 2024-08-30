@@ -1,3 +1,8 @@
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
+
 export const menuType = {
   multiple: {
     accordionType: "questionTypes",
@@ -8,7 +13,7 @@ export const menuType = {
     questionDescription: "",
     isOptional: false,
     visible: true,
-    optionalLabel: "",
+    optionalLabel:"(Optional)",
     answer: [
       { value: "", answerId: 0 },
       { value: "", answerId: 0 },
@@ -17,10 +22,10 @@ export const menuType = {
     questionNo: 0,
     addOtherChoice: false,
     extra: {
-      otherChoiceLabel: "",
+      otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
       addAllOfTheAbove: false,
-      allOfTheAboveLabel: "",
+      allOfTheAboveLabel: "All of the above",
     },
   },
   checkbox: {
@@ -32,7 +37,7 @@ export const menuType = {
     questionDescription: "",
     visible: true,
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     answer: [
       { value: "", answerId: 0 },
       { value: "", answerId: 0 },
@@ -41,7 +46,7 @@ export const menuType = {
     questionNo: 1,
     addOtherChoice: false,
     extra: {
-      otherChoiceLabel: "",
+      otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
       
     },
@@ -55,7 +60,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     addOtherChoice: false,
     answer: [
       // { value: "", answerId: 0 },
@@ -64,7 +69,7 @@ export const menuType = {
     ],
     style: {},
     extra: {
-      placeholder: "",
+      placeholder: "Please Select",
     },
   },
   freeText: {
@@ -79,7 +84,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     style: {},
     extra: {
       Placeholder:"",
@@ -95,7 +100,7 @@ export const menuType = {
     questionDescriptionEnabled: true,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     answer: [
       {
         title: "Row 1",
@@ -126,7 +131,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     style: {},
     extra: {
       ratingScale: 5,
@@ -136,16 +141,18 @@ export const menuType = {
       rightSideLabel: "",
       maxRating: 5,
     },
+    answer: []
   },
   heading: {
     accordionType: "commonElements",
     type: "heading",
     questionId: 0,
     visible: true,
-    question: "",
+    question: "<p>Lorem Ipsum<p>",
     questionDescriptionEnabled: false,
     questionDescription: "",
     style: {},
+    answer: []
   },
 
   paragraph: {
@@ -157,6 +164,7 @@ export const menuType = {
     style: {
       color: "#004A89",
     },
+    answer: []
   },
 
   divideLine: {
@@ -172,20 +180,22 @@ export const menuType = {
       width: 100,
       height: 5,
     },
+    answer: []
   },
   image: {
     accordionType: "commonElements",
     type: "image",
     visible: true,
     questionId: 0,
-    question: "",
+    question: path_image+"add-img.png",
     extra: {
-      altText: "",
+      altText: "Image",
     },
     style: {
       width: "50",
       height: "auto",
     },
+    answer: []
   },
   consent: {
     accordionType: "commonElements",
@@ -233,15 +243,15 @@ export const menuType = {
       ],
       privacyLinks: [
         {
-          octapharma: "/octapharma-privacy",
+          octapharma: "https://onesource.octapharma.com/octapharma-privacy",
         },
         { docintel: "https://albert.docintel.app/privacy_policy/" },
-        { termsOfUse: "/terms_of_use" },
+        { termsOfUse: "https://onesource.octapharma.com/terms_of_use" },
       ],
       cookiePolicy:
-        ' <p>We only use essential cookies and no data is shared with 3rd party. <a href="javascript:void(0)" id=show-modal>Click here</a> to see the specifics.</p> <div class="copyright-links"> <a href="/octapharma-privacy" target="_blank">Octapharma Privacy Statement</a> <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel Privacy Policy</a> <a href="/terms_of_use" target="_blank">Terms of Use</a> </div>',
+        ' <p>We only use essential cookies and no data is shared with 3rd party. <a href="https://onesource.octapharma.com/octapharma-privacy" id=show-modal>Click here</a> to see the specifics.</p> <div class="copyright-links"> <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma Privacy Statement</a> <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel Privacy Policy</a> <a href="https://onesource.octapharma.com/terms_of_use" target="_blank">Terms of Use</a> </div>',
       operatingStatement:
-        '<a href="/octapharma-privacy" target="_blank">Octapharma AG</a> and <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel.app</a> operating this page.',
+        '<a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> and <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel.app</a> operating this page.',
     },
   },
 };
