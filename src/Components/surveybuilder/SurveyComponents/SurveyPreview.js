@@ -51,11 +51,11 @@ const SurveyPreview = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const survey_id = surveyValues?.survey_id;
-  console.log(custom_html.header_background_type);
+
 
   const [templateData, setTemplateData] = useState({
     headerBackground:
-      custom_html.header_background_type == "color"
+      custom_html?.header_background_type == "color"
         ? {
             backgroundColor: custom_html?.header_background_color,
           }
@@ -73,6 +73,7 @@ const SurveyPreview = (props) => {
     page_background_color: custom_html?.page_background_color,
     main_footer: custom_html?.main_footer,
     bodyText: custom_html?.bodyText,
+    logoWidth:custom_html?.logoWidth
   });
 
   const [draggedElementIndex, setDraggedElementIndex] = useState(null);
@@ -394,10 +395,11 @@ const SurveyPreview = (props) => {
             >
               {templateData.logo ? (
                 <img
-                  src={templateData.logo}
-                  alt="Informed Logo"
-                  style={{ width: templateData.logoWidth }}
-                />
+                src={templateData.logo}
+                alt="Informed Logo"
+                style={{ width: `${templateData.logoWidth}%` }}
+              />
+              
               ) : (
                 ""
               )}
