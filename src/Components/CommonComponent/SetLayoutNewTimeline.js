@@ -40,6 +40,8 @@ const SetLayoutNewTimeline = () => {
   ];
   const [data, setData] = useState([]);
   const [timelineData, setTimelineData] = useState([])
+  const [apiStatus,setApiStatus]=useState(false)
+  const [sectionLoader, setSectionLoader] = useState(false);
   useEffect(() => {
     let newdata = [...dummyData];
     if (localStorage.getItem("group_id") == 2) {
@@ -147,10 +149,16 @@ const SetLayoutNewTimeline = () => {
 
   const getTimeLineData = async () => {
     try {
+      setSectionLoader(true);
       const response = await getData(ENDPOINT.RD_LANDING_TIMELINE)
       setTimelineData(response?.data?.data)
+      
     } catch (err) {
       console.log("--err", err)
+      
+    }finally{
+      setApiStatus(true)
+      setSectionLoader(false);
     }
   }
 
@@ -159,7 +167,7 @@ const SetLayoutNewTimeline = () => {
     const date = new Date();
     date.setHours(hours, minutes);
 
-    let hours12 = date.getHours() == 12 ? 12 : date.getHours() % 12 || "00"; 
+    let hours12 = date.getHours() == 12 ? 12 : date.getHours() % 12 || "00";
     let minutesFormatted = date.getMinutes().toString().padStart(2, '0');
 
     let ampm = date.getHours() >= 12 ? 'PM' : 'AM';
@@ -203,7 +211,23 @@ const SetLayoutNewTimeline = () => {
             </div>
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
-                {timelineData?.length ?
+                {!apiStatus?
+                (
+                  <div className="accordion-loader">
+                    <div
+                      className={
+                        "loader tab-inside " +
+                        (sectionLoader ? "show" : "")
+                      }
+                      id="custom_loader"
+                    >
+                      <div className="loader_show">
+                        <span className="loader-view"> </span>
+                      </div>
+                    </div>
+                  </div>
+                ) :
+                timelineData?.length ?
                   <div className="timeline-right-list">
                     <div className="timeline-right-header">
                       <div className="timeline-indicator">
@@ -231,7 +255,7 @@ const SetLayoutNewTimeline = () => {
                           {data?.IrtData?.map((item, i) => {
 
                             return (<>
-                              {item?.heading == "Auto Email sent"
+                              {(item?.auto_mail == 1 || item?.auto_mail == 2)
                                 ?
                                 <div className="timeline-box-inset">
                                   <div className="timeline-indicator">
@@ -241,13 +265,13 @@ const SetLayoutNewTimeline = () => {
                                   </div>
                                   <div className="timeline-block">
                                     <div className="timeline-status">
-                                      <p>{item?.heading}</p>
+                                      <p>Auto Email sent</p>
                                       <span>{formatTime(item?.time)} </span>
                                     </div>
                                     <div className="timeline-details">
                                       <div className="details-box">
                                         <p className="timeline-details-heading">Type</p>
-                                        <p>Open email reminder</p>
+                                        <p>{item?.auto_mail == 1 ? "Open email reminder" : "Training completion reminder"}</p>
                                       </div>
                                       <div className="details-box">
                                         <p className="timeline-details-heading">Title</p>
@@ -256,19 +280,35 @@ const SetLayoutNewTimeline = () => {
                                       <div className="details-box">
                                         <p className="timeline-details-heading">To</p>
                                         <div className="d-flex flex-wrap timeline-activity">
-                                          {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                          {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                             <div className="timeline-activity-detail">
                                               <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                               <p>{user?.user_type}</p>
                                               <span>{user?.site_number}</span>
                                             </div>
-                                          </>)) : ""}
+                                          </>)) : ""} */}
+                                          {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                            const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                            return userProfile ? (
+                                              <div key={index} className="timeline-activity-detail">
+                                                {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                <p>{
+                                                  userProfile?.first_name != '' ?
+                                                    userProfile?.first_name + " " + userProfile?.last_name
+                                                    : userProfile?.name
+                                                }
+                                                </p>
+                                                <p>{userProfile?.user_type}</p>
+                                                <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                              </div>
+                                            ) : null
+                                          }) : ""}
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                                : item?.heading == "IRT Started Training"
+                                : item?.action == "IRT Started Training"
                                   ?
                                   <div className="timeline-box-inset">
                                     <div className="timeline-indicator">
@@ -278,7 +318,7 @@ const SetLayoutNewTimeline = () => {
                                     </div>
                                     <div className="timeline-block">
                                       <div className="timeline-status start">
-                                        <p>{item?.heading}</p>
+                                        <p>IRT Started Training</p>
                                         <span>{formatTime(item?.time)} </span>
                                       </div>
                                       <div className="timeline-details">
@@ -287,22 +327,44 @@ const SetLayoutNewTimeline = () => {
                                           <p>IRT has started the training but is not finished yet</p>
                                         </div>
                                         <div className="details-box">
+                                          <p className="timeline-details-heading">Title</p>
+                                          <div className="d-flex justify-content-between">
+                                            <p>{item?.pdfTitle}</p>
+                                          </div>
+                                        </div>
+                                        <div className="details-box">
                                           <p className="timeline-details-heading">Who</p>
                                           <div className="d-flex flex-wrap timeline-activity">
-                                            {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                            {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                               <div className="timeline-activity-detail">
                                                 <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                 <p>{user?.user_type}</p>
                                                 <span>{user?.site_number}</span>
                                               </div>
-                                            </>)) : ""}
+                                            </>)) : ""} */}
+                                            {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                              const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                              return userProfile ? (
+                                                <div key={index} className="timeline-activity-detail">
+                                                  {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                  <p>{
+                                                    userProfile?.first_name != '' ?
+                                                      userProfile?.first_name + " " + userProfile?.last_name
+                                                      : userProfile?.name
+                                                  }
+                                                  </p>
+                                                  <p>{userProfile?.user_type}</p>
+                                                  <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                </div>
+                                              ) : null
+                                            }) : ""}
                                           </div>
                                         </div>
                                       </div>
                                     </div>
 
                                   </div>
-                                  : item?.heading == "Content Opened"
+                                  : item?.action?.includes('Article opened')
                                     ?
                                     <div className="timeline-box-inset">
                                       <div className="timeline-indicator">
@@ -312,7 +374,7 @@ const SetLayoutNewTimeline = () => {
                                       </div>
                                       <div className="timeline-block">
                                         <div className="timeline-status">
-                                          <p>{item?.heading}</p>
+                                          <p>Content Opened</p>
                                           <span>{formatTime(item?.time)} </span>
                                         </div>
                                         <div className="timeline-details">
@@ -325,7 +387,7 @@ const SetLayoutNewTimeline = () => {
                                                 <p>{item?.pdfTitle}</p>
                                               </div>
                                               <div className="timeline-subtitle">
-                                                <p>{item?.subTitle}</p>
+                                                <p>{item?.subTitle ? item?.subTitle : "N/A"}</p>
                                                 {item?.allow_video == 1 ?
                                                   <div className="d-flex align-items-center include-links">
                                                     <img src={path_image + "video-img.png"} alt="" />
@@ -338,14 +400,29 @@ const SetLayoutNewTimeline = () => {
                                           <div className="details-box">
                                             <p className="timeline-details-heading">Who</p>
                                             <div className="d-flex flex-wrap timeline-activity">
-                                              {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                              {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
 
                                                 <div className="timeline-activity-detail">
                                                   <p>{user?.first_name}</p>
                                                   <p>{user?.site_number}</p>
                                                 </div>
 
-                                              </>)) : ""}
+                                              </>)) : ""} */}
+                                              {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                return userProfile ? (
+                                                  <div key={index} className="timeline-activity-detail">
+                                                    {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                    <p>{
+                                                      userProfile?.first_name != '' ?
+                                                        userProfile?.first_name + " " + userProfile?.last_name
+                                                        : userProfile?.name
+                                                    }
+                                                    </p>
+                                                    <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                  </div>
+                                                ) : null
+                                              }) : ""}
 
 
                                             </div>
@@ -353,7 +430,7 @@ const SetLayoutNewTimeline = () => {
                                         </div>
                                       </div>
                                     </div>
-                                    : item?.heading == "New HCP Registered"
+                                    : (item?.action?.includes('Registered') && item?.app_used == "LEX-Registration-Page")
                                       ?
                                       <div className="timeline-box-inset">
                                         <div className="timeline-indicator">
@@ -363,7 +440,7 @@ const SetLayoutNewTimeline = () => {
                                         </div>
                                         <div className="timeline-block">
                                           <div className="timeline-status">
-                                            <p>{item?.heading}</p>
+                                            <p>New HCP Registered</p>
                                             <span>{formatTime(item?.time)} </span>
                                           </div>
                                           <div className="timeline-details">
@@ -374,13 +451,29 @@ const SetLayoutNewTimeline = () => {
                                             <div className="details-box">
                                               <p className="timeline-details-heading">Who</p>
                                               <div className="d-flex flex-wrap timeline-activity">
-                                                {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                   <div className="timeline-activity-detail">
                                                     <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                     <p>{user?.user_type}</p>
                                                     <span>{user?.site_number}</span>
                                                   </div>
-                                                </>)) : ""}
+                                                </>)) : ""} */}
+                                                {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                  const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                  return userProfile ? (
+                                                    <div key={index} className="timeline-activity-detail">
+                                                      {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                      <p>{
+                                                        userProfile?.first_name != '' ?
+                                                          userProfile?.first_name + " " + userProfile?.last_name
+                                                          : userProfile?.name
+                                                      }
+                                                      </p>
+                                                      <p>{userProfile?.user_type}</p>
+                                                      <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                    </div>
+                                                  ) : null
+                                                }) : ""}
                                               </div>
                                             </div>
                                           </div>
@@ -388,7 +481,7 @@ const SetLayoutNewTimeline = () => {
 
                                       </div>
 
-                                      : item?.heading == "IRT Completed Training"
+                                      : (item?.action?.includes('Certificate of training issued for IRT Role'))
                                         ?
                                         <div className="timeline-box-inset">
                                           <div className="timeline-indicator">
@@ -398,7 +491,7 @@ const SetLayoutNewTimeline = () => {
                                           </div>
                                           <div className="timeline-block">
                                             <div className="timeline-status complete">
-                                              <p>{item?.heading}</p>
+                                              <p>IRT Completed Training</p>
                                               <span>{formatTime(item?.time)} </span>
                                             </div>
                                             <div className="timeline-details">
@@ -406,26 +499,49 @@ const SetLayoutNewTimeline = () => {
                                                 <p className="timeline-details-heading">What</p>
                                                 <div className="d-flex justify-content-between">
                                                   <p>IRT has completed the training and received the certificate</p>
+
                                                   <img src={path_image + "certificate.png"} alt="" />
+                                                </div>
+                                              </div>
+                                              <div className="details-box">
+                                                <p className="timeline-details-heading">Title</p>
+                                                <div className="d-flex justify-content-between">
+                                                  <p>{item?.pdfTitle}</p>
                                                 </div>
                                               </div>
                                               <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
                                                 <div className="d-flex flex-wrap timeline-activity">
-                                                  {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                  {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                     <div className="timeline-activity-detail">
                                                       <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                       <p>{user?.user_type}</p>
                                                       <span>{user?.site_number}</span>
                                                     </div>
-                                                  </>)) : ""}
+                                                  </>)) : ""} */}
+                                                  {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                    const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                    return userProfile ? (
+                                                      <div key={index} className="timeline-activity-detail">
+                                                        {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                        <p>{
+                                                          userProfile?.first_name != '' ?
+                                                            userProfile?.first_name + " " + userProfile?.last_name
+                                                            : userProfile?.name
+                                                        }
+                                                        </p>
+                                                        <p>{userProfile?.user_type}</p>
+                                                        <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                      </div>
+                                                    ) : null
+                                                  }) : ""}
 
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                        : item?.heading == "Content Shared"
+                                        : (item?.action?.includes('Article is shared'))
                                           ?
                                           <div className="timeline-box-inset">
                                             <div className="timeline-indicator">
@@ -435,7 +551,7 @@ const SetLayoutNewTimeline = () => {
                                             </div>
                                             <div className="timeline-block">
                                               <div className="timeline-status">
-                                                <p>{item?.heading}</p>
+                                                <p>Content Shared</p>
                                                 <span>{formatTime(item?.time)} </span>
                                               </div>
                                               <div className="timeline-details">
@@ -461,17 +577,32 @@ const SetLayoutNewTimeline = () => {
                                                 <div className="details-box">
                                                   <p className="timeline-details-heading">Who</p>
                                                   <div className="d-flex flex-wrap timeline-activity">
-                                                    {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                    {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                       <div className="timeline-activity-detail">
                                                         <span>{user?.site_number}</span>
                                                       </div>
-                                                    </>)) : ""}
+                                                    </>)) : ""} */}
+                                                    {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                      const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                      return userProfile ? (
+                                                        <div key={index} className="timeline-activity-detail">
+                                                          {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                          <p>{
+                                                            userProfile?.first_name != '' ?
+                                                              userProfile?.first_name + " " + userProfile?.last_name
+                                                              : userProfile?.name
+                                                          }
+                                                          </p>
+                                                          <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                        </div>
+                                                      ) : null
+                                                    }) : ""}
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
-                                          : item?.heading == "IRT Ignored Training"
+                                          : (item?.action?.includes('IRT Ignored Training'))
                                             ?
                                             <div className="timeline-box-inset">
                                               <div className="timeline-indicator">
@@ -481,7 +612,7 @@ const SetLayoutNewTimeline = () => {
                                               </div>
                                               <div className="timeline-block">
                                                 <div className="timeline-status ignored">
-                                                  <p>{item?.heading}</p>
+                                                  <p>IRT Ignored Training</p>
                                                   <span>{formatTime(item?.time)} </span>
                                                 </div>
                                                 <div className="timeline-details">
@@ -490,21 +621,43 @@ const SetLayoutNewTimeline = () => {
                                                     <p>IRT ignored the training</p>
                                                   </div>
                                                   <div className="details-box">
+                                                    <p className="timeline-details-heading">Title</p>
+                                                    <div className="d-flex justify-content-between">
+                                                      <p>{item?.pdfTitle}</p>
+                                                    </div>
+                                                  </div>
+                                                  <div className="details-box">
                                                     <p className="timeline-details-heading">Who</p>
                                                     <div className="d-flex flex-wrap timeline-activity">
-                                                      {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                      {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                         <div className="timeline-activity-detail">
                                                           <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                           <p>{user?.user_type}</p>
                                                           <span>{user?.site_number}</span>
                                                         </div>
-                                                      </>)) : ""}
+                                                      </>)) : ""} */}
+                                                      {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                        const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                        return userProfile ? (
+                                                          <div key={index} className="timeline-activity-detail">
+                                                            {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                            <p>{
+                                                              userProfile?.first_name != '' ?
+                                                                userProfile?.first_name + " " + userProfile?.last_name
+                                                                : userProfile?.name
+                                                            }
+                                                            </p>
+                                                            <p>{userProfile?.user_type}</p>
+                                                            <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                          </div>
+                                                        ) : null
+                                                      }) : ""}
                                                     </div>
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
-                                            : item?.heading == "IRT Not Completed Training"
+                                            : (item?.action?.includes('IRT Not Completed Training'))
                                               ?
                                               <div className="timeline-box-inset">
                                                 <div className="timeline-indicator">
@@ -514,7 +667,7 @@ const SetLayoutNewTimeline = () => {
                                                 </div>
                                                 <div className="timeline-block">
                                                   <div className="timeline-status not-complete">
-                                                    <p>{item?.heading}</p>
+                                                    <p>IRT Not Completed Training</p>
                                                     <span>{formatTime(item?.time)} </span>
                                                   </div>
                                                   <div className="timeline-details">
@@ -523,21 +676,43 @@ const SetLayoutNewTimeline = () => {
                                                       <p>IRT started the training and didn't complete it even after all the email reminders</p>
                                                     </div>
                                                     <div className="details-box">
+                                                      <p className="timeline-details-heading">Title</p>
+                                                      <div className="d-flex justify-content-between">
+                                                        <p>{item?.pdfTitle}</p>
+                                                      </div>
+                                                    </div>
+                                                    <div className="details-box">
                                                       <p className="timeline-details-heading">Who</p>
                                                       <div className="d-flex flex-wrap timeline-activity">
-                                                        {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                        {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                           <div className="timeline-activity-detail">
                                                             <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                             <p>{user?.user_type}</p>
                                                             <span>{user?.site_number}</span>
                                                           </div>
-                                                        </>)) : ""}
+                                                        </>)) : ""} */}
+                                                        {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                          const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                          return userProfile ? (
+                                                            <div key={index} className="timeline-activity-detail">
+                                                              {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                              <p>{
+                                                                userProfile?.first_name != '' ?
+                                                                  userProfile?.first_name + " " + userProfile?.last_name
+                                                                  : userProfile?.name
+                                                              }
+                                                              </p>
+                                                              <p>{userProfile?.user_type}</p>
+                                                              <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                            </div>
+                                                          ) : null
+                                                        }) : ""}
                                                       </div>
                                                     </div>
                                                   </div>
                                                 </div>
                                               </div>
-                                              : item?.heading == "IRT Unblocked"
+                                              : (item?.auto_mail == 4)
                                                 ?
                                                 <div className="timeline-box-inset">
                                                   <div className="timeline-indicator">
@@ -547,7 +722,7 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                   <div className="timeline-block">
                                                     <div className="timeline-status blocked">
-                                                      <p>{item?.heading}</p>
+                                                      <p>IRT Unblocked</p>
                                                       <span>{formatTime(item?.time)} </span>
                                                     </div>
                                                     <div className="timeline-details">
@@ -558,86 +733,237 @@ const SetLayoutNewTimeline = () => {
                                                       <div className="details-box">
                                                         <p className="timeline-details-heading">Who</p>
                                                         <div className="d-flex flex-wrap timeline-activity">
-                                                          {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                          {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                             <div className="timeline-activity-detail">
                                                               <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                               <p>{user?.user_type}</p>
                                                               <span>{user?.site_number}</span>
                                                             </div>
-                                                          </>)) : ""}
+                                                          </>)) : ""} */}
+                                                          {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                            const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                            return userProfile ? (
+                                                              <div key={index} className="timeline-activity-detail">
+                                                                {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                                <p>{
+                                                                  userProfile?.first_name != '' ?
+                                                                    userProfile?.first_name + " " + userProfile?.last_name
+                                                                    : userProfile?.name
+                                                                }
+                                                                </p>
+                                                                <p>{userProfile?.user_type}</p>
+                                                                <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                              </div>
+                                                            ) : null
+                                                          }) : ""}
                                                         </div>
                                                       </div>
                                                     </div>
                                                   </div>
                                                 </div>
-                                                :item?.heading == "IRT Blocked"
-                                                ?
-                                                <div className="timeline-box-inset">
-                                                  <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img src={path_image + "irt-blocked.svg"} alt="" />
-                                                    </div>
-                                                  </div>
-                                                  <div className="timeline-block">
-                                                    <div className="timeline-status blocked">
-                                                      <p>{item?.heading}</p>
-                                                      <span>{formatTime(item?.time)} </span>
-                                                    </div>
-                                                    <div className="timeline-details">
-                                                      <div className="details-box">
-                                                        <p className="timeline-details-heading">What</p>
-                                                        <p>IRT have been blocked from participating in training</p>
-                                                      </div>
-                                                      <div className="details-box">
-                                                        <p className="timeline-details-heading">Who</p>
-                                                        <div className="d-flex flex-wrap timeline-activity">
-                                                          {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                            <div className="timeline-activity-detail">
-                                                              <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                              <p>{user?.user_type}</p>
-                                                              <span>{user?.site_number}</span>
-                                                            </div>
-                                                          </>)) : ""}
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                :
-                                                item?.heading == "IRT Invited to the Training"
+                                                : (item?.action?.includes("Blocked mandatory training reminder") && item?.auto_mail == 3)
                                                   ?
                                                   <div className="timeline-box-inset">
                                                     <div className="timeline-indicator">
                                                       <div className="indicator-box">
-                                                        <img src={path_image + "irt-training-start.svg"} alt="" />
+                                                        <img src={path_image + "irt-blocked.svg"} alt="" />
                                                       </div>
                                                     </div>
                                                     <div className="timeline-block">
-                                                      <div className="timeline-status start">
-                                                        <p>{item?.heading}</p>
+                                                      <div className="timeline-status blocked">
+                                                        <p>IRT Blocked</p>
                                                         <span>{formatTime(item?.time)} </span>
                                                       </div>
                                                       <div className="timeline-details">
                                                         <div className="details-box">
                                                           <p className="timeline-details-heading">What</p>
-                                                          <p>IRT has received the training email</p>
+                                                          <p>IRT have been blocked from participating in training</p>
                                                         </div>
                                                         <div className="details-box">
                                                           <p className="timeline-details-heading">Who</p>
                                                           <div className="d-flex flex-wrap timeline-activity">
-                                                            {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                            {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
                                                               <div className="timeline-activity-detail">
                                                                 <p>{`${user?.first_name} ${user?.last_name}`}</p>
                                                                 <p>{user?.user_type}</p>
                                                                 <span>{user?.site_number}</span>
                                                               </div>
-                                                            </>)) : ""}
+                                                            </>)) : ""} */}
+                                                            {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                              const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                              return userProfile ? (
+                                                                <div key={index} className="timeline-activity-detail">
+
+                                                                  <p>
+                                                                    {
+                                                                      userProfile?.first_name != '' ?
+                                                                        userProfile?.first_name + " " + userProfile?.last_name
+                                                                        : userProfile?.name
+                                                                    }
+                                                                  </p>
+                                                                  <p>{userProfile?.user_type}</p>
+                                                                  <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                                </div>
+                                                              ) : null
+                                                            }) : ""}
                                                           </div>
                                                         </div>
                                                       </div>
                                                     </div>
                                                   </div>
-                                                  : ""
+                                                  : (item?.auto_mail == 5)
+                                                    ?
+                                                    <div className="timeline-box-inset">
+                                                      <div className="timeline-indicator">
+                                                        <div className="indicator-box">
+                                                          <img src={path_image + "new-hcp.svg"} alt="" />
+                                                        </div>
+                                                      </div>
+                                                      <div className="timeline-block">
+                                                        <div className="timeline-status blocked">
+                                                          <p>IRT Role Changed</p>
+                                                          <span>{formatTime(item?.time)} </span>
+                                                        </div>
+                                                        <div className="timeline-details">
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">What</p>
+                                                            <p>IRT have been changed role</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Type</p>
+                                                            <div className="d-flex justify-content-between">
+                                                              <p>{item?.action}</p>
+                                                            </div>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Who</p>
+                                                            <div className="d-flex flex-wrap timeline-activity">
+                                                              {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                              <div className="timeline-activity-detail">
+                                                                <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                                <p>{user?.user_type}</p>
+                                                                <span>{user?.site_number}</span>
+                                                              </div>
+                                                            </>)) : ""} */}
+                                                              {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                                const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                                return userProfile ? (
+                                                                  <div key={index} className="timeline-activity-detail">
+                                                                    {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                                    <p>{
+                                                                      userProfile?.first_name != '' ?
+                                                                        userProfile?.first_name + " " + userProfile?.last_name
+                                                                        : userProfile?.name
+                                                                    }
+                                                                    </p>
+                                                                    <p>{userProfile?.user_type}</p>
+                                                                    <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                                  </div>
+                                                                ) : null
+                                                              }) : ""}
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    : (item?.auto_mail == 0 && item?.action?.includes('Webinar New mail received') && item?.logger_id != 0 && item?.event_id != 0)
+                                                      ?
+                                                      <div className="timeline-box-inset">
+                                                        <div className="timeline-indicator">
+                                                          <div className="indicator-box">
+                                                            <img src={path_image + "irt-training-start.svg"} alt="" />
+                                                          </div>
+                                                        </div>
+                                                        <div className="timeline-block">
+                                                          <div className="timeline-status start">
+                                                            <p>Webinar Email Sent</p>
+                                                            <span>{formatTime(item?.time)} </span>
+                                                          </div>
+                                                          <div className="timeline-details">
+                                                            <div className="details-box">
+                                                              <p className="timeline-details-heading">Title</p>
+                                                              <p>{item?.title}</p>
+                                                            </div>
+                                                            <div className="details-box">
+                                                              <p className="timeline-details-heading">Who</p>
+                                                              <div className="d-flex flex-wrap timeline-activity">
+                                                                {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
+                                                                <div className="timeline-activity-detail">
+                                                                  <p>{`${user?.first_name} ${user?.last_name}`}</p>
+                                                                  <p>{user?.user_type}</p>
+                                                                  <span>{user?.site_number}</span>
+                                                                </div>
+                                                              </>)) : ""} */}
+                                                                {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                                  const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                                  return userProfile ? (
+                                                                    <div key={index} className="timeline-activity-detail">
+                                                                      {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                                      <p>{
+                                                                        userProfile?.first_name != '' ?
+                                                                          userProfile?.first_name + " " + userProfile?.last_name
+                                                                          : userProfile?.name
+                                                                      }
+                                                                      </p>
+                                                                      <p>{userProfile?.user_type}</p>
+                                                                      <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                                    </div>
+                                                                  ) : null
+                                                                }) : ""}
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      : (item?.auto_mail == 0 && item?.action?.includes('New mail received') && item?.logger_id == 0 && item?.event_id == 0)
+                                                        ?
+                                                        <div className="timeline-box-inset">
+                                                          <div className="timeline-indicator">
+                                                            <div className="indicator-box">
+                                                              <img src={path_image + "irt-invited-training.svg"} alt="" />
+                                                            </div>
+                                                          </div>
+                                                          <div className="timeline-block">
+                                                            <div className="timeline-status ">
+                                                              <p>{item?.reader_mandatory == 1 ? "IRT Invited to the Training" : "Email sent"}</p>
+                                                              <span>{formatTime(item?.time)} </span>
+                                                            </div>
+                                                            <div className="timeline-details">
+                                                              <div className="details-box">
+                                                                <p className="timeline-details-heading">What</p>
+                                                                <p>{item?.reader_mandatory == 1 ? "IRT has received the training email" : "New mail received"}</p>
+                                                              </div>
+                                                              <div className="details-box">
+                                                                <p className="timeline-details-heading">Title</p>
+                                                                <div className="d-flex justify-content-between">
+                                                                  <p>{item?.pdfTitle}</p>
+                                                                </div>
+                                                              </div>
+                                                              <div className="details-box">
+                                                                <p className="timeline-details-heading">Who</p>
+                                                                <div className="d-flex flex-wrap timeline-activity">
+                                                                  {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                                    const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
+                                                                    return userProfile ? (
+                                                                      <div key={index} className="timeline-activity-detail">
+                                                                        {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                                        <p>{
+                                                                          userProfile?.first_name != '' ?
+                                                                            userProfile?.first_name + " " + userProfile?.last_name
+                                                                            : userProfile?.name
+                                                                        }
+                                                                        </p>
+                                                                        <p>{userProfile?.user_type}</p>
+                                                                        <span>{userProfile?.site_number!=0?userProfile?.site_number:"N/A"}</span>
+                                                                      </div>
+                                                                    ) : null
+                                                                  }) : ""}
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        : ""
                               }
                             </>)
                           })}

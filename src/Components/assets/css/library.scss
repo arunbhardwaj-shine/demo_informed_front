@@ -1390,6 +1390,15 @@
     .timeline-box {
       padding-left: 92px;
       margin: 0;
+      &:last-child {
+      .timeline-box-inset {
+        &:last-child {
+          &::after {
+            height: 50%;
+        }
+        }
+      }
+      }
  
       &:nth-child(n+1) {
         .timeline-sticky {
@@ -1471,9 +1480,9 @@
  
         &:last-child {
           margin: 4px 0 4px;
-          &::after {
-            height: 50%;
-        }
+        //   &::after {
+        //     height: 50%;
+        // }
         }
  
         &:after {
