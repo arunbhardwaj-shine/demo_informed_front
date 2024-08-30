@@ -51,11 +51,11 @@ const SurveyPreview = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const survey_id = surveyValues?.survey_id;
-  console.log(custom_html.header_background_type);
+
 
   const [templateData, setTemplateData] = useState({
     headerBackground:
-      custom_html.header_background_type == "color"
+      custom_html?.header_background_type == "color"
         ? {
             backgroundColor: custom_html?.header_background_color,
           }
