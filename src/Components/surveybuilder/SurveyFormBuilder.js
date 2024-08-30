@@ -92,8 +92,8 @@ const SurveyFormBuilder = (props) => {
             : "color"
         );
         if (customHtmlData.header_background_type == "image") {
-          setChangeTitleToggle(false);
-          setChangeLogoToggle(false);
+          setChangeTitleToggle(customHtmlData.changeLogoToggle);
+          setChangeLogoToggle(customHtmlData.changeTitleToggle);
         }
         console.log(customHtmlData);
         setCustomHtml(customHtmlData);
@@ -204,7 +204,7 @@ const SurveyFormBuilder = (props) => {
 
   const handleChoiceChange = (id) => {
     
-    if(id == 2 || id==2 && header_background_type  != "color"){
+    if(id == 2 || id == 3 && header_background_type  != "color"){
       setHeaderBackgroundType("image")
     } 
     
@@ -521,6 +521,8 @@ const SurveyFormBuilder = (props) => {
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
           // selectedTemplateClass,
+          changeLogoToggle,
+          changeTitleToggle,
           header_background_type: header_background_type,
         },
       ];
