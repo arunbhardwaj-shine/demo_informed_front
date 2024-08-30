@@ -13,7 +13,7 @@ export const menuType = {
     questionDescription: "",
     isOptional: false,
     visible: true,
-    optionalLabel: "",
+    optionalLabel:"(Optional)",
     answer: [
       { value: "", answerId: 0 },
       { value: "", answerId: 0 },
@@ -22,10 +22,10 @@ export const menuType = {
     questionNo: 0,
     addOtherChoice: false,
     extra: {
-      otherChoiceLabel: "",
+      otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
       addAllOfTheAbove: false,
-      allOfTheAboveLabel: "",
+      allOfTheAboveLabel: "All of the above",
     },
   },
   checkbox: {
@@ -37,7 +37,7 @@ export const menuType = {
     questionDescription: "",
     visible: true,
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     answer: [
       { value: "", answerId: 0 },
       { value: "", answerId: 0 },
@@ -46,7 +46,7 @@ export const menuType = {
     questionNo: 1,
     addOtherChoice: false,
     extra: {
-      otherChoiceLabel: "",
+      otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
       
     },
@@ -60,7 +60,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     addOtherChoice: false,
     answer: [
       // { value: "", answerId: 0 },
@@ -69,7 +69,7 @@ export const menuType = {
     ],
     style: {},
     extra: {
-      placeholder: "",
+      placeholder: "Please Select",
     },
   },
   freeText: {
@@ -84,7 +84,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     style: {},
     extra: {
       Placeholder:"",
@@ -100,7 +100,7 @@ export const menuType = {
     questionDescriptionEnabled: true,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     answer: [
       {
         title: "Row 1",
@@ -131,7 +131,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
-    optionalLabel: "",
+    optionalLabel: "(Optional)",
     style: {},
     extra: {
       ratingScale: 5,

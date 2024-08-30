@@ -13,11 +13,10 @@ const RenderOptions = ({
     color: style.color,
   });
 
-  console.log(item);
-  const [otherOptionChecked, setOtherOptionChecked] = useState(false);
+
 
   const renderOption = (option, optIndex, type) => {
-    if (optIndex === "other") {
+    
       return (
         <label style={{ color: optionColor }} key={optIndex} className="check">
           {option}
@@ -25,35 +24,12 @@ const RenderOptions = ({
             type={type}
             name={item.questionNo}
             disabled={!isEdit}
-            onClick={() => {
-              if (type === "radio") {
-                setOtherOptionChecked(true);
-              } else {
-                setOtherOptionChecked(!otherOptionChecked);
-              }
-            }}
+          
           />
           <span className="checkmark"></span>
         </label>
       );
-    } else {
-      return (
-        <label style={{ color: optionColor }} key={optIndex} className="check">
-          {option}
-          <input
-            type={type}
-            name={item.questionNo}
-            disabled={!isEdit}
-            onClick={() => {
-              if (type === "radio") {
-                setOtherOptionChecked(false);
-              }
-            }}
-          />
-          <span className="checkmark"></span>
-        </label>
-      );
-    }
+    
   };
 
   switch (item.type) {
@@ -85,13 +61,13 @@ const RenderOptions = ({
                       }
                 }
               >
-                {otherOptionChecked && (
+                {
                   <Form.Control
                     type="text"
                     placeholder={item.extra.otherChoicePlaceholderText}
                     readOnly={!isEdit}
                   />
-                )}
+                }
               </div>
             </>
           ) : (
@@ -118,13 +94,13 @@ const RenderOptions = ({
                       }
                 }
               >
-                {otherOptionChecked && (
+                {
                   <Form.Control
                     type="text"
                     placeholder={item.extra.otherChoicePlaceholderText}
                     readOnly={!isEdit}
                   />
-                )}
+                }
               </div>
             </>
           ) : (
