@@ -97,7 +97,7 @@ export const menuType = {
     question: "",
     questionId: 0,
     visible: true,
-    questionDescriptionEnabled: true,
+    questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
     optionalLabel: "(Optional)",
@@ -160,7 +160,7 @@ export const menuType = {
     type: "paragraph",
     questionId: 0,
     visible: true,
-    question: "",
+    question: "Paragraph",
     style: {
       color: "#004A89",
     },

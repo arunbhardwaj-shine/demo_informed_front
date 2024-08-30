@@ -115,7 +115,7 @@ const SurveyConfig = (props) => {
 
   const copyHandler = () => {
     navigator.clipboard
-      .writeText(`https://informed.pro/survey/${surveyLink}`)
+      .writeText(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${surveyLink}`)
       .then(() => {
         toast.success("Survey Link Copied");
       })
@@ -185,11 +185,11 @@ const SurveyConfig = (props) => {
                             </p>
                             <div className="tab-content-links">
                               <a
-                                href={`https://informed.pro/survey/${surveyLink}`}
+                                href={`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${surveyLink}`}
                                 className="doc-link"
                                 target="_blank"
                               >
-                                https://informed.pro/survey/{surveyLink}
+                                https://informed.pro/Survey/PreviewSurvey.html?Utmde={surveyLink}
                               </a>
                               <span className="copy-content">
                                 <img
@@ -570,9 +570,9 @@ const SurveyConfig = (props) => {
                       </p>
                       <a
                         className="survey-config-link"
-                        href={`https://informed.pro/survey/${surveyLink}`}
+                        href={`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${surveyLink}`}
                       >
-                        https://informed.pro/survey/{surveyLink}
+                       https://informed.pro/Survey/PreviewSurvey.html?Utmde={surveyLink}
                       </a>
                     </div>
                   </div>

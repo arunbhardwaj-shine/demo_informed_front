@@ -446,7 +446,7 @@ const SurveyList = (props) => {
   const copyHandler = (surveyLink) => {
     console.log(surveyLink)
     navigator.clipboard
-      .writeText(`https://informed.pro${surveyLink}`)
+      .writeText(surveyLink)
       .then(() => {
         toast.success("Survey Link Copied");
       })

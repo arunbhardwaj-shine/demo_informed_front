@@ -789,11 +789,7 @@
     #thanks-modal .survey-thanks {
       padding: 0 0 30px;
   }
-    #thanks-modal .modal-body .thanks-text h2, #thanks-modal .modal-body .thanks-text h2 > *{
-        font-size: 56px;
-        font-weight: 500;
-        margin:0 0 16px;
-    }
+
     #thanks-modal .modal-body .thanks-text p {
       font-size: 16px;
       color: #70899E;
@@ -801,6 +797,14 @@
       max-width: 580px;
       margin: 0 auto;
   }
+  #thanks-modal .modal-body .thanks-text h2, #thanks-modal .modal-body .thanks-text h2 p{
+    font-size: 56px;
+    font-weight: 500;
+    margin:0 0 16px;
+    color: #004A89;
+    max-width: 100%;
+    width:100%;
+}
       .modal-content .modal-body h6 {
         color: #70899e;
         font-size: 15px;

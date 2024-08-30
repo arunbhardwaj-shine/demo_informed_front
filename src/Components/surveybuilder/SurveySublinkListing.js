@@ -125,8 +125,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
 
                       <Link
                         className="btn-bordered"
-                        to="/content-analytics"
-                        state={{ pdfId: survey_id }}
+                        to="/survey/survey-analytics"
                       >
                         Analytics
                       </Link>
