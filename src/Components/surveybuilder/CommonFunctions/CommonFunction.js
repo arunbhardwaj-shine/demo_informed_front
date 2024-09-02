@@ -56,9 +56,6 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       currentPagesData.formBuilderData !== undefined
     ) {
       try {
-        console.log(currentPagesData.formBuilderData, survey_id);
-        let mydata=JSON.stringify(currentPagesData.formBuilderData.custom_html)
-        console.log(mydata)
         const body = {
           ...currentPagesData.formBuilderData,
           survey_id: survey_id,
