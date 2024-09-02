@@ -667,9 +667,42 @@ span {
 
                                     .tox-toolbar__primary {
                                         background: transparent;
+                                        button{
+                                            &.tox-tbtn--select{
+                                                width:auto!important;
+                                                min-width: 55px;
+                                                padding: 0;
+                                                background: transparent;
+                                                // border-right: 1px solid #EAECF0;
+                                                padding-right: 10px;
+                                                position: relative;
+                                                overflow: visible;
+                                                &::after{
+                                                    position: absolute;
+                                                    content: "";
+                                                    border-right: 1px solid #EAECF0;
+                                                    right:0;
+                                                    top:-8px;
+                                                    height: 40px;
+                                                    width:1px
+
+                                                }
+                                                .tox-tbtn__select-label{
+                                                    width:auto;
+                                                    font-size: 14px;
+                                                    color:#004A89;
+                                                }
+                                            }
+                                            .tox-tbtn__select-chevron{
+                                                svg{
+                                                    height:8px;
+                                                }
+                                            }
+                                        }
                                     }
 
                                     .tox-toolbar__group {
+                                        padding: 0 5px 0 5px!important;
                                         span {
                                             svg {
                                                 path {
@@ -796,7 +829,7 @@ span {
                                 resize: none;
                             }
                         }
-
+                        
 
                         label {
                             &.form-label {
@@ -834,7 +867,7 @@ span {
                         }
                         // @include form-control;
                         .choice-load {
-                            margin: 0 0 16px;
+                            margin: 0 0 4px;
 
                             button {
                                 color: $primary-color;
@@ -1098,7 +1131,7 @@ span {
                         .split-button-dropup>div:nth-child(3) {
                             padding: 3px 30px 3px 10px;
                             font-size: 13px;
-                            min-height: 32px;
+                            min-height: 37px;
                             > div{
                                 padding: 0;
                                 div{
@@ -1404,9 +1437,10 @@ span {
                     .tab-content-links {
                         gap: 2px 10px;
                         margin-bottom: 8px;
-                        display: flex;
-                        align-items: center;
-                        flex-wrap: wrap;
+                        // display: flex;
+                        // align-items: center;
+                        // flex-wrap: wrap;
+                        display: inline-block;
 
                         a {
                             color: $voilet;
@@ -1421,20 +1455,23 @@ span {
                         }
 
                         .copy-content {
-                            margin: 0;
+                            margin: 0 8px;
                         }
 
                         .tab-content-qr {
                             border-radius: 4px;
                             background: $white;
                             box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
-                            padding: 4px;
-                            display: flex;
-                            align-items: center;
-                            gap: 6px;
+                            padding: 3px 1px;
+                            // display: flex;
+                            // align-items: center;
+                            // gap: 6px;
+                            display: inline;
+                            margin-left:2px;
 
                             img {
                                 cursor: pointer;
+                                margin:0 3px
                             }
                         }
                     }
@@ -1890,7 +1927,7 @@ span {
         }
 
         .informed-survey-question {
-            margin: 60px 0 0;
+            margin: 25px 0 0;
 
             label {
                 color: $dark-blue;
@@ -1911,7 +1948,7 @@ span {
                     border-right: 1px dashed $voilet;
                     border-bottom: 1px dashed $voilet;
                     padding: 30px 16px 30px 16px;
-                    margin-left: -16px;
+                    margin-left: 0px;
 
                     .active-drag {
                         position: absolute;
@@ -2150,9 +2187,9 @@ span {
                         min-height: 16px;
                         word-break: break-word;
 
-                        &:last-child {
-                            margin: 0;
-                        }
+                        // &:last-child {
+                        //     margin: 0;
+                        // }
 
 
                         input[type="checkbox"] {
@@ -3115,6 +3152,11 @@ body {
             display: none;
         }
     }
+    p{
+        a{
+            color:inherit;
+        }
+    }
 }
 
 .no-found {
@@ -3353,15 +3395,36 @@ body {
                 padding: 22px 25px 19px 25px;
                 .left-setup-format{
                     .live-stream-tabs-data{
+                        .disabled{
+                            min-height: 50vh;
+                        }
                         .tab-content {
-                            padding: 11px;
+                            padding: 10px;
                             height: calc(100% - 25px);
                         }
                         .steps{
+                            .row{
+                                &> div{
+                                    &.scale-style {
+                                        width: 125px;
+                                    }
+                                }
+                            } 
                             p{
                                 font-size: 12px;
                                 &.option-heading {
                                     font-size: 13px;
+                                    button{
+                                        padding: 0 0px 0 8px;
+                                        img{
+                                            width:14px;
+                                        }
+                                    }
+                                }
+                            }
+                            .choice-load{
+                                button{
+                                    font-size: 12px;
                                 }
                             }
                             label{
@@ -3371,13 +3434,20 @@ body {
                             }
                             .form-control {
                                 font-size: 13px;
-                                padding: 7px 12px;
+                                padding: 10px 12px;
                             }
                             .answer-choice{
                                 .form-control {
                                     font-size: 13px;
                                     padding: 10px 12px;
                                 }
+                                &.add-more{
+                                    button{
+                                        padding:11px;
+                                        font-size: 13px;
+                                    }
+                                }
+                                
                             } 
                             &:last-child{
                                 .d-flex{
@@ -3433,6 +3503,17 @@ body {
                             padding-bottom: 17px;
                             margin-bottom: 13px;
                             gap: 18px;
+                           
+                            p{
+                                &.option-heading {
+                                    font-size: 12px;
+                                }
+                            }
+                            .choice-load{
+                               button{
+                                font-size: 10px;
+                               }
+                            }
                             &.scale-options{
                                 small {
                                     font-size: 10px;
@@ -3646,6 +3727,9 @@ body {
         padding: 32px 32px;
         max-width: 600px;
         margin: 0 auto;
+    }
+    .survey-active-data {
+        padding: 5px 7px 15px 5px;
     }
 }
 
@@ -4565,3 +4649,48 @@ body {
     pointer-events: none;
 }
 
+.tox-tiered-menu{
+    .tox-collection{
+        .tox-collection__item-checkmark {
+            display: none!important;
+        }
+        .tox-collection__item--enabled{
+            background-color: #cce2fa!important;
+        }
+    }
+}
+
+.tox .tox-collection__item {
+    color: $dark-blue!important;
+}
+.tox .tox-tbtn__select-chevron svg {
+    fill: #70899E;
+}
+.text-editor .tox .tox-tbtn--select {
+    width: auto!important;
+    background: transparent!important;
+    position: relative;
+    overflow: visible;
+    padding:0 10px 0 0;
+}
+
+.text-editor .tox .tox-tbtn--select::after{
+    position: absolute;
+    content: "";
+    border-right: 1px solid #EAECF0;
+    right:0;
+    top:-8px;
+    height: 40px;
+    width:1px
+}
+.text-editor .tox .tox-tbtn--select .tox-tbtn__select-label {
+    width: auto!important;
+    font-size: 14px;
+    color:#004A89;
+}
+                                         
+.tox-tbtn__select-chevron{
+svg{
+    height:8px;
+}
+}

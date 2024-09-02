@@ -440,7 +440,7 @@ const SurveyPreview = (props) => {
                         }`}
                         style={
                           isEdit
-                            ? { padding: "30px 20px 4px 5px"}
+                            ? { padding: "60px 20px 4px 5px"}
                             : {
                                 backgroundColor:
                                   templateData.page_background_color,
