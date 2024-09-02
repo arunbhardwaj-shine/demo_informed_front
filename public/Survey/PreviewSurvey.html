@@ -58,6 +58,7 @@
         const placeholder = element.dataset.placeValue;
         element.innerHTML = placeholder;
       })
+      resetAllFreeTextCounts()
       document.querySelectorAll('input[type="hidden"]').forEach(element => { element.value = "" })
       document.getElementById('survey-form').reset(); // Reset your form
       
@@ -120,7 +121,7 @@
       console.log("Fetching data...");
 
       const apiUrl =
-        "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        "http://192.168.0.231:3001/survey/fetch-preview-data";
       const payload = {
         Utmde,
         user_id: "0",
@@ -484,6 +485,7 @@
 
             break;
 
+ 
           case "freeText":
             surveyHtml += `
     <div qu_id="${question.questionId}" class="${question.isOptional
@@ -495,20 +497,21 @@
         ${question.question} <span>${question.isOptional ? question.optionalLabel : ""
               }</span>
       </div>
-      <p class="helper-text">${question.questionDescription}</p>
-      <textarea 
-        id="textarea${question.questionId}" 
+      <textarea
+        id="textarea${question.questionId}"
         type="textarea"
-        name="question${question.questionId}" 
-        placeholder="${question.extra.Placeholder}" 
-        ${question.isOptional ? "" : "required"} 
+        name="question${question.questionId}"
+        placeholder="${question.extra.Placeholder}"
+        ${question.isOptional ? "" : "required"}
+        oninput="updateCharCount(${question.questionId}, ${question.extra.maxTextLength})"
+        maxlength="${question.extra.maxTextLength}"
       ></textarea>
+      <span id="charCount${question.questionId}">0/${question.extra.maxTextLength}</span>
       ${question.isOptional
                 ? ""
                 : `<div id="error-question${question.questionId}" class="error-message"></div>`
               }
     </div>`;
-
 
             break;
 
@@ -1279,7 +1282,7 @@
           try {
             loader("show");
             const submitApiUrl =
-              "https://informedback.shinedezign.pro/survey/insert-user-responses";
+              "http://192.168.0.231:3001/survey/insert-user-responses";
             const submitResponse = await fetch(submitApiUrl, {
               method: "POST",
               headers: {
