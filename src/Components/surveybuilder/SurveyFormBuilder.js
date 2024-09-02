@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
@@ -13,6 +13,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { uploadImageToServer } from "./CommonFunctions/CommonFunction";
+import html2canvas from 'html2canvas';
 
 var surveyValues = {};
 
@@ -55,6 +56,9 @@ const SurveyFormBuilder = (props) => {
   const [newSavedTemplateName, setNewSavedTemplateName] = useState("");
   const [customSavedTemplates, setcustomSavedTemplates] = useState([]);
   const [error, setError] = useState({});
+  const templateRef = useRef(null);
+
+  const [preview_thumbnail, setImage] = useState(null);
   
   const fetchTemplate = async () => {
     try {
@@ -74,7 +78,7 @@ const SurveyFormBuilder = (props) => {
             default_values: JSON.parse(template.custom_html)[0],
             template_html: template.raw_html,
             id: template.custom_saved_template_id,
-            template_fileName: "survey-template.jpg",
+            template_fileName: template.preview_thumbnail,
           };
         });
         setcustomSavedTemplates(customTemplates);
@@ -184,17 +188,61 @@ const SurveyFormBuilder = (props) => {
       </OverlayTrigger>
     );
   }
-  const handleTemplates=()=>{
+
+
+  const dataURLToFile = (dataURL, filename) => {
+    const [header, base64] = dataURL.split(',');
+    const mime = header.match(/:(.*?);/)[1];
+    const binary = atob(base64);
+    let array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new File([new Uint8Array(array)], filename, { type: mime });
+  };
+  
 
 
 
-  }
+ 
+  const captureScreenshot = async () => {
+    const element = document.getElementById("templatecapture");
+    if (element) {
+      try {
+        const canvas = await html2canvas(element);
+        if (canvas) {
+          const imgData = canvas.toDataURL('image/png');
+          console.log(imgData);
+
+          if(imgData){
+            const file = dataURLToFile(imgData, 'screenshot.png');
+            console.log(file)
+            const imgpath=await uploadImageToServer(file)
+            if(imgpath){
+              // console.log(imgpath?.data?.data,"image url",imgpath);
+               setImage(imgpath)
+            }
+            return imgpath;
+          }
+           // Assuming setImage updates some state
+        } else {
+          console.error('Canvas is null or undefined');
+          return null;
+        }
+      } catch (error) {
+        console.error('Error capturing screenshot:', error);
+        return null;
+      }
+    } else {
+      console.error(`Element with ID "templatecapture" is not found`);
+      return null;
+    }
+  };
+  
+  
 
   const handleChoiceChange = (id) => {
     console.log(id)
-  
-    
-
     if (id && templates) {
       const selectedTemplate = templates.find((temp) => temp.id === id);
       if (selectedTemplate) {
@@ -388,6 +436,7 @@ const SurveyFormBuilder = (props) => {
           formData
         );
         setPath(res.data.data);
+        console.log(res.data.data)
         setUserMadeChanges(true);
         loader("hide");
       } catch (error) {
@@ -509,19 +558,27 @@ const SurveyFormBuilder = (props) => {
 
     surveyValues = {
       ...surveyValues,
-      // selectedTemplateClass,
       formBuilderData: { ...body },
     };
 
     if (newTemplateStatus == 1) {
       try {
         loader("show");
+
+        const imgData = await captureScreenshot();
+        if (!imgData) {
+          throw new Error('Failed to capture screenshot');
+        }
+
+
+      
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
           {
             ...body,
             survey_id: 0,
             raw_html: originalSelectedTemplate.template_html,
+            preview_thumbnail:imgData
           }
         );
         console.log(response);
@@ -1079,7 +1136,7 @@ const SurveyFormBuilder = (props) => {
                         {templates &&
                           templates?.map((temp, index) => {
                             return (
-                              <div key={index} className="template-option ">
+                              <div key={index} className="template-option " >
                                 <div
                                   className={
                                     temp.id === selectedTemplateId
@@ -1088,13 +1145,19 @@ const SurveyFormBuilder = (props) => {
                                   }
                                 >
                                   <div className="template-preview ">
-                                    <img
-                                      src={path_image + temp.template_fileName}
+                                    {temp?.id > 3 ? <img
+                                      src={temp.template_fileName}
                                       onClick={(e) => {
                                         handleChoiceChange(temp.id);
                                       }}
                                       alt=""
-                                    />
+                                    />:<img
+                                    src={path_image + temp.template_fileName}
+                                    onClick={(e) => {
+                                      handleChoiceChange(temp.id);
+                                    }}
+                                    alt=""
+                                  />}
                                   </div>
                                   <div className="d-flex justify-content-between flex-row-reverse">
                                   <button
@@ -1167,6 +1230,7 @@ const SurveyFormBuilder = (props) => {
                                         </svg>
                                       </button>
                                     )}
+
                                     
                                   </div>
                                 </div>
