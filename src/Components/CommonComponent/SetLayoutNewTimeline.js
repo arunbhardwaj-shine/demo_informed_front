@@ -19,7 +19,7 @@ const SetLayoutNewTimeline = () => {
     },
     {
       image: `${path_image}crm-icon.svg`,
-      title: "CRMs",
+      title: "CRM",
       subtitle: "See who read what, their RTR-activity and their habits",
     },
     {
