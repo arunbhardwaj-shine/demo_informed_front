@@ -390,7 +390,8 @@ const SurveyPreview = (props) => {
               </div>
             )}
             <div
-              className="informed-survey-header"
+            
+              className={isEdit ? "informed-survey-header" :"informed-survey-header no-click"}
               style={templateData.headerBackground}
             >
               {templateData.logo ? (
@@ -413,7 +414,7 @@ const SurveyPreview = (props) => {
               )}
             </div>
             <div
-              className="informed-survey-body"
+              className={isEdit ? "informed-survey-body" : "informed-survey-body no-click"}
               style={
                 isEdit
                   ? {}
@@ -430,18 +431,21 @@ const SurveyPreview = (props) => {
               </div>
               <div className="informed-survey-question" ref={surveyRef}>
                 <Form>
-                  <div className="d-flex flex-column" style={{ gap: "30px" }}>
+                  <div className="d-flex flex-column"  >
                     {elements?.map((item, index) => (
                       <div
+                
                         className={`dragable-box ${
                           index === currentElementIndex ? "active" : ""
                         }`}
                         style={
                           isEdit
-                            ? {}
+                            ? { padding: "30px 20px 4px 5px"}
                             : {
                                 backgroundColor:
                                   templateData.page_background_color,
+                                  padding: "25px 20px 4px 5px"
+                        
                               }
                         }
                         draggable={isEdit} // Only make it draggable if isEdit is true

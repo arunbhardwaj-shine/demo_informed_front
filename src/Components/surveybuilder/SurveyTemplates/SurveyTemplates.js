@@ -52,7 +52,7 @@ const templates = [
                   </div>
       `,
     default_values: {
-  
+      header_background_type:"color",
       template_name:"Template 1",
       header_background_color: "#004A89",
       header_background_image: "",
@@ -117,7 +117,7 @@ const templates = [
                   </div>
 `,
     default_values: {
-      // selectedTemplateClass:"informed-survey",
+      // // selectedTemplateClass:"informed-survey",
       header_background_type:"image",
       template_name:"Template 2",
       header_background_color: "#004A89",

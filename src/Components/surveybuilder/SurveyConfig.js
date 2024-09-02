@@ -569,7 +569,7 @@ const SurveyConfig = (props) => {
                         {formData.surveyLinkDescription}
                       </p>
                       <a
-                        className="survey-config-link"
+                        className="survey-config-link no-click"
                         href={`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${surveyLink}`}
                       >
                        https://informed.pro/Survey/PreviewSurvey.html?Utmde={surveyLink}

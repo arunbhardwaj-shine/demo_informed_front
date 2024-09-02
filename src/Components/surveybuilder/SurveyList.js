@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+
+
 import {
   Accordion,
   Button,
@@ -494,8 +496,10 @@ const SurveyList = (props) => {
     console.log(data);
 
     if (data.is_draft == "0" || data.is_draft == "1" || data.is_draft == "2") {
-      console.log(data?.custom_html)
+    
+    
       const parsedCustomHtml = JSON.parse(data?.custom_html);
+   
       console.log(data?.tags)
       const tags = JSON.parse(data?.tags);
       console.log(parsedCustomHtml);

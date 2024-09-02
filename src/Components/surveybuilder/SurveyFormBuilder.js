@@ -40,14 +40,14 @@ const SurveyFormBuilder = (props) => {
   const location = useLocation();
   const survey_id = surveyValues?.survey_id;
   const navigate = useNavigate();
-
+  const customHtmlData = surveyValues?.formBuilderData?.custom_html[0];
   //edit portion
   const [customHtml, setCustomHtml] = useState({});
   const [dynamicValues, setDynamicValues] = useState({});
-  const [header_background_type, setHeaderBackgroundType] = useState("color");
+  const [header_background_type, setHeaderBackgroundType] = useState(null);
   const [userMadeChanges, setUserMadeChanges] = useState(true);
-  const [changeLogoToggle, setChangeLogoToggle] = useState(true);
-  const [changeTitleToggle, setChangeTitleToggle] = useState(true);
+  const [changeLogoToggle, setChangeLogoToggle] = useState(customHtmlData?.changeLogoToggle ?? true);
+  const [changeTitleToggle, setChangeTitleToggle] = useState(customHtmlData?.changeTitleToggle ?? true);
   const [changeFooterToggle, setChangeFooterToggle] = useState(true);
   const [changeBodyToggle, setChangeBodyToggle] = useState(true);
   const [headerImgPath, setHeaderImgPath] = useState("");
@@ -55,7 +55,7 @@ const SurveyFormBuilder = (props) => {
   const [newSavedTemplateName, setNewSavedTemplateName] = useState("");
   const [customSavedTemplates, setcustomSavedTemplates] = useState([]);
   const [error, setError] = useState({});
-
+  
   const fetchTemplate = async () => {
     try {
       loader("show");
@@ -65,7 +65,9 @@ const SurveyFormBuilder = (props) => {
         body
       );
       console.log(response);
-      var customTemplates = [];
+      if(response.status == 200){
+
+        var customTemplates = [];
       if (response.data.data.length > 0) {
         customTemplates = response.data.data.map((template) => {
           return {
@@ -85,27 +87,21 @@ const SurveyFormBuilder = (props) => {
       ) {
         setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
         setUserMadeChanges(true);
-        const customHtmlData = surveyValues?.formBuilderData?.custom_html[0];
-        setHeaderBackgroundType(
-          customHtmlData.header_background_type != ""
-            ? customHtmlData.header_background_type
-            : "color"
-        );
-        if (customHtmlData.header_background_type == "image") {
-          setChangeTitleToggle(customHtmlData.changeLogoToggle);
-          setChangeLogoToggle(customHtmlData.changeTitleToggle);
-        }
-        console.log(customHtmlData);
-        setCustomHtml(customHtmlData);
+        setCustomHtml(customHtmlData ?? {});
       } else {
         console.log("inside fetch template");
         setSelectedTemplateId(1);
+      }
+
+      }
+      if(!header_background_type){
+        setHeaderBackgroundType("color")
       }
       loader("hide");
     } catch (error) {
       loader("hide");
       console.log(error, error.message);
-      toast.error("Somethingh went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -127,26 +123,14 @@ const SurveyFormBuilder = (props) => {
 
   const updateDynamicValues = (templateDefaults) => {
     console.log(dynamicValues);
-    const customValues =
-      customHtml != "0" && Object.keys(customHtml).length > 0
-        ? customHtml
+    console.log(customHtml)
+    let customValues =
+    customHtml != "0" && Object.keys(customHtml).length > 0
+        ? {...customHtml,...dynamicValues}
         : { ...templateDefaults, ...dynamicValues };
 
-    // if (
-    //   customValues?.header_background_image != "" &&
-    //   header_background_type == "image"
-    // ) {
-    //   setHeaderBackgroundType("image");
-    // } else {
-    //   setHeaderBackgroundType("color");
-    // }
-    if((selectedTemplateId==2 || selectedTemplateId ==3) ){
-      if(customValues.header_background_type){
         setHeaderBackgroundType(customValues?.header_background_type)
-      }
-      
-   
-    } 
+    
 
     const newValues = {
       template_name:
@@ -173,13 +157,10 @@ const SurveyFormBuilder = (props) => {
         customValues?.page_background_color ??
         templateDefaults.page_background_color,
       logoWidth: customValues?.logoWidth ?? templateDefaults?.logoWidth,
-      // selectedTemplateClass:
-      //   customValues?.selectedTemplateClass ??
-      //   templateDefaults?.selectedTemplateClass,
+      header_background_type:customValues?.header_background_type
+     
     };
-
     console.log(newValues);
-
     setTemplateDefaultValues(newValues);
     // setCustomHtml({})
   };
@@ -310,7 +291,6 @@ const SurveyFormBuilder = (props) => {
 
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
-    console.log(selectedValue);
     if (selectedValue === "image") {
       setChangeTitleToggle(false);
       setChangeLogoToggle(false);
@@ -319,6 +299,11 @@ const SurveyFormBuilder = (props) => {
       setChangeTitleToggle(true);
       setChangeLogoToggle(true);
     }
+    setDynamicValues((prevState) => ({ ...prevState, header_background_type: selectedValue }));
+    setTemplateDefaultValues((prevState) => ({
+      ...prevState,
+      header_background_type: selectedValue,
+    }));
     setHeaderBackgroundType(selectedValue);
   };
 
@@ -427,7 +412,6 @@ const SurveyFormBuilder = (props) => {
   }, [headerImgPath, headerLogoImgPath]);
 
   const handleInputChange = (e, key) => {
-    console.log(templateDefaultValues);
     const newValue = e.target.value;
     setDynamicValues((prevState) => ({ ...prevState, [key]: newValue }));
     setTemplateDefaultValues((prevState) => ({
@@ -448,6 +432,7 @@ const SurveyFormBuilder = (props) => {
       }));
     }
   };
+
 
   const footerSwitchToogle = () => {
     setChangeFooterToggle(!changeFooterToggle);
@@ -475,21 +460,7 @@ const SurveyFormBuilder = (props) => {
   const nextButtonClicked = async (e, newTemplateStatus) => {
     e.preventDefault();
 
-    // let selectedTemplateClass = "";
-    // switch (originalSelectedTemplate.id) {
-    //   case 1:
-    //     selectedTemplateClass = "informed-survey";
-    //     break;
-    //   case 2:
-    //     selectedTemplateClass = "informed-survey choice2";
-    //     break;
-    //   case 3:
-    //     selectedTemplateClass = "informed-survey choice3";
-    //     break;
-    //   default:
-    //     selectedTemplateClass = "informed-survey";
-    //     break;
-    // }
+ 
 
     let custom_html = null;
     console.log(header_background_type);
@@ -505,15 +476,9 @@ const SurveyFormBuilder = (props) => {
           main_footer: changeFooterToggle ? temporaryValues.main_footer : "",
           bodyText: changeBodyToggle ? temporaryValues.bodyText : "",
 
-          header_background_color:
-            header_background_type == "color"
-              ? temporaryValues.header_background_color
-              : "",
+          header_background_color:temporaryValues.header_background_color,
           // header_background_color: temporaryValues.header_background_color,
-          header_background_image:
-            header_background_type == "image"
-              ? temporaryValues.header_background_image
-              : "",
+          header_background_image:temporaryValues.header_background_image,
           // header_background_image: temporaryValues.header_background_image,
 
           logo: changeLogoToggle ? temporaryValues.logo : "",
@@ -725,7 +690,7 @@ const SurveyFormBuilder = (props) => {
                                           title="Choose your color"
                                           name="color"
                                           value={
-                                            templateDefaultValues.header_background_color
+                                            templateDefaultValues.header_background_color ?? dynamicValues.header_background_color 
                                           }
                                           onChange={(e) =>
                                             handleInputChange(
@@ -1027,7 +992,7 @@ const SurveyFormBuilder = (props) => {
                                           title="Choose your color"
                                           name="color"
                                           value={
-                                            templateDefaultValues.button_color
+                                            templateDefaultValues.button_color ?? dynamicValues.button_color
                                           }
                                           onChange={(e) =>
                                             handleInputChange(e, "button_color")

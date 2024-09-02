@@ -890,7 +890,7 @@ const SurveySublink = () => {
                                                             placeholder="Select Sublink"
                                                             // options={selectOptions}
                                                           />
-                                                          <Button>Copy</Button>
+                                                          <Button>Download</Button>
                                                         </div>
                                                       </div>
                                                     </li>
