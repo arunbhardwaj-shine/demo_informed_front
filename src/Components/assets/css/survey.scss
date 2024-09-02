@@ -1437,9 +1437,10 @@ span {
                     .tab-content-links {
                         gap: 2px 10px;
                         margin-bottom: 8px;
-                        display: flex;
-                        align-items: center;
-                        flex-wrap: wrap;
+                        // display: flex;
+                        // align-items: center;
+                        // flex-wrap: wrap;
+                        display: inline-block;
 
                         a {
                             color: $voilet;
@@ -1454,20 +1455,23 @@ span {
                         }
 
                         .copy-content {
-                            margin: 0;
+                            margin: 0 8px;
                         }
 
                         .tab-content-qr {
                             border-radius: 4px;
                             background: $white;
                             box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
-                            padding: 4px;
-                            display: flex;
-                            align-items: center;
-                            gap: 6px;
+                            padding: 3px 1px;
+                            // display: flex;
+                            // align-items: center;
+                            // gap: 6px;
+                            display: inline;
+                            margin-left:2px;
 
                             img {
                                 cursor: pointer;
+                                margin:0 3px
                             }
                         }
                     }
@@ -1923,7 +1927,7 @@ span {
         }
 
         .informed-survey-question {
-            margin: 60px 0 0;
+            margin: 25px 0 0;
 
             label {
                 color: $dark-blue;
@@ -3146,6 +3150,11 @@ body {
     &.hideheader {
         header {
             display: none;
+        }
+    }
+    p{
+        a{
+            color:inherit;
         }
     }
 }
