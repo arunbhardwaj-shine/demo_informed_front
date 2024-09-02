@@ -1013,7 +1013,16 @@ label.form-label {
   font-size: 13px;
   margin-top: 4px;
 }
-
+.survey-question.notoptional .word-limit {
+  font-size: 11px;
+  color: #70899E;
+  font-weight: 500;
+  gap: 2px;
+  line-height: normal;
+  display: flex;
+  justify-content: flex-end;
+  margin: 3px 0 0;
+}
 @keyframes escaleY {
   0%,
   80%,
