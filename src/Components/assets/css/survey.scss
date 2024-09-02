@@ -3447,6 +3447,21 @@ body {
                                         font-size: 13px;
                                     }
                                 }
+                                .dlt-btn{
+                                    padding:3px;
+                                    .delete{
+                                        svg{
+                                            width:14px;
+                                            height:14px;
+                                        }
+                                    }
+                                    .add{
+                                        svg{
+                                            width:14px;
+                                            height:14px;
+                                        }
+                                    }
+                                }
                                 
                             } 
                             &:last-child{
