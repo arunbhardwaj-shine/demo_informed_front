@@ -109,6 +109,7 @@ p {
   font-weight: 500;
   line-height: 132%;
   margin: 0 0;
+  word-break: break-word;
 }
 .question-title >* {
   display: inline;
@@ -304,6 +305,7 @@ input[type="checkbox"]:checked ~ .checkmark {
   font-weight: 400;
   line-height: 132%;
   margin: 24px 0 0;
+  word-break: break-word;
 }
 
 .table-responsive {
@@ -1023,6 +1025,7 @@ label.form-label {
   justify-content: flex-end;
   margin: 3px 0 0;
 }
+
 @keyframes escaleY {
   0%,
   80%,
