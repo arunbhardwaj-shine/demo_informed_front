@@ -109,6 +109,7 @@ p {
   font-weight: 500;
   line-height: 132%;
   margin: 0 0;
+  word-break: break-word;
 }
 .question-title >* {
   display: inline;
@@ -304,6 +305,7 @@ input[type="checkbox"]:checked ~ .checkmark {
   font-weight: 400;
   line-height: 132%;
   margin: 24px 0 0;
+  word-break: break-word;
 }
 
 .table-responsive {
@@ -1012,6 +1014,16 @@ label.form-label {
   color: #d61975;
   font-size: 13px;
   margin-top: 4px;
+}
+.survey-question.notoptional .word-limit {
+  font-size: 11px;
+  color: #70899E;
+  font-weight: 500;
+  gap: 2px;
+  line-height: normal;
+  display: flex;
+  justify-content: flex-end;
+  margin: 3px 0 0;
 }
 
 @keyframes escaleY {

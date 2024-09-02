@@ -506,7 +506,7 @@
         oninput="updateCharCount(${question.questionId}, ${question.extra.maxTextLength})"
         maxlength="${question.extra.maxTextLength}"
       ></textarea>
-      <span id="charCount${question.questionId}">0/${question.extra.maxTextLength}</span>
+      <span class="word-limit" id="charCount${question.questionId}">0/${question.extra.maxTextLength}</span>
       ${question.isOptional
                 ? ""
                 : `<div id="error-question${question.questionId}" class="error-message"></div>`
