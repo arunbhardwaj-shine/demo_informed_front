@@ -2,10 +2,8 @@ import axios from "axios";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import {
-  Form
-} from "react-bootstrap";
-import  "../../../Components/assets/css/survey.scss";
+import { Form } from "react-bootstrap";
+import "../../../Components/assets/css/survey.scss";
 import "../../../Components/assets/fonts/fonts.css";
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
@@ -59,6 +57,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           survey_id: survey_id,
           raw_html: 0,
           template_status: 0,
+          template_uniquecod:""
         };
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
@@ -75,7 +74,8 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
     if (
       currentPagesData &&
       survey_id !== 0 &&
-      currentPagesData.surveyConfigData !== undefined
+      currentPagesData.surveyConfigData !== undefined &&
+      currentPagesData.surveyConfigData != ""
     ) {
       const body = { ...currentPagesData.surveyConfigData, survey_id };
       try {
@@ -118,7 +118,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       currentPagesData &&
       survey_id !== 0 &&
       currentPagesData.thanksPageData !== undefined &&
-      currentPagesData.thanksPageData != ""
+      currentPagesData.thanksPageData !== ""
     ) {
       const body = { ...currentPagesData.thanksPageData, survey_id };
       console.log(body);
@@ -134,8 +134,6 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
         return;
       }
     }
-
-
 
     const liveStatus = await updateLiveFlag(survey_id, liveFlag);
     if (liveStatus !== true) {
@@ -212,7 +210,12 @@ export const updateLiveFlag = async (survey_id, flag) => {
   }
 };
 
-export const SurveyLiveButton = ({survey_id,liveFlagValue,updateLiveFlag,fetchSurveyListing}) => {
+export const SurveyLiveButton = ({
+  survey_id,
+  liveFlagValue,
+  updateLiveFlag,
+  fetchSurveyListing,
+}) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isChecked, setIsChecked] = useState(liveFlagValue === 1);
 
@@ -244,5 +247,3 @@ export const SurveyLiveButton = ({survey_id,liveFlagValue,updateLiveFlag,fetchSu
     </>
   );
 };
-
-

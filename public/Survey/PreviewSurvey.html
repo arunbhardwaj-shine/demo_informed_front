@@ -1399,7 +1399,7 @@
                 showToast("Something went wrong");
               } else if (submitResponse.status == "302") {
                 loader("hide");
-                showToast("Data inserted previously");
+                showToast("You have already submitted the survey");
                 closeModal();
                 document.getElementById("survey-form").reset(); // Reset your form
               } else if (submitResponse.status == "200") {
