@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="icon"
@@ -119,7 +120,7 @@
 
         console.log("Fetching data...");
 
-        const apiUrl = "http://192.168.0.78:3006/survey/fetch-preview-data";
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: "0",
@@ -1381,7 +1382,7 @@
 
               loader("show");
               const submitApiUrl =
-                "http://192.168.0.78:3006/survey/insert-user-responses";
+                "https://informedback.shinedezign.pro/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
@@ -1400,14 +1401,11 @@
                 loader("hide");
                 showToast("Data inserted previously");
                 closeModal();
-
                 document.getElementById("survey-form").reset(); // Reset your form
               } else if (submitResponse.status == "200") {
                 loader("hide");
                 showSubmitModal();
-
                 localStorage.setItem(`form_surveyid${survey_id}`, 1);
-                // showToast("Data inserted successfully");
               }
             } catch (error) {
               loader("hide");
