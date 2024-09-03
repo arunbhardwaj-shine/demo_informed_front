@@ -2100,7 +2100,7 @@ const TimelineDetail = (props) => {
                           </div>
                         </>
                       ) : (
-                        <div className="timeline-right-list">
+                        <div className="timeline-right-list default-timeline">
                           <div className="timeline-right-list-view">
                             {timeLineData?.timeline.map((details, index) => {
                               return (
