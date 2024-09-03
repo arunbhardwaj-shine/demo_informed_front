@@ -1122,6 +1122,27 @@
         return isValid;
       }
 
+
+      function scrollToFirstError() {
+            // Find all elements with the 'error' class
+            const errors = document.querySelectorAll('.error-message');
+            console.log(errors)
+            console.log("insise sscrool")
+            // Find the first error element that has content
+            const firstError = Array.from(errors).find(el => el.textContent.trim() !== '');
+
+            if (firstError) {
+              console.log(firstError)
+                // Scroll to the first error element
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+
+
+
+
+
       document
         .getElementById("submit-button")
         .addEventListener("click", async (event) => {
@@ -1131,6 +1152,7 @@
 
           if (!result) {
             console.log("form wrong isvalid");
+            scrollToFirstError()
             return;
           }
 
@@ -1300,6 +1322,8 @@
             } else if (submitResponse.status == "302") {
               loader("hide");
               showToast("Data inserted previously");
+              closeModal()
+              
               document.getElementById('survey-form').reset(); // Reset your form
             } else if (submitResponse.status == "200") {
               loader("hide");

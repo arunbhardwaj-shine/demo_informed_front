@@ -58,13 +58,13 @@ const SurveyFormBuilder = (props) => {
   const [headerImgPath, setHeaderImgPath] = useState("");
   const [headerLogoImgPath, setHeaderLogoImgPath] = useState("");
   const [newSavedTemplateName, setNewSavedTemplateName] = useState("");
-  const [customSavedTemplates, setcustomSavedTemplates] = useState([]);
+
   const [error, setError] = useState({});
   const templateRef = useRef(null);
 
   const [preview_thumbnail, setImage] = useState(null);
 
-  const fetchTemplate = async () => {
+  const fetchTemplate = async (saveNewTemplate ) => {
     try {
       loader("show");
       const body = { account_id: 18207 };
@@ -95,6 +95,7 @@ const SurveyFormBuilder = (props) => {
           setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
           setUserMadeChanges(true);
           setCustomHtml(customHtmlData ?? {});
+      
         } else {
           console.log("inside fetch template");
           setSelectedTemplateId(1);
@@ -103,6 +104,7 @@ const SurveyFormBuilder = (props) => {
       if (!header_background_type) {
         setHeaderBackgroundType("color");
       }
+      
      
       loader("hide");
     } catch (error) {
@@ -126,7 +128,7 @@ const SurveyFormBuilder = (props) => {
     if (templates) {
       handleChoiceChange(selectedTemplateId); // Assuming 1 is a valid id you want to start
     }
-  }, [templates, selectedTemplateId]);
+  }, [selectedTemplateId]);
 
   const updateDynamicValues = (templateDefaults) => {
     console.log(dynamicValues);
@@ -571,12 +573,8 @@ const SurveyFormBuilder = (props) => {
         );
         console.log(response);
         setCurrentTemplate(null);
-        await fetchTemplate();
+        await fetchTemplate(1);
         setNewSavedTemplateName("");
-
-       
-
-       
         handleClose();
         loader("hide");
       } catch (error) {
