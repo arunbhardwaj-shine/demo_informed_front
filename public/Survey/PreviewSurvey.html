@@ -61,7 +61,7 @@
       resetAllFreeTextCounts()
       document.querySelectorAll('input[type="hidden"]').forEach(element => { element.value = "" })
       document.getElementById('survey-form').reset(); // Reset your form
-      
+
     }
 
 
@@ -485,7 +485,7 @@
 
             break;
 
- 
+
           case "freeText":
             surveyHtml += `
     <div qu_id="${question.questionId}" class="${question.isOptional
@@ -586,8 +586,8 @@
           <div class="dropdown-el" name="question${question.questionId
                       }_country">
             <div data-value="" class="select-dropdown__button">
-  <span data-place-value="${userdetail.countryPlaceholder}">${userdetail.countryPlaceholder}</span>
-</div>
+              <span data-place-value="${userdetail.countryPlaceholder}">${userdetail.countryPlaceholder}</span>
+            </div>
 
             <input type="hidden" name="countryConsent" value="" required /> <!-- Add 'required' here -->
             <div class="select-dropdown__list">
@@ -623,8 +623,8 @@
                 )
                 .join("")}
              
+                <div class="error-message" id="error-consentoption"></div>
                 </div>
-                  <div class="error-message" id="error-consentoption"></div>
                   <p>${question.extra.cookiePolicy}</p>
               </div>`;
             break;
