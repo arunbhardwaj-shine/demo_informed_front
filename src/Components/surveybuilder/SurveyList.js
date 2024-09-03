@@ -1027,8 +1027,7 @@ const SurveyList = (props) => {
                                               data?.is_draft == "0" ? "doc-link no-click" :"doc-link " }
                                             target="_blank"
                                           >
-                                           https://informed.pro/Survey/PreviewSurvey.html?Utmde=
-                                            {data.unique_code}
+                                           https://informed.pro/Survey/PreviewSurvey.html?Utmde={data.unique_code}
                                           </a>
                                           {data.is_draft ? (
                                             <span
@@ -1443,8 +1442,7 @@ const SurveyList = (props) => {
                                                     subLinkData
                                                   )?.find(
                                                     (option) =>
-                                                      option.sublink_id ==
-                                                      selectedSublinkId
+                                                      option.sublink_id == selectedSublinkId
                                                   )}
                                                 />
                                                 <Button
