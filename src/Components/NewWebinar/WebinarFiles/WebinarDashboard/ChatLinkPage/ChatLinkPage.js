@@ -1189,31 +1189,25 @@ const ChatLinkPage = () => {
                                 </div>
                               </>
                             )
-                            // :  formData?.templateId === 8 ? (
-                            //   <>
-                            //     <div
-                            //       className="head-sec template2 isth"
-                            //     > <img
-                            //     src={
-                            //       formData?.headerImage
-                            //         ? formData?.headerImage
-                            //         : ""
-                            //     }
-                             
-                            //   /></div>
-                            //     <div className="event_title">
-                            //       <h2
-                            //         className="top-title"
-                            //         style={{ color: formData?.textColor }}
-                            //         dangerouslySetInnerHTML={{
-                            //           __html: formData?.formHeading
-                            //             ? formData?.formHeading
-                            //             : "Type your question here!",
-                            //         }}
-                            //       />
-                            //     </div>
-                            //   </>
-                            // )
+                            :  formData?.templateId === 13 || formData?.templateId === 12 ? (
+                              <>
+                                <div
+                                className="head-sec"
+                                style={{
+                                  background: formData?.headerBackgroundColor,
+                                  borderBottomColor: formData?.headerBackgroundColor,
+                                }}
+                              >
+                                <h2
+                                  style={{ color: formData?.headerTextColor }}
+                                  className="top-title"
+                                  dangerouslySetInnerHTML={{
+                                    __html: formData?.heading,
+                                  }}
+                                ></h2>
+                              </div>
+                              </>
+                            )
                             : (
                               <div
                                 className="head-sec"
@@ -1248,7 +1242,7 @@ const ChatLinkPage = () => {
                                   htmlFor="fname"
                                   className="form-label"
                                   // style={{ color: formData?.textColor }}
-                                  style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
+                                  style={{color: formData?.textColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.nameLabel,
                                   }}
@@ -1289,7 +1283,7 @@ const ChatLinkPage = () => {
                                   htmlFor="fname"
                                   className="form-label"
                                   // style={{ color: formData?.textColor }}
-                                  style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
+                                  style={{color: formData?.textColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.questionLabel,
                                   }}
@@ -1359,7 +1353,7 @@ const ChatLinkPage = () => {
                               <div className="copy-right-bottom-text">
                                 <p
                                   // style={{ color: formData?.textColor }}
-                                  style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
+                                  style={{color: formData?.textColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.footerText,
                                   }}
@@ -1396,7 +1390,7 @@ const ChatLinkPage = () => {
                             <div className="copy-right-bottom-text">
                               <p
                                 // style={{ color: formData?.textColor }}
-                                style={{color: formData?.templateId === 13 ? formData?.headerBackgroundColor : formData?.textColor }}
+                                style={{color:formData?.textColor }}
                                 dangerouslySetInnerHTML={{
                                   __html: formData?.footerText,
                                 }}

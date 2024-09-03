@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Header from "./HeaderComponent/Header";
 import { Route, Navigate, useNavigate } from "react-router-dom";
-import { timeline } from "../../RDCRMdata";
+
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -69,8 +69,8 @@ const SetLayoutNew = () => {
     }
 
     setData(newdata);
-    setTimelineData(timeline)
-    console.log("time line -->", timeline)
+    setTimelineData()
+    
   }, []);
 
   const navigate = useNavigate();
