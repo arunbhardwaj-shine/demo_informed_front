@@ -1542,13 +1542,10 @@ const TimelineDetail = (props) => {
                                                                                                 <tr>
                                                                                                   <td>{item?.page}</td>
                                                                                                   <td><span>
-                                                                                                    {item?.minimum}
-                                                                                                    {" "}
-                                                                                                    seconds
+                                                                                                  {item?.minimum ? `${formatTime(item.minimum)}` : 'N/A'}
                                                                                                   </span></td>
                                                                                                   <td><span>
-                                                                                                   { item?.timeSpend}{" "}
-                                                                                                    seconds
+                                                                                                  {item?.timeSpend ? `${formatTime(item?.timeSpend)}` : 'N/A'}
                                                                                                   </span></td>
                                                                                                   <td className={`media media-${item?.flag}`}>{item?.readContent} <img src={path_image + "info_circle_icon.svg"} alt=""/></td>
                                                                                                 </tr>
