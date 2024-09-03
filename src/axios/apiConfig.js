@@ -223,5 +223,5 @@ export const ENDPOINT = {
   GET_CAMPAIGN_TEMPLATE: "email/get-campaign-template",
   LIBRARY_CONTENT : `/library/get-library-data`,
   IRT_COUNT_BY_CATEGORY:"/irt-count-by-category",
-  RD_LANDING_TIMELINE:"auth/get-Rd-timeline"
+  RD_LANDING_TIMELINE:"reader/get-Rd-timeline"
 };
