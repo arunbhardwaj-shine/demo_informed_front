@@ -197,6 +197,18 @@ const TimelineDetail = (props) => {
   //   );
   // }
 
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+ 
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = secs.toString().padStart(2, '0');
+ 
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+
   return (
     <>
       <Col className="right-sidebar col">
@@ -1371,12 +1383,51 @@ const TimelineDetail = (props) => {
                                                           </div>
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">Time</p>
-                                                            <div className="d-flex flex-wrap timeline-activity">
-                                                              <div className="timeline-activity-detail">
-                                                                <p>Needed | {details?.minimum} seconds</p>
-                                                              </div>
-                                                              <div className="timeline-activity-detail">
-                                                                <p>Spent | {details?.timeSpent} seconds</p>
+                                                            <div  className={
+                                                                isActive &&
+                                                                details.id == activeIndex
+                                                                  ? "timeline-article-detail-full active"
+                                                                  : "timeline-article-detail-full"
+                                                              }
+                                                              onClick={(e) => {
+                                                                handleClick(
+                                                                  details.id,
+                                                                  details.pdf_id,
+                                                                  details.Created,
+                                                                  details
+                                                                );
+                                                              }}>
+                                                              <p>
+                                                                {isActive &&
+                                                                details.id == activeIndex ? '< Hide Details' : 'Show Details... >'}
+                                                              </p>
+                                                              <div>
+                                                              <div className="d-flex flex-wrap timeline-activity">
+                                                              {typeof ebookData !== "undefined" && ebookData.length > 0 ? (
+                                                                <>
+                                                                  {isActive &&
+                                                                details.id == activeIndex && ebookData.map((data) => (
+                                                                    <div
+                                                                      className="timeline-article-details-boxes d-flex"
+                                                                    >
+                                                                      {data?.data?.length > 0 &&
+                                                                        data.data.map((item) => (
+                                                                          <div >
+                                                                            <div className="timeline-activity-detail">
+                                                                              <p>Needed | {formatTime(item?.minimum)} seconds</p>
+                                                                            </div>
+                                                                            <div className="timeline-activity-detail">
+                                                                              <p>Spent | {formatTime(item?.timeSpend)} seconds</p>
+                                                                            </div>
+                                                                          </div>
+                                                                        ))}
+                                                                    </div>
+                                                                  ))}
+                                                                </>
+                                                              ) : (
+                                                                ''
+                                                              )}
+                                                            </div>
                                                               </div>
                                                             </div>
                                                           </div>
