@@ -1366,6 +1366,11 @@
               p{
                 flex: 0 0 100%;
               }
+              span {
+                &.timeline-activity-arrow{
+                  padding:0 6px
+                }
+              }
             }
           }
           @media (max-width:1365px){
@@ -4837,6 +4842,7 @@ input[type="number"] {
 
 .vertical-timeline {
   width: 100%;
+  padding:0;
 
   .timeline_tabs {
     width: 100%;
@@ -5201,7 +5207,58 @@ input[type="number"] {
 .timeline-article-detail-full.active .timeline-article-details-heading p img {
   transform: rotate(180deg);
 }
-
+.crm-timeline{
+  .timeline-details{
+    .details-box{
+      .timeline-time-detail{
+        background: rgba(0, 109, 190, 0.03);
+        padding:4px 8px;
+        border-radius: 5px;
+        
+        &.active{
+          display: flex;
+          flex-direction: row-reverse;
+          gap: 24px;
+          .timeline-time-show{
+            .d-flex{
+              gap:0 24px;
+            }
+          }
+          
+            .timeline-activity-detail{
+              background: transparent;
+              padding: 0;
+              border-radius: 0;
+              p{
+                  color:$dark-blue;
+                  font-size: 10px;
+                span{
+                  color:#70899E;
+                }
+              }
+            
+          } 
+        }
+        @media (max-width:1365px){
+          &.active {
+            gap: 10px;
+            .timeline-time-show{
+              .d-flex{
+                gap:0 10px;
+              }
+            } 
+        }
+        }
+        &>p{
+          font-weight: 400;
+          font-size: 10px;
+          color: #97B6CF;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+} 
 .timeline-article-details-overall {
   .data-main-box {
     h3 {
@@ -25941,18 +25998,30 @@ table {
   .timeline-layout{
     .timeline-block{
       .timeline-status {
-        width: 150px;
-        flex: 0 0 150px;
+        width: 120px;
+        flex: 0 0 120px;
+        p{
+          font-size: 12px;
+        }
+        span{
+          font-size: 12px;
+        }
     }
     .timeline-details{
       .details-box{
         p{
           flex: 1 1;
+          font-size: 11px;
           &.timeline-details-heading {
             width: 52px;
             flex: 0 auto;
         }
         
+        }
+        .timeline-time-detail{
+          p{
+            font-size: 10px;
+          }
         }
     } 
     } 
