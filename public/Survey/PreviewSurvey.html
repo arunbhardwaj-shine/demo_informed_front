@@ -119,8 +119,7 @@
 
         console.log("Fetching data...");
 
-        const apiUrl =
-          "http://192.168.0.78:3006/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.78:3006/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: "0",
@@ -140,13 +139,12 @@
 
           if (data.status == "success") {
             if (data && data.data && data.data[0] && data.data[0].survey_info) {
-              console.log("hello from inside")
-  if (data.data[0].survey_info.is_draft
-  === 2) {
-    window.location.replace("/survey/404");
-    return;
-  }
-}
+              console.log("hello from inside");
+              if (data.data[0].survey_info.is_draft === 2) {
+                window.location.replace("/survey/404");
+                return;
+              }
+            }
 
             console.log("Fetched Data:", data);
             loader("hide");
