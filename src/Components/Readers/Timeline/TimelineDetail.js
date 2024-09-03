@@ -1046,6 +1046,8 @@ const TimelineDetail = (props) => {
                                                           path_image +
                                                           "irt-traning-complete.svg"
                                                         }
+                                                        alt="indicator-box"
+
                                                       />
                                                     </div>
                                                   </div>
@@ -1464,25 +1466,56 @@ const TimelineDetail = (props) => {
                                                                             <div className="timeline-article-details-boxes d-flex">
                                                                               {data?.chapter ? (
                                                                                 <h3>
-                                                                                  Chapter name:{" "}
+                                                                                  <span>Chapter</span>{" "}
                                                                                   {data?.chapter}
                                                                                 </h3>
                                                                               ) : (
                                                                                 ""
                                                                               )}
-                                                                              {data?.data?.length
+                                                                              <div className="crm-timeline-table">
+
+                                                                                            <Table>
+                                                                                              <thead>
+                                                                                                <tr>
+                                                                                                  <th>Page No</th>
+                                                                                                  <th>Time Needed</th>
+                                                                                                  <th>Time Spent</th>
+                                                                                                  <th>Status</th>  
+                                                                                                </tr>
+                                                                                              </thead>
+                                                                                              <tbody>
+                                                                                              {data?.data?.length
                                                                                 ? data?.data.map(
                                                                                     (item) => {
                                                                                       return (
-                                                                                        <div
-                                                                                          className={`media media-${item?.flag}`}
-                                                                                        >
-                                                                                          <div className="media-left">
+                                                                                                <tr>
+                                                                                                  <td>{item?.page}</td>
+                                                                                                  <td><span>
+                                                                                                    {item?.minimum}
+                                                                                                    {" "}
+                                                                                                    seconds
+                                                                                                  </span></td>
+                                                                                                  <td><span>
+                                                                                                   { item?.timeSpend}{" "}
+                                                                                                    seconds
+                                                                                                  </span></td>
+                                                                                                  <td className={`media media-${item?.flag}`}>{item?.readContent} <img src={path_image + "info_circle_icon.svg"} alt=""/></td>
+                                                                                                </tr>
+                                                                                                 );
+                                                                                                }
+                                                                                              )
+                                                                                            : ""}
+                                                                                              </tbody>
+                                                                                            </Table>
+                                                                                          </div>
+                                                                                          {/* <div className="media-left">
                                                                                             {item?.image ? (
                                                                                               <img
                                                                                                 src={
                                                                                                   item?.image
                                                                                                 }
+                                                                                                alt="media-left"
+
                                                                                               />
                                                                                             ) : (
                                                                                               <p>
@@ -1492,8 +1525,8 @@ const TimelineDetail = (props) => {
                                                                                                 }
                                                                                               </p>
                                                                                             )}
-                                                                                          </div>
-                                                                                          <div className="media-right">
+                                                                                          </div> */}
+                                                                                          {/* <div className="media-right">
                                                                                             <p>
                                                                                               <span>
                                                                                                 Time
@@ -1517,12 +1550,8 @@ const TimelineDetail = (props) => {
                                                                                                 item?.readContent
                                                                                               }
                                                                                             </div>
-                                                                                          </div>
-                                                                                        </div>
-                                                                                      );
-                                                                                    }
-                                                                                  )
-                                                                                : ""}
+                                                                                          </div> */}
+                                                                                       
                                                                             </div>
                                                                           );
                                                                           
@@ -2237,6 +2266,8 @@ const TimelineDetail = (props) => {
                                                                               src={
                                                                                 item?.image
                                                                               }
+                                                                              alt=""
+
                                                                             />
                                                                           ) : (
                                                                             <p>
