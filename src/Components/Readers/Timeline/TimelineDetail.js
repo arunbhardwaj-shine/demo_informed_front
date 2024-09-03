@@ -1483,17 +1483,24 @@ const TimelineDetail = (props) => {
                                                                   ? "timeline-article-detail-full active"
                                                                   : "timeline-article-detail-full"
                                                               }
-                                                              onClick={(e) => {
+                                                              // onClick={(e) => {
+                                                              //   handleClick(
+                                                              //     details.id,
+                                                              //     details.pdf_id,
+                                                              //     details.Created,
+                                                              //     details
+                                                              //   );
+                                                              // }}
+                                                            >
+                                                              <div className="timeline-article-details-heading">
+                                                                <p  onClick={(e) => {
                                                                 handleClick(
                                                                   details.id,
                                                                   details.pdf_id,
                                                                   details.Created,
                                                                   details
                                                                 );
-                                                              }}
-                                                            >
-                                                              <div className="timeline-article-details-heading">
-                                                                <p>
+                                                              }}>
                                                                   Details{" "}
                                                                   <img
                                                                     src={
