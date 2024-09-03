@@ -5181,8 +5181,8 @@ input[type="number"] {
 }
 
 .timeline-article-detail-full .timeline-article-details-heading p {
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 10px;
   line-height: 16px;
   color: $light-gray;
   margin: 0;
@@ -5193,8 +5193,9 @@ input[type="number"] {
 }
 
 .timeline-article-detail-full .timeline-article-details-heading p img {
-  margin-left: 7px;
+  margin-left: 3px;
   transition: 0.4s ease;
+  width: 11px;
 }
 
 .timeline-article-detail-full.active .timeline-article-details-heading p img {
@@ -5219,8 +5220,10 @@ input[type="number"] {
     .timeline-article-details-boxes {
       @include flex-wrap;
       align-items: flex-start;
-      margin: 20px 0 0px;
-
+      margin: 0px 0 20px;
+      &:last-child{
+        margin-bottom:0;
+      }
       h3 {
         flex: 0 0 100%;
         width: 100%;
