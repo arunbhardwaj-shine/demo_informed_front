@@ -310,19 +310,11 @@ const SetLayoutNewTimeline = () => {
                                         </div>
                                         <div className="details-box">
                                           <p className="timeline-details-heading">To</p>
-                                          <div className="d-flex flex-wrap timeline-activity">
-                                            {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                            <div className="timeline-activity-detail">
-                                              <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                              <p>{user?.user_type}</p>
-                                              <span>{user?.site_number}</span>
-                                            </div>
-                                          </>)) : ""} */}
+                                          <div className="d-flex flex-wrap timeline-activity">                                            
                                             {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                               const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                               return userProfile ? (
-                                                <div key={index} className="timeline-activity-detail">
-                                                  {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                <div key={index} className="timeline-activity-detail">                                                  
                                                   <p>{
                                                     userProfile?.first_name != '' ?
                                                       userProfile?.first_name + " " + userProfile?.last_name
@@ -365,19 +357,11 @@ const SetLayoutNewTimeline = () => {
                                           </div>
                                           <div className="details-box">
                                             <p className="timeline-details-heading">Who</p>
-                                            <div className="d-flex flex-wrap timeline-activity">
-                                              {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                              <div className="timeline-activity-detail">
-                                                <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                <p>{user?.user_type}</p>
-                                                <span>{user?.site_number}</span>
-                                              </div>
-                                            </>)) : ""} */}
+                                            <div className="d-flex flex-wrap timeline-activity">                                              
                                               {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                 const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                 return userProfile ? (
-                                                  <div key={index} className="timeline-activity-detail">
-                                                    {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                  <div key={index} className="timeline-activity-detail">                                                    
                                                     <p>{
                                                       userProfile?.first_name != '' ?
                                                         userProfile?.first_name + " " + userProfile?.last_name
@@ -430,26 +414,17 @@ const SetLayoutNewTimeline = () => {
                                             </div>
                                             <div className="details-box">
                                               <p className="timeline-details-heading">Who</p>
-                                              <div className="d-flex flex-wrap timeline-activity">
-                                                {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-
-                                                <div className="timeline-activity-detail">
-                                                  <p>{user?.first_name}</p>
-                                                  <p>{user?.site_number}</p>
-                                                </div>
-
-                                              </>)) : ""} */}
+                                              <div className="d-flex flex-wrap timeline-activity">                                                
                                                 {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                   const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                   return userProfile ? (
-                                                    <div key={index} className="timeline-activity-detail">
-                                                      {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
-                                                      <p>{
+                                                    <div key={index} className="timeline-activity-detail">                                                     
+                                                      {/* <p>{
                                                         userProfile?.first_name != '' ?
                                                           userProfile?.first_name + " " + userProfile?.last_name
                                                           : userProfile?.name
                                                       }
-                                                      </p>
+                                                      </p> */}
                                                       <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                     </div>
                                                   ) : null
@@ -481,19 +456,11 @@ const SetLayoutNewTimeline = () => {
                                               </div>
                                               <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
-                                                <div className="d-flex flex-wrap timeline-activity">
-                                                  {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                  <div className="timeline-activity-detail">
-                                                    <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                    <p>{user?.user_type}</p>
-                                                    <span>{user?.site_number}</span>
-                                                  </div>
-                                                </>)) : ""} */}
+                                                <div className="d-flex flex-wrap timeline-activity">                                                  
                                                   {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                     const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                     return userProfile ? (
-                                                      <div key={index} className="timeline-activity-detail">
-                                                        {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                      <div key={index} className="timeline-activity-detail">                                                        
                                                         <p>{
                                                           userProfile?.first_name != '' ?
                                                             userProfile?.first_name + " " + userProfile?.last_name
@@ -542,19 +509,11 @@ const SetLayoutNewTimeline = () => {
                                                 </div>
                                                 <div className="details-box">
                                                   <p className="timeline-details-heading">Who</p>
-                                                  <div className="d-flex flex-wrap timeline-activity">
-                                                    {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                    <div className="timeline-activity-detail">
-                                                      <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                      <p>{user?.user_type}</p>
-                                                      <span>{user?.site_number}</span>
-                                                    </div>
-                                                  </>)) : ""} */}
+                                                  <div className="d-flex flex-wrap timeline-activity">                                                    
                                                     {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                       const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                       return userProfile ? (
-                                                        <div key={index} className="timeline-activity-detail">
-                                                          {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                        <div key={index} className="timeline-activity-detail">                                                          
                                                           <p>{
                                                             userProfile?.first_name != '' ?
                                                               userProfile?.first_name + " " + userProfile?.last_name
@@ -607,17 +566,11 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                   <div className="details-box">
                                                     <p className="timeline-details-heading">Who</p>
-                                                    <div className="d-flex flex-wrap timeline-activity">
-                                                      {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                      <div className="timeline-activity-detail">
-                                                        <span>{user?.site_number}</span>
-                                                      </div>
-                                                    </>)) : ""} */}
+                                                    <div className="d-flex flex-wrap timeline-activity">                                                      
                                                       {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                         const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                         return userProfile ? (
-                                                          <div key={index} className="timeline-activity-detail">
-                                                            {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                          <div key={index} className="timeline-activity-detail">                                                            
                                                             <p>{
                                                               userProfile?.first_name != '' ?
                                                                 userProfile?.first_name + " " + userProfile?.last_name
@@ -659,19 +612,11 @@ const SetLayoutNewTimeline = () => {
                                                     </div>
                                                     <div className="details-box">
                                                       <p className="timeline-details-heading">Who</p>
-                                                      <div className="d-flex flex-wrap timeline-activity">
-                                                        {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                        <div className="timeline-activity-detail">
-                                                          <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                          <p>{user?.user_type}</p>
-                                                          <span>{user?.site_number}</span>
-                                                        </div>
-                                                      </>)) : ""} */}
+                                                      <div className="d-flex flex-wrap timeline-activity">                                                        
                                                         {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                           const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                           return userProfile ? (
-                                                            <div key={index} className="timeline-activity-detail">
-                                                              {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                            <div key={index} className="timeline-activity-detail">                                                              
                                                               <p>{
                                                                 userProfile?.first_name != '' ?
                                                                   userProfile?.first_name + " " + userProfile?.last_name
@@ -714,19 +659,11 @@ const SetLayoutNewTimeline = () => {
                                                       </div>
                                                       <div className="details-box">
                                                         <p className="timeline-details-heading">Who</p>
-                                                        <div className="d-flex flex-wrap timeline-activity">
-                                                          {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                          <div className="timeline-activity-detail">
-                                                            <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                            <p>{user?.user_type}</p>
-                                                            <span>{user?.site_number}</span>
-                                                          </div>
-                                                        </>)) : ""} */}
+                                                        <div className="d-flex flex-wrap timeline-activity">                                                          
                                                           {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                             const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                             return userProfile ? (
-                                                              <div key={index} className="timeline-activity-detail">
-                                                                {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                              <div key={index} className="timeline-activity-detail">                                                                
                                                                 <p>{
                                                                   userProfile?.first_name != '' ?
                                                                     userProfile?.first_name + " " + userProfile?.last_name
@@ -763,19 +700,11 @@ const SetLayoutNewTimeline = () => {
                                                         </div>
                                                         <div className="details-box">
                                                           <p className="timeline-details-heading">Who</p>
-                                                          <div className="d-flex flex-wrap timeline-activity">
-                                                            {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                            <div className="timeline-activity-detail">
-                                                              <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                              <p>{user?.user_type}</p>
-                                                              <span>{user?.site_number}</span>
-                                                            </div>
-                                                          </>)) : ""} */}
+                                                          <div className="d-flex flex-wrap timeline-activity">                                                            
                                                             {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                               const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                               return userProfile ? (
-                                                                <div key={index} className="timeline-activity-detail">
-                                                                  {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+                                                                <div key={index} className="timeline-activity-detail">                                                                  
                                                                   <p>{
                                                                     userProfile?.first_name != '' ?
                                                                       userProfile?.first_name + " " + userProfile?.last_name
@@ -813,13 +742,6 @@ const SetLayoutNewTimeline = () => {
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">Who</p>
                                                             <div className="d-flex flex-wrap timeline-activity">
-                                                              {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                              <div className="timeline-activity-detail">
-                                                                <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                                <p>{user?.user_type}</p>
-                                                                <span>{user?.site_number}</span>
-                                                              </div>
-                                                            </>)) : ""} */}
                                                               {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                                 const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                                 return userProfile ? (
@@ -860,27 +782,33 @@ const SetLayoutNewTimeline = () => {
                                                               <p className="timeline-details-heading">What</p>
                                                               <p>IRT has changed his role</p>
                                                             </div>
-                                                            <div className="details-box">
-                                                              <p className="timeline-details-heading">Type</p>
-                                                              <div className="d-flex justify-content-between">
-                                                                <p>{item?.action}</p>
-                                                              </div>
-                                                            </div>
+                                                            {item?.previous_role && item?.user_role ?
+                                                              <div className="details-box">
+                                                                <p className="timeline-details-heading">Role</p>
+                                                                <div className="d-flex flex-wrap timeline-activity">
+                                                                  <div className="timeline-activity-detail role">
+                                                                    <span>Old |</span>
+                                                                    {item?.previous_role} <span className="timeline-activity-arrow">&gt;</span>
+                                                                    <span>New |</span>
+                                                                    {item?.user_role}
+                                                                  </div>
+                                                                </div>
+                                                              </div> :
+                                                              <div className="details-box">
+                                                                <p className="timeline-details-heading">Type</p>
+                                                                <div className="d-flex justify-content-between">
+                                                                  <p>{item?.action}</p>
+                                                                </div>
+                                                              </div>}
                                                             <div className="details-box">
                                                               <p className="timeline-details-heading">Who</p>
                                                               <div className="d-flex flex-wrap timeline-activity">
-                                                                {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                              <div className="timeline-activity-detail">
-                                                                <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                                <p>{user?.user_type}</p>
-                                                                <span>{user?.site_number}</span>
-                                                              </div>
-                                                            </>)) : ""} */}
+
                                                                 {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                                   const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                                   return userProfile ? (
                                                                     <div key={index} className="timeline-activity-detail">
-                                                                      {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+
                                                                       <p>{
                                                                         userProfile?.first_name != '' ?
                                                                           userProfile?.first_name + " " + userProfile?.last_name
@@ -902,7 +830,7 @@ const SetLayoutNewTimeline = () => {
                                                         <div className="timeline-box-inset">
                                                           <div className="timeline-indicator">
                                                             <div className="indicator-box">
-                                                              {/* <img src={path_image + "irt-training-start.svg"} alt="" /> */}
+
                                                               <svg
                                                                 width="24"
                                                                 height="18"
@@ -934,18 +862,12 @@ const SetLayoutNewTimeline = () => {
                                                               <div className="details-box">
                                                                 <p className="timeline-details-heading">Who</p>
                                                                 <div className="d-flex flex-wrap timeline-activity">
-                                                                  {/* {item?.users_data?.length ? item?.users_data?.map((user, index) => (<>
-                                                                <div className="timeline-activity-detail">
-                                                                  <p>{`${user?.first_name} ${user?.last_name}`}</p>
-                                                                  <p>{user?.user_type}</p>
-                                                                  <span>{user?.site_number}</span>
-                                                                </div>
-                                                              </>)) : ""} */}
+
                                                                   {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                                     const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                                     return userProfile ? (
                                                                       <div key={index} className="timeline-activity-detail">
-                                                                        {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+
                                                                         <p>{
                                                                           userProfile?.first_name != '' ?
                                                                             userProfile?.first_name + " " + userProfile?.last_name
@@ -967,25 +889,25 @@ const SetLayoutNewTimeline = () => {
                                                           <div className="timeline-box-inset">
                                                             <div className="timeline-indicator">
                                                               <div className="indicator-box">
-                                                                {item?.reader_mandatory == 1 ?<img src={path_image + "irt-invited-training.svg"} alt="" />
-                                                                  :<svg
-                                                                  width="24"
-                                                                  height="18"
-                                                                  viewBox="0 0 24 18"
-                                                                  fill="none"
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                >
-                                                                  <path
-                                                                    d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                                                                    fill="rgba(0, 102, 190, 1)"
-                                                                  ></path>
-                                                                  <path
-                                                                    d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7. 98861 12.1922 7.96501 12.2745 7.92Z"
-                                                                    fill="rgba(0, 102, 190, 1)"
-                                                                  ></path>
-                                                                </svg>
+                                                                {item?.reader_mandatory == 1 ? <img src={path_image + "irt-invited-training.svg"} alt="" />
+                                                                  : <svg
+                                                                    width="24"
+                                                                    height="18"
+                                                                    viewBox="0 0 24 18"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                  >
+                                                                    <path
+                                                                      d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
+                                                                      fill="rgba(0, 102, 190, 1)"
+                                                                    ></path>
+                                                                    <path
+                                                                      d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7. 98861 12.1922 7.96501 12.2745 7.92Z"
+                                                                      fill="rgba(0, 102, 190, 1)"
+                                                                    ></path>
+                                                                  </svg>
                                                                 }
-                                                                
+
                                                               </div>
                                                             </div>
                                                             <div className="timeline-block">
@@ -1011,7 +933,7 @@ const SetLayoutNewTimeline = () => {
                                                                       const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                                       return userProfile ? (
                                                                         <div key={index} className="timeline-activity-detail">
-                                                                          {/* <p>{`${userProfile?.first_name} ${userProfile?.last_name}`}</p> */}
+
                                                                           <p>{
                                                                             userProfile?.first_name != '' ?
                                                                               userProfile?.first_name + " " + userProfile?.last_name
@@ -1066,7 +988,6 @@ const SetLayoutNewTimeline = () => {
                     <div className="no_found">
                       <p>No Data Found</p>
                     </div>
-
                 }
               </div>
             </div>
