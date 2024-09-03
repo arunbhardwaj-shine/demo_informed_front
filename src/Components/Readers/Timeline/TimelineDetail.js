@@ -1483,14 +1483,6 @@ const TimelineDetail = (props) => {
                                                                   ? "timeline-article-detail-full active"
                                                                   : "timeline-article-detail-full"
                                                               }
-                                                              // onClick={(e) => {
-                                                              //   handleClick(
-                                                              //     details.id,
-                                                              //     details.pdf_id,
-                                                              //     details.Created,
-                                                              //     details
-                                                              //   );
-                                                              // }}
                                                             >
                                                               <div className="timeline-article-details-heading">
                                                                 <p  onClick={(e) => {
@@ -1513,7 +1505,6 @@ const TimelineDetail = (props) => {
                                                               </div>
                                                               <div className="timeline-article-details-overall">
                                                                 <div className="data-main-box tab-panel">
-                                                                  {/* <div className="timeline-article-details-boxes"> */}
                                                                   {typeof ebookData !==
                                                                     "undefined" &&
                                                                   ebookData.length > 0 ? (
@@ -1562,51 +1553,7 @@ const TimelineDetail = (props) => {
                                                                                             : ""}
                                                                                               </tbody>
                                                                                             </Table>
-                                                                                          </div>
-                                                                                          {/* <div className="media-left">
-                                                                                            {item?.image ? (
-                                                                                              <img
-                                                                                                src={
-                                                                                                  item?.image
-                                                                                                }
-                                                                                                alt="media-left"
-
-                                                                                              />
-                                                                                            ) : (
-                                                                                              <p>
-                                                                                                Page:{" "}
-                                                                                                {
-                                                                                                  item?.page
-                                                                                                }
-                                                                                              </p>
-                                                                                            )}
-                                                                                          </div> */}
-                                                                                          {/* <div className="media-right">
-                                                                                            <p>
-                                                                                              <span>
-                                                                                                Time
-                                                                                                Needed:{" "}
-                                                                                                {
-                                                                                                  item?.minimum
-                                                                                                }{" "}
-                                                                                                seconds
-                                                                                              </span>{" "}
-                                                                                              <span>
-                                                                                                Time
-                                                                                                Spent:{" "}
-                                                                                                {
-                                                                                                  item?.timeSpend
-                                                                                                }{" "}
-                                                                                                seconds
-                                                                                              </span>
-                                                                                            </p>
-                                                                                            <div className="content-type">
-                                                                                              {
-                                                                                                item?.readContent
-                                                                                              }
-                                                                                            </div>
-                                                                                          </div> */}
-                                                                                       
+                                                                                          </div>   
                                                                             </div>
                                                                           );
                                                                           
