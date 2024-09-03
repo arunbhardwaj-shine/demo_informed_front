@@ -5,12 +5,10 @@ import { useState } from "react";
 import {
   Form
 } from "react-bootstrap";
-
 import  "../../../Components/assets/css/survey.scss";
 import "../../../Components/assets/fonts/fonts.css";
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
-
 export const surveyAxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_KEY_NEW_SURVEY,
 });
@@ -56,7 +54,6 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       currentPagesData.formBuilderData !== undefined
     ) {
       try {
-        console.log(currentPagesData.formBuilderData, survey_id);
         const body = {
           ...currentPagesData.formBuilderData,
           survey_id: survey_id,
@@ -179,7 +176,6 @@ export const uploadImageToServer = async (file) => {
           "Invalid file extension. Please select a valid extension file."
         );
       }
-
       const formData = new FormData();
       formData.append("file", file);
       loader("show");

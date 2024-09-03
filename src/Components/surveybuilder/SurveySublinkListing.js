@@ -1,23 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
-  Form,
-  Row,
-  ProgressBar,
-  Tab,
-  Tabs,
-} from "react-bootstrap";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SurveySublinkListing = ({ survey_id, render, count }) => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   console.log(survey_id);
 
   const [sectionLoader, setSectionLoader] = useState(false);
@@ -99,19 +87,16 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                         <h6>{data?.delivery}</h6>
                         <div className="sublink-list-link">
                           <Link
-                            to={`https://informed.pro/survey/
-                                              ${data.unique_code}`}
+                            to={`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
                           >
-                            https://informed.pro/survey/
-                            {data?.unique_code}
+                           https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}
                           </Link>
                           <span
                             className="copy-content"
                             onClick={() => {
                               toast.success("content copied to the clipboard!");
                               window.navigator.clipboard
-                                .writeText(`https://informed.pro/survey/
-                                ${data.unique_code}`);
+                                .writeText(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`);
                             }}
                           >
                             <img
@@ -124,8 +109,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                       <div
                         className="sublink-qr"
                         onClick={(e) =>
-                          setDownloadLink(`https://informed.pro/survey/
-                                ${data.unique_code}`)
+                          setDownloadLink(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
                         }
                       >
                         <div className="sublink-qr-download">
@@ -138,8 +122,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
 
                       <Link
                         className="btn-bordered"
-                        to="/content-analytics"
-                        state={{ pdfId: survey_id }}
+                        to="/survey/survey-analytics"
                       >
                         Analytics
                       </Link>

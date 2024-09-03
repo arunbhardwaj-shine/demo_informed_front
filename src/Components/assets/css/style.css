@@ -9548,7 +9548,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   min-height: 100vh;
   border-radius: 0;
 }
-
+.mail-content-select .not_found {
+  min-height: 43vh;
+}
 .email-form .form-inline .form-group.template_builder_div {
   display: flex;
 }
@@ -10239,6 +10241,9 @@ nav.navbar .navbar-collapse li.nav-item a {
 }
 .all-events_details .survey_data_accordion_heading table thead tr th:nth-child(3) {
   width: 80px;
+}
+.mail-content-select .not_found {
+  min-height: 35vh;
 }
 }
 @media only screen and (max-width: 1365px) {

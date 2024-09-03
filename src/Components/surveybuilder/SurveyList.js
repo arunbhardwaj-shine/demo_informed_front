@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+
+
 import {
   Accordion,
   Button,
@@ -228,7 +230,7 @@ const SurveyList = (props) => {
     );
     if (selectedSublink) {
       navigator.clipboard
-        .writeText(`https://informed.pro/survey/${selectedSublink.label}`)
+        .writeText(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`)
         .then(() => {
           toast.success("Sublink copied to clipboard!");
         })
@@ -248,7 +250,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/survey/${selectedSublink.label}`,
+        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -446,7 +448,7 @@ const SurveyList = (props) => {
   const copyHandler = (surveyLink) => {
     console.log(surveyLink)
     navigator.clipboard
-      .writeText(`https://informed.pro${surveyLink}`)
+      .writeText(surveyLink)
       .then(() => {
         toast.success("Survey Link Copied");
       })
@@ -494,8 +496,10 @@ const SurveyList = (props) => {
     console.log(data);
 
     if (data.is_draft == "0" || data.is_draft == "1" || data.is_draft == "2") {
-      console.log(data?.custom_html)
+    
+    
       const parsedCustomHtml = JSON.parse(data?.custom_html);
+   
       console.log(data?.tags)
       const tags = JSON.parse(data?.tags);
       console.log(parsedCustomHtml);
@@ -1018,19 +1022,18 @@ const SurveyList = (props) => {
                                       <div className="tab-panel">
                                         <div class="tab-content-links">
                                           <a
-                                            href={`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`}
+                                            href={`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
                                             class={data?.is_draft != null &&
                                               data?.is_draft == "0" ? "doc-link no-click" :"doc-link " }
                                             target="_blank"
                                           >
-                                            https://informed.pro/survey/
-                                            {data.unique_code}
+                                           https://informed.pro/Survey/PreviewSurvey.html?Utmde={data.unique_code}
                                           </a>
                                           {data.is_draft ? (
                                             <span
                                               class="copy-content"
                                               onClick={() =>
-                                                copyHandler(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`)
+                                                copyHandler(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
                                               }
                                             >
                                               <img
@@ -1052,7 +1055,7 @@ const SurveyList = (props) => {
                                               onClick={() => {
                                                 setQr({
                                                   ...qrState,
-                                                  value: `https://informed.pro/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`,
+                                                  value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
                                                 });
                                                 setTimeout(function () {
                                                   downloadQRCode();
@@ -1400,7 +1403,7 @@ const SurveyList = (props) => {
                                           </Button>
                                           <Button className={data?.is_draft ?"edit btn-filled":"edit btn-filled disabled" }
                                             onClick={(e) => {
-                                              window.open(`/Survey/PreviewSurvey.html?uniqueCode=${data.unique_code}&surveyId=${data.survey_id}`, '_blank');
+                                              window.open(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`, '_blank');
                                             }}>
                                             Preview
                                           </Button>
@@ -1439,8 +1442,7 @@ const SurveyList = (props) => {
                                                     subLinkData
                                                   )?.find(
                                                     (option) =>
-                                                      option.sublink_id ==
-                                                      selectedSublinkId
+                                                      option.sublink_id == selectedSublinkId
                                                   )}
                                                 />
                                                 <Button

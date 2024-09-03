@@ -475,8 +475,8 @@ const SurveySublink = () => {
                                                 <div className="tab-panel">
                                                   <div class="tab-content-links">
                                                     <a>
-                                                      https://informed.pro/survey/
-                                                      {data?.unique_code}
+                                                    https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}
+                                                     
                                                     </a>
                                                     {data?.is_draft ? (
                                                       <span
@@ -890,7 +890,7 @@ const SurveySublink = () => {
                                                             placeholder="Select Sublink"
                                                             // options={selectOptions}
                                                           />
-                                                          <Button>Copy</Button>
+                                                          <Button>Download</Button>
                                                         </div>
                                                       </div>
                                                     </li>
