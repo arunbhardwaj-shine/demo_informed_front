@@ -1483,17 +1483,16 @@ const TimelineDetail = (props) => {
                                                                   ? "timeline-article-detail-full active"
                                                                   : "timeline-article-detail-full"
                                                               }
-                                                              onClick={(e) => {
+                                                            >
+                                                              <div className="timeline-article-details-heading">
+                                                                <p  onClick={(e) => {
                                                                 handleClick(
                                                                   details.id,
                                                                   details.pdf_id,
                                                                   details.Created,
                                                                   details
                                                                 );
-                                                              }}
-                                                            >
-                                                              <div className="timeline-article-details-heading">
-                                                                <p>
+                                                              }}>
                                                                   Details{" "}
                                                                   <img
                                                                     src={
@@ -1506,7 +1505,6 @@ const TimelineDetail = (props) => {
                                                               </div>
                                                               <div className="timeline-article-details-overall">
                                                                 <div className="data-main-box tab-panel">
-                                                                  {/* <div className="timeline-article-details-boxes"> */}
                                                                   {typeof ebookData !==
                                                                     "undefined" &&
                                                                   ebookData.length > 0 ? (
@@ -1542,13 +1540,10 @@ const TimelineDetail = (props) => {
                                                                                                 <tr>
                                                                                                   <td>{item?.page}</td>
                                                                                                   <td><span>
-                                                                                                    {item?.minimum}
-                                                                                                    {" "}
-                                                                                                    seconds
+                                                                                                  {item?.minimum ? `${formatTime(item.minimum)}` : 'N/A'}
                                                                                                   </span></td>
                                                                                                   <td><span>
-                                                                                                   { item?.timeSpend}{" "}
-                                                                                                    seconds
+                                                                                                  {item?.timeSpend ? `${formatTime(item?.timeSpend)}` : 'N/A'}
                                                                                                   </span></td>
                                                                                                   <td className={`media media-${item?.flag}`}>{item?.readContent} <img src={path_image + "info_circle_icon.svg"} alt=""/></td>
                                                                                                 </tr>
@@ -1558,51 +1553,7 @@ const TimelineDetail = (props) => {
                                                                                             : ""}
                                                                                               </tbody>
                                                                                             </Table>
-                                                                                          </div>
-                                                                                          {/* <div className="media-left">
-                                                                                            {item?.image ? (
-                                                                                              <img
-                                                                                                src={
-                                                                                                  item?.image
-                                                                                                }
-                                                                                                alt="media-left"
-
-                                                                                              />
-                                                                                            ) : (
-                                                                                              <p>
-                                                                                                Page:{" "}
-                                                                                                {
-                                                                                                  item?.page
-                                                                                                }
-                                                                                              </p>
-                                                                                            )}
-                                                                                          </div> */}
-                                                                                          {/* <div className="media-right">
-                                                                                            <p>
-                                                                                              <span>
-                                                                                                Time
-                                                                                                Needed:{" "}
-                                                                                                {
-                                                                                                  item?.minimum
-                                                                                                }{" "}
-                                                                                                seconds
-                                                                                              </span>{" "}
-                                                                                              <span>
-                                                                                                Time
-                                                                                                Spent:{" "}
-                                                                                                {
-                                                                                                  item?.timeSpend
-                                                                                                }{" "}
-                                                                                                seconds
-                                                                                              </span>
-                                                                                            </p>
-                                                                                            <div className="content-type">
-                                                                                              {
-                                                                                                item?.readContent
-                                                                                              }
-                                                                                            </div>
-                                                                                          </div> */}
-                                                                                       
+                                                                                          </div>   
                                                                             </div>
                                                                           );
                                                                           
