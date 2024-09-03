@@ -229,7 +229,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   background: rgba(255, 255, 255, 0.83) url(../images/informed-symbol.svg) no-repeat;
   background-size: 180px;
   background-position: bottom left;
-  min-height: 88vh;
+  min-height: calc(100vh - 84px);
 }
 @media only screen and (max-width:1400px){
 .left-sidebar.hidesidebar~.right-sidebar {
