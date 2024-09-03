@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
@@ -13,7 +13,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { uploadImageToServer } from "./CommonFunctions/CommonFunction";
-import html2canvas from 'html2canvas';
+import html2canvas from "html2canvas";
 
 var surveyValues = {};
 
@@ -47,8 +47,12 @@ const SurveyFormBuilder = (props) => {
   const [dynamicValues, setDynamicValues] = useState({});
   const [header_background_type, setHeaderBackgroundType] = useState(null);
   const [userMadeChanges, setUserMadeChanges] = useState(true);
-  const [changeLogoToggle, setChangeLogoToggle] = useState(customHtmlData?.changeLogoToggle ?? true);
-  const [changeTitleToggle, setChangeTitleToggle] = useState(customHtmlData?.changeTitleToggle ?? true);
+  const [changeLogoToggle, setChangeLogoToggle] = useState(
+    customHtmlData?.changeLogoToggle ?? true
+  );
+  const [changeTitleToggle, setChangeTitleToggle] = useState(
+    customHtmlData?.changeTitleToggle ?? true
+  );
   const [changeFooterToggle, setChangeFooterToggle] = useState(true);
   const [changeBodyToggle, setChangeBodyToggle] = useState(true);
   const [headerImgPath, setHeaderImgPath] = useState("");
@@ -59,7 +63,7 @@ const SurveyFormBuilder = (props) => {
   const templateRef = useRef(null);
 
   const [preview_thumbnail, setImage] = useState(null);
-  
+
   const fetchTemplate = async () => {
     try {
       loader("show");
@@ -69,38 +73,37 @@ const SurveyFormBuilder = (props) => {
         body
       );
       console.log(response);
-      if(response.status == 200){
-
+      if (response.status == 200) {
         var customTemplates = [];
-      if (response.data.data.length > 0) {
-        customTemplates = response.data.data.map((template) => {
-          return {
-            default_values: JSON.parse(template.custom_html)[0],
-            template_html: template.raw_html,
-            id: template.custom_saved_template_id,
-            template_fileName: template.preview_thumbnail,
-          };
-        });
-        setcustomSavedTemplates(customTemplates);
+        if (response.data.data.length > 0) {
+          customTemplates = response.data.data.map((template) => {
+            return {
+              default_values: JSON.parse(template.custom_html)[0],
+              template_html: template.raw_html,
+              id: template.custom_saved_template_id,
+              template_fileName: template.preview_thumbnail,
+            };
+          });
+        
+        }
+        console.log("dede");
+        setTemplates([...SurveyTemplates, ...customTemplates]);
+        if (
+          surveyValues?.formBuilderData?.custom_html &&
+          surveyValues?.formBuilderData?.custom_html != 0
+        ) {
+          setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
+          setUserMadeChanges(true);
+          setCustomHtml(customHtmlData ?? {});
+        } else {
+          console.log("inside fetch template");
+          setSelectedTemplateId(1);
+        }
       }
-      console.log("dede");
-      setTemplates([...SurveyTemplates, ...customTemplates]);
-      if (
-        surveyValues?.formBuilderData?.custom_html &&
-        surveyValues?.formBuilderData?.custom_html != 0
-      ) {
-        setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
-        setUserMadeChanges(true);
-        setCustomHtml(customHtmlData ?? {});
-      } else {
-        console.log("inside fetch template");
-        setSelectedTemplateId(1);
+      if (!header_background_type) {
+        setHeaderBackgroundType("color");
       }
-
-      }
-      if(!header_background_type){
-        setHeaderBackgroundType("color")
-      }
+     
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -127,14 +130,13 @@ const SurveyFormBuilder = (props) => {
 
   const updateDynamicValues = (templateDefaults) => {
     console.log(dynamicValues);
-    console.log(customHtml)
+    console.log(customHtml);
     let customValues =
-    customHtml != "0" && Object.keys(customHtml).length > 0
-        ? {...customHtml,...dynamicValues}
+      customHtml != "0" && Object.keys(customHtml).length > 0
+        ? { ...customHtml, ...dynamicValues }
         : { ...templateDefaults, ...dynamicValues };
 
-        setHeaderBackgroundType(customValues?.header_background_type)
-    
+    setHeaderBackgroundType(customValues?.header_background_type);
 
     const newValues = {
       template_name:
@@ -161,8 +163,7 @@ const SurveyFormBuilder = (props) => {
         customValues?.page_background_color ??
         templateDefaults.page_background_color,
       logoWidth: customValues?.logoWidth ?? templateDefaults?.logoWidth,
-      header_background_type:customValues?.header_background_type
-     
+      header_background_type: customValues?.header_background_type,
     };
     console.log(newValues);
     setTemplateDefaultValues(newValues);
@@ -189,9 +190,8 @@ const SurveyFormBuilder = (props) => {
     );
   }
 
-
   const dataURLToFile = (dataURL, filename) => {
-    const [header, base64] = dataURL.split(',');
+    const [header, base64] = dataURL.split(",");
     const mime = header.match(/:(.*?);/)[1];
     const binary = atob(base64);
     let array = [];
@@ -200,37 +200,33 @@ const SurveyFormBuilder = (props) => {
     }
     return new File([new Uint8Array(array)], filename, { type: mime });
   };
-  
 
-
-
- 
   const captureScreenshot = async () => {
     const element = document.getElementById("templatecapture");
     if (element) {
       try {
         const canvas = await html2canvas(element);
         if (canvas) {
-          const imgData = canvas.toDataURL('image/png');
+          const imgData = canvas.toDataURL("image/png");
           console.log(imgData);
 
-          if(imgData){
-            const file = dataURLToFile(imgData, 'screenshot.png');
-            console.log(file)
-            const imgpath=await uploadImageToServer(file)
-            if(imgpath){
+          if (imgData) {
+            const file = dataURLToFile(imgData, "screenshot.png");
+            console.log(file);
+            const imgpath = await uploadImageToServer(file);
+            if (imgpath) {
               // console.log(imgpath?.data?.data,"image url",imgpath);
-               setImage(imgpath)
+              setImage(imgpath);
             }
             return imgpath;
           }
-           // Assuming setImage updates some state
+          // Assuming setImage updates some state
         } else {
-          console.error('Canvas is null or undefined');
+          console.error("Canvas is null or undefined");
           return null;
         }
       } catch (error) {
-        console.error('Error capturing screenshot:', error);
+        console.error("Error capturing screenshot:", error);
         return null;
       }
     } else {
@@ -238,11 +234,9 @@ const SurveyFormBuilder = (props) => {
       return null;
     }
   };
-  
-  
 
   const handleChoiceChange = (id) => {
-    console.log(id)
+    console.log(id);
     if (id && templates) {
       const selectedTemplate = templates.find((temp) => temp.id === id);
       if (selectedTemplate) {
@@ -286,8 +280,6 @@ const SurveyFormBuilder = (props) => {
   };
 
   const updateTemplateValues = () => {
-
-    
     console.log(templateDefaultValues);
     const values = { ...templateDefaultValues, ...dynamicValues };
     console.log(values);
@@ -347,7 +339,10 @@ const SurveyFormBuilder = (props) => {
       setChangeTitleToggle(true);
       setChangeLogoToggle(true);
     }
-    setDynamicValues((prevState) => ({ ...prevState, header_background_type: selectedValue }));
+    setDynamicValues((prevState) => ({
+      ...prevState,
+      header_background_type: selectedValue,
+    }));
     setTemplateDefaultValues((prevState) => ({
       ...prevState,
       header_background_type: selectedValue,
@@ -424,7 +419,6 @@ const SurveyFormBuilder = (props) => {
     handleUpload(file, setHeaderLogoImgPath);
   };
 
-
   const handleUpload = async (file, setPath) => {
     if (file) {
       try {
@@ -436,7 +430,7 @@ const SurveyFormBuilder = (props) => {
           formData
         );
         setPath(res.data.data);
-        console.log(res.data.data)
+        console.log(res.data.data);
         setUserMadeChanges(true);
         loader("hide");
       } catch (error) {
@@ -482,7 +476,6 @@ const SurveyFormBuilder = (props) => {
     }
   };
 
-
   const footerSwitchToogle = () => {
     setChangeFooterToggle(!changeFooterToggle);
   };
@@ -509,8 +502,6 @@ const SurveyFormBuilder = (props) => {
   const nextButtonClicked = async (e, newTemplateStatus) => {
     e.preventDefault();
 
- 
-
     let custom_html = null;
     console.log(header_background_type);
     const temporaryValues = { ...templateDefaultValues, ...dynamicValues };
@@ -525,9 +516,9 @@ const SurveyFormBuilder = (props) => {
           main_footer: changeFooterToggle ? temporaryValues.main_footer : "",
           bodyText: changeBodyToggle ? temporaryValues.bodyText : "",
 
-          header_background_color:temporaryValues.header_background_color,
+          header_background_color: temporaryValues.header_background_color,
           // header_background_color: temporaryValues.header_background_color,
-          header_background_image:temporaryValues.header_background_image,
+          header_background_image: temporaryValues.header_background_image,
           // header_background_image: temporaryValues.header_background_image,
 
           logo: changeLogoToggle ? temporaryValues.logo : "",
@@ -567,24 +558,25 @@ const SurveyFormBuilder = (props) => {
 
         const imgData = await captureScreenshot();
         if (!imgData) {
-          throw new Error('Failed to capture screenshot');
+          throw new Error("Failed to capture screenshot");
         }
-
-
-      
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
           {
             ...body,
             survey_id: 0,
             raw_html: originalSelectedTemplate.template_html,
-            preview_thumbnail:imgData
+            preview_thumbnail: imgData,
           }
         );
         console.log(response);
         setCurrentTemplate(null);
-        fetchTemplate();
+        await fetchTemplate();
         setNewSavedTemplateName("");
+
+       
+
+       
         handleClose();
         loader("hide");
       } catch (error) {
@@ -747,7 +739,8 @@ const SurveyFormBuilder = (props) => {
                                           title="Choose your color"
                                           name="color"
                                           value={
-                                            templateDefaultValues.header_background_color ?? dynamicValues.header_background_color 
+                                            templateDefaultValues.header_background_color ??
+                                            dynamicValues.header_background_color
                                           }
                                           onChange={(e) =>
                                             handleInputChange(
@@ -1049,7 +1042,8 @@ const SurveyFormBuilder = (props) => {
                                           title="Choose your color"
                                           name="color"
                                           value={
-                                            templateDefaultValues.button_color ?? dynamicValues.button_color
+                                            templateDefaultValues.button_color ??
+                                            dynamicValues.button_color
                                           }
                                           onChange={(e) =>
                                             handleInputChange(e, "button_color")
@@ -1136,7 +1130,7 @@ const SurveyFormBuilder = (props) => {
                         {templates &&
                           templates?.map((temp, index) => {
                             return (
-                              <div key={index} className="template-option " >
+                              <div key={index} className="template-option ">
                                 <div
                                   className={
                                     temp.id === selectedTemplateId
@@ -1145,22 +1139,28 @@ const SurveyFormBuilder = (props) => {
                                   }
                                 >
                                   <div className="template-preview ">
-                                    {temp?.id > 3 ? <img
-                                      src={temp.template_fileName}
-                                      onClick={(e) => {
-                                        handleChoiceChange(temp.id);
-                                      }}
-                                      alt=""
-                                    />:<img
-                                    src={path_image + temp.template_fileName}
-                                    onClick={(e) => {
-                                      handleChoiceChange(temp.id);
-                                    }}
-                                    alt=""
-                                  />}
+                                    {temp?.id > 3 ? (
+                                      <img
+                                        src={temp.template_fileName}
+                                        onClick={(e) => {
+                                          handleChoiceChange(temp.id);
+                                        }}
+                                        alt=""
+                                      />
+                                    ) : (
+                                      <img
+                                        src={
+                                          path_image + temp.template_fileName
+                                        }
+                                        onClick={(e) => {
+                                          handleChoiceChange(temp.id);
+                                        }}
+                                        alt=""
+                                      />
+                                    )}
                                   </div>
                                   <div className="d-flex justify-content-between flex-row-reverse">
-                                  <button
+                                    <button
                                       className="btn-edit btn-voilet"
                                       onClick={(e) => editHandler(e, temp.id)}
                                     >
@@ -1230,8 +1230,6 @@ const SurveyFormBuilder = (props) => {
                                         </svg>
                                       </button>
                                     )}
-
-                                    
                                   </div>
                                 </div>
                                 <p>{temp.default_values.template_name}</p>
