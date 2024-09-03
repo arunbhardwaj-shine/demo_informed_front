@@ -862,10 +862,10 @@ const Routing = () => {
           path="/EmailStatss"
           element={<LoginLayout component={EmailStatss} />}
         />
-        <Route
+        {/* <Route
           path="/blocked-users"
           element={<LoginLayout component={BlockedUsers} />}
-        />
+        /> */}
         <Route
           path="/bounced-email"
           element={<LoginLayout component={BouncedEmail} />}
