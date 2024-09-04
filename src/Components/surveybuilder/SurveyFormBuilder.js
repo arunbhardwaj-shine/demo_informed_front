@@ -59,12 +59,9 @@ const SurveyFormBuilder = (props) => {
   const [headerLogoImgPath, setHeaderLogoImgPath] = useState("");
   const [newSavedTemplateName, setNewSavedTemplateName] = useState("");
   const [error, setError] = useState({});
-  const [savednewCustomTempflag,setsavednewCustomTempflag]=useState(0)
+  const [savednewCustomTempflag, setsavednewCustomTempflag] = useState(0);
 
-
-
-
-  const fetchTemplate = async (saveNewTemplate ) => {
+  const fetchTemplate = async (saveNewTemplate) => {
     try {
       loader("show");
       const body = { account_id: 18207 };
@@ -72,50 +69,48 @@ const SurveyFormBuilder = (props) => {
         "/survey/fetch-saved-template",
         body
       );
-      console.log(response);
+
       if (response.status == 200) {
         var customTemplates = [];
         if (response.data.data.length > 0) {
           customTemplates = response.data.data.map((template) => {
-            console.log(template.template_uniquecode)
             return {
               default_values: JSON.parse(template.custom_html)[0],
               template_html: template.raw_html,
               id: template.custom_saved_template_id,
               template_fileName: template.preview_thumbnail,
-              template_uniquecode:template.random_String
+              template_uniquecode: template.random_String,
             };
           });
         }
-        const updatedTemp=[...SurveyTemplates, ...customTemplates]
+        const updatedTemp = [...SurveyTemplates, ...customTemplates];
         setTemplates(updatedTemp);
         if (
           surveyValues?.formBuilderData?.custom_html &&
           surveyValues?.formBuilderData?.custom_html != 0
         ) {
-          if(!saveNewTemplate){
-          setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
-          setUserMadeChanges(true);
-          setCustomHtml(customHtmlData ?? {});
+          if (!saveNewTemplate) {
+            setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
+            setUserMadeChanges(true);
+            setCustomHtml(customHtmlData ?? {});
           }
         } else {
-          console.log("inside fetch template");
-          if(!saveNewTemplate){
+          if (!saveNewTemplate) {
             setSelectedTemplateId(1);
           }
-        }   
+        }
       }
       if (!header_background_type) {
         setHeaderBackgroundType("color");
       }
-      if( saveNewTemplate ){  
-        setsavednewCustomTempflag(1)
+      if (saveNewTemplate) {
+        setsavednewCustomTempflag(1);
       }
 
       loader("hide");
     } catch (error) {
       loader("hide");
-      console.log(error, error.message);
+
       toast.error("Something went wrong");
     }
   };
@@ -133,7 +128,10 @@ const SurveyFormBuilder = (props) => {
   useEffect(() => {
     if (originalSelectedTemplate != "") {
       updateTemplateValues();
-      console.log(selectedTemplateId,"selectedTemplateIdselectedTemplateIdselectedTemplateId")
+      console.log(
+        selectedTemplateId,
+        "selectedTemplateIdselectedTemplateIdselectedTemplateId"
+      );
     }
   }, [
     dynamicValues,
@@ -146,33 +144,23 @@ const SurveyFormBuilder = (props) => {
   ]);
 
   useEffect(() => {
-    console.log("TEMPLATE ID CHANGED",templates)
     if (templates) {
-      console.log(dynamicValues,templateDefaultValues);
-      console.log("HERE123");
       handleChoiceChange(selectedTemplateId); // Assuming 1 is a valid id you want to start
     }
   }, [selectedTemplateId]);
 
-
-
-  useEffect(()=>{
-    if(savednewCustomTempflag){
-      console.log("HERE");
-      setDynamicValues({})
-      setTemplateDefaultValues({})
-      setsavednewCustomTempflag(0)
-      const getTemplateId = templates[templates.length-1].id;
-      setSelectedTemplateId(getTemplateId)
+  useEffect(() => {
+    if (savednewCustomTempflag) {
+      setDynamicValues({});
+      setTemplateDefaultValues({});
+      setsavednewCustomTempflag(0);
+      const getTemplateId = templates[templates.length - 1].id;
+      setSelectedTemplateId(getTemplateId);
       handleChoiceChange(getTemplateId);
-      console.log("HERE1",getTemplateId);
-      console.log(templates[templates.length-1].id,templates,templates.length,"TEMPLATE DATA");
     }
-  },[templates])
+  }, [templates]);
 
   const updateDynamicValues = (templateDefaults) => {
-    console.log(dynamicValues);
-    console.log(customHtml);
     let customValues =
       customHtml != "0" && Object.keys(customHtml).length > 0
         ? { ...customHtml, ...dynamicValues }
@@ -207,7 +195,7 @@ const SurveyFormBuilder = (props) => {
       logoWidth: customValues?.logoWidth ?? templateDefaults?.logoWidth,
       header_background_type: customValues?.header_background_type,
     };
-    console.log(newValues);
+
     setTemplateDefaultValues(newValues);
     // setCustomHtml({})
   };
@@ -242,54 +230,47 @@ const SurveyFormBuilder = (props) => {
     }
     return new File([new Uint8Array(array)], filename, { type: mime });
   };
-  
+
   const captureScreenshot = async () => {
     const element = document.getElementById("templatecapture");
     if (element) {
       try {
         // Ensure all images are loaded
-        const images = Array.from(element.getElementsByTagName('img'));
-        const imagePromises = images.map(img => {
+        const images = Array.from(element.getElementsByTagName("img"));
+        const imagePromises = images.map((img) => {
           return new Promise((resolve) => {
             if (img.complete) {
-              console.log(`Image already loaded: ${img.src}`);
               resolve();
             } else {
               img.onload = () => {
-                console.log(`Image loaded: ${img.src}`);
                 resolve();
               };
               img.onerror = () => {
-                console.error(`Failed to load image: ${img.src}`);
                 resolve();
               };
             }
           });
         });
-  
+
         await Promise.all(imagePromises);
-  
+
         // Capture screenshot with html2canvas
         const canvas = await html2canvas(element, {
           allowTaint: true,
           useCORS: true,
-          scrollX: 0,
-          scrollY: 0,
-          backgroundColor: 'white'
+          proxy: "https://docintel.s3-eu-west-1.amazonaws.com",
+          backgroundColor: null,
         });
-  
+
         if (canvas) {
           const imgData = canvas.toDataURL("image/png");
-          console.log("Screenshot captured:", imgData);
-  
+
           if (imgData) {
             const file = dataURLToFile(imgData, "screenshot.png");
-            console.log("File created:", file);
-  
+
             // Simulated upload function (replace with your actual implementation)
             const imgpath = await uploadImageToServer(file);
             if (imgpath) {
-              console.log("Image path returned:", imgpath);
               return imgpath;
             }
           }
@@ -304,11 +285,8 @@ const SurveyFormBuilder = (props) => {
     }
     return null;
   };
-  
-  
 
   const handleChoiceChange = (id) => {
-    console.log(id);
     if (id && templates) {
       const selectedTemplate = templates.find((temp) => temp.id === id);
       if (selectedTemplate) {
@@ -334,14 +312,8 @@ const SurveyFormBuilder = (props) => {
           "/survey/delete-survey-template",
           body
         );
-        console.log(response);
-        await fetchTemplate();
-        // const updatedTemplates = templates.filter((temp) => temp.id !== id);
 
-        // if (updateElement.length >= 0) {
-        //   setSelectedTemplateId(updatedTemplates[0]?.id);
-        // }
-        // setTemplates(updatedTemplates)
+        await fetchTemplate();
       }
 
       loader("hide");
@@ -352,9 +324,8 @@ const SurveyFormBuilder = (props) => {
   };
 
   const updateTemplateValues = () => {
-    console.log(templateDefaultValues);
     const values = { ...templateDefaultValues, ...dynamicValues };
-    console.log(values);
+
     let dynamicHeaderBackgroundStyle = "";
     if (
       header_background_type === "image" &&
@@ -385,8 +356,6 @@ const SurveyFormBuilder = (props) => {
     // document.getElementById("template-container").innerHTML = updatedHtml;
     setSelectedTemplateHtml(updatedHtml);
   };
-
- 
 
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
@@ -461,7 +430,6 @@ const SurveyFormBuilder = (props) => {
   };
 
   const updateBody = (index, field, value) => {
-    console.log(value);
     setDynamicValues((prev) => ({
       ...prev,
       bodyText: value,
@@ -489,7 +457,7 @@ const SurveyFormBuilder = (props) => {
           formData
         );
         setPath(res.data.data);
-        console.log(res.data.data);
+
         setUserMadeChanges(true);
         loader("hide");
       } catch (error) {
@@ -521,7 +489,6 @@ const SurveyFormBuilder = (props) => {
       [key]: newValue,
     }));
     setUserMadeChanges(true);
-    console.log(templateDefaultValues, "from down");
   };
 
   const titleSwitchToogle = () => {
@@ -560,11 +527,10 @@ const SurveyFormBuilder = (props) => {
 
   const nextButtonClicked = async (e, newTemplateStatus) => {
     e.preventDefault();
-
+    console.log("dfnhdshffferwfdffgf");
     let custom_html = null;
-    console.log(header_background_type);
+
     const temporaryValues = { ...templateDefaultValues, ...dynamicValues };
-    console.log(header_background_type);
 
     if (templates.length > 0) {
       custom_html = [
@@ -599,11 +565,14 @@ const SurveyFormBuilder = (props) => {
       custom_html = "0";
     }
 
+ 
+
     const body = {
       account_id: "18207",
       template_id: originalSelectedTemplate.id,
       custom_html: custom_html,
       template_status: newTemplateStatus ?? 0,
+      template_uniquecode: originalSelectedTemplate.template_uniquecode ?? "",
     };
 
     surveyValues = {
@@ -619,7 +588,6 @@ const SurveyFormBuilder = (props) => {
         if (!imgData) {
           throw new Error("Failed to capture screenshot");
         }
-       
 
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
@@ -628,7 +596,8 @@ const SurveyFormBuilder = (props) => {
             survey_id: 0,
             raw_html: originalSelectedTemplate.template_html,
             preview_thumbnail: imgData,
-            template_uniquecode:originalSelectedTemplate.template_uniquecode ?? ""
+            template_uniquecode:
+            originalSelectedTemplate.template_uniquecode ?? "",
           }
         );
         setCurrentTemplate(null);
@@ -641,10 +610,9 @@ const SurveyFormBuilder = (props) => {
         loader("hide");
       }
     }
-    if(newTemplateStatus != 1){
+    if (newTemplateStatus != 1) {
       await props.getSurveyData(surveyValues);
     }
-
   };
 
   return (
@@ -1352,17 +1320,19 @@ const SurveyFormBuilder = (props) => {
 
                           <button
                             className="btn btn-primary btn-bordered next"
-                            onClick={async (e) => {
-                              await nextButtonClicked(e);
+                            onClick={ async (e) => {
+                               await nextButtonClicked(e,0);
                               saveAsDraft(e, 0, location.pathname, navigate);
+                              
                             }}
                           >
                             Save As Draft
                           </button>
+
                           <button
                             className="btn btn-primary btn-filled next "
                             onClick={(e) => {
-                              nextButtonClicked(e);
+                              nextButtonClicked(e,0);
                               navigate("/survey/survey-configure", {
                                 state: { survey_id: survey_id },
                               });
@@ -1455,7 +1425,7 @@ const SurveyFormBuilder = (props) => {
 
 const mapStateToProps = (state) => {
   surveyValues = state?.getSurveyData;
-  console.log(surveyValues);
+
   return state;
 };
 
