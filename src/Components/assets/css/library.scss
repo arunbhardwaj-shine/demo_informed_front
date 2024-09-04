@@ -1124,7 +1124,24 @@
   }
 
 }
+.latest-home{
+  .timeline-layout {
+    overflow-y: hidden;
+    padding-right:0;
+    padding-bottom: 0;
 
+    .timeline-layout-inset{
+      padding:0 70px 10px 0;
+      overflow-y: auto;
+      .timeline-right-list{
+        .timeline-right-header {
+          top: 54px;
+          padding: 10px 0 0;
+      }
+      }
+    }
+  }
+} 
 .timeline-layout {
   flex: 1 1;
   -webkit-backdrop-filter: blur(254px);
@@ -1185,6 +1202,40 @@
     }
     .load_more{
       padding:10px 0;
+      margin: 0!important;
+    }
+    .timeline-picker{
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      padding: 15px 0 4px;
+      position: sticky;
+      top: 0;
+      z-index: 7;
+      background: #fbfcfd;
+      form{
+        display: flex;
+        gap:10px;
+        .form-group{
+          label{
+            color: #70899E;
+            font-size: 14px;
+            padding-right:6px;
+          }
+          .react-datepicker-wrapper{
+            max-width: 130px;
+            input {
+              cursor: pointer;
+              color: #0066BE;
+              font-size: 14px;
+          }
+          }
+        }
+        button{
+          font-size: 14px;
+          padding: 7px 10px;
+        }
+      }
     }
   }
 
@@ -1416,7 +1467,7 @@
   }
   .timeline-right-list {
     padding: 0;
- 
+    
     .timeline-right-header {
       display: flex;
       align-items: flex-start;
@@ -1504,9 +1555,9 @@
  
       .timeline-sticky {
         position: relative;
-        padding: 48px 0 18px;
+        padding: 28px 0 18px;
         position: sticky;
-        top: 77px;
+        top: 111px;
         background: #fbfcfd;
         z-index: 4;
  
@@ -1535,7 +1586,7 @@
           position: absolute;
           left: -53px;
           z-index: 1;
-          top: 56px;
+          top: 36px;
  
           span {
             width: 10px;
