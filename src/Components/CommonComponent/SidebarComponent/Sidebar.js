@@ -682,7 +682,7 @@ const Sidebar = () => {
                   <p>Email Results</p>
                 </Link>
               </li>
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              {/* {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? (
                   <li
@@ -730,7 +730,7 @@ const Sidebar = () => {
                       <p>Blocked Reminders</p>
                     </Link>
                   </li>
-                ) : null}
+                ) : null} */}
 
               {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (
                 <li
