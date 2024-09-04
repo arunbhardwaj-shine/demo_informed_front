@@ -1218,6 +1218,7 @@
       justify-content: center;
       padding: 12px 0;
       max-height: 160px;
+      position: relative;
  
       &.start {
         p {
@@ -1588,7 +1589,7 @@
  
         .timeline-indicator {
           position: absolute;
-          left: -68px;
+          left: -80px;
           z-index: 3;
           top: 50%;
           transform: translateY(-50%);
