@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="icon"
@@ -23,23 +24,72 @@
     <div id="survey-container" class="informed-survey"></div>
 
     <script>
-      function updateCharacterCount(textareaId, charCountId, maxLength) {
-        const textarea = document.getElementById(textareaId);
-        const charCountDisplay = document.getElementById(charCountId);
-        const charCount = textarea.value.length;
-
-        // Update character count dynamically or hide if empty
-        charCountDisplay.textContent =
-          charCount > 0 ? `${charCount}/${maxLength}` : "";
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
       }
+
+      function showSubmitModal() {
+        const modal = document.getElementById("thanks-modal");
+        modal.style.display = "block";
+      }
+
+      function resetAllFreeTextCounts() {
+        // Select all textarea elements within the form
+        const textareas = document.querySelectorAll('textarea[id^="textarea"]');
+
+        textareas.forEach((textarea) => {
+          const questionId = textarea.id.replace("textarea", ""); // Extract question ID from textarea ID
+          const charCountSpan = document.getElementById(
+            `charCount${questionId}`
+          );
+
+          if (charCountSpan) {
+            // Get the maxTextLength from the textarea's maxlength attribute
+            const maxTextLength = textarea.getAttribute("maxlength");
+
+            // Reset the character count display to "0/maxTextLength"
+            charCountSpan.textContent = `0/${maxTextLength}`;
+          }
+
+          // Clear the content of each textarea
+          textarea.value = "";
+        });
+      }
+
+      // Function to handle the modal close button
+      function closeModal() {
+        const modal = document.getElementById("thanks-modal");
+        modal.style.display = "none";
+        document
+          .querySelectorAll(".select-dropdown__button span")
+          .forEach((element) => {
+            const placeholder = element.dataset.placeValue;
+            element.innerHTML = placeholder;
+          });
+        resetAllFreeTextCounts();
+        document.querySelectorAll('input[type="hidden"]').forEach((element) => {
+          element.value = "";
+        });
+        document.getElementById("survey-form").reset(); // Reset your form
+      }
+
+      function updateCharCount(questionId, maxTextLength) {
+        const textarea = document.getElementById(`textarea${questionId}`);
+        const charCountSpan = document.getElementById(`charCount${questionId}`);
+        if (textarea && charCountSpan) {
+          const currentLength = textarea.value.length;
+          // Update the character count display
+          charCountSpan.textContent = `${currentLength}/${maxTextLength}`;
+        }
+      }
+
       const loader = (data) => {
         const element = document.getElementById("custom-loader");
-
         if (!element) {
           console.error("Element with ID 'custom_loader' not found.");
           return;
         }
-
         if (data === "show") {
           console.log("showing loader");
           element.classList.add("show");
@@ -70,17 +120,20 @@
       }
 
       document.addEventListener("DOMContentLoaded", async function () {
-     
-        const queryParams = new URLSearchParams(window.location.search);
-        const unique_code = queryParams.get("uniqueCode");
-        const survey_id = queryParams.get("surveyId");
         console.log("Fetching data...");
+        const Utmde = getQueryParam("Utmde");
 
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        if (!Utmde) {
+          window.location.replace("/survey/404");
+          return;
+    
+        }
+
+        const apiUrl =
+          "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
-          unique_code,
+          Utmde,
           user_id: "0",
-          survey_id,
         };
 
         let data = [];
@@ -93,10 +146,20 @@
             },
             body: JSON.stringify(payload),
           });
-
           data = await response.json();
-          console.log("Fetched Data:", data);
-          loader("hide");
+
+          if (data.status == "success") {
+            if (data && data.data && data.data[0] && data.data[0].survey_info) {
+              console.log("hello from inside");
+              if (data.data[0].survey_info.is_draft === 2) {
+                window.location.replace("/survey/404");
+                return;
+              }
+            }
+
+            console.log("Fetched Data:", data);
+            loader("hide");
+          }
         } catch (error) {
           loader("hide");
           console.error("Error fetching survey data:", error.message);
@@ -105,7 +168,7 @@
           ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
           return;
         }
-
+        const survey_id = data.data[0].survey_info.id;
         const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -119,16 +182,16 @@
                   : ""
               }
               <h2 style="color: ${customHtml.title_color}; font-weight: 700;">${
-          customHtml.main_heading
+          customHtml?.main_heading
         }</h2>
           </div>
           <div class="informed-survey-body" style="background-color: ${
-            customHtml.page_background_color
+            customHtml?.page_background_color
           };">
               <div class="informed-survey-text" style="color: ${
-                customHtml.bodyTextColor
+                customHtml?.bodyTextColor
               };">
-                  <p>${customHtml.bodyText}</p>
+                  <p>${customHtml?.bodyText}</p>
               </div>
               <form id="survey-form">
       `;
@@ -297,9 +360,12 @@
                           question.questionDescription
                         }</p>
                         <div class="dropdown-el" >
-                          <div data-value="" class="select-dropdown__button"><span>${
-                            question.extra.placeholder
-                          }</span></div>
+                         <div data-value="" class="select-dropdown__button">
+  <span data-place-value="${question.extra.placeholder}">${
+                question.extra.placeholder
+              }</span>
+</div>
+
                           <input type="hidden" name="question${
                             question.questionId
                           }" value="" ${
@@ -493,7 +559,7 @@
 
             case "freeText":
               surveyHtml += `
-    <div qu_id = "${question.questionId}" class="${
+    <div qu_id="${question.questionId}" class="${
                 question.isOptional
                   ? "survey-question"
                   : "survey-question notoptional"
@@ -505,21 +571,25 @@
                 question.isOptional ? question.optionalLabel : ""
               }</span>
       </div>
-      <textarea 
-        id="textarea${question.questionId}" 
+      <textarea
+        id="textarea${question.questionId}"
         type="textarea"
-        name="question${question.questionId}" 
-        placeholder="${question.extra.placeholder}" 
-        ${question.isOptional ? "" : "required"} 
-       
+        name="question${question.questionId}"
+        placeholder="${question.extra.Placeholder}"
+        ${question.isOptional ? "" : "required"}
+        oninput="updateCharCount(${question.questionId}, ${
+                question.extra.maxTextLength
+              })"
+        maxlength="${question.extra.maxTextLength}"
       ></textarea>
-      <span id="charCount${question.questionId}"></span>
+      <span class="word-limit" id="charCount${question.questionId}">0/${
+                question.extra.maxTextLength
+              }</span>
       ${
         question.isOptional
           ? ""
           : `<div id="error-question${question.questionId}" class="error-message"></div>`
       }
-      
     </div>`;
 
               break;
@@ -596,9 +666,12 @@
           <div class="dropdown-el" name="question${
             question.questionId
           }_country">
-            <div data-value="" class="select-dropdown__button"  ><span>${
-              userdetail.countryPlaceholder
-            }</span></div>
+            <div data-value="" class="select-dropdown__button">
+              <span data-place-value="${userdetail.countryPlaceholder}">${
+                              userdetail.countryPlaceholder
+                            }</span>
+            </div>
+
             <input type="hidden" name="countryConsent" value="" required /> <!-- Add 'required' here -->
             <div class="select-dropdown__list">
               <div class="select-dropdown">
@@ -635,8 +708,8 @@
                   )
                   .join("")}
              
+                <div class="error-message" id="error-consentoption"></div>
                 </div>
-                  <div class="error-message" id="error-consentoption"></div>
                   <p>${question.extra.cookiePolicy}</p>
               </div>`;
               break;
@@ -654,6 +727,53 @@
                   </form>
 
       		</div>`;
+
+        surveyHtml += `
+    <div
+        id="thanks-modal"
+        role="dialog"
+        aria-modal="true"
+        class="fade thanks modal"
+        tabindex="-1"
+        style="display: none"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" aria-label="Close" onclick="closeModal()">
+                        <img
+                            src="../componentAssets/images/cookie-popup-close.svg"
+                            alt=""
+                        />
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="survey-thanks">
+                        <div class="thanks-img">
+                            ${
+                              data.data[0].survey_info.thanku_image_path !== ""
+                                ? `<img src="${data.data[0].survey_info.thanku_image_path}"
+                                  alt=""
+                                  style="width: ${data.data[0].survey_info.thanku_image_width}%" />`
+                                : `<img src="../componentAssets/images/thanks-img.png"
+                                  alt="" 
+                                  style="width: ${data.data[0].survey_info.thanku_image_width}%" 
+                                  />`
+                            }
+                        </div>
+                        <div class="thanks-text">
+                            <h2>${
+                              data.data[0].survey_info.thanku_image_headline
+                            }</h2>
+                            <p>${
+                              data.data[0].survey_info.thanku_image_body_text
+                            }</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
 
         // Function to initialize event listeners for "Other" choices
 
@@ -967,8 +1087,7 @@
           document
             .querySelectorAll(".survey-consent")
             .forEach((consent, index) => {
-              console.log(consent, index);
-              let consentHasError = false;
+              // let isValid = false;
 
               // Validate name field
               // Assuming `consent` is defined and refers to the parent element of the form section
@@ -978,7 +1097,7 @@
                 const trimmedValue = nameField.value.trim();
 
                 if (!trimmedValue) {
-                  consentHasError = true;
+                  isValid = false;
 
                   // Create or update the error element for the name field
                   let errorElement = consent.querySelector(".error-name");
@@ -1011,7 +1130,7 @@
               if (emailField) {
                 // Check if the email field is empty or doesn't match the email pattern
                 if (!emailValue || !emailPattern.test(emailValue)) {
-                  consentHasError = true;
+                  isValid = false;
 
                   // Create or select a unique error element for each email field
                   let errorElement = consent.querySelector(".error-email");
@@ -1031,11 +1150,12 @@
                   emailField.classList.remove("input-error");
                 }
               }
+
               const countryInput = consent.querySelector(
                 'input[name="countryConsent"]'
               );
               if (countryInput && !countryInput.value) {
-                consentHasError = true;
+                isValid = false;
 
                 // Create or select a unique error element for each country input field
                 let errorElement = consent.querySelector(".error-country");
@@ -1089,6 +1209,23 @@
           return isValid;
         }
 
+        function scrollToFirstError() {
+          // Find all elements with the 'error' class
+          const errors = document.querySelectorAll(".error-message");
+          console.log(errors);
+          console.log("insise sscrool");
+          // Find the first error element that has content
+          const firstError = Array.from(errors).find(
+            (el) => el.textContent.trim() !== ""
+          );
+
+          if (firstError) {
+            console.log(firstError);
+            // Scroll to the first error element
+            firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
+
         document
           .getElementById("submit-button")
           .addEventListener("click", async (event) => {
@@ -1098,6 +1235,7 @@
 
             if (!result) {
               console.log("form wrong isvalid");
+              scrollToFirstError();
               return;
             }
 
@@ -1247,8 +1385,14 @@
             console.log(submitPayload);
 
             try {
+              if (localStorage.getItem(`form_surveyid${survey_id}`)) {
+                showToast("Data inserted previously");
+                return;
+              }
+
               loader("show");
-              const submitApiUrl = "https://informedback.shinedezign.pro/survey/insert-user-responses";
+              const submitApiUrl =
+                "https://informedback.shinedezign.pro/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
@@ -1265,10 +1409,13 @@
                 showToast("Something went wrong");
               } else if (submitResponse.status == "302") {
                 loader("hide");
-                showToast("Data inserted previously");
+                showToast("You have already submitted the survey");
+                closeModal();
+                document.getElementById("survey-form").reset(); // Reset your form
               } else if (submitResponse.status == "200") {
                 loader("hide");
-                showToast("Data inserted successfully");
+                showSubmitModal();
+                localStorage.setItem(`form_surveyid${survey_id}`, 1);
               }
             } catch (error) {
               loader("hide");

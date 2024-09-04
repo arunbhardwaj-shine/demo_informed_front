@@ -197,6 +197,18 @@ const TimelineDetail = (props) => {
   //   );
   // }
 
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+ 
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = secs.toString().padStart(2, '0');
+ 
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+
   return (
     <>
       <Col className="right-sidebar col">
@@ -451,7 +463,6 @@ const TimelineDetail = (props) => {
                         <>
                           <div
                             className="timeline-layout crm-timeline"
-                            style={{ marginLeft: "100px" }}
                           >
                             <div className="timeline-layout-inset">
                               <div className="timeline-right-list">
@@ -465,7 +476,7 @@ const TimelineDetail = (props) => {
                                     />
                                   </div>
                                   <div className="timeline-date">
-                                    <h3>LEX-210 Trial</h3>
+                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : "LEX-210 Trial"}</h3>
                                     <p>
                                       {timeLineData?.timeline[
                                         Object.keys(timeLineData?.timeline)[0]
@@ -1046,6 +1057,8 @@ const TimelineDetail = (props) => {
                                                           path_image +
                                                           "irt-traning-complete.svg"
                                                         }
+                                                        alt="indicator-box"
+
                                                       />
                                                     </div>
                                                   </div>
@@ -1316,8 +1329,225 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                     </div>
-                                                    <div className="timeline-details">
-                                                      <div className="timeline-article d-flex">
+                                                    {/* <div className="timeline-details "> */}
+                                                      {/* <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "article-open-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div> */}
+                                                     
+                                                    {details?.file_type === 'video' ? (
+                                                      details?.pdfTimeTracks === "Yes" ? (
+                                                        <>
+                                                        <div className="timeline-details ">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                       <img
+                                                            src={
+                                                              path_image +
+                                                              "lex-video-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Watched</p>
+                                                            <p>Yes</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Time</p>
+                                                            <div className={
+                                                                isActive &&
+                                                                details.id == activeIndex
+                                                                  ? "timeline-time-detail active"
+                                                                  : "timeline-time-detail"
+                                                              }
+                                                             >
+                                                              <p  onClick={(e) => {
+                                                                handleClick(
+                                                                  details.id,
+                                                                  details.pdf_id,
+                                                                  details.Created,
+                                                                  details
+                                                                );
+                                                              }}>
+                                                                {isActive &&
+                                                                details.id == activeIndex ? '< Hide' : 'Show Details... >'}
+                                                              </p>
+                                                              
+                                                              
+                                                              {typeof ebookData !== "undefined" && ebookData.length > 0 ? (
+                                                                <>
+                                                                  {isActive &&
+                                                                details.id == activeIndex && ebookData.map((data) => (
+                                                                    <div
+                                                                      className="timeline-time-show">
+                                                                      {data?.data?.length > 0 &&
+                                                                        data.data.map((item) => (
+                                                                          <div className="d-flex flex-direction-row">
+                                                                            <div className="timeline-activity-detail">
+                                                                              <p><span>Needed |</span> {formatTime(item?.minimum)}</p>
+                                                                            </div>
+                                                                            <div className="timeline-activity-detail">
+                                                                              <p><span>Spent |</span> {formatTime(item?.timeSpend)}</p>
+                                                                            </div>
+                                                                          </div>
+                                                                        ))}
+                                                                    </div>
+                                                                  ))}
+                                                                </>
+                                                              ) : (
+                                                                ''
+                                                              )}
+                                                            
+                                                
+                                                            </div>
+                                                          </div>
+                                                          </div>
+                                                        </>
+                                                      ) : (
+                                                        <>
+                                                        <div className="timeline-details ">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                               "lex-video-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                        <div className="details-box">
+                                                            <p className="timeline-details-heading">Watched</p>
+                                                            <p>No</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Source</p>
+                                                            <p>
+                                                              {details?.webinar !== "" 
+                                                                ? details.webinar 
+                                                                : deviceObj[details?.device_used] ? deviceObj[details?.device_used] : details?.device_used}
+                                                            </p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Medium</p>
+                                                            <p>
+                                                              {details?.campaign_name == 0 || details?.campaign_name === "" || details?.campaign_name === null 
+                                                                ? "N/A" 
+                                                                : obj[details.campaign_name] ? obj[details.campaign_name] : details.campaign_name}
+                                                            </p>
+                                                          </div>
+                                                          </div>
+                                                        </>
+                                                      )
+                                                    ) : (
+                                                      details?.pdfTimeTracks === "Yes" ? (
+                                                        <>
+                                                        <div className="timeline-details article-active">
+                                                        <div className="pdf-content">
+                                                        <div className="timeline-article d-flex">
                                                         <div className="timeline-article-image">
                                                           <img
                                                             src={
@@ -1359,42 +1589,188 @@ const TimelineDetail = (props) => {
                                                           </div>
                                                         </div>
                                                       </div>
-                                                      {/* {details?.pdfTimeTracks === "Yes" ?
-                                          <div className="details-box">
-                                                <p className="timeline-details-heading">Time</p>
-                                                 <div className="d-flex flex-wrap timeline-activity">
-                                                    <div className="timeline-activity-detail">
-                                                        <p>Needed | {details?.minimum} seconds</p>
-                                                    </div>
-                                                    <div className="timeline-activity-detail">
-                                                        <p>Spent | {details?.timeSpent} seconds</p>
-                                                    </div>
-                                                </div>
-                                            </div>: null}  */}
-                                                      <div className="details-box">
-                                                            <p className="timeline-details-heading">
-                                                              Source
-                                                            </p>
-                                                            <p>
-                                                            {details?.webinar != ""
-                                                  ? details.webinar
-                                                  : deviceObj[details?.device_used] ? deviceObj[details?.device_used] : details?.device_used}
-                                                            </p>
-                                                          </div>
-
                                                           <div className="details-box">
-                                                            <p className="timeline-details-heading">
-                                                              Medium
-                                                            </p>
+                                                            <p className="timeline-details-heading">Medium</p>
+                                                            <p> {details?.campaign_name == 0 || details?.campaign_name === "" || details?.campaign_name === null 
+                                                                ? "N/A" 
+                                                                : obj[details.campaign_name] ? obj[details.campaign_name] : details.campaign_name}</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Source</p>
+                                                            <p> {details?.webinar !== "" 
+                                                                ? details.webinar 
+                                                                : deviceObj[details?.device_used] ? deviceObj[details?.device_used] : details?.device_used}</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Read</p>
+                                                            <p>Yes</p>
+                                                          </div>
+                                                          </div>
+                                                          
+                                                            <div
+                                                              className={
+                                                                isActive &&
+                                                                details.id == activeIndex
+                                                                  ? "timeline-article-detail-full active"
+                                                                  : "timeline-article-detail-full"
+                                                              }
+                                                            >
+                                                              <div className="timeline-article-details-heading">
+                                                                <p  onClick={(e) => {
+                                                                handleClick(
+                                                                  details.id,
+                                                                  details.pdf_id,
+                                                                  details.Created,
+                                                                  details
+                                                                );
+                                                              }}>
+                                                                  Details{" "}
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "down-arrow.png"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </p>
+                                                              </div>
+                                                              <div className="timeline-article-details-overall">
+                                                                <div className="data-main-box tab-panel">
+                                                                  {typeof ebookData !==
+                                                                    "undefined" &&
+                                                                  ebookData.length > 0 ? (
+                                                                    <>
+                                                                      {ebookData.map(
+                                                                        (data, index) => {
+                                                                          return (
+                                                                            <div className="timeline-article-details-boxes d-flex">
+                                                                              {data?.chapter ? (
+                                                                                <h3>
+                                                                                  <span>Chapter</span>{" "}
+                                                                                  {data?.chapter}
+                                                                                </h3>
+                                                                              ) : (
+                                                                                ""
+                                                                              )}
+                                                                              <div className="crm-timeline-table">
+
+                                                                                            <Table>
+                                                                                              <thead>
+                                                                                                <tr>
+                                                                                                  <th>Page No</th>
+                                                                                                  <th>Time Needed</th>
+                                                                                                  <th>Time Spent</th>
+                                                                                                  <th>Status</th>  
+                                                                                                </tr>
+                                                                                              </thead>
+                                                                                              <tbody>
+                                                                                              {data?.data?.length
+                                                                                ? data?.data.map(
+                                                                                    (item) => {
+                                                                                      return (
+                                                                                                <tr>
+                                                                                                  <td>{item?.page}</td>
+                                                                                                  <td><span>
+                                                                                                  {item?.minimum ? `${formatTime(item.minimum)}` : 'N/A'}
+                                                                                                  </span></td>
+                                                                                                  <td><span>
+                                                                                                  {item?.timeSpend ? `${formatTime(item?.timeSpend)}` : 'N/A'}
+                                                                                                  </span></td>
+                                                                                                  <td className={`media media-${item?.flag}`}>{item?.readContent} <img src={path_image + "info_circle_icon.svg"} alt=""/></td>
+                                                                                                </tr>
+                                                                                                 );
+                                                                                                }
+                                                                                              )
+                                                                                            : ""}
+                                                                                              </tbody>
+                                                                                            </Table>
+                                                                                          </div>   
+                                                                            </div>
+                                                                          );
+                                                                          
+                                                                        }
+                                                                      )}
+                                                                    </>
+                                                                  ) : (
+                                                                    <div className="no_found">
+                                                                      <p>No Data Found</p>
+                                                                    </div>
+                                                                  )}
+                                                                
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            </div>
+                                                        </>
+                                                      ) : (
+                                                        <>
+                                                        <div className="timeline-details ">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "article-open-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
                                                             <p>
-                                                            {
-                                                  details?.campaign_name == 0 || details?.campaign_name == "" || details?.campaign_name == null ? "N/A" : obj[details.campaign_name] ? obj[details.campaign_name] : details.campaign_name
-                                                }
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
                                                             </p>
                                                           </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                           <div className="details-box">
+                                                            <p className="timeline-details-heading">Medium</p>
+                                                            <p> {details?.campaign_name == 0 || details?.campaign_name === "" || details?.campaign_name === null 
+                                                                ? "N/A" 
+                                                                : obj[details.campaign_name] ? obj[details.campaign_name] : details.campaign_name}</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Source</p>
+                                                            <p> {details?.webinar !== "" 
+                                                                ? details.webinar 
+                                                                : deviceObj[details?.device_used] ? deviceObj[details?.device_used] : details?.device_used}</p>
+                                                          </div>
+                                                          <div className="details-box">
+                                                            <p className="timeline-details-heading">Read</p>
+                                                            <p>No</p>
+                                                          </div>
+                                                          </div>
+                                                        </>
+                                                      )
+                                                    )}
+
                                                     </div>
                                                   </div>
-                                                </div>
+                                                
                                               )}
 
                                               {details?.action &&
@@ -1900,7 +2276,7 @@ const TimelineDetail = (props) => {
                           </div>
                         </>
                       ) : (
-                        <div className="timeline-right-list">
+                        <div className="timeline-right-list default-timeline">
                           <div className="timeline-right-list-view">
                             {timeLineData?.timeline.map((details, index) => {
                               return (
@@ -2067,6 +2443,8 @@ const TimelineDetail = (props) => {
                                                                               src={
                                                                                 item?.image
                                                                               }
+                                                                              alt=""
+
                                                                             />
                                                                           ) : (
                                                                             <p>

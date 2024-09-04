@@ -21,11 +21,11 @@ export default function FreeText({ item, index, handleUpdateElement,handleExtraA
                 <div className='d-flex align-items-center words-limit'>
                     <Form.Control
                         type="number"
-                        placeholder={item.maxTextLength}
-                        value={item.maxTextLength}
+                        placeholder={item.extra.maxTextLength}
+                        value={item.extra.maxTextLength}
                         onChange={(e) => {
                             // const value = Math.max(0, Math.min(50, parseInt(e.target.value, 10)));
-                            handleUpdateElement(index, "maxTextLength", e.target.value);
+                            handleExtraAndStyle(index,e.target.value, "maxTextLength", "extra");
                         }} />
                     <span>words</span>
                 </div>

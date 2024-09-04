@@ -354,11 +354,9 @@ const SetLayoutNewTimeline = () => {
                         </div>
                       </div>
 
-
-
+                          <div className="timeline-box">
                       {timelineData?.map((data, index) => {
                         return (<>
-                          <div className="timeline-box" key={index}>
                             <div className="timeline-sticky">
                               <div className="timeline-indicator">
                                 <span>&nbsp;</span>
@@ -1039,11 +1037,11 @@ const SetLayoutNewTimeline = () => {
                                 }
                               </>)
                             })}
-                          </div>
                         </>)
                       })
+                    }
+                          </div>
 
-                      }
                       {
                         !loadMore?.showLoader ?
                           loadMore?.isLoadMore ?

@@ -1,7 +1,5 @@
-
 // import React, { useRef, useState } from 'react';
 // import { Editor } from '@tinymce/tinymce-react';
-
 
 // const QuestionEditor = ({ value, handleUpdateElement, index }) => {
 //   const editorRef = useRef(null);
@@ -28,7 +26,6 @@
 //           image_caption: true,
 //           auto_focus: false,
 
-
 //         }}
 
 //         onEditorChange={(content) => {
@@ -41,11 +38,8 @@
 
 // export default QuestionEditor;
 
-
-
-
-import React, { useRef, useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+import React, { useRef, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 
 const QuestionEditor = ({ value, handleUpdateElement, index }) => {
   const editorRef = useRef(null);
@@ -54,22 +48,22 @@ const QuestionEditor = ({ value, handleUpdateElement, index }) => {
   return (
     <div className="text-editor">
       <Editor
-        apiKey="gpl"
-        tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
+        apiKey="gpl" // Replace with your TinyMCE API key if needed
+        tinymceScriptSrc={window.location.origin + "/tinymce/tinymce.min.js"} // Ensure this path is correct
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={editorValue}
         init={{
           height: "25vh",
           branding: false,
           menubar: false,
-          plugins: 'link', // Only include the link plugin
-          toolbar:
-            'bold italic underline strikethrough | link',
+          plugins: "link",
+          toolbar: "fontsize bold italic underline strikethrough | link " ,
           content_style:
             "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:14px;color:#0066be; } body p img{width:100%;} body p{color:#0066be; margin: 2px 0;}, body *{margin:2px 0;}",
           automatic_uploads: true,
           image_caption: true,
           auto_focus: false,
+          fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt", // Optional: Customize font sizes
         }}
         onEditorChange={(content) => {
           handleUpdateElement(index, "question", content);
@@ -80,5 +74,3 @@ const QuestionEditor = ({ value, handleUpdateElement, index }) => {
 };
 
 export default QuestionEditor;
-
-

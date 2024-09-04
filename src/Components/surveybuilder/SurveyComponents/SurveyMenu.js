@@ -337,6 +337,10 @@ const SurveyMenu = ({ menuRef }) => {
     const currentValue = updatedElements[index][keyName];
     const newValue = !currentValue;
 
+
+     
+    
+
     // Update the toggle value
     handleUpdateElement(index, keyName, newValue);
 
@@ -359,6 +363,24 @@ const SurveyMenu = ({ menuRef }) => {
           break;
       }
     }
+
+    setTimeout(() => {
+      if((keyName === "addOtherChoice" || keyName === "isOptional")  && newValue ){
+
+        let element="";
+        if(keyName === "addOtherChoice"){
+          element=document.getElementById("other-choice-view");
+        }else {
+          
+          element=document.getElementById("isoptinal-scroll-view");
+         
+        }
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+     
+    }, 0);
   };
 
   const handleAllOfTheAbove = (index) => {
@@ -445,7 +467,7 @@ const SurveyMenu = ({ menuRef }) => {
           )}
 
           {item.isOptional ? (
-            <div className="d-flex align-items-center w-100">
+            <div className="d-flex align-items-center w-100" id="isoptinal-scroll-view">
               <Form.Label>Label</Form.Label>
               <Form.Control
                 type="text"
@@ -483,7 +505,7 @@ const SurveyMenu = ({ menuRef }) => {
         </div>
 
         {item?.extra?.addAllOfTheAbove !== undefined && (
-          <div className="steps">
+          <div className="steps" >
             <div className="d-flex align-items-center justify-content-between">
               <p className="option-heading" style={{ margin: "0" }}>
                 Add “All of the above” choice{" "}
@@ -521,7 +543,7 @@ const SurveyMenu = ({ menuRef }) => {
         )}
 
         {item?.extra?.otherChoiceLabel !== undefined && (
-          <div className="steps">
+          <div className="steps" id="other-choice-view" >
             <div className="d-flex align-items-center justify-content-between">
               <p className="option-heading" style={{ margin: "0" }}>
                 Add “Other” choice{" "}
@@ -535,7 +557,7 @@ const SurveyMenu = ({ menuRef }) => {
               />
             </div>
             {item.addOtherChoice ? (
-              <>
+              < >
                 <div className="d-flex align-items-center w-100">
                   <Form.Label>Answer Choice</Form.Label>
                   <Form.Control

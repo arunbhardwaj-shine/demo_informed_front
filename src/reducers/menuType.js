@@ -76,7 +76,6 @@ export const menuType = {
     accordionType: "questionTypes",
     type: "freeText",
     questionId: 0,
-    maxTextLength: 20,
     question: "",
     answer: [],
     placeHolderText: "",
@@ -88,6 +87,7 @@ export const menuType = {
     style: {},
     extra: {
       Placeholder:"",
+      maxTextLength: 20
     },
     
   },
@@ -97,7 +97,7 @@ export const menuType = {
     question: "",
     questionId: 0,
     visible: true,
-    questionDescriptionEnabled: true,
+    questionDescriptionEnabled: false,
     questionDescription: "",
     isOptional: false,
     optionalLabel: "(Optional)",
@@ -160,7 +160,7 @@ export const menuType = {
     type: "paragraph",
     questionId: 0,
     visible: true,
-    question: "",
+    question: "Paragraph",
     style: {
       color: "#004A89",
     },

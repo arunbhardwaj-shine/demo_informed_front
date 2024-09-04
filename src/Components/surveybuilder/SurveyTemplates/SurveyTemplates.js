@@ -1,4 +1,3 @@
-// src/templates.js
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -8,7 +7,7 @@ const templates = [
     template_fileName: "survey-template.jpg",
     id: 1,
     template_html: `
-                  <div class="informed-survey" >
+                  <div class="informed-survey" id="templatecapture" >
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#} ;">
@@ -52,7 +51,7 @@ const templates = [
                   </div>
       `,
     default_values: {
-  
+      header_background_type:"color",
       template_name:"Template 1",
       header_background_color: "#004A89",
       header_background_image: "",
@@ -73,7 +72,7 @@ const templates = [
     template_fileName: "survey-template2.jpg",
     id: 2,
     template_html: `
-      <div class="informed-survey " >
+      <div class="informed-survey " id="templatecapture" >
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#} ;">
@@ -117,7 +116,7 @@ const templates = [
                   </div>
 `,
     default_values: {
-      // selectedTemplateClass:"informed-survey",
+      // // selectedTemplateClass:"informed-survey",
       header_background_type:"image",
       template_name:"Template 2",
       header_background_color: "#004A89",
@@ -139,7 +138,7 @@ const templates = [
     template_fileName: "survey-template3.jpg",
     id: 3,
     template_html: `
-      <div class="informed-survey" >
+      <div class="informed-survey"  id="templatecapture">
                     <div class="informed-survey-header" style="{#dynamic_header_background#};">
                         {#logo#}
                       <h2 style="color: {#title_color#};">

@@ -279,14 +279,7 @@ const ThanksPage = (props) => {
                         className="thanks-text"
                         style={{ textAlign: "center" }}
                       >
-                        {/* <h2
-                          style={{
-                            fontSize: "56px",
-                            fontWeight: "600",
-                            color: "#004A89",
-                            lineHeight: "132%",
-                          }}
-                        > */}
+                   
                         <h2
                           style={{
                             fontWeight: "500",
@@ -296,8 +289,6 @@ const ThanksPage = (props) => {
                             __html: thanksPageData.headline,
                           }}
                         />
-                        {/* {thanksPageData.headline} */}
-                        {/* </h2> */}
                         <p
                           style={{
                             color: "#70899E"

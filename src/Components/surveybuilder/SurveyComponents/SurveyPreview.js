@@ -390,7 +390,8 @@ const SurveyPreview = (props) => {
               </div>
             )}
             <div
-              className="informed-survey-header"
+            
+              className={isEdit ? "informed-survey-header" :"informed-survey-header no-click"}
               style={templateData.headerBackground}
             >
               {templateData.logo ? (
@@ -413,7 +414,7 @@ const SurveyPreview = (props) => {
               )}
             </div>
             <div
-              className="informed-survey-body"
+              className={isEdit ? "informed-survey-body" : "informed-survey-body no-click"}
               style={
                 isEdit
                   ? {}
@@ -429,19 +430,22 @@ const SurveyPreview = (props) => {
                 />
               </div>
               <div className="informed-survey-question" ref={surveyRef}>
-                <form>
-                  <div className="d-flex flex-column" style={{ gap: "30px" }}>
+                <Form>
+                  <div className="d-flex flex-column"  >
                     {elements?.map((item, index) => (
                       <div
+                
                         className={`dragable-box ${
                           index === currentElementIndex ? "active" : ""
                         }`}
                         style={
                           isEdit
-                            ? {}
+                            ? { padding: "60px 20px 4px 5px"}
                             : {
                                 backgroundColor:
                                   templateData.page_background_color,
+                                  padding: "25px 20px 4px 5px"
+                        
                               }
                         }
                         draggable={isEdit} // Only make it draggable if isEdit is true
@@ -647,7 +651,7 @@ const SurveyPreview = (props) => {
                       }}
                     />
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
