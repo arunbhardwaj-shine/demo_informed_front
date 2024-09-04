@@ -89,7 +89,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                           <Link
                             to={`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
                           >
-                           https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}
+                           https://informed.pro/Survey/PreviewSurvey.html?Utmde={data.unique_code}
                           </Link>
                           <span
                             className="copy-content"
@@ -109,7 +109,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                       <div
                         className="sublink-qr"
                         onClick={(e) =>
-                          setDownloadLink(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
+                          setDownloadLink(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}&dl=qr`)
                         }
                       >
                         <div className="sublink-qr-download">

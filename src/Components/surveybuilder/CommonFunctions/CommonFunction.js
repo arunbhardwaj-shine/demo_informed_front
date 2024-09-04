@@ -2,11 +2,15 @@ import axios from "axios";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import {
-  Form
-} from "react-bootstrap";
-import  "../../../Components/assets/css/survey.scss";
+import { Form } from "react-bootstrap";
+import "../../../Components/assets/css/survey.scss";
 import "../../../Components/assets/fonts/fonts.css";
+import Select from "react-select";
+
+import {
+  Button,
+
+} from "react-bootstrap";
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 export const surveyAxiosInstance = axios.create({
@@ -59,6 +63,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           survey_id: survey_id,
           raw_html: 0,
           template_status: 0,
+          template_uniquecode: "",
         };
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
@@ -75,7 +80,8 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
     if (
       currentPagesData &&
       survey_id !== 0 &&
-      currentPagesData.surveyConfigData !== undefined
+      currentPagesData.surveyConfigData !== undefined &&
+      currentPagesData.surveyConfigData != ""
     ) {
       const body = { ...currentPagesData.surveyConfigData, survey_id };
       try {
@@ -118,7 +124,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       currentPagesData &&
       survey_id !== 0 &&
       currentPagesData.thanksPageData !== undefined &&
-      currentPagesData.thanksPageData != ""
+      currentPagesData.thanksPageData !== ""
     ) {
       const body = { ...currentPagesData.thanksPageData, survey_id };
       console.log(body);
@@ -134,8 +140,6 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
         return;
       }
     }
-
-
 
     const liveStatus = await updateLiveFlag(survey_id, liveFlag);
     if (liveStatus !== true) {
@@ -212,7 +216,12 @@ export const updateLiveFlag = async (survey_id, flag) => {
   }
 };
 
-export const SurveyLiveButton = ({survey_id,liveFlagValue,updateLiveFlag,fetchSurveyListing}) => {
+export const SurveyLiveButton = ({
+  survey_id,
+  liveFlagValue,
+  updateLiveFlag,
+  fetchSurveyListing,
+}) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isChecked, setIsChecked] = useState(liveFlagValue === 1);
 
@@ -245,4 +254,59 @@ export const SurveyLiveButton = ({survey_id,liveFlagValue,updateLiveFlag,fetchSu
   );
 };
 
+export const SublinkHandler = ({ handleCopy,setDownloadLink,sublinkoptions ,survey_id}) => {
+  const [selectedSublinkId, setSelectedSublinkId] = useState();
 
+  const onSublinkChange = (selectedOption) => {
+    setSelectedSublinkId(selectedOption ? selectedOption.value : null);
+  };
+
+  return (
+    <>
+      <div className="data-main-box change-tab-main-box tab-panel">
+        <ul className="tab-mail-list data change">
+          <li>
+            <h6 className="tab-content-title">SubLinks</h6>
+            <div className="select-dropdown-wrapper">
+              <div className="select">
+                <Select
+                  aria-label="SSelect Sublink"
+                  className="dropdown-basic-button split-button-dropup"
+                  name="surveyCreator"
+                  placeholder="Select Sublink"
+                  onChange={onSublinkChange}
+                  options={sublinkoptions}
+                  value={sublinkoptions.find(
+                    (option) => option.value === selectedSublinkId
+                  )}
+                />
+                <Button onClick={() => handleCopy(survey_id,selectedSublinkId)}>Copy</Button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <h6 className="tab-content-title">QR Codes</h6>
+            <div className="select-dropdown-wrapper">
+              <div className="select">
+                <Select
+                  aria-label="Select Sublink"
+                  className="dropdown-basic-button split-button-dropup"
+                  name="surveyCreator"
+                  placeholder="Select Sublink"
+                  onChange={onSublinkChange}
+                  options={sublinkoptions}
+                  value={sublinkoptions.find(
+                    (option) => option.value === selectedSublinkId
+                  )}
+                />
+                <Button onClick={(e) => setDownloadLink(survey_id,selectedSublinkId)}>
+                  download
+                </Button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </>
+  );
+};

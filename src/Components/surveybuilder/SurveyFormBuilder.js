@@ -236,46 +236,76 @@ const SurveyFormBuilder = (props) => {
     const [header, base64] = dataURL.split(",");
     const mime = header.match(/:(.*?);/)[1];
     const binary = atob(base64);
-    let array = [];
+    const array = [];
     for (let i = 0; i < binary.length; i++) {
       array.push(binary.charCodeAt(i));
     }
     return new File([new Uint8Array(array)], filename, { type: mime });
   };
-
+  
   const captureScreenshot = async () => {
     const element = document.getElementById("templatecapture");
     if (element) {
       try {
-        const canvas = await html2canvas(element);
+        // Ensure all images are loaded
+        const images = Array.from(element.getElementsByTagName('img'));
+        const imagePromises = images.map(img => {
+          return new Promise((resolve) => {
+            if (img.complete) {
+              console.log(`Image already loaded: ${img.src}`);
+              resolve();
+            } else {
+              img.onload = () => {
+                console.log(`Image loaded: ${img.src}`);
+                resolve();
+              };
+              img.onerror = () => {
+                console.error(`Failed to load image: ${img.src}`);
+                resolve();
+              };
+            }
+          });
+        });
+  
+        await Promise.all(imagePromises);
+  
+        // Capture screenshot with html2canvas
+        const canvas = await html2canvas(element, {
+          allowTaint: true,
+          useCORS: true,
+          scrollX: 0,
+          scrollY: 0,
+          backgroundColor: 'white'
+        });
+  
         if (canvas) {
           const imgData = canvas.toDataURL("image/png");
-          console.log(imgData);
-
+          console.log("Screenshot captured:", imgData);
+  
           if (imgData) {
             const file = dataURLToFile(imgData, "screenshot.png");
-            console.log(file);
+            console.log("File created:", file);
+  
+            // Simulated upload function (replace with your actual implementation)
             const imgpath = await uploadImageToServer(file);
             if (imgpath) {
-            
-              return imgpath
+              console.log("Image path returned:", imgpath);
+              return imgpath;
             }
-            return;
           }
-          // Assuming setImage updates some state
         } else {
           console.error("Canvas is null or undefined");
-          return null;
         }
       } catch (error) {
         console.error("Error capturing screenshot:", error);
-        return null;
       }
     } else {
       console.error(`Element with ID "templatecapture" is not found`);
-      return null;
     }
+    return null;
   };
+  
+  
 
   const handleChoiceChange = (id) => {
     console.log(id);
@@ -589,6 +619,8 @@ const SurveyFormBuilder = (props) => {
         if (!imgData) {
           throw new Error("Failed to capture screenshot");
         }
+       
+
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
           {
