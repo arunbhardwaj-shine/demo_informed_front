@@ -463,7 +463,6 @@ const TimelineDetail = (props) => {
                         <>
                           <div
                             className="timeline-layout crm-timeline"
-                            style={{ marginLeft: "100px" }}
                           >
                             <div className="timeline-layout-inset">
                               <div className="timeline-right-list">
@@ -477,7 +476,7 @@ const TimelineDetail = (props) => {
                                     />
                                   </div>
                                   <div className="timeline-date">
-                                    <h3>LEX-210 Trial</h3>
+                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : "LEX-210 Trial"}</h3>
                                     <p>
                                       {timeLineData?.timeline[
                                         Object.keys(timeLineData?.timeline)[0]
@@ -1330,8 +1329,8 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                     </div>
-                                                    <div className="timeline-details">
-                                                      <div className="timeline-article d-flex">
+                                                    {/* <div className="timeline-details "> */}
+                                                      {/* <div className="timeline-article d-flex">
                                                         <div className="timeline-article-image">
                                                           <img
                                                             src={
@@ -1372,11 +1371,54 @@ const TimelineDetail = (props) => {
                                                             ) : null}
                                                           </div>
                                                         </div>
-                                                      </div>
+                                                      </div> */}
                                                      
                                                     {details?.file_type === 'video' ? (
                                                       details?.pdfTimeTracks === "Yes" ? (
                                                         <>
+                                                        <div className="timeline-details ">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                       <img
+                                                            src={
+                                                              path_image +
+                                                              "lex-video-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">Watched</p>
                                                             <p>Yes</p>
@@ -1430,9 +1472,53 @@ const TimelineDetail = (props) => {
                                                 
                                                             </div>
                                                           </div>
+                                                          </div>
                                                         </>
                                                       ) : (
                                                         <>
+                                                        <div className="timeline-details ">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                               "lex-video-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
                                                         <div className="details-box">
                                                             <p className="timeline-details-heading">Watched</p>
                                                             <p>No</p>
@@ -1453,11 +1539,56 @@ const TimelineDetail = (props) => {
                                                                 : obj[details.campaign_name] ? obj[details.campaign_name] : details.campaign_name}
                                                             </p>
                                                           </div>
+                                                          </div>
                                                         </>
                                                       )
                                                     ) : (
                                                       details?.pdfTimeTracks === "Yes" ? (
                                                         <>
+                                                        <div className="timeline-details article-active">
+                                                        <div className="pdf-content">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "article-open-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">Medium</p>
                                                             <p> {details?.campaign_name == 0 || details?.campaign_name === "" || details?.campaign_name === null 
@@ -1473,6 +1604,7 @@ const TimelineDetail = (props) => {
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">Read</p>
                                                             <p>Yes</p>
+                                                          </div>
                                                           </div>
                                                           
                                                             <div
@@ -1568,10 +1700,53 @@ const TimelineDetail = (props) => {
                                                                 </div>
                                                               </div>
                                                             </div>
-                                                          
+                                                            </div>
                                                         </>
                                                       ) : (
                                                         <>
+                                                        <div className="timeline-details ">
+                                                        <div className="timeline-article d-flex">
+                                                        <div className="timeline-article-image">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "article-open-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <div className="timeline-article-detail">
+                                                          <div className="timeline-title">
+                                                            <p>
+                                                              {details?.pdfTitle
+                                                                ? details?.pdfTitle
+                                                                : "N/A"}
+                                                            </p>
+                                                          </div>
+                                                          <div className="timeline-subtitle">
+                                                            <p>
+                                                              {details?.pdf_sub_title
+                                                                ? details?.pdf_sub_title
+                                                                : "N/A"}
+                                                            </p>
+                                                            {details?.file_type ===
+                                                            "video" ? (
+                                                              <div className="d-flex align-items-center include-links">
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "video-img.png"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                                <p>
+                                                                  Include videos{" "}
+                                                                </p>
+                                                              </div>
+                                                            ) : null}
+                                                          </div>
+                                                        </div>
+                                                      </div>
                                                            <div className="details-box">
                                                             <p className="timeline-details-heading">Medium</p>
                                                             <p> {details?.campaign_name == 0 || details?.campaign_name === "" || details?.campaign_name === null 
@@ -1588,13 +1763,14 @@ const TimelineDetail = (props) => {
                                                             <p className="timeline-details-heading">Read</p>
                                                             <p>No</p>
                                                           </div>
+                                                          </div>
                                                         </>
                                                       )
                                                     )}
 
                                                     </div>
                                                   </div>
-                                                </div>
+                                                
                                               )}
 
                                               {details?.action &&
