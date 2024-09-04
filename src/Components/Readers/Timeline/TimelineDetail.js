@@ -1178,9 +1178,7 @@ const TimelineDetail = (props) => {
 
                                               {details?.auto_mail === 3 ? (
                                                 <div className="timeline-box-inset">
-                                                  <div className="timeline-indicator">
-                                                    
-                                                  </div>
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status blocked">
                                                       <p>IRT Blocked</p>
@@ -1188,6 +1186,7 @@ const TimelineDetail = (props) => {
                                                         {" "}
                                                         {details?.time}{" "}
                                                       </span>
+                                                      <div className="timeline-indicator">
                                                       <div className="indicator-box">
                                                       <img
                                                         src={
@@ -1196,6 +1195,7 @@ const TimelineDetail = (props) => {
                                                         }
                                                         alt=""
                                                       />
+                                                      </div>
                                                     </div>
                                                     </div>
                                                     <div className="timeline-details">

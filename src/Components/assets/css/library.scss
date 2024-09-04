@@ -1138,6 +1138,13 @@
           top: 54px;
           padding: 10px 0 0;
       }
+      .timeline-box{
+        .timeline-box-inset{
+          .timeline-indicator {
+            left: -68px;
+        }
+        } 
+      } 
       }
     }
   }
@@ -1181,7 +1188,28 @@
           content: "";
           background: #fbfcfd;
       }
-    }
+      }
+      .timeline-block{
+        .timeline-status{
+          &:after {
+            left: -26px;
+            content: "";
+            position: absolute;
+            filter: drop-shadow(-2px 0px 2px rgba(0, 102, 190, 0.1));
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-right: 15px solid #ffffff;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+        }
+        }
+        &:after{
+          display: none;
+        }
+      }
+    
     &:nth-child(n+1){
       .timeline-sticky::after {
         height: 100%;
