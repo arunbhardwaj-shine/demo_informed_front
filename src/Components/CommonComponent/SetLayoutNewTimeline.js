@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import Header from "./HeaderComponent/Header";
 import { Route, Navigate, useNavigate } from "react-router-dom";
 import { postData } from "../../axios/apiHelper";
@@ -278,6 +278,54 @@ const SetLayoutNewTimeline = () => {
             </div>
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
+                  <div className="timeline-picker">
+                      <Form>
+                          <div className="form-group">
+                            <label htmlFor="">From</label>
+                            <DatePicker
+                              selected={
+                                dateInputs?.fromDate
+                                  ? new Date(dateInputs?.fromDate)
+                                  : currentDate
+
+                              }
+                              name="fromDate"
+                              onChange={(e) => handleDateChange(e, "fromDate")}
+                              dateFormat="dd/MM/yyyy"
+                              className="form-control"
+                              maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="">To</label>
+                            <DatePicker
+                              selected={
+                                dateInputs?.toDate
+                                  ? new Date(dateInputs?.toDate)
+                                  : currentDate
+
+                              }
+                              // selected={dateInputs?.fromDate||currentDate}
+                              name="toDate"
+                              onChange={(e) => handleDateChange(e, "toDate")}
+                              dateFormat="dd/MM/yyyy"
+                              className="form-control"
+                              minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
+                            // maxDate={currentDate}
+                            />
+                          </div>
+                            <button
+                              type="button"
+                              className="btn btn-primary save btn-filled"
+                              onClick={(e) => {
+                                handleSubmit(e);
+                              }}
+                            >
+                              Go
+                            </button>
+                          
+                      </Form>
+                  </div>
                 {!apiStatus ?
                   (
                     <div className="accordion-loader">
@@ -296,6 +344,7 @@ const SetLayoutNewTimeline = () => {
                   ) :
                   timelineData?.length ?
                     <div className="timeline-right-list">
+                      
                       <div className="timeline-right-header">
                         <div className="timeline-indicator">
                           <img src={path_image + "informed-circle-icon.svg"} alt="" />
@@ -305,52 +354,7 @@ const SetLayoutNewTimeline = () => {
                           {/* <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p> */}
                           {/* <p>{moment(timelineData?.[0]?.IrtData?.[0]?.date).format('MMMM. DD. YYYY')} <span>|</span> {formatTime(timelineData?.[0]?.IrtData?.[0]?.time)}  <sub>last update</sub></p> */}
                           <p>{moment(timelineData?.[0]?.updateDate).utc().format('MMMM. DD YYYY | h:mm A')}  <sub>last update</sub></p>
-                          <div className="form-group">
-                            <label htmlFor="">From date</label>
-                            <DatePicker
-                              selected={
-                                dateInputs?.fromDate
-                                  ? new Date(dateInputs?.fromDate)
-                                  : currentDate
-
-                              }
-                              name="fromDate"
-                              onChange={(e) => handleDateChange(e, "fromDate")}
-                              dateFormat="dd/MM/yyyy"
-                              className="form-control"
-                              maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
-                            />
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="">To date</label>
-                            <DatePicker
-                              selected={
-                                dateInputs?.toDate
-                                  ? new Date(dateInputs?.toDate)
-                                  : currentDate
-
-                              }
-                              // selected={dateInputs?.fromDate||currentDate}
-                              name="toDate"
-                              onChange={(e) => handleDateChange(e, "toDate")}
-                              dateFormat="dd/MM/yyyy"
-                              className="form-control"
-                              minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
-                            // maxDate={currentDate}
-                            />
-                          </div>
-
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn btn-primary save btn-filled"
-                              onClick={(e) => {
-                                handleSubmit(e);
-                              }}
-                            >
-                              Submit
-                            </button>
-                          </div>
+                          
                         </div>
                       </div>
 
