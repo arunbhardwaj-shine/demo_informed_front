@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useRef, useState } from "react";
 
 import {
@@ -12,7 +14,7 @@ import {
 } from "react-bootstrap";
 
 // import { Link, useLocation } from "react-router-dom";
-
+import { SublinkHandler } from "./CommonFunctions/CommonFunction";
 import Select from "react-select";
 import { format } from "date-fns";
 import { connect } from "react-redux";
@@ -212,7 +214,7 @@ const SurveyList = (props) => {
     }
   };
 
-  const handleCopy = (survey_id) => {
+  const handleCopy = (survey_id,selectedSublinkId) => {
     const selectedSublink = subLinkData?.[survey_id]?.find(
       (option) => option.value === selectedSublinkId
     );
@@ -232,7 +234,7 @@ const SurveyList = (props) => {
     }
   };
 
-  const setDownloadLink = (survey_id) => {
+  const setDownloadLink = (survey_id,selectedSublinkId) => {
     const selectedSublink = subLinkData?.[survey_id]?.find(
       (option) => option.value === selectedSublinkId
     );
@@ -240,7 +242,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`,
+        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}&dl=qr`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -267,8 +269,8 @@ const SurveyList = (props) => {
 
   const [selectedSublinkId, setSelectedSublinkId] = useState();
 
-  const onSublinkChange = (event) => {
-    setSelectedSublinkId(event.value);
+  const onSublinkChange = (selectedOption) => {
+    setSelectedSublinkId(selectedOption ? selectedOption.value : null);
   };
 
   const handleOnFilterRole = (role) => {
@@ -976,6 +978,8 @@ const SurveyList = (props) => {
                 )}
                 {isData?.length || updateflag
                   ? isData?.map((data, index) => {
+                      const sublinkoptions =
+                        subLinkData?.[data.survey_id] || [];
                       return (
                         <>
                           <div class="email_box_block">
@@ -1451,7 +1455,7 @@ const SurveyList = (props) => {
                                       className="change-tab flex-column justify-content-between"
                                     >
                                       <div className="survey_tabs_data">
-                                        <div className="data-main-box change-tab-main-box tab-panel">
+                                        {/* <div className="data-main-box change-tab-main-box tab-panel">
                                           <ul className="tab-mail-list data change">
                                             <li>
                                               <h6 className="tab-content-title">
@@ -1464,21 +1468,11 @@ const SurveyList = (props) => {
                                                     className="dropdown-basic-button split-button-dropup"
                                                     name="surveyCreator"
                                                     placeholder="Select Sublink"
-                                                    onChange={(event) =>
-                                                      onSublinkChange(event)
-                                                    }
+                                                    onChange={onSublinkChange}
                                                     options={
-                                                      subLinkData?.[
-                                                        data.survey_id
-                                                      ]
+                                                      sublinkoptions
                                                     }
-                                                    value={Object.keys(
-                                                      subLinkData
-                                                    )?.find(
-                                                      (option) =>
-                                                        option.sublink_id ==
-                                                        selectedSublinkId
-                                                    )}
+                                                    value={sublinkoptions.find(option => option.value === selectedSublinkId)}
                                                   />
                                                   <Button
                                                     onClick={() =>
@@ -1501,21 +1495,11 @@ const SurveyList = (props) => {
                                                     className="dropdown-basic-button split-button-dropup"
                                                     name="surveyCreator"
                                                     placeholder="Select Sublink"
-                                                    onChange={(event) =>
-                                                      onSublinkChange(event)
-                                                    }
+                                                    onChange={onSublinkChange}
                                                     options={
-                                                      subLinkData?.[
-                                                        data.survey_id
-                                                      ]
+                                                      sublinkoptions
                                                     }
-                                                    value={Object.keys(
-                                                      subLinkData
-                                                    )?.find(
-                                                      (option) =>
-                                                        option.sublink_id ==
-                                                        selectedSublinkId
-                                                    )}
+                                                    value={sublinkoptions.find(option => option.value === selectedSublinkId)}
                                                   />
                                                   <Button
                                                     onClick={(e) =>
@@ -1530,7 +1514,13 @@ const SurveyList = (props) => {
                                               </div>
                                             </li>
                                           </ul>
-                                        </div>
+                                        </div> */}
+                                        <SublinkHandler
+                                          handleCopy={handleCopy}
+                                          setDownloadLink={setDownloadLink}
+                                          sublinkoptions={sublinkoptions}
+                                          survey_id={data.survey_id}
+                                        />
 
                                         <div class="mailbox-buttons justify-content-end">
                                           <div className="send_new">
