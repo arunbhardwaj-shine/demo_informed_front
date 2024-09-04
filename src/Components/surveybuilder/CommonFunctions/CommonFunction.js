@@ -192,6 +192,7 @@ export const uploadImageToServer = async (file) => {
         loader("hide");
         return res.data.data;
       }
+      loader('hide')
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");

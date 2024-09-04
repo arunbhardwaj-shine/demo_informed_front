@@ -14,6 +14,7 @@ import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { uploadImageToServer } from "./CommonFunctions/CommonFunction";
 import html2canvas from "html2canvas";
+const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
 var surveyValues = {};
 
@@ -64,6 +65,7 @@ const SurveyFormBuilder = (props) => {
   const fetchTemplate = async (saveNewTemplate) => {
     try {
       loader("show");
+      console.log("fetch 1" )
       const body = { account_id: 18207 };
       const response = await surveyAxiosInstance.post(
         "/survey/fetch-saved-template",
@@ -106,8 +108,8 @@ const SurveyFormBuilder = (props) => {
       if (saveNewTemplate) {
         setsavednewCustomTempflag(1);
       }
-
       loader("hide");
+      console.log("fetch 2" )
     } catch (error) {
       loader("hide");
 
@@ -153,10 +155,11 @@ const SurveyFormBuilder = (props) => {
     if (savednewCustomTempflag) {
       setDynamicValues({});
       setTemplateDefaultValues({});
-      setsavednewCustomTempflag(0);
+      setCustomHtml({})
       const getTemplateId = templates[templates.length - 1].id;
       setSelectedTemplateId(getTemplateId);
       handleChoiceChange(getTemplateId);
+      setsavednewCustomTempflag(0);
     }
   }, [templates]);
 
@@ -231,6 +234,41 @@ const SurveyFormBuilder = (props) => {
     return new File([new Uint8Array(array)], filename, { type: mime });
   };
 
+
+  const TemplatePreviewUpload=async (file)=>{
+    if (file) {
+      try {
+        const extension = file.name.split(".").pop().toLowerCase();
+        if (!validExtensions.includes(extension)) {
+          throw new Error(
+            "Invalid file extension. Please select a valid extension file."
+          );
+        }
+        const formData = new FormData();
+        formData.append("file", file);
+      
+        const res = await surveyAxiosInstance.post(
+          "/survey/image-uploadaws",
+          formData
+        );
+        if (res) {
+          console.log(res);
+
+          return res.data.data;
+        }
+
+      } catch (error) {
+        loader("hide");
+        toast.error("Something went wrong");
+      }
+    }
+
+    
+
+  }
+
+
+
   const captureScreenshot = async () => {
     const element = document.getElementById("templatecapture");
     if (element) {
@@ -269,7 +307,7 @@ const SurveyFormBuilder = (props) => {
             const file = dataURLToFile(imgData, "screenshot.png");
 
             // Simulated upload function (replace with your actual implementation)
-            const imgpath = await uploadImageToServer(file);
+            const imgpath = await TemplatePreviewUpload(file);
             if (imgpath) {
               return imgpath;
             }
@@ -312,11 +350,29 @@ const SurveyFormBuilder = (props) => {
           "/survey/delete-survey-template",
           body
         );
-
-        await fetchTemplate();
+        if(selectedTemplateId === id){
+          console.log("inside template")
+          const storedData = localStorage.getItem('getSurveyData');
+          console.log("1")
+          const data = JSON.parse(storedData);
+          console.log("2")
+          console.log(data)
+          delete data.formBuilderData;
+          console.log("3")
+          const updatedData = JSON.stringify(data);
+          console.log("4")
+          localStorage.setItem('getSurveyData', updatedData);
+          console.log("5")
+          setDynamicValues({})
+          setTemplateDefaultValues({})
+          setOriginalSelectedTemplate("")
+          setCustomHtml({})
+        }
+        setTimeout(async ()=>{
+            await  fetchTemplate();
+        },3000)
       }
 
-      loader("hide");
     } catch (error) {
       loader("hide");
       console.log("Something went wrong");
@@ -327,6 +383,7 @@ const SurveyFormBuilder = (props) => {
     const values = { ...templateDefaultValues, ...dynamicValues };
 
     let dynamicHeaderBackgroundStyle = "";
+
     if (
       header_background_type === "image" &&
       values.header_background_image != ""
@@ -583,6 +640,7 @@ const SurveyFormBuilder = (props) => {
     if (newTemplateStatus == 1) {
       try {
         loader("show");
+        console.log("save 1")
 
         const imgData = await captureScreenshot();
         if (!imgData) {

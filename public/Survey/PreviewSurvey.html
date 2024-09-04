@@ -126,7 +126,6 @@
         if (!Utmde) {
           window.location.replace("/survey/404");
           return;
-    
         }
 
         const apiUrl =
@@ -156,10 +155,13 @@
                 return;
               }
             }
-
             console.log("Fetched Data:", data);
+          } else {
             loader("hide");
+            window.location.replace("/survey/404");
+            return;
           }
+          loader("hide");
         } catch (error) {
           loader("hide");
           console.error("Error fetching survey data:", error.message);
@@ -176,11 +178,12 @@
               ? `background-color: ${customHtml.header_background_color};`
               : `background-image: url('${customHtml.header_background_image}'); background-size: cover;`
           }">
-              ${
-                customHtml.logo !== ""
-                  ? `<img src="${customHtml.logo}" alt="Logo" width="${customHtml.logoWidth}%">`
-                  : ""
-              }
+             ${
+               customHtml.logo !== "" && customHtml.changeLogoToggle
+                 ? `<img src="${customHtml.logo}" style="width: ${customHtml.logoWidth}%;"/>`
+                 : ""
+             }
+
               <h2 style="color: ${customHtml.title_color}; font-weight: 700;">${
           customHtml?.main_heading
         }</h2>
@@ -1386,7 +1389,9 @@
 
             try {
               if (localStorage.getItem(`form_surveyid${survey_id}`)) {
-                showToast("Data inserted previously");
+                showToast("You have already submitted the survey");
+                closeModal();
+                document.getElementById("survey-form").reset(); // Reset your form
                 return;
               }
 

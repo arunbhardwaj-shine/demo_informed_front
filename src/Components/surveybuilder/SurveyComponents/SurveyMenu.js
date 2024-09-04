@@ -379,7 +379,6 @@ const SurveyMenu = ({ menuRef }) => {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
-     
     }, 0);
   };
 

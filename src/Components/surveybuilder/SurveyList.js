@@ -1072,7 +1072,7 @@ const SurveyList = (props) => {
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
+                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}&dl=qr`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
