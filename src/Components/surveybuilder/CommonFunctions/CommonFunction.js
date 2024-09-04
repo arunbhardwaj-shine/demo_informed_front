@@ -63,7 +63,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           survey_id: survey_id,
           raw_html: 0,
           template_status: 0,
-          template_uniquecode: "",
+         
         };
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
