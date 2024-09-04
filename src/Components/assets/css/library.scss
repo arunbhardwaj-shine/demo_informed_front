@@ -26357,6 +26357,10 @@ table {
   .landing-banner .landing-block {
     padding: 100px 0 110px;
   }
+  .timeline-left-user {
+    min-width: 300px;
+    max-width: 300px;
+}
 }
 
 @media only screen and (max-width: 1300px) {
@@ -26364,7 +26368,10 @@ table {
     font-size: 16px;
     margin: 0 0 12px;
   }
-
+  .timeline-left-user {
+    min-width: 300px;
+    max-width: 300px;
+}
   table.attended-table tbody tr.fold td .fold-content table tbody tr td {
     font-size: 12px;
   }
@@ -27040,7 +27047,9 @@ table {
   .custom-change .top-sticky {
     top: 48px;
   }
-
+  .timeline-layout.crm-timeline {
+    height: calc(100vh - 141px);
+}
   .survey-rating {
     gap: 30px 2%;
     padding: 15px 8px 50px;
