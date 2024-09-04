@@ -24,6 +24,11 @@
     <div id="survey-container" class="informed-survey"></div>
 
     <script>
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
       function showSubmitModal() {
         const modal = document.getElementById("thanks-modal");
         modal.style.display = "block";
@@ -115,12 +120,17 @@
       }
 
       document.addEventListener("DOMContentLoaded", async function () {
-        const queryParams = new URLSearchParams(window.location.search);
-        const Utmde = queryParams.get("Utmde");
-
         console.log("Fetching data...");
+        const Utmde = getQueryParam("Utmde");
 
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        if (!Utmde) {
+          window.location.replace("/survey/404");
+          return;
+    
+        }
+
+        const apiUrl =
+          "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: "0",
@@ -1399,7 +1409,7 @@
                 showToast("Something went wrong");
               } else if (submitResponse.status == "302") {
                 loader("hide");
-                showToast("Data inserted previously");
+                showToast("You have already submitted the survey");
                 closeModal();
                 document.getElementById("survey-form").reset(); // Reset your form
               } else if (submitResponse.status == "200") {

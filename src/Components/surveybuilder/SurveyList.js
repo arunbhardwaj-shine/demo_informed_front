@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
 
+
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Accordion,
@@ -13,7 +14,7 @@ import {
 } from "react-bootstrap";
 
 // import { Link, useLocation } from "react-router-dom";
-
+import { SublinkHandler } from "./CommonFunctions/CommonFunction";
 import Select from "react-select";
 import { format } from "date-fns";
 import { connect } from "react-redux";
@@ -54,8 +55,6 @@ const SurveyList = (props) => {
   const dispatch = useDispatch();
   const [qrState, setQr] = useState({ value: "" });
 
-
-
   const navigate = useNavigate();
 
   const submitHandler = (event) => {
@@ -74,7 +73,6 @@ const SurveyList = (props) => {
         survey_id: 0,
       });
       const survey_data = res?.data?.data;
-     
 
       // if(survey_data.length<1){
       //   showDeleteButtons()
@@ -83,8 +81,6 @@ const SurveyList = (props) => {
       if (res) {
         setIsData(survey_data);
       }
-
-
 
       loader("hide");
     } catch (error) {
@@ -106,8 +102,7 @@ const SurveyList = (props) => {
     }
   };
   const showDeleteButtons = () => {
-
-    setDeleteStatus(!deletestatus)
+    setDeleteStatus(!deletestatus);
     // // if (deletestatus) {
     // //   setDeleteStatus(false);
     // // } else {
@@ -117,7 +112,7 @@ const SurveyList = (props) => {
     //   setDeleteStatus(!deletestatus);
     // }else{
     //   setDeleteStatus(!deletestatus);
-    // } 
+    // }
   };
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
@@ -147,12 +142,7 @@ const SurveyList = (props) => {
     //getData("progress");
     setShowFilter(false);
   };
-  const selectOptions = [
-    { value: 1, label: "Sublink1" },
-    { value: 2, label: "Sublink2" },
-    { value: 3, label: "Sublink3" },
-    { value: 4, label: "Sublink4" },
-  ];
+
   const [allCodes, setAllCodes] = useState([]);
   const [subLinkData, setSubLinkData] = useState({});
 
@@ -224,13 +214,15 @@ const SurveyList = (props) => {
     }
   };
 
-  const handleCopy = (survey_id) => {
+  const handleCopy = (survey_id,selectedSublinkId) => {
     const selectedSublink = subLinkData?.[survey_id]?.find(
       (option) => option.value === selectedSublinkId
     );
     if (selectedSublink) {
       navigator.clipboard
-        .writeText(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`)
+        .writeText(
+          `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`
+        )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
         })
@@ -242,7 +234,7 @@ const SurveyList = (props) => {
     }
   };
 
-  const setDownloadLink = (survey_id) => {
+  const setDownloadLink = (survey_id,selectedSublinkId) => {
     const selectedSublink = subLinkData?.[survey_id]?.find(
       (option) => option.value === selectedSublinkId
     );
@@ -250,7 +242,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`,
+        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}&dl=qr`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -277,8 +269,8 @@ const SurveyList = (props) => {
 
   const [selectedSublinkId, setSelectedSublinkId] = useState();
 
-  const onSublinkChange = (event) => {
-    setSelectedSublinkId(event.value);
+  const onSublinkChange = (selectedOption) => {
+    setSelectedSublinkId(selectedOption ? selectedOption.value : null);
   };
 
   const handleOnFilterRole = (role) => {
@@ -446,7 +438,7 @@ const SurveyList = (props) => {
   };
 
   const copyHandler = (surveyLink) => {
-    console.log(surveyLink)
+    console.log(surveyLink);
     navigator.clipboard
       .writeText(surveyLink)
       .then(() => {
@@ -466,27 +458,28 @@ const SurveyList = (props) => {
     // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     try {
       loader("show");
-      const res = await surveyAxiosInstance
-        .post(`/survey/delete-all-details`, body)
+      const res = await surveyAxiosInstance.post(
+        `/survey/delete-all-details`,
+        body
+      );
 
       if (res) {
         hideConfirmationModal();
         await fetchSurveyListing();
-        
+
         popup_alert({
           visible: "show",
           message: "The Survey record has been deleted <br />successfully !",
           type: "success",
           redirect: "",
         });
-
       } else {
         toast.warning(res.data.message);
       }
       loader("hide");
     } catch (error) {
       loader("hide");
-      console.log(error.message)
+      console.log(error.message);
       toast.error("Something went wrong");
     }
   };
@@ -494,16 +487,15 @@ const SurveyList = (props) => {
   const editHandler = (e, path, data) => {
     e.preventDefault();
     console.log(data);
+    let surveyConfigData;
+    let thanksPageData;
 
     if (data.is_draft == "0" || data.is_draft == "1" || data.is_draft == "2") {
-    
-    
       const parsedCustomHtml = JSON.parse(data?.custom_html);
-   
-      console.log(data?.tags)
+
+      console.log(data?.tags);
       const tags = JSON.parse(data?.tags);
       console.log(parsedCustomHtml);
-
 
       const setUpData = {
         survey_title: data.survey_title,
@@ -521,26 +513,36 @@ const SurveyList = (props) => {
         custom_html: parsedCustomHtml,
       };
 
-      const surveyConfigData = {
-        survey_consent: data.survey_consent,
-        survey_thumbnail: data.survey_thumbnail,
-        survey_link_description: data.survey_link_description,
-        survey_link_title: data.survey_link_title,
-      };
+      if (
+        path === "/survey/survey-configure" ||
+        path === "/survey/form-builder" ||
+        path === "/survey/thank-you" ||
+        path === "/survey/survey-preview"
+      ) {
+        surveyConfigData = {
+          survey_consent: data.survey_consent,
+          survey_thumbnail: data.survey_thumbnail,
+          survey_link_description: data.survey_link_description,
+          survey_link_title: data.survey_link_title,
+        };
+      }
 
-      const thanksPageData = {
-        thanku_image_path: data.thanku_image_path,
-        thanku_image_width: data.thanku_image_width,
-        thanku_image_headline: data.thanku_image_headline,
-        thanku_body_text: data.thanku_body_text,
-      };
+      if (path === "/survey/thank-you" || path === "/survey/survey-preview") {
+        thanksPageData = {
+          thanku_image_path: data.thanku_image_path,
+          thanku_image_width: data.thanku_image_width,
+          thanku_image_headline: data.thanku_image_headline,
+          thanku_body_text: data.thanku_body_text,
+        };
+      }
+
       props.getSurveyData({
         survey_id: data.survey_id,
         unique_code: data.unique_code,
         creator_name: data.creator_name,
         setUpData,
         formBuilderData,
-        surveyConfigData,
+        surveyConfigData: surveyConfigData || "", // Use logical OR for default value
         thanksPageData,
       });
     }
@@ -678,7 +680,7 @@ const SurveyList = (props) => {
                                               checked={
                                                 updateflag > 0 &&
                                                 typeof filtertags !==
-                                                "undefined" &&
+                                                  "undefined" &&
                                                 filtertags.indexOf(item) !== -1
                                               }
                                               onChange={() =>
@@ -717,7 +719,7 @@ const SurveyList = (props) => {
                                             checked={
                                               updateflag > 0 &&
                                               typeof filtercreator !==
-                                              "undefined" &&
+                                                "undefined" &&
                                               filtercreator.indexOf(item) !== -1
                                             }
                                             onChange={() =>
@@ -754,7 +756,7 @@ const SurveyList = (props) => {
                                             checked={
                                               updateflag > 0 &&
                                               typeof filterdate !==
-                                              "undefined" &&
+                                                "undefined" &&
                                               filterdate.indexOf(item) !== -1
                                             }
                                             onChange={() =>
@@ -772,7 +774,7 @@ const SurveyList = (props) => {
                             </Accordion.Item>
                           )}
                         {localStorage.getItem("user_id") !=
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <Accordion.Item className="card" eventKey="3">
                             <Accordion.Header className="card-header">
                               Campaign
@@ -857,7 +859,7 @@ const SurveyList = (props) => {
                                             checked={
                                               updateflag > 0 &&
                                               typeof filterrole !==
-                                              "undefined" &&
+                                                "undefined" &&
                                               filterrole.indexOf(item) !== -1
                                             }
                                             onChange={() =>
@@ -954,7 +956,7 @@ const SurveyList = (props) => {
             </div>
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus  && (
+                {!deletestatus && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
@@ -976,606 +978,628 @@ const SurveyList = (props) => {
                 )}
                 {isData?.length || updateflag
                   ? isData?.map((data, index) => {
-                    return (
-                      <>
-                        <div class="email_box_block">
-                          <div
-                            class={
-                              data?.is_draft != null && data?.is_draft == "0"
-                                ? "email_box email-draft"
-                                : "email_box approved"
-                            }
-                          >
-                            {data?.is_draft != null &&
-                              data?.is_draft == "0" && (
-                                <div class="mail-top-title">
-                                  <span>Draft</span>
+                      const sublinkoptions =
+                        subLinkData?.[data.survey_id] || [];
+                      return (
+                        <>
+                          <div class="email_box_block">
+                            <div
+                              class={
+                                data?.is_draft != null && data?.is_draft == "0"
+                                  ? "email_box email-draft"
+                                  : "email_box approved"
+                              }
+                            >
+                              {data?.is_draft != null &&
+                                data?.is_draft == "0" && (
+                                  <div class="mail-top-title">
+                                    <span>Draft</span>
+                                  </div>
+                                )}
+
+                              <div class="mail-box-content">
+                                <div class="mail-box-content-top">
+                                  <div class="mail-box-content-top-view">
+                                    {data?.is_draft == "1" && (
+                                      <div className="survey_status">
+                                        <span>Live</span>
+                                      </div>
+                                    )}
+                                    {data?.is_draft == "2" && (
+                                      <div className="survey_status completed">
+                                        <span>Completed</span>
+                                      </div>
+                                    )}
+                                    <h5>{data.survey_title}</h5>
+                                    <p>{data.subtitle}</p>
+                                  </div>
                                 </div>
-                              )}
-
-                            <div class="mail-box-content">
-                              <div class="mail-box-content-top">
-                                <div class="mail-box-content-top-view">
-                                  {data?.is_draft == "1" && (
-                                    <div className="survey_status">
-                                      <span>Live</span>
-                                    </div>
-                                  )}
-                                  {data?.is_draft == "2" && (
-                                    <div className="survey_status completed">
-                                      <span>Completed</span>
-                                    </div>
-                                  )}
-                                  <h5>{data.survey_title}</h5>
-                                  <p>{data.subtitle}</p>
-                                </div>
-                              </div>
-                              <div className="tabs-data">
-                                <Tabs
-                                  defaultActiveKey="link"
-                                  onSelect={(e) =>
-                                    handleClick(e, data.survey_id)
-                                  }
-                                >
-                                  <Tab eventKey="link" title="Link">
-                                    <div className="survey_tabs_data">
-                                      <div className="tab-panel">
-                                        <div class="tab-content-links">
-                                          <a
-                                            href={`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
-                                            class={data?.is_draft != null &&
-                                              data?.is_draft == "0" ? "doc-link no-click" :"doc-link " }
-                                            target="_blank"
-                                          >
-                                           https://informed.pro/Survey/PreviewSurvey.html?Utmde={data.unique_code}
-                                          </a>
-                                          {data.is_draft ? (
-                                            <span
-                                              class="copy-content"
-                                              onClick={() =>
-                                                copyHandler(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`)
-                                              }
-                                            >
-                                              <img
-                                                src={path_image+"copy-content.svg"}
-                                                alt="Copy"
-                                              />
-                                            </span>
-                                          ) : (
-                                            <span class="copy-content">
-                                              <img
-                                                src={path_image+"copy-content-disabled.svg"}
-                                                alt="Copy"
-                                              />
-                                            </span>
-                                          )}
-                                          {data.is_draft ? (
-                                            <div
-                                              className="tab-content-qr"
-                                              onClick={() => {
-                                                setQr({
-                                                  ...qrState,
-                                                  value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
-                                                });
-                                                setTimeout(function () {
-                                                  downloadQRCode();
-                                                }, 500);
-                                              }}
-                                            >
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "qr-code-icon.svg"
-                                                }
-                                                alt="QR"
-                                              />
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "download-icon.svg"
-                                                }
-                                                alt="Download"
-                                              />
-                                            </div>
-                                          ) : (
-                                            <div className="tab-content-qr">
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "qr-code-icon-disabled.svg"
-                                                }
-                                                alt="QR"
-                                              />
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "download-icon-disabled.svg"
-                                                }
-                                                alt="Download"
-                                              />
-                                            </div>
-                                          )}
-                                        </div>
-                                        <ul className="survey-consent">
-                                          <li className="d-flex align-items-center">
-                                            <h6 className="tab-content-title">
-                                              Consent
-                                            </h6>
-                                            {data.survey_consent != "" ? (
-                                              <h6>{data.survey_consent}</h6>
-                                            ) : (
-                                              <h6>N/A</h6>
-                                            )}
-                                          </li>
-                                          <li className="d-flex align-items-center">
-                                            <h6 className="tab-content-title">
-                                              Creator
-                                            </h6>
-                                            <h6>{data.creator_name}</h6>
-                                          </li>
-                                        </ul>
-                                        <div class="mailbox-tags">
-                                          <ul>
-                                            {JSON.parse(data?.tags)?.length >
-                                              0 ? (
-                                              JSON.parse(data.tags).map(
-                                                (tag, index) => (
-                                                  <li key={index}>{tag}</li>
-                                                )
-                                              )
-                                            ) : (
-                                              <li>N/A</li>
-                                            )}
-                                          </ul>
-                                        </div>
-                                        <div class="mail-time">
-                                          <span>
-                                            {format(
-                                              new Date(data.date),
-                                              "MMMM d, yyyy '|' h:mm a"
-                                            )}
-                                          </span>
-                                        </div>
-
-                                        {data?.is_draft != null &&
-                                          data?.is_draft == "0" ? (
-                                          <div class="mail-stats">
-                                            <ul>
-                                              <li>
-                                                <div
-                                                  class="mail-status irts"
-                                                  title="Sublinks"
-                                                >
-                                                  <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                    <path
-                                                      d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>0</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail-hit"
-                                                  title="Link opening"
-                                                >
-                                                  <svg
-                                                    width="14"
-                                                    height="16"
-                                                    viewBox="0 0 14 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                                      fill="#C8D1D9"
-                                                    ></path>
-                                                    <path
-                                                      d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                                      fill="#C8D1D9"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>0</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail_view"
-                                                  title="Started"
-                                                >
-                                                  <svg
-                                                    width="17"
-                                                    height="16"
-                                                    viewBox="0 0 17 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                    <path
-                                                      d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                    <path
-                                                      fill-rule="evenodd"
-                                                      clip-rule="evenodd"
-                                                      d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>0 </span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail_click"
-                                                  title="Completed"
-                                                >
-                                                  <svg
-                                                    width="17"
-                                                    height="16"
-                                                    viewBox="0 0 17 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                    <path
-                                                      d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                    <path
-                                                      fill-rule="evenodd"
-                                                      clip-rule="evenodd"
-                                                      d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="0.6"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>0 </span>
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        ) : (
-                                          <div class="mail-stats">
-                                            <ul>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail_send"
-                                                  title="Sublinks"
-                                                >
-                                                  <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                    <path
-                                                      d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
-                                                      fill="#97B6CF"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>{data.total_sublinks}</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail-hit"
-                                                  title="Link opening"
-                                                >
-                                                  <svg
-                                                    width="14"
-                                                    height="16"
-                                                    viewBox="0 0 14 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                                      fill="#0066BE"
-                                                    ></path>
-                                                    <path
-                                                      d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                                      fill="#0066BE"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>{data.user_opening}</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail_view"
-                                                  title="Started"
-                                                >
-                                                  <svg
-                                                    width="17"
-                                                    height="16"
-                                                    viewBox="0 0 17 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
-                                                      fill="#FAC755"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                    <path
-                                                      d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
-                                                      fill="#FAC755"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                    <path
-                                                      fill-rule="evenodd"
-                                                      clip-rule="evenodd"
-                                                      d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
-                                                      fill="#FAC755"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>{data.registration_count}</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  class="mail-status mail_click"
-                                                  title="Completed"
-                                                >
-                                                  <svg
-                                                    width="17"
-                                                    height="16"
-                                                    viewBox="0 0 17 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
-                                                      fill="#39CABC"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                    <path
-                                                      d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
-                                                      fill="#39CABC"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                    <path
-                                                      fill-rule="evenodd"
-                                                      clip-rule="evenodd"
-                                                      d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
-                                                      fill="#39CABC"
-                                                      fill-opacity="1"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>{data.percentage}</span>
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div class="mailbox-buttons">
-                                        <div className="send_new">
-                                          <Button className={data.is_draft ? "btn-bordered send-new" : "btn-bordered send-new disabled"}>
-                                            Analytics
-                                          </Button>
-                                        </div>
-                                        <div class="mailbox-buttons-list">
-                                          <Button
-                                            className="send btn-bordered"
-                                            onClick={(e) =>
-                                              editHandler(
-                                                e,
-                                                data?.current_route,
-                                                data
-                                              )
-                                            }
-                                          >
-                                            Edit
-                                          </Button>
-                                          <Button className={data?.is_draft ?"edit btn-filled":"edit btn-filled disabled" }
-                                            onClick={(e) => {
-                                              window.open(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`, '_blank');
-                                            }}>
-                                            Preview
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Tab>
-                                  <Tab
-                                    eventKey="sublinks"
-                                    title="Sublinks"
-                                    className="change-tab flex-column justify-content-between"
-                                  >
-                                    <div className="survey_tabs_data">
-                                      <div className="data-main-box change-tab-main-box tab-panel">
-                                        <ul className="tab-mail-list data change">
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              SubLinks
-                                            </h6>
-                                            <div className="select-dropdown-wrapper">
-                                              <div className="select">
-                                                <Select
-                                                  aria-label="SSelect Sublink"
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  name="surveyCreator"
-                                                  placeholder="Select Sublink"
-                                                  onChange={(event) =>
-                                                    onSublinkChange(event)
-                                                  }
-                                                  options={
-                                                    subLinkData?.[
-                                                    data.survey_id
-                                                    ]
-                                                  }
-                                                  value={Object.keys(
-                                                    subLinkData
-                                                  )?.find(
-                                                    (option) =>
-                                                      option.sublink_id == selectedSublinkId
-                                                  )}
-                                                />
-                                                <Button
-                                                  onClick={() =>
-                                                    handleCopy(data.survey_id)
-                                                  }
-                                                >
-                                                  Copy
-                                                </Button>
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              QR Codes
-                                            </h6>
-                                            <div className="select-dropdown-wrapper">
-                                              <div className="select">
-                                                <Select
-                                                  aria-label="Select Sublink"
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  name="surveyCreator"
-                                                  placeholder="Select Sublink"
-                                                  onChange={(event) =>
-                                                    onSublinkChange(event)
-                                                  }
-                                                  options={
-                                                    subLinkData?.[
-                                                    data.survey_id
-                                                    ]
-                                                  }
-                                                  value={Object.keys(
-                                                    subLinkData
-                                                  )?.find(
-                                                    (option) =>
-                                                      option.sublink_id ==
-                                                      selectedSublinkId
-                                                  )}
-                                                />
-                                                <Button
-                                                  onClick={(e) =>
-                                                    setDownloadLink(
-                                                      data.survey_id
-                                                    )
-                                                  }
-                                                >
-                                                  download
-                                                </Button>
-                                              </div>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                      </div>
-
-                                      <div class="mailbox-buttons justify-content-end">
-                                        <div className="send_new">
-                                          <Button
-                                            className="btn-bordered send-new"
-                                            onClick={() => {
-                                              navigate(
-                                                "/survey/survey-sublink",
-                                                {
-                                                  state: {
-                                                    survey_id: data.survey_id,
-                                                  },
-                                                }
-                                              );
-                                            }}
-                                          >
-                                            New Sublink
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Tab>
-                                  <Tab eventKey="setting" title="Setting">
-                                    <div className="survey_tabs_data survey-setting">
-                                      <div class="d-flex align-items-center justify-content-start">
-                                        {data.is_draft ? (
-                                          // <>
-                                          <SurveyLiveButton
-                                            key={data.survey_id}
-                                            survey_id={data.survey_id}
-                                            updateLiveFlag={updateLiveFlag}
-                                            fetchSurveyListing={
-                                              fetchSurveyListing
-                                            }
-                                            liveFlagValue={data.is_draft}
-
-                                          /> 
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <div class="mailbox-buttons justify-content-end">
-                                        <div className="send_new">
-                                          <Button
-                                            className="btn-bordered send-new"
-                                            onClick={(e) => {
-                                              handleDuplicateSurvey(
-                                                e,
-                                                data.survey_id
-                                              );
-                                            }}
-                                          >
-                                            Duplicate Survey
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Tab>
-                                </Tabs>
-                              </div>
-                              {deletestatus && (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(data.survey_id)
+                                <div className="tabs-data">
+                                  <Tabs
+                                    defaultActiveKey="link"
+                                    onSelect={(e) =>
+                                      handleClick(e, data.survey_id)
                                     }
                                   >
-                                    <img
-                                      src={path + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
+                                    <Tab eventKey="link" title="Link">
+                                      <div className="survey_tabs_data">
+                                        <div className="tab-panel">
+                                          <div class="tab-content-links">
+                                            <a
+                                              href={`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
+                                              class={
+                                                data?.is_draft != null &&
+                                                data?.is_draft == "0"
+                                                  ? "doc-link no-click"
+                                                  : "doc-link "
+                                              }
+                                              target="_blank"
+                                            >
+                                              https://informed.pro/Survey/PreviewSurvey.html?Utmde=
+                                              {data.unique_code}
+                                            </a>
+                                            {data.is_draft ? (
+                                              <span
+                                                class="copy-content"
+                                                onClick={() =>
+                                                  copyHandler(
+                                                    `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`
+                                                  )
+                                                }
+                                              >
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "copy-content.svg"
+                                                  }
+                                                  alt="Copy"
+                                                />
+                                              </span>
+                                            ) : (
+                                              <span class="copy-content">
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "copy-content-disabled.svg"
+                                                  }
+                                                  alt="Copy"
+                                                />
+                                              </span>
+                                            )}
+                                            {data.is_draft ? (
+                                              <div
+                                                className="tab-content-qr"
+                                                onClick={() => {
+                                                  setQr({
+                                                    ...qrState,
+                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
+                                                  });
+                                                  setTimeout(function () {
+                                                    downloadQRCode();
+                                                  }, 500);
+                                                }}
+                                              >
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "qr-code-icon.svg"
+                                                  }
+                                                  alt="QR"
+                                                />
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "download-icon.svg"
+                                                  }
+                                                  alt="Download"
+                                                />
+                                              </div>
+                                            ) : (
+                                              <div className="tab-content-qr">
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "qr-code-icon-disabled.svg"
+                                                  }
+                                                  alt="QR"
+                                                />
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "download-icon-disabled.svg"
+                                                  }
+                                                  alt="Download"
+                                                />
+                                              </div>
+                                            )}
+                                          </div>
+                                          <ul className="survey-consent">
+                                            <li className="d-flex align-items-center">
+                                              <h6 className="tab-content-title">
+                                                Consent
+                                              </h6>
+                                              {data.survey_consent != "" ? (
+                                                <h6>{data.survey_consent}</h6>
+                                              ) : (
+                                                <h6>N/A</h6>
+                                              )}
+                                            </li>
+                                            <li className="d-flex align-items-center">
+                                              <h6 className="tab-content-title">
+                                                Creator
+                                              </h6>
+                                              <h6>{data.creator_name}</h6>
+                                            </li>
+                                          </ul>
+                                          <div class="mailbox-tags">
+                                            <ul>
+                                              {JSON.parse(data?.tags)?.length >
+                                              0 ? (
+                                                JSON.parse(data.tags).map(
+                                                  (tag, index) => (
+                                                    <li key={index}>{tag}</li>
+                                                  )
+                                                )
+                                              ) : (
+                                                <li>N/A</li>
+                                              )}
+                                            </ul>
+                                          </div>
+                                          <div class="mail-time">
+                                            <span>
+                                              {format(
+                                                new Date(data.date),
+                                                "MMMM d, yyyy '|' h:mm a"
+                                              )}
+                                            </span>
+                                          </div>
+
+                                          {data?.is_draft != null &&
+                                          data?.is_draft == "0" ? (
+                                            <div class="mail-stats">
+                                              <ul>
+                                                <li>
+                                                  <div
+                                                    class="mail-status irts"
+                                                    title="Sublinks"
+                                                  >
+                                                    <svg
+                                                      width="16"
+                                                      height="16"
+                                                      viewBox="0 0 16 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                      <path
+                                                        d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>0</span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail-hit"
+                                                    title="Link opening"
+                                                  >
+                                                    <svg
+                                                      width="14"
+                                                      height="16"
+                                                      viewBox="0 0 14 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                                        fill="#C8D1D9"
+                                                      ></path>
+                                                      <path
+                                                        d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                                        fill="#C8D1D9"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>0</span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail_view"
+                                                    title="Started"
+                                                  >
+                                                    <svg
+                                                      width="17"
+                                                      height="16"
+                                                      viewBox="0 0 17 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                      <path
+                                                        d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                      <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>0 </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail_click"
+                                                    title="Completed"
+                                                  >
+                                                    <svg
+                                                      width="17"
+                                                      height="16"
+                                                      viewBox="0 0 17 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                      <path
+                                                        d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                      <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="0.6"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>0 </span>
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          ) : (
+                                            <div class="mail-stats">
+                                              <ul>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail_send"
+                                                    title="Sublinks"
+                                                  >
+                                                    <svg
+                                                      width="16"
+                                                      height="16"
+                                                      viewBox="0 0 16 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                      <path
+                                                        d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
+                                                        fill="#97B6CF"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>
+                                                    {data.total_sublinks}
+                                                  </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail-hit"
+                                                    title="Link opening"
+                                                  >
+                                                    <svg
+                                                      width="14"
+                                                      height="16"
+                                                      viewBox="0 0 14 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                                        fill="#0066BE"
+                                                      ></path>
+                                                      <path
+                                                        d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                                        fill="#0066BE"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>
+                                                    {data.user_opening}
+                                                  </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail_view"
+                                                    title="Started"
+                                                  >
+                                                    <svg
+                                                      width="17"
+                                                      height="16"
+                                                      viewBox="0 0 17 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
+                                                        fill="#FAC755"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                      <path
+                                                        d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
+                                                        fill="#FAC755"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                      <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
+                                                        fill="#FAC755"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>
+                                                    {data.registration_count}
+                                                  </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    class="mail-status mail_click"
+                                                    title="Completed"
+                                                  >
+                                                    <svg
+                                                      width="17"
+                                                      height="16"
+                                                      viewBox="0 0 17 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
+                                                        fill="#39CABC"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                      <path
+                                                        d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
+                                                        fill="#39CABC"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                      <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
+                                                        fill="#39CABC"
+                                                        fill-opacity="1"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>{data.percentage}</span>
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                        <div class="mailbox-buttons">
+                                          <div className="send_new">
+                                            <Button
+                                              className={
+                                                data.is_draft
+                                                  ? "btn-bordered send-new"
+                                                  : "btn-bordered send-new disabled"
+                                              }
+                                            >
+                                              Analytics
+                                            </Button>
+                                          </div>
+                                          <div class="mailbox-buttons-list">
+                                            <Button
+                                              className="send btn-bordered"
+                                              onClick={(e) =>
+                                                editHandler(
+                                                  e,
+                                                  data?.current_route,
+                                                  data
+                                                )
+                                              }
+                                            >
+                                              Edit
+                                            </Button>
+                                            <Button
+                                              className={
+                                                data?.is_draft
+                                                  ? "edit btn-filled"
+                                                  : "edit btn-filled disabled"
+                                              }
+                                              onClick={(e) => {
+                                                window.open(
+                                                  `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
+                                                  "_blank"
+                                                );
+                                              }}
+                                            >
+                                              Preview
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Tab>
+                                    <Tab
+                                      eventKey="sublinks"
+                                      title="Sublinks"
+                                      className="change-tab flex-column justify-content-between"
+                                    >
+                                      <div className="survey_tabs_data">
+                                        {/* <div className="data-main-box change-tab-main-box tab-panel">
+                                          <ul className="tab-mail-list data change">
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                SubLinks
+                                              </h6>
+                                              <div className="select-dropdown-wrapper">
+                                                <div className="select">
+                                                  <Select
+                                                    aria-label="SSelect Sublink"
+                                                    className="dropdown-basic-button split-button-dropup"
+                                                    name="surveyCreator"
+                                                    placeholder="Select Sublink"
+                                                    onChange={onSublinkChange}
+                                                    options={
+                                                      sublinkoptions
+                                                    }
+                                                    value={sublinkoptions.find(option => option.value === selectedSublinkId)}
+                                                  />
+                                                  <Button
+                                                    onClick={() =>
+                                                      handleCopy(data.survey_id)
+                                                    }
+                                                  >
+                                                    Copy
+                                                  </Button>
+                                                </div>
+                                              </div>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                QR Codes
+                                              </h6>
+                                              <div className="select-dropdown-wrapper">
+                                                <div className="select">
+                                                  <Select
+                                                    aria-label="Select Sublink"
+                                                    className="dropdown-basic-button split-button-dropup"
+                                                    name="surveyCreator"
+                                                    placeholder="Select Sublink"
+                                                    onChange={onSublinkChange}
+                                                    options={
+                                                      sublinkoptions
+                                                    }
+                                                    value={sublinkoptions.find(option => option.value === selectedSublinkId)}
+                                                  />
+                                                  <Button
+                                                    onClick={(e) =>
+                                                      setDownloadLink(
+                                                        data.survey_id
+                                                      )
+                                                    }
+                                                  >
+                                                    download
+                                                  </Button>
+                                                </div>
+                                              </div>
+                                            </li>
+                                          </ul>
+                                        </div> */}
+                                        <SublinkHandler
+                                          handleCopy={handleCopy}
+                                          setDownloadLink={setDownloadLink}
+                                          sublinkoptions={sublinkoptions}
+                                          survey_id={data.survey_id}
+                                        />
+
+                                        <div class="mailbox-buttons justify-content-end">
+                                          <div className="send_new">
+                                            <Button
+                                              className="btn-bordered send-new"
+                                              onClick={() => {
+                                                navigate(
+                                                  "/survey/survey-sublink",
+                                                  {
+                                                    state: {
+                                                      survey_id: data.survey_id,
+                                                    },
+                                                  }
+                                                );
+                                              }}
+                                            >
+                                              New Sublink
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Tab>
+                                    <Tab eventKey="setting" title="Setting">
+                                      <div className="survey_tabs_data survey-setting">
+                                        <div class="d-flex align-items-center justify-content-start">
+                                          {data.is_draft ? (
+                                            // <>
+                                            <SurveyLiveButton
+                                              key={data.survey_id}
+                                              survey_id={data.survey_id}
+                                              updateLiveFlag={updateLiveFlag}
+                                              fetchSurveyListing={
+                                                fetchSurveyListing
+                                              }
+                                              liveFlagValue={data.is_draft}
+                                            />
+                                          ) : (
+                                            ""
+                                          )}
+                                        </div>
+                                        <div class="mailbox-buttons justify-content-end">
+                                          <div className="send_new">
+                                            <Button
+                                              className="btn-bordered send-new"
+                                              onClick={(e) => {
+                                                handleDuplicateSurvey(
+                                                  e,
+                                                  data.survey_id
+                                                );
+                                              }}
+                                            >
+                                              Duplicate Survey
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Tab>
+                                  </Tabs>
                                 </div>
-                              )}
+                                {deletestatus && (
+                                  <div className="dlt_btn">
+                                    <button
+                                      onClick={(e) =>
+                                        showConfirmationPopup(data.survey_id)
+                                      }
+                                    >
+                                      <img
+                                        src={path + "delete.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    );
-                  })
+                        </>
+                      );
+                    })
                   : null}
 
                 <div className="delete">

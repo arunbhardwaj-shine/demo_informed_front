@@ -1383,13 +1383,14 @@ const TimelineDetail = (props) => {
                                                           </div>
                                                           <div className="details-box">
                                                             <p className="timeline-details-heading">Time</p>
-                                                            <div  className={
+                                                            <div className={
                                                                 isActive &&
                                                                 details.id == activeIndex
-                                                                  ? "timeline-article-detail-full active"
-                                                                  : "timeline-article-detail-full"
+                                                                  ? "timeline-time-detail active"
+                                                                  : "timeline-time-detail"
                                                               }
-                                                              onClick={(e) => {
+                                                             >
+                                                              <p  onClick={(e) => {
                                                                 handleClick(
                                                                   details.id,
                                                                   details.pdf_id,
@@ -1397,27 +1398,25 @@ const TimelineDetail = (props) => {
                                                                   details
                                                                 );
                                                               }}>
-                                                              <p>
                                                                 {isActive &&
-                                                                details.id == activeIndex ? '< Hide Details' : 'Show Details... >'}
+                                                                details.id == activeIndex ? '< Hide' : 'Show Details... >'}
                                                               </p>
-                                                              <div>
-                                                              <div className="d-flex flex-wrap timeline-activity">
+                                                              
+                                                              
                                                               {typeof ebookData !== "undefined" && ebookData.length > 0 ? (
                                                                 <>
                                                                   {isActive &&
                                                                 details.id == activeIndex && ebookData.map((data) => (
                                                                     <div
-                                                                      className="timeline-article-details-boxes d-flex"
-                                                                    >
+                                                                      className="timeline-time-show">
                                                                       {data?.data?.length > 0 &&
                                                                         data.data.map((item) => (
-                                                                          <div >
+                                                                          <div className="d-flex flex-direction-row">
                                                                             <div className="timeline-activity-detail">
-                                                                              <p>Needed | {formatTime(item?.minimum)} seconds</p>
+                                                                              <p><span>Needed |</span> {formatTime(item?.minimum)}</p>
                                                                             </div>
                                                                             <div className="timeline-activity-detail">
-                                                                              <p>Spent | {formatTime(item?.timeSpend)} seconds</p>
+                                                                              <p><span>Spent |</span> {formatTime(item?.timeSpend)}</p>
                                                                             </div>
                                                                           </div>
                                                                         ))}
@@ -1427,8 +1426,8 @@ const TimelineDetail = (props) => {
                                                               ) : (
                                                                 ''
                                                               )}
-                                                            </div>
-                                                              </div>
+                                                            
+                                                
                                                             </div>
                                                           </div>
                                                         </>
@@ -2101,7 +2100,7 @@ const TimelineDetail = (props) => {
                           </div>
                         </>
                       ) : (
-                        <div className="timeline-right-list">
+                        <div className="timeline-right-list default-timeline">
                           <div className="timeline-right-list-view">
                             {timeLineData?.timeline.map((details, index) => {
                               return (
