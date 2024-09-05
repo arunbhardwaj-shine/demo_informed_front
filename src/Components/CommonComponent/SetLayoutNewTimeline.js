@@ -482,7 +482,29 @@ const SetLayoutNewTimeline = () => {
                                           <div className="timeline-details">
                                             <div className="timeline-article d-flex">
                                               <div className="timeline-article-image">
-                                                <img src={path_image + "article-open-cover.png"} alt="" />
+                                                {/* <img src={path_image + "article-open-cover.png"} alt="" /> */}
+                                                {item?.file_type ===
+                                                            "video"? <img
+                                                            src={
+                                                              path_image +
+                                                              "lex-video-cover.png"
+                                                            }
+                                                            alt=""
+                                                          />:item?.file_type=="ebook"?
+                                                          <img
+                                                          src={
+                                                            path_image +                                                            
+                                                            "lex-book-cover.png"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                          :<img
+                                                          src={
+                                                            path_image +
+                                                            "article-open-cover.png"
+                                                          }
+                                                          alt=""
+                                                        /> }
                                               </div>
                                               <div className="timeline-article-detail">
                                                 <div className="timeline-title">
@@ -554,7 +576,7 @@ const SetLayoutNewTimeline = () => {
                                                             : userProfile?.name
                                                         }
                                                         </p>
-                                                        <p>{userProfile?.user_type?userProfile?.user_type:"N/A"}</p>
+                                                        <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                       </div>
                                                     ) : null
