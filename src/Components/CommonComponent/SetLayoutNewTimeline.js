@@ -352,7 +352,13 @@ const SetLayoutNewTimeline = () => {
                         </div>
                         <div className="timeline-date">
                           <h3>LEX-210 Trial</h3>
-                          <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p>
+                          {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
+                          <p>
+                            {moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY')}
+                            <span> | </span>
+                            {moment(loadMore?.lastUpdate).utc().format('h:mm A')}
+                            <sub>last update</sub>
+                          </p>
                         </div>
                       </div>
                       <div className="timeline-box">
