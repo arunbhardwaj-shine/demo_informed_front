@@ -2687,10 +2687,11 @@ span {
         .thanks-img {
             margin: 0 auto;
             text-align: center;
+            width: 100%;
 
-            img {
-                max-width: 235px;
-            }
+            // img {
+            //     max-width: 235px;
+            // }
         }
 
         .thanks-text {

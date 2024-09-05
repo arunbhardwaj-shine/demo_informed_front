@@ -787,9 +787,9 @@ width: 100%;
 #thanks-modal .modal-body .thanks-img,  #thanks-modal .modal-body .thanks-text{
   text-align: center;
 }
-#thanks-modal .modal-body .thanks-img img {
+/* #thanks-modal .modal-body .thanks-img img {
   max-width: 120px;
-}
+} */
 #thanks-modal .survey-thanks {
 padding: 0 0 30px;
 }
@@ -1176,10 +1176,10 @@ label.form-label {
   .cookieadd .modal-body {
     padding-top: 0;
   }
-  #thanks-modal .modal-body .thanks-img img {
+  /* #thanks-modal .modal-body .thanks-img img {
     max-width: 90px;
-}
-#thanks-modal .modal-body .thanks-text h2 {
+} */
+#thanks-modal .modal-body .thanks-text h2 , #thanks-modal .modal-body .thanks-text h2 p{
   font-size: 26px;
 }
 #thanks-modal .modal-body .thanks-text p {
