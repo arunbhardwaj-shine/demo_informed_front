@@ -1413,21 +1413,12 @@ const TimelineDetail = (props) => {
                                                                         ? details?.pdf_sub_title
                                                                         : "N/A"}
                                                                     </p>
-                                                                    {details?.file_type ===
-                                                                      "video" ? (
-                                                                      <div className="d-flex align-items-center include-links">
-                                                                        <img
-                                                                          src={
-                                                                            path_image +
-                                                                            "video-img.png"
-                                                                          }
-                                                                          alt=""
-                                                                        />
-                                                                        <p>
-                                                                          Include videos{" "}
-                                                                        </p>
-                                                                      </div>
-                                                                    ) : null}
+                                                                    {details?.allow_video == 1 ?
+                                                    <div className="d-flex align-items-center include-links">
+                                                      <img src={path_image + "video-img.png"} alt="" />
+                                                      <p>Include videos </p>
+                                                    </div>
+                                                    : ""}
                                                                   </div>
                                                                 </div>
                                                               </div>
@@ -1513,21 +1504,12 @@ const TimelineDetail = (props) => {
                                                                         ? details?.pdf_sub_title
                                                                         : "N/A"}
                                                                     </p>
-                                                                    {details?.file_type ===
-                                                                      "video" ? (
-                                                                      <div className="d-flex align-items-center include-links">
-                                                                        <img
-                                                                          src={
-                                                                            path_image +
-                                                                            "video-img.png"
-                                                                          }
-                                                                          alt=""
-                                                                        />
-                                                                        <p>
-                                                                          Include videos{" "}
-                                                                        </p>
-                                                                      </div>
-                                                                    ) : null}
+                                                                    {details?.allow_video == 1 ?
+                                                    <div className="d-flex align-items-center include-links">
+                                                      <img src={path_image + "video-img.png"} alt="" />
+                                                      <p>Include videos </p>
+                                                    </div>
+                                                    : ""}
                                                                   </div>
                                                                 </div>
                                                               </div>
@@ -1561,13 +1543,27 @@ const TimelineDetail = (props) => {
                                                               <div className="pdf-content">
                                                                 <div className="timeline-article d-flex">
                                                                   <div className="timeline-article-image">
-                                                                    <img
+                                                                  {details?.file_type ===
+                                                                    "ebook"? <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "lex-book-cover.png"
+                                                                    }
+                                                                    alt=""
+                                                                  />:<img
+                                                                  src={
+                                                                    path_image +
+                                                                    "article-open-cover.png"
+                                                                  }
+                                                                  alt=""
+                                                                /> }
+                                                                    {/* <img
                                                                       src={
                                                                         path_image +
                                                                         "article-open-cover.png"
                                                                       }
                                                                       alt=""
-                                                                    />
+                                                                    /> */}
                                                                   </div>
                                                                   <div className="timeline-article-detail">
                                                                     <div className="timeline-title">
@@ -1583,21 +1579,12 @@ const TimelineDetail = (props) => {
                                                                           ? details?.pdf_sub_title
                                                                           : "N/A"}
                                                                       </p>
-                                                                      {details?.file_type ===
-                                                                        "video" ? (
-                                                                        <div className="d-flex align-items-center include-links">
-                                                                          <img
-                                                                            src={
-                                                                              path_image +
-                                                                              "video-img.png"
-                                                                            }
-                                                                            alt=""
-                                                                          />
-                                                                          <p>
-                                                                            Include videos{" "}
-                                                                          </p>
-                                                                        </div>
-                                                                      ) : null}
+                                                                      {details?.allow_video == 1 ?
+                                                    <div className="d-flex align-items-center include-links">
+                                                      <img src={path_image + "video-img.png"} alt="" />
+                                                      <p>Include videos </p>
+                                                    </div>
+                                                    : ""}
                                                                     </div>
                                                                   </div>
                                                                 </div>
@@ -1719,13 +1706,20 @@ const TimelineDetail = (props) => {
                                                             <div className="timeline-details ">
                                                               <div className="timeline-article d-flex">
                                                                 <div className="timeline-article-image">
-                                                                  <img
+                                                                {details?.file_type ===
+                                                                    "ebook"? <img
                                                                     src={
                                                                       path_image +
-                                                                      "article-open-cover.png"
+                                                                      "lex-book-cover.png"
                                                                     }
                                                                     alt=""
-                                                                  />
+                                                                  />:<img
+                                                                  src={
+                                                                    path_image +
+                                                                    "article-open-cover.png"
+                                                                  }
+                                                                  alt=""
+                                                                /> }
                                                                 </div>
                                                                 <div className="timeline-article-detail">
                                                                   <div className="timeline-title">
@@ -1741,21 +1735,12 @@ const TimelineDetail = (props) => {
                                                                         ? details?.pdf_sub_title
                                                                         : "N/A"}
                                                                     </p>
-                                                                    {details?.file_type ===
-                                                                      "video" ? (
-                                                                      <div className="d-flex align-items-center include-links">
-                                                                        <img
-                                                                          src={
-                                                                            path_image +
-                                                                            "video-img.png"
-                                                                          }
-                                                                          alt=""
-                                                                        />
-                                                                        <p>
-                                                                          Include videos{" "}
-                                                                        </p>
-                                                                      </div>
-                                                                    ) : null}
+                                                                    {details?.allow_video === 1 ?
+                                                    <div className="d-flex align-items-center include-links">
+                                                      <img src={path_image + "video-img.png"} alt="" />
+                                                      <p>Include videos </p>
+                                                    </div>
+                                                    : ""}
                                                                   </div>
                                                                 </div>
                                                               </div>
