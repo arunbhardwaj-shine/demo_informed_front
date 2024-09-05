@@ -364,6 +364,9 @@ const SurveyFormBuilder = (props) => {
         const templateDefaults = selectedTemplate.default_values;
         updateDynamicValues(templateDefaults);
       } else {
+        setCustomHtml({})
+        customHtmlData={}
+       setSelectedTemplateId(1)
         console.error("Template not found for the given id:", id);
       }
     } else {
