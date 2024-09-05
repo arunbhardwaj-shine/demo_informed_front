@@ -352,7 +352,7 @@ const SetLayoutNewTimeline = () => {
                         </div>
                         <div className="timeline-date">
                           <h3>LEX-210 Trial</h3>
-                          <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD YYYY | h:mm A')}  <sub>last update</sub></p>
+                          <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p>
                         </div>
                       </div>
                       <div className="timeline-box">
@@ -363,7 +363,7 @@ const SetLayoutNewTimeline = () => {
                                 <span>&nbsp;</span>
                               </div>
                               <div className="timeline-date">
-                                <p>{moment(data?.date).format('MMM DD. YYYY')}</p>
+                                <p>{moment(data?.date).format('MMM. DD. YYYY')}</p>
                               </div>
                             </div>
                             {data?.IrtData?.map((item, i) => {
