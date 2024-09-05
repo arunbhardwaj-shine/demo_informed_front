@@ -100,9 +100,14 @@ const SpeakerZone = () => {
         }
     }
     useEffect(()=>{
-  
         if(count>0){
             initialFun()
+        }else{
+          setApiCallStatus({
+            "question": false,
+            "answer": false,
+            "ignored": false,
+          });
         }
     },[count])
 
