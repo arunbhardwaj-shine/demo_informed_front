@@ -78,9 +78,9 @@ const SurveySetup = (props) => {
 
   useEffect(() => {
     // Update the formData when existingCreator changes
-    console.log("hello0")
+ 
     if (count > 0 && existingCreator.length >= 1) {
-      console.log("hello1")
+      
       setformData((prev) => ({
         ...prev,
         surveyCreator: {
@@ -206,7 +206,7 @@ const SurveySetup = (props) => {
       });
 
       if (res) {
-        console.log(res.data.data);
+         
         const creators = res.data.data.map((creator) => ({
           label: creator.creator_name,
           value: creator.id,
@@ -245,7 +245,7 @@ const SurveySetup = (props) => {
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
-    //console.log(tags);
+   
     setTagClickedFirst(tags);
     setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
@@ -345,7 +345,7 @@ const SurveySetup = (props) => {
         alltemp_tags = alltemp_tags?.map((data) => {
           return data.toLowerCase();
         });
-        // console.log(alltemp_tags);
+      
       }
 
       if (
@@ -386,7 +386,7 @@ const SurveySetup = (props) => {
     handleClose();
   };
 
-  console.log(formData);
+ 
   return (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -690,7 +690,7 @@ const SurveySetup = (props) => {
 
 const mapStateToProps = (state) => {
   surveySetupData = state?.getSurveyData;
-  console.log(surveySetupData);
+ 
   return state;
 };
 

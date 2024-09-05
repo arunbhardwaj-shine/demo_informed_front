@@ -14,7 +14,7 @@ export default function Multiple({
   addOptionInMiddle,
 }) {
   const [showModal, setShowModal] = useState(false);
-  console.log(item, index, "from multiple");
+ 
   const handleAddBulkElements = (elements) => {
     handleUpdateElement(index, "questionOptions", elements);
   };

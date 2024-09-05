@@ -15,12 +15,7 @@ export default function Dropdown({
 }) {
   const [showModal, setShowModal] = useState(false);
   const handleAddBulkElements = (elements) => {
-    // console.log(elements);
-    // const data = elements.map((element) => {
-    //   return { value: element, answeId: 0 };
-    // });
-    // console.log(data);
-    // handleUpdateElement(index, "answer", data);
+
     const updatedOptions = [...item.answer];
     updatedOptions[0].value=elements;
     handleUpdateElement(index, "answer", updatedOptions);

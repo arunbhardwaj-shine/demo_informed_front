@@ -39,7 +39,7 @@ const SurveyPreview = (props) => {
   const handleView = () => {
     setIsChecked(!isChecked);
   };
-  console.log(elements);
+  
 
   let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
 
@@ -163,7 +163,7 @@ const SurveyPreview = (props) => {
             questionId,
           }
         );
-        console.log("Response from delete:", response);
+ 
       }
       loader("hide");
     } catch (error) {
