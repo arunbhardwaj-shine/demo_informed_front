@@ -91,7 +91,7 @@
           return;
         }
         if (data === "show") {
-          console.log("showing loader");
+ 
           element.classList.add("show");
         } else if (data === "hide") {
           element.classList.remove("show");
@@ -120,13 +120,12 @@
       }
 
       document.addEventListener("DOMContentLoaded", async function () {
-        console.log("Fetching data...");
+   
         const Utmde = getQueryParam("Utmde");
 
         if (!Utmde) {
           window.location.replace("/survey/404");
           return;
-    
         }
 
         const apiUrl =
@@ -147,19 +146,23 @@
             body: JSON.stringify(payload),
           });
           data = await response.json();
+          console.log(data)
 
           if (data.status == "success") {
             if (data && data.data && data.data[0] && data.data[0].survey_info) {
-              console.log("hello from inside");
+             
               if (data.data[0].survey_info.is_draft === 2) {
                 window.location.replace("/survey/404");
                 return;
               }
             }
-
-            console.log("Fetched Data:", data);
+          
+          } else {
             loader("hide");
+            window.location.replace("/survey/404");
+            return;
           }
+          loader("hide");
         } catch (error) {
           loader("hide");
           console.error("Error fetching survey data:", error.message);
@@ -176,11 +179,12 @@
               ? `background-color: ${customHtml.header_background_color};`
               : `background-image: url('${customHtml.header_background_image}'); background-size: cover;`
           }">
-              ${
-                customHtml.logo !== ""
-                  ? `<img src="${customHtml.logo}" alt="Logo" width="${customHtml.logoWidth}%">`
-                  : ""
-              }
+             ${
+               customHtml.logo !== "" && customHtml.changeLogoToggle
+                 ? `<img src="${customHtml.logo}" style="width: ${customHtml.logoWidth}%;"/>`
+                 : ""
+             }
+
               <h2 style="color: ${customHtml.title_color}; font-weight: 700;">${
           customHtml?.main_heading
         }</h2>
@@ -197,7 +201,7 @@
       `;
 
         const questions = data.data[0].question_data;
-        console.log(questions);
+ 
         questions.forEach((question) => {
           switch (question.type) {
             // Generate survey HTML
@@ -922,7 +926,7 @@
         function validateForm() {
           let isValid = true;
           const formElements = document.querySelectorAll(".notoptional");
-          console.log(formElements);
+ 
 
           // Clear previous error messages
           formElements.forEach((el) => {
@@ -944,7 +948,7 @@
             ) {
               questionType = "matrix";
             }
-            console.log(questionType);
+ 
             let errorMessage = "";
 
             switch (questionType) {
@@ -1183,7 +1187,7 @@
               const errorElement = consent.querySelector(
                 "#error-consentoption"
               );
-              console.log(errorElement);
+ 
 
               // Check if at least one checkbox is checked
               const isAnyChecked = Array.from(consentOptions).some(
@@ -1212,15 +1216,15 @@
         function scrollToFirstError() {
           // Find all elements with the 'error' class
           const errors = document.querySelectorAll(".error-message");
-          console.log(errors);
-          console.log("insise sscrool");
+         
+   
           // Find the first error element that has content
           const firstError = Array.from(errors).find(
             (el) => el.textContent.trim() !== ""
           );
 
           if (firstError) {
-            console.log(firstError);
+       
             // Scroll to the first error element
             firstError.scrollIntoView({ behavior: "smooth", block: "center" });
           }
@@ -1234,7 +1238,7 @@
             const result = validateForm();
 
             if (!result) {
-              console.log("form wrong isvalid");
+            
               scrollToFirstError();
               return;
             }
@@ -1242,7 +1246,7 @@
             const formData = new FormData(
               document.getElementById("survey-form")
             );
-            console.log(formData);
+         
             const obj = {};
 
             formData.forEach((value, key) => {
@@ -1260,7 +1264,7 @@
               }
             });
 
-            console.log(obj);
+      ;
             const responses = [];
 
             questions.forEach((question) => {
@@ -1382,11 +1386,13 @@
                 ...responses, // Spread the existing responses array
               ],
             };
-            console.log(submitPayload);
+ 
 
             try {
               if (localStorage.getItem(`form_surveyid${survey_id}`)) {
-                showToast("Data inserted previously");
+                showToast("You have already submitted the survey");
+                closeModal();
+                document.getElementById("survey-form").reset(); // Reset your form
                 return;
               }
 
@@ -1401,8 +1407,8 @@
                 body: JSON.stringify(submitPayload),
               });
 
-              console.log(submitResponse);
-              console.log(await submitResponse.json());
+              // console.log(submitResponse);
+              // console.log(await submitResponse.json());
 
               if (submitResponse.status == "400") {
                 loader("hide");

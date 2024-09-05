@@ -6,7 +6,7 @@ import QRCode from "qrcode.react";
 
 const SurveySublinkListing = ({ survey_id, render, count }) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  console.log(survey_id);
+ 
 
   const [sectionLoader, setSectionLoader] = useState(false);
   const [subLinkData, setSubLinkData] = useState([]);

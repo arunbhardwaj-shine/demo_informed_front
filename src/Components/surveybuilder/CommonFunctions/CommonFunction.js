@@ -44,7 +44,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           unique_code = res.data.data.unique_code;
           survey_id = res.data.data.survey_id;
         }
-        console.log(res, "from survey Set-up Data");
+ 
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -69,7 +69,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           "/survey/insert-custom-template",
           body
         );
-        console.log("success from formBuilderPage", response);
+   
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -89,7 +89,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           "/survey/survey-config-information",
           body
         );
-        console.log("from surveyconfigpage", response);
+ 
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -106,13 +106,13 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
         return { ...item, survey_id: survey_id };
       });
       const body = data;
-      console.log(body);
+      
       try {
         const response = await surveyAxiosInstance.post(
           "/survey/insert-question-detail",
           body
         );
-        console.log("from question data", response);
+        
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -127,13 +127,13 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       currentPagesData.thanksPageData !== ""
     ) {
       const body = { ...currentPagesData.thanksPageData, survey_id };
-      console.log(body);
+     
       try {
         const response = await surveyAxiosInstance.post(
           "/survey/insert-Final-information",
           body
         );
-        console.log("from surveyThankspage", response);
+     
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -151,15 +151,14 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       route_location: pathname,
       survey_id: survey_id,
     };
-    console.log(body);
+  
 
     const response = await surveyAxiosInstance.post(
       "/survey/survey-draft-information",
       body
     );
 
-    console.log(response, "true");
-    console.log(survey_id, unique_code);
+ 
     if (response) {
       navigate("/survey/survey-list");
     }
@@ -188,10 +187,11 @@ export const uploadImageToServer = async (file) => {
         formData
       );
       if (res) {
-        console.log(res);
+      
         loader("hide");
         return res.data.data;
       }
+      loader('hide')
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
@@ -200,14 +200,14 @@ export const uploadImageToServer = async (file) => {
 };
 
 export const updateLiveFlag = async (survey_id, flag) => {
-  console.log(survey_id, flag);
+ 
   const body = { survey_id: survey_id, status: flag };
   try {
     const response = await surveyAxiosInstance.post(
       "/survey/update-live-flag",
       body
     );
-    console.log("from liveflag", response);
+  
     return true;
   } catch (error) {
     loader("hide");

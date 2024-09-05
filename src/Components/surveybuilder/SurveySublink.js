@@ -93,7 +93,7 @@ const SurveySublink = () => {
         "/survey/fetch-all-survey-title",
         { admin_id: 18207 }
       );
-      console.log(res);
+ 
       let arr = [];
       let codearr = [];
       Object.entries(res?.data?.data).map(([index, item]) => {
@@ -182,8 +182,7 @@ const SurveySublink = () => {
         survey_id: selectedSurveyId,
       });
       const survey_data = res?.data?.data;
-      console.log(res);
-      console.log(survey_data);
+     
 
       if (survey_data.length > 0) {
         setIsData(survey_data[0]);
