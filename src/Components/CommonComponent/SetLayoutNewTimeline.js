@@ -57,8 +57,10 @@ const SetLayoutNewTimeline = () => {
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [dateInputs, setDateInputs] = useState(
     {
-      toDate: new Date(currentDate),
-      fromDate: new Date(defaultDate.setDate(defaultDate.getDate() - 10))
+      // toDate: new Date(currentDate),
+      // fromDate: new Date(defaultDate.setDate(defaultDate.getDate() - 10))
+      toDate: "",
+      fromDate: ""
     }
   )
   useEffect(() => {
@@ -94,7 +96,11 @@ const SetLayoutNewTimeline = () => {
 
     setData(newdata);
     // getTimeLineData(page,loaderFlag)
-    getTimeLineData(dateInputs)
+    let date={
+      toDate: new Date(currentDate),
+      fromDate: new Date(defaultDate.setDate(defaultDate.getDate() - 10))
+    }
+    getTimeLineData(date)
   }, []);
 
   const navigate = useNavigate();
@@ -228,7 +234,8 @@ const SetLayoutNewTimeline = () => {
   }
 
   const handleDateChange = async (e, isSelectedName) => {
-    setDateInputs({ ...dateInputs, [isSelectedName]: e })
+    console.log("e-->",e)
+    setDateInputs({ ...dateInputs, [isSelectedName]:e })
   }
 
   const handleSubmit = async (e) => {
@@ -241,7 +248,7 @@ const SetLayoutNewTimeline = () => {
       page: 1
     })
 
-    getTimeLineData(dateInputs,)
+    getTimeLineData(dateInputs)
   }
 
   return (
@@ -283,12 +290,18 @@ const SetLayoutNewTimeline = () => {
                 <div className="timeline-picker">
                   <Form>
                     <div className="form-group">
-                      <label htmlFor="">From</label>
+                      {/* <label htmlFor="">From</label> */}
                       <DatePicker
+                        // selected={
+                        //   dateInputs?.fromDate
+                        //     ? new Date(dateInputs?.fromDate)
+                        //     : currentDate
+
+                        // }
                         selected={
                           dateInputs?.fromDate
                             ? new Date(dateInputs?.fromDate)
-                            : currentDate
+                            :""
 
                         }
                         name="fromDate"
@@ -296,15 +309,22 @@ const SetLayoutNewTimeline = () => {
                         dateFormat="dd/MM/yyyy"
                         className="form-control"
                         maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
+                        placeholderText="From"
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="">To</label>
+                      {/* <label htmlFor="">To</label> */}
                       <DatePicker
+                        // selected={
+                        //   dateInputs?.toDate
+                        //     ? new Date(dateInputs?.toDate)
+                        //     : currentDate
+
+                        // }
                         selected={
                           dateInputs?.toDate
                             ? new Date(dateInputs?.toDate)
-                            : currentDate
+                            : ""
 
                         }
                         // selected={dateInputs?.fromDate||currentDate}
@@ -314,6 +334,7 @@ const SetLayoutNewTimeline = () => {
                         className="form-control"
                         minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
                       // maxDate={currentDate}
+                      placeholderText="To"
                       />
                     </div>
                     <button
@@ -357,7 +378,7 @@ const SetLayoutNewTimeline = () => {
                             {moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY')}
                             <span> | </span>
                             {moment(loadMore?.lastUpdate).utc().format('h:mm A')}
-                            <sub>last update</sub>
+                             <sub> last update</sub>
                           </p>
                         </div>
                       </div>
