@@ -49,7 +49,8 @@ const SetLayoutNewTimeline = () => {
       isLoadMore: false,
       showLoader: false,
       page: 1,
-      nextDate: null
+      nextDate: null,
+      lastUpdate: null
     })
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -180,7 +181,8 @@ const SetLayoutNewTimeline = () => {
       setLoadMore(prevState => ({
         ...prevState,
         isLoadMore: response?.data?.data?.data?.hasMore ? true : false,
-        nextDate: response?.data?.data?.data?.nextDate
+        nextDate: response?.data?.data?.data?.nextDate,
+        lastUpdate: response?.data?.data?.data?.lastUpdate
       }));
 
     } catch (err) {
@@ -278,54 +280,54 @@ const SetLayoutNewTimeline = () => {
             </div>
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
-                  <div className="timeline-picker">
-                      <Form>
-                          <div className="form-group">
-                            <label htmlFor="">From</label>
-                            <DatePicker
-                              selected={
-                                dateInputs?.fromDate
-                                  ? new Date(dateInputs?.fromDate)
-                                  : currentDate
+                <div className="timeline-picker">
+                  <Form>
+                    <div className="form-group">
+                      <label htmlFor="">From</label>
+                      <DatePicker
+                        selected={
+                          dateInputs?.fromDate
+                            ? new Date(dateInputs?.fromDate)
+                            : currentDate
 
-                              }
-                              name="fromDate"
-                              onChange={(e) => handleDateChange(e, "fromDate")}
-                              dateFormat="dd/MM/yyyy"
-                              className="form-control"
-                              maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
-                            />
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="">To</label>
-                            <DatePicker
-                              selected={
-                                dateInputs?.toDate
-                                  ? new Date(dateInputs?.toDate)
-                                  : currentDate
+                        }
+                        name="fromDate"
+                        onChange={(e) => handleDateChange(e, "fromDate")}
+                        dateFormat="dd/MM/yyyy"
+                        className="form-control"
+                        maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">To</label>
+                      <DatePicker
+                        selected={
+                          dateInputs?.toDate
+                            ? new Date(dateInputs?.toDate)
+                            : currentDate
 
-                              }
-                              // selected={dateInputs?.fromDate||currentDate}
-                              name="toDate"
-                              onChange={(e) => handleDateChange(e, "toDate")}
-                              dateFormat="dd/MM/yyyy"
-                              className="form-control"
-                              minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
-                            // maxDate={currentDate}
-                            />
-                          </div>
-                            <button
-                              type="button"
-                              className="btn btn-primary save btn-filled"
-                              onClick={(e) => {
-                                handleSubmit(e);
-                              }}
-                            >
-                              Go
-                            </button>
-                          
-                      </Form>
-                  </div>
+                        }
+                        // selected={dateInputs?.fromDate||currentDate}
+                        name="toDate"
+                        onChange={(e) => handleDateChange(e, "toDate")}
+                        dateFormat="dd/MM/yyyy"
+                        className="form-control"
+                        minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
+                      // maxDate={currentDate}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-primary save btn-filled"
+                      onClick={(e) => {
+                        handleSubmit(e);
+                      }}
+                    >
+                      Go
+                    </button>
+
+                  </Form>
+                </div>
                 {!apiStatus ?
                   (
                     <div className="accordion-loader">
@@ -344,34 +346,27 @@ const SetLayoutNewTimeline = () => {
                   ) :
                   timelineData?.length ?
                     <div className="timeline-right-list">
-                      
                       <div className="timeline-right-header">
                         <div className="timeline-indicator">
                           <img src={path_image + "informed-circle-icon.svg"} alt="" />
                         </div>
                         <div className="timeline-date">
                           <h3>LEX-210 Trial</h3>
-                          {/* <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p> */}
-                          {/* <p>{moment(timelineData?.[0]?.IrtData?.[0]?.date).format('MMMM. DD. YYYY')} <span>|</span> {formatTime(timelineData?.[0]?.IrtData?.[0]?.time)}  <sub>last update</sub></p> */}
-                          <p>{moment(timelineData?.[0]?.updateDate).utc().format('MMMM. DD YYYY | h:mm A')}  <sub>last update</sub></p>
-                          
+                          <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD YYYY | h:mm A')}  <sub>last update</sub></p>
                         </div>
                       </div>
-
-                          <div className="timeline-box">
-                      {timelineData?.map((data, index) => {
-                        return (<>
+                      <div className="timeline-box">
+                        {timelineData?.map((data, index) => {
+                          return (<>
                             <div className="timeline-sticky">
                               <div className="timeline-indicator">
                                 <span>&nbsp;</span>
                               </div>
                               <div className="timeline-date">
-                                {/* <p>{data?.date}</p> */}
                                 <p>{moment(data?.date).format('MMM DD. YYYY')}</p>
                               </div>
                             </div>
                             {data?.IrtData?.map((item, i) => {
-
                               return (<>
                                 {(item?.auto_mail == 1 || item?.auto_mail == 2)
                                   ?
@@ -464,7 +459,6 @@ const SetLayoutNewTimeline = () => {
                                           </div>
                                         </div>
                                       </div>
-
                                     </div>
                                     : item?.action?.includes('Article opened')
                                       ?
@@ -484,27 +478,27 @@ const SetLayoutNewTimeline = () => {
                                               <div className="timeline-article-image">
                                                 {/* <img src={path_image + "article-open-cover.png"} alt="" /> */}
                                                 {item?.file_type ===
-                                                            "video"? <img
-                                                            src={
-                                                              path_image +
-                                                              "lex-video-cover.png"
-                                                            }
-                                                            alt=""
-                                                          />:item?.file_type=="ebook"?
-                                                          <img
-                                                          src={
-                                                            path_image +                                                            
-                                                            "lex-book-cover.png"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                          :<img
-                                                          src={
-                                                            path_image +
-                                                            "article-open-cover.png"
-                                                          }
-                                                          alt=""
-                                                        /> }
+                                                  "video" ? <img
+                                                  src={
+                                                    path_image +
+                                                    "lex-video-cover.png"
+                                                  }
+                                                  alt=""
+                                                /> : item?.file_type == "ebook" ?
+                                                  <img
+                                                    src={
+                                                      path_image +
+                                                      "lex-book-cover.png"
+                                                    }
+                                                    alt=""
+                                                  />
+                                                  : <img
+                                                    src={
+                                                      path_image +
+                                                      "article-open-cover.png"
+                                                    }
+                                                    alt=""
+                                                  />}
                                               </div>
                                               <div className="timeline-article-detail">
                                                 <div className="timeline-title">
@@ -576,7 +570,7 @@ const SetLayoutNewTimeline = () => {
                                                             : userProfile?.name
                                                         }
                                                         </p>
-                                                        <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
+                                                        <p>{userProfile?.user_type != 0 ? userProfile?.user_type : "N/A"}</p>
                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                       </div>
                                                     ) : null
@@ -1063,10 +1057,10 @@ const SetLayoutNewTimeline = () => {
                                 }
                               </>)
                             })}
-                        </>)
-                      })
-                    }
-                          </div>
+                          </>)
+                        })
+                        }
+                      </div>
 
                       {
                         !loadMore?.showLoader ?
