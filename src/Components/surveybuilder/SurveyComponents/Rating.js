@@ -47,7 +47,7 @@ function Rating({ item, index,handleExtraAndStyle }) {
                     // onChange={selectedOption => handleInputChange({ target: { name: 'scaleStyle', value: selectedOption.value } })}
                     />
                 </Form.Group>
-                {item.ratingType === "stars" && <Form.Group>
+                {item.extra.ratingType === "stars" && <Form.Group>
                     <Form.Label>Color</Form.Label>
                     <div className="color-picker">
                         <div className="color-pick">
@@ -67,7 +67,6 @@ function Rating({ item, index,handleExtraAndStyle }) {
                         </svg>
                     </div>
                 </Form.Group>}
-
             </Row>
 
             <Form.Group>
