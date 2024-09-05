@@ -792,6 +792,9 @@ width: 100%;
 } */
 #thanks-modal .survey-thanks {
 padding: 0 0 30px;
+max-height: 440px;
+overflow-y: auto;
+height: 100%;
 }
 
 #thanks-modal .modal-body .thanks-text p {
