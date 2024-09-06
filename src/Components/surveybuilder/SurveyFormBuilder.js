@@ -1553,7 +1553,7 @@ const SurveyFormBuilder = (props) => {
   const survey_id = surveyValues?.survey_id;
   const navigate = useNavigate();
   let customHtmlData = surveyValues?.formBuilderData?.custom_html[0];
-  console.log(customHtmlData);
+  // console.log(customHtmlData);
   //edit portion
   const [customHtml, setCustomHtml] = useState({});
   const [dynamicValues, setDynamicValues] = useState({});
@@ -1573,6 +1573,54 @@ const SurveyFormBuilder = (props) => {
   const [error, setError] = useState({});
   const [savednewCustomTempflag, setsavednewCustomTempflag] = useState(0);
 
+
+
+const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
+
+  if (customHtmlData && Object.keys(customHtmlData).length > 0) {
+    console.log("inside form ");
+    if (!saveNewTemplate) {
+      console.log("updeuyddewqjbdwcwecdc")
+      const updatedData = updatedTemp.map((template) => {
+    console.log(surveyValues?.formBuilderData?.template_id)
+    console.log(template.id)
+
+        if (surveyValues?.formBuilderData?.template_id == template.id) {
+          console.log("inside selected")
+          return { ...template, default_values: customHtmlData };
+        } else {
+          console.log("inside simpele")
+          let updatedcustomhtmldata = {         
+            ...customHtmlData,
+            header_background_image:
+              template.default_values.header_background_image,
+            header_background_type:
+              template.default_values.header_background_type,
+            header_background_color:
+              template.default_values.header_background_color,
+              template_name: template.default_values.template_name,
+          };
+          return { ...template, default_values: updatedcustomhtmldata };
+        }
+      });
+      setTemplates(updatedData);
+      setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
+      setUserMadeChanges(true);
+      customHtmlData=""
+      // setCustomHtml(customHtmlData ?? {});
+    }
+  } else {
+    setTemplates(updatedTemp);
+    if (saveNewTemplate != 2 && !saveNewTemplate) {
+      setSelectedTemplateId(1);
+    }
+  }
+
+}
+
+
+
+
   const fetchTemplate = async (saveNewTemplate) => {
     try {
       loader("show");
@@ -1582,6 +1630,8 @@ const SurveyFormBuilder = (props) => {
         "/survey/fetch-saved-template",
         body
       );
+
+      console.log(response.status)
 
       if (response.status == 200) {
         var customTemplates = [];
@@ -1597,41 +1647,7 @@ const SurveyFormBuilder = (props) => {
           });
         }
         const updatedTemp = [...SurveyTemplates, ...customTemplates];
-        console.log(customHtmlData)
-
-        if (customHtmlData && Object.keys(customHtmlData).length > 0) {
-          console.log("inside form ");
-          if (!saveNewTemplate) {
-            const updatedData = updatedTemp.map((template) => {
-          
-              if (surveyValues?.formBuilderData?.template_id == template.id) {
-                console.log("inside selected")
-                return { ...template, default_values: customHtmlData };
-              } else {
-                console.log("inside simpele")
-                let updatedcustomhtmldata = {         
-                  ...customHtmlData,
-                  header_background_image:
-                    template.default_values.header_background_image,
-                  header_background_type:
-                    template.default_values.header_background_type,
-                  header_background_color:
-                    template.default_values.header_background_color,
-                };
-                return { ...template, default_values: updatedcustomhtmldata };
-              }
-            });
-            setTemplates(updatedData);
-            setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
-            setUserMadeChanges(true);
-            // setCustomHtml(customHtmlData ?? {});
-          }
-        } else {
-          setTemplates(updatedTemp);
-          if (saveNewTemplate != 2 && !saveNewTemplate) {
-            setSelectedTemplateId(1);
-          }
-        }
+        updateTemplatesData(updatedTemp,saveNewTemplate)
       }
       if (!header_background_type) {
         setHeaderBackgroundType("color");
@@ -1639,7 +1655,6 @@ const SurveyFormBuilder = (props) => {
       if (saveNewTemplate) {
         setsavednewCustomTempflag(1);
       }
-
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -1868,6 +1883,8 @@ const SurveyFormBuilder = (props) => {
           "/survey/delete-survey-template",
           body
         );
+        console.log(response)
+
         if (selectedTemplateId == id) {
           const storedData = localStorage.getItem("getSurveyData");
           const data = JSON.parse(storedData);
@@ -1893,8 +1910,8 @@ const SurveyFormBuilder = (props) => {
       }
     } catch (error) {
       loader("hide");
-      toast.error("Something went wrong")
-      console.log("Something went wrong");
+      toast.error(error.response.data.message)
+      console.log("Something went wrong", error);
     }
   };
 
