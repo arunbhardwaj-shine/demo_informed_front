@@ -110,17 +110,7 @@ const RenderOptions = ({
       );
     case "dropdown":
       return (
-        //     <Select
-        //       className="dropdown-basic-button split-button-dropup"
-        //       placeholder={item.extra.placeholder}
-        //       name={`dropdown-${index}`}
-        //       options={item.answer.map((option, optIndex) => ({
-        //         value: option.value,
-        //         label: option.value,
-        //         key: optIndex,
-        //       }))}
-        //     />
-        //   );
+      
         <Select
           className="dropdown-basic-button split-button-dropup"
           placeholder={item.extra.placeholder}
