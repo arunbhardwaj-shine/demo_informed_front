@@ -28,8 +28,7 @@ export const menuType = {
     extra: {
       otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
-      addAllOfTheAbove: false,
-      allOfTheAboveLabel: "All of the above",
+      
     },
   },
   checkbox: {
@@ -52,7 +51,8 @@ export const menuType = {
     extra: {
       otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
-      
+      addAllOfTheAbove: false,
+      allOfTheAboveLabel: "All of the above",
     },
   },
   dropdown: {

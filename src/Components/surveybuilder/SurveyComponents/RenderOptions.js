@@ -13,10 +13,61 @@ const RenderOptions = ({
     color: style.color,
   });
 
+  const [checkedOptions, setCheckedOptions] = useState({});
+
+
+  const handleAllOftheAboveChange = (questionNo) => {
+    // Select all checkboxes with the given questionNo
+    const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${questionNo}"]`);
+    const checkboxesArray = Array.from(checkboxes);
+  
+    // Find the "All of the Above" checkbox
+    const allOfTheAboveCheckbox = checkboxesArray.find(checkbox => checkbox.value === "allOfTheAbove");
+  
+    if (allOfTheAboveCheckbox ) {
+      const isChecked = allOfTheAboveCheckbox.checked;
+  
+      if (isChecked) {
+        // If "All of the Above" is checked, check all other checkboxes except the last one
+        checkboxesArray.forEach((checkbox, index) => {
+          if (checkbox.value !== "allOfTheAbove" && index < checkboxesArray.length - 1) {
+            checkbox.checked = true;
+          }
+        });
+      } else {
+        // If "All of the Above" is not checked, uncheck all checkboxes except the last one
+        checkboxesArray.forEach((checkbox, index) => {
+          if (checkbox.value !== "allOfTheAbove" && index < checkboxesArray.length - 1) {
+            checkbox.checked = false;
+          }
+        });
+      }
+  
+      console.log("Checkbox with value 'allOfTheAbove' is checked:", isChecked);
+    } else {
+      console.log("No checkbox with value 'allOfTheAbove' found.");
+    }
+  };
+  
 
 
   const renderOption = (option, optIndex, type) => {
-    
+
+    if(type === "checkbox" && optIndex === "allOfTheAbove"){
+      return (
+        <label style={{ color: optionColor }} key={optIndex} className="check">
+          {option}
+          <input
+            type={type}
+            name={item.questionNo}
+            value={optIndex}
+            disabled={!isEdit}
+            onClick={()=> handleAllOftheAboveChange(item.questionNo)}
+          />
+          <span className="checkmark"></span>
+        </label>
+      ); 
+    }else{
       return (
         <label style={{ color: optionColor }} key={optIndex} className="check">
           {option}
@@ -24,12 +75,14 @@ const RenderOptions = ({
             type={type}
             name={item.questionNo}
             disabled={!isEdit}
-          
           />
           <span className="checkmark"></span>
         </label>
-      );
+      ); 
+
+    }
     
+     
   };
 
   switch (item.type) {
@@ -39,15 +92,7 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "radio")
           )}
-          {item.extra.addAllOfTheAbove && (
-            <>
-              {renderOption(
-                item.extra.allOfTheAboveLabel,
-                "allOfTheAbove",
-                "radio"
-              )}
-            </>
-          )}
+         
           {item.addOtherChoice ? (
             <>
               {renderOption(item.extra.otherChoiceLabel, "other", "radio")}
@@ -80,6 +125,15 @@ const RenderOptions = ({
         <>
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "checkbox")
+          )}
+           {item.extra.addAllOfTheAbove && (
+            <>
+              {renderOption(
+                item.extra.allOfTheAboveLabel,
+                "allOfTheAbove",
+                "checkbox"
+              )}
+            </>
           )}
           {item.addOtherChoice ? (
             <>
