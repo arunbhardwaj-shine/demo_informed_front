@@ -1863,7 +1863,7 @@ const SurveyFormBuilder = (props) => {
     try {
       loader("show");
       if (id) {
-        const body = { account_id: 18207, template_id: id, delete_status: 1 };
+        const body = { template_id: id, delete_status: 1, survey_id:survey_id ?? 0};
         const response = await surveyAxiosInstance.post(
           "/survey/delete-survey-template",
           body
@@ -2166,7 +2166,7 @@ const SurveyFormBuilder = (props) => {
           "/survey/insert-custom-template",
           {
             ...body,
-            survey_id: 0,
+            survey_id:  0,
             raw_html: originalSelectedTemplate.template_html,
             preview_thumbnail: imgData,
             template_uniquecode:

@@ -524,6 +524,7 @@ span {
 
                             .row {
                                 div {
+                                    
                                     &:first-child {
                                         border: 0;
                                     }
@@ -623,9 +624,9 @@ span {
 
                             &>div {
                                 width: auto;
-
+                                padding:0 8px;
                                 &:first-child {
-                                    width: 112px;
+                                    width: 104px;
                                 }
 
                                 &:nth-child(2) {
@@ -639,8 +640,23 @@ span {
                                 }
 
                                 &.scale-style {
-                                    width: 152px;
+                                    width: 136px;
                                     flex: 0 0 auto;
+                                    .split-button-dropup{
+                                        &> div{
+                                            &:nth-child(3){
+                                                &> div {
+                                                    padding-right: 0;
+                                                }
+                                            } 
+                                        }
+                                    } 
+                                }
+                                &.color-style{
+                                    flex:0 0 auto;
+                                    .color-picker{
+                                        gap:12px;
+                                    }
                                 }
                             }
                         }
@@ -2303,21 +2319,26 @@ span {
                         display: none;
                         height: 100%;
                         width: 100%;
-
+                       
                         &:checked~label {
                             svg {
                                 path {
-                                    fill: #FAC755;
+                                    fill: inherit;
+                                    fill-opacity: 1;
                                 }
                             }
                         }
                     }
 
                     label {
+                        svg{
+                            fill-opacity: 0;
+                        }
                         &:hover {
                             svg {
                                 path {
-                                    fill: #FAC755;
+                                    fill: inherit;
+                                    fill-opacity: 1;
                                 }
 
                                 cursor:pointer;
@@ -2327,7 +2348,8 @@ span {
                             &~label {
                                 svg {
                                     path {
-                                        fill: #FAC755;
+                                        fill: inherit;
+                                        fill-opacity: 1;
                                     }
                                 }
 

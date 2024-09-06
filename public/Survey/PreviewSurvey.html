@@ -91,7 +91,6 @@
           return;
         }
         if (data === "show") {
- 
           element.classList.add("show");
         } else if (data === "hide") {
           element.classList.remove("show");
@@ -119,8 +118,62 @@
         }
       }
 
+      const handleAllOfTheAboveChange = (questionNo) => {
+    // Select all checkboxes with the given questionNo
+    const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="question${questionNo}"]`);
+    const checkboxesArray = Array.from(checkboxes);
+  
+    // Find the "All of the Above" checkbox
+    const allOfTheAboveCheckbox = checkboxesArray.find(checkbox => checkbox.id === "allofTheAbovedata");
+ 
+  
+    // Identify the last checkbox in the array
+    const lastCheckbox = checkboxesArray[checkboxesArray.length - 1];
+  
+    if (allOfTheAboveCheckbox) {
+      const isAllOfTheAboveChecked = allOfTheAboveCheckbox.checked;
+  
+      // Check or uncheck all checkboxes above it (excluding "All of the Above" and the last checkbox)
+      checkboxesArray.forEach((checkbox) => {
+        if (checkbox !== allOfTheAboveCheckbox && checkbox !== lastCheckbox) {
+          checkbox.checked = isAllOfTheAboveChecked;
+        }
+      });
+    }
+  };
+
+
+
+  
+  const handleIndividualCheckboxChange = (questionNo) => {
+    // Select all checkboxes with the given questionNo
+    const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="question${questionNo}"]`);
+    const checkboxesArray = Array.from(checkboxes);
+    
+ 
+
+    // Find the "All of the Above" checkbox
+    const allOfTheAboveCheckbox = checkboxesArray.find(checkbox => checkbox.id === "allofTheAbovedata");
+ 
+
+    // Identify the last checkbox in the array
+    const lastCheckbox = checkboxesArray[checkboxesArray.length - 1];
+ 
+
+    // Check if all other checkboxes (excluding the last one) are checked
+    const allOtherChecked = checkboxesArray
+      .filter(checkbox => checkbox !== allOfTheAboveCheckbox && checkbox !== lastCheckbox)
+      .every(checkbox => checkbox.checked);
+ 
+
+    // Uncheck "All of the Above" if not all other checkboxes are checked
+    if (allOfTheAboveCheckbox) {
+      allOfTheAboveCheckbox.checked = allOtherChecked;
+    }
+}
+
+
       document.addEventListener("DOMContentLoaded", async function () {
-   
         const Utmde = getQueryParam("Utmde");
 
         if (!Utmde) {
@@ -128,8 +181,7 @@
           return;
         }
 
-        const apiUrl =
-          "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: "0",
@@ -146,29 +198,31 @@
             body: JSON.stringify(payload),
           });
           data = await response.json();
-          console.log(data)
+          console.log(data);
 
-          if (data.status == "success") {
-            if (data && data.data && data.data[0] && data.data[0].survey_info) {
-             
-              if (data.data[0].survey_info.is_draft === 2) {
-                window.location.replace("/survey/404");
-                return;
-              }
+          if (data.status == 200 ) {
+            if (data.data[0].survey_info.is_draft === 2) {
+              window.location.replace("/survey/404");
+              return;
             }
-          
-          } else {
+            data.data[0].survey_info.id;
+            JSON.parse(data.data[0].survey_info.custom_html)[0];
+          } else if (data.status == 400 && data.data[0].question_data.length == 0) {
             loader("hide");
             window.location.replace("/survey/404");
+            return;
+          } else if (data.status === 204 && data.data[0].question_data.length == 0) {
+            loader("hide");
+            console.error("survey data not avaliable");
             return;
           }
           loader("hide");
         } catch (error) {
           loader("hide");
-          console.error("Error fetching survey data:", error.message);
-          document.getElementById(
-            "survey-container"
-          ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
+          console.log("Error fetching survey data:", error.message);
+
+          window.location.replace("/survey/404");
+
           return;
         }
         const survey_id = data.data[0].survey_info.id;
@@ -201,7 +255,7 @@
       `;
 
         const questions = data.data[0].question_data;
- 
+
         questions.forEach((question) => {
           switch (question.type) {
             // Generate survey HTML
@@ -239,23 +293,7 @@
                   </label>`;
               });
 
-              // Add the "All of the above" option if applicable
-              if (question.extra.addAllOfTheAbove) {
-                surveyHtml += `
-                  <label class="check" style="color: ${
-                    customHtml.question_answer_color
-                  };">
-                      <input type="radio" name="question${
-                        question.questionId
-                      }" value="${question.extra.allOfTheAboveLabel}"
-                          ${question.isOptional ? "" : "required"}
-                          onclick="handleRadioClick(${
-                            question.questionId
-                          }, this.value);" />
-                      ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark"></span><br>
-                  </label>`;
-              }
+            
 
               // Add the "Other" choice with its text input
               if (question.addOtherChoice) {
@@ -308,15 +346,33 @@
                 <label class="check" style="color: ${
                   customHtml.question_answer_color
                 };">
-                    <input type="checkbox" name="question${
-                      question.questionId
-                    }" value="${answer.answerId}" ${
-                  question.isOptional ? "" : "required"
-                }"/>
+                    <input type="checkbox" name="question${question.questionId}" value="${answer.answerId}"
+                ${question.isOptional ? "" : "required"}
+                id="checkbox-${question.questionId}-${answer.answerId}"
+                onclick="handleIndividualCheckboxChange(${question.questionId});" />
                     ${answer.value}
                     <span class="checkmark"></span>
                 </label>`;
               });
+                // Add the "All of the above" option if applicable
+                if (question.extra.addAllOfTheAbove) {
+                surveyHtml += `
+                  <label class="check" style="color: ${
+                    customHtml.question_answer_color
+                  };">
+                      <input type="checkbox" name="question${
+                        question.questionId
+                      }" 
+                      id="allofTheAbovedata"
+                      value="${question.extra.allOfTheAboveLabel}"
+                          ${question.isOptional ? "" : "required"}
+                          onclick="handleAllOfTheAboveChange(${
+                            question.questionId
+                          }, this.value);" />
+                      ${question.extra.allOfTheAboveLabel}
+                      <span class="checkmark"></span><br>
+                  </label>`;
+              }
               if (question.addOtherChoice) {
                 surveyHtml += `
               <label class="check" style="color: ${
@@ -926,7 +982,6 @@
         function validateForm() {
           let isValid = true;
           const formElements = document.querySelectorAll(".notoptional");
- 
 
           // Clear previous error messages
           formElements.forEach((el) => {
@@ -948,7 +1003,7 @@
             ) {
               questionType = "matrix";
             }
- 
+
             let errorMessage = "";
 
             switch (questionType) {
@@ -1187,7 +1242,6 @@
               const errorElement = consent.querySelector(
                 "#error-consentoption"
               );
- 
 
               // Check if at least one checkbox is checked
               const isAnyChecked = Array.from(consentOptions).some(
@@ -1216,15 +1270,13 @@
         function scrollToFirstError() {
           // Find all elements with the 'error' class
           const errors = document.querySelectorAll(".error-message");
-         
-   
+
           // Find the first error element that has content
           const firstError = Array.from(errors).find(
             (el) => el.textContent.trim() !== ""
           );
 
           if (firstError) {
-       
             // Scroll to the first error element
             firstError.scrollIntoView({ behavior: "smooth", block: "center" });
           }
@@ -1238,7 +1290,6 @@
             const result = validateForm();
 
             if (!result) {
-            
               scrollToFirstError();
               return;
             }
@@ -1246,7 +1297,7 @@
             const formData = new FormData(
               document.getElementById("survey-form")
             );
-         
+
             const obj = {};
 
             formData.forEach((value, key) => {
@@ -1264,7 +1315,6 @@
               }
             });
 
-      ;
             const responses = [];
 
             questions.forEach((question) => {
@@ -1386,7 +1436,6 @@
                 ...responses, // Spread the existing responses array
               ],
             };
- 
 
             try {
               if (localStorage.getItem(`form_surveyid${survey_id}`)) {
@@ -1398,7 +1447,7 @@
 
               loader("show");
               const submitApiUrl =
-                "https://informedback.shinedezign.pro/survey/insert-user-responses";
+                "http://192.168.0.231:3001/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {

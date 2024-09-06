@@ -47,7 +47,7 @@ function Rating({ item, index,handleExtraAndStyle }) {
                     // onChange={selectedOption => handleInputChange({ target: { name: 'scaleStyle', value: selectedOption.value } })}
                     />
                 </Form.Group>
-                {item.extra.ratingType === "stars" && <Form.Group>
+                {item.extra.ratingType === "stars" && <Form.Group className='color-style'>
                     <Form.Label>Color</Form.Label>
                     <div className="color-picker">
                         <div className="color-pick">
@@ -62,7 +62,7 @@ function Rating({ item, index,handleExtraAndStyle }) {
                                 onChange={(e) =>handleExtraAndStyle(index,e.target.value, "ratingColor","extra" )}
                             />
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={item.extra.ratingColor}>
                             <path d="M11.1954 0.560521C11.4944 -0.187166 12.5056 -0.187166 12.8046 0.560521L15.5034 7.31035C15.6292 7.6249 15.9117 7.83991 16.2361 7.86801L23.1983 8.47091C23.9695 8.5377 24.282 9.5452 23.6956 10.0741L18.4014 14.8486C18.1546 15.0711 18.0467 15.419 18.1215 15.7509L19.7255 22.8734C19.9032 23.6623 19.0851 24.285 18.4237 23.8642L12.4529 20.0652C12.1746 19.8881 11.8254 19.8881 11.5472 20.0652L5.57632 23.8642C4.91492 24.285 4.09678 23.6623 4.27446 22.8734L5.87852 15.7509C5.95327 15.419 5.84536 15.0711 5.59864 14.8486L0.304406 10.0741C-0.282043 9.5452 0.0304618 8.5377 0.801672 8.47091L7.76386 7.86801C8.08831 7.83991 8.37082 7.6249 8.49659 7.31035L11.1954 0.560521Z" fill={item.extra.color} />
                         </svg>
                     </div>
