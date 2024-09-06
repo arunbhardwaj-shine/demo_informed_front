@@ -202,6 +202,7 @@ const RenderOptions = ({
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
+                      // fill="white"
                       fill={item.extra.ratingColor}
                     >
                       <g clipPath="url(#clip0_1228_31957)">
