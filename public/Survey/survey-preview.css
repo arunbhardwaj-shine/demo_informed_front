@@ -707,7 +707,7 @@ color: var(--white)!important;
 .rating-stars label.rating-option:hover ~ label svg path,
 .rating-stars input:checked ~ label svg path,
 .rating-stars label.rating-option:hover svg path {
-  fill: #fac755 !important;
+  fill: inherit !important;
 }
 
 /* .modal.fade .modal-dialog {
