@@ -54,15 +54,13 @@ const SetLayoutNewTimeline = () => {
     })
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [defaultDate, setDefaultDate] = useState(new Date());
   const [dateInputs, setDateInputs] = useState(
     {
-      // toDate: new Date(currentDate),
-      // fromDate: new Date(defaultDate.setDate(defaultDate.getDate() - 10))
       toDate: "",
       fromDate: ""
     }
   )
+  const [error, setError] = useState({})
   useEffect(() => {
     let newdata = [...dummyData];
     if (localStorage.getItem("group_id") == 2) {
@@ -95,12 +93,7 @@ const SetLayoutNewTimeline = () => {
     }
 
     setData(newdata);
-    // getTimeLineData(page,loaderFlag)
-    let date={
-      toDate: new Date(currentDate),
-      fromDate: new Date(defaultDate.setDate(defaultDate.getDate() - 10))
-    }
-    getTimeLineData(date)
+    getTimeLineData()
   }, []);
 
   const navigate = useNavigate();
@@ -174,9 +167,7 @@ const SetLayoutNewTimeline = () => {
   const isAuthenticated = localStorage.getItem("user_id") !== null;
 
   const getTimeLineData = async (date, page = 1, loaderFlag = 0) => {
-
     try {
-
       if (loaderFlag == 0) {
         setSectionLoader(true);
       }
@@ -190,18 +181,16 @@ const SetLayoutNewTimeline = () => {
         nextDate: response?.data?.data?.data?.nextDate,
         lastUpdate: response?.data?.data?.data?.lastUpdate
       }));
-
     } catch (err) {
       console.log("--err", err)
-
     } finally {
+      setError({})
       setApiStatus(true)
       setSectionLoader(false)
       setLoadMore(prevState => ({
         ...prevState,
         showLoader: false,
       }));
-
     }
   }
 
@@ -209,20 +198,17 @@ const SetLayoutNewTimeline = () => {
     const [hours, minutes] = time.split(':');
     const date = new Date();
     date.setHours(hours, minutes);
-
     let hours12 = date.getHours() == 12 ? 12 : date.getHours() % 12 || "00";
     let minutesFormatted = date.getMinutes().toString().padStart(2, '0');
-
     let ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-
     return `${hours12}:${minutesFormatted} ${ampm}`;
   }
+
   const handleLoadMore = async () => {
     let newPage = loadMore?.page + 1
-
     let dateRange = {
-      toDate: loadMore?.nextDate,
-      fromDate: dateInputs?.fromDate
+      toDate: loadMore?.nextDate ? loadMore?.nextDate : "",
+      fromDate: dateInputs?.fromDate ? dateInputs?.fromDate : ""
     }
     setLoadMore(prevState => ({
       ...prevState,
@@ -230,25 +216,56 @@ const SetLayoutNewTimeline = () => {
       page: newPage
     }));
     getTimeLineData(dateRange, newPage, 1)
-
   }
 
   const handleDateChange = async (e, isSelectedName) => {
-    console.log("e-->",e)
-    setDateInputs({ ...dateInputs, [isSelectedName]:e })
+    // Combine the selected date with the current time
+    const dateWithCurrentTime = new Date(
+      e.getFullYear(),
+      e.getMonth(),
+      e.getDate(),
+      currentDate.getHours(),
+      currentDate.getMinutes(),
+      currentDate.getSeconds()
+    );
+    setDateInputs({ ...dateInputs, [isSelectedName]: dateWithCurrentTime })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let error = {}
+    if (dateInputs?.fromDate == "" || dateInputs?.toDate == "") {
+      error.fromDate = "Please select the date"
+      setError(error)
+      return
+    }
+    else {
+      setTimelineData([])
+      setApiStatus(false)
+      setLoadMore({
+        isLoadMore: false,
+        showLoader: false,
+        page: 1,
+        nextDate: null,
+        lastUpdate: null
+      })
+      getTimeLineData(dateInputs)
+    }
+  }
+
+  const clearDateFilter = async (e) => {
+    e.preventDefault();
+    setDateInputs({ toDate: "", fromDate: "" })
     setTimelineData([])
     setApiStatus(false)
     setLoadMore({
       isLoadMore: false,
       showLoader: false,
-      page: 1
+      page: 1,
+      nextDate: null,
+      lastUpdate: null
     })
-
-    getTimeLineData(dateInputs)
+    getTimeLineData()
   }
 
   return (
@@ -292,17 +309,10 @@ const SetLayoutNewTimeline = () => {
                     <div className="form-group">
                       {/* <label htmlFor="">From</label> */}
                       <DatePicker
-                        // selected={
-                        //   dateInputs?.fromDate
-                        //     ? new Date(dateInputs?.fromDate)
-                        //     : currentDate
-
-                        // }
                         selected={
                           dateInputs?.fromDate
                             ? new Date(dateInputs?.fromDate)
-                            :""
-
+                            : ""
                         }
                         name="fromDate"
                         onChange={(e) => handleDateChange(e, "fromDate")}
@@ -311,42 +321,53 @@ const SetLayoutNewTimeline = () => {
                         maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
                         placeholderText="From"
                       />
+
                     </div>
                     <div className="form-group">
                       {/* <label htmlFor="">To</label> */}
                       <DatePicker
-                        // selected={
-                        //   dateInputs?.toDate
-                        //     ? new Date(dateInputs?.toDate)
-                        //     : currentDate
-
-                        // }
                         selected={
                           dateInputs?.toDate
                             ? new Date(dateInputs?.toDate)
                             : ""
-
                         }
-                        // selected={dateInputs?.fromDate||currentDate}
                         name="toDate"
                         onChange={(e) => handleDateChange(e, "toDate")}
                         dateFormat="dd/MM/yyyy"
                         className="form-control"
                         minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
-                      // maxDate={currentDate}
-                      placeholderText="To"
+                        maxDate={currentDate}
+                        placeholderText="To"
                       />
+                      {error?.toDate ? (
+                        <div className="login-validation">
+                          {error?.toDate}
+                        </div>
+                      ) : null}
                     </div>
                     <button
                       type="button"
-                      className="btn btn-primary save btn-filled"
+                      className="btn btn-primary btn-filled"
                       onClick={(e) => {
                         handleSubmit(e);
                       }}
                     >
                       Go
                     </button>
-
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-bordered"
+                      onClick={(e) => {
+                        clearDateFilter(e);
+                      }}
+                    >
+                      Clear
+                    </button>
+                    {error?.fromDate ? (
+                      <div className="login-validation">
+                        {error?.fromDate}
+                      </div>
+                    ) : null}
                   </Form>
                 </div>
                 {!apiStatus ?
@@ -378,7 +399,7 @@ const SetLayoutNewTimeline = () => {
                             {moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY')}
                             <span> | </span>
                             {moment(loadMore?.lastUpdate).utc().format('h:mm A')}
-                             <sub> last update</sub>
+                            <sub> last update</sub>
                           </p>
                         </div>
                       </div>

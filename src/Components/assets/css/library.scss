@@ -1137,7 +1137,7 @@
 
       .timeline-right-list {
         .timeline-right-header {
-          top: 54px;
+          top: 51px;
           padding: 10px 0 0;
         }
 
@@ -1261,6 +1261,9 @@
       form {
         display: flex;
         gap: 10px;
+        max-width: 380px;
+        width: 100%;
+        position: relative;
 
         .form-group {
           label {
@@ -1270,19 +1273,28 @@
           }
 
           .react-datepicker-wrapper {
-            max-width: 130px;
+            max-width: 105px;
 
             input {
               cursor: pointer;
-              color: #0066BE;
-              font-size: 14px;
+              color: $dark-blue;
+              font-size: 13px;
+              border-radius: 25px;
             }
           }
         }
 
         button {
-          font-size: 14px;
-          padding: 7px 10px;
+          font-size: 13px;
+          padding: 7px 7px;
+          min-width: 70px;
+        }
+          .login-validation {
+            font-size: 12px;
+            left: 10px;
+            right:auto;
+            top:auto;
+            bottom: -20px;
         }
       }
     }
@@ -1621,7 +1633,7 @@
         position: relative;
         padding: 28px 0 18px;
         position: sticky;
-        top: 111px;
+        top: 108px;
         background: #fbfcfd;
         z-index: 4;
 
@@ -25926,6 +25938,13 @@ table {
     min-width: 340px;
     max-width: 340px;
   }
+  .latest-home{
+    .timeline-layout{
+      .timeline-layout-inset {
+        padding: 0 40px 10px 0;
+    }
+    } 
+  } 
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
