@@ -1893,6 +1893,7 @@ const SurveyFormBuilder = (props) => {
       }
     } catch (error) {
       loader("hide");
+      toast.error("Something went wrong")
       console.log("Something went wrong");
     }
   };
