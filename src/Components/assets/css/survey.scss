@@ -523,6 +523,9 @@ span {
                             }
 
                             .row {
+                                .form-label{
+                                    margin-right:0;
+                                }
                                 div {
                                     
                                     &:first-child {
@@ -540,9 +543,12 @@ span {
                                             }
                                         }
                                         &>div:nth-child(4){
+                                            background-color: $white;
                                             &>div{
                                                 div {
+                                                    color: $primary-color;
                                                     text-align: left;
+                                                    font-size: 13px;padding:6px 6px 6px 12px;
                                                   }
                                             } 
                                         }
@@ -647,6 +653,7 @@ span {
                                             &:nth-child(3){
                                                 &> div {
                                                     padding-right: 0;
+                                                    padding-left: 4px;
                                                 }
                                             } 
                                         }
@@ -658,6 +665,61 @@ span {
                                         gap:12px;
                                     }
                                 }
+                            }
+                            @media (max-width:1699px){
+                                &>div {
+                                &:first-child {
+                                    width: 95px;
+                                }
+                                &.scale-style {
+                                    width: 122px;
+                                    .split-button-dropup{
+                                        &> div{
+                                            &:nth-child(3){
+                                                padding:5px 30px 5px 10px;
+                                            } 
+                                        }
+                                    } 
+                                } 
+                             }
+                            }
+                            @media (max-width:1500px){
+                                &>div {
+                                &:first-child {
+                                    width: 88px;
+                                }
+                                &.scale-style {
+                                    width: 118px;
+                                    .split-button-dropup{
+                                        &> div{
+                                            &:nth-child(3){
+                                                padding:5px 30px 5px 10px;
+                                            } 
+                                        }
+                                    } 
+                                } 
+                                }
+                            }
+                            @media (max-width:1439px){
+                                &>div {
+                                    padding: 0 5px;
+                                &.scale-style {
+                                    width: 113px;
+                                    
+                                } 
+                            }
+                            }
+                            @media (max-width:1650px){
+                                &>div {
+                                &.color-style{
+                                    .color-picker{
+                                        gap:8px;
+                                        svg{
+                                            width: 20px;
+                                        }
+                                    }
+                                }
+                            }
                             }
                         }
 
@@ -1143,6 +1205,13 @@ span {
                         font-weight: 400;
                         min-width: 88px;
                     }
+                    @media (max-width:1500px){
+                        .split-button-dropup>div:nth-child(3) {
+                            min-width: 70px;
+                            padding: 5px 25px 5px 10px;
+                        }
+
+                    }
                     @media (max-width:1365px){
                         .split-button-dropup>div:nth-child(3) {
                             padding: 3px 30px 3px 10px;
@@ -1181,10 +1250,21 @@ span {
                             }
                         }
                     }
+
                 }
                 @media (max-width:1670px){
                     .live-stream-tabs-data {
                         height: calc(100% - 60px);
+                        .color-picker {
+                            .color-pick {
+                                max-width: 95px;
+                                min-width: 95px;
+    
+                                &>input[type=color] {
+                                    padding-right: 38px;
+                                }
+                            }
+                        }
                     }
                 }
                 @media (max-width:1365px){
