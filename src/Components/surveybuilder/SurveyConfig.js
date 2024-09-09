@@ -80,7 +80,7 @@ const SurveyConfig = (props) => {
     const file = e.target.files[0];
     try {
       if (file && (file.type.startsWith('image/') )){
-        console.log(file.type)
+ 
         const uploadFormData = new FormData();
         uploadFormData.append("file", file);
 

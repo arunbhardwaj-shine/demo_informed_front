@@ -179,9 +179,6 @@ const SurveyMenu = ({ menuRef }) => {
       const response = await surveyAxiosInstance.post("/survey/delete-option", {
         answerId: optionId,
       });
-      if (response) {
-        console.log(response);
-      }
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -220,7 +217,7 @@ const SurveyMenu = ({ menuRef }) => {
         ...option,
       };
     });
-    console.log(updatedValues);
+    
     handleUpdateElement(itemIndex, key, [...updatedValues]);
   };
 
@@ -337,32 +334,28 @@ const SurveyMenu = ({ menuRef }) => {
     const currentValue = updatedElements[index][keyName];
     const newValue = !currentValue;
 
-
-     
-    
-
     // Update the toggle value
     handleUpdateElement(index, keyName, newValue);
 
-    // Perform additional actions if the toggle is turned off
-    if (!newValue) {
-      switch (keyName) {
-        case "isOptional":
-          handleUpdateElement(index, "optionalLabel", "");
-          break;
-        case "questionDescriptionEnabled":
-          handleUpdateElement(index, "questionDescription", "");
-          break;
-        case "addOtherChoice":
-          handleExtraAndStyle(index, "", "otherChoicePlaceholderText", "extra");
-          handleExtraAndStyle(index, "", "otherChoiceLabel", "extra");
-          break;
-        default:
-          // Optionally handle unexpected keyNames
-          console.warn(`Unexpected keyName: ${keyName}`);
-          break;
-      }
-    }
+    // // Perform additional actions if the toggle is turned off
+    // if (!newValue) {
+    //   switch (keyName) {
+    //     case "isOptional":
+    //       handleUpdateElement(index, "optionalLabel", "");
+    //       break;
+    //     case "questionDescriptionEnabled":
+    //       handleUpdateElement(index, "questionDescription", "");
+    //       break;
+    //     case "addOtherChoice":
+    //       handleExtraAndStyle(index, "", "otherChoicePlaceholderText", "extra");
+    //       handleExtraAndStyle(index, "", "otherChoiceLabel", "extra");
+    //       break;
+    //     default:
+    //       // Optionally handle unexpected keyNames
+       
+    //       break;
+    //   }
+    // }
 
     setTimeout(() => {
       if((keyName === "addOtherChoice" || keyName === "isOptional")  && newValue ){
@@ -379,16 +372,15 @@ const SurveyMenu = ({ menuRef }) => {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
-     
     }, 0);
   };
 
   const handleAllOfTheAbove = (index) => {
     const value = !elements[index].extra.addAllOfTheAbove;
     handleExtraAndStyle(index,value, "addAllOfTheAbove", "extra");
-    if(!value){
-      handleExtraAndStyle(index, "", "allOfTheAboveLabel", "extra");
-    }
+    // if(!value){
+    //   handleExtraAndStyle(index, "", "allOfTheAboveLabel", "extra");
+    // }
   };
 
   const renderEditorForm = (item, index) => {

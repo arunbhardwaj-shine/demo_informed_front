@@ -12,7 +12,7 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
 
   const selectChoices = [
     { value: 'Countries', label: 'Countries' },
-    { value: 'States', label: 'States' },
+    // { value: 'States', label: 'States' },
   ];
 
   const handleClose = () => {
