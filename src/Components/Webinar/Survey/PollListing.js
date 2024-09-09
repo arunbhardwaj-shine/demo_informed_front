@@ -360,7 +360,7 @@ export default function PollListing({ eventIdContext }) {
           });
       } else {
         updatedQuestions[key].questionData.answerOption = [
-          { answer: "", color: "#000000" },
+          { answer: "", color: colors[0] },
         ];
         updatedQuestions[key].questionDataErrors.answerOptionError.push({
           answerError: "",
