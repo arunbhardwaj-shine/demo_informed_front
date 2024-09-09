@@ -440,7 +440,7 @@ function Question(props) {
                 <div className="display-result">
                   <Form.Group>
                     <Form.Label>Display the result in :</Form.Label>
-                    <div className="switch6">
+                    <div className={`switch6 ${answerType === "INPUT" ? "free-text" : ""}`}>
                       <label className="switch6-light">
                         <input
                           type="checkbox"
@@ -451,9 +451,14 @@ function Question(props) {
                           <span>
                             <img src={path_image + "bar-graph-img.png"} />
                           </span>
-                          <span>
+                          {/* <span>
                             <img src={path_image + "pie-img.png"} />
-                          </span>
+                          </span> */}
+                          {answerType !== "INPUT" && (
+                            <span>
+                              <img src={path_image + "pie-img.png"} />
+                            </span>
+                          )}
                         </span>
                         <a className="btn"></a>
                       </label>
