@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
 import Select from "react-select";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import PreviewGraphModal from "./PreviewGraphModal";
+import { toast } from "react-toastify";
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -131,6 +132,21 @@ function Question(props) {
   const handleClose = () => {
     setIsPrevClicked(false);
   };
+
+  const onHandlePieClick = () => {
+    if (answerType === "INPUT") {
+      toast.error("Pie option is disabled for free text input.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+  
   return (
     <>
     
@@ -440,25 +456,21 @@ function Question(props) {
                 <div className="display-result">
                   <Form.Group>
                     <Form.Label>Display the result in :</Form.Label>
-                    <div className={`switch6 ${answerType === "INPUT" ? "free-text" : ""}`}>
+                    <div className="switch6">
                       <label className="switch6-light">
                         <input
                           type="checkbox"
                           checked={graphType == "pie" ? true : false}
                           onChange={onHandleDisplayResultChange}
+                          disabled={answerType === "INPUT"}
                         />
                         <span>
                           <span>
                             <img src={path_image + "bar-graph-img.png"} />
                           </span>
-                          {/* <span>
+                          <span onClick={onHandlePieClick}>
                             <img src={path_image + "pie-img.png"} />
-                          </span> */}
-                          {answerType !== "INPUT" && (
-                            <span>
-                              <img src={path_image + "pie-img.png"} />
-                            </span>
-                          )}
+                          </span> 
                         </span>
                         <a className="btn"></a>
                       </label>
