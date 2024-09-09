@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import Header from "./HeaderComponent/Header";
 import { Route, Navigate, useNavigate } from "react-router-dom";
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import moment from 'moment'
 import { Spinner } from "react-activity";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -46,8 +48,19 @@ const SetLayoutNewTimeline = () => {
     {
       isLoadMore: false,
       showLoader: false,
-      page: 1
+      page: 1,
+      nextDate: null,
+      lastUpdate: null
     })
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [dateInputs, setDateInputs] = useState(
+    {
+      toDate: "",
+      fromDate: ""
+    }
+  )
+  const [error, setError] = useState({})
   useEffect(() => {
     let newdata = [...dummyData];
     if (localStorage.getItem("group_id") == 2) {
@@ -80,8 +93,7 @@ const SetLayoutNewTimeline = () => {
     }
 
     setData(newdata);
-    // getTimeLineData(page,loaderFlag)
-    getTimeLineData(loadMore?.page)
+    getTimeLineData()
   }, []);
 
   const navigate = useNavigate();
@@ -154,32 +166,31 @@ const SetLayoutNewTimeline = () => {
 
   const isAuthenticated = localStorage.getItem("user_id") !== null;
 
-  const getTimeLineData = async (page = 1, loaderFlag = 0) => {
+  const getTimeLineData = async (date, page = 1, loaderFlag = 0) => {
     try {
       if (loaderFlag == 0) {
         setSectionLoader(true);
       }
-      let body = { page }
+      let body = { date, page }
       const response = await postData(ENDPOINT.RD_LANDING_TIMELINE, body)
-      let updatedTimeLineData = response?.data?.data
-
+      let updatedTimeLineData = response?.data?.data?.data?.timelineData
       setTimelineData(prevData => ([...prevData, ...updatedTimeLineData]))
       setLoadMore(prevState => ({
         ...prevState,
-        isLoadMore: updatedTimeLineData?.length > 0 ? true : false,
+        isLoadMore: response?.data?.data?.data?.hasMore ? true : false,
+        nextDate: response?.data?.data?.data?.nextDate,
+        lastUpdate: response?.data?.data?.data?.lastUpdate
       }));
-
     } catch (err) {
       console.log("--err", err)
-
     } finally {
+      setError({})
       setApiStatus(true)
       setSectionLoader(false)
       setLoadMore(prevState => ({
         ...prevState,
         showLoader: false,
       }));
-
     }
   }
 
@@ -187,23 +198,74 @@ const SetLayoutNewTimeline = () => {
     const [hours, minutes] = time.split(':');
     const date = new Date();
     date.setHours(hours, minutes);
-
     let hours12 = date.getHours() == 12 ? 12 : date.getHours() % 12 || "00";
     let minutesFormatted = date.getMinutes().toString().padStart(2, '0');
-
     let ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-
     return `${hours12}:${minutesFormatted} ${ampm}`;
   }
+
   const handleLoadMore = async () => {
     let newPage = loadMore?.page + 1
+    let dateRange = {
+      toDate: loadMore?.nextDate ? loadMore?.nextDate : "",
+      fromDate: dateInputs?.fromDate ? dateInputs?.fromDate : ""
+    }
     setLoadMore(prevState => ({
       ...prevState,
       showLoader: true,
       page: newPage
     }));
-    getTimeLineData(newPage, 1)
+    getTimeLineData(dateRange, newPage, 1)
+  }
 
+  const handleDateChange = async (e, isSelectedName) => {
+    // Combine the selected date with the current time
+    const dateWithCurrentTime = new Date(
+      e.getFullYear(),
+      e.getMonth(),
+      e.getDate(),
+      currentDate.getHours(),
+      currentDate.getMinutes(),
+      currentDate.getSeconds()
+    );
+    setDateInputs({ ...dateInputs, [isSelectedName]: dateWithCurrentTime })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let error = {}
+    if (dateInputs?.fromDate == "" || dateInputs?.toDate == "") {
+      error.fromDate = "Please select the date"
+      setError(error)
+      return
+    }
+    else {
+      setTimelineData([])
+      setApiStatus(false)
+      setLoadMore({
+        isLoadMore: false,
+        showLoader: false,
+        page: 1,
+        nextDate: null,
+        lastUpdate: null
+      })
+      getTimeLineData(dateInputs)
+    }
+  }
+
+  const clearDateFilter = async (e) => {
+    e.preventDefault();
+    setDateInputs({ toDate: "", fromDate: "" })
+    setTimelineData([])
+    setApiStatus(false)
+    setLoadMore({
+      isLoadMore: false,
+      showLoader: false,
+      page: 1,
+      nextDate: null,
+      lastUpdate: null
+    })
+    getTimeLineData()
   }
 
   return (
@@ -242,6 +304,72 @@ const SetLayoutNewTimeline = () => {
             </div>
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
+                <div className="timeline-picker">
+                  <Form>
+                    <div className="form-group">
+                      {/* <label htmlFor="">From</label> */}
+                      <DatePicker
+                        selected={
+                          dateInputs?.fromDate
+                            ? new Date(dateInputs?.fromDate)
+                            : ""
+                        }
+                        name="fromDate"
+                        onChange={(e) => handleDateChange(e, "fromDate")}
+                        dateFormat="dd/MM/yyyy"
+                        className="form-control"
+                        maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
+                        placeholderText="From"
+                      />
+
+                    </div>
+                    <div className="form-group">
+                      {/* <label htmlFor="">To</label> */}
+                      <DatePicker
+                        selected={
+                          dateInputs?.toDate
+                            ? new Date(dateInputs?.toDate)
+                            : ""
+                        }
+                        name="toDate"
+                        onChange={(e) => handleDateChange(e, "toDate")}
+                        dateFormat="dd/MM/yyyy"
+                        className="form-control"
+                        minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
+                        maxDate={currentDate}
+                        placeholderText="To"
+                      />
+                      {error?.toDate ? (
+                        <div className="login-validation">
+                          {error?.toDate}
+                        </div>
+                      ) : null}
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-filled"
+                      onClick={(e) => {
+                        handleSubmit(e);
+                      }}
+                    >
+                      Go
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-bordered"
+                      onClick={(e) => {
+                        clearDateFilter(e);
+                      }}
+                    >
+                      Clear
+                    </button>
+                    {error?.fromDate ? (
+                      <div className="login-validation">
+                        {error?.fromDate}
+                      </div>
+                    ) : null}
+                  </Form>
+                </div>
                 {!apiStatus ?
                   (
                     <div className="accordion-loader">
@@ -266,29 +394,31 @@ const SetLayoutNewTimeline = () => {
                         </div>
                         <div className="timeline-date">
                           <h3>LEX-210 Trial</h3>
-                          {/* <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p> */}
-                          <p>{moment(timelineData?.[0]?.IrtData?.[0]?.date).format('MMMM. DD. YYYY')} <span>|</span> {formatTime(timelineData?.[0]?.IrtData?.[0]?.time)}  <sub>last update</sub></p>
+                          {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
+                          <p>
+                            {moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY')}
+                            <span> | </span>
+                            {moment(loadMore?.lastUpdate).utc().format('h:mm A')}
+                            <sub> last update</sub>
+                          </p>
                         </div>
                       </div>
-
-                          <div className="timeline-box">
-                      {timelineData?.map((data, index) => {
-                        return (<>
+                      <div className="timeline-box">
+                        {timelineData?.map((data, index) => {
+                          return (<>
                             <div className="timeline-sticky">
                               <div className="timeline-indicator">
                                 <span>&nbsp;</span>
                               </div>
                               <div className="timeline-date">
-                                {/* <p>{data?.date}</p> */}
-                                <p>{moment(data?.date).format('MMM DD. YYYY')}</p>
+                                <p>{moment(data?.date).format('MMM. DD. YYYY')}</p>
                               </div>
                             </div>
                             {data?.IrtData?.map((item, i) => {
-
                               return (<>
                                 {(item?.auto_mail == 1 || item?.auto_mail == 2)
                                   ?
-                                  <div className="timeline-box-inset">
+                                  <div className="timeline-box-inset" key={i}>
                                     <div className="timeline-indicator">
                                       <div className="indicator-box">
                                         <img src={path_image + "automail.svg"} alt="" />
@@ -310,11 +440,11 @@ const SetLayoutNewTimeline = () => {
                                         </div>
                                         <div className="details-box">
                                           <p className="timeline-details-heading">To</p>
-                                          <div className="d-flex flex-wrap timeline-activity">                                            
+                                          <div className="d-flex flex-wrap timeline-activity">
                                             {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                               const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                               return userProfile ? (
-                                                <div key={index} className="timeline-activity-detail">                                                  
+                                                <div key={index} className="timeline-activity-detail">
                                                   <p>{
                                                     userProfile?.first_name != '' ?
                                                       userProfile?.first_name + " " + userProfile?.last_name
@@ -333,7 +463,7 @@ const SetLayoutNewTimeline = () => {
                                   </div>
                                   : item?.action == "IRT Started Training"
                                     ?
-                                    <div className="timeline-box-inset">
+                                    <div className="timeline-box-inset" key={i}>
                                       <div className="timeline-indicator">
                                         <div className="indicator-box">
                                           <img src={path_image + "irt-training-start.svg"} alt="" />
@@ -357,11 +487,11 @@ const SetLayoutNewTimeline = () => {
                                           </div>
                                           <div className="details-box">
                                             <p className="timeline-details-heading">Who</p>
-                                            <div className="d-flex flex-wrap timeline-activity">                                              
+                                            <div className="d-flex flex-wrap timeline-activity">
                                               {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                 const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                 return userProfile ? (
-                                                  <div key={index} className="timeline-activity-detail">                                                    
+                                                  <div key={index} className="timeline-activity-detail">
                                                     <p>{
                                                       userProfile?.first_name != '' ?
                                                         userProfile?.first_name + " " + userProfile?.last_name
@@ -377,11 +507,10 @@ const SetLayoutNewTimeline = () => {
                                           </div>
                                         </div>
                                       </div>
-
                                     </div>
                                     : item?.action?.includes('Article opened')
                                       ?
-                                      <div className="timeline-box-inset">
+                                      <div className="timeline-box-inset" key={i}>
                                         <div className="timeline-indicator">
                                           <div className="indicator-box">
                                             <img src={path_image + "content-open.svg"} alt="" />
@@ -395,7 +524,29 @@ const SetLayoutNewTimeline = () => {
                                           <div className="timeline-details">
                                             <div className="timeline-article d-flex">
                                               <div className="timeline-article-image">
-                                                <img src={path_image + "article-open-cover.png"} alt="" />
+                                                {/* <img src={path_image + "article-open-cover.png"} alt="" /> */}
+                                                {item?.file_type ===
+                                                  "video" ? <img
+                                                  src={
+                                                    path_image +
+                                                    "lex-video-cover.png"
+                                                  }
+                                                  alt=""
+                                                /> : item?.file_type == "ebook" ?
+                                                  <img
+                                                    src={
+                                                      path_image +
+                                                      "lex-book-cover.png"
+                                                    }
+                                                    alt=""
+                                                  />
+                                                  : <img
+                                                    src={
+                                                      path_image +
+                                                      "article-open-cover.png"
+                                                    }
+                                                    alt=""
+                                                  />}
                                               </div>
                                               <div className="timeline-article-detail">
                                                 <div className="timeline-title">
@@ -414,11 +565,11 @@ const SetLayoutNewTimeline = () => {
                                             </div>
                                             <div className="details-box">
                                               <p className="timeline-details-heading">Who</p>
-                                              <div className="d-flex flex-wrap timeline-activity">                                                
+                                              <div className="d-flex flex-wrap timeline-activity">
                                                 {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                   const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                   return userProfile ? (
-                                                    <div key={index} className="timeline-activity-detail">                                                     
+                                                    <div key={index} className="timeline-activity-detail">
                                                       {/* <p>{
                                                         userProfile?.first_name != '' ?
                                                           userProfile?.first_name + " " + userProfile?.last_name
@@ -438,7 +589,7 @@ const SetLayoutNewTimeline = () => {
                                       </div>
                                       : (item?.action?.includes('Registered') && item?.app_used == "LEX-Registration-Page")
                                         ?
-                                        <div className="timeline-box-inset">
+                                        <div className="timeline-box-inset" key={i}>
                                           <div className="timeline-indicator">
                                             <div className="indicator-box">
                                               <img src={path_image + "new-hcp.svg"} alt="" />
@@ -456,18 +607,18 @@ const SetLayoutNewTimeline = () => {
                                               </div>
                                               <div className="details-box">
                                                 <p className="timeline-details-heading">Who</p>
-                                                <div className="d-flex flex-wrap timeline-activity">                                                  
+                                                <div className="d-flex flex-wrap timeline-activity">
                                                   {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                     const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                     return userProfile ? (
-                                                      <div key={index} className="timeline-activity-detail">                                                        
+                                                      <div key={index} className="timeline-activity-detail">
                                                         <p>{
                                                           userProfile?.first_name != '' ?
                                                             userProfile?.first_name + " " + userProfile?.last_name
                                                             : userProfile?.name
                                                         }
                                                         </p>
-                                                        <p>{userProfile?.user_type}</p>
+                                                        <p>{userProfile?.user_type != 0 ? userProfile?.user_type : "N/A"}</p>
                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                       </div>
                                                     ) : null
@@ -481,7 +632,7 @@ const SetLayoutNewTimeline = () => {
 
                                         : (item?.action?.includes('Certificate of training issued for IRT Role'))
                                           ?
-                                          <div className="timeline-box-inset">
+                                          <div className="timeline-box-inset" key={i}>
                                             <div className="timeline-indicator">
                                               <div className="indicator-box">
                                                 <img src={path_image + "irt-traning-complete.svg"} alt="" />
@@ -509,11 +660,11 @@ const SetLayoutNewTimeline = () => {
                                                 </div>
                                                 <div className="details-box">
                                                   <p className="timeline-details-heading">Who</p>
-                                                  <div className="d-flex flex-wrap timeline-activity">                                                    
+                                                  <div className="d-flex flex-wrap timeline-activity">
                                                     {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                       const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                       return userProfile ? (
-                                                        <div key={index} className="timeline-activity-detail">                                                          
+                                                        <div key={index} className="timeline-activity-detail">
                                                           <p>{
                                                             userProfile?.first_name != '' ?
                                                               userProfile?.first_name + " " + userProfile?.last_name
@@ -533,7 +684,7 @@ const SetLayoutNewTimeline = () => {
                                           </div>
                                           : (item?.action?.includes('Article is shared'))
                                             ?
-                                            <div className="timeline-box-inset">
+                                            <div className="timeline-box-inset" key={i}>
                                               <div className="timeline-indicator">
                                                 <div className="indicator-box">
                                                   <img src={path_image + "share-materials-icon.svg"} alt="" />
@@ -566,11 +717,11 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                   <div className="details-box">
                                                     <p className="timeline-details-heading">Who</p>
-                                                    <div className="d-flex flex-wrap timeline-activity">                                                      
+                                                    <div className="d-flex flex-wrap timeline-activity">
                                                       {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                         const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                         return userProfile ? (
-                                                          <div key={index} className="timeline-activity-detail">                                                            
+                                                          <div key={index} className="timeline-activity-detail">
                                                             <p>{
                                                               userProfile?.first_name != '' ?
                                                                 userProfile?.first_name + " " + userProfile?.last_name
@@ -588,7 +739,7 @@ const SetLayoutNewTimeline = () => {
                                             </div>
                                             : (item?.action?.includes('IRT Ignored Training'))
                                               ?
-                                              <div className="timeline-box-inset">
+                                              <div className="timeline-box-inset" key={i}>
                                                 <div className="timeline-indicator">
                                                   <div className="indicator-box">
                                                     <img src={path_image + "irt-ignored-training.svg"} alt="" />
@@ -612,11 +763,11 @@ const SetLayoutNewTimeline = () => {
                                                     </div>
                                                     <div className="details-box">
                                                       <p className="timeline-details-heading">Who</p>
-                                                      <div className="d-flex flex-wrap timeline-activity">                                                        
+                                                      <div className="d-flex flex-wrap timeline-activity">
                                                         {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                           const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                           return userProfile ? (
-                                                            <div key={index} className="timeline-activity-detail">                                                              
+                                                            <div key={index} className="timeline-activity-detail">
                                                               <p>{
                                                                 userProfile?.first_name != '' ?
                                                                   userProfile?.first_name + " " + userProfile?.last_name
@@ -635,7 +786,7 @@ const SetLayoutNewTimeline = () => {
                                               </div>
                                               : (item?.action?.includes('IRT Not Completed Training'))
                                                 ?
-                                                <div className="timeline-box-inset">
+                                                <div className="timeline-box-inset" key={i}>
                                                   <div className="timeline-indicator">
                                                     <div className="indicator-box">
                                                       <img src={path_image + "irt-traning-notcomplete.svg"} alt="" />
@@ -659,11 +810,11 @@ const SetLayoutNewTimeline = () => {
                                                       </div>
                                                       <div className="details-box">
                                                         <p className="timeline-details-heading">Who</p>
-                                                        <div className="d-flex flex-wrap timeline-activity">                                                          
+                                                        <div className="d-flex flex-wrap timeline-activity">
                                                           {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                             const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                             return userProfile ? (
-                                                              <div key={index} className="timeline-activity-detail">                                                                
+                                                              <div key={index} className="timeline-activity-detail">
                                                                 <p>{
                                                                   userProfile?.first_name != '' ?
                                                                     userProfile?.first_name + " " + userProfile?.last_name
@@ -682,7 +833,7 @@ const SetLayoutNewTimeline = () => {
                                                 </div>
                                                 : (item?.auto_mail == 4)
                                                   ?
-                                                  <div className="timeline-box-inset">
+                                                  <div className="timeline-box-inset" key={i}>
                                                     <div className="timeline-indicator">
                                                       <div className="indicator-box">
                                                         <img src={path_image + "irt-invited-training.svg"} alt="" />
@@ -700,11 +851,11 @@ const SetLayoutNewTimeline = () => {
                                                         </div>
                                                         <div className="details-box">
                                                           <p className="timeline-details-heading">Who</p>
-                                                          <div className="d-flex flex-wrap timeline-activity">                                                            
+                                                          <div className="d-flex flex-wrap timeline-activity">
                                                             {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                               const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                               return userProfile ? (
-                                                                <div key={index} className="timeline-activity-detail">                                                                  
+                                                                <div key={index} className="timeline-activity-detail">
                                                                   <p>{
                                                                     userProfile?.first_name != '' ?
                                                                       userProfile?.first_name + " " + userProfile?.last_name
@@ -723,7 +874,7 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                   : (item?.action?.includes("Blocked mandatory training reminder") && item?.auto_mail == 3)
                                                     ?
-                                                    <div className="timeline-box-inset">
+                                                    <div className="timeline-box-inset" key={i}>
                                                       <div className="timeline-indicator">
                                                         <div className="indicator-box">
                                                           <img src={path_image + "irt-blocked.svg"} alt="" />
@@ -766,7 +917,7 @@ const SetLayoutNewTimeline = () => {
                                                     </div>
                                                     : (item?.auto_mail == 5)
                                                       ?
-                                                      <div className="timeline-box-inset">
+                                                      <div className="timeline-box-inset" key={i}>
                                                         <div className="timeline-indicator">
                                                           <div className="indicator-box">
                                                             <img src={path_image + "irt-changed-role.svg"} alt="" />
@@ -827,7 +978,7 @@ const SetLayoutNewTimeline = () => {
                                                       </div>
                                                       : (item?.auto_mail == 0 && item?.action?.includes('Webinar New mail received') && item?.logger_id != 0 && item?.event_id != 0)
                                                         ?
-                                                        <div className="timeline-box-inset">
+                                                        <div className="timeline-box-inset" key={i}>
                                                           <div className="timeline-indicator">
                                                             <div className="indicator-box">
 
@@ -886,7 +1037,7 @@ const SetLayoutNewTimeline = () => {
                                                         </div>
                                                         : (item?.auto_mail == 0 && item?.action?.includes('New mail received') && item?.logger_id == 0 && item?.event_id == 0)
                                                           ?
-                                                          <div className="timeline-box-inset">
+                                                          <div className="timeline-box-inset" key={i}>
                                                             <div className="timeline-indicator">
                                                               <div className="indicator-box">
                                                                 {item?.reader_mandatory == 1 ? <img src={path_image + "irt-invited-training.svg"} alt="" />
@@ -954,10 +1105,10 @@ const SetLayoutNewTimeline = () => {
                                 }
                               </>)
                             })}
-                        </>)
-                      })
-                    }
-                          </div>
+                          </>)
+                        })
+                        }
+                      </div>
 
                       {
                         !loadMore?.showLoader ?

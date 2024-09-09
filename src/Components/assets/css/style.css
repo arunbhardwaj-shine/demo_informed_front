@@ -11653,8 +11653,8 @@ button.event_sort_btn.svg_active svg {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  max-width: 72px;
-  gap: 6px;
+  max-width: 77px;
+  gap: 5px;
   cursor: pointer;
 }
 
