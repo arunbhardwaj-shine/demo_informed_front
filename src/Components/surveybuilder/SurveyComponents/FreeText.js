@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'react-bootstrap';
 
 export default function FreeText({ item, index, handleUpdateElement,handleExtraAndStyle }) {
-    console.log("FreeText");
+   
 
 
     return (

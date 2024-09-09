@@ -4,8 +4,7 @@ import { Col, Form } from 'react-bootstrap';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export default function DivideLine({item,handleUpdateElement,index,handleExtraAndStyle}) {
-    console.log("DivideLine");
-    console.log(item)
+   
 
     const lineOptions = [
         { value: 'solid', label: 'Solid' },

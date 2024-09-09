@@ -146,7 +146,7 @@ const SurveyList = (props) => {
   const [allCodes, setAllCodes] = useState([]);
   const [subLinkData, setSubLinkData] = useState({});
 
-  console.log(subLinkData);
+ 
 
   const handleClick = async (e, survey_id) => {
     if (e === "sublinks") {
@@ -165,7 +165,7 @@ const SurveyList = (props) => {
         "/survey/duplicate-survey",
         body
       );
-      console.log(response);
+ 
       if (response) {
         await fetchSurveyListing();
       }
@@ -204,7 +204,7 @@ const SurveyList = (props) => {
             [survey_id]: codearr,
           };
         });
-        console.log(subLinkData);
+ 
         loader("hide");
       } catch (err) {
         console.log("--err", err);
@@ -438,7 +438,7 @@ const SurveyList = (props) => {
   };
 
   const copyHandler = (surveyLink) => {
-    console.log(surveyLink);
+ 
     navigator.clipboard
       .writeText(surveyLink)
       .then(() => {
@@ -486,16 +486,16 @@ const SurveyList = (props) => {
 
   const editHandler = (e, path, data) => {
     e.preventDefault();
-    console.log(data);
+ ;
     let surveyConfigData;
     let thanksPageData;
 
     if (data.is_draft == "0" || data.is_draft == "1" || data.is_draft == "2") {
       const parsedCustomHtml = JSON.parse(data?.custom_html);
 
-      console.log(data?.tags);
+   
       const tags = JSON.parse(data?.tags);
-      console.log(parsedCustomHtml);
+ 
 
       const setUpData = {
         survey_title: data.survey_title,
@@ -982,7 +982,7 @@ const SurveyList = (props) => {
                         subLinkData?.[data.survey_id] || [];
                       return (
                         <>
-                          <div class="email_box_block">
+                          <div class="email_box_block" key={index}>
                             <div
                               class={
                                 data?.is_draft != null && data?.is_draft == "0"
@@ -1072,7 +1072,7 @@ const SurveyList = (props) => {
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
+                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}&dl=qr`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
@@ -1663,7 +1663,7 @@ const SurveyList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.getSurveyData);
+ 
   return state;
 };
 
