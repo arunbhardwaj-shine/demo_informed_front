@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Table, Button } from "react-bootstrap";
+import { Col, Row, Table, Button,OverlayTrigger,Tooltip } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -207,6 +207,19 @@ const TimelineDetail = (props) => {
     const formattedSeconds = secs.toString().padStart(2, '0');
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
 
   return (
     <>
@@ -1674,7 +1687,17 @@ const TimelineDetail = (props) => {
                                                                                                 <td><span>
                                                                                                   {item?.timeSpend ? `${formatTime(item?.timeSpend)}` : 'N/A'}
                                                                                                 </span></td>
-                                                                                                <td className={`media media-${item?.flag}`}>{item?.readContent} <img src={path_image + "info_circle_icon.svg"} alt="" /></td>
+                                                                                                <td className={`media media-${item?.flag}`}>{item?.readContent} 
+                                                                                                <LinkWithTooltip
+                                                                                                  tooltip={item?.readContent === 'Read' ? "An HCP when spends 60% or more of the minimum average time on the page" :
+                                                                                                    item?.readContent === 'Browsed' ? "An HCP when spends between 30% and 60% of the minimum average time" :
+                                                                                                    "An HCP when spends less than 30% of the minimum average time."
+                                                                                                   }
+                                                                                                >
+                                                                                                  <img src={path_image + "info_circle_icon.svg"} alt="" />
+                                                                                                </LinkWithTooltip>
+                                                                                                 
+                                                                                                  </td>
                                                                                               </tr>
                                                                                             );
                                                                                           }
