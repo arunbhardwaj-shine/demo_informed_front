@@ -6,7 +6,6 @@ import QRCode from "qrcode.react";
 
 const SurveySublinkListing = ({ survey_id, render, count }) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
- 
 
   const [sectionLoader, setSectionLoader] = useState(false);
   const [subLinkData, setSubLinkData] = useState([]);
@@ -86,17 +85,20 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                         <h5>{data?.identifier}</h5>
                         <h6>{data?.delivery}</h6>
                         <div className="sublink-list-link">
-                          <Link
-                            to={`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`}
+                          <a
+                            href={`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`}
+                            target="_blank" // Optional: Opens the link in a new tab
+                            rel="noopener noreferrer" // Optional: Recommended for security reasons
                           >
-                           https://informed.pro/Survey/Survey.html?Utmde={data.unique_code}
-                          </Link>
+                            https://informed.pro/Survey/Survey.html?Utmde={data.unique_code}
+                          </a>
                           <span
                             className="copy-content"
                             onClick={() => {
                               toast.success("content copied to the clipboard!");
-                              window.navigator.clipboard
-                                .writeText(`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`);
+                              window.navigator.clipboard.writeText(
+                                `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`
+                              );
                             }}
                           >
                             <img
@@ -109,7 +111,9 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                       <div
                         className="sublink-qr"
                         onClick={(e) =>
-                          setDownloadLink(`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`)
+                          setDownloadLink(
+                            `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`
+                          )
                         }
                       >
                         <div className="sublink-qr-download">

@@ -192,13 +192,14 @@
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
         const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
-        console.log(Utmde,user_id)
+        // console.log(Utmde,user_id)
         if (!Utmde) {
-          window.location.replace("/survey/404");
+          console.log(urlKeys)
+          // window.location.replace("/survey/404");
           return;
         }
 
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -246,7 +247,7 @@
           loader("hide");
           console.log("Error fetching survey data:", error.message);
 
-          window.location.replace("/survey/404");
+          // window.location.replace("/survey/404");
 
           return;
         }
@@ -277,7 +278,7 @@
               <div class="informed-survey-text" style="color: ${
                 customHtml?.bodyTextColor
               };">
-                  ${customHtml?.bodyText}
+                  <p>${customHtml?.bodyText}</p>
               </div>
               <form id="survey-form">
       `;
@@ -336,7 +337,7 @@
                       ${question.extra.otherChoiceLabel}
                       <span class="checkmark"></span><br>
                   </label>
-                  <input type="text" name="question${question.questionId}_other"
+                  <textarea  name="question${question.questionId}_other"
                       placeholder="${question.extra.otherChoicePlaceholderText}"
                       id="other-text-${
                         question.questionId
@@ -1488,7 +1489,7 @@
 
               loader("show");
               const submitApiUrl =
-                "https://informedback.shinedezign.pro/survey/insert-user-responses";
+                "http://192.168.0.231:3001/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {

@@ -33,8 +33,16 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
     } else {
       if(selectedValue){
         const selectedList = dropdownList[selectedValue.value];
+        const choices = selectedList.join("\n")
+        .split(/\r?\n/)
+        .map(choice => choice.trim())
+        .filter(choice => choice);
+         handleAddBulkElements(choices);
+        onClose(false);
+        resetState();
         setTextAreaValue(selectedList.join("\n"));
-        setAddYourOwn(true);
+        
+        // setAddYourOwn(true);
       }
      
     }
