@@ -158,6 +158,18 @@ const AnalyticsPoll = () => {
                             beta: 25,
                             depth: 70,
                           },
+                          events: {
+                            load: function () {
+                              let categoryHeight = 40; 
+                              this.update({
+                                chart: {
+                                  height:
+                                    categoryHeight * this.pointCount +
+                                    (this.chartHeight - this.plotHeight),
+                                },
+                              });
+                            },
+                          },
                         },
                         title: {
                           text: "",
