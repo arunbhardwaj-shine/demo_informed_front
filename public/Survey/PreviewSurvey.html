@@ -184,7 +184,7 @@
           return;
         }
 
-        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: "0",
@@ -294,7 +294,7 @@
               question.answer.forEach((answer) => {
                 surveyHtml += `
                   <label class="check" style="color: ${
-                    customHtml.question_answer_color
+                    customHtml.bodyTextColor
                   };">
                       <input type="radio" name="question${
                         question.questionId
@@ -312,7 +312,7 @@
               if (question.addOtherChoice) {
                 surveyHtml += `
                   <label class="check" style="color: ${
-                    customHtml.question_answer_color
+                    customHtml.bodyTextColor
                   };">
                       <input type="radio" name="question${question.questionId}"
                           id="radio-other-choice-${question.questionId}"
@@ -1468,7 +1468,7 @@
 
               loader("show");
               const submitApiUrl =
-                "http://192.168.0.231:3001/survey/insert-user-responses";
+                "https://informedback.shinedezign.pro/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
