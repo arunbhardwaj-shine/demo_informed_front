@@ -2482,6 +2482,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
                                       value={templateDefaultValues.main_heading}
                                       handleUpdateElement={updateElement}
                                       index={index}
+                                        Placeholder=""
                                     />
                                   </div>
                                 )}
@@ -2543,6 +2544,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
                                       value={templateDefaultValues.bodyText}
                                       handleUpdateElement={updateBody}
                                       index={index}
+                                        Placeholder=""
                                     />
                                   </div>
                                 )}
@@ -2576,6 +2578,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
                                       value={templateDefaultValues.main_footer}
                                       handleUpdateElement={updateFooter}
                                       index={index}
+                                      Placeholder=""
                                     />
                                   </div>
                                 )}

@@ -32,7 +32,7 @@ const SurveyPreview = (props) => {
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
-
+  console.log(currentElementIndex)
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
 

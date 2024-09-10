@@ -1,11 +1,6 @@
 
 import consentCountries from "../Components/surveybuilder/SurveyComponents/Modals/consentCountries";
-
-
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
-
-
 
 export const menuType = {
   multiple: {
@@ -28,7 +23,6 @@ export const menuType = {
     extra: {
       otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
-      
     },
   },
   checkbox: {
@@ -152,7 +146,7 @@ export const menuType = {
     type: "heading",
     questionId: 0,
     visible: true,
-    question: "<p>Lorem Ipsum<p>",
+    question: "",
     questionDescriptionEnabled: false,
     questionDescription: "",
     style: {},
@@ -164,7 +158,7 @@ export const menuType = {
     type: "paragraph",
     questionId: 0,
     visible: true,
-    question: "Paragraph",
+    question: "",
     style: {
       color: "#004A89",
     },

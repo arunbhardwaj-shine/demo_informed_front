@@ -408,6 +408,7 @@ const SurveyMenu = ({ menuRef }) => {
             value={item.question}
             handleUpdateElement={handleUpdateElement}
             index={index}
+            Placeholder={item.type === "paragraph" || item.type === "heading" ? "Type your text here" : "Type your question here"}
             key={"questionEditor" + editorIndex}
           />
 

@@ -1365,7 +1365,7 @@ const SurveyList = (props) => {
                                                     </svg>
                                                   </div>
                                                   <span>
-                                                    {data.registration_count}
+                                                    {data.Dropoff}
                                                   </span>
                                                 </li>
                                                 <li>
