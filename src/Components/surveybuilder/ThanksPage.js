@@ -164,6 +164,7 @@ const ThanksPage = (props) => {
                                 value={thanksPageData.headline}
                                 handleUpdateElement={updateheadline}
                                 index={"headline"}
+                                  Placeholder=""
                               />
                             </div>
                           </div>
