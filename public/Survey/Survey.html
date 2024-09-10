@@ -220,6 +220,11 @@
           console.log(data);
 
           if (data.status == 200) {
+            if(data.data[0].survey_submitted !== 0){
+              const element=document.getElementById("survey_modal")
+              element.style.display="block"
+
+            }
             if (data.data[0].survey_info.is_draft === 2) {
               console.log("inside live");
               window.location.replace("/survey/404");
@@ -1666,6 +1671,24 @@
                 </table>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="survey_modal"
+      role="dialog"
+      aria-modal="true"
+      class="fade thanks modal"
+      tabindex="-1"
+      style="display: none"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h2>
+                You have already submitted your feedback.
+            </h2>
           </div>
         </div>
       </div>

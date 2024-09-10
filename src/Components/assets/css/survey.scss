@@ -430,7 +430,7 @@ span {
 
                 .live-stream-tabs-data {
                     height: calc(100% - 70px);
-                    padding: 20px 10px;
+                    // padding: 20px 10px;
                     &.common-elements {
                         ul {
                             display: none;
@@ -2493,6 +2493,10 @@ span {
                     p {
                         color: inherit;
                         font-weight: 400;
+                        a{
+                            color: inherit;
+                            font-weight: 400;
+                        }
                     }
                 }
 
@@ -2686,6 +2690,10 @@ span {
             &>div:nth-child(3) {
                 background: $white url(../images/arrow-down-sign.svg) no-repeat 93% center;
                 padding: 3px 50px 3px 15px;
+                box-shadow:0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+                &:hover{
+                    box-shadow:0px 1px 6px 0px rgba(0, 0, 0, 0.26);
+                }
                 >div {
                     div[class*=-placeholder] {
                         font-size: 12px;
@@ -4817,7 +4825,17 @@ body {
 }
                                          
 .tox-tbtn__select-chevron{
-svg{
-    height:8px;
+    svg{
+        height:8px;
+    }
 }
+body{
+    p{
+        a{
+            color:inherit;
+            &:hover{
+                color:inherit;
+            }
+        }
+    }
 }
