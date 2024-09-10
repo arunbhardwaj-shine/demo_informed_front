@@ -221,7 +221,7 @@ const SurveyList = (props) => {
     if (selectedSublink) {
       navigator.clipboard
         .writeText(
-          `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`
+          `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}`
         )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
@@ -242,7 +242,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}&dl=qr`,
+        value: `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}&dl=qr`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -1026,7 +1026,7 @@ const SurveyList = (props) => {
                                         <div className="tab-panel">
                                           <div class="tab-content-links">
                                             <a
-                                              href={`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
+                                              href={`/Survey/Survey.html?Utmde=${data.unique_code}`}
                                               class={
                                                 data?.is_draft != null &&
                                                 data?.is_draft == "0"
@@ -1035,7 +1035,7 @@ const SurveyList = (props) => {
                                               }
                                               target="_blank"
                                             >
-                                              https://informed.pro/Survey/PreviewSurvey.html?Utmde=
+                                              https://informed.pro/Survey/Survey.html?Utmde=
                                               {data.unique_code}
                                             </a>
                                             {data.is_draft ? (
@@ -1043,7 +1043,7 @@ const SurveyList = (props) => {
                                                 class="copy-content"
                                                 onClick={() =>
                                                   copyHandler(
-                                                    `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`
+                                                    `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`
                                                   )
                                                 }
                                               >
@@ -1072,7 +1072,7 @@ const SurveyList = (props) => {
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}&dl=qr`,
+                                                    value: `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
@@ -1438,7 +1438,7 @@ const SurveyList = (props) => {
                                               }
                                               onClick={(e) => {
                                                 window.open(
-                                                  `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
+                                                  `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`,
                                                   "_blank"
                                                 );
                                               }}

@@ -87,16 +87,16 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                         <h6>{data?.delivery}</h6>
                         <div className="sublink-list-link">
                           <Link
-                            to={`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
+                            to={`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`}
                           >
-                           https://informed.pro/Survey/PreviewSurvey.html?Utmde={data.unique_code}
+                           https://informed.pro/Survey/Survey.html?Utmde={data.unique_code}
                           </Link>
                           <span
                             className="copy-content"
                             onClick={() => {
                               toast.success("content copied to the clipboard!");
                               window.navigator.clipboard
-                                .writeText(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`);
+                                .writeText(`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`);
                             }}
                           >
                             <img
@@ -109,7 +109,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                       <div
                         className="sublink-qr"
                         onClick={(e) =>
-                          setDownloadLink(`https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}&dl=qr`)
+                          setDownloadLink(`https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`)
                         }
                       >
                         <div className="sublink-qr-download">

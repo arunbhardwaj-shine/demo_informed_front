@@ -81,6 +81,7 @@
           element.value = "";
         });
         document.getElementById("survey-form").reset(); // Reset your form
+        window.location.reload()
       }
 
       function updateCharCount(questionId, maxTextLength) {
@@ -620,7 +621,7 @@
                                   .map(
                                     (option) =>
                                       `<td>
-                                        <input type="${inputType} "
+                                        <input type="${inputType}"
                                                ${
                                                  inputType === "radio"
                                                    ? `name="question${row.id}"`
