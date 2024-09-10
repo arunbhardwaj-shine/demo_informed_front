@@ -239,7 +239,7 @@ input[type="checkbox"]:checked ~ .checkmark {
   -webkit-transform: none;
   transform: none;
 }
-.cookieadd, #thanks-modal {
+.cookieadd, #thanks-modal, #survey_modal {
   -webkit-backdrop-filter: blur(7.099999904632568px);
   backdrop-filter: blur(7.099999904632568px);
   background: rgba(0, 0, 0, 0.27);
@@ -251,7 +251,7 @@ input[type="checkbox"]:checked ~ .checkmark {
   width: 100vw;
   bottom: 0;
 }
-.cookieadd .modal-content, #thanks-modal .modal-content{
+.cookieadd .modal-content, #thanks-modal .modal-content, #survey_modal .modal-content{
   background: var(--white);
   border: 0;
   border-radius: 15px;
@@ -592,7 +592,15 @@ textarea:focus-visible {
   /* color: rgb(112, 137, 158); */
   color:#004A89;
 }
-
+#survey_modal .modal-content {
+  height: auto;
+  background: #fffbf8;
+}
+#survey_modal .modal-body h2 {
+  text-align: center;
+  padding: 40px 0;
+  color: #ea7e1e;
+}
 .survey-question input[type="text"]:focus-visible {
   outline: none;
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.26);
@@ -737,7 +745,7 @@ position: fixed;
 top: 0;
 width: 100%;
 } */
-.cookieadd .modal-dialog, #thanks-modal .modal-dialog {
+.cookieadd .modal-dialog, #thanks-modal .modal-dialog, #survey_modal .modal-dialog {
   height: 85%;
   max-width: 768px;
   margin: 0 auto;
@@ -748,7 +756,7 @@ width: 100%;
   width: 100%;
   z-index: 10;
 }
-#thanks-modal .modal-dialog {
+#thanks-modal .modal-dialog, #survey_modal .modal-dialog {
   max-width: 720px;
 }
 .modal.show .modal-dialog {
@@ -809,7 +817,7 @@ font-weight: 400;
 max-width: 580px;
 margin: 0 auto;
 }
-#thanks-modal .modal-body .thanks-text h2, #thanks-modal .modal-body .thanks-text h2 p{
+#thanks-modal .modal-body .thanks-text h2, #thanks-modal .modal-body .thanks-text h2 p, #survey_modal .modal-body .thanks-text h2{
 font-size: 56px;
 font-weight: 500;
 margin:0 0 16px;
@@ -1165,7 +1173,7 @@ label.form-label {
   .select-dropdown__button span {
     font-size: 12px;
   }
-  .cookieadd .modal-dialog, #thanks-modal .modal-dialog {
+  .cookieadd .modal-dialog, #thanks-modal .modal-dialog, #survey_modal .modal-dialog {
     width: 95%;
   }
   .modal-content .modal-body h6 {
@@ -1190,8 +1198,11 @@ label.form-label {
   /* #thanks-modal .modal-body .thanks-img img {
     max-width: 90px;
 } */
-#thanks-modal .modal-body .thanks-text h2 , #thanks-modal .modal-body .thanks-text h2 p{
+#thanks-modal .modal-body .thanks-text h2 , #thanks-modal .modal-body .thanks-text h2 p, #survey_modal .modal-body .thanks-text h2{
   font-size: 26px;
+}
+#survey_modal .modal-body h2 {
+  padding: 20px 0;
 }
 #thanks-modal .modal-body .thanks-text p {
 font-size: 13px;
