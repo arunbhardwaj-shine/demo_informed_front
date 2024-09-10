@@ -221,7 +221,7 @@ const SurveyList = (props) => {
     if (selectedSublink) {
       navigator.clipboard
         .writeText(
-          `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}`
+          `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}`
         )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
@@ -242,7 +242,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${selectedSublink.label}&dl=qr`,
+        value: `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}&dl=qr`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -1026,7 +1026,7 @@ const SurveyList = (props) => {
                                         <div className="tab-panel">
                                           <div class="tab-content-links">
                                             <a
-                                              href={`/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`}
+                                              href={`/Survey/Survey.html?Utmde=${data.unique_code}`}
                                               class={
                                                 data?.is_draft != null &&
                                                 data?.is_draft == "0"
@@ -1035,7 +1035,7 @@ const SurveyList = (props) => {
                                               }
                                               target="_blank"
                                             >
-                                              https://informed.pro/Survey/PreviewSurvey.html?Utmde=
+                                              https://informed.pro/Survey/Survey.html?Utmde=
                                               {data.unique_code}
                                             </a>
                                             {data.is_draft ? (
@@ -1043,7 +1043,7 @@ const SurveyList = (props) => {
                                                 class="copy-content"
                                                 onClick={() =>
                                                   copyHandler(
-                                                    `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`
+                                                    `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`
                                                   )
                                                 }
                                               >
@@ -1072,7 +1072,7 @@ const SurveyList = (props) => {
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}&dl=qr`,
+                                                    value: `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
@@ -1365,7 +1365,7 @@ const SurveyList = (props) => {
                                                     </svg>
                                                   </div>
                                                   <span>
-                                                    {data.registration_count}
+                                                    {data.Dropoff}
                                                   </span>
                                                 </li>
                                                 <li>
@@ -1438,7 +1438,7 @@ const SurveyList = (props) => {
                                               }
                                               onClick={(e) => {
                                                 window.open(
-                                                  `https://informed.pro/Survey/PreviewSurvey.html?Utmde=${data.unique_code}`,
+                                                  `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`,
                                                   "_blank"
                                                 );
                                               }}
@@ -1455,66 +1455,6 @@ const SurveyList = (props) => {
                                       className="change-tab flex-column justify-content-between"
                                     >
                                       <div className="survey_tabs_data">
-                                        {/* <div className="data-main-box change-tab-main-box tab-panel">
-                                          <ul className="tab-mail-list data change">
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                SubLinks
-                                              </h6>
-                                              <div className="select-dropdown-wrapper">
-                                                <div className="select">
-                                                  <Select
-                                                    aria-label="SSelect Sublink"
-                                                    className="dropdown-basic-button split-button-dropup"
-                                                    name="surveyCreator"
-                                                    placeholder="Select Sublink"
-                                                    onChange={onSublinkChange}
-                                                    options={
-                                                      sublinkoptions
-                                                    }
-                                                    value={sublinkoptions.find(option => option.value === selectedSublinkId)}
-                                                  />
-                                                  <Button
-                                                    onClick={() =>
-                                                      handleCopy(data.survey_id)
-                                                    }
-                                                  >
-                                                    Copy
-                                                  </Button>
-                                                </div>
-                                              </div>
-                                            </li>
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                QR Codes
-                                              </h6>
-                                              <div className="select-dropdown-wrapper">
-                                                <div className="select">
-                                                  <Select
-                                                    aria-label="Select Sublink"
-                                                    className="dropdown-basic-button split-button-dropup"
-                                                    name="surveyCreator"
-                                                    placeholder="Select Sublink"
-                                                    onChange={onSublinkChange}
-                                                    options={
-                                                      sublinkoptions
-                                                    }
-                                                    value={sublinkoptions.find(option => option.value === selectedSublinkId)}
-                                                  />
-                                                  <Button
-                                                    onClick={(e) =>
-                                                      setDownloadLink(
-                                                        data.survey_id
-                                                      )
-                                                    }
-                                                  >
-                                                    download
-                                                  </Button>
-                                                </div>
-                                              </div>
-                                            </li>
-                                          </ul>
-                                        </div> */}
                                         <SublinkHandler
                                           handleCopy={handleCopy}
                                           setDownloadLink={setDownloadLink}

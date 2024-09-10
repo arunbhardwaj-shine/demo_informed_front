@@ -6,6 +6,7 @@ const RenderOptions = ({
   item,
   index,
   optionColor,
+  inputColor,
   isEdit,
   page_background_color,
 }) => {
@@ -75,10 +76,11 @@ const RenderOptions = ({
             disabled={!isEdit}
             onClick={() => handleAllOfTheAboveChange(item.questionNo)}
           />
-          <span className="checkmark"></span>
+<span className="checkmark" style={{ borderColor: inputColor }}></span>
+
         </label>
       );
-    } else if (type === "checkbox" && optIndex === "checkboxQuestion") {
+    } else if (type === "checkbox"  && optIndex === "checkboxQuestion") {
       return (
         <label style={{ color: optionColor }} key={optIndex} className="check">
           {option}
@@ -88,7 +90,8 @@ const RenderOptions = ({
             disabled={!isEdit}
             onClick={() => handleIndividualCheckboxChange(item.questionNo)}
           />
-          <span className="checkmark"></span>
+<span className="checkmark" style={{ borderColor: inputColor }}></span>
+
         </label>
       );
     } else {
@@ -96,7 +99,7 @@ const RenderOptions = ({
         <label style={{ color: optionColor }} key={optIndex} className="check">
           {option}
           <input type={type} name={item.questionNo} disabled={!isEdit} />
-          <span className="checkmark"></span>
+          <span className="checkmark" style={{ borderColor: inputColor }}></span>
         </label>
       );
     }
@@ -243,7 +246,8 @@ const RenderOptions = ({
                           disabled={!isEdit}
                         />
                       )}
-                      <span className="checkmark"></span>
+                       <span className="checkmark" style={{ borderColor: inputColor }}></span>
+
                     </td>
                   ))}
                 </tr>

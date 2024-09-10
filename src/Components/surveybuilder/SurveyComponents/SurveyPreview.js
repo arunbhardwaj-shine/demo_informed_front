@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import { SidebarItems } from "../surveyObjects/SidebarItems";
 import { SidebarCommonItems } from "../surveyObjects/SidebarCommonItems";
 import { saveAsDraft } from "../CommonFunctions/CommonFunction";
+import { Modal } from "react-bootstrap";
+
 import {
   emptySurveyReduxStates,
   addElement,
@@ -29,29 +31,27 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 
 var surveyValues = {};
 const SurveyPreview = (props) => {
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
-
+  console.log(currentElementIndex);
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
 
   const handleView = () => {
     setIsChecked(!isChecked);
   };
-  
 
   let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
 
   const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
-
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const survey_id = surveyValues?.survey_id;
-
 
   const [templateData, setTemplateData] = useState({
     headerBackground:
@@ -73,8 +73,10 @@ const SurveyPreview = (props) => {
     page_background_color: custom_html?.page_background_color,
     main_footer: custom_html?.main_footer,
     bodyText: custom_html?.bodyText,
-    logoWidth:custom_html?.logoWidth
+    logoWidth: custom_html?.logoWidth,
   });
+
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
 
   const [draggedElementIndex, setDraggedElementIndex] = useState(null);
   const handleAddElement = (type) => {
@@ -100,6 +102,10 @@ const SurveyPreview = (props) => {
       loader("hide");
       toast.error("Something went wrong");
     }
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
   };
 
   useEffect(() => {
@@ -163,8 +169,8 @@ const SurveyPreview = (props) => {
             questionId,
           }
         );
- 
       }
+      setConfirmationPopup(false)
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -327,9 +333,7 @@ const SurveyPreview = (props) => {
         <div className="preview-survey">
           <div
             className={
-              isChecked
-                ? `informed-survey mobile-view`
-                : "informed-survey"
+              isChecked ? `informed-survey mobile-view` : "informed-survey"
             }
           >
             {isEdit == true ? (
@@ -390,17 +394,19 @@ const SurveyPreview = (props) => {
               </div>
             )}
             <div
-            
-              className={isEdit ? "informed-survey-header" :"informed-survey-header no-click"}
+              className={
+                isEdit
+                  ? "informed-survey-header"
+                  : "informed-survey-header no-click"
+              }
               style={templateData.headerBackground}
             >
               {templateData.logo ? (
                 <img
-                src={templateData.logo}
-                alt="Informed Logo"
-                style={{ width: `${templateData.logoWidth}%` }}
-              />
-              
+                  src={templateData.logo}
+                  alt="Informed Logo"
+                  style={{ width: `${templateData.logoWidth}%` }}
+                />
               ) : (
                 ""
               )}
@@ -414,7 +420,11 @@ const SurveyPreview = (props) => {
               )}
             </div>
             <div
-              className={isEdit ? "informed-survey-body" : "informed-survey-body no-click"}
+              className={
+                isEdit
+                  ? "informed-survey-body"
+                  : "informed-survey-body no-click"
+              }
               style={
                 isEdit
                   ? {}
@@ -431,21 +441,19 @@ const SurveyPreview = (props) => {
               </div>
               <div className="informed-survey-question" ref={surveyRef}>
                 <Form>
-                  <div className="d-flex flex-column"  >
+                  <div className="d-flex flex-column">
                     {elements?.map((item, index) => (
                       <div
-                
                         className={`dragable-box ${
                           index === currentElementIndex ? "active" : ""
                         }`}
                         style={
                           isEdit
-                            ? { padding: "60px 20px 4px 5px"}
+                            ? { padding: "60px 20px 4px 5px" }
                             : {
                                 backgroundColor:
                                   templateData.page_background_color,
-                                  padding: "25px 20px 4px 5px"
-                        
+                                padding: "25px 20px 4px 5px",
                               }
                         }
                         draggable={isEdit} // Only make it draggable if isEdit is true
@@ -524,9 +532,10 @@ const SurveyPreview = (props) => {
                                 {...{
                                   item,
                                   index,
-                                  optionColor:
-                                    templateData.question_answer_color,
+                                  optionColor: templateData.bodyTextColor,
                                   isEdit,
+                                  inputColor:
+                                    templateData.question_answer_color,
                                   page_background_color:
                                     templateData.page_background_color,
                                 }}
@@ -551,9 +560,8 @@ const SurveyPreview = (props) => {
                             <div className="drag-actions">
                               <Button
                                 onClick={(e) => {
-                                  e.stopPropagation();
-                                  dispatch(deleteElement(index));
-                                  UpdateQuestion(item.questionId);
+                           
+                                  setConfirmationPopup(true)
                                 }}
                               >
                                 {" "}
@@ -586,6 +594,53 @@ const SurveyPreview = (props) => {
                                   alt="Add"
                                 />{" "}
                               </Button>
+
+                              <div className="delete">
+                                <Modal
+                                  className="modal send-confirm"
+                                  id="delete-confirm"
+                                  show={confirmationpopup}
+                                >
+                                  <Modal.Header>
+                                    {/* <Modal.Title>Heading Text</Modal.Title>*/}
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      data-bs-dismiss="modal"
+                                      onClick={(e) => hideConfirmationModal()}
+                                    ></button>
+                                  </Modal.Header>
+
+                                  <Modal.Body>
+                                    <img src={path + "alert.png"} alt="" />
+                                    <h4>
+                                      This question will be deleted.
+                                      <br />
+                                      Are you sure you wish to go ahead?
+                                    </h4>
+                                    <div className="modal-buttons">
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-filled"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          dispatch(deleteElement(index));
+                                          UpdateQuestion(item.questionId);
+                                        }}
+                                      >
+                                        Yes Please!
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-bordered light"
+                                        onClick={(e) => hideConfirmationModal()}
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  </Modal.Body>
+                                </Modal>
+                              </div>
                             </div>
                             {isAddClicked && (
                               <div className="preview-menu">

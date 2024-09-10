@@ -110,7 +110,9 @@ const AnalyticsPoll = () => {
       let payload = {
         'eventId': eventId?.eventId
       }
-      const res = await postFormData(`${ENDPOINT.WEBINAR_EVENT_POLL_STATS}`, payload, {
+
+      const target = localStorageEvent?.isOneSourceEvent == 1 ? ENDPOINT.WEBINAR_EVENT_POLL_STATS : ENDPOINT.WEBINAR_POLL_STATS;
+      const res = await postFormData(`${target}`, payload, {
         responseType: "blob",
       });
       const excelBlob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
