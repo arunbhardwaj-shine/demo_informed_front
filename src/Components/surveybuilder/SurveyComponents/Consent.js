@@ -5,6 +5,7 @@ import React from 'react';
 import { Form, Row } from 'react-bootstrap';
 import Select from "react-select";
 import consent from './consentobj.json';
+import consentCountries from './Modals/consentCountries';
 
 const Consent = ({ item, handleUpdateConsent, index }) => {
     const consentOptions = [
@@ -18,8 +19,8 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
     const defaultOption = consentOptions.find(option => option.label === "Octapharma | English");
 
     const getConsent = (selectedLanguage) => {
-        console.log(selectedLanguage)
-
+        const consentInputData=consent.consentDetails[selectedLanguage];
+        consentInputData[consentInputData.length-1].countryOptions=consentCountries[selectedLanguage]
         return {
             accordionType: "commonElements",
             type: "consent",
@@ -30,7 +31,7 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
             extra: {
                 selectedLanguage,
                 consentOptions: consent.consentOptions[selectedLanguage],
-                consentDetails: consent.consentDetails[selectedLanguage],
+                consentDetails: consentInputData,
                 privacyLinks: consent.privacyLinks,
                 cookiePolicy: consent.cookiePolicy[selectedLanguage],
                 operatingStatement: consent.operatingStatement[selectedLanguage]

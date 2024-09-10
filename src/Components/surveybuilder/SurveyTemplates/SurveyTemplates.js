@@ -22,24 +22,24 @@ const templates = [
                           <p style="color: {#question_answer_color#}">
                             How is the weather today?
                           </p>
-                          <label class="check" style="color: {#question_answer_color#}">Sunny
+                          <label class="check" style="color: {#bodyTextColor#}">Sunny
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Rainy
+                          <label class="check" style="color: {#bodyTextColor#}">Rainy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Snowy
+                          <label class="check" style="color: {#bodyTextColor#}">Snowy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Cloudy
+                          <label class="check" style="color: {#bodyTextColor#}">Cloudy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
                           <div class="form-footer">
                             <button type="button" style="background: {#button_color#};">{#button_text#}</button>
@@ -87,24 +87,24 @@ const templates = [
                           <p style="color: {#question_answer_color#}">
                             How is the weather today?
                           </p>
-                          <label class="check" style="color: {#question_answer_color#}">Sunny
+                          <label class="check" style="color: {#bodyTextColor#}">Sunny
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Rainy
+                          <label class="check" style="color: {#bodyTextColor#}">Rainy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Snowy
+                          <label class="check" style="color:{#bodyTextColor#}">Snowy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Cloudy
+                          <label class="check" style="color: {#bodyTextColor#}">Cloudy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
                           <div class="form-footer">
                             <button type="button" style="background: {#button_color#};">{#button_text#}</button>
@@ -153,24 +153,24 @@ const templates = [
                           <p style="color: {#question_answer_color#}">
                             How is the weather today?
                           </p>
-                          <label class="check" style="color: {#question_answer_color#}">Sunny
+                          <label class="check" style="color: {#bodyTextColor#}">Sunny
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Rainy
+                          <label class="check" style="color: {#bodyTextColor#}">Rainy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Snowy
+                          <label class="check" style="color: {#bodyTextColor#}">Snowy
                             <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
  
-                          <label class="check" style="color: {#question_answer_color#}">Cloudy
+                          <label class="check" style="color: {#bodyTextColor#}">Cloudy
                             <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
                           </label>
                           <div class="form-footer">
                             <button type="button" style="background: {#button_color#};">{#button_text#}</button>

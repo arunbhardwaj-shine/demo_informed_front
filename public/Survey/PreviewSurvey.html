@@ -25,8 +25,17 @@
 
     <script>
       function getQueryParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
+        // const params = new URLSearchParams(window.location.search);
+        // console.log(params)
+        // return params.get(name);
+        const url = window.location.href;
+        const params = new URLSearchParams(new URL(url).search);
+        console.log(params);
+        const utmde = params?.get(name) || "";
+        console.log(utmde);
+        const secretValues = utmde.includes("~") ? utmde?.split("~") : utmde;
+        console.log(secretValues);
+        return secretValues;
       }
 
       function showSubmitModal() {
@@ -91,7 +100,6 @@
           return;
         }
         if (data === "show") {
-          console.log("showing loader");
           element.classList.add("show");
         } else if (data === "hide") {
           element.classList.remove("show");
@@ -119,21 +127,80 @@
         }
       }
 
-      document.addEventListener("DOMContentLoaded", async function () {
-        console.log("Fetching data...");
-        const Utmde = getQueryParam("Utmde");
+      const handleAllOfTheAboveChange = (questionNo) => {
+        // Select all checkboxes with the given questionNo
+        const checkboxes = document.querySelectorAll(
+          `input[type="checkbox"][name="question${questionNo}"]`
+        );
+        const checkboxesArray = Array.from(checkboxes);
 
+        // Find the "All of the Above" checkbox
+        const allOfTheAboveCheckbox = checkboxesArray.find(
+          (checkbox) => checkbox.id === "allofTheAbovedata"
+        );
+
+        // Identify the last checkbox in the array
+        const lastCheckbox = checkboxesArray[checkboxesArray.length - 1];
+
+        if (allOfTheAboveCheckbox) {
+          const isAllOfTheAboveChecked = allOfTheAboveCheckbox.checked;
+
+          // Check or uncheck all checkboxes above it (excluding "All of the Above" and the last checkbox)
+          checkboxesArray.forEach((checkbox) => {
+            if (
+              checkbox !== allOfTheAboveCheckbox &&
+              checkbox !== lastCheckbox
+            ) {
+              checkbox.checked = isAllOfTheAboveChecked;
+            }
+          });
+        }
+      };
+
+      const handleIndividualCheckboxChange = (questionNo) => {
+        // Select all checkboxes with the given questionNo
+        const checkboxes = document.querySelectorAll(
+          `input[type="checkbox"][name="question${questionNo}"]`
+        );
+        const checkboxesArray = Array.from(checkboxes);
+
+        // Find the "All of the Above" checkbox
+        const allOfTheAboveCheckbox = checkboxesArray.find(
+          (checkbox) => checkbox.id === "allofTheAbovedata"
+        );
+
+        // Identify the last checkbox in the array
+        const lastCheckbox = checkboxesArray[checkboxesArray.length - 1];
+
+        // Check if all other checkboxes (excluding the last one) are checked
+        const allOtherChecked = checkboxesArray
+          .filter(
+            (checkbox) =>
+              checkbox !== allOfTheAboveCheckbox && checkbox !== lastCheckbox
+          )
+          .every((checkbox) => checkbox.checked);
+
+        // Uncheck "All of the Above" if not all other checkboxes are checked
+        if (allOfTheAboveCheckbox) {
+          allOfTheAboveCheckbox.checked = allOtherChecked;
+        }
+      };
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        const urlKeys = getQueryParam("Utmde");
+        // Check if urlKeys is an array and extract values accordingly
+        const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
+        const user_id = Array.isArray(urlKeys) ? urlKeys[1] || "" : "";
+        console.log(Utmde,user_id)
         if (!Utmde) {
           window.location.replace("/survey/404");
           return;
-    
         }
 
-        const apiUrl =
-          "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
-          user_id: "0",
+          user_id: user_id,
         };
 
         let data = [];
@@ -146,26 +213,40 @@
             },
             body: JSON.stringify(payload),
           });
+
           data = await response.json();
+          console.log(data);
 
-          if (data.status == "success") {
-            if (data && data.data && data.data[0] && data.data[0].survey_info) {
-              console.log("hello from inside");
-              if (data.data[0].survey_info.is_draft === 2) {
-                window.location.replace("/survey/404");
-                return;
-              }
+          if (data.status == 200) {
+            if (data.data[0].survey_info.is_draft === 2) {
+              console.log("inside live");
+              window.location.replace("/survey/404");
+              return;
             }
-
-            console.log("Fetched Data:", data);
+            data.data[0].survey_info.id;
+            JSON.parse(data.data[0].survey_info.custom_html)[0];
+          } else if (
+            data.status == 400 &&
+            data.data[0].question_data.length == 0
+          ) {
             loader("hide");
+            window.location.replace("/survey/404");
+            return;
+          } else if (
+            data.status === 204 &&
+            data.data[0].question_data.length == 0
+          ) {
+            loader("hide");
+            console.error("survey data not avaliable");
+            return;
           }
+          loader("hide");
         } catch (error) {
           loader("hide");
-          console.error("Error fetching survey data:", error.message);
-          document.getElementById(
-            "survey-container"
-          ).innerHTML = `<p>Error fetching survey data: ${error.message}</p>`;
+          console.log("Error fetching survey data:", error.message);
+
+          window.location.replace("/survey/404");
+
           return;
         }
         const survey_id = data.data[0].survey_info.id;
@@ -176,14 +257,18 @@
               ? `background-color: ${customHtml.header_background_color};`
               : `background-image: url('${customHtml.header_background_image}'); background-size: cover;`
           }">
-              ${
-                customHtml.logo !== ""
-                  ? `<img src="${customHtml.logo}" alt="Logo" width="${customHtml.logoWidth}%">`
-                  : ""
-              }
-              <h2 style="color: ${customHtml.title_color}; font-weight: 700;">${
-          customHtml?.main_heading
-        }</h2>
+             ${
+               customHtml.logo !== "" && customHtml.changeLogoToggle
+                 ? `<img src="${customHtml.logo}" style="width: ${customHtml.logoWidth}%;"/>`
+                 : ""
+             }
+
+    ${
+      customHtml.changeTitleToggle != "" && customHtml.changeTitleToggle
+        ? `<h2 style="color: ${customHtml.title_color}; font-weight: 700;">${customHtml.main_heading}</h2>`
+        : ""
+    }
+            
           </div>
           <div class="informed-survey-body" style="background-color: ${
             customHtml?.page_background_color
@@ -191,13 +276,13 @@
               <div class="informed-survey-text" style="color: ${
                 customHtml?.bodyTextColor
               };">
-                  <p>${customHtml?.bodyText}</p>
+                  ${customHtml?.bodyText}
               </div>
               <form id="survey-form">
       `;
 
         const questions = data.data[0].question_data;
-        console.log(questions);
+
         questions.forEach((question) => {
           switch (question.type) {
             // Generate survey HTML
@@ -211,9 +296,9 @@
                   <div class="d-flex question-title" style="color: ${
                     customHtml.question_answer_color
                   };">
-                      <p>${question.question} <span>${
+                      ${question.question} <span>${
                 question.isOptional ? question.optionalLabel : ""
-              }</span></p>
+              }</span>
                   </div>
                   <p class="helper-text">${question.questionDescription}</p>`;
 
@@ -221,7 +306,7 @@
               question.answer.forEach((answer) => {
                 surveyHtml += `
                   <label class="check" style="color: ${
-                    customHtml.question_answer_color
+                    customHtml.bodyTextColor
                   };">
                       <input type="radio" name="question${
                         question.questionId
@@ -235,29 +320,11 @@
                   </label>`;
               });
 
-              // Add the "All of the above" option if applicable
-              if (question.extra.addAllOfTheAbove) {
-                surveyHtml += `
-                  <label class="check" style="color: ${
-                    customHtml.question_answer_color
-                  };">
-                      <input type="radio" name="question${
-                        question.questionId
-                      }" value="${question.extra.allOfTheAboveLabel}"
-                          ${question.isOptional ? "" : "required"}
-                          onclick="handleRadioClick(${
-                            question.questionId
-                          }, this.value);" />
-                      ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark"></span><br>
-                  </label>`;
-              }
-
               // Add the "Other" choice with its text input
               if (question.addOtherChoice) {
                 surveyHtml += `
                   <label class="check" style="color: ${
-                    customHtml.question_answer_color
+                    customHtml.bodyTextColor
                   };">
                       <input type="radio" name="question${question.questionId}"
                           id="radio-other-choice-${question.questionId}"
@@ -302,21 +369,43 @@
               question.answer.forEach((answer) => {
                 surveyHtml += `
                 <label class="check" style="color: ${
-                  customHtml.question_answer_color
+                  customHtml.bodyTextColor
                 };">
                     <input type="checkbox" name="question${
                       question.questionId
-                    }" value="${answer.answerId}" ${
-                  question.isOptional ? "" : "required"
-                }"/>
+                    }" value="${answer.answerId}"
+                ${question.isOptional ? "" : "required"}
+                id="checkbox-${question.questionId}-${answer.answerId}"
+                onclick="handleIndividualCheckboxChange(${
+                  question.questionId
+                });" />
                     ${answer.value}
                     <span class="checkmark"></span>
                 </label>`;
               });
+              // Add the "All of the above" option if applicable
+              if (question.extra.addAllOfTheAbove) {
+                surveyHtml += `
+                  <label class="check" style="color: ${
+                    customHtml.bodyTextColor
+                  };">
+                      <input type="checkbox" name="question${
+                        question.questionId
+                      }" 
+                      id="allofTheAbovedata"
+                      value="${question.extra.allOfTheAboveLabel}"
+                          ${question.isOptional ? "" : "required"}
+                          onclick="handleAllOfTheAboveChange(${
+                            question.questionId
+                          }, this.value);" />
+                      ${question.extra.allOfTheAboveLabel}
+                      <span class="checkmark"></span><br>
+                  </label>`;
+              }
               if (question.addOtherChoice) {
                 surveyHtml += `
               <label class="check" style="color: ${
-                customHtml.question_answer_color
+                customHtml.customHtml.bodyTextColor
               };">
                   <input type="checkbox" name="question${
                     question.questionId
@@ -426,7 +515,11 @@
         <label class="rating-option" for="stars-rating-${
           question.questionId
         }-${i}" style="color: ${question.extra.ratingColor};">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><g clip-path="url(#clip0_1228_31957)"><path d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z" stroke="#FAC755" style="fill: none;"></path></g><defs><clipPath id="clip0_1228_31957"><rect width="24" height="24" fill="white" transform="translate(0 0.046875)"></rect></clipPath></defs></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="${
+            question.extra.ratingColor
+          }"><g clip-path="url(#clip0_1228_31957)"><path d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z" stroke="${
+                    question.extra.ratingColor
+                  }" style="fill: none;"></path></g><defs><clipPath id="clip0_1228_31957"><rect width="24" height="24" fill="white" transform="translate(0 0.046875)"></rect></clipPath></defs></svg>
         </label>
       `;
                 }
@@ -508,7 +601,10 @@
                         <tr>
                           <th>&nbsp;</th>
                           ${question.answer[0].answer
-                            .map((column) => `<th>${column.value}</th>`)
+                            .map(
+                              (column) =>
+                                `<th style="color: ${customHtml.bodyTextColor};" >${column.value}</th>`
+                            )
                             .join("")}
                         </tr>
                       </thead>
@@ -517,12 +613,14 @@
                           .map(
                             (row) =>
                               `<tr>
-                                <td>${row.title}</td>
+                                <td style="color: ${
+                                  customHtml.bodyTextColor
+                                };">${row.title}</td>
                                 ${row.answer
                                   .map(
                                     (option) =>
                                       `<td>
-                                        <input type="${inputType}"
+                                        <input type="${inputType} "
                                                ${
                                                  inputType === "radio"
                                                    ? `name="question${row.id}"`
@@ -575,7 +673,7 @@
         id="textarea${question.questionId}"
         type="textarea"
         name="question${question.questionId}"
-        placeholder="${question.extra.Placeholder}"
+        placeholder="${question.extra.placeholder}"
         ${question.isOptional ? "" : "required"}
         oninput="updateCharCount(${question.questionId}, ${
                 question.extra.maxTextLength
@@ -696,7 +794,9 @@
                 ${question.extra.consentOptions
                   .map(
                     (option, index) => `
-                <label class="consent-item">
+                <label class="consent-item" style="color: ${
+                  customHtml.bodyTextColor
+                };">
                   <input type="checkbox" name="consentOption" class="consentoptions" id="option${
                     index + 1
                   }"  required value="${option.label}" ${
@@ -922,7 +1022,6 @@
         function validateForm() {
           let isValid = true;
           const formElements = document.querySelectorAll(".notoptional");
-          console.log(formElements);
 
           // Clear previous error messages
           formElements.forEach((el) => {
@@ -944,7 +1043,7 @@
             ) {
               questionType = "matrix";
             }
-            console.log(questionType);
+
             let errorMessage = "";
 
             switch (questionType) {
@@ -1183,7 +1282,6 @@
               const errorElement = consent.querySelector(
                 "#error-consentoption"
               );
-              console.log(errorElement);
 
               // Check if at least one checkbox is checked
               const isAnyChecked = Array.from(consentOptions).some(
@@ -1212,15 +1310,13 @@
         function scrollToFirstError() {
           // Find all elements with the 'error' class
           const errors = document.querySelectorAll(".error-message");
-          console.log(errors);
-          console.log("insise sscrool");
+
           // Find the first error element that has content
           const firstError = Array.from(errors).find(
             (el) => el.textContent.trim() !== ""
           );
 
           if (firstError) {
-            console.log(firstError);
             // Scroll to the first error element
             firstError.scrollIntoView({ behavior: "smooth", block: "center" });
           }
@@ -1234,7 +1330,6 @@
             const result = validateForm();
 
             if (!result) {
-              console.log("form wrong isvalid");
               scrollToFirstError();
               return;
             }
@@ -1242,7 +1337,7 @@
             const formData = new FormData(
               document.getElementById("survey-form")
             );
-            console.log(formData);
+
             const obj = {};
 
             formData.forEach((value, key) => {
@@ -1260,7 +1355,6 @@
               }
             });
 
-            console.log(obj);
             const responses = [];
 
             questions.forEach((question) => {
@@ -1372,7 +1466,7 @@
                 typeof obj.consentOption === "string"
                   ? [obj.consentOption]
                   : obj.consentOption ?? [],
-              user_id: 0,
+               user_id: user_id,
               password: 12345678,
               group_id: 11,
               decrypted: 12345678,
@@ -1382,11 +1476,12 @@
                 ...responses, // Spread the existing responses array
               ],
             };
-            console.log(submitPayload);
 
             try {
               if (localStorage.getItem(`form_surveyid${survey_id}`)) {
-                showToast("Data inserted previously");
+                showToast("You have already submitted the survey");
+                closeModal();
+                document.getElementById("survey-form").reset(); // Reset your form
                 return;
               }
 
@@ -1401,8 +1496,8 @@
                 body: JSON.stringify(submitPayload),
               });
 
-              console.log(submitResponse);
-              console.log(await submitResponse.json());
+              // console.log(submitResponse);
+              // console.log(await submitResponse.json());
 
               if (submitResponse.status == "400") {
                 loader("hide");

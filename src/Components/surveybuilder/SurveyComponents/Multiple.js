@@ -14,7 +14,7 @@ export default function Multiple({
   addOptionInMiddle,
 }) {
   const [showModal, setShowModal] = useState(false);
-  console.log(item, index, "from multiple");
+ 
   const handleAddBulkElements = (elements) => {
     handleUpdateElement(index, "questionOptions", elements);
   };
@@ -68,7 +68,7 @@ export default function Multiple({
               <Form.Control
                 type="text"
                 value={option.value}
-                placeholder="Type your answer"
+                placeholder="Type your answer here"
                 onChange={(e) => {
                   const updatedOptions = [...item.answer]; // Create a new array
                   updatedOptions[idx].value = e.target.value; // Update the new array

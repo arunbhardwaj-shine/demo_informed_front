@@ -66,7 +66,7 @@ const ThanksPage = (props) => {
     }
   };
 
-  console.log(thanksPageData);
+ 
 
   return (
     <>
@@ -164,6 +164,7 @@ const ThanksPage = (props) => {
                                 value={thanksPageData.headline}
                                 handleUpdateElement={updateheadline}
                                 index={"headline"}
+                                  Placeholder=""
                               />
                             </div>
                           </div>
@@ -312,7 +313,7 @@ const ThanksPage = (props) => {
 
 const mapStateToProps = (state) => {
   surveyValues = state?.getSurveyData;
-  console.log(surveyValues);
+   
   return state;
 };
 

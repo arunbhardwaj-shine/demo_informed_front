@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'react-bootstrap';
 
 export default function FreeText({ item, index, handleUpdateElement,handleExtraAndStyle }) {
-    console.log("FreeText");
+   
 
 
     return (
@@ -11,7 +11,7 @@ export default function FreeText({ item, index, handleUpdateElement,handleExtraA
                 <p className="option-heading">Placeholder text</p>
                 <Form.Control
                     type="text"
-                    placeholder="Type your answer here..."
+                    placeholder={item.extra.placeholder}
                     value={item.extra.placeholder}
                     onChange={(e) => handleExtraAndStyle(index,e.target.value,"placeholder","extra")}
                 />

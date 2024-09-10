@@ -1,7 +1,6 @@
 
+import consentCountries from "../Components/surveybuilder/SurveyComponents/Modals/consentCountries";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
-
 
 export const menuType = {
   multiple: {
@@ -24,8 +23,6 @@ export const menuType = {
     extra: {
       otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
-      addAllOfTheAbove: false,
-      allOfTheAboveLabel: "All of the above",
     },
   },
   checkbox: {
@@ -48,7 +45,8 @@ export const menuType = {
     extra: {
       otherChoiceLabel: "Other",
       otherChoicePlaceholderText: "",
-      
+      addAllOfTheAbove: false,
+      allOfTheAboveLabel: "All of the above",
     },
   },
   dropdown: {
@@ -86,7 +84,7 @@ export const menuType = {
     optionalLabel: "(Optional)",
     style: {},
     extra: {
-      Placeholder:"",
+      placeholder:"Type Your answer here",
       maxTextLength: 20
     },
     
@@ -148,7 +146,7 @@ export const menuType = {
     type: "heading",
     questionId: 0,
     visible: true,
-    question: "<p>Lorem Ipsum<p>",
+    question: "",
     questionDescriptionEnabled: false,
     questionDescription: "",
     style: {},
@@ -160,7 +158,7 @@ export const menuType = {
     type: "paragraph",
     questionId: 0,
     visible: true,
-    question: "Paragraph",
+    question: "",
     style: {
       color: "#004A89",
     },
@@ -238,7 +236,7 @@ export const menuType = {
         {
           countryLabel: "Country",
           countryPlaceholder: "Please Select Country",
-          countryOptions: ["China", "USA", "India", "Germany"],
+          countryOptions: consentCountries["Octapharma | English"],
         },
       ],
       privacyLinks: [
