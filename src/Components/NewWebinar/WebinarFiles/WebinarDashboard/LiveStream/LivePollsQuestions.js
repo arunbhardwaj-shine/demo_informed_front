@@ -50,6 +50,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
   const [currentTab, setCurrentTab] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentIndexRef= useRef(0);
+  const currentActionRef= useRef(0);
   const [questionIdIndex, setQuestionIdIndex] = useState([]);
   const [pieChartData, setPieChartData] = useState({});
   const [apiCallStatus, setApiCallStatus] = useState(false);
@@ -241,6 +242,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
         updateQuestionId?.push(questionId);
         setQuestionIdIndex(updateQuestionId);
       }
+      currentActionRef.current=0
       setCurrentTab(currentTab + 1);
     } catch (err) {
       console.log("--err", err);
@@ -307,8 +309,32 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
 
                 return item;
               });
+              
+              if(currentActionRef.current!=0){
+                if (currentActionRef.current === 1) {
+                  tempData[0].showQuestionToUser = 1;
+                  tempData[0].showAnswerToUser = 0;
 
+                }
+                else if (currentActionRef.current === 2) {
+                  tempData[0].showQuestionToUser = 2;
+                  tempData[0].showAnswerToUser = 1;
+                }
+                else if (currentActionRef.current === 3) {
+                  const item=tempData[0]
+                  if (item.showQuestionToUser === 1) {
+                    tempData[0].showQuestionToUser = 2;
+                  }
+  
+                  if (item.showAnswerToUser === 1) {
+                    tempData[0].showAnswerToUser = 2;
+                  }
+                  tempData[0].triggered = 0;
+
+                }
+              }
               tempQuestion[currentIndex] = tempData[0];
+           
               currentIndexRef.current=tempData[0];
               setQuestion(tempQuestion);
 
@@ -327,7 +353,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
 
   const submitQuestionAnswer = async (e, question_id, type) => {
     try {
-
+      currentActionRef.current=type=="submit"?1:2
       setApiCallStatus(true);
       let body = {
         eventId: eventData?.id,
@@ -347,7 +373,8 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
 
   const closedClicked = async (e, question_id, index) => {
     try {
-    
+      currentActionRef.current=3
+
       setApiCallStatus(true);
       setClosedIndex(index);
       let data = await postData(ENDPOINT.EVENT_CLOSE, {

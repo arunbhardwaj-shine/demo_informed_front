@@ -32,7 +32,7 @@ const SurveyPreview = (props) => {
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
-
+  console.log(currentElementIndex)
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
 
@@ -525,8 +525,9 @@ const SurveyPreview = (props) => {
                                   item,
                                   index,
                                   optionColor:
-                                    templateData.question_answer_color,
+                                    templateData.bodyTextColor,
                                   isEdit,
+                                  inputColor:templateData.question_answer_color,
                                   page_background_color:
                                     templateData.page_background_color,
                                 }}
