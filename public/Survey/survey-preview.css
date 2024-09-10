@@ -628,6 +628,7 @@ textarea:focus-visible {
 .question-title p span {
   color: inherit;
   font-weight: 500;
+  margin-left:0;
 }
 .question-title {
   display: inline-block;
