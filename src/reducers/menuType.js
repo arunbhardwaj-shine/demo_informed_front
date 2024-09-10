@@ -84,7 +84,7 @@ export const menuType = {
     optionalLabel: "(Optional)",
     style: {},
     extra: {
-      Placeholder:"",
+      placeholder:"Type Your answer here",
       maxTextLength: 20
     },
     

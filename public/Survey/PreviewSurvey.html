@@ -25,8 +25,17 @@
 
     <script>
       function getQueryParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
+        // const params = new URLSearchParams(window.location.search);
+        // console.log(params)
+        // return params.get(name);
+        const url = window.location.href;
+        const params = new URLSearchParams(new URL(url).search);
+        console.log(params);
+        const utmde = params?.get(name) || "";
+        console.log(utmde);
+        const secretValues = utmde.includes("~") ? utmde?.split("~") : utmde;
+        console.log(secretValues);
+        return secretValues;
       }
 
       function showSubmitModal() {
@@ -178,16 +187,20 @@
       };
 
       document.addEventListener("DOMContentLoaded", async function () {
-        const Utmde = getQueryParam("Utmde");
+        const urlKeys = getQueryParam("Utmde");
+        // Check if urlKeys is an array and extract values accordingly
+        const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
+        const user_id = Array.isArray(urlKeys) ? urlKeys[1] || "" : "";
+        console.log(Utmde,user_id)
         if (!Utmde) {
           window.location.replace("/survey/404");
           return;
         }
 
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
           Utmde,
-          user_id: "0",
+          user_id: user_id,
         };
 
         let data = [];
@@ -200,14 +213,13 @@
             },
             body: JSON.stringify(payload),
           });
-   
+
           data = await response.json();
           console.log(data);
 
           if (data.status == 200) {
-            
             if (data.data[0].survey_info.is_draft === 2) {
-              console.log("inside live")
+              console.log("inside live");
               window.location.replace("/survey/404");
               return;
             }
@@ -233,7 +245,7 @@
           loader("hide");
           console.log("Error fetching survey data:", error.message);
 
-          // window.location.replace("/survey/404");
+          window.location.replace("/survey/404");
 
           return;
         }
@@ -264,7 +276,7 @@
               <div class="informed-survey-text" style="color: ${
                 customHtml?.bodyTextColor
               };">
-                  <p>${customHtml?.bodyText}</p>
+                  ${customHtml?.bodyText}
               </div>
               <form id="survey-form">
       `;
@@ -284,9 +296,9 @@
                   <div class="d-flex question-title" style="color: ${
                     customHtml.question_answer_color
                   };">
-                      <p>${question.question} <span>${
+                      ${question.question} <span>${
                 question.isOptional ? question.optionalLabel : ""
-              }</span></p>
+              }</span>
                   </div>
                   <p class="helper-text">${question.questionDescription}</p>`;
 
@@ -357,7 +369,7 @@
               question.answer.forEach((answer) => {
                 surveyHtml += `
                 <label class="check" style="color: ${
-                  customHtml.question_answer_color
+                  customHtml.bodyTextColor
                 };">
                     <input type="checkbox" name="question${
                       question.questionId
@@ -375,7 +387,7 @@
               if (question.extra.addAllOfTheAbove) {
                 surveyHtml += `
                   <label class="check" style="color: ${
-                    customHtml.question_answer_color
+                    customHtml.bodyTextColor
                   };">
                       <input type="checkbox" name="question${
                         question.questionId
@@ -393,7 +405,7 @@
               if (question.addOtherChoice) {
                 surveyHtml += `
               <label class="check" style="color: ${
-                customHtml.question_answer_color
+                customHtml.customHtml.bodyTextColor
               };">
                   <input type="checkbox" name="question${
                     question.questionId
@@ -589,7 +601,10 @@
                         <tr>
                           <th>&nbsp;</th>
                           ${question.answer[0].answer
-                            .map((column) => `<th>${column.value}</th>`)
+                            .map(
+                              (column) =>
+                                `<th style="color: ${customHtml.bodyTextColor};" >${column.value}</th>`
+                            )
                             .join("")}
                         </tr>
                       </thead>
@@ -598,12 +613,14 @@
                           .map(
                             (row) =>
                               `<tr>
-                                <td>${row.title}</td>
+                                <td style="color: ${
+                                  customHtml.bodyTextColor
+                                };">${row.title}</td>
                                 ${row.answer
                                   .map(
                                     (option) =>
                                       `<td>
-                                        <input type="${inputType}"
+                                        <input type="${inputType} "
                                                ${
                                                  inputType === "radio"
                                                    ? `name="question${row.id}"`
@@ -656,7 +673,7 @@
         id="textarea${question.questionId}"
         type="textarea"
         name="question${question.questionId}"
-        placeholder="${question.extra.Placeholder}"
+        placeholder="${question.extra.placeholder}"
         ${question.isOptional ? "" : "required"}
         oninput="updateCharCount(${question.questionId}, ${
                 question.extra.maxTextLength
@@ -777,7 +794,9 @@
                 ${question.extra.consentOptions
                   .map(
                     (option, index) => `
-                <label class="consent-item">
+                <label class="consent-item" style="color: ${
+                  customHtml.bodyTextColor
+                };">
                   <input type="checkbox" name="consentOption" class="consentoptions" id="option${
                     index + 1
                   }"  required value="${option.label}" ${
@@ -1468,7 +1487,7 @@
 
               loader("show");
               const submitApiUrl =
-                "https://informedback.shinedezign.pro/survey/insert-user-responses";
+                "http://192.168.0.231:3001/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {

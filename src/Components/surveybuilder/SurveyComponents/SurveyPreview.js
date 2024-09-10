@@ -527,6 +527,7 @@ const SurveyPreview = (props) => {
                                   optionColor:
                                     templateData.bodyTextColor,
                                   isEdit,
+                                  inputColor:templateData.question_answer_color,
                                   page_background_color:
                                     templateData.page_background_color,
                                 }}
