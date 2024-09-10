@@ -2000,6 +2000,11 @@ span {
                 word-break: break-word;
             }
         }
+        @media (max-width:767px){
+            .informed-survey-header {
+                min-height: 100px;
+            }
+        }
 
         .informed-survey-body {
             padding: 24px 56px;
@@ -2210,11 +2215,9 @@ span {
                     }
 
                     &>span {
-                        color: $dark-blue;
-                        font-size: 12px;
-                        font-weight: 500;
-                        line-height: 132%;
+                        color: inherit;
                         margin: 0 0 17px;
+                        font-weight: 500;
                     }
                 }
 
