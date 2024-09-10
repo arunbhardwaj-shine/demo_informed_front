@@ -81,6 +81,7 @@
           element.value = "";
         });
         document.getElementById("survey-form").reset(); // Reset your form
+        window.location.reload()
       }
 
       function updateCharCount(questionId, maxTextLength) {
@@ -190,7 +191,7 @@
         const urlKeys = getQueryParam("Utmde");
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
-        const user_id = Array.isArray(urlKeys) ? urlKeys[1] || "" : "";
+        const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
         console.log(Utmde,user_id)
         if (!Utmde) {
           window.location.replace("/survey/404");
@@ -620,7 +621,7 @@
                                   .map(
                                     (option) =>
                                       `<td>
-                                        <input type="${inputType} "
+                                        <input type="${inputType}"
                                                ${
                                                  inputType === "radio"
                                                    ? `name="question${row.id}"`
