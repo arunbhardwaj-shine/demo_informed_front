@@ -924,7 +924,7 @@ const SurveyMenu = ({ menuRef }) => {
           </div>
           <div
             className={
-              elements[currentElementIndex].accordionType == "commonElements"
+              elements[currentElementIndex]?.accordionType == "commonElements"
                 ? "live-stream-tabs-data  common-elements"
                 : "live-stream-tabs-data"
             }

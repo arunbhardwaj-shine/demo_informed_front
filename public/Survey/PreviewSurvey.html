@@ -190,14 +190,14 @@
         const urlKeys = getQueryParam("Utmde");
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
-        const user_id = Array.isArray(urlKeys) ? urlKeys[1] || "" : "";
+        const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
         console.log(Utmde,user_id)
         if (!Utmde) {
           window.location.replace("/survey/404");
           return;
         }
 
-        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -1466,7 +1466,7 @@
                 typeof obj.consentOption === "string"
                   ? [obj.consentOption]
                   : obj.consentOption ?? [],
-              user_id: 0,
+               user_id: user_id,
               password: 12345678,
               group_id: 11,
               decrypted: 12345678,
@@ -1487,7 +1487,7 @@
 
               loader("show");
               const submitApiUrl =
-                "http://192.168.0.231:3001/survey/insert-user-responses";
+                "https://informedback.shinedezign.pro/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
