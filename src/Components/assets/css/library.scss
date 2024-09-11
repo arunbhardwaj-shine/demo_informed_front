@@ -1130,6 +1130,7 @@
     overflow-y: hidden;
     padding-right: 0;
     padding-bottom: 0;
+    padding-top:30px;
 
     .timeline-layout-inset {
       padding: 0 70px 10px 0;
@@ -1137,8 +1138,106 @@
 
       .timeline-right-list {
         .timeline-right-header {
-          top: 51px;
-          padding: 10px 0 0;
+          top: 0px;
+          padding: 0px 0 0;
+          .timeline-picker{
+            width:auto;
+            margin-left: auto;
+            padding:4px 0;
+            .dropdown-menu{
+              &.filter-options{
+                padding:19px 32px 60px 32px;
+                h6{
+                  padding: 10px 0 5px 23px;
+                  font-size: 18px;
+                  color: $dark-blue
+                }
+                form{
+                  align-items: center;
+                  color: $primary-color;
+                  font-weight: 500;
+                  padding: 0 0 32px;
+                  .form-group{
+                    width: 50%;
+                    .react-datepicker-wrapper{
+                      max-width: 100%;
+                      input{
+                        font-size: 14px;
+                        border-radius: 25px;
+                        border: 0;
+                        padding: 12px 24px;
+                        background: $white url(../images/calender.png) no-repeat;
+                        background-size: 23px;
+                        background-position: 90%;
+                      }
+                    }
+                    .react-datepicker-popper {
+                      z-index: 99;
+                      button{
+                        padding: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: initial;
+                        background: transparent;
+                        position: absolute;
+                        span{
+                          top:auto;
+                          right:auto;
+                        }
+                      }
+                  }
+                  }
+                }
+              }
+            }
+            @media (max-width:1450px){
+              .dropdown-menu{
+                &.filter-options{
+                  padding:19px 25px 60px 25px;
+                  h6{
+                    padding: 10px 0 5px 20px;
+                    font-size: 15px;
+                    color: $dark-blue
+                  }
+                  form{
+                    .form-group{
+                      .react-datepicker-wrapper{
+                        input{
+                          padding: 10px 20px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            @media (max-width:1199px){
+              .dropdown-menu{
+                &.filter-options{
+                  padding:16px 15px 60px 15px;
+                  h6{
+                    padding: 6px 0 5px 10px;
+                    font-size: 14px;
+                  }
+                  form{
+                    padding: 0 0 10px;
+                    .form-group{
+                      .react-datepicker-wrapper{
+                        input{
+                          padding: 8px 10px;
+                          font-size: 12px;
+                          background-size: 17px;
+                          background-position: 88%;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            }
+          }
         }
 
         .timeline-box {
@@ -1147,7 +1246,93 @@
               left: -68px;
             }
           }
+          .apply-filter{
+            margin: 0;
+            padding: 10px 0 13px;
+            position: sticky;
+            top: 49px;
+            z-index: 9;
+            background: #fbfcfd;
+            &:before{
+              content: "";
+              position: absolute;
+              border-left: 1px dashed #0066BE;
+              height: 100%;
+              left: -48px;
+              top: 0px;
+            }
+            &:after {
+              content: "";
+              position: absolute;
+              background: #fbfcfd;
+              width: 85px;
+              height: 100%;
+              left: -75px;
+              top: 0;
+              z-index: -1;
+          }
+            .filter-block{
+              align-items: center;
+              .filter-result {
+                padding: 3px 5px 3px 11px;
+                margin: 0px 16px 0px 12px;
+            }
+            }
+            &+.timeline-sticky {
+              top: 147px;
+              padding: 8px 0 18px;
+              .timeline-indicator {
+                top: 17px;
+            }
+            }
+          }
+          
         }
+        .timeline-sticky {
+          padding: 45px 0 18px;
+          top: 49px;
+      }
+      @media (max-width:1450px){
+        .timeline-box {
+          .apply-filter{
+            &+.timeline-sticky {
+              top: 135px;
+            }
+          }
+          
+        }
+
+      }
+      @media (max-width:1365px){
+        .timeline-sticky {
+          top: 46px;
+        }
+        .timeline-box {
+          .apply-filter{
+            top: 46px;
+            &+.timeline-sticky {
+              top: 132px;
+            }
+          }
+          
+        }
+
+      }
+      @media (max-width:1199px){
+        .timeline-sticky {
+          top: 36px;
+          padding:32px 0 18px;
+        }
+        .timeline-box {
+          .apply-filter{
+            top: 46px;
+            &+.timeline-sticky {
+              top: 132px;
+            }
+          }
+          
+        }
+
       }
     }
   }
@@ -1662,7 +1847,7 @@
           position: absolute;
           left: -53px;
           z-index: 1;
-          top: 36px;
+          top: 52px;
 
           span {
             width: 10px;
