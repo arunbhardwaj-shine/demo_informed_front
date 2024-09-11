@@ -406,7 +406,43 @@ const SetLayoutNewTimeline = () => {
                   </Form>
 
                 </div> */}
-                <div className="timeline-picker">
+                
+              
+                
+
+                {!apiStatus ?
+                  (
+                    <div className="accordion-loader">
+                      <div
+                        className={
+                          "loader tab-inside " +
+                          (sectionLoader ? "show" : "")
+                        }
+                        id="custom_loader"
+                      >
+                        <div className="loader_show">
+                          <span className="loader-view"> </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) :
+                  timelineData?.length ?
+                    <div className="timeline-right-list">
+                      <div className="timeline-right-header">
+                        <div className="timeline-indicator">
+                          <img src={path_image + "informed-circle-icon.svg"} alt="" />
+                        </div>
+                        <div className="timeline-date">
+                          <h3>LEX-210 Trial</h3>
+                          {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
+                          <p>
+                            {moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY')}
+                            <span> | </span>
+                            {moment(loadMore?.lastUpdate).utc().format('h:mm A')}
+                            <sub> last update</sub>
+                          </p>
+                        </div>
+                        <div className="timeline-picker">
                   <div
                     className={
                       showfilter
@@ -482,96 +518,8 @@ const SetLayoutNewTimeline = () => {
                       >
                         <h4>Filter By</h4>
                         <h6>Date</h6>
-
-                        {/* <Accordion defaultActiveKey="0" flush>
-                          {Object.keys(filterdata)?.map(function (key, index) {
-                            return (
-                              <>
-                                {filterdata[key]?.length ? (
-                                  <Accordion.Item
-                                    className={
-                                      key == "Role" ? "card upper" : "card"
-                                    }
-                                    eventKey={index}
-                                  >
-                                    <Accordion.Header className="card-header">
-                                      {key}
-                                    </Accordion.Header>
-                                    <Accordion.Body className="card-body">
-                                      <ul>
-                                        {filterdata[key]?.length
-                                          ? filterdata[key]?.map(
-                                            (item, index) => (
-                                              <li>
-                                                {item != "" ? (
-                                                  <label className="select-multiple-option">
-                                                    <input
-                                                      type={
-                                                        key == "draft" ||
-                                                          key == "ibu" ||
-                                                          key ==
-                                                          "Selected By Articles" ||
-                                                          key ==
-                                                          "SPC Included" ||
-                                                          key == "Blinded" ||
-                                                          key == "Mandatory" ||
-                                                          key == "List" ||
-                                                          key == "language" ||
-                                                          key ==
-                                                          "IRT mandatory training" ||
-                                                          key ==
-                                                          "Business Unit" ||
-                                                          key ==
-                                                          "Content Owners" ||
-                                                          key == "Platform"
-                                                          ? "radio"
-                                                          : "checkbox"
-                                                      }
-                                                      id={`custom-checkbox-tags-${index}`}
-                                                      value={item}
-                                                      name={key}
-                                                      checked={
-                                                        otherFilter[
-                                                          key
-                                                        ]?.includes(item)
-                                                          ? true
-                                                          : false
-                                                      }
-                                                      onChange={(e) =>
-                                                        handleOnFilterChange(
-                                                          e,
-                                                          item,
-                                                          index,
-                                                          key,
-                                                          [...filterdata[key]]
-                                                        )
-                                                      }
-                                                    />
-
-                                                    {key == "draft" &&
-                                                      item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&
-                                                        item == "1"
-                                                        ? "draft"
-                                                        : item}
-                                                    <span className="checkmark"></span>
-                                                  </label>
-                                                ) : null}
-                                              </li>
-                                            )
-                                          )
-                                          : null}
-                                      </ul>
-                                    </Accordion.Body>
-                                  </Accordion.Item>
-                                ) : null}
-                              </>
-                            );
-                          })}
-                        </Accordion> */}
-
                         <Form>
+                        
                           <div className="form-group">
                             <DatePicker
                               selected={
@@ -634,8 +582,9 @@ const SetLayoutNewTimeline = () => {
                     )}
                   </div>
                 </div>
-              
-                {Object.keys(filterObject)?.length !== 0  ? (
+                      </div>
+                      <div className="timeline-box">
+                      {Object.keys(filterObject)?.length !== 0  ? (
                   <div className="apply-filter">
                     <div className="filter-block">
                       <div className="filter-block-left full">
@@ -683,44 +632,10 @@ const SetLayoutNewTimeline = () => {
                     </div>
                   </div>
                 ) : null}
-
-                {!apiStatus ?
-                  (
-                    <div className="accordion-loader">
-                      <div
-                        className={
-                          "loader tab-inside " +
-                          (sectionLoader ? "show" : "")
-                        }
-                        id="custom_loader"
-                      >
-                        <div className="loader_show">
-                          <span className="loader-view"> </span>
-                        </div>
-                      </div>
-                    </div>
-                  ) :
-                  timelineData?.length ?
-                    <div className="timeline-right-list">
-                      <div className="timeline-right-header">
-                        <div className="timeline-indicator">
-                          <img src={path_image + "informed-circle-icon.svg"} alt="" />
-                        </div>
-                        <div className="timeline-date">
-                          <h3>LEX-210 Trial</h3>
-                          {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
-                          <p>
-                            {moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY')}
-                            <span> | </span>
-                            {moment(loadMore?.lastUpdate).utc().format('h:mm A')}
-                            <sub> last update</sub>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="timeline-box">
                         {timelineData?.map((data, index) => {
                           return (<>
                             <div className="timeline-sticky">
+                              
                               <div className="timeline-indicator">
                                 <span>&nbsp;</span>
                               </div>

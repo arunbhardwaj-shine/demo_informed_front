@@ -1532,7 +1532,6 @@ const SurveyFormBuilder = (props) => {
   const [elements, setElements] = useState([]);
   // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
   const [currentTemplate, setCurrentTemplate] = useState(null);
   const [templateDefaultValues, setTemplateDefaultValues] = useState({});
 
@@ -1573,53 +1572,46 @@ const SurveyFormBuilder = (props) => {
   const [error, setError] = useState({});
   const [savednewCustomTempflag, setsavednewCustomTempflag] = useState(0);
 
+  const updateTemplatesData = (updatedTemp, saveNewTemplate) => {
+    if (customHtmlData && Object.keys(customHtmlData).length > 0) {
+      console.log("inside form ");
+      if (!saveNewTemplate) {
+        console.log("updeuyddewqjbdwcwecdc");
+        const updatedData = updatedTemp.map((template) => {
+          console.log(surveyValues?.formBuilderData?.template_id);
+          console.log(template.id);
 
-
-const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
-
-  if (customHtmlData && Object.keys(customHtmlData).length > 0) {
-    console.log("inside form ");
-    if (!saveNewTemplate) {
-      console.log("updeuyddewqjbdwcwecdc")
-      const updatedData = updatedTemp.map((template) => {
-    console.log(surveyValues?.formBuilderData?.template_id)
-    console.log(template.id)
-
-        if (surveyValues?.formBuilderData?.template_id == template.id) {
-          console.log("inside selected")
-          return { ...template, default_values: customHtmlData };
-        } else {
-          console.log("inside simpele")
-          let updatedcustomhtmldata = {         
-            ...customHtmlData,
-            header_background_image:
-              template.default_values.header_background_image,
-            header_background_type:
-              template.default_values.header_background_type,
-            header_background_color:
-              template.default_values.header_background_color,
+          if (surveyValues?.formBuilderData?.template_id == template.id) {
+            console.log("inside selected");
+            return { ...template, default_values: customHtmlData };
+          } else {
+            console.log("inside simpele");
+            let updatedcustomhtmldata = {
+              ...customHtmlData,
+              header_background_image:
+                template.default_values.header_background_image,
+              header_background_type:
+                template.default_values.header_background_type,
+              header_background_color:
+                template.default_values.header_background_color,
               template_name: template.default_values.template_name,
-          };
-          return { ...template, default_values: updatedcustomhtmldata };
-        }
-      });
-      setTemplates(updatedData);
-      setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
-      setUserMadeChanges(true);
-      customHtmlData=""
-      // setCustomHtml(customHtmlData ?? {});
+            };
+            return { ...template, default_values: updatedcustomhtmldata };
+          }
+        });
+        setTemplates(updatedData);
+        setSelectedTemplateId(surveyValues?.formBuilderData?.template_id);
+        setUserMadeChanges(true);
+        customHtmlData = "";
+        // setCustomHtml(customHtmlData ?? {});
+      }
+    } else {
+      setTemplates(updatedTemp);
+      if (saveNewTemplate != 2 && !saveNewTemplate) {
+        setSelectedTemplateId(1);
+      }
     }
-  } else {
-    setTemplates(updatedTemp);
-    if (saveNewTemplate != 2 && !saveNewTemplate) {
-      setSelectedTemplateId(1);
-    }
-  }
-
-}
-
-
-
+  };
 
   const fetchTemplate = async (saveNewTemplate) => {
     try {
@@ -1631,7 +1623,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
         body
       );
 
-      console.log(response.status)
+      console.log(response.status);
 
       if (response.status == 200) {
         var customTemplates = [];
@@ -1647,7 +1639,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
           });
         }
         const updatedTemp = [...SurveyTemplates, ...customTemplates];
-        updateTemplatesData(updatedTemp,saveNewTemplate)
+        updateTemplatesData(updatedTemp, saveNewTemplate);
       }
       if (!header_background_type) {
         setHeaderBackgroundType("color");
@@ -1878,12 +1870,16 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
     try {
       loader("show");
       if (id) {
-        const body = { template_id: id, delete_status: 1, survey_id:survey_id ?? 0};
+        const body = {
+          template_id: id,
+          delete_status: 1,
+          survey_id: survey_id ?? 0,
+        };
         const response = await surveyAxiosInstance.post(
           "/survey/delete-survey-template",
           body
         );
-        console.log(response)
+        console.log(response);
 
         if (selectedTemplateId == id) {
           const storedData = localStorage.getItem("getSurveyData");
@@ -1910,7 +1906,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
       }
     } catch (error) {
       loader("hide");
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
       console.log("Something went wrong", error);
     }
   };
@@ -2184,7 +2180,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
           "/survey/insert-custom-template",
           {
             ...body,
-            survey_id:  0,
+            survey_id: 0,
             raw_html: originalSelectedTemplate.template_html,
             preview_thumbnail: imgData,
             template_uniquecode:
@@ -2482,7 +2478,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
                                       value={templateDefaultValues.main_heading}
                                       handleUpdateElement={updateElement}
                                       index={index}
-                                        Placeholder=""
+                                      Placeholder=""
                                     />
                                   </div>
                                 )}
@@ -2544,7 +2540,7 @@ const updateTemplatesData = (updatedTemp,saveNewTemplate)=>{
                                       value={templateDefaultValues.bodyText}
                                       handleUpdateElement={updateBody}
                                       index={index}
-                                        Placeholder=""
+                                      Placeholder=""
                                     />
                                   </div>
                                 )}
