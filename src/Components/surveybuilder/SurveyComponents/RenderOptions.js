@@ -6,6 +6,7 @@ const RenderOptions = ({
   item,
   index,
   optionColor,
+  inputColor,
   isEdit,
   page_background_color,
 }) => {
@@ -38,15 +39,7 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "radio")
           )}
-          {item.extra.addAllOfTheAbove && (
-            <>
-              {renderOption(
-                item.extra.allOfTheAboveLabel,
-                "allOfTheAbove",
-                "radio"
-              )}
-            </>
-          )}
+
           {item.addOtherChoice ? (
             <>
               {renderOption(item.extra.otherChoiceLabel, "other", "radio")}
@@ -80,6 +73,15 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "checkbox")
           )}
+            {item.extra.addAllOfTheAbove && (
+            <>
+              {renderOption(
+                item.extra.allOfTheAboveLabel,
+                "allOfTheAbove",
+                "checkbox"
+              )}
+            </>
+          )}
           {item.addOtherChoice ? (
             <>
               {renderOption(item.extra.otherChoiceLabel, "other", "checkbox")}
@@ -109,17 +111,7 @@ const RenderOptions = ({
       );
     case "dropdown":
       return (
-        //     <Select
-        //       className="dropdown-basic-button split-button-dropup"
-        //       placeholder={item.extra.placeholder}
-        //       name={`dropdown-${index}`}
-        //       options={item.answer.map((option, optIndex) => ({
-        //         value: option.value,
-        //         label: option.value,
-        //         key: optIndex,
-        //       }))}
-        //     />
-        //   );
+   
         <Select
           className="dropdown-basic-button split-button-dropup"
           placeholder={item.extra.placeholder}
@@ -180,7 +172,7 @@ const RenderOptions = ({
                           disabled={!isEdit}
                         />
                       )}
-                      <span className="checkmark"></span>
+                           <span className="checkmark" style={{ borderColor: inputColor }}></span>
                     </td>
                   ))}
                 </tr>
