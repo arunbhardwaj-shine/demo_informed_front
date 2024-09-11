@@ -355,13 +355,13 @@
                       ${question.extra.otherChoiceLabel}
                       <span class="checkmark"></span><br>
                   </label>
-                  <textarea  name="question${question.questionId}_other"
+                  <textarea name="question${question.questionId}_other"
                       placeholder="${question.extra.otherChoicePlaceholderText}"
                       id="other-text-${
                         question.questionId
                       }" class="other-text-input"
-                      style="display:inline-block" ></textarea>`;
-              }
+                      style="display:inline-block;margin-top:0;" ></textarea>`;
+              } 
 
               surveyHtml += `${
                 question.isOptional
