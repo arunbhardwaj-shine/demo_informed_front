@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Header from "./HeaderComponent/Header";
 import { Route, Navigate, useNavigate } from "react-router-dom";
@@ -61,6 +61,11 @@ const SetLayoutNewTimeline = () => {
     }
   )
   const [error, setError] = useState({})
+  const [showfilter, setShowFilter] = useState(false);
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
+  const [filterObject, setFilterObject] = useState({});
+  const [filterApplyflag, setFilterApplyflag] = useState(0);
   useEffect(() => {
     let newdata = [...dummyData];
     if (localStorage.getItem("group_id") == 2) {
@@ -94,7 +99,28 @@ const SetLayoutNewTimeline = () => {
 
     setData(newdata);
     getTimeLineData()
+
+    function handleOutsideClick(event) {     
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
   }, []);
+
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
 
   const navigate = useNavigate();
   let [active, setActive] = useState();
@@ -242,6 +268,9 @@ const SetLayoutNewTimeline = () => {
     else {
       setTimelineData([])
       setApiStatus(false)
+      setFilterApplyflag(1);
+      setFilterObject({ Date: `${moment(dateInputs?.fromDate).format('DD.MM.YYYY')} - ${moment(dateInputs?.toDate).format('DD.MM.YYYY')}` })
+      setShowFilter(false);
       setLoadMore({
         isLoadMore: false,
         showLoader: false,
@@ -255,17 +284,23 @@ const SetLayoutNewTimeline = () => {
 
   const clearDateFilter = async (e) => {
     e.preventDefault();
+    if (Object.keys(filterObject)?.length) {
+      
+      setTimelineData([])
+      setApiStatus(false)     
+      setFilterObject({})
+      setLoadMore({
+        isLoadMore: false,
+        showLoader: false,
+        page: 1,
+        nextDate: null,
+        lastUpdate: null
+      })
+      
+      getTimeLineData()
+    }
     setDateInputs({ toDate: "", fromDate: "" })
-    setTimelineData([])
-    setApiStatus(false)
-    setLoadMore({
-      isLoadMore: false,
-      showLoader: false,
-      page: 1,
-      nextDate: null,
-      lastUpdate: null
-    })
-    getTimeLineData()
+    setShowFilter(false);
   }
 
   return (
@@ -304,10 +339,10 @@ const SetLayoutNewTimeline = () => {
             </div>
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
-                <div className="timeline-picker">
+                {/* <div className="timeline-picker">
                   <Form>
                     <div className="form-group">
-                      {/* <label htmlFor="">From</label> */}
+                     
                       <DatePicker
                         selected={
                           dateInputs?.fromDate
@@ -324,7 +359,7 @@ const SetLayoutNewTimeline = () => {
 
                     </div>
                     <div className="form-group">
-                      {/* <label htmlFor="">To</label> */}
+                      
                       <DatePicker
                         selected={
                           dateInputs?.toDate
@@ -369,7 +404,286 @@ const SetLayoutNewTimeline = () => {
                       </div>
                     ) : null}
                   </Form>
+
+                </div> */}
+                <div className="timeline-picker">
+                  <div
+                    className={
+                      showfilter
+                        ? "filter-by nav-item dropdown highlight"
+                        : "filter-by nav-item dropdown"
+                    }
+                  >
+                    <button
+                      ref={buttonRef}
+                      className={
+                        Object.keys(filterObject).length > 0
+                          ? "btn btn-secondary dropdown filter_applied"
+                          : "btn btn-secondary dropdown"
+                      }
+                      type="button"
+                      id="dropdownMenuButton2"
+                      onClick={() => setShowFilter((showfilter) => !showfilter)}
+                    >
+                      Filter By
+                      {showfilter ? (
+                        <svg
+                          className="close-arrow"
+                          width="13"
+                          height="12"
+                          viewBox="0 0 13 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            width="2.09896"
+                            height="15.1911"
+                            rx="1.04948"
+                            transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                            fill="#0066BE"
+                          />
+                          <rect
+                            width="2.09896"
+                            height="15.1911"
+                            rx="1.04948"
+                            transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                            fill="#0066BE"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="filter-arrow"
+                          width="16"
+                          height="14"
+                          viewBox="0 0 16 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                            fill="#97B6CF"
+                          />
+                          <path
+                            d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                            fill="#97B6CF"
+                          />
+                          <path
+                            d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                            fill="#97B6CF"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                    {showfilter && (
+                      <div
+                        ref={filterRef}
+                        className="dropdown-menu filter-options"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <h4>Filter By</h4>
+                        <h6>Date</h6>
+
+                        {/* <Accordion defaultActiveKey="0" flush>
+                          {Object.keys(filterdata)?.map(function (key, index) {
+                            return (
+                              <>
+                                {filterdata[key]?.length ? (
+                                  <Accordion.Item
+                                    className={
+                                      key == "Role" ? "card upper" : "card"
+                                    }
+                                    eventKey={index}
+                                  >
+                                    <Accordion.Header className="card-header">
+                                      {key}
+                                    </Accordion.Header>
+                                    <Accordion.Body className="card-body">
+                                      <ul>
+                                        {filterdata[key]?.length
+                                          ? filterdata[key]?.map(
+                                            (item, index) => (
+                                              <li>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type={
+                                                        key == "draft" ||
+                                                          key == "ibu" ||
+                                                          key ==
+                                                          "Selected By Articles" ||
+                                                          key ==
+                                                          "SPC Included" ||
+                                                          key == "Blinded" ||
+                                                          key == "Mandatory" ||
+                                                          key == "List" ||
+                                                          key == "language" ||
+                                                          key ==
+                                                          "IRT mandatory training" ||
+                                                          key ==
+                                                          "Business Unit" ||
+                                                          key ==
+                                                          "Content Owners" ||
+                                                          key == "Platform"
+                                                          ? "radio"
+                                                          : "checkbox"
+                                                      }
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={item}
+                                                      name={key}
+                                                      checked={
+                                                        otherFilter[
+                                                          key
+                                                        ]?.includes(item)
+                                                          ? true
+                                                          : false
+                                                      }
+                                                      onChange={(e) =>
+                                                        handleOnFilterChange(
+                                                          e,
+                                                          item,
+                                                          index,
+                                                          key,
+                                                          [...filterdata[key]]
+                                                        )
+                                                      }
+                                                    />
+
+                                                    {key == "draft" &&
+                                                      item == "0"
+                                                      ? "live"
+                                                      : key == "draft" &&
+                                                        item == "1"
+                                                        ? "draft"
+                                                        : item}
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
+                                            )
+                                          )
+                                          : null}
+                                      </ul>
+                                    </Accordion.Body>
+                                  </Accordion.Item>
+                                ) : null}
+                              </>
+                            );
+                          })}
+                        </Accordion> */}
+
+                        <Form>
+                          <div className="form-group">
+                            <DatePicker
+                              selected={
+                                dateInputs?.fromDate
+                                  ? new Date(dateInputs?.fromDate)
+                                  : ""
+                              }
+                              name="fromDate"
+                              onChange={(e) => handleDateChange(e, "fromDate")}
+                              dateFormat="dd/MM/yyyy"
+                              className="form-control"
+                              maxDate={dateInputs?.toDate ? new Date(dateInputs?.toDate) : currentDate}
+                              placeholderText="From"
+                              onClick={stopPropagation}
+                            />
+
+                          </div>
+                          -
+                          <div className="form-group">
+
+                            <DatePicker
+                              selected={
+                                dateInputs?.toDate
+                                  ? new Date(dateInputs?.toDate)
+                                  : ""
+                              }
+                              name="toDate"
+                              onChange={(e) => handleDateChange(e, "toDate")}
+                              dateFormat="dd/MM/yyyy"
+                              className="form-control"
+                              minDate={dateInputs?.fromDate ? new Date(dateInputs?.fromDate) : currentDate}
+                              maxDate={currentDate}
+                              placeholderText="To"
+                              onClick={stopPropagation}
+                            />
+
+                          </div>
+                        </Form>
+
+
+                        <div className="filter-footer">
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            onClick={(e) => {
+                              clearDateFilter(e);
+                            }}
+                          >
+                            Clear
+                          </button>
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => {
+                              handleSubmit(e);
+                            }}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
+              
+                {Object.keys(filterObject)?.length !== 0  ? (
+                  <div className="apply-filter">
+                    <div className="filter-block">
+                      <div className="filter-block-left full">
+                        {Object.keys(filterObject)?.map((key, index) => {
+                          return (
+                            <>
+                              {filterObject[key]?.length ? (
+                                <div className="filter-div">
+                                  <div className="filter-div-title">
+                                    <span>{key} |</span>
+                                  </div>
+
+                                  <div className="filter-div-list">
+                                    {/* {filterObject[key]?.map((item, index) => ( */}
+                                    <div
+                                      className={"filter-result"}
+                                    >
+                                      {filterObject[key]}
+                                      <img
+                                        src={path_image + "filter-close.svg"}
+                                        onClick={(e) => {
+                                          clearDateFilter(e);
+                                        }}
+                                        alt="Close-filter"
+                                      />
+                                    </div>
+                                    {/* ))} */}
+                                  </div>
+                                </div>
+                              ) : null}
+                            </>
+                          );
+                        })}
+                      </div>
+                      <div className="clear-filter">
+                        <button
+                          className="btn btn-outline-primary btn-bordered"
+                          onClick={(e) => {
+                            clearDateFilter(e);
+                          }}
+                        >
+                          Remove All
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
                 {!apiStatus ?
                   (
                     <div className="accordion-loader">

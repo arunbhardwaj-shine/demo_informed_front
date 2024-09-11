@@ -192,9 +192,10 @@
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
         const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
-        console.log(Utmde,user_id)
+        // console.log(Utmde,user_id)
         if (!Utmde) {
-          window.location.replace("/survey/404");
+          console.log(urlKeys)
+          // window.location.replace("/survey/404");
           return;
         }
 
@@ -219,6 +220,11 @@
           console.log(data);
 
           if (data.status == 200) {
+            if (data.data[0].survey_submitted !== 0 && data.data[0].survey_submitted) {
+            const element = document.getElementById("survey_modal")
+            element.style.display = "block"
+ 
+          }
             if (data.data[0].survey_info.is_draft === 2) {
               console.log("inside live");
               window.location.replace("/survey/404");
@@ -246,7 +252,7 @@
           loader("hide");
           console.log("Error fetching survey data:", error.message);
 
-          window.location.replace("/survey/404");
+          // window.location.replace("/survey/404");
 
           return;
         }
@@ -277,7 +283,7 @@
               <div class="informed-survey-text" style="color: ${
                 customHtml?.bodyTextColor
               };">
-                  ${customHtml?.bodyText}
+                  <p>${customHtml?.bodyText}</p>
               </div>
               <form id="survey-form">
       `;
@@ -336,13 +342,13 @@
                       ${question.extra.otherChoiceLabel}
                       <span class="checkmark"></span><br>
                   </label>
-                  <input type="text" name="question${question.questionId}_other"
+                  <textarea name="question${question.questionId}_other"
                       placeholder="${question.extra.otherChoicePlaceholderText}"
                       id="other-text-${
                         question.questionId
                       }" class="other-text-input"
-                      style="display:none;" />`;
-              }
+                      style="display:inline-block;margin-top:0;" ></textarea>`;
+              } 
 
               surveyHtml += `${
                 question.isOptional
@@ -1048,16 +1054,44 @@
             let errorMessage = "";
 
             switch (questionType) {
-              case "radio":
-                const selectedRadio = question.querySelector(
-                  `input[name="question${questionId}"]:checked`
-                );
+              // case "radio":
+              //   const selectedRadio = question.querySelector(
+              //     `input[name="question${questionId}"]:checked`
+              //   );
 
-                if (!selectedRadio) {
-                  errorMessage = "This question is required.";
+              //   if (!selectedRadio) {
+              //     errorMessage = "This question is required.";
+              //     isValid = false;
+              //   }
+              //   break;
+              case "radio":
+              const selectedRadio = question.querySelector(
+                `input[name="question${questionId}"]:checked`
+              );
+ 
+              const otherRadio = document.getElementById(`radio-other-choice-${questionId}`)
+             
+              if (otherRadio && otherRadio.checked) {
+                const selectedTextarea = question.querySelector(
+                  `textarea[name="question${questionId}_other"]`
+                );
+                console.log(selectedTextarea)
+ 
+                if (selectedTextarea && selectedTextarea.value.trim() === '') {
+                  errorMessage = "Please enter your opinion";
                   isValid = false;
-                }
-                break;
+                 
+  }
+              }else{
+                if (!selectedRadio) {
+                errorMessage = "This question is required.";
+                isValid = false;
+              }
+           
+ 
+              }
+ 
+              break;
 
               case "checkbox":
                 const selectedCheckboxes = question.querySelectorAll(
@@ -1665,6 +1699,24 @@
                 </table>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="survey_modal"
+      role="dialog"
+      aria-modal="true"
+      class="fade thanks modal"
+      tabindex="-1"
+      style="display: none"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h2>
+                You have already submitted your feedback.
+            </h2>
           </div>
         </div>
       </div>

@@ -160,6 +160,7 @@ const SurveyList = (props) => {
       loader("show");
       const body = {
         survey_id: survey_id,
+        is_draft: 0
       };
       const response = await surveyAxiosInstance.post(
         "/survey/duplicate-survey",
