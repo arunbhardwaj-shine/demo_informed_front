@@ -222,9 +222,9 @@
 
           if (data.status == 200) {
             if (
-              localStorage.getItem(
+             ( localStorage.getItem(
                 `form_surveyid${data.data[0].survey_info.id}`
-              )
+              )) && (user_id == 0)
             ) {
               const element = document.getElementById("survey_modal");
               element.style.display = "block";
