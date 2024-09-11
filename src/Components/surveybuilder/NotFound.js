@@ -77,7 +77,7 @@ const NotFound = () => {
         <div className='not-found-txt'>
           <h3>There is no active survey on this page. </h3>
           <h4>As a favour can you let us know via email how you came to this page?</h4>
-          <Link to="mailto:shiv@informed.pro" className="btn-white">Send email</Link>
+          <Link to="mailto:support@docintel.app" className="btn-white">Send email</Link>
         </div>
       </div>
     </>
