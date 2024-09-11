@@ -6,7 +6,6 @@ const RenderOptions = ({
   item,
   index,
   optionColor,
-  inputColor,
   isEdit,
   page_background_color,
 }) => {
@@ -14,73 +13,10 @@ const RenderOptions = ({
     color: style.color,
   });
 
-  const handleAllOfTheAboveChange = (questionNo) => {
-    // Select all checkboxes with the given questionNo
-    const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${questionNo}"]`);
-    const checkboxesArray = Array.from(checkboxes);
-  
-    // Find the "All of the Above" checkbox
-    const allOfTheAboveCheckbox = checkboxesArray.find(checkbox => checkbox.value === "allOfTheAbove");
-  
-    // Identify the last checkbox in the array
-    const lastCheckbox = checkboxesArray[checkboxesArray.length - 1];
-  
-    if (allOfTheAboveCheckbox) {
-      const isAllOfTheAboveChecked = allOfTheAboveCheckbox.checked;
-  
-      // Check or uncheck all checkboxes above it (excluding "All of the Above" and the last checkbox)
-      checkboxesArray.forEach((checkbox) => {
-        if (checkbox !== allOfTheAboveCheckbox && checkbox !== lastCheckbox) {
-          checkbox.checked = isAllOfTheAboveChecked;
-        }
-      });
-    }
-  };
-  
 
-  const handleIndividualCheckboxChange = (questionNo) => {
-    // Select all checkboxes with the given questionNo
-    const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${questionNo}"]`);
-    const checkboxesArray = Array.from(checkboxes);
-  
-    // Find the "All of the Above" checkbox
-    const allOfTheAboveCheckbox = checkboxesArray.find(checkbox => checkbox.value === "allOfTheAbove");
-  
-    // Identify the last checkbox in the array
-    const lastCheckbox = checkboxesArray[checkboxesArray.length - 1];
-  
-    // Check if all other checkboxes (excluding the last one) are checked
-    const allOtherChecked = checkboxesArray
-      .filter(checkbox => checkbox !== allOfTheAboveCheckbox && checkbox !== lastCheckbox)
-      .every(checkbox => checkbox.checked);
-  
-    // Uncheck "All of the Above" if not all other checkboxes are checked
-    if (allOfTheAboveCheckbox) {
-      allOfTheAboveCheckbox.checked = allOtherChecked;
-    }
-  };
-  
-  
-  
-  
 
   const renderOption = (option, optIndex, type) => {
-    if (type === "checkbox" && optIndex === "allOfTheAbove") {
-      return (
-        <label style={{ color: optionColor }} key={optIndex} className="check">
-          {option}
-          <input
-            type={type}
-            name={item.questionNo}
-            value={optIndex}
-            disabled={!isEdit}
-            onClick={() => handleAllOfTheAboveChange(item.questionNo)}
-          />
-<span className="checkmark" style={{ borderColor: inputColor }}></span>
-
-        </label>
-      );
-    } else if (type === "checkbox"  && optIndex === "checkboxQuestion") {
+    
       return (
         <label style={{ color: optionColor }} key={optIndex} className="check">
           {option}
@@ -88,21 +24,11 @@ const RenderOptions = ({
             type={type}
             name={item.questionNo}
             disabled={!isEdit}
-            onClick={() => handleIndividualCheckboxChange(item.questionNo)}
+          
           />
-<span className="checkmark" style={{ borderColor: inputColor }}></span>
-
+          <span className="checkmark"></span>
         </label>
       );
-    } else {
-      return (
-        <label style={{ color: optionColor }} key={optIndex} className="check">
-          {option}
-          <input type={type} name={item.questionNo} disabled={!isEdit} />
-          <span className="checkmark" style={{ borderColor: inputColor }}></span>
-        </label>
-      );
-    }
   };
 
   switch (item.type) {
@@ -112,7 +38,15 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "radio")
           )}
-
+          {item.extra.addAllOfTheAbove && (
+            <>
+              {renderOption(
+                item.extra.allOfTheAboveLabel,
+                "allOfTheAbove",
+                "radio"
+              )}
+            </>
+          )}
           {item.addOtherChoice ? (
             <>
               {renderOption(item.extra.otherChoiceLabel, "other", "radio")}
@@ -144,16 +78,7 @@ const RenderOptions = ({
       return (
         <>
           {item.answer.map((option, optIndex) =>
-            renderOption(option.value, "checkboxQuestion", "checkbox")
-          )}
-          {item.extra.addAllOfTheAbove && (
-            <>
-              {renderOption(
-                item.extra.allOfTheAboveLabel,
-                "allOfTheAbove",
-                "checkbox"
-              )}
-            </>
+            renderOption(option.value, optIndex, "checkbox")
           )}
           {item.addOtherChoice ? (
             <>
@@ -184,6 +109,17 @@ const RenderOptions = ({
       );
     case "dropdown":
       return (
+        //     <Select
+        //       className="dropdown-basic-button split-button-dropup"
+        //       placeholder={item.extra.placeholder}
+        //       name={`dropdown-${index}`}
+        //       options={item.answer.map((option, optIndex) => ({
+        //         value: option.value,
+        //         label: option.value,
+        //         key: optIndex,
+        //       }))}
+        //     />
+        //   );
         <Select
           className="dropdown-basic-button split-button-dropup"
           placeholder={item.extra.placeholder}
@@ -208,9 +144,7 @@ const RenderOptions = ({
           ></textarea>
           <div className="d-flex justify-content-end word-limit">
             <span>
-              {item.extra.maxTextLength
-                ? `0 /${item.extra.maxTextLength}`
-                : `0 / 50`}
+              {item.extra.maxTextLength ? `0 /${item.extra.maxTextLength}` : `0 / 50`}
             </span>
           </div>
         </>
@@ -246,8 +180,7 @@ const RenderOptions = ({
                           disabled={!isEdit}
                         />
                       )}
-                       <span className="checkmark" style={{ borderColor: inputColor }}></span>
-
+                      <span className="checkmark"></span>
                     </td>
                   ))}
                 </tr>
@@ -278,7 +211,6 @@ const RenderOptions = ({
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
-                      // fill="white"
                       fill={item.extra.ratingColor}
                     >
                       <g clipPath="url(#clip0_1228_31957)">
@@ -286,7 +218,7 @@ const RenderOptions = ({
                           d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z"
                           stroke={item.extra.ratingColor}
                           // style={{ fill: isEdit ? "" : "none" }}
-                          //  style={fill}
+                            //  style={fill}
                         />
                       </g>
                       <defs>
