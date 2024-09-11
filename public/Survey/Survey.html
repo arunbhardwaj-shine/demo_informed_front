@@ -220,11 +220,11 @@
           console.log(data);
 
           if (data.status == 200) {
-            if(data.data[0].survey_submitted !== 0){
-              const element=document.getElementById("survey_modal")
-              element.style.display="block"
-
-            }
+            if (data.data[0].survey_submitted !== 0 && data.data[0].survey_submitted) {
+            const element = document.getElementById("survey_modal")
+            element.style.display = "block"
+ 
+          }
             if (data.data[0].survey_info.is_draft === 2) {
               console.log("inside live");
               window.location.replace("/survey/404");
@@ -1054,16 +1054,44 @@
             let errorMessage = "";
 
             switch (questionType) {
-              case "radio":
-                const selectedRadio = question.querySelector(
-                  `input[name="question${questionId}"]:checked`
-                );
+              // case "radio":
+              //   const selectedRadio = question.querySelector(
+              //     `input[name="question${questionId}"]:checked`
+              //   );
 
-                if (!selectedRadio) {
-                  errorMessage = "This question is required.";
+              //   if (!selectedRadio) {
+              //     errorMessage = "This question is required.";
+              //     isValid = false;
+              //   }
+              //   break;
+              case "radio":
+              const selectedRadio = question.querySelector(
+                `input[name="question${questionId}"]:checked`
+              );
+ 
+              const otherRadio = document.getElementById(`radio-other-choice-${questionId}`)
+             
+              if (otherRadio && otherRadio.checked) {
+                const selectedTextarea = question.querySelector(
+                  `textarea[name="question${questionId}_other"]`
+                );
+                console.log(selectedTextarea)
+ 
+                if (selectedTextarea && selectedTextarea.value.trim() === '') {
+                  errorMessage = "Textarea can not be empty ";
                   isValid = false;
-                }
-                break;
+                 
+  }
+              }else{
+                if (!selectedRadio) {
+                errorMessage = "This question is required.";
+                isValid = false;
+              }
+           
+ 
+              }
+ 
+              break;
 
               case "checkbox":
                 const selectedCheckboxes = question.querySelectorAll(
