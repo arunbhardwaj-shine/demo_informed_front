@@ -199,7 +199,7 @@
           return;
         }
 
-        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -342,12 +342,12 @@
                       ${question.extra.otherChoiceLabel}
                       <span class="checkmark"></span><br>
                   </label>
-                  <textarea  name="question${question.questionId}_other"
+                  <textarea name="question${question.questionId}_other"
                       placeholder="${question.extra.otherChoicePlaceholderText}"
                       id="other-text-${
                         question.questionId
                       }" class="other-text-input"
-                      style="display:inline-block" ></textarea>`;
+                      style="display:inline-block;margin-top:0;" ></textarea>`;
               } 
 
               surveyHtml += `${
@@ -1078,7 +1078,7 @@
                 console.log(selectedTextarea)
  
                 if (selectedTextarea && selectedTextarea.value.trim() === '') {
-                  errorMessage = "Textarea can not be empty ";
+                  errorMessage = "Please enter your opinion";
                   isValid = false;
                  
   }
@@ -1522,7 +1522,7 @@
 
               loader("show");
               const submitApiUrl =
-                "http://192.168.0.231:3001/survey/insert-user-responses";
+                "https://informedback.shinedezign.pro/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
