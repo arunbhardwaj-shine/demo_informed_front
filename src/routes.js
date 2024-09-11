@@ -1074,9 +1074,10 @@ const Routing = () => {
           path="/survey/survey-preview"
           element={<LoginLayout component={SurveyFinalPreview} />}
         />
-        <Route
+    
+          <Route
           path="/survey/404"
-          element={<LoginLayout component={NotFound} />}
+          element={<NotFound />}
         />
         <Route
           path="/survey/thank-you"
