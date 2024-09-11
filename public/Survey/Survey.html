@@ -1528,12 +1528,12 @@
             };
 
             try {
-              if (localStorage.getItem(`form_surveyid${survey_id}`)) {
-                showToast("You have already submitted the survey");
-                closeModal();
-                document.getElementById("survey-form").reset(); // Reset your form
-                return;
-              }
+              // if ((localStorage.getItem(`form_surveyid${survey_id}`)) && ((user_id == 0))) {
+              //   showToast("You have already submitted the survey");
+              //   closeModal();
+              //   document.getElementById("survey-form").reset(); // Reset your form
+              //   return;
+              // }
 
               loader("show");
               const submitApiUrl ="https://informedback.shinedezign.pro/survey/insert-user-responses";
@@ -1553,7 +1553,7 @@
                 showToast("Something went wrong");
               } else if (submitResponse.status == "302") {
                 loader("hide");
-                showToast("You have already submitted the survey");
+                // showToast("You have already submitted the survey");
                 closeModal();
                 document.getElementById("survey-form").reset(); // Reset your form
               } else if (submitResponse.status == "200") {

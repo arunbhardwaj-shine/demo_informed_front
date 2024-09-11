@@ -448,6 +448,7 @@ const SurveyPreview = (props) => {
                           index === currentElementIndex ? "active" : ""
                         }`}
                         style={
+                          
                           isEdit
                             ? { padding: "60px 20px 4px 5px" }
                             : {
