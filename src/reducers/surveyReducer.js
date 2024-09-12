@@ -83,13 +83,12 @@ const addElement = (state, action) => {
   const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
   newElement.questionNo = state.globalIndex;
   newElement.survey_id = state.surveyId;
-  let index=state.elements.length
-  console.log(index)
+  console.log(state.elements.length,"from redux state")
 
   return {
     ...state,
     elements: [...state.elements, newElement],
-    currentElementIndex:  index,
+    currentElementIndex:  state.elements.length,
     globalIndex: state.globalIndex + 1,
     isAddClicked: false,
     isEditModeOn: true,
@@ -334,6 +333,9 @@ const sortOptions = (state, action) => {
 };
 
 export const surveyReducer = (state = initialState, action) => {
+
+  console.log(action.type,action.payload)
+
   switch (action.type) {
     case ADD_ELEMENT:
       return addElement(state, action);

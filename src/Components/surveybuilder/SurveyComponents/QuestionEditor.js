@@ -1,5 +1,3 @@
-
-
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -7,6 +5,7 @@ const QuestionEditor = ({ value, handleUpdateElement, index, Placeholder }) => {
  
   const editorRef = useRef(null);
   const [editorValue, setEditorValue] = useState(value);
+  
 
   return (
     <div className="text-editor">
@@ -27,7 +26,7 @@ const QuestionEditor = ({ value, handleUpdateElement, index, Placeholder }) => {
           image_caption: true,
           auto_focus: false,
           fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt", // Optional: Customize font sizes
-          placeholder: Placeholder,
+          placeholder: Placeholder
         }}
         onEditorChange={(content) => {
           handleUpdateElement(index, "question", content);
@@ -38,3 +37,4 @@ const QuestionEditor = ({ value, handleUpdateElement, index, Placeholder }) => {
 };
 
 export default QuestionEditor;
+
