@@ -355,7 +355,7 @@ const SurveyConfig = (props) => {
                                 alt=""
                               />
                             </p>
-                            <div className="choice-option">
+                            <div className="choice-option consent-listed">
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   InforMed Email{" "}
