@@ -497,7 +497,7 @@ const SetLayoutNewTimeline = () => {
                     </div>
                   </div>
 
-                  <div className={timelineData?.length ? "timeline-box show" : "timeline-box"} >
+                  <div className={timelineData?.length ? "timeline-box" : "timeline-box hide"} >
                     {Object.keys(filterObject)?.length !== 0 ? (
                       <div className="apply-filter">
                         <div className="filter-block">
@@ -546,7 +546,6 @@ const SetLayoutNewTimeline = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {!apiStatus ?
                       (
                         <div className="accordion-loader">
@@ -565,7 +564,7 @@ const SetLayoutNewTimeline = () => {
                       ) :
                       timelineData?.length ?
                         (<>
-                          <div>
+                          <div className="timeline-listed">
                             {timelineData?.map((data, index) => {
                               return (<>
                                 <div className="timeline-sticky">
