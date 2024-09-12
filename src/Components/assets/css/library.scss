@@ -1289,7 +1289,7 @@
         }
         .timeline-sticky {
           padding: 45px 0 18px;
-          top: 49px;
+          top: 48px;
       }
       
       @media (max-width:1450px){
@@ -1977,7 +1977,7 @@
       justify-content: center;
       overflow-y: auto;
       height: calc(100vh - 80px);
-
+      min-height: 86vh;
       .row {
         gap: 45px 0px;
         flex-direction: column;
@@ -2007,7 +2007,7 @@
       justify-content: center;
       overflow-y: auto;
       height: calc(100vh - 62px);
-
+      min-height: 88vh;
       .row {
         gap: 45px 0px;
         flex-direction: column;
