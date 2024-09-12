@@ -105,7 +105,7 @@ const TimelineDetail = (props) => {
     }
   };
 
-  const videoPlayedClicked=async(index,mongoId)=>{
+  const videoPlayedClicked=async(index,action,articleId,mongoId)=>{
     console.log("mongo id--->",mongoId)
     if (index == activeIndex) {
       setIsActive((current) => !current);
@@ -113,8 +113,13 @@ const TimelineDetail = (props) => {
       setActiveIndex(index);
       try {
         setIsActive(false);
-        loader("show");      
-        const res = await postData(ENDPOINT.GET_VIDEO_PLAYED_DETAIL,{mongoId});
+        loader("show"); 
+        let body={
+          action:action,
+          articleId:articleId,
+          mongoId:mongoId
+        }     
+        const res = await postData(ENDPOINT.GET_VIDEO_PLAYED_DETAIL,{body});
         console.log("res--->",res?.data?.data?.data?.[0])
       let startTime=res?.data?.data?.data?.[0]?.video_start_time
       let endTime=res?.data?.data?.data?.[0]?.video_end_time
@@ -3534,7 +3539,7 @@ const TimelineDetail = (props) => {
                                               //   details.Created,
                                               //   details
                                               // );
-                                              videoPlayedClicked(details.id,details?.mongo_tracking_id)
+                                              videoPlayedClicked(details?.id,details?.article_id,details?.mongo_tracking_id)
                                             }}
                                           >
                                             <div className="timeline-article-details-heading">
