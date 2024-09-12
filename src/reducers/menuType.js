@@ -101,15 +101,15 @@ export const menuType = {
     optionalLabel: "(Optional)",
     answer: [
       {
-        title: "Row 1",
+        title: "Row ",
         id: 0,
         answer: [
           {
-            value: "Column 1",
+            value: "Column ",
             answerId: 0,
           },
           {
-            value: "Column 2",
+            value: "Column ",
             answerId: 0,
           },
         ],

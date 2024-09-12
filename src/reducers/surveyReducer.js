@@ -31,6 +31,7 @@ const initialState = {
 };
 
 const emptySurveyReduxStates = (state, action) => {
+  console.log("from emptyRedux state")
   return {
     ...state,
     elements: [],
@@ -39,7 +40,6 @@ const emptySurveyReduxStates = (state, action) => {
     isAddClicked: false,
     globalIndex: 1,
     survey_id: null,
-
   };
 };
 
@@ -52,15 +52,14 @@ const updateEditDisable = (state, action) => {
 };
 
 const addResQuestions = (state, action) => {
+  console.log("frominside redux")
   const newData = action.payload;
-  console.log(newData, "from redux");
   return {
     ...state,
     elements: newData,
     globalIndex: newData?.length + 1,
     currentElementIndex:null,
     isEditModeOn: false,
-
   };
 };
 
@@ -84,11 +83,13 @@ const addElement = (state, action) => {
   const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
   newElement.questionNo = state.globalIndex;
   newElement.survey_id = state.surveyId;
+  let index=state.elements.length
+  console.log(index)
 
   return {
     ...state,
     elements: [...state.elements, newElement],
-    currentElementIndex: state.elements.length,
+    currentElementIndex:  index,
     globalIndex: state.globalIndex + 1,
     isAddClicked: false,
     isEditModeOn: true,
@@ -96,6 +97,8 @@ const addElement = (state, action) => {
 };
 
 const addElementAtPosition= (state, action) => {
+
+  console.log("new updated elements")
   const index=action.payload;
   const newElements = [...state.elements];
   // Insert the last element at the given index
@@ -136,6 +139,7 @@ const setExtraAndStyling = (state, action) => {
 };
 
 const updateElement = (state, action) => {
+  console.log("indside update element")
   const { key, value, index } = action.payload;
   const updatedElements = [...state.elements];
   updatedElements[index] = {
@@ -181,6 +185,8 @@ const updateConsent = (state, action) => {
 // };
 
 const copyElement = (state, action) => {
+  console.log("inside copy elemnt ");
+  
   // Copy the element to be duplicated
   const copiedElement = structuredClone( { ...state.elements[action.payload.index] });
   copiedElement.questionId = 0;
@@ -221,6 +227,8 @@ const copyElement = (state, action) => {
 
 
 const swapElements = (state, action) => {
+  console.log("inside swap element");
+  
   const { draggedElementIndex, destinationIndex } = action.payload;
   const swappedElements = [...state.elements];
 
@@ -256,6 +264,7 @@ const swapElements = (state, action) => {
 
 
 const addOption = (state, action) => {
+  console.log("inside add option")
   const { index: addOptionIndex, key: addOptionKey } = action.payload;
   const updatedElementsWithOption = state.elements.map((element, idx) => {
     if (idx === addOptionIndex) {
