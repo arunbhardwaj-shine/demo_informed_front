@@ -27,7 +27,7 @@ const RenderOptions = ({
             disabled={!isEdit}
           
           />
-          <span className="checkmark"></span>
+          <span className="checkmark" style={{ borderColor: inputColor }} ></span>
         </label>
       );
   };

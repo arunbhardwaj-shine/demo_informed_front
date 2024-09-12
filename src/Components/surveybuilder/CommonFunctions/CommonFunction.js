@@ -310,3 +310,25 @@ export const SublinkHandler = ({ handleCopy,setDownloadLink,sublinkoptions ,surv
     </>
   );
 };
+
+
+
+
+export const UpdateQuestion = async (questionId) => {
+  try {
+    loader("show");
+    if (questionId != 0) {
+      const response = surveyAxiosInstance.post(
+        "/survey/delete-survey-question",
+        {
+          questionId,
+        }
+      );
+    }
+    // setConfirmationPopup(false)
+    loader("hide");
+  } catch (error) {
+    loader("hide");
+    toast.error("Something went wrong");
+  }
+};

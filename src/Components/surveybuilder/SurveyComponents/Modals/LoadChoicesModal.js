@@ -111,7 +111,7 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button className="btn btn-primary save btn-filled" onClick={handleSave}>
-          {addYourOwn ? "Save" : "Add"}
+                Add
         </Button>
         {addYourOwn && (
           <Button className="btn btn-primary save btn-bordered" onClick={handleClose}>

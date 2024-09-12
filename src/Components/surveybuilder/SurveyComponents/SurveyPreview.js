@@ -32,10 +32,15 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const obj = useSelector(
+    (state) => state.surveyData
+  );
+  console.log(obj)
+  
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
-  
+
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
 
@@ -442,13 +447,14 @@ const SurveyPreview = (props) => {
               <div className="informed-survey-question" ref={surveyRef}>
                 <Form>
                   <div className="d-flex flex-column">
-                    {elements?.map((item, index) => (
+                    {elements?.map((item, index) =>(
+                     
                       <div
                         className={`dragable-box ${
-                          index === currentElementIndex ? "active" : ""
+                          index == currentElementIndex ? "active" : ""
                         }`}
                         style={
-                          
+
                           isEdit
                             ? { padding: "60px 20px 4px 5px" }
                             : {
@@ -481,7 +487,7 @@ const SurveyPreview = (props) => {
                           }
                         }}
                       >
-                        {index === currentElementIndex && (
+                        {index == currentElementIndex && (
                           <div className="active-drag">
                             {" "}
                             <img
@@ -491,7 +497,7 @@ const SurveyPreview = (props) => {
                           </div>
                         )}
                         <div>
-                          {item.accordionType === "questionTypes" ? (
+                          {item.accordionType == "questionTypes" ? (
                             <div
                               style={
                                 isEdit
@@ -523,7 +529,7 @@ const SurveyPreview = (props) => {
                               {item.questionDescriptionEnabled && (
                                 <span
                                   className="helper-text"
-                                  style={{ color: templateData.bodyTextColor }}
+                                  style={{ color: templateData.question_answer_color }}
                                 >
                                   {" "}
                                   {item.questionDescription}{" "}
@@ -556,7 +562,7 @@ const SurveyPreview = (props) => {
                             </>
                           )}
                         </div>
-                        {index === currentElementIndex && (
+                        {index == currentElementIndex && (
                           <>
                             <div className="drag-actions">
                               <Button

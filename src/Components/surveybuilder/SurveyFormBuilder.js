@@ -1623,7 +1623,7 @@ const SurveyFormBuilder = (props) => {
         body
       );
 
-      console.log(response.status);
+
 
       if (response.status == 200) {
         var customTemplates = [];
@@ -1797,7 +1797,9 @@ const SurveyFormBuilder = (props) => {
       try {
         // Ensure all images are loaded
         const images = Array.from(element.getElementsByTagName("img"));
+        console.log(images)
         const imagePromises = images.map((img) => {
+
           return new Promise((resolve) => {
             if (img.complete) {
               resolve();
@@ -1812,7 +1814,10 @@ const SurveyFormBuilder = (props) => {
           });
         });
 
-        await Promise.all(imagePromises);
+
+
+        const imagesofhtml=await Promise.all(imagePromises);
+
 
         // Capture screenshot with html2canvas
         const canvas = await html2canvas(element, {
@@ -2202,6 +2207,7 @@ const SurveyFormBuilder = (props) => {
       await props.getSurveyData(updatedTemplateData);
     }
   };
+
 
   return (
     <>
