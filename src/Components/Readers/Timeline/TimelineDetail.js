@@ -3492,7 +3492,7 @@ const TimelineDetail = (props) => {
                                   )}
                                   
 
-                                  {/* {["Event","Expert opinions","profile-seeMore","profile-setting","Highlights","Expert opinions played","Symposium Highlights Video played"]?.includes(details.action) ? (
+                                  {["Event","Expert opinions","profile-seeMore","profile-setting","Highlights","Expert opinions played","Symposium Highlights Video played"]?.includes(details.action) ? (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
                                         {details?.date}
@@ -3537,7 +3537,7 @@ const TimelineDetail = (props) => {
                                           </Table>
                                         </div>
 
-                                        {details?.action?.includes("played")?(
+                                        {/* {details?.action?.includes("played")?(
                                           <div
                                             className={
                                               isActive &&
@@ -3597,10 +3597,10 @@ const TimelineDetail = (props) => {
                                               </div>
                                             </div>
                                           </div>
-                                        ):""}
+                                        ):""} */}
                                       </div>
                                     </div>
-                                  ) : null} */}
+                                  ) : null}
                                 </>
                               );
                             })}
