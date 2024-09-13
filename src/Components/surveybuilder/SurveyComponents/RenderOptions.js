@@ -25,9 +25,8 @@ const RenderOptions = ({
             type={type}
             name={item.questionNo}
             disabled={!isEdit}
-          
           />
-          <span className="checkmark"></span>
+          <span className="checkmark" style={{ borderColor: inputColor }} ></span>
         </label>
       );
   };
@@ -111,7 +110,6 @@ const RenderOptions = ({
       );
     case "dropdown":
       return (
-   
         <Select
           className="dropdown-basic-button split-button-dropup"
           placeholder={item.extra.placeholder}

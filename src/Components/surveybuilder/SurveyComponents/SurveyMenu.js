@@ -27,6 +27,8 @@ import {
 import { loader } from "../../../loader";
 import { useDispatch, useSelector } from "react-redux";
 
+import {UpdateQuestion} from "../CommonFunctions/CommonFunction";
+
 import {
   addElement,
   updateElement,
@@ -63,6 +65,12 @@ const SurveyMenu = ({ menuRef }) => {
   const { currentElementIndex, elements, isEditModeOn } = useSelector(
     (state) => state.surveyData
   );
+  const obj = useSelector(
+    (state) => state.surveyData
+  );
+  // console.log(obj,"from menu")
+
+
   const [editorIndex, setEditorIndex] = useState(0);
 
   const dispatch = useDispatch();
@@ -87,6 +95,7 @@ const SurveyMenu = ({ menuRef }) => {
       )
     );
   }, []);
+
   useEffect(() => {
     setEditorIndex((prev) => prev + 1);
   }, [elements?.[currentElementIndex]?.questionNo]);
@@ -136,6 +145,10 @@ const SurveyMenu = ({ menuRef }) => {
       if (key === "title") {
         currentOptions.splice(answerIndex, 1);
         handleUpdateElement(itemIndex, "answer", [...currentOptions]);
+
+        if(optionId){
+          UpdateQuestion(optionId)
+        }
         return;
       } else {
         const updatedOptions = currentOptions.map((option) => {
@@ -155,6 +168,9 @@ const SurveyMenu = ({ menuRef }) => {
 
         // Call handleUpdateElement with the correct parameters
         handleUpdateElement(itemIndex, "answer", updatedOptions);
+        if (optionId != 0) {
+          await deleteOptions(optionId);
+        }
 
         return;
       }
@@ -201,7 +217,7 @@ const SurveyMenu = ({ menuRef }) => {
       }));
     }
     currentOptions.splice(answerIndex + 1, 0, {
-      title: "",
+      title: "Row",
       id: 0,
       answer: [...columns],
     });
@@ -212,7 +228,7 @@ const SurveyMenu = ({ menuRef }) => {
   const addColumnInMiddle = (itemIndex, key, answerIndex) => {
     const currentOptions = elements[itemIndex];
     const updatedValues = currentOptions.answer.map((option) => {
-      option.answer.splice(answerIndex + 1, 0, { value: "", answerId: 0 });
+      option.answer.splice(answerIndex + 1, 0, { value: "Column", answerId: 0 });
       return {
         ...option,
       };
@@ -295,13 +311,13 @@ const SurveyMenu = ({ menuRef }) => {
           {
             title: "",
             id: 0,
-            answer: [{ value: "", answerId: 0 }],
+            answer: [{ value: "Column", answerId: 0 }],
           },
         ];
       } else {
         updatedColumns = currentOptions.map((option) => ({
           ...option,
-          answer: [...currentOptions[0].answer, { value: "", answerId: 0 }],
+          answer: [...currentOptions[0].answer, { value: "Column", answerId: 0 }],
         }));
       }
 
@@ -940,7 +956,7 @@ const SurveyMenu = ({ menuRef }) => {
                 </div>
               </Tab>
 
-              {elements[currentElementIndex].accordionType ==
+              {elements?.[currentElementIndex]?.accordionType ==
                 "questionTypes" && (
                 <Tab eventKey="logic" title="Logic">
                   <div className="disabled">

@@ -245,7 +245,7 @@ const SurveyConfig = (props) => {
                                         }));
                                       }}
                                     >
-                                      <img src={path_image + 'delete.svg'} alt=""/>
+                                      <img src={path_image + 'delete-icon.svg'} alt=""/>
                                     </Button>
                                   )}
                                   <br />
@@ -355,7 +355,7 @@ const SurveyConfig = (props) => {
                                 alt=""
                               />
                             </p>
-                            <div className="choice-option">
+                            <div className="choice-option consent-listed">
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   InforMed Email{" "}

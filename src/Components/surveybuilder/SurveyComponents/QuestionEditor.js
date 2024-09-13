@@ -1,10 +1,13 @@
-
-
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const QuestionEditor = ({ value, handleUpdateElement, index, Placeholder }) => {
- 
+const QuestionEditor = ({
+  value,
+  handleUpdateElement,
+  index,
+  Placeholder,
+  headingBoldFlag,
+}) => {
   const editorRef = useRef(null);
   const [editorValue, setEditorValue] = useState(value);
 
@@ -14,13 +17,16 @@ const QuestionEditor = ({ value, handleUpdateElement, index, Placeholder }) => {
         apiKey="gpl" // Replace with your TinyMCE API key if needed
         tinymceScriptSrc={window.location.origin + "/tinymce/tinymce.min.js"} // Ensure this path is correct
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue={editorValue}
+        initialValue={
+          headingBoldFlag ? `<strong>${editorValue}</strong>` : editorValue
+        }
         init={{
           height: "140px",
           branding: false,
           menubar: false,
           plugins: "link",
-          toolbar: "fontsize bold italic underline strikethrough | link " ,
+          toolbar:
+            "fontsize bold italic underline strikethrough | link forecolor ",
           content_style:
             "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:14px;color:#0066be; } body p img{width:100%;} body p{color:#0066be; margin: 2px 0;}, body *{margin:2px 0;}",
           automatic_uploads: true,

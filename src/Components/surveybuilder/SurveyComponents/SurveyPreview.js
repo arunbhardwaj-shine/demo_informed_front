@@ -32,10 +32,15 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const obj = useSelector(
+    (state) => state.surveyData
+  );
+  // console.log(obj)
+  
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
-  
+
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
 
@@ -107,6 +112,10 @@ const SurveyPreview = (props) => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
+
+  useEffect(() => {
+    console.log(elements,currentElementIndex,'useEffect')
+  },[elements]);
 
   useEffect(() => {
     const shouldFetchQuestions =
@@ -442,19 +451,20 @@ const SurveyPreview = (props) => {
               <div className="informed-survey-question" ref={surveyRef}>
                 <Form>
                   <div className="d-flex flex-column">
-                    {elements?.map((item, index) => (
+                    {elements?.map((item, index) =>(
+                     
                       <div
                         className={`dragable-box ${
-                          index === currentElementIndex ? "active" : ""
+                          index == currentElementIndex ? "active" : ""
                         }`}
                         style={
-                          
+
                           isEdit
                             ? { padding: "60px 20px 4px 5px" }
                             : {
                                 backgroundColor:
                                   templateData.page_background_color,
-                                padding: "25px 20px 4px 5px",
+                                padding: "50px 20px 4px 5px",
                               }
                         }
                         draggable={isEdit} // Only make it draggable if isEdit is true
@@ -465,7 +475,7 @@ const SurveyPreview = (props) => {
                             dispatch(setCurrentElementIndex(index));
                           }
                         }}
-                        onDragStart={(e) => {
+                        onDragStart={(e) => { 
                           if (isEdit) {
                             handleQuestionDragStart(e, index);
                           }
@@ -481,7 +491,7 @@ const SurveyPreview = (props) => {
                           }
                         }}
                       >
-                        {index === currentElementIndex && (
+                        {index == currentElementIndex && (
                           <div className="active-drag">
                             {" "}
                             <img
@@ -491,7 +501,7 @@ const SurveyPreview = (props) => {
                           </div>
                         )}
                         <div>
-                          {item.accordionType === "questionTypes" ? (
+                          {item.accordionType == "questionTypes" ? (
                             <div
                               style={
                                 isEdit
@@ -503,14 +513,14 @@ const SurveyPreview = (props) => {
                               }
                             >
                               <div className="d-flex question-title">
-                                <p
+                               {item.question.length > 0 &&  <p
                                   style={{
                                     color: templateData.question_answer_color,
                                   }}
                                   dangerouslySetInnerHTML={{
                                     __html: item.question,
                                   }}
-                                />
+                                />}
                                 <span
                                   style={{ color: templateData.bodyTextColor }}
                                 >
@@ -523,7 +533,7 @@ const SurveyPreview = (props) => {
                               {item.questionDescriptionEnabled && (
                                 <span
                                   className="helper-text"
-                                  style={{ color: templateData.bodyTextColor }}
+                                  style={{ color: templateData.question_answer_color }}
                                 >
                                   {" "}
                                   {item.questionDescription}{" "}
@@ -556,7 +566,7 @@ const SurveyPreview = (props) => {
                             </>
                           )}
                         </div>
-                        {index === currentElementIndex && (
+                        {index == currentElementIndex && (
                           <>
                             <div className="drag-actions">
                               <Button
@@ -651,9 +661,10 @@ const SurveyPreview = (props) => {
                                     <div
                                       key={index}
                                       className="sidebar-item"
-                                      onClick={() =>
+                                      onClick={(e) =>{
+                                        e.stopPropagation();
                                         handleAddElement(item.type)
-                                      }
+                                      }}
                                     >
                                       {item.icon && (
                                         <div className="options-svg">
@@ -670,9 +681,10 @@ const SurveyPreview = (props) => {
                                     <div
                                       key={index}
                                       className="sidebar-item"
-                                      onClick={() =>
+                                      onClick={(e) =>{
+                                        e.stopPropagation();
                                         handleAddElement(item.type)
-                                      }
+                                      }}
                                     >
                                       {item.icon && (
                                         <div className="options-svg">
