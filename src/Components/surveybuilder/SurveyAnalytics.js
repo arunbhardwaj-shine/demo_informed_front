@@ -1013,8 +1013,8 @@ const getSurveyAnalyticsDetail=async()=>{
                       {data?.length?data?.map((item,index)=>{
                         return(<>
                          <tr className="view">
-                        <td className="status completed">
-                          <div>Completed</div>
+                        <td className={`status ${item?.Status==0?'draft':item?.Status==1?'live':item?.Status==2?'completed':""}`}>
+                          <div>{item?.Status==0?'Draft':item?.Status==1?'Live':item?.Status==2?'Completed':""}</div>
                         </td>
                         <td className="blue">
                           <table>
@@ -1035,11 +1035,11 @@ const getSurveyAnalyticsDetail=async()=>{
                         <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td>
                         <td>
                           <img src={path_image + "completed-icon.svg"} alt="" />{" "}
-                          90%
+                          {item?.Completed} %
                         </td>
                         <td>
                           <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}
-                          500
+                          {item?.Dropoff}
                         </td>
                         <td>
                           <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
@@ -1047,7 +1047,7 @@ const getSurveyAnalyticsDetail=async()=>{
                         </td>
                         <td>
                           <img src={path_image + "question-icon.svg"} alt="" />{" "}
-                          10
+                          {item?.questionCount}
                         </td>
                         <td>
                           <img
