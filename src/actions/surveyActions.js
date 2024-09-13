@@ -16,9 +16,9 @@ export const EMPTY_REDUX_STATES = "EMPTY_REDUX_STATES";
 export const UPDATE_EDIT_DISABLE = "UPDATE_EDIT_DISABLE";
 export const ADD_AT_POSITION = "ADD_AT_POSITION";
 
-export const addElement = (type) => ({
+export const addElement = (type,index) => ({
   type: ADD_ELEMENT,
-  payload: { type },
+  payload: { type,index },
 });
 
 export const updateSurveyId = (surveyId) => ({

@@ -85,7 +85,7 @@ const ThanksPage = (props) => {
                         survey
                       </p>
                     </div>
-                    <div className="live-stream-tabs-data">
+                    <div className="live-stream-tabs-data thanks">
                       <div className="survey-active-data thank">
                         <div className="steps">
                           <div className="d-flex align-items-center justify-content-between">
