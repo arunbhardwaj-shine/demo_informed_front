@@ -10,9 +10,13 @@ import {
   Table,
 } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
+import { loader } from "../../loader";
+import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+import moment from "moment";
 
 const SurveyAnalytics = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { state } = useLocation();
   const [filterdata, setFilterData] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
@@ -30,7 +34,52 @@ const SurveyAnalytics = () => {
   const [SendListData, setSendListData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
-  const { state } = useLocation();
+  const [data,setData]=useState([])
+  const [apiStatus,setApiStatus]=useState(false)
+  
+
+  useEffect(() => {
+    //props.getEmailData(null);
+    // props.getDraftData(null);
+    //props.getSelectedSmartListData(null);
+    getSurveyAnalyticsDetail()
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+const getSurveyAnalyticsDetail=async()=>{
+  try{
+    loader("show")
+    setApiStatus(true)
+    const res=await surveyAxiosInstance.post("/survey/survey-analytic-details", {
+      admin_id: "18207"
+    });
+    console.log("res-->",res?.data?.data)
+    setData(res?.data?.data?.allDetails)
+
+  }catch(err){
+    console.log("--err",err)
+  }finally{
+    setApiStatus(false)
+    loader("hide")
+    
+  }
+}
 
   const submitHandler = (event) => {
     setShowFilter(false);
@@ -188,28 +237,8 @@ const SurveyAnalytics = () => {
   // );
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-  useEffect(() => {
-    //props.getEmailData(null);
-    // props.getDraftData(null);
-    //props.getSelectedSmartListData(null);
 
-    function handleOutsideClick(event) {
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target) &&
-        filterRef.current &&
-        !filterRef.current.contains(event.target)
-      ) {
-        setShowFilter(false);
-      }
-    }
 
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
   const handleOnFilterDate = (fdate) => {
     let tag_index = filterdate.indexOf(fdate);
     if (tag_index !== -1) {
@@ -980,6 +1009,60 @@ const SurveyAnalytics = () => {
                           />
                         </td>
                       </tr>
+
+                      {data?.length?data?.map((item,index)=>{
+                        return(<>
+                         <tr className="view">
+                        <td className="status completed">
+                          <div>Completed</div>
+                        </td>
+                        <td className="blue">
+                          <table>
+                            <tr className="title-heading">
+                              <td>
+                                {item?.Title}{" "}
+                              </td>
+                            </tr>
+                            <tr className="title-subheading">
+                              <td>
+                                {item?.Subtitle}
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td>{item?.Consent}</td>
+                        <td>{item?.Creator}</td>
+                        <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td>
+                        <td>
+                          <img src={path_image + "completed-icon.svg"} alt="" />{" "}
+                          90%
+                        </td>
+                        <td>
+                          <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}
+                          500
+                        </td>
+                        <td>
+                          <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
+                          1.5 min
+                        </td>
+                        <td>
+                          <img src={path_image + "question-icon.svg"} alt="" />{" "}
+                          10
+                        </td>
+                        <td>
+                          <img
+                            src={path_image + "accordian_arrow.svg"}
+                            alt=""
+                          />
+                        </td>
+                      </tr>
+                      <tr className="blank">
+                        <td colspan="10" style={{ height: "10px;" }}>
+                          &nbsp;
+                        </td>
+                      </tr>
+                        </>)
+                      }):!apiStatus?<div className="no_found"><p>No Data Found</p></div>:""}
                     </tbody>
                   </Table>
                 </div>
