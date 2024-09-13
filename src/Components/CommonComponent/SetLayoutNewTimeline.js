@@ -670,7 +670,7 @@ const SetLayoutNewTimeline = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        : item?.action?.includes('Article opened')
+                                        : (item?.action?.includes('Article opened') || item?.action?.includes('Article browsed'))
                                           ?
                                           <div className="timeline-box-inset" key={i}>
                                             <div className="timeline-indicator">

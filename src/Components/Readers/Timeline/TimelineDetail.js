@@ -1418,8 +1418,9 @@ const TimelineDetail = (props) => {
                                                 </div>
                                               ) : null} */}
 
-                                              {details.action ===
-                                                "Article opened" && (
+                                              {(details.action ===
+                                                "Article opened" || details.action ===
+                                                "Article browsed") && (
                                                   <div className="timeline-box-inset">
 
                                                     <div className="timeline-block">
@@ -2395,7 +2396,7 @@ const TimelineDetail = (props) => {
                             {timeLineData?.timeline.map((details, index) => {
                               return (
                                 <>
-                                  {details.action == "Article opened" && (
+                                  {(details.action == "Article opened" || details.action == "Article browsed") && (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
                                         {details?.date ==
