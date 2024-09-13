@@ -613,7 +613,7 @@ const SetLayoutNewTimeline = () => {
                                                           : userProfile?.name
                                                       }
                                                       </p>
-                                                      <p>{userProfile?.user_type}</p>
+                                                      <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                       <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                     </div>
                                                   ) : null
@@ -660,7 +660,7 @@ const SetLayoutNewTimeline = () => {
                                                             : userProfile?.name
                                                         }
                                                         </p>
-                                                        <p>{userProfile?.user_type}</p>
+                                                        <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                       </div>
                                                     ) : null
@@ -836,7 +836,7 @@ const SetLayoutNewTimeline = () => {
                                                                   : userProfile?.name
                                                               }
                                                               </p>
-                                                              <p>{userProfile?.user_type}</p>
+                                                              <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                               <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                             </div>
                                                           ) : null
@@ -939,7 +939,7 @@ const SetLayoutNewTimeline = () => {
                                                                       : userProfile?.name
                                                                   }
                                                                   </p>
-                                                                  <p>{userProfile?.user_type}</p>
+                                                                  <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                   <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                 </div>
                                                               ) : null
@@ -986,7 +986,7 @@ const SetLayoutNewTimeline = () => {
                                                                         : userProfile?.name
                                                                     }
                                                                     </p>
-                                                                    <p>{userProfile?.user_type}</p>
+                                                                    <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                     <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                   </div>
                                                                 ) : null
@@ -1027,7 +1027,7 @@ const SetLayoutNewTimeline = () => {
                                                                           : userProfile?.name
                                                                       }
                                                                       </p>
-                                                                      <p>{userProfile?.user_type}</p>
+                                                                      <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                       <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                     </div>
                                                                   ) : null
@@ -1070,7 +1070,7 @@ const SetLayoutNewTimeline = () => {
                                                                               : userProfile?.name
                                                                           }
                                                                         </p>
-                                                                        <p>{userProfile?.user_type}</p>
+                                                                        <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                       </div>
                                                                     ) : null
@@ -1131,7 +1131,7 @@ const SetLayoutNewTimeline = () => {
                                                                               : userProfile?.name
                                                                           }
                                                                           </p>
-                                                                          <p>{userProfile?.user_type}</p>
+                                                                          <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                           <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                         </div>
                                                                       ) : null
@@ -1256,7 +1256,7 @@ const SetLayoutNewTimeline = () => {
                                                                                   : userProfile?.name
                                                                               }
                                                                               </p>
-                                                                              <p>{userProfile?.user_type}</p>
+                                                                              <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                               <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                             </div>
                                                                           ) : null

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Table, Button,OverlayTrigger,Tooltip } from "react-bootstrap";
+import { Col, Row, Table, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -66,6 +66,10 @@ const TimelineDetail = (props) => {
     "z2TunmZQf3QwCsICFTLGGQ==",
     "qDgwPdToP05Kgzc g2VjIQ==",
   ]);
+  const [videoTime, setVideoTime] = useState({
+    timeSpent: '',
+    totalVideoTime: ''
+  })
   function isJSONValid(jsonString) {
     try {
       JSON.parse(jsonString);
@@ -103,6 +107,82 @@ const TimelineDetail = (props) => {
       }
     }
   };
+
+  const videoPlayedClicked = async (index, action, articleId, mongoId) => {
+    if (index == activeIndex) {
+      setIsActive((current) => !current);
+    } else {
+      setActiveIndex(index);
+      try {
+        setIsActive(false);
+        loader("show");
+        let body = {
+          action: action,
+          articleId: articleId,
+          mongoId: mongoId
+        }
+        const res = await postData(ENDPOINT.GET_VIDEO_PLAYED_DETAIL, body);
+        let { video_start_time, video_end_time, videoDuration } = res?.data?.data
+        let totalVideoTime = convertTimeToSeconds(videoDuration)
+        setVideoTime((prev) => ({ ...prev, totalVideoTime: totalVideoTime }))
+        let time = "";
+        if (video_start_time != null && video_end_time != null) {
+          time = getTimeDifferenceHHMMSS(video_start_time, video_end_time)
+        }
+        console.log(video_start_time, "--", video_end_time)
+        console.log("time---->", time, "--video-->", videoDuration)
+        if (time == 0 || time == "") {
+          setVideoTime((prev) => ({ ...prev, timeSpent: 1 }))
+        } else {
+          setVideoTime((prev) => ({ ...prev, timeSpent: time }))
+        }
+        loader("hide");
+        setIsActive(true);
+      } catch (err) {
+        loader("hide");
+      }
+    }
+  }
+
+  function convertTimeToSeconds(time) {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  }
+
+  function getTimeDifferenceHHMMSS(startTime, endTime) {
+    // Helper function to convert HH:mm:ss to total seconds
+    function timeToSeconds(time) {
+      const [hours, minutes, seconds] = time.split(':').map(Number);
+      return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    // Helper function to convert total seconds back to HH:mm:ss format
+    function secondsToHHMMSS(totalSeconds) {
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      // Pad with leading zeros if needed
+      const hoursStr = String(hours).padStart(2, '0');
+      const minutesStr = String(minutes).padStart(2, '0');
+      const secondsStr = String(seconds).padStart(2, '0');
+
+      return `${hoursStr}:${minutesStr}:${secondsStr}`;
+    }
+
+    // Convert start and end times to seconds
+    const startInSeconds = timeToSeconds(startTime);
+    const endInSeconds = timeToSeconds(endTime);
+
+    // Calculate the difference in seconds
+    const differenceInSeconds = endInSeconds - startInSeconds;
+
+    // Convert the difference back to HH:mm:ss format
+    // return secondsToHHMMSS(differenceInSeconds);
+    return differenceInSeconds;
+  }
+
+
   const handleLoadMore = () => {
     // alert("hi")
     // console.log(" im here")
@@ -551,7 +631,7 @@ const TimelineDetail = (props) => {
                                                 details?.webinar !== "Webinar" &&
                                                 details?.reader_mandatory == 1 ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
@@ -648,7 +728,7 @@ const TimelineDetail = (props) => {
                                                   details?.reader_mandatory ==
                                                   0) ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
@@ -661,32 +741,32 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      {/* <img
+                                                        <div className="indicator-box">
+                                                          {/* <img
                                                         src={
                                                           path_image +
                                                           "automail.svg"
                                                         }
                                                         alt=""
                                                       /> */}
-                                                      <svg
-                                                        width="24"
-                                                        height="18"
-                                                        viewBox="0 0 24 18"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                      >
-                                                        <path
-                                                          d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                                                          fill="rgba(0, 102, 190, 1)"
-                                                        ></path>
-                                                        <path
-                                                          d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7. 98861 12.1922 7.96501 12.2745 7.92Z"
-                                                          fill="rgba(0, 102, 190, 1)"
-                                                        ></path>
-                                                      </svg>
-                                                    </div>
-                                                  </div>
+                                                          <svg
+                                                            width="24"
+                                                            height="18"
+                                                            viewBox="0 0 24 18"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                          >
+                                                            <path
+                                                              d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
+                                                              fill="rgba(0, 102, 190, 1)"
+                                                            ></path>
+                                                            <path
+                                                              d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7. 98861 12.1922 7.96501 12.2745 7.92Z"
+                                                              fill="rgba(0, 102, 190, 1)"
+                                                            ></path>
+                                                          </svg>
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       {details?.webinar ==
@@ -753,7 +833,7 @@ const TimelineDetail = (props) => {
                                               {details?.action ===
                                                 "IRT Started Training" ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status start">
                                                       <p>
@@ -763,16 +843,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "irt-training-start.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "irt-training-start.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -814,7 +894,7 @@ const TimelineDetail = (props) => {
                                               {details?.action ===
                                                 "IRT Not Completed Training" ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status not-complete">
                                                       <p>
@@ -825,16 +905,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "irt-traning-notcomplete.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "irt-traning-notcomplete.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -877,7 +957,7 @@ const TimelineDetail = (props) => {
                                               {details?.action ===
                                                 "IRT Ignored Training" ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status ignored">
                                                       <p>
@@ -887,16 +967,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "irt-ignored-training.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "irt-ignored-training.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -935,7 +1015,7 @@ const TimelineDetail = (props) => {
 
                                               {details?.auto_mail === 5 ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
@@ -945,16 +1025,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "irt-changed-role.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "irt-changed-role.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -996,7 +1076,7 @@ const TimelineDetail = (props) => {
                                               {details?.auto_mail === 1 ||
                                                 details?.auto_mail === 2 ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>Auto Email sent</p>
@@ -1004,16 +1084,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "automail.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "automail.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -1069,7 +1149,7 @@ const TimelineDetail = (props) => {
                                                 "Certificate of training"
                                               ) && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status complete">
                                                         <p>
@@ -1080,17 +1160,17 @@ const TimelineDetail = (props) => {
                                                           {details?.time}{" "}
                                                         </span>
                                                         <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "irt-traning-complete.svg"
-                                                          }
-                                                          alt="indicator-box"
+                                                          <div className="indicator-box">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "irt-traning-complete.svg"
+                                                              }
+                                                              alt="indicator-box"
 
-                                                        />
-                                                      </div>
-                                                    </div>
+                                                            />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                       <div className="timeline-details">
                                                         <div className="details-box">
@@ -1143,7 +1223,7 @@ const TimelineDetail = (props) => {
                                                 "Registered"
                                               ) && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
                                                         <p>New HCP Registered</p>
@@ -1152,16 +1232,16 @@ const TimelineDetail = (props) => {
                                                           {details?.time}{" "}
                                                         </span>
                                                         <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "new-hcp.svg"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                    </div>
+                                                          <div className="indicator-box">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "new-hcp.svg"
+                                                              }
+                                                              alt=""
+                                                            />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                       <div className="timeline-details">
                                                         <div className="details-box">
@@ -1199,16 +1279,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "irt-blocked.svg"
-                                                        }
-                                                        alt=""
-                                                      />
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "irt-blocked.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
                                                       </div>
-                                                    </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -1245,7 +1325,7 @@ const TimelineDetail = (props) => {
 
                                               {details?.auto_mail === 4 ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>IRT Unblocked</p>
@@ -1254,16 +1334,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "irt-invited-training.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "irt-invited-training.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -1335,7 +1415,7 @@ const TimelineDetail = (props) => {
                                                 "Article opened" || details.action ===
                                                 "Article browsed") && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
                                                         <p>Content Opened</p>
@@ -1343,16 +1423,16 @@ const TimelineDetail = (props) => {
                                                           {details?.time}{" "}
                                                         </span>
                                                         <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "content-open.svg"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                    </div>
+                                                          <div className="indicator-box">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "content-open.svg"
+                                                              }
+                                                              alt=""
+                                                            />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                       {/* <div className="timeline-details "> */}
                                                       {/* <div className="timeline-article d-flex">
@@ -1427,11 +1507,11 @@ const TimelineDetail = (props) => {
                                                                         : "N/A"}
                                                                     </p>
                                                                     {details?.allow_video == 1 ?
-                                                    <div className="d-flex align-items-center include-links">
-                                                      <img src={path_image + "video-img.png"} alt="" />
-                                                      <p>Include videos </p>
-                                                    </div>
-                                                    : ""}
+                                                                      <div className="d-flex align-items-center include-links">
+                                                                        <img src={path_image + "video-img.png"} alt="" />
+                                                                        <p>Include videos </p>
+                                                                      </div>
+                                                                      : ""}
                                                                   </div>
                                                                 </div>
                                                               </div>
@@ -1518,11 +1598,11 @@ const TimelineDetail = (props) => {
                                                                         : "N/A"}
                                                                     </p>
                                                                     {details?.allow_video == 1 ?
-                                                    <div className="d-flex align-items-center include-links">
-                                                      <img src={path_image + "video-img.png"} alt="" />
-                                                      <p>Include videos </p>
-                                                    </div>
-                                                    : ""}
+                                                                      <div className="d-flex align-items-center include-links">
+                                                                        <img src={path_image + "video-img.png"} alt="" />
+                                                                        <p>Include videos </p>
+                                                                      </div>
+                                                                      : ""}
                                                                   </div>
                                                                 </div>
                                                               </div>
@@ -1556,20 +1636,20 @@ const TimelineDetail = (props) => {
                                                               <div className="pdf-content">
                                                                 <div className="timeline-article d-flex">
                                                                   <div className="timeline-article-image">
-                                                                  {details?.file_type ===
-                                                                    "ebook"? <img
-                                                                    src={
-                                                                      path_image +
-                                                                      "lex-book-cover.png"
-                                                                    }
-                                                                    alt=""
-                                                                  />:<img
-                                                                  src={
-                                                                    path_image +
-                                                                    "article-open-cover.png"
-                                                                  }
-                                                                  alt=""
-                                                                /> }
+                                                                    {details?.file_type ===
+                                                                      "ebook" ? <img
+                                                                      src={
+                                                                        path_image +
+                                                                        "lex-book-cover.png"
+                                                                      }
+                                                                      alt=""
+                                                                    /> : <img
+                                                                      src={
+                                                                        path_image +
+                                                                        "article-open-cover.png"
+                                                                      }
+                                                                      alt=""
+                                                                    />}
                                                                     {/* <img
                                                                       src={
                                                                         path_image +
@@ -1593,11 +1673,11 @@ const TimelineDetail = (props) => {
                                                                           : "N/A"}
                                                                       </p>
                                                                       {details?.allow_video == 1 ?
-                                                    <div className="d-flex align-items-center include-links">
-                                                      <img src={path_image + "video-img.png"} alt="" />
-                                                      <p>Include videos </p>
-                                                    </div>
-                                                    : ""}
+                                                                        <div className="d-flex align-items-center include-links">
+                                                                          <img src={path_image + "video-img.png"} alt="" />
+                                                                          <p>Include videos </p>
+                                                                        </div>
+                                                                        : ""}
                                                                     </div>
                                                                   </div>
                                                                 </div>
@@ -1688,17 +1768,17 @@ const TimelineDetail = (props) => {
                                                                                                 <td><span>
                                                                                                   {item?.timeSpend ? `${formatTime(item?.timeSpend)}` : 'N/A'}
                                                                                                 </span></td>
-                                                                                                <td className={`media media-${item?.flag}`}>{item?.readContent} 
-                                                                                                <LinkWithTooltip
-                                                                                                  tooltip={item?.readContent === 'Read' ? "An HCP when spends 60% or more of the minimum average time on the page" :
-                                                                                                    item?.readContent === 'Browsed' ? "An HCP when spends between 30% and 60% of the minimum average time" :
-                                                                                                    "An HCP when spends less than 30% of the minimum average time."
-                                                                                                   }
-                                                                                                >
-                                                                                                  <img src={path_image + "info_circle_icon.svg"} alt="" />
-                                                                                                </LinkWithTooltip>
-                                                                                                 
-                                                                                                  </td>
+                                                                                                <td className={`media media-${item?.flag}`}>{item?.readContent}
+                                                                                                  <LinkWithTooltip
+                                                                                                    tooltip={item?.readContent === 'Read' ? "An HCP when spends 60% or more of the minimum average time on the page" :
+                                                                                                      item?.readContent === 'Browsed' ? "An HCP when spends between 30% and 60% of the minimum average time" :
+                                                                                                        "An HCP when spends less than 30% of the minimum average time."
+                                                                                                    }
+                                                                                                  >
+                                                                                                    <img src={path_image + "info_circle_icon.svg"} alt="" />
+                                                                                                  </LinkWithTooltip>
+
+                                                                                                </td>
                                                                                               </tr>
                                                                                             );
                                                                                           }
@@ -1729,20 +1809,20 @@ const TimelineDetail = (props) => {
                                                             <div className="timeline-details ">
                                                               <div className="timeline-article d-flex">
                                                                 <div className="timeline-article-image">
-                                                                {details?.file_type ===
-                                                                    "ebook"? <img
+                                                                  {details?.file_type ===
+                                                                    "ebook" ? <img
                                                                     src={
                                                                       path_image +
                                                                       "lex-book-cover.png"
                                                                     }
                                                                     alt=""
-                                                                  />:<img
-                                                                  src={
-                                                                    path_image +
-                                                                    "article-open-cover.png"
-                                                                  }
-                                                                  alt=""
-                                                                /> }
+                                                                  /> : <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "article-open-cover.png"
+                                                                    }
+                                                                    alt=""
+                                                                  />}
                                                                 </div>
                                                                 <div className="timeline-article-detail">
                                                                   <div className="timeline-title">
@@ -1759,11 +1839,11 @@ const TimelineDetail = (props) => {
                                                                         : "N/A"}
                                                                     </p>
                                                                     {details?.allow_video === 1 ?
-                                                    <div className="d-flex align-items-center include-links">
-                                                      <img src={path_image + "video-img.png"} alt="" />
-                                                      <p>Include videos </p>
-                                                    </div>
-                                                    : ""}
+                                                                      <div className="d-flex align-items-center include-links">
+                                                                        <img src={path_image + "video-img.png"} alt="" />
+                                                                        <p>Include videos </p>
+                                                                      </div>
+                                                                      : ""}
                                                                   </div>
                                                                 </div>
                                                               </div>
@@ -1798,7 +1878,7 @@ const TimelineDetail = (props) => {
                                                   "Article is shared"
                                                 ) && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
                                                         <p>Content Shared</p>
@@ -1806,16 +1886,16 @@ const TimelineDetail = (props) => {
                                                           {details?.time}{" "}
                                                         </span>
                                                         <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "share-materials-icon.svg"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                    </div>
+                                                          <div className="indicator-box">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "share-materials-icon.svg"
+                                                              }
+                                                              alt=""
+                                                            />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                       <div className="timeline-details">
                                                         <div className="timeline-article d-flex">
@@ -1871,7 +1951,7 @@ const TimelineDetail = (props) => {
                                                   "Saved"
                                                 )) && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
                                                         <p>Content Saved</p>
@@ -1879,16 +1959,16 @@ const TimelineDetail = (props) => {
                                                           {details?.time}{" "}
                                                         </span>
                                                         <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "saved-content.png"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                    </div>
+                                                          <div className="indicator-box">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "saved-content.png"
+                                                              }
+                                                              alt=""
+                                                            />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                       <div className="timeline-details">
                                                         <div className="timeline-article d-flex">
@@ -1950,7 +2030,7 @@ const TimelineDetail = (props) => {
                                               {details?.action ==
                                                 "Login to docintel" ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
@@ -1964,16 +2044,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "log-docintel.png"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "log-docintel.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -2007,7 +2087,7 @@ const TimelineDetail = (props) => {
                                                 "Critical Care library opened in Docintel App",
                                               ].includes(details?.action) && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
                                                         <p>Opened Library</p>
@@ -2065,7 +2145,7 @@ const TimelineDetail = (props) => {
                                               {details?.action ===
                                                 "Checked Library in Docintel app" && (
                                                   <div className="timeline-box-inset">
-                                                    
+
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
                                                         <p>
@@ -2075,16 +2155,16 @@ const TimelineDetail = (props) => {
                                                           {details?.time}{" "}
                                                         </span>
                                                         <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "checked-docintel.png"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </div>
-                                                    </div>
+                                                          <div className="indicator-box">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "checked-docintel.png"
+                                                              }
+                                                              alt=""
+                                                            />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                       <div className="timeline-details">
                                                         <div className="details-box">
@@ -2116,7 +2196,7 @@ const TimelineDetail = (props) => {
                                                 "Poll answer submited for event"
                                               ) ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
@@ -2127,16 +2207,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "poll.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "poll.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -2182,7 +2262,7 @@ const TimelineDetail = (props) => {
                                                 "Query submited for event"
                                               ) ? (
                                                 <div className="timeline-box-inset">
-                                                  
+
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
@@ -2192,16 +2272,16 @@ const TimelineDetail = (props) => {
                                                         {details?.time}{" "}
                                                       </span>
                                                       <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img
-                                                        src={
-                                                          path_image +
-                                                          "poll.svg"
-                                                        }
-                                                        alt=""
-                                                      />
-                                                    </div>
-                                                  </div>
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "poll.svg"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                     <div className="timeline-details">
                                                       <div className="details-box">
@@ -2238,7 +2318,7 @@ const TimelineDetail = (props) => {
                                                   "User register"
                                                 ) && (
                                                     <div className="timeline-box-inset">
-                                                      
+
                                                       <div className="timeline-block">
                                                         <div className="timeline-status">
                                                           <p>{details?.action}</p>
@@ -2246,16 +2326,16 @@ const TimelineDetail = (props) => {
                                                             {details?.time}{" "}
                                                           </span>
                                                           <div className="timeline-indicator">
-                                                        <div className="indicator-box">
-                                                          <img
-                                                            src={
-                                                              path_image +
-                                                              "checked-docintel.png"
-                                                            }
-                                                            alt=""
-                                                          />
-                                                        </div>
-                                                      </div>
+                                                            <div className="indicator-box">
+                                                              <img
+                                                                src={
+                                                                  path_image +
+                                                                  "checked-docintel.png"
+                                                                }
+                                                                alt=""
+                                                              />
+                                                            </div>
+                                                          </div>
                                                         </div>
                                                         <div className="timeline-details">
                                                           <div className="details-box">
@@ -3403,6 +3483,117 @@ const TimelineDetail = (props) => {
                                       </div>
                                     </div>
                                   )}
+
+
+                                  {["Event", "Expert opinions", "profile-seeMore", "profile-setting", "Highlights", "Expert opinions played", "Symposium Highlights Video played"]?.includes(details.action) ? (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                        {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                        <div className="timeline-block-head received">
+                                          <div className="timeline-block-title">
+                                            <div className="timeline-block-img">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "email-received.png"
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <h6>{details?.action}</h6>
+                                          </div>
+                                          <div className="timeline-time-view">
+                                            <div className="timeline-time">
+                                              {details?.time}
+                                            </div>
+                                            |
+                                            <div className="timeline-timezone">
+                                              {details?.timezone}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="timeline-article-device">
+                                          <Table>
+                                            <tbody>
+                                              <tr>
+                                                <th className="device-title">
+                                                  Article Heading
+                                                </th>
+
+                                                <td className="device-name">
+                                                  {details?.article_heading}
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </Table>
+                                        </div>
+
+                                        {/* {details?.action?.includes("played") ? (
+                                          <div
+                                            className={
+                                              isActive &&
+                                                details.id == activeIndex
+                                                ? "timeline-article-detail-full active"
+                                                : "timeline-article-detail-full"
+                                            }
+                                            onClick={(e) => {
+                                              videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
+                                            }}
+                                          >
+                                            <div className="timeline-article-details-heading">
+                                              <p>
+                                                Details{" "}
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "down-arrow.png"
+                                                  }
+                                                  alt=""
+                                                />
+                                              </p>
+                                            </div>
+                                            <div className="timeline-article-details-overall">
+                                              <div className="data-main-box tab-panel">
+
+                                                {videoTime?.timeSpent ? (<>
+
+
+                                                  <div className="media-right">
+                                                    <p>
+                                                      <span>
+                                                        Time
+                                                        Needed:{" "}
+                                                        {
+                                                          videoTime?.totalVideoTime
+                                                        }{" "}
+                                                        seconds
+                                                      </span>{" "}
+                                                      <span>
+                                                        Time
+                                                        Spent:{" "}
+                                                        {
+                                                          videoTime?.timeSpent
+                                                        }{" "}
+                                                        seconds
+                                                      </span>
+                                                    </p>
+                                                  </div>
+                                                </>
+                                                ) : (
+                                                  <div className="no_found">
+                                                    <p>No Data Found</p>
+                                                  </div>
+                                                )}
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        ) : ""} */}
+                                      </div>
+                                    </div>
+                                  ) : null}
                                 </>
                               );
                             })}
