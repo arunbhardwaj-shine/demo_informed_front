@@ -48,13 +48,14 @@ export default function Matrix({
               deleteOptionInMiddle={deleteOptionInMiddle}
               addOptionInMiddle={addOptionInMiddle}
               itemInnerKey="title"
+              answerId={option.id}
             />
           </div>
         ))}
 
         <div className="answer-choice add-more">
           <Form.Label></Form.Label>
-          <Button onClick={() => addRow(index, "", "title", "answer")}>
+          <Button onClick={() => addRow(index, "Row", "title", "answer")}>
             + Add new row label
           </Button>
         </div> 
