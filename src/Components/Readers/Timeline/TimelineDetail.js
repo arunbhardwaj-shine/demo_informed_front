@@ -66,9 +66,9 @@ const TimelineDetail = (props) => {
     "z2TunmZQf3QwCsICFTLGGQ==",
     "qDgwPdToP05Kgzc g2VjIQ==",
   ]);
-  const [videoTime,setVideoTime]=useState({
-    timeSpent:'',
-    totalVideoTime:''
+  const [videoTime, setVideoTime] = useState({
+    timeSpent: '',
+    totalVideoTime: ''
   })
   function isJSONValid(jsonString) {
     try {
@@ -108,82 +108,75 @@ const TimelineDetail = (props) => {
     }
   };
 
-  const videoPlayedClicked=async(index,action,articleId,mongoId)=>{
-    console.log("mongo id--->",mongoId)
+  const videoPlayedClicked = async (index, action, articleId, mongoId) => {
     if (index == activeIndex) {
       setIsActive((current) => !current);
     } else {
       setActiveIndex(index);
       try {
         setIsActive(false);
-        loader("show"); 
-        let body={
-          action:action,
-          articleId:articleId,
-          mongoId:mongoId
-        }     
-        const res = await postData(ENDPOINT.GET_VIDEO_PLAYED_DETAIL,{body});
-        console.log("res--->",res?.data?.data)
-      // let startTime=res?.data?.data?.data?.[0]?.video_start_time
-      // let endTime=res?.data?.data?.data?.[0]?.video_end_time
-      let {video_start_time,video_end_time}=res?.data?.data?.data[0]
-      let videoDuration=convertTimeToSeconds(res?.data?.data?.videoDuration)
-      setVideoTime((prev)=>({...prev,totalVideoTime:videoDuration}))
-      let time="";
-      if(video_start_time!=null&&video_end_time!=null){
-
-        time=getTimeDifferenceHHMMSS(video_start_time,video_end_time)
-      }
-      console.log(video_start_time,"--",video_end_time)
-      console.log("time---->",time,"--video-->",videoDuration)
-      if(time==0||time==""){
-        // setTimeSpent(1)
-        setVideoTime((prev)=>({...prev,timeSpent:1}))
-      }else{
-        // setTimeSpent(time)
-        setVideoTime((prev)=>({...prev,timeSpent:time}))
-      }
+        loader("show");
+        let body = {
+          action: action,
+          articleId: articleId,
+          mongoId: mongoId
+        }
+        const res = await postData(ENDPOINT.GET_VIDEO_PLAYED_DETAIL, body);
+        let { video_start_time, video_end_time, videoDuration } = res?.data?.data
+        let totalVideoTime = convertTimeToSeconds(videoDuration)
+        setVideoTime((prev) => ({ ...prev, totalVideoTime: totalVideoTime }))
+        let time = "";
+        if (video_start_time != null && video_end_time != null) {
+          time = getTimeDifferenceHHMMSS(video_start_time, video_end_time)
+        }
+        console.log(video_start_time, "--", video_end_time)
+        console.log("time---->", time, "--video-->", videoDuration)
+        if (time == 0 || time == "") {
+          setVideoTime((prev) => ({ ...prev, timeSpent: 1 }))
+        } else {
+          setVideoTime((prev) => ({ ...prev, timeSpent: time }))
+        }
         loader("hide");
         setIsActive(true);
       } catch (err) {
-        loader("hide");        
+        loader("hide");
       }
     }
   }
 
-  function convertTimeToSeconds(time){
+  function convertTimeToSeconds(time) {
     const [hours, minutes, seconds] = time.split(':').map(Number);
-      return hours * 3600 + minutes * 60 + seconds;
+    return hours * 3600 + minutes * 60 + seconds;
   }
-  
+
   function getTimeDifferenceHHMMSS(startTime, endTime) {
     // Helper function to convert HH:mm:ss to total seconds
     function timeToSeconds(time) {
       const [hours, minutes, seconds] = time.split(':').map(Number);
       return hours * 3600 + minutes * 60 + seconds;
     }
-  
+
     // Helper function to convert total seconds back to HH:mm:ss format
     function secondsToHHMMSS(totalSeconds) {
       const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
-  
+
       // Pad with leading zeros if needed
       const hoursStr = String(hours).padStart(2, '0');
       const minutesStr = String(minutes).padStart(2, '0');
       const secondsStr = String(seconds).padStart(2, '0');
-  
+
       return `${hoursStr}:${minutesStr}:${secondsStr}`;
     }
-  
+
     // Convert start and end times to seconds
     const startInSeconds = timeToSeconds(startTime);
     const endInSeconds = timeToSeconds(endTime);
-  
+
     // Calculate the difference in seconds
     const differenceInSeconds = endInSeconds - startInSeconds;
-  
+
     // Convert the difference back to HH:mm:ss format
     // return secondsToHHMMSS(differenceInSeconds);
     return differenceInSeconds;
@@ -3490,9 +3483,9 @@ const TimelineDetail = (props) => {
                                       </div>
                                     </div>
                                   )}
-                                  
 
-                                  {["Event","Expert opinions","profile-seeMore","profile-setting","Highlights","Expert opinions played","Symposium Highlights Video played"]?.includes(details.action) ? (
+
+                                  {["Event", "Expert opinions", "profile-seeMore", "profile-setting", "Highlights", "Expert opinions played", "Symposium Highlights Video played"]?.includes(details.action) ? (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
                                         {details?.date}
@@ -3523,21 +3516,21 @@ const TimelineDetail = (props) => {
                                         </div>
                                         <div className="timeline-article-device">
                                           <Table>
-                                            <tbody>                                              
-                                                <tr>
-                                                  <th className="device-title">
-                                                    Article Heading
-                                                  </th>
+                                            <tbody>
+                                              <tr>
+                                                <th className="device-title">
+                                                  Article Heading
+                                                </th>
 
-                                                  <td className="device-name">
-                                                    {details?.article_heading}
-                                                  </td>
-                                                </tr>           
+                                                <td className="device-name">
+                                                  {details?.article_heading}
+                                                </td>
+                                              </tr>
                                             </tbody>
                                           </Table>
                                         </div>
 
-                                        {/* {details?.action?.includes("played")?(
+                                        {/* {details?.action?.includes("played") ? (
                                           <div
                                             className={
                                               isActive &&
@@ -3546,7 +3539,7 @@ const TimelineDetail = (props) => {
                                                 : "timeline-article-detail-full"
                                             }
                                             onClick={(e) => {
-                                              videoPlayedClicked(details?.id,details?.action,details?.article_id,details?.mongo_tracking_id)
+                                              videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
                                             }}
                                           >
                                             <div className="timeline-article-details-heading">
@@ -3563,41 +3556,41 @@ const TimelineDetail = (props) => {
                                             </div>
                                             <div className="timeline-article-details-overall">
                                               <div className="data-main-box tab-panel">
-                                               
-                                                {videoTime?.timeSpent?(<>
-                                                
-                                               
-                                                <div className="media-right">
-                                                                        <p>
-                                                                          <span>
-                                                                            Time
-                                                                            Needed:{" "}
-                                                                            {
-                                                                              videoTime?.totalVideoTime
-                                                                            }{" "}
-                                                                            seconds
-                                                                          </span>{" "}
-                                                                          <span>
-                                                                            Time
-                                                                            Spent:{" "}
-                                                                            {
-                                                                              videoTime?.timeSpent
-                                                                            }{" "}
-                                                                            seconds
-                                                                          </span>
-                                                                        </p>
-                                                                        </div>
-                                                  </>
+
+                                                {videoTime?.timeSpent ? (<>
+
+
+                                                  <div className="media-right">
+                                                    <p>
+                                                      <span>
+                                                        Time
+                                                        Needed:{" "}
+                                                        {
+                                                          videoTime?.totalVideoTime
+                                                        }{" "}
+                                                        seconds
+                                                      </span>{" "}
+                                                      <span>
+                                                        Time
+                                                        Spent:{" "}
+                                                        {
+                                                          videoTime?.timeSpent
+                                                        }{" "}
+                                                        seconds
+                                                      </span>
+                                                    </p>
+                                                  </div>
+                                                </>
                                                 ) : (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
                                                 )}
-                                               
+
                                               </div>
                                             </div>
                                           </div>
-                                        ):""} */}
+                                        ) : ""} */}
                                       </div>
                                     </div>
                                   ) : null}
