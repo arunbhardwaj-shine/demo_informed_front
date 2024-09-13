@@ -81,7 +81,8 @@
           element.value = "";
         });
         document.getElementById("survey-form").reset(); // Reset your form
-        window.location.reload();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // window.location.reload();
       }
 
       function updateCharCount(questionId, maxTextLength) {
@@ -199,7 +200,7 @@
           return;
         }
 
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -294,9 +295,9 @@
             customHtml?.page_background_color
           };">
               <div class="informed-survey-text" style="color: ${
-                customHtml?.bodyTextColor
+                customHtml.bodyTextColor
               };">
-                  <p>${customHtml?.bodyText}</p>
+                  ${customHtml?.bodyText}
               </div>
               <form id="survey-form">
       `;
@@ -316,11 +317,11 @@
                   <div class="d-flex question-title" style="color: ${
                     customHtml.question_answer_color
                   };">
-                      ${question.question} <span>${
+                   ${question.question} <span style="color : ${customHtml.bodyTextColor};">${
                 question.isOptional ? question.optionalLabel : ""
               }</span>
                   </div>
-                  <p class="helper-text">${question.questionDescription}</p>`;
+                  <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>`;
 
               // Loop through the answers to create radio buttons
               question.answer.forEach((answer) => {
@@ -336,9 +337,10 @@
                             question.questionId
                           }, this.value);" />
                       ${answer.value}
-                      <span class="checkmark"></span>
+                      <span class="checkmark"  style="border-color : ${customHtml.question_answer_color};"</span>
                   </label>`;
               });
+            
 
               // Add the "Other" choice with its text input
               if (question.addOtherChoice) {
@@ -353,7 +355,7 @@
                             question.questionId
                           }, 'other');" />
                       ${question.extra.otherChoiceLabel}
-                      <span class="checkmark"></span><br>
+                      <span class="checkmark" style="border-color : ${customHtml.question_answer_color};"></span><br>
                   </label>
                   <textarea name="question${question.questionId}_other"
                       placeholder="${question.extra.otherChoicePlaceholderText}"
@@ -381,10 +383,10 @@
               }">
             <div class="d-flex question-title" style="color: ${
               customHtml.question_answer_color
-            };">${question.question} <span>${
+            };">${question.question} <span style="color : ${customHtml.bodyTextColor};">${
                 question.isOptional ? question.optionalLabel : ""
               }</span></div>
-            <p class="helper-text">${question.questionDescription}</p>`;
+            <p class="helper-text" style="color : ${customHtml.question_answer_color};">${question.questionDescription}</p>`;
 
               question.answer.forEach((answer) => {
                 surveyHtml += `
@@ -400,7 +402,7 @@
                   question.questionId
                 });" />
                     ${answer.value}
-                    <span class="checkmark"></span>
+                    <span class="checkmark" style="border-color : ${customHtml.question_answer_color};"></span>
                 </label>`;
               });
               // Add the "All of the above" option if applicable
@@ -419,7 +421,7 @@
                             question.questionId
                           }, this.value);" />
                       ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark"></span><br>
+                      <span class="checkmark" style="border-color : ${customHtml.question_answer_color};"></span><br>
                   </label>`;
               }
               if (question.addOtherChoice) {
@@ -433,7 +435,7 @@
                   question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
                   ${question.extra.otherChoiceLabel}
-                  <span class="checkmark"></span><br>
+                  <span class="checkmark" style="border-color : ${customHtml.question_answer_color};"></span><br>
               </label>
               <input type="text" placeholder="${
                 question.extra.otherChoicePlaceholderText
@@ -461,11 +463,11 @@
                         <div class="d-flex question-title" style="color: ${
                           customHtml.question_answer_color
                         };">
-                          ${question.question} <span>${
+                          ${question.question} <span style="color : ${customHtml.bodyTextColor};" >${
                 question.isOptional ? question.optionalLabel : ""
               }</span>
                         </div>
-                        <p class="helper-text">${
+                        <p class="helper-text" style="color : ${customHtml.question_answer_color};">${
                           question.questionDescription
                         }</p>
                         <div class="dropdown-el" >
@@ -511,11 +513,11 @@
       <div class="d-flex question-title" style="color: ${
         customHtml.question_answer_color
       };">
-        ${question.question} <span>${
+        ${question.question} <span style="color : ${customHtml.bodyTextColor};" >${
                 question.isOptional ? question.optionalLabel : ""
               }</span>
       </div>
-      <p class="helper-text">${question.questionDescription}</p>
+      <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>
   `;
 
               // Check if the rating type is stars
@@ -610,11 +612,11 @@
                   ? "d-flex question-title"
                   : "d-flex question-title notoptional"
               }" style="color: ${customHtml.question_answer_color};">
-                    ${question.question} <span>${
+                    ${question.question} <span style="color : ${customHtml.bodyTextColor};" >${
                 question.isOptional ? question.optionalLabel : ""
               }</span>
                   </div>
-                  <p class="helper-text">${question.questionDescription}</p>
+                  <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>
                   <div class="table-responsive">
                     <table>
                       <thead>
@@ -634,7 +636,7 @@
                             (row) =>
                               `<tr>
                                 <td style="color: ${
-                                  customHtml.bodyTextColor
+                                  customHtml.question_answer_color
                                 };">${row.title}</td>
                                 ${row.answer
                                   .map(
@@ -654,7 +656,7 @@
                                             id="matrix"
                                                value="${option.answerId}">
 
-                                        <span class="checkmark"></span>
+                                        <span class="checkmark" style="border-color : ${customHtml.question_answer_color};"></span>
                                       </td>`
                                   )
                                   .join("")}
@@ -685,12 +687,13 @@
       <div class="d-flex question-title" style="color: ${
         customHtml.question_answer_color
       };">
-        ${question.question} <span>${
+        ${question.question} <span style="color : ${customHtml.bodyTextColor};" >${
                 question.isOptional ? question.optionalLabel : ""
               }</span>
       </div>
       <textarea
         id="textarea${question.questionId}"
+      
         type="textarea"
         name="question${question.questionId}"
         placeholder="${question.extra.placeholder}"
@@ -716,7 +719,7 @@
               surveyHtml += `
                     <div class="survey-question">
                         <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
-                        <p class="helper-text">${question.questionDescription}</p>
+                        <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>
                     `;
               surveyHtml += `</div>`;
               break;
@@ -751,7 +754,7 @@
             case "consent":
               surveyHtml += `
               <div class="survey-consent">
-                  <div class="login-consent">${question.question}${
+                  <div class="login-consent" style="color : ${customHtml.question_answer_color};" >${question.question}${
                 question.extra.operatingStatement
               }</div>
                   <div class="form-section">
@@ -762,7 +765,7 @@
                             html = `
 
                                       <div class="form-group">
-                                          <label class="form-label">
+                                          <label class="form-label" style="color : ${customHtml.question_answer_color};">
                                               ${userdetail.nameLabel}
                                               </label>
                                                 <input type="text" name="name" placeholder="${userdetail.namePlaceholder}" required />
@@ -771,7 +774,7 @@
                           } else if (userdetail.emailLabel) {
                             html = `
                                       <div class="form-group">
-                                          <label class="form-label">
+                                          <label class="form-label" style="color : ${customHtml.question_answer_color};">
                                               ${userdetail.emailLabel}
                                                 </label>
                                                 <input type="email" name="email" placeholder="${userdetail.emailPlaceholder}" required />
@@ -780,7 +783,7 @@
                           } else if (userdetail.countryLabel) {
                             html = `
         <div class="form-group">
-          <label class="form-label">${userdetail.countryLabel}</label>
+          <label class="form-label" style="color : ${customHtml.question_answer_color};">${userdetail.countryLabel}</label>
           <div class="dropdown-el" name="question${
             question.questionId
           }_country">
@@ -810,7 +813,7 @@
                         .join("")}
             </div>
             <div class="consent-select">
-                <label class="form-label">I consent to:</label>
+                <label class="form-label" style="color : ${customHtml.question_answer_color};">I consent to:</label>
                 ${question.extra.consentOptions
                   .map(
                     (option, index) => `
@@ -822,7 +825,7 @@
                   }"  required value="${option.label}" ${
                       option.isChecked ? "checked" : ""
                     }>
-                  <span class="checkmark"></span>
+                  <span class="checkmark" style="border-color : ${customHtml.question_answer_color};"></span>
                   ${option.label}
                 </label>`
                   )
@@ -833,7 +836,6 @@
                   <p>${question.extra.cookiePolicy}</p>
               </div>`;
               break;
-
             default:
               console.log(`Unknown question type: ${question.type}`);
           }
@@ -1528,15 +1530,15 @@
             };
 
             try {
-              // if ((localStorage.getItem(`form_surveyid${survey_id}`)) && ((user_id == 0))) {
-              //   showToast("You have already submitted the survey");
-              //   closeModal();
-              //   document.getElementById("survey-form").reset(); // Reset your form
-              //   return;
-              // }
+              if ((localStorage.getItem(`form_surveyid${survey_id}`)) && ((user_id == 0))) {
+                showToast("You have already submitted the survey");
+                closeModal();
+                document.getElementById("survey-form").reset(); // Reset your form
+                return;
+              }
 
               loader("show");
-              const submitApiUrl ="https://informedback.shinedezign.pro/survey/insert-user-responses";
+              const submitApiUrl ="http://192.168.0.231:3001/survey/insert-user-responses";
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {

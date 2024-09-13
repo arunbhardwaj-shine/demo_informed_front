@@ -113,9 +113,7 @@ const SurveyPreview = (props) => {
     setConfirmationPopup(false);
   };
 
-  useEffect(() => {
-    console.log(elements,currentElementIndex,'useEffect')
-  },[elements]);
+
 
   useEffect(() => {
     const shouldFetchQuestions =
@@ -324,12 +322,15 @@ const SurveyPreview = (props) => {
                     className={
                       isEdit
                         ? "btn btn-primary btn-filled next"
+                        : elements.length > 0
+                        ? "btn btn-primary btn-filled next send_btn"
                         : "btn btn-primary btn-filled next send_btn"
                     }
-                    onClick={async (e) => {
+                    
+                    onClick={elements.length > 0 ? async (e) => {
                       await nextHandler(e);
                       await navigateFunction(e);
-                    }}
+                    } : (e)=>{toast.error("please insert at least one question")}}
                   >
                     {" "}
                     {isEdit ? "Next" : "Publish"}
