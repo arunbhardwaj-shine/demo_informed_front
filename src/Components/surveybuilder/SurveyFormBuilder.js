@@ -1575,7 +1575,7 @@ const SurveyFormBuilder = (props) => {
   const updateTemplatesData = (updatedTemp, saveNewTemplate) => {
     if (customHtmlData && Object.keys(customHtmlData).length > 0) {
       console.log("inside form ");
-      if (!saveNewTemplate) {
+      // if (!saveNewTemplate) {
         console.log("updeuyddewqjbdwcwecdc");
         const updatedData = updatedTemp.map((template) => {
           console.log(surveyValues?.formBuilderData?.template_id);
@@ -1604,7 +1604,7 @@ const SurveyFormBuilder = (props) => {
         setUserMadeChanges(true);
         customHtmlData = "";
         // setCustomHtml(customHtmlData ?? {});
-      }
+      // }
     } else {
       setTemplates(updatedTemp);
       if (saveNewTemplate != 2 && !saveNewTemplate) {
@@ -1622,8 +1622,6 @@ const SurveyFormBuilder = (props) => {
         "/survey/fetch-saved-template",
         body
       );
-
-
 
       if (response.status == 200) {
         var customTemplates = [];
@@ -1644,7 +1642,7 @@ const SurveyFormBuilder = (props) => {
       if (!header_background_type) {
         setHeaderBackgroundType("color");
       }
-      if (saveNewTemplate) {
+      if (saveNewTemplate === 1) {
         setsavednewCustomTempflag(1);
       }
       loader("hide");
@@ -1814,10 +1812,7 @@ const SurveyFormBuilder = (props) => {
           });
         });
 
-
-
         const imagesofhtml=await Promise.all(imagePromises);
-
 
         // Capture screenshot with html2canvas
         const canvas = await html2canvas(element, {
@@ -1851,6 +1846,8 @@ const SurveyFormBuilder = (props) => {
     return null;
   };
 
+
+  
   const handleChoiceChange = (id) => {
     if (id && templates) {
       const selectedTemplate = templates.find((temp) => temp.id === id);
@@ -2134,12 +2131,8 @@ const SurveyFormBuilder = (props) => {
             : temporaryValues.template_name,
           main_footer: changeFooterToggle ? temporaryValues.main_footer : "",
           bodyText: changeBodyToggle ? temporaryValues.bodyText : "",
-
           header_background_color: temporaryValues.header_background_color,
-          // header_background_color: temporaryValues.header_background_color,
           header_background_image: temporaryValues.header_background_image,
-          // header_background_image: temporaryValues.header_background_image,
-
           logo: changeLogoToggle ? temporaryValues.logo : "",
           main_heading: changeTitleToggle ? temporaryValues.main_heading : "",
           title_color: temporaryValues.title_color,
@@ -2149,7 +2142,6 @@ const SurveyFormBuilder = (props) => {
           bodyTextColor: temporaryValues.bodyTextColor,
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
-          // selectedTemplateClass,
           changeLogoToggle,
           changeTitleToggle,
           header_background_type: header_background_type,
@@ -2207,7 +2199,6 @@ const SurveyFormBuilder = (props) => {
       await props.getSurveyData(updatedTemplateData);
     }
   };
-
 
   return (
     <>
@@ -2485,6 +2476,7 @@ const SurveyFormBuilder = (props) => {
                                       handleUpdateElement={updateElement}
                                       index={index}
                                       Placeholder=""
+                                      headingBoldFlag={1}
                                     />
                                   </div>
                                 )}
@@ -2547,6 +2539,7 @@ const SurveyFormBuilder = (props) => {
                                       handleUpdateElement={updateBody}
                                       index={index}
                                       Placeholder=""
+                                      headingBoldFlag={0}
                                     />
                                   </div>
                                 )}
@@ -2581,6 +2574,7 @@ const SurveyFormBuilder = (props) => {
                                       handleUpdateElement={updateFooter}
                                       index={index}
                                       Placeholder=""
+                                      headingBoldFlag={0}
                                     />
                                   </div>
                                 )}
