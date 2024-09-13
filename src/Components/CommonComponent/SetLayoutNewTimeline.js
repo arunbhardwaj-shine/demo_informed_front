@@ -728,7 +728,8 @@ const SetLayoutNewTimeline = () => {
                                                 <div className="details-box">
                                                   <p className="timeline-details-heading">Who</p>
                                                   <div className="d-flex flex-wrap timeline-activity">
-                                                    {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                    {item?.users_data?.length ?
+                                                      item?.users_data?.map((userId, index) => {
                                                       const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                       return userProfile ? (
                                                         <div key={index} className="timeline-activity-detail">
@@ -740,8 +741,10 @@ const SetLayoutNewTimeline = () => {
                                                       </p> */}
                                                           <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                         </div>
-                                                      ) : null
-                                                    }) : ""}
+                                                      ) : <div className="timeline-activity-detail">
+                                                            <span>N/A</span>
+                                                          </div>
+                                                    }) : null}
 
 
                                                   </div>
@@ -1187,7 +1190,7 @@ const SetLayoutNewTimeline = () => {
                                                                                 : userProfile?.name
                                                                             }
                                                                             </p>
-                                                                            <p>{userProfile?.user_type}</p>
+                                                                            <p>{userProfile?.user_type != 0 ? userProfile?.user_type : "N/A"}</p>
                                                                             <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                           </div>
                                                                         ) : null
