@@ -170,22 +170,10 @@ const updateConsent = (state, action) => {
   }
 };
 
-// const copyElement = (state, action) => {
-//   const copiedElement = { ...state.elements[action.payload.index] };
-//   copiedElement.name = "question" + state.globalIndex;
-  
-//   return {
-//     ...state,
-//     elements: [...state.elements, copiedElement],
-//     currentElementIndex: state.elements.length,
-//     globalIndex: state.globalIndex + 1,
-//     isAddClicked: false,
-//   };
-// };
+
 
 const copyElement = (state, action) => {
  
-  
   // Copy the element to be duplicated
   const copiedElement = structuredClone( { ...state.elements[action.payload.index] });
   copiedElement.questionId = 0;

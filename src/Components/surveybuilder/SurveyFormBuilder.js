@@ -31,6 +31,7 @@ const SurveyFormBuilder = (props) => {
   const handleClose = () => {
     setShow(false);
     setError({});
+    setNewSavedTemplateName("")
   };
   const handleShow = () => setShow(true);
 
