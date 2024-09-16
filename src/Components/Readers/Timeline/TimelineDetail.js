@@ -88,8 +88,9 @@ const TimelineDetail = (props) => {
     } else {
       setActiveIndex(index);
       try {
-        setIsActive(false);
-        loader("show");
+        // setIsActive(false);
+        setIsActive(true);
+        // loader("show");
         setSectionLoader(true)
         let crdate = moment(cdate).format("YYYY/MM/DD");
 
@@ -103,11 +104,11 @@ const TimelineDetail = (props) => {
         if (res?.data?.data) {
           setEbookData(res?.data?.data);
         }
-        loader("hide");
+        // loader("hide");
         setSectionLoader(false)
-        setIsActive(true);
+        // setIsActive(true);
       } catch (err) {
-        loader("hide");
+        // loader("hide");
         setSectionLoader(false)
         setEbookData([]);
       }
@@ -120,8 +121,9 @@ const TimelineDetail = (props) => {
     } else {
       setActiveIndex(index);
       try {
-        setIsActive(false);
-        loader("show");
+        // setIsActive(false);
+        setIsActive(true);
+        // loader("show");
         setSectionLoader(true)
         let body = {
           action: action,
@@ -141,11 +143,11 @@ const TimelineDetail = (props) => {
         } else {
           setVideoTime((prev) => ({ ...prev, timeSpent: time }))
         }
-        loader("hide");
+        // loader("hide");
         setSectionLoader(false)
-        setIsActive(true);
+        // setIsActive(true);
       } catch (err) {
-        loader("hide");
+        // loader("hide");
         setSectionLoader(false)
         console.log("--err",err)
       }
@@ -2512,6 +2514,7 @@ const TimelineDetail = (props) => {
                                             }}
                                           >
                                             <div className="timeline-article-details-heading">
+                                            
                                               <p>
                                                 Details{" "}
                                                 <img
@@ -2540,9 +2543,9 @@ const TimelineDetail = (props) => {
                                               <div className="data-main-box tab-panel">
                                             
                                                 {/* <div className="timeline-article-details-boxes"> */}
-                                                {typeof ebookData !==
+                                                {(!sectionLoader&&typeof ebookData !==
                                                   "undefined" &&
-                                                  ebookData.length > 0 ? (
+                                                  ebookData.length > 0) ? (
                                                   <>
                                                     {ebookData.map(
                                                       (data, index) => {
@@ -2621,11 +2624,11 @@ const TimelineDetail = (props) => {
                                                       }
                                                     )}
                                                   </>
-                                                ) : (
+                                                ) :!sectionLoader? (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
-                                                )}
+                                                ):""}
                                                 {/* </div> */}
                                               </div>
                                             </div>
@@ -3595,7 +3598,7 @@ const TimelineDetail = (props) => {
                                               <div className="data-main-box tab-panel">
                                               
 
-                                                {videoTime?.timeSpent ? (<>
+                                                {(!sectionLoader&&videoTime?.timeSpent) ? (<>
 
 
                                                   <div className="media-right">
@@ -3676,11 +3679,11 @@ const TimelineDetail = (props) => {
                                                     </div>
                                                   </div>
                                                 </>
-                                                ) : (
+                                                ) :!sectionLoader? (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
-                                                )}
+                                                ):""}
 
                                               </div>
                                             </div>
