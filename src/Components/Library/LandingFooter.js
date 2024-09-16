@@ -746,7 +746,7 @@ const LandingFooter = () => {
                 <Modal.Title>Cookies</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <div class="used-cookies-table"><table><thead><tr><th>Name</th><th>Purpose</th></tr></thead><tbody><tr><td>userlang</td><td>For storing language preferance of user</td></tr><tr><td>LANGUAGE_COOKIE_NAME</td><td>For storing language preferance of user </td></tr><tr><td>csrftoken</td><td>This cookie helps to authenticated calls to webservices.</td></tr></tbody></table></div>
+                <div className="used-cookies-table"><table><thead><tr><th>Name</th><th>Purpose</th></tr></thead><tbody><tr><td>userlang</td><td>For storing language preferance of user</td></tr><tr><td>LANGUAGE_COOKIE_NAME</td><td>For storing language preferance of user </td></tr><tr><td>csrftoken</td><td>This cookie helps to authenticated calls to webservices.</td></tr></tbody></table></div>
                 </Modal.Body>
             </div>
         </Modal>

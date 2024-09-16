@@ -684,7 +684,7 @@ const PollQuestion = () => {
                       }`}
                     >
                       <td colspan="6">
-                        <div class="highcharts-container">
+                        <div className="highcharts-container">
                           {
                             syncFlag && (
                                 customAns == 1 || graphType == 'bar' ? 

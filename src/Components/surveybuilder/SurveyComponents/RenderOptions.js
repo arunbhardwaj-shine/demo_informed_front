@@ -25,7 +25,6 @@ const RenderOptions = ({
             type={type}
             name={item.questionNo}
             disabled={!isEdit}
-          
           />
           <span className="checkmark" style={{ borderColor: inputColor }} ></span>
         </label>

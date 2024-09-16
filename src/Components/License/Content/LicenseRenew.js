@@ -1034,7 +1034,7 @@ const LicenseRenew = () => {
                   </ul>
                 </div>
               </div>
-              <div id="renewModal" class="create-change-content">
+              <div id="renewModal" className="create-change-content">
                 <div className="form_action">
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                     <div className="form-label">
