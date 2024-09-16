@@ -5,6 +5,7 @@ import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import moment from "moment";
 import { loader } from "../../../loader";
+import { Spinner } from "react-activity";
 // import {
 //   Accordion,
 //   Col,
@@ -70,6 +71,8 @@ const TimelineDetail = (props) => {
     timeSpent: '',
     totalVideoTime: ''
   })
+
+  const [sectionLoader,setSectionLoader]=useState(false)
   function isJSONValid(jsonString) {
     try {
       JSON.parse(jsonString);
@@ -87,6 +90,7 @@ const TimelineDetail = (props) => {
       try {
         setIsActive(false);
         loader("show");
+        setSectionLoader(true)
         let crdate = moment(cdate).format("YYYY/MM/DD");
 
         let body = {
@@ -100,9 +104,11 @@ const TimelineDetail = (props) => {
           setEbookData(res?.data?.data);
         }
         loader("hide");
+        setSectionLoader(false)
         setIsActive(true);
       } catch (err) {
         loader("hide");
+        setSectionLoader(false)
         setEbookData([]);
       }
     }
@@ -116,6 +122,7 @@ const TimelineDetail = (props) => {
       try {
         setIsActive(false);
         loader("show");
+        setSectionLoader(true)
         let body = {
           action: action,
           articleId: articleId,
@@ -129,17 +136,18 @@ const TimelineDetail = (props) => {
         if (video_start_time != null && video_end_time != null) {
           time = getTimeDifferenceHHMMSS(video_start_time, video_end_time)
         }
-        console.log(video_start_time, "--", video_end_time)
-        console.log("time---->", time, "--video-->", videoDuration)
         if (time == 0 || time == "") {
           setVideoTime((prev) => ({ ...prev, timeSpent: 1 }))
         } else {
           setVideoTime((prev) => ({ ...prev, timeSpent: time }))
         }
         loader("hide");
+        setSectionLoader(false)
         setIsActive(true);
       } catch (err) {
         loader("hide");
+        setSectionLoader(false)
+        console.log("--err",err)
       }
     }
   }
@@ -1539,8 +1547,6 @@ const TimelineDetail = (props) => {
                                                                     {isActive &&
                                                                       details.id == activeIndex ? '< Hide' : 'Show Details... >'}
                                                                   </p>
-
-
                                                                   {typeof ebookData !== "undefined" && ebookData.length > 0 ? (
                                                                     <>
                                                                       {isActive &&
@@ -1564,8 +1570,6 @@ const TimelineDetail = (props) => {
                                                                   ) : (
                                                                     ''
                                                                   )}
-
-
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -2520,7 +2524,21 @@ const TimelineDetail = (props) => {
                                               </p>
                                             </div>
                                             <div className="timeline-article-details-overall">
+                                            { (details.id == activeIndex&&sectionLoader == true) ? (
+                                                  <div
+                                                    className={"load_more"}
+                                                    style={{
+                                                      margin: "10 auto",
+                                                      justifyContent: "center",
+                                                      display: "flex",
+                                                    }}
+                                                  >
+                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                  </div>
+                                                  
+                                                ) : null}
                                               <div className="data-main-box tab-panel">
+                                            
                                                 {/* <div className="timeline-article-details-boxes"> */}
                                                 {typeof ebookData !==
                                                   "undefined" &&
@@ -3491,13 +3509,15 @@ const TimelineDetail = (props) => {
                                         {details?.date}
                                       </div>
                                       <div className="timeline-block">
-                                        <div className="timeline-block-head received">
+                                        <div className="timeline-block-head library">
                                           <div className="timeline-block-title">
                                             <div className="timeline-block-img">
                                               <img
                                                 src={
-                                                  path_image +
-                                                  "email-received.png"
+                                                  path_image + `${details?.action == "Event" ? "Events.svg" : details?.action == "Expert opinions" ? "Expert_opinion.svg" :
+                                                    details?.action == "profile-seeMore" ? "Profile.svg" : details?.action == "profile-setting" ? "Profile.svg" : details?.action == "Highlights" ? "Highlights.svg" :
+                                                      details?.action == "Expert opinions played" ? "Expert_opinion.svg" : details?.action == "Symposium Highlights Video played" ? "Symposium_highlight.svg" : ""}`
+
                                                 }
                                                 alt=""
                                               />
@@ -3529,6 +3549,7 @@ const TimelineDetail = (props) => {
                                             </tbody>
                                           </Table>
                                         </div>
+                                       
 
                                         {details?.action?.includes("played") ? (
                                           <div
@@ -3538,14 +3559,14 @@ const TimelineDetail = (props) => {
                                                 ? "timeline-article-detail-full active"
                                                 : "timeline-article-detail-full"
                                             }
-                                            // onClick={(e) => {
-                                            //   videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
-                                            // }}
+                                          // onClick={(e) => {
+                                          //   videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
+                                          // }}
                                           >
                                             <div className="timeline-article-details-heading">
-                                              <p  onClick={(e) => {
-                                              videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
-                                            }}>
+                                              <p onClick={(e) => {
+                                                videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
+                                              }}>
                                                 Details{" "}
                                                 <img
                                                   src={
@@ -3556,14 +3577,29 @@ const TimelineDetail = (props) => {
                                                 />
                                               </p>
                                             </div>
+                                          
                                             <div className="timeline-article-details-overall">
+                                           
+                                            { details.id == activeIndex&&sectionLoader == true ? (
+                                                  <div
+                                                    className={"load_more"}
+                                                    style={{
+                                                      margin: "10 auto",
+                                                      justifyContent: "center",
+                                                      display: "flex",
+                                                    }}
+                                                  >
+                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                  </div>
+                                                ) : null}
                                               <div className="data-main-box tab-panel">
+                                              
 
                                                 {videoTime?.timeSpent ? (<>
 
 
                                                   <div className="media-right">
-                                                  {/* <p onClick={(e) => {
+                                                    {/* <p onClick={(e) => {
                                                       handleClick(
                                                         details.id,
                                                         details.pdf_id,
@@ -3591,36 +3627,36 @@ const TimelineDetail = (props) => {
                                                         </div>
                                                       ))} */}
                                                     <div className="timeline-time-show">
-                                                      <div className="d-flex flex-direction-row"  style={{gap:"24px"}}>
-                                                      <div className="timeline-activity-detail">
-                                                        <p>
+                                                      <div className="d-flex flex-direction-row" style={{ gap: "24px" }}>
+                                                        <div className="timeline-activity-detail">
+                                                          <p>
                                                             <span>
-                                                            Time
-                                                            Needed | {" "}</span>
+                                                              Time
+                                                              Needed | {" "}</span>
                                                             {
                                                               videoTime?.totalVideoTime
                                                             }{" "}
                                                             <span>
-                                                            seconds
-                                                          </span>
-                                                        </p>
+                                                              seconds
+                                                            </span>
+                                                          </p>
+                                                        </div>
+                                                        <div className="timeline-activity-detail">
+                                                          <p>
+                                                            <span>
+                                                              Time
+                                                              Spent | {" "}</span>
+                                                            {
+                                                              videoTime?.timeSpent
+                                                            }{" "}
+                                                            <span>
+                                                              seconds
+                                                            </span>
+                                                          </p>
+
+                                                        </div>
                                                       </div>
-                                                      <div className="timeline-activity-detail">
-                                                        <p>
-                                                        <span>
-                                                        Time
-                                                        Spent | {" "}</span>
-                                                          {
-                                                            videoTime?.timeSpent
-                                                          }{" "}
-                                                        <span>
-                                                          seconds
-                                                          </span>
-                                                        </p>
-                                                        
-                                                      </div>
-                                                      </div>
-                                                      
+
                                                       {/* <span>
                                                         Time
                                                         Needed:{" "}
