@@ -1575,7 +1575,7 @@ const SurveyFormBuilder = (props) => {
   const updateTemplatesData = (updatedTemp, saveNewTemplate) => {
     if (customHtmlData && Object.keys(customHtmlData).length > 0) {
       console.log("inside form ");
-      if (!saveNewTemplate) {
+      // if (!saveNewTemplate) {
         console.log("updeuyddewqjbdwcwecdc");
         const updatedData = updatedTemp.map((template) => {
           console.log(surveyValues?.formBuilderData?.template_id);
@@ -1604,7 +1604,7 @@ const SurveyFormBuilder = (props) => {
         setUserMadeChanges(true);
         customHtmlData = "";
         // setCustomHtml(customHtmlData ?? {});
-      }
+      // }
     } else {
       setTemplates(updatedTemp);
       if (saveNewTemplate != 2 && !saveNewTemplate) {
@@ -1622,8 +1622,6 @@ const SurveyFormBuilder = (props) => {
         "/survey/fetch-saved-template",
         body
       );
-
-
 
       if (response.status == 200) {
         var customTemplates = [];
@@ -1644,7 +1642,7 @@ const SurveyFormBuilder = (props) => {
       if (!header_background_type) {
         setHeaderBackgroundType("color");
       }
-      if (saveNewTemplate) {
+      if (saveNewTemplate === 1) {
         setsavednewCustomTempflag(1);
       }
       loader("hide");
@@ -1754,6 +1752,7 @@ const SurveyFormBuilder = (props) => {
     );
   }
 
+
   const dataURLToFile = (dataURL, filename) => {
     const [header, base64] = dataURL.split(",");
     const mime = header.match(/:(.*?);/)[1];
@@ -1764,7 +1763,8 @@ const SurveyFormBuilder = (props) => {
     }
     return new File([new Uint8Array(array)], filename, { type: mime });
   };
-
+ 
+  
   const TemplatePreviewUpload = async (file) => {
     if (file) {
       try {
@@ -1791,33 +1791,112 @@ const SurveyFormBuilder = (props) => {
     }
   };
 
+
+  const updateBackgroundUrl=async  (element, newUrl) =>{
+  // Get the current background property
+  const currentBackground = element.style.background;
+  // Extract the URL using regex
+  const urlMatch = currentBackground.match(/url\(["']?([^"']*)["']?\)/);
+  if (urlMatch) {
+    const oldUrl = urlMatch[1];
+     return await convertUrlToBase64(oldUrl)
+  } else {
+    console.log('No URL found in the background property');
+  }
+}
+
+
+
+
+const convertUrlToBase64 = async (url) => {
+  try {
+    // Fetch the image from the URL
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    // Convert the response to a Blob
+    const blob = await response.blob();
+    const reader = new FileReader();
+    
+    // Create a promise to handle the FileReader
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        // Extract Base64 string from the Data URL
+        const base64String = reader.result.split(',')[1];
+        resolve(base64String);
+      };
+      
+      reader.onerror = () => {
+        reject(new Error('Error reading the file'));
+      };
+      
+      // Read the Blob as a Data URL
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error converting URL to Base64:', error.message);
+    throw error; // Optionally rethrow the error to be handled by the caller
+  }
+};
+
+
+
   const captureScreenshot = async () => {
     const element = document.getElementById("templatecapture");
+    const logoElement= document.getElementById("surveyLogo")
+    const backgroundImageElement = document.getElementById('surveyBackgroundImage');
+    console.log(backgroundImageElement)
+    let base64backgroundImg="";
+    let base64logoimg="";
+
+    if(backgroundImageElement){
+      console.log(backgroundImageElement);  
+      const rawImage=await updateBackgroundUrl(backgroundImageElement);
+      if(rawImage){
+        base64backgroundImg=`data:image/png;base64,${rawImage}`;
+      }
+      
+    }
+
+    if(logoElement){
+      const rawImage= await convertUrlToBase64(logoElement.src)
+       base64logoimg = `data:image/png;base64,${rawImage}`;
+     }
+
+    if(base64backgroundImg){
+      console.log(base64backgroundImg)
+      backgroundImageElement.style.background = `url(${base64backgroundImg}); background-size: cover`
+    }
+
+     if(base64logoimg){
+      console.log(base64logoimg)
+      logoElement.src=base64logoimg
+     }
+  
+
+
     if (element) {
       try {
-        // Ensure all images are loaded
-        const images = Array.from(element.getElementsByTagName("img"));
-        console.log(images)
-        const imagePromises = images.map((img) => {
+        // // Ensure all images are loaded
+        // const images = Array.from(element.getElementsByTagName("img"));
+        // console.log(images)
+        // const imagePromises = images.map((img) => {
 
-          return new Promise((resolve) => {
-            if (img.complete) {
-              resolve();
-            } else {
-              img.onload = () => {
-                resolve();
-              };
-              img.onerror = () => {
-                resolve();
-              };
-            }
-          });
-        });
+        //   return new Promise((resolve) => {
+        //     if (img.complete) {
+        //       resolve();
+        //     } else {
+        //       img.onload = () => {
+        //         resolve();
+        //       };
+        //       img.onerror = () => {
+        //         resolve();
+        //       };
+        //     }
+        //   });
+        // });
 
-
-
-        const imagesofhtml=await Promise.all(imagePromises);
-
+        // const imagesofhtml=await Promise.all(imagePromises);
 
         // Capture screenshot with html2canvas
         const canvas = await html2canvas(element, {
@@ -1851,6 +1930,105 @@ const SurveyFormBuilder = (props) => {
     return null;
   };
 
+ 
+
+
+  // const dataURLToFile = (dataURL, filename) => {
+  //   const [header, base64] = dataURL.split(",");
+  //   const mime = header.match(/:(.*?);/)[1];
+  //   const binary = atob(base64);
+  //   const array = [];
+  //   for (let i = 0; i < binary.length; i++) {
+  //     array.push(binary.charCodeAt(i));
+  //   }
+  //   return new File([new Uint8Array(array)], filename, { type: mime });
+  // };
+
+  // const TemplatePreviewUpload = async (file) => {
+  //   if (file) {
+  //     try {
+  //       const extension = file.name.split(".").pop().toLowerCase();
+  //       if (!validExtensions.includes(extension)) {
+  //         throw new Error(
+  //           "Invalid file extension. Please select a valid extension file."
+  //         );
+  //       }
+  //       const formData = new FormData();
+  //       formData.append("file", file);
+
+  //       const res = await surveyAxiosInstance.post(
+  //         "/survey/image-uploadaws",
+  //         formData
+  //       );
+  //       if (res) {
+  //         return res.data.data;
+  //       }
+  //     } catch (error) {
+  //       loader("hide");
+  //       toast.error("Something went wrong");
+  //     }
+  //   }
+  // };
+
+  // const captureScreenshot = async () => {
+  //   const element = document.getElementById("templatecapture");
+  //   if (element) {
+  //     try {
+  //       // Ensure all images are loaded
+  //       const images = Array.from(element.getElementsByTagName("img"));
+  //       console.log(images)
+  //       const imagePromises = images.map((img) => {
+
+  //         return new Promise((resolve) => {
+  //           if (img.complete) {
+  //             resolve();
+  //           } else {
+  //             img.onload = () => {
+  //               resolve();
+  //             };
+  //             img.onerror = () => {
+  //               resolve();
+  //             };
+  //           }
+  //         });
+  //       });
+
+  //       const imagesofhtml=await Promise.all(imagePromises);
+
+  //       // Capture screenshot with html2canvas
+  //       const canvas = await html2canvas(element, {
+  //         allowTaint: true,
+  //         useCORS: true,
+  //         proxy: "https://docintel.s3-eu-west-1.amazonaws.com",
+  //         backgroundColor: null,
+  //       });
+
+  //       if (canvas) {
+  //         const imgData = canvas.toDataURL("image/png");
+
+  //         if (imgData) {
+  //           const file = dataURLToFile(imgData, "screenshot.png");
+
+  //           // Simulated upload function (replace with your actual implementation)
+  //           const imgpath = await TemplatePreviewUpload(file);
+  //           if (imgpath) {
+  //             return imgpath;
+  //           }
+  //         }
+  //       } else {
+  //         console.error("Canvas is null or undefined");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error capturing screenshot:", error);
+  //     }
+  //   } else {
+  //     console.error(`Element with ID "templatecapture" is not found`);
+  //   }
+  //   return null;
+  // };
+
+
+  
   const handleChoiceChange = (id) => {
     if (id && templates) {
       const selectedTemplate = templates.find((temp) => temp.id === id);
@@ -1944,7 +2122,7 @@ const SurveyFormBuilder = (props) => {
       .replace(
         "{#logo#}",
         changeLogoToggle
-          ? `<img src="${values.logo}" style="background-size: cover; width: ${values.logoWidth}%;"/>`
+          ? `<img  id="surveyLogo" src="${values.logo}" style="background-size: cover; width: ${values.logoWidth}%;"/>`
           : ""
       );
     // document.getElementById("template-container").innerHTML = updatedHtml;
@@ -2134,12 +2312,8 @@ const SurveyFormBuilder = (props) => {
             : temporaryValues.template_name,
           main_footer: changeFooterToggle ? temporaryValues.main_footer : "",
           bodyText: changeBodyToggle ? temporaryValues.bodyText : "",
-
           header_background_color: temporaryValues.header_background_color,
-          // header_background_color: temporaryValues.header_background_color,
           header_background_image: temporaryValues.header_background_image,
-          // header_background_image: temporaryValues.header_background_image,
-
           logo: changeLogoToggle ? temporaryValues.logo : "",
           main_heading: changeTitleToggle ? temporaryValues.main_heading : "",
           title_color: temporaryValues.title_color,
@@ -2149,7 +2323,6 @@ const SurveyFormBuilder = (props) => {
           bodyTextColor: temporaryValues.bodyTextColor,
           page_background_color: temporaryValues.page_background_color,
           logoWidth: temporaryValues.logoWidth,
-          // selectedTemplateClass,
           changeLogoToggle,
           changeTitleToggle,
           header_background_type: header_background_type,
@@ -2207,7 +2380,6 @@ const SurveyFormBuilder = (props) => {
       await props.getSurveyData(updatedTemplateData);
     }
   };
-
 
   return (
     <>
@@ -2485,6 +2657,7 @@ const SurveyFormBuilder = (props) => {
                                       handleUpdateElement={updateElement}
                                       index={index}
                                       Placeholder=""
+                                      headingBoldFlag={1}
                                     />
                                   </div>
                                 )}
@@ -2547,6 +2720,7 @@ const SurveyFormBuilder = (props) => {
                                       handleUpdateElement={updateBody}
                                       index={index}
                                       Placeholder=""
+                                      headingBoldFlag={0}
                                     />
                                   </div>
                                 )}
@@ -2581,6 +2755,7 @@ const SurveyFormBuilder = (props) => {
                                       handleUpdateElement={updateFooter}
                                       index={index}
                                       Placeholder=""
+                                      headingBoldFlag={0}
                                     />
                                   </div>
                                 )}

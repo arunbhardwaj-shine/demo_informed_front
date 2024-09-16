@@ -225,4 +225,5 @@ export const ENDPOINT = {
   IRT_COUNT_BY_CATEGORY:"/irt-count-by-category",
   RD_LANDING_TIMELINE:"reader/get-Rd-timeline",
   WEBINAR_POLL_STATS:"/webinar/download-poll-stats",
+  GET_VIDEO_PLAYED_DETAIL:"/reader/get-video-played-detail"
 };

@@ -35,7 +35,7 @@ const SurveyPreview = (props) => {
   const obj = useSelector(
     (state) => state.surveyData
   );
-  console.log(obj)
+  // console.log(obj)
   
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
@@ -112,6 +112,8 @@ const SurveyPreview = (props) => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
+
+
 
   useEffect(() => {
     const shouldFetchQuestions =
@@ -320,12 +322,15 @@ const SurveyPreview = (props) => {
                     className={
                       isEdit
                         ? "btn btn-primary btn-filled next"
+                        : elements.length > 0
+                        ? "btn btn-primary btn-filled next send_btn"
                         : "btn btn-primary btn-filled next send_btn"
                     }
-                    onClick={async (e) => {
+                    
+                    onClick={elements.length > 0 ? async (e) => {
                       await nextHandler(e);
                       await navigateFunction(e);
-                    }}
+                    } : (e)=>{toast.error("please insert at least one question")}}
                   >
                     {" "}
                     {isEdit ? "Next" : "Publish"}
@@ -471,7 +476,7 @@ const SurveyPreview = (props) => {
                             dispatch(setCurrentElementIndex(index));
                           }
                         }}
-                        onDragStart={(e) => {
+                        onDragStart={(e) => { 
                           if (isEdit) {
                             handleQuestionDragStart(e, index);
                           }
@@ -509,14 +514,14 @@ const SurveyPreview = (props) => {
                               }
                             >
                               <div className="d-flex question-title">
-                                <p
+                               {item.question.length > 0 &&  <p
                                   style={{
                                     color: templateData.question_answer_color,
                                   }}
                                   dangerouslySetInnerHTML={{
                                     __html: item.question,
                                   }}
-                                />
+                                />}
                                 <span
                                   style={{ color: templateData.bodyTextColor }}
                                 >
@@ -657,9 +662,10 @@ const SurveyPreview = (props) => {
                                     <div
                                       key={index}
                                       className="sidebar-item"
-                                      onClick={() =>
+                                      onClick={(e) =>{
+                                        e.stopPropagation();
                                         handleAddElement(item.type)
-                                      }
+                                      }}
                                     >
                                       {item.icon && (
                                         <div className="options-svg">
@@ -676,9 +682,10 @@ const SurveyPreview = (props) => {
                                     <div
                                       key={index}
                                       className="sidebar-item"
-                                      onClick={() =>
+                                      onClick={(e) =>{
+                                        e.stopPropagation();
                                         handleAddElement(item.type)
-                                      }
+                                      }}
                                     >
                                       {item.icon && (
                                         <div className="options-svg">

@@ -68,7 +68,7 @@ const SurveyMenu = ({ menuRef }) => {
   const obj = useSelector(
     (state) => state.surveyData
   );
-  console.log(obj,"from menu")
+  // console.log(obj,"from menu")
 
 
   const [editorIndex, setEditorIndex] = useState(0);

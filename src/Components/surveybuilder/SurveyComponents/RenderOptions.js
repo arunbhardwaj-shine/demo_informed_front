@@ -110,7 +110,6 @@ const RenderOptions = ({
       );
     case "dropdown":
       return (
-   
         <Select
           className="dropdown-basic-button split-button-dropup"
           placeholder={item.extra.placeholder}
