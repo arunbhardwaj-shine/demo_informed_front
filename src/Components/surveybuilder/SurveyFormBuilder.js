@@ -41,7 +41,7 @@ const SurveyFormBuilder = (props) => {
   const location = useLocation();
   const survey_id = surveyValues?.survey_id;
   const navigate = useNavigate();
-  let customHtmlData = surveyValues?.formBuilderData?.custom_html[0];
+  let customHtmlData = surveyValues?.formBuilderData?.custom_html?.[0];
   // console.log(customHtmlData);
   //edit portion
   const [customHtml, setCustomHtml] = useState({});
