@@ -269,10 +269,11 @@ const SurveyMenu = ({ menuRef }) => {
         return;
       }
       columns = currentOptions[currentOptions.length - 1].answer.map(
-        (columns) => ({ value: columns.value, answerId: 0 })
+        (columns) => ({ value: columns.value , answerId: 0 })
       );
     } else {
       columns = [{ value: "", answerId: 0 }];
+
     }
 
     handleUpdateElement(index, outerkey, [
@@ -315,7 +316,7 @@ const SurveyMenu = ({ menuRef }) => {
           },
         ];
       } else {
-        updatedColumns = currentOptions.map((option) => ({
+        updatedColumns = currentOptions.map((option,index) => ({
           ...option,
           answer: [...currentOptions[0].answer, { value: "Column", answerId: 0 }],
         }));
@@ -337,13 +338,7 @@ const SurveyMenu = ({ menuRef }) => {
     }
   };
 
-  // const toggleDescription = (index, keyName = "") => {
-  //   const updatedElements = [...elements];
-  //   if (updatedElements[index][keyName]) {
-  //     handleUpdateElement(index, "optionalLabel", "");
-  //   }
-  //   handleUpdateElement(index, keyName, !updatedElements[index][keyName]);
-  // };
+ 
 
   const toggleDescription = (index, keyName = "") => {
     const updatedElements = [...elements];
@@ -352,26 +347,7 @@ const SurveyMenu = ({ menuRef }) => {
 
     // Update the toggle value
     handleUpdateElement(index, keyName, newValue);
-
-    // // Perform additional actions if the toggle is turned off
-    // if (!newValue) {
-    //   switch (keyName) {
-    //     case "isOptional":
-    //       handleUpdateElement(index, "optionalLabel", "");
-    //       break;
-    //     case "questionDescriptionEnabled":
-    //       handleUpdateElement(index, "questionDescription", "");
-    //       break;
-    //     case "addOtherChoice":
-    //       handleExtraAndStyle(index, "", "otherChoicePlaceholderText", "extra");
-    //       handleExtraAndStyle(index, "", "otherChoiceLabel", "extra");
-    //       break;
-    //     default:
-    //       // Optionally handle unexpected keyNames
-       
-    //       break;
-    //   }
-    // }
+ 
 
     setTimeout(() => {
       if((keyName === "addOtherChoice" || keyName === "isOptional")  && newValue ){
@@ -394,9 +370,7 @@ const SurveyMenu = ({ menuRef }) => {
   const handleAllOfTheAbove = (index) => {
     const value = !elements[index].extra.addAllOfTheAbove;
     handleExtraAndStyle(index,value, "addAllOfTheAbove", "extra");
-    // if(!value){
-    //   handleExtraAndStyle(index, "", "allOfTheAboveLabel", "extra");
-    // }
+
   };
 
   const renderEditorForm = (item, index) => {
