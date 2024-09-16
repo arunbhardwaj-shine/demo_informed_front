@@ -79,25 +79,60 @@ const addResQuestions = (state, action) => {
 // };
 
 
-const addElement = (state, action) => {
-  const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
-  newElement.questionNo = state.globalIndex;
-  newElement.survey_id = state.surveyId;
+// const addElement = (state, action) => {
+
+//   const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
+//   newElement.questionNo = state.globalIndex;
+//   newElement.survey_id = state.surveyId;
+
+
+  
  
 
+//   return {
+//     ...state,
+//     elements: [...state.elements, newElement],
+//     currentElementIndex:  state.elements.length,
+//     globalIndex: state.globalIndex + 1,
+//     isAddClicked: false,
+//     isEditModeOn: true,
+//   };
+// };
+
+const addElement = (state, action) => {
+  // Deep clone the element from menuType based on the action payload
+  const newElement = structuredClone({ ...menuType[action.payload.type] });
+  newElement.questionNo = state.globalIndex;
+  newElement.survey_id = state.surveyId;
+
+  // Clone the elements array to avoid direct modification of state
+  const updatedElements = [...state.elements];
+console.log(action.payload.index)
+  // Insert the copied element at the specified index if provided
+  if (action.payload.index !== undefined) {
+    updatedElements.splice(action.payload.index + 1, 0, newElement);
+  } else {
+    // If no index is provided, add the newElement at the end of the array
+    updatedElements.push(newElement);
+  }
+
+  for(var i=0;i<updatedElements.length;i++){
+    updatedElements[i].questionNo=i+1;
+  }
+
+  // Return the updated state
   return {
     ...state,
-    elements: [...state.elements, newElement],
-    currentElementIndex:  state.elements.length,
+    elements: updatedElements,
+    currentElementIndex: action.payload.index !== undefined ? action.payload.index + 1 : state.elements.length,
     globalIndex: state.globalIndex + 1,
     isAddClicked: false,
     isEditModeOn: true,
   };
 };
 
-const addElementAtPosition= (state, action) => {
 
- 
+const addElementAtPosition= (state, action) => {
   const index=action.payload;
   const newElements = [...state.elements];
   // Insert the last element at the given index
@@ -223,10 +258,7 @@ const swapElements = (state, action) => {
 
   swappedElements.splice(destinationIndex,0,draggedItem[0]);
   
-  // [swappedElements[draggedElementIndex], swappedElements[destinationIndex]] = [
-  //   swappedElements[destinationIndex],
-  //   swappedElements[draggedElementIndex],
-  // ];
+
   
   let count=1;
   const newUpdatedElements=swappedElements.map((item)=>{

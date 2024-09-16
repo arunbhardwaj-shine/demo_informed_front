@@ -819,7 +819,7 @@ const SurveySublink = () => {
                                                     ></path>
                                                   </svg>
                                                 </div>
-                                                <span>{data.percentage}</span>
+                                                <span>{data.percentage}%</span>
                                               </li>
                                             </ul>
                                           </div>
