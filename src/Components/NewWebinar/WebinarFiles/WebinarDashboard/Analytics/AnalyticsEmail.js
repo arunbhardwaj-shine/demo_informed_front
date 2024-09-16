@@ -40,7 +40,7 @@ const AnalyticsEmail = () => {
     <>
       {!apiStatus ? (
         <div className="rd-analytics-box">
-          <p class="rd-box-small-title">Emails</p>
+          <p className="rd-box-small-title">Emails</p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex justify-content-between">
               <h6 className="mr-auto" style={{ color: "#8A4E9C" }}>
@@ -114,7 +114,7 @@ const AnalyticsEmail = () => {
         </div>
       ) : (
         <div className="rd-analytics-box">
-          <p class="rd-box-small-title">Emails</p>
+          <p className="rd-box-small-title">Emails</p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex justify-content-between">
               <h6 className="mr-auto" style={{ color: "#8A4E9C" }}>
