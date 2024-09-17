@@ -25,9 +25,7 @@
 
     <script>
       function getQueryParam(name) {
-        // const params = new URLSearchParams(window.location.search);
-        // console.log(params)
-        // return params.get(name);
+  
         const url = window.location.href;
         const params = new URLSearchParams(new URL(url).search);
 
@@ -201,7 +199,7 @@
         const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
 
         if (!Utmde) {
-          console.log(urlKeys);
+       
           window.location.replace("/survey/404");
           return;
         }
@@ -223,7 +221,7 @@
           });
 
           data = await response.json();
-          console.log(data);
+
             //  startTime=new Date()
 
           if (data.status == 200) {
@@ -1623,8 +1621,6 @@
                 body: JSON.stringify(submitPayload),
               });
 
-              // console.log(submitResponse);
-              // console.log(await submitResponse.json());
 
               if (submitResponse.status == "400") {
                 loader("hide");

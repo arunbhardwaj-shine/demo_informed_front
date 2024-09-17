@@ -14,7 +14,7 @@ const SurveyAnalyticsDetail = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location=useLocation()
     const [surveyId,setSurveyId]=useState(location?.state?.survey_id) 
-    console.log("surveyId-->",surveyId);       
+      
     const filterdata=[];
     const [showfilter, setShowFilter] = useState(false);
     const [deletestatus, setDeleteStatus] = useState(false);
