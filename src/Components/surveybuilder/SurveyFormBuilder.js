@@ -65,18 +65,15 @@ const SurveyFormBuilder = (props) => {
 
   const updateTemplatesData = (updatedTemp, saveNewTemplate) => {
     if (customHtmlData && Object.keys(customHtmlData).length > 0) {
-      console.log("inside form ");
-      // if (!saveNewTemplate) {
-        console.log("updeuyddewqjbdwcwecdc");
+     
         const updatedData = updatedTemp.map((template) => {
-          console.log(surveyValues?.formBuilderData?.template_id);
-          console.log(template.id);
+      
 
           if (surveyValues?.formBuilderData?.template_id == template.id) {
-            console.log("inside selected");
+     
             return { ...template, default_values: customHtmlData };
           } else {
-            console.log("inside simpele");
+       
             let updatedcustomhtmldata = {
               ...customHtmlData,
               header_background_image:
@@ -336,12 +333,12 @@ const convertUrlToBase64 = async (url) => {
     const element = document.getElementById("templatecapture");
     const logoElement= document.getElementById("surveyLogo")
     const backgroundImageElement = document.getElementById('surveyBackgroundImage');
-    console.log(backgroundImageElement)
+
     let base64backgroundImg="";
     let base64logoimg="";
 
     if(backgroundImageElement){
-      console.log(backgroundImageElement);  
+ 
       const rawImage=await updateBackgroundUrl(backgroundImageElement);
       if(rawImage){
         base64backgroundImg=`data:image/png;base64,${rawImage}`;
@@ -355,12 +352,12 @@ const convertUrlToBase64 = async (url) => {
      }
 
     if(base64backgroundImg){
-      console.log(base64backgroundImg)
+
       backgroundImageElement.style.background = `url(${base64backgroundImg}); background-size: cover`
     }
 
      if(base64logoimg){
-      console.log(base64logoimg)
+     
       logoElement.src=base64logoimg
      }
   
@@ -435,7 +432,7 @@ const convertUrlToBase64 = async (url) => {
           "/survey/delete-survey-template",
           body
         );
-        console.log(response);
+ 
 
         if (selectedTemplateId == id) {
           const storedData = localStorage.getItem("getSurveyData");
@@ -749,7 +746,7 @@ const convertUrlToBase64 = async (url) => {
       }
     }
     if (newTemplateStatus != 1) {
-      console.log("save tolocal storage");
+
       await props.getSurveyData(updatedTemplateData);
     }
   };

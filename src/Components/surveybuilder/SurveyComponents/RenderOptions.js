@@ -13,12 +13,7 @@ const RenderOptions = ({
   const getTextStyle = ({ style }) => ({
     color: style.color,
   });
-console.log( item,
-  index,
-  optionColor,
-  inputColor,
-  isEdit,
-  page_background_color,)
+
 
 
 
