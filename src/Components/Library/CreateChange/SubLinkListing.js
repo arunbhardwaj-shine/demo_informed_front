@@ -68,7 +68,7 @@ const SubLinkListing = ({ pdfid, render, count }) => {
 
   return (
     <>
-      <div class="sublink_right_block">
+      <div className="sublink_right_block">
         {sectionLoader ? (
           <div
             className={"loader " + (sectionLoader ? "show" : "")}

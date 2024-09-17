@@ -218,14 +218,14 @@ function LicenseTopics() {
                   {isDelete ? (
                     <button
                       onClick={() => setDelete(!isDelete)}
-                      class="btn btn-outline-primary cancel"
+                      className="btn btn-outline-primary cancel"
                       title="Cancel delete"
                     >
                       Cancel
                     </button>
                   ) : (
                     <button
-                      class="btn btn-outline-primary"
+                      className="btn btn-outline-primary"
                       onClick={() => setDelete(!isDelete)}
                       title="Delete"
                     >

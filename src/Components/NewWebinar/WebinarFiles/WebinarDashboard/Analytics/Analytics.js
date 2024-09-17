@@ -3521,7 +3521,7 @@ const Analytics = (props) => {
 
           <button
             onClick={downloadStats}
-            class="btn print"
+            className="btn print"
             title="Download stats"
           >
             <svg
@@ -3543,7 +3543,7 @@ const Analytics = (props) => {
           </button>
         </Modal.Header>
         <Modal.Body>
-          <div class="modal-height">
+          <div className="modal-height">
             <div className="d-flex align-items-center flex-column">
               <div className="high_charts" id="splineChart">
                 {splineChartData?.series?.[0]?.data?.length ? (
