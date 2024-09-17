@@ -107,7 +107,7 @@ p {
 }
 
 .question-title p {
-  color: var(--dark-blue);
+  color: inherit;
   font-size: 12px;
   font-weight: 500;
   line-height: 132%;
@@ -797,6 +797,8 @@ width: 100%;
   background: transparent;
   padding: 0;
   cursor: pointer;
+  z-index: 2;
+  padding: 3px;
 }
 
 .modal-body {
